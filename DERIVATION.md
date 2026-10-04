@@ -5,27 +5,35 @@ Checks: `python -m pytest`.
 
 ## Calibration workflow status
 
-| step | status |
+Run `python calibration.py`. Figures and CSV tables are written to `results/`.
+
+| step | result |
 |---|---|
-| 1. Original formulation, cleaned up | done (this file) |
-| 2. Patent consolidated data | **blocked: no patent material in the project** |
-| 3. Reference torque(θ*) curve | waiting on step 2 |
-| 4. K from the patent | waiting on step 2. What K means is not assumed |
-| 5–9. Freeze K, sweep H, compare, refine | waiting on step 4. H is already an explicit parameter (`h=`) |
+| 1. Original formulation, cleaned up | `torque_model.py` |
+| 2. Patent data | `patent_data.py`: 29 points, θ* = 42.9°–193.0° (degrees, not rad as the original comment said) |
+| 3. Reference curve | `results/1_patente.png`; peak ≈ 147.3 N·m at ≈ 123.5° (parabola through the 3 top points) |
+| 4. K | K = 94.28 N/mm (below) |
+| 5. K frozen | used unchanged in every H run |
+| 6–7. H sweep | coarse 20–50 mm (0.5 mm); fine ±1 mm (0.01 mm) |
+| 8. Best H | 34.77 mm, RMSE 5.62 N·m; RMSE stays within 5 % of the minimum for H = 34.44–35.10 mm |
 
-To continue, step 2 needs one of the following:
+**K.** The patent data contain no force law, so K is the stiffness in the force
+law of the original formulation, f = K·δ with δ = s − s10. Torque is linear in K,
+τ = K·g(θ*), so the least-squares K over all 29 points is closed form,
+K = Σ g τ / Σ g². It is computed with the CAD geometry (H = 34.785 mm).
 
-- the patent document itself (PDF, or its number);
-- the torque × θ* figure(s);
-- any table of torque, force or spring displacement values.
+- **Residual:** RMSE 5.62 N·m, max |e| 11.9 N·m.
+- **Pointwise K_i = τ_i/g_i** (points with τ ≥ 20 % of the peak): it is 91.5–102.6
+  N/mm from 72° to 171° and rises to 117–124 N/mm at both ends. So K is close to
+  constant in the middle of the range but not at the ends.
 
-The patent's parameter definitions should also cover:
+**Sign.** The patent's positive torque is the direction in which the cable pulls
+the lever (θ* decreasing), which is clockwise and negative in the closure frame.
+`TORQUE_SIGN_PATENT = −1` converts the convention; no `abs()` is used.
 
-- what K is and the force law it enters (e.g. f = K·δ, a preload, a torsional K);
-- what δ is (span change, cable path change, spring deflection);
-- the θ* zero and its positive direction;
-- the torque sign convention;
-- whether the torque includes the weight term (TAU_PESO).
+**Caveat.** K was calibrated with the CAD H, so the frozen-K sweep returning
+H ≈ 34.8 mm confirms that the CAD geometry and the patent agree. It is not an
+independent measurement of H: H and K both act mainly as a gain on the curve.
 
 ## Fixes applied to the original code
 

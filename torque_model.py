@@ -183,6 +183,18 @@ def generate_graph_torque_theta_star_relation(force, h=H, theta=THETA):
                 b_vector=b_vector, V_vector=V_vector, tau=tau)
 
 
+def spring_force(k, delta):
+    """Lei da mola do modelo original: f = K·δ [N], com K em N/mm e δ em mm."""
+    return k*delta
+
+
+def calculate_torque_curve(k, h=H, theta=THETA):
+    """Cadeia completa com f = K·δ, para um K e um H dados."""
+    geometry = generate_graph_torque_theta_star_relation(0.0, h, theta)
+    force = spring_force(k, geometry["delta"])
+    return generate_graph_torque_theta_star_relation(force, h, theta)
+
+
 if __name__ == "__main__":
     # Com f = 1 N, τ em N·mm é o braço efetivo de alavanca em mm.
     angles = [10.0, 45.0, 90.0, THETA_POSE, 150.0, 190.0]
