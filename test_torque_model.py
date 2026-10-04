@@ -51,7 +51,11 @@ def test_torque_equals_cross_product_and_scalar_forms(res):
     b, v, f = res["b_vector"], res["V_vector"], res["force"]
     tau = res["tau"]*1e3
     np.testing.assert_allclose(tau, b[0]*v[1] - b[1]*v[0], atol=1e-9)
-    b3 = np.vstack([b, np.zeros_like(tau)])
+    # antisymmetric part of the original outer product
+    for i in (0, 150, 300):
+        dyad = np.outer(b[:, i], v[:, i])
+        assert np.isclose(dyad[0, 1] - dyad[1, 0], tau[i])
+    b3 =np.vstack([b, np.zeros_like(tau)])
     v3 = np.vstack([v, np.zeros_like(tau)])
     np.testing.assert_allclose(np.cross(b3.T, v3.T)[:, 2], tau, atol=1e-6)
     # f * signed perpendicular arm c sin(phi - q) - R

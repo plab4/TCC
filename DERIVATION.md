@@ -37,7 +37,7 @@ The patent's parameter definitions should also cover:
 | `calculate_diff_s_s10(s, THETA)` call | one-argument function | signature `(s, s10)` |
 | `measure_moment_arm(phi)` | `s` and `H` were globals | `(s, phi, h)` |
 | `generate_graph_...(braco, force)` | `b, beta, q, f, phi` undefined | each one computed in order (below) |
-| `torque_patent` | `np.outer` returns a 2×2 tensor, not a torque | outer product kept; the torque is its antisymmetric part `M₀₁ − M₁₀ = b_x F_y − b_y F_x` |
+| `torque_patent` | `np.outer` returns a 2×2 tensor, not a torque | returns `b_x F_y − b_y F_x`, the antisymmetric part `M₀₁ − M₁₀` of the outer product (tested) |
 | `H` global | not controllable | `h=` argument, defaults to `H = 34.785` |
 
 ## Where each variable comes from
@@ -48,7 +48,7 @@ The patent's parameter definitions should also cover:
          ├─ s   = √(ρ² − R²)                   free (tangent) span
          ├─ φ   = atan2(W_y, W_x) − atan2(R, s),   W = −(B + C u(q))
          ├─ δ   = s − s(10°)                   calculate_diff_s_s10
-         ├─ b   = measure_moment_arm(s, φ − ∠B, h)
+         ├─ b   = measure_moment_arm(s, φ, h)
          ├─ β   = measure_moment_arm_deflection(b)
          ├─ f   = input (force law pending the patent)
          ├─ b_vector = (−b cos(β−q),  b sin(β−q))
@@ -73,12 +73,12 @@ literally (q in rad), the pair has no solution for any θ*. It would need ρ ≈
 but ρ is 248–318 mm. That length has to be the free span `s`.
 
 **measure_moment_arm.** Its `phi` is the angle *between* the (H, P) offset and
-the cable, so the closure φ is passed as `φ − atan2(B_y, B_x)`. It then gives
+the cable, so the function subtracts `atan2(B_y, B_x)` from the closure φ. It gives
 `b = |pivot → tangent point|`.
 
 **β.** `b_vector` places the tangent point at the lever direction rotated by −β.
 `measure_moment_arm_deflection` gives |β|, and the side is checked in the tests.
-β ≈ 4.6° over the whole range.
+b and β vary with θ* through s and φ: b = 282.5–285.3 mm and β = 4.585°–4.619°.
 
 **Torque.** Several forms agree to machine precision:
 
