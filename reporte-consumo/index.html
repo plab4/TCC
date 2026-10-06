@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Reporte de Produção e Consumo de Materiais</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="topo-conteudo">
+      <h1>Reporte de Produção e Consumo de Materiais</h1>
+      <p class="subtitulo">Cálculo de consumo teórico, faixa contratual e registro de desvios</p>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ IMPORTAÇÃO ============ -->
+    <section class="painel" id="secao-importacao" aria-labelledby="t-importacao">
+      <h2 id="t-importacao">Importação da planilha</h2>
+      <p class="aviso-local">
+        <strong>Processamento local:</strong> o arquivo é lido apenas neste navegador. Nada é enviado para servidores,
+        nada é gravado no armazenamento do navegador e a planilha original não é alterada.
+        Os nomes comerciais dos produtos são substituídos por identificadores genéricos.
+      </p>
+      <div class="linha-import">
+        <label class="upload">
+          <span>Carregar planilha Excel (.xlsx)</span>
+          <input type="file" id="arquivo" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+        </label>
+        <button type="button" id="btn-demo" class="btn secundario">Usar dados de demonstração</button>
+      </div>
+
+      <div class="import-resumo">
+        <div class="info"><span>Status da importação</span><strong id="import-status" class="status-badge status-neutro">Aguardando arquivo</strong></div>
+        <div class="info"><span>Aba selecionada</span>
+          <select id="aba-select" hidden aria-label="Aba da planilha"></select>
+          <small id="aba-info" class="muted">—</small>
+        </div>
+        <div class="info"><span>Produtos anonimizados</span><strong id="n-produtos">0</strong></div>
+        <div class="info"><span>Materiais identificados</span><strong id="n-materiais">0</strong></div>
+        <div class="info"><span>Pendências encontradas</span><strong id="n-pendencias">0</strong></div>
+      </div>
+
+      <details id="pendencias-importacao" class="pendencias" hidden open>
+        <summary>Pendências de importação</summary>
+        <ul id="pendencias-lista" class="lista-mensagens"></ul>
+      </details>
+    </section>
+
+    <!-- ============ PRODUTO ============ -->
+    <section class="painel" id="secao-produto" hidden aria-labelledby="t-produto">
+      <h2 id="t-produto">Seleção do produto</h2>
+      <label class="campo campo-produto">Produto
+        <select id="produto-select" class="editavel"></select>
+      </label>
+      <div id="produto-info"></div>
+    </section>
+
+    <div id="area-trabalho" hidden>
+      <!-- ============ PRODUÇÃO ============ -->
+      <section class="painel" aria-labelledby="t-producao">
+        <h2 id="t-producao">Dados de produção</h2>
+        <div class="form-grid">
+          <label class="campo"><span>Data do reporte <em>*</em></span>
+            <input type="date" id="f-data" class="editavel">
+          </label>
+          <label class="campo"><span>Quantidade formulada ou produzida <em>*</em></span>
+            <input type="text" inputmode="decimal" id="f-formulado" class="editavel num" placeholder="ex.: 18.000">
+          </label>
+          <label class="campo"><span>Unidade da formulação <em>*</em></span>
+            <select id="f-unidade" class="editavel">
+              <option value="">Selecione…</option>
+              <option value="KG">KG (sólidos)</option>
+              <option value="L">L (líquidos)</option>
+            </select>
+          </label>
+          <label class="campo"><span>Quantidade total envasada <em>*</em></span>
+            <input type="text" inputmode="decimal" id="f-envasado" class="editavel num" placeholder="ex.: 17.660">
+          </label>
+          <div class="campo">Diferença (formulado − envasado)
+            <output id="f-diferenca" class="valor-calculado">—</output>
+          </div>
+          <label class="campo largo">Observações
+            <textarea id="f-observacoes" class="editavel" rows="2"></textarea>
+          </label>
+          <label class="campo largo" id="box-just-dif" hidden><span>Justificativa para a diferença entre formulado e envasado <em>*</em></span>
+            <textarea id="f-just-dif" class="editavel" rows="2"></textarea>
+          </label>
+        </div>
+      </section>
+
+      <!-- ============ APRESENTAÇÕES ============ -->
+      <section class="painel" id="secao-apresentacoes" hidden aria-labelledby="t-apres">
+        <h2 id="t-apres">Quantidade envasada por apresentação</h2>
+        <div class="tabela-simples-wrap">
+          <table class="tabela-simples">
+            <thead><tr><th>Apresentação</th><th>Quantidade envasada</th><th>Unidade</th></tr></thead>
+            <tbody id="apres-corpo"></tbody>
+          </table>
+        </div>
+        <p id="apres-total" class="totalizador"></p>
+        <p id="apres-alerta" class="alerta" hidden role="alert">
+          A soma das apresentações é diferente do total envasado. Corrija os valores ou registre uma justificativa — a exportação fica bloqueada até isso.
+        </p>
+        <label class="campo largo" id="box-just-apres" hidden><span>Justificativa para a divergência entre apresentações e total envasado <em>*</em></span>
+          <textarea id="f-just-apres" class="editavel" rows="2"></textarea>
+        </label>
+      </section>
+
+      <!-- ============ PARÂMETROS ============ -->
+      <section class="painel" aria-labelledby="t-param">
+        <h2 id="t-param">Parâmetros de cálculo (volume-base da Lista Técnica)</h2>
+        <p class="muted">Valores lidos das fórmulas da planilha. Preencha a coluna “Valor a usar” apenas para informar um volume-base ausente ou corrigir o detectado.</p>
+        <div class="tabela-simples-wrap">
+          <table class="tabela-simples">
+            <thead><tr><th>Escopo</th><th>Quantidade de referência</th><th>Volume-base detectado</th><th>Valor a usar</th></tr></thead>
+            <tbody id="parametros-corpo"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============ RESUMO ============ -->
+      <section class="painel" aria-labelledby="t-resumo">
+        <h2 id="t-resumo">Resumo</h2>
+        <div id="cards" class="cards"></div>
+        <div class="legenda">
+          <span class="leg azul">Editável</span>
+          <span class="leg verde">Dentro do esperado</span>
+          <span class="leg laranja">Alerta / pendente</span>
+          <span class="leg vermelho">Desvio</span>
+          <span class="leg cinza">Importado</span>
+          <span class="leg roxo">Parâmetro</span>
+        </div>
+      </section>
+
+      <!-- ============ MATERIAIS ============ -->
+      <section class="painel" aria-labelledby="t-materiais">
+        <h2 id="t-materiais">Consumo de materiais</h2>
+        <div class="filtros">
+          <input type="search" id="filtro-busca" placeholder="Buscar por código ou descrição" aria-label="Buscar material">
+          <select id="filtro-categoria" aria-label="Filtrar por categoria"></select>
+          <select id="filtro-status" aria-label="Filtrar por status"></select>
+          <span id="contador-tabela" class="muted"></span>
+        </div>
+        <div class="tabela-wrap">
+          <table class="tabela-materiais">
+            <thead id="materiais-cabecalho"></thead>
+            <tbody id="materiais-corpo"></tbody>
+          </table>
+        </div>
+        <p class="muted nota-tabela">Clique no cabeçalho para ordenar. “Detalhar” abre o registro de consumo fora da especificação (motivo, ocorrência, ação, investigação).</p>
+      </section>
+
+      <!-- ============ VALIDAÇÕES E EXPORTAÇÃO ============ -->
+      <section class="painel" aria-labelledby="t-valid">
+        <h2 id="t-valid">Validações</h2>
+        <ul id="validacoes" class="lista-mensagens"></ul>
+      </section>
+
+      <section class="painel" id="secao-exportacao" aria-labelledby="t-export">
+        <h2 id="t-export">Exportação</h2>
+        <div class="botoes">
+          <button type="button" id="btn-excel" class="btn primario">Exportar para Excel</button>
+          <button type="button" id="btn-csv" class="btn primario">Exportar para CSV</button>
+          <button type="button" id="btn-pdf" class="btn secundario">Imprimir ou salvar em PDF</button>
+          <button type="button" id="btn-limpar" class="btn perigo">Limpar preenchimento</button>
+        </div>
+        <p id="export-msg" class="msg" role="status" aria-live="polite"></p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="rodape">Processamento 100% local · sem servidor, banco de dados ou telemetria</footer>
+
+  <!-- Cópia local do SheetJS (funciona sem internet). -->
+  <script src="lib/xlsx.full.min.js"></script>
+  <!-- Contingência: se a cópia local não existir, carrega pelo CDN oficial do SheetJS. -->
+  <script>
+    if (typeof XLSX === 'undefined') {
+      document.write('<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"><\/script>');
+    }
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>
