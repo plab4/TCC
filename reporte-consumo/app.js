@@ -4,11 +4,18 @@
  * CONFIGURAÇÃO
  * ===================================================================== */
 
+// Nomes e códigos dos produtos são exibidos exatamente como estão na planilha.
+// Mude para true apenas se precisar compartilhar o reporte sem identificar os
+// produtos: os nomes viram "Produto 1", "Produto 2"... (e "Apresentação 1"...).
+const ANONIMIZAR_PRODUTOS = false;
+
 // Quando true, os códigos dos produtos e das apresentações são substituídos
 // por PRD-001, PRD-002... (e PRD-001.1, PRD-001.2... para apresentações).
-const OCULTAR_CODIGOS_PRODUTOS = true;
+const OCULTAR_CODIGOS_PRODUTOS = false;
 
 const CONFIG = {
+  anonimizarProdutos: ANONIMIZAR_PRODUTOS,
+  ocultarCodigosProdutos: OCULTAR_CODIGOS_PRODUTOS,
   // Quantas linhas do topo de cada aba são examinadas à procura do cabeçalho.
   linhasBuscaCabecalho: 40,
   // Tolerância relativa usada nas comparações de limites (evita falsos desvios
@@ -678,6 +685,15 @@ const PADRAO_APRESENTACAO = /\b(apresentacao|apresentacoes|sku)\b|\d+ ?x ?\d+|\b
 const PADRAO_FORMATO = /(\d+(?:[.,]\d+)?\s*[xX]\s*\d+(?:[.,]\d+)?\s*(?:kg|g|l|lt|ml)\b|\d+(?:[.,]\d+)?\s*(?:kg|g|l|lt|ml)\b)/i;
 const PALAVRAS_GENERICAS = /\b(granel|bulk|a granel|semi ?acabado|apresentacao|apresentacoes|reenvase|re envase|sku)\b/g;
 
+function rotuloLimpo(rotulo) {
+  return String(rotulo || '').replace(/\s+/g, ' ').trim();
+}
+
+/** Nome de exibição da apresentação (com o formato quando o nome é genérico). */
+function nomeApresentacao(a) {
+  return CONFIG.anonimizarProdutos && a.formato ? `${a.nome} (${a.formato})` : a.nome;
+}
+
 function extrairFormato(rotuloReal) {
   const m = PADRAO_FORMATO.exec(String(rotuloReal || ''));
   return m ? m[1].replace(/\s+/g, ' ').toUpperCase() : null;
@@ -779,8 +795,9 @@ function analisarPasta(workbook) {
 }
 
 /**
- * Interpreta a aba e devolve um modelo já anonimizado. Os nomes reais dos
- * produtos existem apenas nas variáveis locais desta função.
+ * Interpreta a aba e devolve o modelo de produtos, apresentações e materiais.
+ * Com CONFIG.anonimizarProdutos, os nomes reais ficam só nas variáveis locais
+ * desta função e o modelo recebe identificadores genéricos.
  */
 function interpretarAba(workbook, nomeAba) {
   const pendencias = [];
@@ -883,7 +900,7 @@ function interpretarAba(workbook, nomeAba) {
     }
   }
 
-  // Agrupamento em produtos (anonimizados na ordem em que aparecem).
+  // Agrupamento em produtos, na ordem em que aparecem.
   const produtos = [];
   const produtoPorNome = new Map();
   const mascaras = [];
@@ -898,7 +915,7 @@ function interpretarAba(workbook, nomeAba) {
     const p = {
       id: 'P' + numero,
       numero,
-      nome: `${CONFIG.prefixoProduto} ${numero}`,
+      nome: CONFIG.anonimizarProdutos ? `${CONFIG.prefixoProduto} ${numero}` : rotuloLimpo(b.rotuloReal),
       codigo: CONFIG.prefixoCodigo + String(numero).padStart(3, '0'),
       tipoBloco: b.tipo,
       tipoOperacao,
@@ -911,7 +928,7 @@ function interpretarAba(workbook, nomeAba) {
     };
     produtoPorNome.set(b.rotuloNorm, p);
     produtos.push(p);
-    const base = nomeBaseParaMascara(b.rotuloReal);
+    const base = CONFIG.anonimizarProdutos ? nomeBaseParaMascara(b.rotuloReal) : null;
     if (base) mascaras.push({ base, substituto: p.nome });
     return p;
   };
@@ -927,7 +944,7 @@ function interpretarAba(workbook, nomeAba) {
     const a = {
       id: `${produto.id}-A${i}`,
       _chave: chave,
-      nome: `Apresentação ${i}`,
+      nome: CONFIG.anonimizarProdutos ? `Apresentação ${i}` : rotuloLimpo(b.rotuloReal),
       formato: extrairFormato(b.rotuloReal),
       codigo: `${produto.codigo}.${i}`,
       vinculo,
@@ -935,7 +952,7 @@ function interpretarAba(workbook, nomeAba) {
       baseDetectada: null,
     };
     produto.apresentacoes.push(a);
-    const base = nomeBaseParaMascara(b.rotuloReal);
+    const base = CONFIG.anonimizarProdutos ? nomeBaseParaMascara(b.rotuloReal) : null;
     if (base) mascaras.push({ base, substituto: `${produto.nome} ${a.nome}` });
     return a;
   };
@@ -1029,9 +1046,9 @@ function interpretarAba(workbook, nomeAba) {
       const doBloco = p.materiais.filter((m) => m.escopo === a.id);
       if (!doBloco.length) pend('aviso', `${p.nome} › ${a.nome}: apresentação sem materiais vinculados.`);
       else if (a.baseDetectada === null) pend('aviso', `${p.nome} › ${a.nome}: volume-base não identificado — informe em Parâmetros.`);
-      if (!OCULTAR_CODIGOS_PRODUTOS) {
+      if (!CONFIG.ocultarCodigosProdutos) {
         const cods = a.blocos.flatMap((b) => separarCodigos(textoCelula(b.celCodigo)));
-        a.codigo = cods.length ? cods.join(' / ') : '—';
+        a.codigo = cods.length ? [...new Set(cods)].join(' / ') : '—';
       }
       const env = a.blocos.map((b) => b.celEnvasada).find(valorPreenchido);
       if (env) p.prefill.apresentacoes[a.id] = numeroCelula(env);
@@ -1053,8 +1070,10 @@ function interpretarAba(workbook, nomeAba) {
         .filter(Boolean)
     );
     p.unidadeBase = unidades.size === 1 ? [...unidades][0] : null;
-    if (!OCULTAR_CODIGOS_PRODUTOS) {
-      const cods = p.blocos.flatMap((b) => separarCodigos(textoCelula(b.celCodigo)));
+    if (!CONFIG.ocultarCodigosProdutos) {
+      // Granel sem código próprio: usa os códigos das suas apresentações.
+      let cods = p.blocos.flatMap((b) => separarCodigos(textoCelula(b.celCodigo)));
+      if (!cods.length) cods = p.apresentacoes.map((a) => a.codigo).filter((c) => c && c !== '—');
       p.codigo = cods.length ? [...new Set(cods)].join(' / ') : '—';
     }
     const celF = p.blocos.map((b) => b.celFormulada).find(valorPreenchido);
@@ -1194,9 +1213,9 @@ function criarPastaDemonstracao(XLSX) {
       'Qtd usada em produção', 'Un.', 'Variação de consumo (%)', 'Perdas estabelecidas em contrato (%)', 'Excedente do contrato (Un.)',
       'Análise pós justificativa',
     ],
-    ['Produto 1 - Granel', 'DEMO-000', 18000, { t: 'n', v: 17660, f: 'D5' }, f('C3-D3'), null, 'MP-001', 'Matéria-prima Alfa', 500, f('I3*$C$3/10000'), 'KG', null, 910, 'KG', null, 0.02],
+    ['Produto 1', 'DEMO-000', 18000, { t: 'n', v: 17660, f: 'D5' }, f('C3-D3'), null, 'MP-001', 'Matéria-prima Alfa', 500, f('I3*$C$3/10000'), 'KG', null, 910, 'KG', null, 0.02],
     [null, null, null, null, null, null, 'MP-002', 'Matéria-prima Beta', 64, f('I4*$C$3/10000'), 'KG', null, '120,000', 'KG', null, '1%'],
-    ['Apresentação 1 (1x20 L)', 'DEMO-001', null, 17660, null, null, 'EMB-001', 'Embalagem A', 50, f('I5*$D$5/1000'), 'PC', null, 880, 'PC', null, 0.02],
+    ['Produto 1 - 1x20 L', 'DEMO-001', null, 17660, null, null, 'EMB-001', 'Embalagem A', 50, f('I5*$D$5/1000'), 'PC', null, 880, 'PC', null, 0.02],
   ];
   const ws = XLSX.utils.aoa_to_sheet(linhas);
   ws['!merges'] = [
@@ -1505,13 +1524,13 @@ const REGRAS_APLICADAS = [
   'Excedente contratual = consumo real − limite máximo (zero quando negativo).',
   'Status: abaixo do teórico se real < teórico; acima do contrato se real > limite máximo; dentro do esperado no intervalo.',
   'Teor do ingrediente ativo exibido apenas como informação (sem correção aplicada).',
-  'Nomes comerciais dos produtos substituídos por identificadores genéricos.',
 ];
 
 function nomeArquivoReporte(produto, data, extensao) {
   const mes = /^(\d{4})-(\d{2})/.exec(data || '');
   const periodo = mes ? `${mes[1]}-${mes[2]}` : 'sem-data';
-  return `reporte_${produto.nome.replace(/\s+/g, '_')}_${periodo}.${extensao}`;
+  const nome = produto.nome.replace(/[\\/:*?"<>|\x00-\x1f]+/g, ' ').trim().replace(/\s+/g, '_') || 'produto';
+  return `reporte_${nome}_${periodo}.${extensao}`;
 }
 
 function montarDadosExportacao(produto, form, rep, pendenciasImportacao) {
@@ -1530,7 +1549,7 @@ function montarDadosExportacao(produto, form, rep, pendenciasImportacao) {
     [],
     ['Apresentação', 'Código', 'Quantidade envasada', 'Unidade'],
     ...produto.apresentacoes.map((a) => [
-      a.nome + (a.formato ? ` (${a.formato})` : ''),
+      nomeApresentacao(a),
       a.codigo,
       rep.qtdApresentacao[a.id],
       form.unidade || '',
@@ -1594,7 +1613,7 @@ function montarDadosExportacao(produto, form, rep, pendenciasImportacao) {
     [produto.nome, 'Formulação', rep.bases[ESCOPO_FORMULACAO], form.unidade || ''],
     ...produto.apresentacoes.map((a) => [
       `${produto.nome} › ${a.nome}`,
-      a.formato || 'Apresentação',
+      'Apresentação',
       rep.bases[a.id],
       form.unidade || '',
     ]),
@@ -1823,7 +1842,7 @@ function iniciarApp() {
     }
     definirStatus(
       (estado.demonstracao ? 'Demonstração carregada' : 'Importação concluída') +
-        ` — ${m.produtos.length} produto(s) anonimizado(s).`,
+        ` — ${m.produtos.length} produto(s) identificado(s).`,
       m.pendencias.some((p) => p.nivel === 'erro') ? 'alerta' : 'ok'
     );
     el.produtoSelect.innerHTML =
@@ -1894,7 +1913,7 @@ function iniciarApp() {
     el.produtoInfo.innerHTML = `
       <div class="info-grid">
         <div class="info importado"><span>Produto</span><strong>${esc(p.nome)}</strong></div>
-        <div class="info importado"><span>Código anonimizado</span><strong>${esc(p.codigo)}</strong></div>
+        <div class="info importado"><span>Código</span><strong>${esc(p.codigo)}</strong></div>
         <div class="info importado"><span>Tipo de operação</span><strong>${esc(p.tipoOperacao)}</strong></div>
         <div class="info importado"><span>Unidade-base</span><strong>${esc(p.unidadeBase || 'Não identificada')}</strong></div>
       </div>
@@ -1904,7 +1923,7 @@ function iniciarApp() {
           ${
             p.apresentacoes.length
               ? `<ul class="lista-compacta">${p.apresentacoes
-                  .map((a) => `<li><strong>${esc(a.nome)}</strong>${a.formato ? ` — ${esc(a.formato)}` : ''} <code>${esc(a.codigo)}</code> <span class="muted">vínculo: ${esc(a.vinculo)}</span></li>`)
+                  .map((a) => `<li><strong>${esc(nomeApresentacao(a))}</strong> <code>${esc(a.codigo)}</code> <span class="muted">vínculo: ${esc(a.vinculo)}</span></li>`)
                   .join('')}</ul>`
               : '<p class="muted">Nenhuma apresentação identificada.</p>'
           }
@@ -1958,7 +1977,7 @@ function iniciarApp() {
     el.apresCorpo.innerHTML = p.apresentacoes
       .map(
         (a) => `<tr>
-          <td><strong>${esc(a.nome)}</strong>${a.formato ? ` <span class="muted">${esc(a.formato)}</span>` : ''}<br><code>${esc(a.codigo)}</code></td>
+          <td><strong>${esc(nomeApresentacao(a))}</strong><br><code>${esc(a.codigo)}</code></td>
           <td><input class="editavel num" inputmode="decimal" data-apres="${esc(a.id)}" value="${esc(f.apresentacoes[a.id] || '')}" aria-label="Quantidade envasada ${esc(a.nome)}"></td>
           <td class="unid-apres">${esc(f.unidade || '—')}</td>
         </tr>`
@@ -1981,7 +2000,7 @@ function iniciarApp() {
       escopos.push({ id: ESCOPO_FORMULACAO, nome: 'Formulação', detectada: p.baseFormulacaoDetectada, ref: 'Quantidade formulada' });
     }
     for (const a of p.apresentacoes) {
-      escopos.push({ id: a.id, nome: a.nome + (a.formato ? ` (${a.formato})` : ''), detectada: a.baseDetectada, ref: 'Quantidade envasada da apresentação' });
+      escopos.push({ id: a.id, nome: nomeApresentacao(a), detectada: a.baseDetectada, ref: 'Quantidade envasada da apresentação' });
     }
     el.parametrosCorpo.innerHTML = escopos
       .map(
@@ -2412,6 +2431,7 @@ function iniciarApp() {
 
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
+    ANONIMIZAR_PRODUTOS,
     OCULTAR_CODIGOS_PRODUTOS,
     CONFIG,
     STATUS,

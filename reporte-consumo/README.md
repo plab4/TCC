@@ -21,17 +21,22 @@ reporte-consumo/
 A configuração fica no início do `app.js`:
 
 ```js
-const OCULTAR_CODIGOS_PRODUTOS = true;
+const ANONIMIZAR_PRODUTOS = false;
+const OCULTAR_CODIGOS_PRODUTOS = false;
 ```
 
-Com `true`, os códigos dos produtos viram `PRD-001`, `PRD-002`… e os das apresentações viram `PRD-001.1`, `PRD-001.2`… Com `false`, são exibidos os códigos da planilha (códigos separados por `/`, `,`, `;` ou quebra de linha são reconhecidos).
+Por padrão, os nomes e códigos dos produtos e das apresentações aparecem exatamente como estão na planilha. Códigos separados por `/`, `,`, `;` ou quebra de linha são reconhecidos. Um granel sem código próprio mostra os códigos das suas apresentações.
+
+As duas opções só servem para compartilhar o reporte sem identificar os produtos:
+- `ANONIMIZAR_PRODUTOS = true` troca os nomes por `Produto 1`, `Produto 2`… e `Apresentação 1`, `Apresentação 2`…, na ordem em que aparecem na planilha. O nome real também é mascarado dentro de outros textos (descrição de rótulo, nome da aba).
+- `OCULTAR_CODIGOS_PRODUTOS = true` troca os códigos por `PRD-001`, `PRD-002`… e `PRD-001.1`, `PRD-001.2`…
 
 ## Como executar
 
 1. Abra `index.html` direto no navegador (Chrome, Edge ou Firefox): duplo clique ou arraste o arquivo para o navegador. Não é preciso servidor.
    - Se preferir um servidor local: `python3 -m http.server 8000` dentro da pasta `reporte-consumo` e acesse `http://localhost:8000`.
 2. Clique em **Carregar planilha Excel (.xlsx)** e escolha o arquivo. Para testar sem planilha, use **Usar dados de demonstração**.
-3. Selecione o produto (`Produto 1`, `Produto 2`…).
+3. Selecione o produto na lista (nomes como estão na planilha).
 4. Preencha a data, a quantidade formulada, a unidade (KG/L) e o total envasado. Se houver mais de uma apresentação, informe a quantidade de cada uma.
 5. Confira ou informe os volumes-base em **Parâmetros de cálculo**.
 6. Informe o consumo real de cada material. Os desvios são marcados automaticamente e abrem o registro de justificativa.
@@ -100,18 +105,16 @@ As mensagens aparecem na própria página (sem `alert()`).
 
 ## Exportação
 
-- **Excel** (`reporte_Produto_1_AAAA-MM.xlsx`, com AAAA-MM vindo da data do reporte), com três abas:
-  - *Resumo*: produto e código anonimizados, data, quantidades, diferença e justificativa, apresentações, totais por status e observações;
+- **Excel** (`reporte_<nome do produto>_AAAA-MM.xlsx`, por exemplo `reporte_GRANEL_1_2026-10.xlsx`; espaços viram `_`, caracteres inválidos em nomes de arquivo são removidos e AAAA-MM vem da data do reporte), com três abas:
+  - *Resumo*: produto e código, data, quantidades, diferença e justificativa, apresentações, totais por status e observações;
   - *Consumo de Materiais*: código, descrição, categoria, unidade, teórico, perda, limite, real, variação, excedente, status, justificativa, ação, responsável e prazo;
   - *Parâmetros*: identificador, volumes-base, unidades, regras aplicadas e pendências de importação.
 - **CSV** (`;` como separador, vírgula decimal, UTF-8 com BOM para abrir corretamente no Excel em português), com as mesmas três seções.
 - **Imprimir ou salvar em PDF**: layout de impressão em A4 paisagem, com os detalhes das justificativas abertos.
 
-## Confidencialidade
+## Privacidade dos dados
 
-- Produtos aparecem como `Produto 1`, `Produto 2`…, numerados na ordem em que surgem na planilha. Apresentações aparecem como `Apresentação 1`, `Apresentação 2`… do produto. Só o formato da embalagem (ex.: `10X1 KG`) é extraído do rótulo original.
-- A associação entre o nome real e o identificador existe apenas em variáveis locais durante a leitura da aba. Nomes reais não entram no modelo de dados, na interface, nos atributos HTML, no console, nos arquivos exportados nem nos nomes de arquivos.
-- Se o nome de um produto aparecer dentro de outro texto (descrição de rótulo, nome da aba, análise), ele é substituído pelo identificador anônimo.
+- Os dados da planilha ficam só na memória do navegador. Nada é enviado para servidores.
 - Nada é gravado em `localStorage`, `sessionStorage`, IndexedDB ou cookies. Recarregar a página apaga todo o preenchimento.
 - A planilha original só é lida, nunca alterada.
 

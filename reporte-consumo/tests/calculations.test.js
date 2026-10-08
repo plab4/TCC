@@ -174,7 +174,7 @@ test('Fórmula da usagem teórica: extrai volume-base e linha de referência', (
 });
 
 /* ------------------------------------------------------------------ */
-/* Importação, anonimização e exportação (planilhas fictícias)         */
+/* Importação, nomes dos produtos e exportação (planilhas fictícias)   */
 /* ------------------------------------------------------------------ */
 
 test('Demonstração: importação, cálculo completo e status esperados', () => {
@@ -184,7 +184,7 @@ test('Demonstração: importação, cálculo completo e status esperados', () =>
   assert.equal(modelo.produtos.length, 1);
   const p = modelo.produtos[0];
   assert.equal(p.nome, 'Produto 1');
-  assert.equal(p.codigo, 'PRD-001');
+  assert.equal(p.codigo, 'DEMO-000');
   assert.equal(p.apresentacoes.length, 1);
   assert.equal(p.baseFormulacaoDetectada, 10000);
   assert.equal(p.apresentacoes[0].baseDetectada, 1000);
@@ -254,7 +254,7 @@ test('Apresentações: soma diferente do total envasado bloqueia até corrigir o
 });
 
 function planilhaFicticiaComNomes() {
-  // Nomes comerciais inventados apenas para verificar a anonimização.
+  // Nomes comerciais inventados apenas para os testes.
   const f = (formula) => ({ t: 'n', v: 0, f: formula });
   const linhas = [
     ['Produto', 'Código', 'Quantidade produzida', 'Quantidade envasada', 'Código dos insumos', 'Matérias primas e embalagens',
@@ -272,7 +272,39 @@ function planilhaFicticiaComNomes() {
   return wb;
 }
 
-test('Anonimização: nenhum nome comercial chega ao modelo, à exportação ou ao nome do arquivo', () => {
+test('Padrão: nomes e códigos reais dos produtos aparecem no modelo, na exportação e no nome do arquivo', () => {
+  assert.equal(app.ANONIMIZAR_PRODUTOS, false);
+  assert.equal(app.OCULTAR_CODIGOS_PRODUTOS, false);
+  const wb = planilhaFicticiaComNomes();
+  const modelo = app.interpretarAba(wb, app.analisarPasta(wb).sugerida);
+  assert.deepEqual(modelo.produtos.map((p) => p.nome), ['ZETAMAX GRANEL', 'OMEGAPLUS REENVASE 20 L']);
+  assert.deepEqual(modelo.produtos.map((p) => p.codigo), ['111111 / 222222', '333333']);
+  const p1 = modelo.produtos[0];
+  assert.deepEqual(p1.apresentacoes.map((a) => [a.nome, a.codigo]), [
+    ['ZETAMAX 10x1 L', '111111'],
+    ['ZETAMAX 4x5 L', '222222'],
+  ]);
+  assert.equal(p1.unidadeBase, 'L');
+  assert.ok(p1.materiais.some((m) => m.descricao === 'Rótulo ZETAMAX 1 L'));
+  assert.equal(modelo.nomeAbaExibicao, 'ZETAMAX');
+
+  const form = app.criarFormularioVazio(p1, false);
+  form.data = '2026-01-10';
+  const rep = app.calcularReporte(p1, form);
+  const csv = app.gerarCSV(app.montarDadosExportacao(p1, form, rep, modelo.pendencias));
+  assert.ok(csv.includes('Produto;ZETAMAX GRANEL'));
+  assert.ok(csv.includes('ZETAMAX 10x1 L;111111'));
+  assert.equal(app.nomeArquivoReporte(p1, form.data, 'xlsx'), 'reporte_ZETAMAX_GRANEL_2026-01.xlsx');
+  assert.equal(app.nomeArquivoReporte({ nome: 'A/B: C' }, form.data, 'csv'), 'reporte_A_B_C_2026-01.csv');
+});
+
+test('Opcional (ANONIMIZAR_PRODUTOS = true): nenhum nome comercial chega ao modelo, à exportação ou ao nome do arquivo', (t) => {
+  app.CONFIG.anonimizarProdutos = true;
+  app.CONFIG.ocultarCodigosProdutos = true;
+  t.after(() => {
+    app.CONFIG.anonimizarProdutos = app.ANONIMIZAR_PRODUTOS;
+    app.CONFIG.ocultarCodigosProdutos = app.OCULTAR_CODIGOS_PRODUTOS;
+  });
   const wb = planilhaFicticiaComNomes();
   const analise = app.analisarPasta(wb);
   const modelo = app.interpretarAba(wb, analise.sugerida);
@@ -296,6 +328,7 @@ test('Anonimização: nenhum nome comercial chega ao modelo, à exportação ou 
   const csv = app.gerarCSV(dados);
   const xlsxBin = XLSX.write(app.gerarPastaExportacao(XLSX, dados), { type: 'binary', bookType: 'xlsx', compression: false });
   const tudo = [JSON.stringify(modelo), csv, JSON.stringify(dados), xlsxBin, modelo.nomeAbaExibicao, app.nomeArquivoReporte(p1, form.data, 'xlsx')].join('\n');
+  assert.equal(app.nomeArquivoReporte(p1, form.data, 'xlsx'), 'reporte_Produto_1_2026-01.xlsx');
   for (const proibido of ['ZETAMAX', 'zetamax', 'OMEGAPLUS', '111111', '222222', '333333']) {
     assert.ok(!tudo.includes(proibido), `vazamento de "${proibido}"`);
   }
