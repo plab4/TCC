@@ -697,6 +697,39 @@ const PADRAO_APRESENTACAO = /\b(apresentacao|apresentacoes|sku)\b|\d+ ?x ?\d+|\b
 const PADRAO_FORMATO = /(\d+(?:[.,]\d+)?\s*[xX]\s*\d+(?:[.,]\d+)?\s*(?:kg|g|l|lt|ml)\b|\d+(?:[.,]\d+)?\s*(?:kg|g|l|lt|ml)\b)/i;
 const PALAVRAS_GENERICAS = /\b(granel|bulk|a granel|semi ?acabado|apresentacao|apresentacoes|reenvase|re envase|sku)\b/g;
 
+/** Cor de fundo da célula, ou null quando branca/sem preenchimento. */
+function corDeFundo(celula) {
+  const s = celula && celula.s;
+  if (!s || !s.patternType || s.patternType === 'none') return null;
+  const fg = s.fgColor || {};
+  const rgb = fg.rgb ? String(fg.rgb).toUpperCase().slice(-6) : null;
+  if (rgb) return rgb === 'FFFFFF' ? null : rgb;
+  if (fg.theme !== undefined) return fg.theme === 0 && !fg.tint ? null : `tema${fg.theme}:${fg.tint || 0}`;
+  if (fg.indexed !== undefined) return [9, 64].includes(fg.indexed) ? null : `indice${fg.indexed}`;
+  return null;
+}
+
+function identificarBulks(blocos, blocoDaLinha) {
+  const forte = new Set();
+  for (const b of blocos) {
+    const refsExternas = b.refsEnvasado.filter((r) => blocoDaLinha.get(r) && blocoDaLinha.get(r) !== b);
+    const codigos = separarCodigos(textoCelula(b.celCodigo));
+    if (PADRAO_GRANEL.test(b.rotuloNorm) || codigos.length > 1 || refsExternas.length) forte.add(b);
+  }
+  const cor = new Map(blocos.map((b) => [b, corDeFundo(b.celProduto)]));
+  // Cores dos blocos já reconhecidos como bulk; sem nenhum, vale qualquer cor
+  // desde que existam blocos brancos (apresentações) para comparar.
+  const coresBulk = new Set([...forte].map((b) => cor.get(b)).filter(Boolean));
+  const algumBranco = blocos.some((b) => !cor.get(b));
+  const bulks = new Set(forte);
+  for (const b of blocos) {
+    const c = cor.get(b);
+    if (!c) continue;
+    if (coresBulk.size ? coresBulk.has(c) : algumBranco) bulks.add(b);
+  }
+  return bulks;
+}
+
 function rotuloLimpo(rotulo) {
   return String(rotulo || '').replace(/\s+/g, ' ').trim();
 }
@@ -892,6 +925,7 @@ function interpretarAba(workbook, nomeAba) {
     const fim = Math.max(...linhas, b.inicio);
     for (let r = b.inicio; r <= fim; r++) blocoDaLinha.set(r, b);
     const cel = (c) => (c === undefined ? null : leitor.topo(b.inicio, c));
+    b.celProduto = cel(col.produto);
     b.celCodigo = cel(col.codigoProduto);
     b.celFormulada = cel(col.qtdFormulada);
     b.celEnvasada = cel(col.qtdEnvasada);
@@ -969,14 +1003,16 @@ function interpretarAba(workbook, nomeAba) {
     return a;
   };
 
-  // Produto é somente o bloco com "granel" no nome; os demais blocos são
-  // apresentações (envases) de um granel. Sem nenhum granel na aba, cada bloco
-  // vira um produto, para que a planilha ainda possa ser reportada.
-  const temGranelNoNome = blocos.some((b) => PADRAO_GRANEL.test(b.rotuloNorm));
-  if (temGranelNoNome) {
-    for (const b of blocos) b.tipo = PADRAO_GRANEL.test(b.rotuloNorm) ? 'granel' : 'apresentacao';
+  // Produto (bulk) x apresentação: na planilha ficam na mesma coluna. O bulk é
+  // reconhecido por "granel"/"bulk" no nome, por ter mais de um código na célula,
+  // por somar outras apresentações na fórmula do envasado ou pela cor de fundo
+  // diferente do branco das apresentações. Os demais blocos são apresentações.
+  const bulks = identificarBulks(blocos, blocoDaLinha);
+  const temBulk = bulks.size > 0;
+  if (temBulk) {
+    for (const b of blocos) b.tipo = bulks.has(b) ? 'granel' : 'apresentacao';
   } else if (blocos.length) {
-    pend('aviso', 'Nenhuma célula de produto contém "granel": cada bloco da planilha foi tratado como um produto.');
+    pend('aviso', 'Nenhum produto (bulk) identificado por nome, códigos ou cor da célula: cada bloco da planilha foi tratado como um produto.');
   }
 
   for (const b of blocos) {
@@ -1012,7 +1048,7 @@ function interpretarAba(workbook, nomeAba) {
             : 'vínculo com o produto atribuído pela posição na planilha.')
       );
     } else {
-      const proximo = temGranelNoNome ? blocos.find((g) => g.tipo === 'granel' && g.inicio > b.inicio) : null;
+      const proximo = temBulk ? blocos.find((g) => g.tipo === 'granel' && g.inicio > b.inicio) : null;
       if (proximo) {
         b.produto = proximo.produto;
         b.apresentacao = criarApresentacao(proximo.produto, b, 'posição na planilha');
@@ -1287,12 +1323,18 @@ function criarFormularioVazio(produto, usarPrefill) {
     observacoes: '',
     justificativaDiferenca: '',
     apresentacoes: {},
-    justificativaApresentacoes: '',
+    // Apresentações produzidas nesta campanha (escolhidas pelo usuário).
+    apresentacoesSelecionadas: [],
     bases: {},
     materiais: {},
   };
   for (const a of produto.apresentacoes) {
-    form.apresentacoes[a.id] = usarPrefill ? fmt(produto.prefill.apresentacoes[a.id]) : '';
+    const prefill = produto.prefill.apresentacoes[a.id];
+    form.apresentacoes[a.id] = usarPrefill ? fmt(prefill) : '';
+    if (usarPrefill && prefill !== undefined && prefill !== null) form.apresentacoesSelecionadas.push(a.id);
+  }
+  if (produto.apresentacoes.length === 1 && !form.apresentacoesSelecionadas.length) {
+    form.apresentacoesSelecionadas.push(produto.apresentacoes[0].id);
   }
   for (const m of produto.materiais) {
     form.materiais[m.id] = {
@@ -1322,6 +1364,12 @@ function nomeEscopo(produto, escopo) {
   return a ? a.nome : '—';
 }
 
+/** Apresentações marcadas como produzidas, na ordem da planilha. */
+function apresentacoesSelecionadas(produto, form) {
+  const marcadas = new Set(form.apresentacoesSelecionadas || []);
+  return produto.apresentacoes.filter((a) => marcadas.has(a.id));
+}
+
 function lerCampoNumerico(texto, rotulo, erros, { permitirVazio = true } = {}) {
   const vazio = texto === null || texto === undefined || String(texto).trim() === '';
   if (vazio) return null;
@@ -1342,12 +1390,15 @@ function calcularReporte(produto, form) {
   const avisos = [];
   const temFormulacao = produto.materiais.some((m) => m.escopo === ESCOPO_FORMULACAO);
   const nApres = produto.apresentacoes.length;
+  const selecionadas = apresentacoesSelecionadas(produto, form);
+  const idsSelecionados = new Set(selecionadas.map((a) => a.id));
 
   if (!form.data) erros.push('Informe a data do reporte.');
   const formulado = lerCampoNumerico(form.formulado, 'Quantidade formulada', erros);
   const envasado = lerCampoNumerico(form.envasado, 'Quantidade total envasada', erros);
   if (temFormulacao && formulado === null && String(form.formulado || '').trim() === '') erros.push('Informe a quantidade formulada ou produzida.');
   if (nApres && envasado === null && String(form.envasado || '').trim() === '') erros.push('Informe a quantidade total envasada.');
+  if (nApres && !selecionadas.length) erros.push('Selecione ao menos uma apresentação produzida.');
   if (temFormulacao && !form.unidade) erros.push('Selecione a unidade da formulação (KG ou L).');
 
   const dif = calcularDiferencaProducao(formulado, envasado);
@@ -1359,22 +1410,27 @@ function calcularReporte(produto, form) {
   }
 
   // Apresentações
+  // Cada apresentação produzida tem a sua quantidade, e a soma delas tem de ser
+  // igual ao total envasado.
   const qtdApresentacao = {};
-  for (const a of produto.apresentacoes) {
-    qtdApresentacao[a.id] =
-      nApres === 1 ? envasado : lerCampoNumerico(form.apresentacoes[a.id], `${a.nome} — quantidade envasada`, erros);
+  for (const a of selecionadas) {
+    const texto = form.apresentacoes[a.id];
+    qtdApresentacao[a.id] = lerCampoNumerico(texto, `${a.nome} — quantidade envasada`, erros);
+    if (String(texto || '').trim() === '') erros.push(`Informe a quantidade envasada de ${a.nome}.`);
   }
   let somaApresentacoes = null;
   let diferencaApresentacoes = null;
   let divergenciaApresentacoes = false;
-  if (nApres > 1) {
+  if (selecionadas.length) {
     somaApresentacoes = somarApresentacoes(Object.values(qtdApresentacao));
     if (envasado !== null || somaApresentacoes !== null) {
       diferencaApresentacoes = arredondar((envasado || 0) - (somaApresentacoes || 0));
       divergenciaApresentacoes = !valoresIguais(envasado || 0, somaApresentacoes || 0);
     }
-    if (divergenciaApresentacoes && !String(form.justificativaApresentacoes || '').trim()) {
-      erros.push('A soma das apresentações difere do total envasado: corrija os valores ou registre uma justificativa.');
+    if (divergenciaApresentacoes) {
+      erros.push(
+        `A soma das apresentações (${formatarNumero(somaApresentacoes || 0)}) tem de ser igual ao total envasado (${formatarNumero(envasado || 0)}).`
+      );
     }
   }
 
@@ -1393,21 +1449,23 @@ function calcularReporte(produto, form) {
     return detectada;
   };
   bases[ESCOPO_FORMULACAO] = baseDe(ESCOPO_FORMULACAO, produto.baseFormulacaoDetectada, 'Formulação');
-  for (const a of produto.apresentacoes) bases[a.id] = baseDe(a.id, a.baseDetectada, a.nome);
+  for (const a of selecionadas) bases[a.id] = baseDe(a.id, a.baseDetectada, a.nome);
   const baseDetectadaEscopo = (escopo) =>
     escopo === ESCOPO_FORMULACAO
       ? produto.baseFormulacaoDetectada
       : (produto.apresentacoes.find((a) => a.id === escopo) || {}).baseDetectada ?? null;
 
   // Materiais
-  const linhas = produto.materiais.map((m) => {
+  // Materiais da formulação + os das apresentações produzidas.
+  const materiaisDoReporte = produto.materiais.filter((m) => m.escopo === ESCOPO_FORMULACAO || idsSelecionados.has(m.escopo));
+  const linhas = materiaisDoReporte.map((m) => {
     const st = form.materiais[m.id] || {};
     const categoria = st.categoria || m.categoriaSugerida;
     let escopo = m.escopo;
     let vinculoPendente = false;
     const embalagemNaFormulacao = m.escopo === ESCOPO_FORMULACAO && CATEGORIAS_EMBALAGEM.has(categoria);
     if (embalagemNaFormulacao) {
-      const opcoes = new Set([VINCULO_TOTAL, ...produto.apresentacoes.map((a) => a.id)]);
+      const opcoes = new Set([VINCULO_TOTAL, ...selecionadas.map((a) => a.id)]);
       if (st.vinculo && opcoes.has(st.vinculo)) escopo = st.vinculo;
       else {
         escopo = null;
@@ -1537,7 +1595,7 @@ function calcularReporte(produto, form) {
   if (semPerda) avisos.push(`${semPerda} material(is) sem perda contratual.`);
   const semReal = linhas.filter((l) => l.status === STATUS.PENDENTE && l.motivoPendencia === 'Consumo real não informado').length;
   if (semReal) avisos.push(`${semReal} material(is) sem consumo real informado.`);
-  for (const a of produto.apresentacoes) {
+  for (const a of selecionadas) {
     if (!linhas.some((l) => l.escopo === a.id)) avisos.push(`${a.nome}: apresentação sem materiais vinculados.`);
     else if (a.vinculo === 'posição na planilha') avisos.push(`${a.nome}: vínculo com o produto atribuído pela posição na planilha.`);
   }
@@ -1599,17 +1657,14 @@ function montarDadosExportacao(produto, form, rep, pendenciasImportacao) {
     ['Justificativa da diferença', form.justificativaDiferenca || ''],
     [],
     ['Apresentação', 'Código', 'Quantidade envasada', 'Unidade'],
-    ...produto.apresentacoes.map((a) => [
+    ...apresentacoesSelecionadas(produto, form).map((a) => [
       nomeApresentacao(a),
       a.codigo,
       rep.qtdApresentacao[a.id],
       form.unidade || '',
     ]),
+    ['Soma das apresentações', '', rep.somaApresentacoes, form.unidade || ''],
   ];
-  if (produto.apresentacoes.length > 1) {
-    resumo.push(['Soma das apresentações', '', rep.somaApresentacoes, form.unidade || '']);
-    resumo.push(['Justificativa da divergência das apresentações', form.justificativaApresentacoes || '']);
-  }
   resumo.push(
     [],
     ['Totais por status', 'Quantidade'],
@@ -1662,7 +1717,7 @@ function montarDadosExportacao(produto, form, rep, pendenciasImportacao) {
   const parametros = [
     ['Identificador', 'Escopo', 'Volume-base', 'Unidade'],
     [produto.nome, 'Formulação', rep.bases[ESCOPO_FORMULACAO], form.unidade || ''],
-    ...produto.apresentacoes.map((a) => [
+    ...apresentacoesSelecionadas(produto, form).map((a) => [
       `${produto.nome} › ${a.nome}`,
       'Apresentação',
       rep.bases[a.id],
@@ -1784,8 +1839,10 @@ function iniciarApp() {
     apresCorpo: $('#apres-corpo'),
     apresTotal: $('#apres-total'),
     apresAlerta: $('#apres-alerta'),
-    justApresBox: $('#box-just-apres'),
-    justApres: $('#f-just-apres'),
+    secaoSelecao: $('#secao-selecao-apres'),
+    listaApres: $('#lista-apresentacoes'),
+    btnMarcarTodas: $('#btn-marcar-todas'),
+    btnDesmarcarTodas: $('#btn-desmarcar-todas'),
     parametrosCorpo: $('#parametros-corpo'),
     cards: $('#cards'),
     busca: $('#filtro-busca'),
@@ -1840,7 +1897,7 @@ function iniciarApp() {
     let wb;
     try {
       const buffer = await arquivo.arrayBuffer();
-      wb = obterXLSX().read(buffer, { type: 'array', cellFormula: true, cellNF: true, cellDates: false });
+      wb = obterXLSX().read(buffer, { type: 'array', cellFormula: true, cellNF: true, cellStyles: true, cellDates: false });
     } catch (e) {
       mostrarFalha('Não foi possível ler o arquivo. Confirme se é um .xlsx válido', e);
       return;
@@ -2010,7 +2067,6 @@ function iniciarApp() {
     el.envasado.value = f.envasado;
     el.observacoes.value = f.observacoes;
     el.justDif.value = f.justificativaDiferenca;
-    el.justApres.value = f.justificativaApresentacoes;
   }
 
   const camposProducao = [
@@ -2020,7 +2076,6 @@ function iniciarApp() {
     ['envasado', 'envasado'],
     ['observacoes', 'observacoes'],
     ['justDif', 'justificativaDiferenca'],
-    ['justApres', 'justificativaApresentacoes'],
   ];
   for (const [chaveEl, campo] of camposProducao) {
     const evento = el[chaveEl].tagName === 'SELECT' || el[chaveEl].type === 'date' ? 'change' : 'input';
@@ -2033,17 +2088,60 @@ function iniciarApp() {
   }
 
   function renderizarTudo() {
+    renderizarSelecaoApresentacoes();
     renderizarApresentacoes();
     renderizarParametros();
     renderizarTabela();
     atualizarCalculos();
   }
 
+  // Lista de apresentações do produto com caixas de seleção (mais de uma).
+  function renderizarSelecaoApresentacoes() {
+    const p = produtoAtual();
+    const f = formAtual();
+    el.secaoSelecao.hidden = !p.apresentacoes.length;
+    const marcadas = new Set(f.apresentacoesSelecionadas);
+    el.listaApres.innerHTML = p.apresentacoes
+      .map((a) => {
+        const nMat = p.materiais.filter((m) => m.escopo === a.id).length;
+        return `<label class="item-selecao ${marcadas.has(a.id) ? 'marcado' : ''}">
+          <input type="checkbox" data-selecao="${esc(a.id)}" ${marcadas.has(a.id) ? 'checked' : ''}>
+          <span class="item-nome">${esc(nomeApresentacao(a))}</span>
+          <span class="item-info"><code>${esc(a.codigo)}</code> · ${nMat} material(is)</span>
+        </label>`;
+      })
+      .join('');
+  }
+
+  function definirSelecao(ids) {
+    const p = produtoAtual();
+    const marcadas = new Set(ids);
+    // Mantém a ordem da planilha.
+    formAtual().apresentacoesSelecionadas = p.apresentacoes.filter((a) => marcadas.has(a.id)).map((a) => a.id);
+    renderizarTudo();
+  }
+
+  el.listaApres.addEventListener('change', (ev) => {
+    const id = ev.target.dataset.selecao;
+    if (!id) return;
+    const atuais = new Set(formAtual().apresentacoesSelecionadas);
+    if (ev.target.checked) atuais.add(id);
+    else atuais.delete(id);
+    definirSelecao([...atuais]);
+  });
+  el.btnMarcarTodas.addEventListener('click', () => definirSelecao(produtoAtual().apresentacoes.map((a) => a.id)));
+  el.btnDesmarcarTodas.addEventListener('click', () => definirSelecao([]));
+
   function renderizarApresentacoes() {
     const p = produtoAtual();
     const f = formAtual();
-    el.apresSecao.hidden = p.apresentacoes.length < 2;
-    el.apresCorpo.innerHTML = p.apresentacoes
+    el.apresSecao.hidden = !p.apresentacoes.length;
+    const selecionadas = apresentacoesSelecionadas(p, f);
+    if (!selecionadas.length) {
+      el.apresCorpo.innerHTML = '<tr><td colspan="3" class="vazio">Marque acima as apresentações produzidas.</td></tr>';
+      return;
+    }
+    el.apresCorpo.innerHTML = selecionadas
       .map(
         (a) => `<tr>
           <td><strong>${esc(nomeApresentacao(a))}</strong><br><code>${esc(a.codigo)}</code></td>
@@ -2068,7 +2166,7 @@ function iniciarApp() {
     if (p.materiais.some((m) => m.escopo === ESCOPO_FORMULACAO) || !p.apresentacoes.length) {
       escopos.push({ id: ESCOPO_FORMULACAO, nome: 'Formulação', detectada: p.baseFormulacaoDetectada, ref: 'Quantidade formulada' });
     }
-    for (const a of p.apresentacoes) {
+    for (const a of apresentacoesSelecionadas(p, f)) {
       escopos.push({ id: a.id, nome: nomeApresentacao(a), detectada: a.baseDetectada, ref: 'Quantidade envasada da apresentação' });
     }
     el.parametrosCorpo.innerHTML = escopos
@@ -2213,7 +2311,7 @@ function iniciarApp() {
             ? `<label class="vinculo">Vínculo:
                  <select class="editavel" data-mat="${l.id}" data-campo="vinculo">
                    <option value="">Pendente de revisão</option>
-                   ${p.apresentacoes.map((a) => `<option value="${esc(a.id)}" ${st.vinculo === a.id ? 'selected' : ''}>${esc(a.nome)}</option>`).join('')}
+                   ${apresentacoesSelecionadas(p, f).map((a) => `<option value="${esc(a.id)}" ${st.vinculo === a.id ? 'selected' : ''}>${esc(a.nome)}</option>`).join('')}
                    <option value="${VINCULO_TOTAL}" ${st.vinculo === VINCULO_TOTAL ? 'selected' : ''}>Total envasado</option>
                  </select></label>`
             : '';
@@ -2352,13 +2450,17 @@ function iniciarApp() {
       const n = interpretarNumero(t);
       input.classList.toggle('invalido', t !== '' && (n === null || n < 0));
     }
-    if (p.apresentacoes.length > 1) {
+    const temSelecao = apresentacoesSelecionadas(p, f).length > 0;
+    el.apresTotal.hidden = !temSelecao;
+    if (temSelecao) {
       el.apresTotal.innerHTML = `Soma das apresentações: <strong>${esc(formatarNumero(rep.somaApresentacoes))}</strong> ${esc(f.unidade || '')}
-        · Total envasado: <strong>${esc(formatarNumero(rep.envasado))}</strong>
-        · Diferença: <strong>${esc(formatarNumero(rep.diferencaApresentacoes))}</strong>`;
-      el.apresAlerta.hidden = !rep.divergenciaApresentacoes;
-      el.justApresBox.hidden = !rep.divergenciaApresentacoes;
+        · Total envasado: <strong>${esc(formatarNumero(rep.envasado))}</strong> ${esc(f.unidade || '')}
+        · Diferença: <strong>${esc(formatarNumero(rep.diferencaApresentacoes))}</strong> ${esc(f.unidade || '')}`;
     }
+    el.apresAlerta.hidden = !rep.divergenciaApresentacoes;
+    el.apresAlerta.textContent = rep.divergenciaApresentacoes
+      ? 'A soma das apresentações tem de ser igual ao total envasado. Corrija as quantidades — a exportação fica bloqueada até isso.'
+      : '';
 
     renderizarCards(rep, f);
 

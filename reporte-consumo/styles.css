@@ -162,6 +162,18 @@ input.curto { min-width: 80px; width: 90px; }
 .totalizador { margin: 10px 0; }
 .alerta { background: var(--laranja-fundo); color: var(--laranja); border-left: 4px solid var(--laranja); padding: 8px 12px; border-radius: 4px; font-weight: 600; }
 
+/* ---------- Seleção de apresentações ---------- */
+.selecao-acoes { display: flex; gap: 14px; margin: 4px 0 10px; }
+.lista-selecao { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 8px; }
+.item-selecao {
+  display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; align-items: center;
+  border: 1px solid var(--borda); border-radius: var(--raio); padding: 10px 12px; cursor: pointer; background: #fff;
+}
+.item-selecao input { grid-row: span 2; width: 18px; height: 18px; accent-color: var(--azul); }
+.item-selecao .item-nome { font-weight: 600; }
+.item-selecao .item-info { font-size: 12px; color: var(--texto-suave); }
+.item-selecao.marcado { border-color: var(--azul); background: var(--azul-fundo); }
+
 /* ---------- Cards ---------- */
 .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
 .card { border-radius: var(--raio); padding: 10px 12px; border: 1px solid var(--borda); border-top-width: 4px; display: flex; flex-direction: column; gap: 4px; }
@@ -253,7 +265,7 @@ input.curto { min-width: 80px; width: 90px; }
   @page { size: A4 landscape; margin: 10mm; }
   body { background: #fff; font-size: 10px; }
   .topo { background: #fff; color: #000; padding: 0 0 6px; border-bottom: 2px solid #000; }
-  #secao-importacao, #secao-exportacao, .filtros, .botoes, .nota-tabela, .legenda, .btn-link, .rodape, #export-msg { display: none !important; }
+  #secao-importacao, #secao-exportacao, #secao-selecao-apres, .filtros, .botoes, .nota-tabela, .legenda, .btn-link, .rodape, #export-msg { display: none !important; }
   .painel { box-shadow: none; border: none; padding: 4px 0; margin: 0 0 8px; break-inside: avoid-page; }
   .tabela-wrap { max-height: none; overflow: visible; border: none; }
   .tabela-materiais { min-width: 0; font-size: 8.5px; }

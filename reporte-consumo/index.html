@@ -59,9 +59,20 @@
     </section>
 
     <div id="area-trabalho" hidden>
-      <!-- ============ PRODUÇÃO ============ -->
+      <!-- ============ SELEÇÃO DAS APRESENTAÇÕES ============ -->
+      <section class="painel" id="secao-selecao-apres" aria-labelledby="t-selecao-apres">
+        <h2 id="t-selecao-apres">Apresentações produzidas</h2>
+        <p class="muted">Marque as apresentações (envases) deste produto que foram produzidas. Pode marcar mais de uma.</p>
+        <div class="selecao-acoes">
+          <button type="button" class="btn-link" id="btn-marcar-todas">Marcar todas</button>
+          <button type="button" class="btn-link" id="btn-desmarcar-todas">Desmarcar todas</button>
+        </div>
+        <div id="lista-apresentacoes" class="lista-selecao"></div>
+      </section>
+
+      <!-- ============ PRODUÇÃO DO PRODUTO (BULK) ============ -->
       <section class="painel" aria-labelledby="t-producao">
-        <h2 id="t-producao">Dados de produção</h2>
+        <h2 id="t-producao">Produção do produto (bulk)</h2>
         <div class="form-grid">
           <label class="campo"><span>Data do reporte <em>*</em></span>
             <input type="date" id="f-data" class="editavel">
@@ -91,9 +102,10 @@
         </div>
       </section>
 
-      <!-- ============ APRESENTAÇÕES ============ -->
+      <!-- ============ PRODUÇÃO POR APRESENTAÇÃO ============ -->
       <section class="painel" id="secao-apresentacoes" hidden aria-labelledby="t-apres">
-        <h2 id="t-apres">Quantidade envasada por apresentação</h2>
+        <h2 id="t-apres">Produção por apresentação</h2>
+        <p class="muted">Informe quanto foi envasado em cada apresentação. A soma tem de ser igual ao total envasado.</p>
         <div class="tabela-simples-wrap">
           <table class="tabela-simples">
             <thead><tr><th>Apresentação</th><th>Quantidade envasada</th><th>Unidade</th></tr></thead>
@@ -101,12 +113,7 @@
           </table>
         </div>
         <p id="apres-total" class="totalizador"></p>
-        <p id="apres-alerta" class="alerta" hidden role="alert">
-          A soma das apresentações é diferente do total envasado. Corrija os valores ou registre uma justificativa — a exportação fica bloqueada até isso.
-        </p>
-        <label class="campo largo" id="box-just-apres" hidden><span>Justificativa para a divergência entre apresentações e total envasado <em>*</em></span>
-          <textarea id="f-just-apres" class="editavel" rows="2"></textarea>
-        </label>
+        <p id="apres-alerta" class="alerta" hidden role="alert"></p>
       </section>
 
       <!-- ============ PARÂMETROS ============ -->

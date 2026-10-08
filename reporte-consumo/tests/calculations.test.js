@@ -239,21 +239,32 @@ test('Validações: valores negativos e unidade incompatível', () => {
   assert.equal(rep.podeExportar, false);
 });
 
-test('Apresentações: soma diferente do total envasado bloqueia até corrigir ou justificar', () => {
+test('Apresentações: só as selecionadas entram e a soma tem de ser igual ao total envasado', () => {
   const p = app.interpretarAba(planilhaFicticiaComNomes(), 'ZETAMAX').produtos[0];
   const form = app.criarFormularioVazio(p, false);
   Object.assign(form, { data: '2026-03-15', unidade: 'L', formulado: '15.000', envasado: '15.000' });
+
+  // Nenhuma apresentação marcada: erro e nenhuma embalagem no reporte.
+  let rep = app.calcularReporte(p, form);
+  assert.ok(rep.erros.includes('Selecione ao menos uma apresentação produzida.'));
+  assert.ok(rep.linhas.every((l) => l.escopoOriginal === 'F'));
+
+  // Duas de três apresentações marcadas: a terceira fica fora do reporte.
+  form.apresentacoesSelecionadas = [p.apresentacoes[0].id, p.apresentacoes[1].id];
+  rep = app.calcularReporte(p, form);
+  assert.ok(rep.erros.some((e) => e.startsWith('Informe a quantidade envasada de')));
+  assert.ok(!rep.linhas.some((l) => l.codigo === 'EMB-003'));
+  assert.ok(rep.linhas.some((l) => l.codigo === 'EMB-001') && rep.linhas.some((l) => l.codigo === 'EMB-002'));
+
   form.apresentacoes[p.apresentacoes[0].id] = '10.000';
   form.apresentacoes[p.apresentacoes[1].id] = '4.000';
-  let rep = app.calcularReporte(p, form);
+  rep = app.calcularReporte(p, form);
   assert.equal(rep.somaApresentacoes, 14000);
   assert.equal(rep.diferencaApresentacoes, 1000);
   assert.equal(rep.divergenciaApresentacoes, true);
-  assert.ok(rep.erros.some((e) => /soma das apresentações/.test(e)));
-  form.justificativaApresentacoes = 'Justificativa fictícia.';
-  rep = app.calcularReporte(p, form);
-  assert.ok(!rep.erros.some((e) => /soma das apresentações/.test(e)));
-  form.justificativaApresentacoes = '';
+  assert.ok(rep.erros.some((e) => /soma das apresentações .* tem de ser igual ao total envasado/.test(e)));
+  assert.equal(rep.podeExportar, false);
+
   form.apresentacoes[p.apresentacoes[1].id] = '5.000';
   rep = app.calcularReporte(p, form);
   assert.equal(rep.divergenciaApresentacoes, false);
@@ -300,6 +311,7 @@ test('Padrão: nomes e códigos reais dos produtos aparecem no modelo, na export
 
   const form = app.criarFormularioVazio(p1, false);
   form.data = '2026-01-10';
+  form.apresentacoesSelecionadas = p1.apresentacoes.map((a) => a.id);
   const rep = app.calcularReporte(p1, form);
   const csv = app.gerarCSV(app.montarDadosExportacao(p1, form, rep, modelo.pendencias));
   assert.ok(csv.includes('Produto;ZETAMAX GRANEL'));
@@ -333,6 +345,7 @@ test('Opcional (ANONIMIZAR_PRODUTOS = true): nenhum nome comercial chega ao mode
 
   const form = app.criarFormularioVazio(p1, false);
   form.data = '2026-01-10';
+  form.apresentacoesSelecionadas = p1.apresentacoes.map((a) => a.id);
   const rep = app.calcularReporte(p1, form);
   const dados = app.montarDadosExportacao(p1, form, rep, modelo.pendencias);
   const csv = app.gerarCSV(dados);
@@ -432,4 +445,55 @@ test('Layout com granel e apresentações: só o bloco "granel" é produto, nome
   assert.equal(cat['4067634746'], 'Material auxiliar');
   assert.equal(cat['4067633937'], 'Material auxiliar');
   assert.equal(modelo.produtos[1].materiais[0].teor, 0.97);
+});
+
+function planilhaBulkPorCodigoECor() {
+  // Bulk sem a palavra "granel": reconhecido por ter dois códigos ou pela cor da célula.
+  const linhas = [
+    ['Produto', 'Código', 'Quantidade produzida', 'Quantidade envasada', 'Código dos insumos', 'Matérias primas e embalagens',
+      'Usagens indicadas na Lista Técnica', 'Usagem Teórica', 'Un.', 'Perdas estabelecidas em contrato (%)'],
+    ['Gama® 100 EC', '4058000001,\n4058000002', null, null, '4050000001', 'Matéria-prima Alfa', 500, { t: 'n', v: 0, f: 'G2*$C$2/1000' }, 'KG', 0.01],
+    ['Gama® 100 EC,12X1 L', '4058000001', null, null, '4067000001', 'Frasco 1L', 1000, { t: 'n', v: 0, f: 'G3*$D$3/1000' }, 'PC', 0.02],
+    ['Gama® 100 EC,4X5 L', '4058000002', null, null, '4067000002', 'Bombona 5L', 200, { t: 'n', v: 0, f: 'G4*$D$4/1000' }, 'PC', 0.02],
+    ['Delta® 50 SC', null, null, null, '4050000009', 'Matéria-prima Beta', 300, { t: 'n', v: 0, f: 'G5*$C$5/1000' }, 'KG', 0.01],
+    ['Delta® 50 SC,20 L', '4059000001', null, null, '4067000009', 'Bombona 20L', 50, { t: 'n', v: 0, f: 'G6*$D$6/1000' }, 'PC', 0.02],
+  ];
+  const ws = XLSX.utils.aoa_to_sheet(linhas);
+  const bege = { patternType: 'solid', fgColor: { theme: 2, tint: -0.1, rgb: 'DDD9C3' } };
+  const branco = { patternType: 'solid', fgColor: { theme: 0 } };
+  ws.A2.s = bege;
+  ws.A3.s = branco;
+  ws.A4.s = branco;
+  ws.A5.s = bege; // sem "granel" e com um só código: reconhecido pela cor
+  ws.A6.s = { patternType: 'none' };
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'TMR');
+  return wb;
+}
+
+test('Bulk reconhecido por ter mais de um código ou pela cor diferente da célula branca das apresentações', () => {
+  const modelo = app.interpretarAba(planilhaBulkPorCodigoECor(), 'TMR');
+  assert.deepEqual(modelo.produtos.map((p) => p.nome), ['Gama® 100 EC', 'Delta® 50 SC']);
+  assert.deepEqual(modelo.produtos[0].apresentacoes.map((a) => a.nome), ['Gama® 100 EC,12X1 L', 'Gama® 100 EC,4X5 L']);
+  assert.deepEqual(modelo.produtos[1].apresentacoes.map((a) => a.nome), ['Delta® 50 SC,20 L']);
+  assert.equal(modelo.produtos[0].codigo, '4058000001, 4058000002');
+  // Com uma única apresentação, ela já vem marcada.
+  const form = app.criarFormularioVazio(modelo.produtos[1], false);
+  assert.deepEqual(form.apresentacoesSelecionadas, [modelo.produtos[1].apresentacoes[0].id]);
+});
+
+test('Produção por apresentação: consumo das embalagens usa a quantidade de cada apresentação marcada', () => {
+  const p = app.interpretarAba(planilhaBulkPorCodigoECor(), 'TMR').produtos[0];
+  const form = app.criarFormularioVazio(p, false);
+  Object.assign(form, { data: '2026-08-08', unidade: 'L', formulado: '10.000', envasado: '9.800' });
+  form.apresentacoesSelecionadas = p.apresentacoes.map((a) => a.id);
+  form.apresentacoes[p.apresentacoes[0].id] = '6.000';
+  form.apresentacoes[p.apresentacoes[1].id] = '3.800';
+  const rep = app.calcularReporte(p, form);
+  assert.equal(rep.divergenciaApresentacoes, false);
+  assert.equal(rep.exigeJustificativaDiferenca, false); // 2% < 10%
+  const t = Object.fromEntries(rep.linhas.map((l) => [l.codigo, l.teorico]));
+  assert.equal(t['4050000001'], 5000); // 500 × 10.000 / 1.000 (formulado)
+  assert.equal(t['4067000001'], 6000); // 1.000 × 6.000 / 1.000
+  assert.equal(t['4067000002'], 760); // 200 × 3.800 / 1.000
 });

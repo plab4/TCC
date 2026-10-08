@@ -40,11 +40,13 @@ As duas opções só servem para compartilhar o reporte sem identificar os produ
    - **Pasta completa:** abra `index.html` **de dentro da pasta `reporte-consumo`**, com `app.js`, `styles.css` e `lib/` ao lado. Se baixou um .zip, extraia antes de abrir.
    - Se preferir um servidor local: `python3 -m http.server 8000` dentro da pasta `reporte-consumo` e acesse `http://localhost:8000`.
 2. Clique em **Carregar planilha Excel (.xlsx)** e escolha o arquivo. Para testar sem planilha, use **Usar dados de demonstração**.
-3. Selecione o produto na lista (nomes como estão na planilha).
-4. Preencha a data, a quantidade formulada, a unidade (KG/L) e o total envasado. Se houver mais de uma apresentação, informe a quantidade de cada uma.
-5. Confira ou informe os volumes-base em **Parâmetros de cálculo**.
-6. Informe o consumo real de cada material. Os desvios são marcados automaticamente e abrem o registro de justificativa.
-7. Quando não houver erros críticos em **Validações**, exporte para Excel ou CSV, ou imprima/salve em PDF.
+3. Selecione o produto (o bulk, com todas as matérias-primas). Os nomes aparecem como estão na planilha.
+4. Em **Apresentações produzidas**, marque as apresentações que foram envasadas. Pode marcar mais de uma; se o produto tiver uma só, ela já vem marcada. Só as embalagens das apresentações marcadas entram no reporte.
+5. Em **Produção do produto (bulk)**, preencha a data, a quantidade formulada, a unidade (KG/L) e o total envasado.
+6. Em **Produção por apresentação**, informe quanto foi envasado em cada apresentação marcada. A soma tem de ser igual ao total envasado; enquanto não for, a exportação fica bloqueada.
+7. Confira ou informe os volumes-base em **Parâmetros de cálculo**.
+8. Informe o consumo real de cada material. Os desvios são marcados automaticamente e abrem o registro de justificativa.
+9. Quando não houver erros críticos em **Validações**, exporte para Excel ou CSV, ou imprima/salve em PDF.
 
 ### Se nada acontecer ao clicar nos botões
 
@@ -74,9 +76,15 @@ node --test tests/calculations.test.js
 
 - **Escolha da aba:** todas as abas são analisadas. Uma aba é compatível quando o cabeçalho tem campos equivalentes a *produto*, *matéria-prima/embalagem* e *usagem da Lista Técnica*. A aba com mais linhas de material é sugerida. Quando há mais de uma aba compatível, aparece um seletor.
 - **Cabeçalho:** procurado nas primeiras 40 linhas, com uma ou duas linhas de cabeçalho. Os rótulos são normalizados (sem acentos, sem quebras de linha, sem caixa alta, sem pontuação), e cada coluna é reconhecida por sinônimos, não por posição: produto, código, quantidade produzida/formulada, envasada, diferença, código do insumo, descrição, usagem da Lista Técnica, usagem teórica, unidade, teor, quantidade usada, variação, perda contratual, excedente, observações e análise pós-justificativa.
-- **Produtos:** somente os blocos cuja célula de produto contém **"granel"** (ex.: `Produto X Granel`) são produtos. Todos aparecem na lista, inclusive os que ainda não têm quantidades preenchidas. O nome e o código exibidos são os da planilha (vários códigos na mesma célula aparecem separados por vírgula).
-- **Apresentações:** todos os demais blocos (ex.: `Produto X,24X0,25 L,MX`) são apresentações (envases) de um granel. O vínculo vem da fórmula do total envasado do granel (por exemplo, `=D7+D16`). Sem essa fórmula, a apresentação é ligada ao granel imediatamente acima (ou abaixo, se não houver granel antes) e uma pendência pede revisão.
-- **Planilha sem nenhum "granel":** cada bloco vira um produto, com aviso nas pendências.
+- **Produto (bulk) x apresentação:** na planilha os dois ficam na mesma coluna. O produto é o bloco que contém o bulk, ou seja, todas as matérias-primas. Ele é reconhecido por qualquer um destes sinais:
+  - "granel" ou "bulk" no nome;
+  - mais de um código na célula (ex.: `4058009029, 4058021472`);
+  - fórmula do total envasado somando outras apresentações;
+  - cor de fundo diferente do branco das apresentações (ex.: a célula bege do granel).
+
+  Todos os produtos aparecem na lista, inclusive os que ainda não têm quantidades. Nome e código são os da planilha.
+- **Apresentações:** todos os demais blocos (ex.: `Produto X,24X0,25 L,MX`) são apresentações (envases) de um produto. O vínculo vem da fórmula do total envasado do produto (por exemplo, `=D7+D16`). Sem essa fórmula, a apresentação é ligada ao produto imediatamente acima (ou abaixo, se não houver produto antes) e uma pendência pede revisão.
+- **Planilha sem nenhum produto reconhecido:** cada bloco vira um produto, com aviso nas pendências.
 - **Vínculo material → escopo e volume-base:** lidos da fórmula da usagem teórica. Exemplo: `=I3*$D$3/10000` indica a linha de referência (D3) e o volume-base (10.000). Se o divisor estiver em outra célula, o valor dessa célula é usado. Sem fórmula, também é aceita uma coluna de volume-base. **Quando o volume-base não é encontrado, nada é inventado:** o material fica *Pendente* e o valor é pedido em Parâmetros.
 - **Números:** aceita `2000`, `2.000`, `2.000,00`, `2008,03`, `1.310,480`, `0,02`, `0.02`, `2%`, notação científica e números gravados como texto. Perdas gravadas como `2` (sem `%`) são lidas como 2% e geram aviso.
 - **Valores já preenchidos** na planilha (quantidades, consumo real) entram como preenchimento inicial. Fórmulas que resultam em zero (modelo vazio) são ignoradas.
@@ -112,7 +120,7 @@ O **teor** do ingrediente ativo aparece apenas como informação. Nenhuma corre�
 
 - data do reporte ausente; quantidade formulada ou envasada ausente, inválida ou negativa; unidade da formulação não selecionada;
 - diferença formulado − envasado de 10% ou mais sem justificativa;
-- soma das apresentações diferente do total envasado, sem correção ou justificativa;
+- nenhuma apresentação marcada, apresentação marcada sem quantidade, ou soma das apresentações diferente do total envasado;
 - consumo real inválido ou negativo; unidade do consumo incompatível (KG×L, por exemplo; G→KG e ML→L são convertidos);
 - perda contratual fora do intervalo de 0% a 100%;
 - volume-base informado ≤ 0;
