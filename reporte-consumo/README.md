@@ -15,6 +15,8 @@ reporte-consumo/
 │   └── xlsx.full.min.js     SheetJS (cópia local, funciona sem internet)
 ├── tests/
 │   └── calculations.test.js testes automatizados (Node.js)
+├── reporte-consumo-completo.html  versão em arquivo único (gerada)
+├── build-arquivo-unico.js   gera a versão em arquivo único
 └── README.md
 ```
 
@@ -33,7 +35,9 @@ As duas opções só servem para compartilhar o reporte sem identificar os produ
 
 ## Como executar
 
-1. Abra `index.html` direto no navegador (Chrome, Edge ou Firefox): duplo clique ou arraste o arquivo para o navegador. Não é preciso servidor.
+1. Abra a aplicação no navegador (Chrome, Edge, Firefox ou Safari 14+). Não é preciso servidor nem internet. Há duas formas:
+   - **Mais simples:** dê duplo clique em `reporte-consumo-completo.html`. É um único arquivo com tudo embutido (interface, estilos, SheetJS e código), que funciona sozinho, inclusive copiado para outra pasta ou enviado por e-mail.
+   - **Pasta completa:** abra `index.html` **de dentro da pasta `reporte-consumo`**, com `app.js`, `styles.css` e `lib/` ao lado. Se baixou um .zip, extraia antes de abrir.
    - Se preferir um servidor local: `python3 -m http.server 8000` dentro da pasta `reporte-consumo` e acesse `http://localhost:8000`.
 2. Clique em **Carregar planilha Excel (.xlsx)** e escolha o arquivo. Para testar sem planilha, use **Usar dados de demonstração**.
 3. Selecione o produto na lista (nomes como estão na planilha).
@@ -41,6 +45,21 @@ As duas opções só servem para compartilhar o reporte sem identificar os produ
 5. Confira ou informe os volumes-base em **Parâmetros de cálculo**.
 6. Informe o consumo real de cada material. Os desvios são marcados automaticamente e abrem o registro de justificativa.
 7. Quando não houver erros críticos em **Validações**, exporte para Excel ou CSV, ou imprima/salve em PDF.
+
+### Se nada acontecer ao clicar nos botões
+
+- **Aparece "A aplicação não foi carregada…":** o `index.html` foi aberto sem o `app.js` ao lado. Isso acontece quando só o HTML foi baixado, quando ele é aberto de dentro de um .zip ou pelo painel de visualização de outro aplicativo. Use `reporte-consumo-completo.html` ou abra a partir da pasta completa.
+- **Aparece "Biblioteca SheetJS não carregada…":** falta `lib/xlsx.full.min.js`. A demonstração e o CSV continuam funcionando, mas a importação de .xlsx e a exportação para Excel ficam desativadas até o arquivo ser restaurado.
+- **Aparece "Erro ao iniciar a aplicação…":** o navegador é antigo demais. Atualize-o ou use Chrome/Edge.
+
+### Versão em arquivo único
+
+Depois de alterar `index.html`, `styles.css`, `app.js` ou a biblioteca, gere de novo o arquivo único:
+
+```bash
+cd reporte-consumo
+node build-arquivo-unico.js
+```
 
 ### Testes
 

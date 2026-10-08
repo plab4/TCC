@@ -23,6 +23,7 @@
         <strong>Processamento local:</strong> o arquivo é lido apenas neste navegador. Nada é enviado para servidores,
         nada é gravado no armazenamento do navegador e a planilha original não é alterada.
       </p>
+      <p id="aviso-carregamento" class="alerta" role="alert" hidden></p>
       <div class="linha-import">
         <label class="upload">
           <span>Carregar planilha Excel (.xlsx)</span>
@@ -173,6 +174,35 @@
 
   <footer class="rodape">Processamento 100% local · sem servidor, banco de dados ou telemetria</footer>
 
+  <!-- Mostra na tela qualquer falha de carregamento (em vez de a página ficar parada). -->
+  <script>
+    window.__falhaReporte = function (mensagem) {
+      var status = document.getElementById('import-status');
+      if (status) {
+        status.textContent = mensagem;
+        status.className = 'status-badge status-erro';
+      }
+      var aviso = document.getElementById('aviso-carregamento');
+      if (aviso) {
+        aviso.textContent = mensagem;
+        aviso.hidden = false;
+      }
+    };
+    window.addEventListener('error', function (ev) {
+      if (!window.__reporteIniciado && ev.message) {
+        window.__falhaReporte('Erro ao iniciar a aplicação: ' + ev.message + '. Use um navegador atualizado (Chrome, Edge, Firefox ou Safari 14+).');
+      }
+    });
+    window.addEventListener('load', function () {
+      if (!window.__reporteIniciado) {
+        window.__falhaReporte(
+          'A aplicação não foi carregada: o arquivo app.js não foi encontrado ao lado do index.html. ' +
+          'Abra o index.html de dentro da pasta reporte-consumo completa (se baixou um .zip, extraia antes de abrir) ' +
+          'ou use o arquivo único reporte-consumo-completo.html.'
+        );
+      }
+    });
+  </script>
   <!-- Cópia local do SheetJS (funciona sem internet). -->
   <script src="lib/xlsx.full.min.js"></script>
   <!-- Contingência: se a cópia local não existir, carrega pelo CDN oficial do SheetJS. -->

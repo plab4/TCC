@@ -637,8 +637,8 @@ function analisarFormulaTeorica(formula, colunas, leitor) {
   if (!formula || typeof formula !== 'string') return null;
   const f = formula.replace(/\s+/g, '').toUpperCase().replace(/^=/, '');
   const refs = [];
-  for (const m of f.matchAll(/(?<![A-Z!])\$?([A-Z]{1,3})\$?(\d+)(?![\d(])/g)) {
-    refs.push({ c: indiceColuna(m[1]), r: Number(m[2]) - 1 });
+  for (const m of f.matchAll(/(^|[^A-Z0-9!_$])\$?([A-Z]{1,3})\$?(\d+)(?![\d(])/g)) {
+    refs.push({ c: indiceColuna(m[2]), r: Number(m[3]) - 1 });
   }
   const colsQtd = [colunas.qtdEnvasada, colunas.qtdFormulada].filter((c) => c !== undefined);
   const refQtd = refs.find((x) => colsQtd.includes(x.c)) || null;
@@ -670,10 +670,10 @@ function referenciasNaColuna(formula, coluna) {
   if (!formula || coluna === undefined) return [];
   const f = formula.replace(/\s+/g, '').toUpperCase();
   const linhas = [];
-  for (const m of f.matchAll(/(?<![A-Z!])\$?([A-Z]{1,3})\$?(\d+)(?:\:\$?([A-Z]{1,3})\$?(\d+))?/g)) {
-    if (indiceColuna(m[1]) !== coluna) continue;
-    const ini = Number(m[2]) - 1;
-    const fim = m[4] ? Number(m[4]) - 1 : ini;
+  for (const m of f.matchAll(/(^|[^A-Z0-9!_$])\$?([A-Z]{1,3})\$?(\d+)(?:\:\$?([A-Z]{1,3})\$?(\d+))?/g)) {
+    if (indiceColuna(m[2]) !== coluna) continue;
+    const ini = Number(m[3]) - 1;
+    const fim = m[5] ? Number(m[5]) - 1 : ini;
     for (let r = ini; r <= fim; r++) linhas.push(r);
   }
   return linhas;
@@ -1202,7 +1202,24 @@ function lerMaterial(leitor, col, r) {
  * DADOS DE DEMONSTRAÇÃO (totalmente fictícios)
  * ===================================================================== */
 
-function criarPastaDemonstracao(XLSX) {
+/** Monta uma aba no formato do SheetJS a partir de linhas (sem usar a biblioteca). */
+function montarAba(linhas) {
+  const ws = {};
+  let maxC = 0;
+  linhas.forEach((linha, r) => {
+    linha.forEach((v, c) => {
+      if (v === null || v === undefined) return;
+      maxC = Math.max(maxC, c);
+      if (typeof v === 'object') ws[enderecoCelula(r, c)] = { ...v };
+      else ws[enderecoCelula(r, c)] = { t: typeof v === 'number' ? 'n' : 's', v };
+    });
+  });
+  ws['!ref'] = 'A1:' + enderecoCelula(Math.max(0, linhas.length - 1), maxC);
+  return ws;
+}
+
+// Não depende do SheetJS: a demonstração funciona mesmo sem a biblioteca.
+function criarPastaDemonstracao() {
   const f = (formula) => ({ t: 'n', v: 0, f: formula });
   const linhas = [
     ['REPORTE DE PRODUÇÃO - DEMONSTRAÇÃO'],
@@ -1217,16 +1234,14 @@ function criarPastaDemonstracao(XLSX) {
     [null, null, null, null, null, null, 'MP-002', 'Matéria-prima Beta', 64, f('I4*$C$3/10000'), 'KG', null, '120,000', 'KG', null, '1%'],
     ['Produto 1 - 1x20 L', 'DEMO-001', null, 17660, null, null, 'EMB-001', 'Embalagem A', 50, f('I5*$D$5/1000'), 'PC', null, 880, 'PC', null, 0.02],
   ];
-  const ws = XLSX.utils.aoa_to_sheet(linhas);
+  const ws = montarAba(linhas);
   ws['!merges'] = [
     { s: { r: 2, c: 0 }, e: { r: 3, c: 0 } },
     { s: { r: 2, c: 1 }, e: { r: 3, c: 1 } },
     { s: { r: 2, c: 2 }, e: { r: 3, c: 2 } },
     { s: { r: 2, c: 3 }, e: { r: 3, c: 3 } },
   ];
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Demonstração');
-  return wb;
+  return { SheetNames: ['Demonstração'], Sheets: { 'Demonstração': ws } };
 }
 
 /* =====================================================================
@@ -1688,6 +1703,7 @@ function gerarPastaExportacao(XLSX, dados) {
  * ===================================================================== */
 
 function iniciarApp() {
+  window.__reporteIniciado = true;
   const $ = (sel) => document.querySelector(sel);
   const esc = (s) =>
     String(s === null || s === undefined ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -1765,9 +1781,16 @@ function iniciarApp() {
   }
 
   if (!obterXLSX()) {
-    definirStatus('Biblioteca SheetJS não carregada. Verifique lib/xlsx.full.min.js (veja o README).', 'erro');
+    definirStatus(
+      'Biblioteca SheetJS não carregada (lib/xlsx.full.min.js): a importação de .xlsx e a exportação para Excel ficam indisponíveis. A demonstração e o CSV funcionam. Veja o README.',
+      'erro'
+    );
     el.arquivo.disabled = true;
-    el.demo.disabled = true;
+  }
+
+  function mostrarFalha(contexto, e) {
+    const detalhe = e && e.message ? ` (${e.message})` : '';
+    definirStatus(`${contexto}${detalhe}`, 'erro');
   }
 
   el.arquivo.addEventListener('change', async () => {
@@ -1778,20 +1801,30 @@ function iniciarApp() {
       return;
     }
     definirStatus('Lendo planilha…', 'neutro');
+    let wb;
     try {
       const buffer = await arquivo.arrayBuffer();
-      const wb = obterXLSX().read(buffer, { type: 'array', cellFormula: true, cellNF: true, cellDates: false });
-      carregarPasta(wb);
+      wb = obterXLSX().read(buffer, { type: 'array', cellFormula: true, cellNF: true, cellDates: false });
     } catch (e) {
-      definirStatus('Não foi possível ler o arquivo. Confirme se é um .xlsx válido.', 'erro');
+      mostrarFalha('Não foi possível ler o arquivo. Confirme se é um .xlsx válido', e);
+      return;
     } finally {
       // Libera a referência ao arquivo; o original nunca é alterado.
       el.arquivo.value = '';
     }
+    try {
+      carregarPasta(wb);
+    } catch (e) {
+      mostrarFalha('Erro ao interpretar a planilha', e);
+    }
   });
 
   el.demo.addEventListener('click', () => {
-    carregarPasta(criarPastaDemonstracao(obterXLSX()), true);
+    try {
+      carregarPasta(criarPastaDemonstracao(), true);
+    } catch (e) {
+      mostrarFalha('Erro ao carregar a demonstração', e);
+    }
   });
 
   function carregarPasta(wb, demonstracao) {
@@ -2347,7 +2380,7 @@ function iniciarApp() {
       ...rep.avisos.map((a) => `<li class="pend-aviso"><span class="tag">aviso</span> ${esc(a)}</li>`),
     ];
     el.validacoes.innerHTML = itens.length ? itens.join('') : '<li class="pend-ok">Nenhuma inconsistência encontrada.</li>';
-    el.btnExcel.disabled = !rep.podeExportar;
+    el.btnExcel.disabled = !rep.podeExportar || !obterXLSX();
     el.btnCSV.disabled = !rep.podeExportar;
     el.exportMsg.textContent = rep.podeExportar
       ? rep.avisos.length

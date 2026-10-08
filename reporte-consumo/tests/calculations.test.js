@@ -178,7 +178,7 @@ test('Fórmula da usagem teórica: extrai volume-base e linha de referência', (
 /* ------------------------------------------------------------------ */
 
 test('Demonstração: importação, cálculo completo e status esperados', () => {
-  const wb = app.criarPastaDemonstracao(XLSX);
+  const wb = app.criarPastaDemonstracao();
   const analise = app.analisarPasta(wb);
   const modelo = app.interpretarAba(wb, analise.sugerida);
   assert.equal(modelo.produtos.length, 1);
