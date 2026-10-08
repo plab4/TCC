@@ -41,13 +41,22 @@ test('Teste 3 — 100 KG teórico, real 98 KG → abaixo do teórico e justifica
   assert.equal(app.exigeJustificativa(r.status, 'Não'), true);
 });
 
-test('Teste 4 — formulado 18.000 L, envasado 17.660 L → diferença 340 L com justificativa obrigatória', () => {
+test('Teste 4 — formulado 18.000 L, envasado 17.660 L → diferença 340 L (1,89%), abaixo de 10%: sem justificativa', () => {
   const formulado = app.interpretarNumero('18.000');
   const envasado = app.interpretarNumero('17.660');
   const r = app.calcularDiferencaProducao(formulado, envasado);
   perto(r.diferenca, 340);
-  assert.equal(r.exigeJustificativa, true);
+  perto(r.percentual, 340 / 18000);
+  assert.equal(r.exigeJustificativa, false);
   assert.equal(app.calcularDiferencaProducao(18000, 18000).exigeJustificativa, false);
+});
+
+test('Diferença formulado − envasado de 10% ou mais exige justificativa', () => {
+  assert.equal(app.calcularDiferencaProducao(18000, 16200).exigeJustificativa, true); // exatamente 10%
+  assert.equal(app.calcularDiferencaProducao(18000, 16000).exigeJustificativa, true); // 11,1%
+  assert.equal(app.calcularDiferencaProducao(18000, 16201).exigeJustificativa, false); // 9,99%
+  assert.equal(app.calcularDiferencaProducao(18000, 20000).exigeJustificativa, true); // envasado maior: −11,1%
+  assert.equal(app.calcularDiferencaProducao(0, 10).exigeJustificativa, true);
 });
 
 test('Teste 5 — conversão de números brasileiros e internacionais', () => {
@@ -205,7 +214,6 @@ test('Demonstração: importação, cálculo completo e status esperados', () =>
   assert.equal(emb.status, STATUS.ABAIXO);
   assert.equal(rep.podeExportar, false, 'deve bloquear: justificativas pendentes');
 
-  form.justificativaDiferenca = 'Perda de linha no envase.';
   for (const l of [beta, emb]) {
     Object.assign(form.materiais[l.id], { motivo: 'Perda de processo', descricao: 'Ocorrência fictícia', acao: 'Ajuste fictício' });
   }
@@ -277,12 +285,14 @@ test('Padrão: nomes e códigos reais dos produtos aparecem no modelo, na export
   assert.equal(app.OCULTAR_CODIGOS_PRODUTOS, false);
   const wb = planilhaFicticiaComNomes();
   const modelo = app.interpretarAba(wb, app.analisarPasta(wb).sugerida);
-  assert.deepEqual(modelo.produtos.map((p) => p.nome), ['ZETAMAX GRANEL', 'OMEGAPLUS REENVASE 20 L']);
-  assert.deepEqual(modelo.produtos.map((p) => p.codigo), ['111111 / 222222', '333333']);
+  // Só o bloco com "granel" é produto; o bloco seguinte, sem "granel", vira apresentação dele.
+  assert.deepEqual(modelo.produtos.map((p) => p.nome), ['ZETAMAX GRANEL']);
+  assert.deepEqual(modelo.produtos.map((p) => p.codigo), ['111111, 222222']);
   const p1 = modelo.produtos[0];
-  assert.deepEqual(p1.apresentacoes.map((a) => [a.nome, a.codigo]), [
-    ['ZETAMAX 10x1 L', '111111'],
-    ['ZETAMAX 4x5 L', '222222'],
+  assert.deepEqual(p1.apresentacoes.map((a) => [a.nome, a.codigo, a.vinculo]), [
+    ['ZETAMAX 10x1 L', '111111', 'fórmula do total envasado'],
+    ['ZETAMAX 4x5 L', '222222', 'fórmula do total envasado'],
+    ['OMEGAPLUS REENVASE 20 L', '333333', 'posição na planilha'],
   ]);
   assert.equal(p1.unidadeBase, 'L');
   assert.ok(p1.materiais.some((m) => m.descricao === 'Rótulo ZETAMAX 1 L'));
@@ -308,16 +318,16 @@ test('Opcional (ANONIMIZAR_PRODUTOS = true): nenhum nome comercial chega ao mode
   const wb = planilhaFicticiaComNomes();
   const analise = app.analisarPasta(wb);
   const modelo = app.interpretarAba(wb, analise.sugerida);
-  assert.deepEqual(modelo.produtos.map((p) => p.nome), ['Produto 1', 'Produto 2']);
-  assert.deepEqual(modelo.produtos.map((p) => p.codigo), ['PRD-001', 'PRD-002']);
+  assert.deepEqual(modelo.produtos.map((p) => p.nome), ['Produto 1']);
+  assert.deepEqual(modelo.produtos.map((p) => p.codigo), ['PRD-001']);
   const p1 = modelo.produtos[0];
   assert.equal(p1.tipoOperacao, 'Formulação e envase');
   assert.equal(p1.unidadeBase, 'L');
   assert.deepEqual(p1.apresentacoes.map((a) => [a.nome, a.formato, a.codigo, a.vinculo]), [
     ['Apresentação 1', '10X1 L', 'PRD-001.1', 'fórmula do total envasado'],
     ['Apresentação 2', '4X5 L', 'PRD-001.2', 'fórmula do total envasado'],
+    ['Apresentação 3', '20 L', 'PRD-001.3', 'posição na planilha'],
   ]);
-  assert.equal(modelo.produtos[1].tipoOperacao, 'Reenvase');
   assert.equal(p1.materiais[1].usagem, 64.5);
   assert.equal(p1.materiais[1].perda, 0.01);
 
@@ -376,4 +386,50 @@ test('Embalagem dentro do bloco de formulação fica com vínculo pendente de re
   assert.equal(caixa.vinculoPendente, true);
   assert.equal(caixa.status, STATUS.PENDENTE);
   assert.match(caixa.motivoPendencia, /vínculo pendente/);
+});
+
+test('Layout com granel e apresentações: só o bloco "granel" é produto, nomes e códigos como na planilha', () => {
+  const f = (formula) => ({ t: 'n', v: 0, f: formula });
+  const linhas = [
+    ['Produto', 'Código', 'Quantidade produzida', 'Quantidade envasada', 'Diferença', 'Observações', 'Código dos insumos',
+      'Matérias primas e embalagens', 'Usagens indicadas na Lista Técnica', 'Usagem Teórica', 'Un.', 'Teor', 'Qtd usada em produção', 'Un.',
+      'Variação', 'Perdas estabelecidas em contrato (%)'],
+    ['Alfa® Duo Granel', '4058009029,\n4058021472', null, f('D3+D7'), f('C2-D2'), null, '4058333186', 'Alfa Duo Concentrado', 100, f('I2*$D$2/1000'), 'L', null, null, 'L', null, 0.01],
+    ['Alfa® Duo,24X0,25 L,MX', '4058009029', null, null, null, null, '4067619333', 'Frasc 250ML PET', 4000, f('I3*$D$3/1000'), 'PC', null, null, 'PC', null, 0.02],
+    [null, null, null, null, null, null, '4067616076', 'TpRs 28MM Branca', 4000, f('I4*$D$3/1000'), 'PC', null, null, 'PC', null, 0.02],
+    [null, null, null, null, null, null, '4081095186', 'ROT-Alfa Duo 250ML', 4000, f('I5*$D$3/1000'), 'PC', null, null, 'PC', null, 0.02],
+    [null, null, null, null, null, null, '4067632332', 'Box, Corrugated 24x', 167, f('I6*$D$3/1000'), 'PC', null, null, 'PC', null, 0.02],
+    ['Alfa® Duo,4X5 L,MX', '4058021472', null, null, null, null, '4067645609', 'Palete PBR', 10, f('I7*$D$7/1000'), 'PC', null, null, 'PC', null, 0.02],
+    [null, null, null, null, null, null, '4067634746', 'StrWr 500mm', 1, f('I8*$D$7/1000'), 'KG', null, null, 'KG', null, 0.05],
+    [null, null, null, null, null, null, '4067633937', "'FILME stretch", 1, f('I9*$D$7/1000'), 'KG', null, null, 'KG', null, 0.05],
+    ['Beta® 200 SC Granel', '4060000001', null, null, null, null, '4060000100', 'Beta técnico', 200, f('I10*$D$10/1000'), 'KG', 0.97, null, 'KG', null, 0.01],
+  ];
+  const ws = XLSX.utils.aoa_to_sheet(linhas);
+  ws['!merges'] = [
+    { s: { r: 2, c: 0 }, e: { r: 5, c: 0 } }, { s: { r: 2, c: 1 }, e: { r: 5, c: 1 } },
+    { s: { r: 6, c: 0 }, e: { r: 8, c: 0 } }, { s: { r: 6, c: 1 }, e: { r: 8, c: 1 } },
+  ];
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Material Usage');
+  const modelo = app.interpretarAba(wb, 'Material Usage');
+
+  // Todos os granéis aparecem, inclusive o que não tem nenhuma quantidade preenchida.
+  assert.deepEqual(modelo.produtos.map((p) => p.nome), ['Alfa® Duo Granel', 'Beta® 200 SC Granel']);
+  assert.deepEqual(modelo.produtos.map((p) => p.codigo), ['4058009029, 4058021472', '4060000001']);
+  const p = modelo.produtos[0];
+  assert.deepEqual(p.apresentacoes.map((a) => [a.nome, a.codigo, a.vinculo]), [
+    ['Alfa® Duo,24X0,25 L,MX', '4058009029', 'fórmula do total envasado'],
+    ['Alfa® Duo,4X5 L,MX', '4058021472', 'fórmula do total envasado'],
+  ]);
+  assert.equal(p.unidadeBase, 'L');
+  assert.equal(p.materiais[0].codigo, '4058333186');
+  const cat = Object.fromEntries(p.materiais.map((m) => [m.codigo, m.categoriaSugerida]));
+  assert.equal(cat['4067619333'], 'Embalagem primária');
+  assert.equal(cat['4067616076'], 'Tampa');
+  assert.equal(cat['4081095186'], 'Rótulo');
+  assert.equal(cat['4067632332'], 'Caixa');
+  assert.equal(cat['4067645609'], 'Pallet');
+  assert.equal(cat['4067634746'], 'Material auxiliar');
+  assert.equal(cat['4067633937'], 'Material auxiliar');
+  assert.equal(modelo.produtos[1].materiais[0].teor, 0.97);
 });

@@ -74,11 +74,9 @@ node --test tests/calculations.test.js
 
 - **Escolha da aba:** todas as abas são analisadas. Uma aba é compatível quando o cabeçalho tem campos equivalentes a *produto*, *matéria-prima/embalagem* e *usagem da Lista Técnica*. A aba com mais linhas de material é sugerida. Quando há mais de uma aba compatível, aparece um seletor.
 - **Cabeçalho:** procurado nas primeiras 40 linhas, com uma ou duas linhas de cabeçalho. Os rótulos são normalizados (sem acentos, sem quebras de linha, sem caixa alta, sem pontuação), e cada coluna é reconhecida por sinônimos, não por posição: produto, código, quantidade produzida/formulada, envasada, diferença, código do insumo, descrição, usagem da Lista Técnica, usagem teórica, unidade, teor, quantidade usada, variação, perda contratual, excedente, observações e análise pós-justificativa.
-- **Blocos de produto:** são formados pelas células mescladas (ou repetidas) da coluna de produto. Cada bloco é classificado como:
-  - *granel/formulação*: rótulo com "granel" ou "bulk", ou célula de quantidade envasada com fórmula que soma outros blocos;
-  - *apresentação*: rótulo com "apresentação", formato do tipo `10x1 KG` ou `20 L`, ou bloco só com embalagens;
-  - *reenvase*: rótulo com "reenvase" ou "reembalagem".
-- **Vínculo apresentação → produto:** pela fórmula do total envasado do granel (por exemplo, `=D7+D16`). Uma apresentação fora dessa fórmula é vinculada pela posição e gera pendência para revisão.
+- **Produtos:** somente os blocos cuja célula de produto contém **"granel"** (ex.: `Produto X Granel`) são produtos. Todos aparecem na lista, inclusive os que ainda não têm quantidades preenchidas. O nome e o código exibidos são os da planilha (vários códigos na mesma célula aparecem separados por vírgula).
+- **Apresentações:** todos os demais blocos (ex.: `Produto X,24X0,25 L,MX`) são apresentações (envases) de um granel. O vínculo vem da fórmula do total envasado do granel (por exemplo, `=D7+D16`). Sem essa fórmula, a apresentação é ligada ao granel imediatamente acima (ou abaixo, se não houver granel antes) e uma pendência pede revisão.
+- **Planilha sem nenhum "granel":** cada bloco vira um produto, com aviso nas pendências.
 - **Vínculo material → escopo e volume-base:** lidos da fórmula da usagem teórica. Exemplo: `=I3*$D$3/10000` indica a linha de referência (D3) e o volume-base (10.000). Se o divisor estiver em outra célula, o valor dessa célula é usado. Sem fórmula, também é aceita uma coluna de volume-base. **Quando o volume-base não é encontrado, nada é inventado:** o material fica *Pendente* e o valor é pedido em Parâmetros.
 - **Números:** aceita `2000`, `2.000`, `2.000,00`, `2008,03`, `1.310,480`, `0,02`, `0.02`, `2%`, notação científica e números gravados como texto. Perdas gravadas como `2` (sem `%`) são lidas como 2% e geram aviso.
 - **Valores já preenchidos** na planilha (quantidades, consumo real) entram como preenchimento inicial. Fórmulas que resultam em zero (modelo vazio) são ignoradas.
@@ -94,7 +92,9 @@ node --test tests/calculations.test.js
 | Limite máximo | `consumo_teorico × (1 + perda_contratual)` |
 | Variação | `(consumo_real − consumo_teorico) ÷ consumo_teorico` |
 | Excedente | `consumo_real − limite_máximo` (zero quando ≤ 0) |
-| Diferença de produção | `formulado − envasado` |
+| Diferença de produção | `formulado − envasado` e `% = diferença ÷ formulado` |
+
+A justificativa da diferença entre formulado e envasado só é pedida (e exigida) quando a diferença for de **10% ou mais** do formulado, em qualquer sentido. Abaixo disso, o campo não aparece. O limite fica em `LIMITE_DIFERENCA_FORMULADO_ENVASADO`, no topo do `app.js`.
 
 Status:
 - **Dentro do esperado:** teórico ≤ real ≤ limite máximo.
@@ -111,7 +111,7 @@ O **teor** do ingrediente ativo aparece apenas como informação. Nenhuma corre�
 ## Validações que bloqueiam a exportação
 
 - data do reporte ausente; quantidade formulada ou envasada ausente, inválida ou negativa; unidade da formulação não selecionada;
-- diferença formulado − envasado sem justificativa;
+- diferença formulado − envasado de 10% ou mais sem justificativa;
 - soma das apresentações diferente do total envasado, sem correção ou justificativa;
 - consumo real inválido ou negativo; unidade do consumo incompatível (KG×L, por exemplo; G→KG e ML→L são convertidos);
 - perda contratual fora do intervalo de 0% a 100%;

@@ -13,7 +13,12 @@ const ANONIMIZAR_PRODUTOS = false;
 // por PRD-001, PRD-002... (e PRD-001.1, PRD-001.2... para apresentações).
 const OCULTAR_CODIGOS_PRODUTOS = false;
 
+// A justificativa da diferença entre formulado e envasado só é exigida quando
+// a diferença for de 10% ou mais da quantidade formulada.
+const LIMITE_DIFERENCA_FORMULADO_ENVASADO = 0.1;
+
 const CONFIG = {
+  limiteDiferencaProducao: LIMITE_DIFERENCA_FORMULADO_ENVASADO,
   anonimizarProdutos: ANONIMIZAR_PRODUTOS,
   ocultarCodigosProdutos: OCULTAR_CODIGOS_PRODUTOS,
   // Quantas linhas do topo de cada aba são examinadas à procura do cabeçalho.
@@ -349,13 +354,20 @@ function exigeJustificativa(status, foraEspecificacaoManual) {
   return status === STATUS.ABAIXO || status === STATUS.ACIMA || foraEspecificacaoManual === 'Sim';
 }
 
-/** diferença = formulado − envasado */
-function calcularDiferencaProducao(formulado, envasado) {
+/**
+ * diferença = formulado − envasado; percentual = diferença ÷ formulado.
+ * Justificativa exigida somente quando |percentual| ≥ limite (padrão 10%).
+ */
+function calcularDiferencaProducao(formulado, envasado, limite = CONFIG.limiteDiferencaProducao) {
   const valido = (n) => typeof n === 'number' && Number.isFinite(n) && n >= 0;
-  if (!valido(formulado) || !valido(envasado)) return { diferenca: null, exigeJustificativa: false };
+  if (!valido(formulado) || !valido(envasado)) return { diferenca: null, percentual: null, exigeJustificativa: false };
   const diferenca = arredondar(formulado - envasado);
   const tolerancia = CONFIG.toleranciaRelativa * Math.max(1, Math.abs(formulado));
-  return { diferenca, exigeJustificativa: Math.abs(diferenca) > tolerancia };
+  if (formulado <= 0) {
+    return { diferenca, percentual: null, exigeJustificativa: Math.abs(diferenca) > tolerancia };
+  }
+  const percentual = arredondar(diferenca / formulado);
+  return { diferenca, percentual, exigeJustificativa: Math.abs(diferenca) >= limite * formulado - tolerancia };
 }
 
 function somarApresentacoes(valores) {
@@ -380,16 +392,16 @@ function valoresIguais(a, b) {
  * ===================================================================== */
 
 const REGRAS_CATEGORIA = [
-  [/\b(rotulo|rotulos|etiqueta|etiquetas|label|bula|folheto|contra rotulo)\b/, 'Rótulo'],
-  [/\b(tampa|tampas|batoque|lacre|tampinha|cap|valvula|selo de inducao|sobretampa)\b/, 'Tampa'],
-  [/\b(caixa|caixas|cx|cartucho|papelao|carton|master)\b/, 'Caixa'],
+  [/\b(rotulo|rotulos|rot|etiqueta|etiquetas|etq|etiq|label|bula|folheto|contra rotulo)\b/, 'Rótulo'],
+  [/\b(tampa|tampas|tp|tpa|tprs|batoque|lacre|tampinha|cap|valvula|selo de inducao|sobretampa)\b/, 'Tampa'],
+  [/\b(caixa|caixas|cx|box|cartucho|papelao|carton|master)\b/, 'Caixa'],
   [/\b(pallet|pallets|palete|paletes|palet)\b/, 'Pallet'],
   [/\b(embalagem secundaria|shrink|termo encolhivel|fardo|display)\b/, 'Embalagem secundária'],
   [
-    /\b(frasco|frascos|bombona|bombonas|galao|galoes|balde|garrafa|tambor|tambores|ibc|container|conteiner|lata|saco|sacos|sache|bag|big bag|pote|bisnaga|embalagem primaria)\b/,
+    /\b(frasco|frascos|frasc|fco|bombona|bombonas|galao|galoes|balde|garrafa|tambor|tambores|ibc|container|conteiner|lata|saco|sacos|sache|bag|big bag|pote|bisnaga|embalagem primaria)\b/,
     'Embalagem primária',
   ],
-  [/\b(stretch|fita|cantoneira|filme|adesivo|cola|tinta|ribbon|separador|intercalador|arquear|fitilho)\b/, 'Material auxiliar'],
+  [/\b(stretch|strwr|str wr|fita|cantoneira|cant|filme|film|adesivo|cola|tinta|ribbon|separador|intercalador|arquear|fitilho)\b/, 'Material auxiliar'],
   [/\b(ingrediente ativo|principio ativo|ativo|tecnico|ia)\b/, 'Ingrediente ativo'],
   [
     /\b(materia prima|materias primas|mp|solvente|emulsificante|tensoativo|agua|aditivo|corante|espessante|antiespumante|conservante|veiculo|inerte|carga|dispersante|umectante)\b/,
@@ -957,6 +969,16 @@ function interpretarAba(workbook, nomeAba) {
     return a;
   };
 
+  // Produto é somente o bloco com "granel" no nome; os demais blocos são
+  // apresentações (envases) de um granel. Sem nenhum granel na aba, cada bloco
+  // vira um produto, para que a planilha ainda possa ser reportada.
+  const temGranelNoNome = blocos.some((b) => PADRAO_GRANEL.test(b.rotuloNorm));
+  if (temGranelNoNome) {
+    for (const b of blocos) b.tipo = PADRAO_GRANEL.test(b.rotuloNorm) ? 'granel' : 'apresentacao';
+  } else if (blocos.length) {
+    pend('aviso', 'Nenhuma célula de produto contém "granel": cada bloco da planilha foi tratado como um produto.');
+  }
+
   for (const b of blocos) {
     if (b.tipo === 'granel') b.produto = criarProduto(b, 'Formulação (granel)');
     else if (b.tipo === 'produto') b.produto = criarProduto(b, 'Não identificado');
@@ -990,8 +1012,15 @@ function interpretarAba(workbook, nomeAba) {
             : 'vínculo com o produto atribuído pela posição na planilha.')
       );
     } else {
-      b.produto = criarProduto(b, 'Envase');
-      b.apresentacao = criarApresentacao(b.produto, b, 'próprio bloco');
+      const proximo = temGranelNoNome ? blocos.find((g) => g.tipo === 'granel' && g.inicio > b.inicio) : null;
+      if (proximo) {
+        b.produto = proximo.produto;
+        b.apresentacao = criarApresentacao(proximo.produto, b, 'posição na planilha');
+        pend('aviso', `${proximo.produto.nome} › ${b.apresentacao.nome} (linha ${b.inicio + 1}): apresentação acima do granel; vínculo atribuído pela posição — revisar.`);
+      } else {
+        b.produto = criarProduto(b, 'Envase');
+        b.apresentacao = criarApresentacao(b.produto, b, 'próprio bloco');
+      }
     }
   }
 
@@ -1048,7 +1077,7 @@ function interpretarAba(workbook, nomeAba) {
       else if (a.baseDetectada === null) pend('aviso', `${p.nome} › ${a.nome}: volume-base não identificado — informe em Parâmetros.`);
       if (!CONFIG.ocultarCodigosProdutos) {
         const cods = a.blocos.flatMap((b) => separarCodigos(textoCelula(b.celCodigo)));
-        a.codigo = cods.length ? [...new Set(cods)].join(' / ') : '—';
+        a.codigo = cods.length ? [...new Set(cods)].join(', ') : '—';
       }
       const env = a.blocos.map((b) => b.celEnvasada).find(valorPreenchido);
       if (env) p.prefill.apresentacoes[a.id] = numeroCelula(env);
@@ -1074,7 +1103,7 @@ function interpretarAba(workbook, nomeAba) {
       // Granel sem código próprio: usa os códigos das suas apresentações.
       let cods = p.blocos.flatMap((b) => separarCodigos(textoCelula(b.celCodigo)));
       if (!cods.length) cods = p.apresentacoes.map((a) => a.codigo).filter((c) => c && c !== '—');
-      p.codigo = cods.length ? [...new Set(cods)].join(' / ') : '—';
+      p.codigo = cods.length ? [...new Set(cods)].join(', ') : '—';
     }
     const celF = p.blocos.map((b) => b.celFormulada).find(valorPreenchido);
     const celE = p.blocos.filter((b) => b.tipo !== 'apresentacao').map((b) => b.celEnvasada).find(valorPreenchido);
@@ -1323,7 +1352,11 @@ function calcularReporte(produto, form) {
 
   const dif = calcularDiferencaProducao(formulado, envasado);
   const justificativaDiferencaPendente = dif.exigeJustificativa && !String(form.justificativaDiferenca || '').trim();
-  if (justificativaDiferencaPendente) erros.push('Informe a justificativa para a diferença entre formulado e envasado.');
+  if (justificativaDiferencaPendente) {
+    erros.push(
+      `Informe a justificativa para a diferença entre formulado e envasado (${formatarPercentual(dif.percentual)}, limite de ${formatarPercentual(CONFIG.limiteDiferencaProducao)}).`
+    );
+  }
 
   // Apresentações
   const qtdApresentacao = {};
@@ -1513,6 +1546,7 @@ function calcularReporte(produto, form) {
     formulado,
     envasado,
     diferenca: dif.diferenca,
+    diferencaPercentual: dif.percentual,
     exigeJustificativaDiferenca: dif.exigeJustificativa,
     qtdApresentacao,
     somaApresentacoes,
@@ -1536,6 +1570,7 @@ const REGRAS_APLICADAS = [
   'Embalagens: consumo teórico = (usagem da Lista Técnica × quantidade envasada da apresentação) ÷ volume-base da apresentação.',
   'Limite inferior = consumo teórico; limite máximo = consumo teórico × (1 + perda contratual).',
   'Variação = (consumo real − consumo teórico) ÷ consumo teórico.',
+  'Justificativa da diferença formulado − envasado exigida apenas quando a diferença for de 10% ou mais do formulado.',
   'Excedente contratual = consumo real − limite máximo (zero quando negativo).',
   'Status: abaixo do teórico se real < teórico; acima do contrato se real > limite máximo; dentro do esperado no intervalo.',
   'Teor do ingrediente ativo exibido apenas como informação (sem correção aplicada).',
@@ -1560,6 +1595,7 @@ function montarDadosExportacao(produto, form, rep, pendenciasImportacao) {
     ['Quantidade formulada', rep.formulado],
     ['Quantidade envasada', rep.envasado],
     ['Diferença (formulado − envasado)', rep.diferenca],
+    ['Diferença (% do formulado)', rep.diferencaPercentual === null ? '' : formatarPercentual(rep.diferencaPercentual)],
     ['Justificativa da diferença', form.justificativaDiferenca || ''],
     [],
     ['Apresentação', 'Código', 'Quantidade envasada', 'Unidade'],
@@ -2295,7 +2331,11 @@ function iniciarApp() {
     const f = formAtual();
     const rep = calcularReporte(p, f);
 
-    el.diferenca.textContent = rep.diferenca === null ? '—' : `${formatarNumero(rep.diferenca)} ${f.unidade || ''}`;
+    el.diferenca.textContent =
+      rep.diferenca === null
+        ? '—'
+        : `${formatarNumero(rep.diferenca)}${f.unidade ? ' ' + f.unidade : ''}` +
+          (rep.diferencaPercentual !== null ? ` (${formatarPercentual(rep.diferencaPercentual)})` : '');
     el.diferenca.className = 'valor-calculado ' + (rep.exigeJustificativaDiferenca ? 'laranja' : rep.diferenca === null ? '' : 'verde');
     el.justDifBox.hidden = !rep.exigeJustificativaDiferenca;
     el.justDif.classList.toggle('invalido', rep.exigeJustificativaDiferenca && !f.justificativaDiferenca.trim());
@@ -2361,7 +2401,12 @@ function iniciarApp() {
     const cards = [
       ['Quantidade formulada', formatarNumero(rep.formulado) + (rep.formulado !== null ? u : ''), 'azul'],
       ['Quantidade envasada', formatarNumero(rep.envasado) + (rep.envasado !== null ? u : ''), 'azul'],
-      ['Diferença', formatarNumero(rep.diferenca) + (rep.diferenca !== null ? u : ''), rep.exigeJustificativaDiferenca ? 'laranja' : 'cinza'],
+      [
+        'Diferença',
+        formatarNumero(rep.diferenca) + (rep.diferenca !== null ? u : '') +
+          (rep.diferencaPercentual !== null ? ` (${formatarPercentual(rep.diferencaPercentual)})` : ''),
+        rep.exigeJustificativaDiferenca ? 'laranja' : 'cinza',
+      ],
       ['Total de materiais', rep.contagem.total, 'cinza'],
       ['Dentro do esperado', rep.contagem.dentro, 'verde'],
       ['Abaixo do teórico', rep.contagem.abaixo, rep.contagem.abaixo ? 'vermelho' : 'cinza'],
