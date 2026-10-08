@@ -30,11 +30,30 @@ def test_vaos_livres_is_rho_at_theta_plus_180():
                                    rho, rtol=1e-12)
 
 
-def test_diff_s_s10_has_no_double_radians():
-    s = m.calculate_array_vaos_livres(m.THETA)
-    s10 = m.calculate_array_vaos_livres(10.0)
-    delta = m.calculate_diff_s_s10(s, s10)
-    assert delta[0] == 0.0
+def test_s_zero_matches_calibration():
+    assert abs(m.s_zero(m.H_CALIBRADO) - 252.65) < 1e-3
+
+
+def test_delta_is_zero_when_cable_slack():
+    s = np.array([m.s_zero() - 5.0, m.s_zero(), m.s_zero() + 5.0])
+    np.testing.assert_allclose(m.calculate_delta(s), [0.0, 0.0, 5.0])
+
+
+def test_tau_equals_minus_force_times_perpendicular_arm(res):
+    np.testing.assert_allclose(res["tau"]*1000, -res["force"]*res["m"],
+                               rtol=1e-12, atol=1e-8)
+
+
+def test_guards_raise():
+    with pytest.raises(ValueError):
+        m.calculate_tangent_span(m.R)
+    with pytest.raises(ValueError):
+        m.angulo_beta(np.array([10.0]))
+
+
+def test_dead_point_closed_form_matches_root():
+    for h in (m.H, m.H_CALIBRADO):
+        assert abs(m.ponto_morto(h) - m.ponto_morto_numerico(h)) < 1e-8
 
 
 def test_b_vector_is_the_tangent_point(res):

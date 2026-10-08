@@ -253,7 +253,7 @@ def main():
     print(f"   τ modelo = {TORQUE_SIGN_PATENT*pose['tau'][0]:.2f} N·m, "
           f"patente (interpolada) = {patent_at_pose:.2f} N·m")
     print(f"   δ na pose = {pose['delta'][0]:.2f} mm;  L_CARCACA − "
-          f"SPRING_POSE = {model.L_CARCACA - model.SPRING_POSE:.2f} mm")
+          f"L_POSE = {model.L_CARCACA - model.L_POSE:.2f} mm")
     print(f"\nFiguras e tabelas em {RESULTS}/")
 
 
