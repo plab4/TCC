@@ -12,7 +12,7 @@ def grad(y):
 
 
 def test_position_is_rho_of_torque_model():
-    np.testing.assert_allclose(RES["S"], m.calculate_rho(m.calculate_q(THETA)),
+    np.testing.assert_allclose(RES["S"], m.calculate_rho(m.calculate_q(THETA), m.H_CAD),
                                rtol=1e-12)
 
 

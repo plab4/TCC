@@ -28,18 +28,18 @@ def test_k_is_the_least_squares_minimum():
 
 def test_torque_is_linear_in_k():
     theta = PATENT["theta_star"]
-    np.testing.assert_allclose(cal.model_torque(2.0, m.H, theta),
-                               2*cal.model_torque(1.0, m.H, theta))
+    np.testing.assert_allclose(cal.model_torque(2.0, m.H_CAD, theta),
+                               2*cal.model_torque(1.0, m.H_CAD, theta))
 
 
 def test_delta_never_negative_in_patent_range():
-    res = m.calculate_torque_curve(1.0, m.H, PATENT["theta_star"])
+    res = m.calculate_torque_curve(1.0, m.H_CAD, PATENT["theta_star"])
     assert np.all(res["delta"] >= 0)
 
 
 def test_sweep_keeps_k_fixed():
     k, _ = cal.calibrate_k(PATENT)
-    rows = cal.sweep_h(k, [30.0, m.H, 40.0], PATENT)
+    rows = cal.sweep_h(k, [30.0, m.H_CAD, 40.0], PATENT)
     for row in rows:
         direct = cal.model_torque(k, row["H"], PATENT["theta_star"])
         rmse = np.sqrt(np.mean((direct - PATENT["torque"])**2))

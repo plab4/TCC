@@ -4,6 +4,7 @@ Modelo de torque do mecanismo cabo + tambor + braço, em função de θ*.
 Cadeia de cálculo (cada etapa é uma função abaixo):
 
     θ*  →  q  →  ρ  →  s  →  φ  →  T (b_vector)  →  V_vector  →  τ
+                            └→ caminho = s − R·rel  →  δ  →  f = K·δ
                                       └→ b, β, m (relatório)
 
 Unidades: comprimentos em mm. Ângulos em graus na entrada (ALPHA, THETA, ...)
@@ -13,12 +14,14 @@ foi calibrado contra ela e a ordenada da patente não tem unidade declarada.
 O torque do peso (torque_peso) sai em N·m. Não há conversão entre os dois.
 
 Sinal: τ positivo = anti-horário = sentido de θ* crescente.
-Parâmetros K, H_CALIBRADO e L_LIVRE são congelados: nada é ajustado aqui.
+Parâmetros K, H_CALIBRADO e X_POSE são congelados: nada é ajustado aqui.
+h é argumento obrigatório em toda a cadeia; H_CAD é só valor documental.
 """
 import numpy as np
 
 # ---------------------------------------------------------------- geometria
-H = 34.785   # mm, componente h do vetor fixo pivô → ancoragem (a variar)
+H_CAD = 34.785  # mm, componente h do vetor pivô → ancoragem no CAD. Valor
+                # documental: NÃO é o parâmetro do modelo (ver H_CALIBRADO).
 P = 3.155    # mm, componente p do vetor fixo pivô → ancoragem
 C = 283.438  # mm, braço: pivô → centro do tambor
 R = 22.827   # mm, raio do tambor
@@ -28,8 +31,11 @@ ALPHA = 20.428  # graus
 # Dois valores conflitam com o CAD usado antes. Nenhum foi escolhido em
 # silêncio: os atuais ficam ativos até a confirmação.
 L_CARCACA = 131.37  # mm, CAD anterior: 140,0. Não é usado na cadeia.
-L_POSE = 91.35      # mm, comprimento da mola na pose THETA_POSE. CAD anterior:
-                    # 90,13. Se for 90,13, L_LIVRE cai 1,22 mm para manter s_zero.
+# Par documental da mola: a curva depende só de X_POSE = L_POSE − L_LIVRE,
+# então o conflito 91,35 × 90,13 não muda o ajuste, só a mola a comprar.
+# Pares coerentes: (91,35; 53,967) ou (90,13; 52,747).
+L_POSE = 91.35      # mm, comprimento da mola na pose THETA_POSE. CAD anterior: 90,13.
+L_LIVRE = 53.967    # mm, comprimento livre da mola, coerente com L_POSE = 91,35.
 
 THETA_POSE = 115.017  # graus, pose medida no CAD
 
@@ -44,9 +50,13 @@ THETA = np.append(np.arange(THETA_MIN, THETA_MAX, 0.5), THETA_MAX)  # graus
 
 # ------------------------------------------- parâmetros calibrados (congelados)
 # Calibrados fora deste arquivo contra a curva da patente; aqui só são usados.
-K = 175.43          # rigidez da mola: K·δ·m/1000 sai em u.p. (seria N/mm se u.p. = N·m)
-H_CALIBRADO = 22.701  # mm, H que reproduz a patente com K e L_LIVRE
-L_LIVRE = 53.892    # mm, comprimento livre da mola: s_zero(H_CALIBRADO) = 252,65 mm
+K = 174.68          # rigidez da mola: K·δ·m/1000 sai em u.p. (seria N/mm se u.p. = N·m)
+H_CALIBRADO = 22.701  # mm, H que reproduz a patente com K e X_POSE
+X_POSE = 37.383     # mm, extensão elástica da mola na pose THETA_POSE. É a única
+                    # combinação de L_POSE e L_LIVRE que o ajuste identifica.
+
+H = H_CAD  # apelido só para calibration.py e svaj.py (defasados, intocados
+           # nesta rodada). Nenhuma função deste arquivo usa H.
 
 
 # ======================================================================
@@ -58,7 +68,7 @@ def calculate_q(theta_star):
     return np.radians(theta_star) - np.pi/2 - np.radians(ALPHA)
 
 
-def calculate_base_vector(h=H):
+def calculate_base_vector(h):
     """B = (h sen α − p cos α,  h cos α + p sen α).
 
     São os termos constantes de f1 e f2: o vetor fixo pivô → ancoragem.
@@ -67,7 +77,7 @@ def calculate_base_vector(h=H):
     return h*np.sin(a) - P*np.cos(a), h*np.cos(a) + P*np.sin(a)
 
 
-def calculate_rho(q, h=H):
+def calculate_rho(q, h):
     """ρ: distância da ancoragem ao centro do tambor, |B + C·(cos q, sen q)|."""
     bx, by = calculate_base_vector(h)
     return np.hypot(bx + C*np.cos(q), by + C*np.sin(q))
@@ -84,7 +94,7 @@ def calculate_tangent_span(rho):
     return np.sqrt(rho**2 - R**2)
 
 
-def calculate_phi(q, s, h=H):
+def calculate_phi(q, s, h):
     """φ: direção do cabo, isolada analiticamente das equações de fechamento.
 
     Deixando de um lado só os termos com φ:
@@ -99,7 +109,7 @@ def calculate_phi(q, s, h=H):
     return np.arctan2(wy, wx) - np.arctan2(R, s)
 
 
-def ponto_morto(h=H):
+def ponto_morto(h):
     """θ* do ponto morto em forma fechada [graus].
 
     No ponto morto a linha do cabo passa pelo pivô (m = 0, τ = 0):
@@ -108,7 +118,7 @@ def ponto_morto(h=H):
     return 180.0 + np.degrees(np.arctan2(P, h)) + np.degrees(np.arcsin(R/C))
 
 
-def ponto_morto_numerico(h=H, tol=1e-10):
+def ponto_morto_numerico(h, tol=1e-10):
     """θ* do ponto morto pela raiz de m(θ*), por bissecção [graus].
 
     Só serve de autoteste para ponto_morto; não ajusta nenhum parâmetro.
@@ -130,7 +140,7 @@ def ponto_morto_numerico(h=H, tol=1e-10):
     return 0.5*(a + b)
 
 
-def calculate_closure_residuals(q, s, phi, h=H):
+def calculate_closure_residuals(q, s, phi, h):
     """f1 e f2 como escritos, para conferir a solução (devem dar ≈ 0).
 
     O comprimento que multiplica cos φ e sen φ é o vão s: com q (radianos)
@@ -148,31 +158,50 @@ def calculate_closure_residuals(q, s, phi, h=H):
 # 2. Fórmulas originais: deslocamento δ, b, β e torque
 # ======================================================================
 
-def calculate_array_vaos_livres(theta, h=H):
+def calculate_array_vaos_livres(theta, h):
     """Fórmula original (agora com a raiz; antes devolvia s²).
 
-    Atenção: o termo 2C(...) tem sinal oposto ao das equações de fechamento,
-    então isto é igual a calculate_rho(calculate_q(theta + 180)). Mantida para
-    comparação; a cadeia usa calculate_rho. A patente deve decidir.
+    O termo 2C(...) tem sinal oposto ao das equações de fechamento. Equivale a
+    calculate_rho(calculate_q(θ* + 180)), verificado numericamente (diferença
+    5,7e-14 mm). Não é a formulação usada: a cadeia usa calculate_rho, que vem
+    das equações de fechamento. Mantida apenas como referência histórica.
     """
     t = np.radians(theta)
     return np.sqrt(h**2 + P**2 + C**2 + 2*C*(h*np.cos(t) + P*np.sin(t)))
 
 
-def s_zero(h=H):
-    """Valor de s em que a mola atinge o comprimento livre (força nula) [mm].
+def angulo_cabo_elo(q, phi):
+    """rel: ângulo entre a direção do cabo e a direção do elo (pivô → centro do
+    tambor), contínuo em (−π, π]. Vai de −4,656° a 0,019° na faixa de operação."""
+    return np.angle(np.exp(1j*(phi - (q + np.pi))))
 
-    A mola mede L_POSE na pose THETA_POSE e se alonga junto com s, então
-    comprimento da mola = L_POSE + (s − s_pose). Ela relaxa quando esse
-    comprimento vale L_LIVRE.
+
+def comprimento_caminho(q, s, phi):
+    """Caminho variável do cabo [mm], a partir das grandezas já obtidas na cadeia:
+    vão reto menos o arco enrolado no tambor.
+
+    O sinal vem do trabalho virtual: d(caminho)/dθ* = m só com s − R·rel
+    (ver residuo_trabalho_virtual).
     """
-    s_pose = calculate_tangent_span(calculate_rho(calculate_q(THETA_POSE), h))
-    return s_pose - L_POSE + L_LIVRE
+    return s - R*angulo_cabo_elo(q, phi)
 
 
-def calculate_delta(s, h=H):
+def caminho_cabo(theta_star, h):
+    """Mesmo caminho, a partir de θ*. Usado por s_zero e pelo teste de trabalho
+    virtual, que precisam dele fora da cadeia."""
+    q = calculate_q(theta_star)
+    s = calculate_tangent_span(calculate_rho(q, h))
+    return comprimento_caminho(q, s, calculate_phi(q, s, h))
+
+
+def s_zero(h):
+    """Valor do caminho em que a mola atinge o comprimento livre (força nula) [mm]."""
+    return caminho_cabo(THETA_POSE, h) - X_POSE
+
+
+def calculate_delta(caminho, h):
     """δ = extensão elástica da mola [mm]. O cabo traciona, mas não empurra."""
-    return np.maximum(s - s_zero(h), 0.0)
+    return np.maximum(caminho - s_zero(h), 0.0)
 
 
 def ponto_tangencia(q, phi):
@@ -186,7 +215,7 @@ def ponto_tangencia(q, phi):
     return centro_polia + R*np.array([np.sin(phi), -np.cos(phi)])
 
 
-def distancia_ponto_tangencia(s, phi, h=H):
+def distancia_ponto_tangencia(s, phi, h):
     """b: distância do pivô ao ponto onde o cabo toca o tambor [mm].
 
     NÃO é o braço de momento: o ponto de tangência está no círculo de raio R
@@ -216,12 +245,12 @@ def angulo_beta(b):
     return np.arccos(cos_beta)
 
 
-def braco_perpendicular(phi, h=H):
+def braco_perpendicular(phi, h):
     """m: braço de momento do cabo, distância perpendicular do pivô à linha
     de ação do cabo [mm], com sinal: m = A_x·sen φ − A_y·cos φ.
 
     A = vetor base (pivô → ancoragem). A linha de ação passa por A, então
-    |m| ≤ |A| = √(H² + P²) (34,93 mm com H = 34,785).
+    |m| ≤ |A| = √(h² + P²) (34,93 mm com H_CAD; 22,92 mm com H_CALIBRADO).
 
     Identidade verificada: τ = −F·m (τ positivo = anti-horário).
     """
@@ -254,7 +283,7 @@ def torque_peso(theta_star):
     O CG é dado na pose THETA_POSE, no referencial do desenho. Ele gira
     (θ* − THETA_POSE) com o elo, e o desenho ainda gira (ALPHA + 90 −
     ANGLE_OFFSET) = −22,589° para alinhar a vertical do desenho com a da
-    configuração calibrada. Não usa K, L_LIVRE, H nem a cadeia do cabo.
+    configuração calibrada. Não usa K, X_POSE, h nem a cadeia do cabo.
     Inércia (Steiner) não entra: o torque é estático.
     """
     giro = np.radians(np.asarray(theta_star, dtype=float) - THETA_POSE
@@ -267,7 +296,7 @@ def torque_peso(theta_star):
 # 4. Cadeia completa
 # ======================================================================
 
-def generate_graph_torque_theta_star_relation(force, h=H, theta=THETA):
+def generate_graph_torque_theta_star_relation(force, h, theta=THETA):
     """Calcula todas as grandezas para cada θ*.
 
     force: tração do cabo f, número ou array do tamanho de theta. Com
@@ -284,8 +313,10 @@ def generate_graph_torque_theta_star_relation(force, h=H, theta=THETA):
     phi = calculate_phi(q, s, h)
     f1, f2 = calculate_closure_residuals(q, s, phi, h)
 
-    # extensão da mola a partir do comprimento livre
-    delta = calculate_delta(s, h)
+    # caminho do cabo (vão reto menos arco no tambor) e extensão da mola
+    arco = R*angulo_cabo_elo(q, phi)
+    caminho = comprimento_caminho(q, s, phi)
+    delta = calculate_delta(caminho, h)
 
     # ponto de tangência (cadeia) e, para relatório, b, β e o braço m
     b_vector = ponto_tangencia(q, phi)                               # mm
@@ -304,7 +335,8 @@ def generate_graph_torque_theta_star_relation(force, h=H, theta=THETA):
     tau = torque_patent(b_vector, V_vector) / 1000
 
     return dict(theta_star=theta, q=q, rho=rho, s=s, phi=phi, f1=f1, f2=f2,
-                delta=delta, b=b, beta=beta, m=m, force=f,
+                arco=arco, caminho=caminho, delta=delta,
+                b=b, beta=beta, m=m, force=f,
                 b_vector=b_vector, b_vector_beta=b_vector_beta,
                 erro_T=erro_T, V_vector=V_vector, tau=tau)
 
@@ -314,7 +346,7 @@ def spring_force(k, delta):
     return k*delta
 
 
-def calculate_torque_curve(k, h=H, theta=THETA):
+def calculate_torque_curve(k, h, theta=THETA):
     """Cadeia completa com f = K·δ, para um K e um H dados (τ em u.p.)."""
     geometry = generate_graph_torque_theta_star_relation(0.0, h, theta)
     force = spring_force(k, geometry["delta"])
@@ -324,6 +356,15 @@ def calculate_torque_curve(k, h=H, theta=THETA):
 # ======================================================================
 # 5. Autotestes, relatório e gráfico
 # ======================================================================
+
+def residuo_trabalho_virtual(h, passo=1e-4):
+    """max|d(caminho)/dθ* − m| [mm]. ~0 num mecanismo conservativo."""
+    th = np.linspace(THETA_MIN, THETA_MAX, 2001)
+    d = (caminho_cabo(th + passo, h) - caminho_cabo(th - passo, h))/np.radians(2*passo)
+    q = calculate_q(th)
+    s = calculate_tangent_span(calculate_rho(q, h))
+    return np.max(np.abs(d - braco_perpendicular(calculate_phi(q, s, h), h)))
+
 
 def autotestes(h=H_CALIBRADO):
     """Confere a cadeia com força unitária e devolve os números."""
@@ -335,12 +376,16 @@ def autotestes(h=H_CALIBRADO):
         "T_duas_vias": r["erro_T"],
         "ponto_morto_fechado": ponto_morto(h),
         "ponto_morto_numerico": ponto_morto_numerico(h),
+        "trabalho_virtual": residuo_trabalho_virtual(h),
+        "par_mola": abs((L_POSE - L_LIVRE) - X_POSE),
     }
     assert numeros["residuo_f1"] < 1e-9 and numeros["residuo_f2"] < 1e-9
     assert numeros["tau_mais_F_m"] < 1e-9
     assert numeros["T_duas_vias"] < 1e-9
     assert abs(numeros["ponto_morto_fechado"]
                - numeros["ponto_morto_numerico"]) < 1e-8
+    assert numeros["trabalho_virtual"] < 1e-3
+    assert numeros["par_mola"] < 1e-9
     return numeros
 
 
@@ -407,8 +452,9 @@ if __name__ == "__main__":
     from patent_data import load_patent_data
 
     h = H_CALIBRADO
-    print(f"Parâmetros congelados: K = {K}, H = {h} mm, L_LIVRE = {L_LIVRE} mm, "
-          f"L_POSE = {L_POSE} mm → s_zero = {s_zero(h):.3f} mm")
+    print(f"Parâmetros congelados: K = {K}, H = {h} mm, X_POSE = {X_POSE} mm "
+          f"→ s_zero = {s_zero(h):.4f} mm (caminho na pose "
+          f"{caminho_cabo(THETA_POSE, h):.4f} mm)")
 
     # autotestes (sempre impressos)
     a = autotestes(h)
@@ -419,18 +465,21 @@ if __name__ == "__main__":
     print(f"  ponto de tangência:     direto × (b, β) = {a['T_duas_vias']:.1e} mm")
     print(f"  ponto morto:            forma fechada {a['ponto_morto_fechado']:.4f}°, "
           f"numérico {a['ponto_morto_numerico']:.4f}°")
+    print(f"  trabalho virtual:       max|d(caminho)/dθ* − m| = {a['trabalho_virtual']:.1e} mm")
+    print(f"  par da mola:            |(L_POSE − L_LIVRE) − X_POSE| = {a['par_mola']:.1e} mm")
 
     # tabela em ângulos representativos
     angulos = np.array([THETA_MIN, 60.0, 90.0, THETA_POSE, 133.58, 160.0,
                         ponto_morto(h), THETA_MAX])
     r = calculate_torque_curve(K, h, angulos)
     peso = torque_peso(angulos)
-    print("\n   θ*(°)    φ(°)    q(°)   ρ(mm)   s(mm)   δ(mm)   b(mm)   β(°)"
-          "   m(mm)   τ cabo(u.p.)  τ peso(N·m)")
+    print("\n   θ*(°)    φ(°)    q(°)   ρ(mm)   s(mm) arco(mm) caminho   δ(mm)"
+          "   b(mm)   β(°)   m(mm)   τ cabo(u.p.)  τ peso(N·m)")
     for i, th in enumerate(angulos):
         print(f"{th:8.3f} {np.degrees(r['phi'][i]):7.2f} "
               f"{np.degrees(r['q'][i]):7.2f} {r['rho'][i]:7.2f} "
-              f"{r['s'][i]:7.2f} {r['delta'][i]:7.2f} {r['b'][i]:7.2f} "
+              f"{r['s'][i]:7.2f} {r['arco'][i]:8.3f} {r['caminho'][i]:7.2f} "
+              f"{r['delta'][i]:7.2f} {r['b'][i]:7.2f} "
               f"{np.degrees(r['beta'][i]):6.3f} {r['m'][i]:7.3f} "
               f"{r['tau'][i]:13.3f} {peso[i]:12.3f}")
     print("u.p. = unidade da curva da patente. τ positivo = anti-horário.")
@@ -439,15 +488,17 @@ if __name__ == "__main__":
     curva = calculate_torque_curve(K, h, THETA)["tau"]
     positivo = THETA[curva > 0]
     print(f"\nPonto morto: θ* = {ponto_morto(h):.2f}° (φ_pat = "
-          f"{ANGLE_OFFSET - ponto_morto(h):.2f}°). Com H do CAD ({H} mm): "
-          f"{ponto_morto(H):.2f}° (φ_pat = {ANGLE_OFFSET - ponto_morto(H):.2f}°).")
+          f"{ANGLE_OFFSET - ponto_morto(h):.3f}°). Com H_CAD ({H_CAD} mm): "
+          f"{ponto_morto(H_CAD):.2f}° (φ_pat = {ANGLE_OFFSET - ponto_morto(H_CAD):.2f}°).")
     if positivo.size:
         print(f"τ do cabo troca de sinal (fica positivo) de θ* = "
               f"{positivo.min():.3f}° a {positivo.max():.3f}°.")
     patente = load_patent_data()
     tau_p = calculate_torque_curve(K, h, patente["theta_star"])["tau"]
     print(f"RMSE de −τ contra a patente: "
-          f"{np.sqrt(np.mean((-tau_p - patente['torque'])**2)):.3f} u.p.")
+          f"{np.sqrt(np.mean((-tau_p - patente['torque'])**2)):.3f} u.p.; pico nos "
+          f"pontos da patente {np.max(-tau_p):.3f} (alvo "
+          f"{patente['torque'].max():.3f}), na grade THETA {np.max(-curva):.3f}")
 
     saida = Path(__file__).parent/"results"/"torque_cabo_peso.png"
     saida.parent.mkdir(exist_ok=True)
