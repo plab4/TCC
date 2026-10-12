@@ -6,11 +6,10 @@ from patent_data import load_patent_data
 
 THETA = np.linspace(m.THETA_MIN, m.THETA_MAX, 1501)
 PATENTE = load_patent_data()
-PESO = m.torque_peso(THETA)
 
 
 def avaliar(h):
-    return m.vh_avaliar_h(h, THETA, PATENTE, PESO, 1e-6)
+    return m.vh_avaliar_h(h, THETA, PATENTE, 1e-6)
 
 
 def test_enrolamento_nao_e_criterio():
@@ -48,3 +47,29 @@ def test_csv_pt_br(tmp_path):
     m.vh_salvar_csv(caminho, [{"h": 22.5, "viavel": True, "motivo": "a.b"}],
                     ["h", "viavel", "motivo"])
     assert caminho.read_text(encoding="utf-8").splitlines()[1] == "22,5;sim;a.b"
+
+
+def test_k_nao_e_reidentificado_por_h():
+    linha = avaliar(m.H_CALIBRADO)
+    assert "k_estrela" not in linha and "rmse_k_estrela" not in linha
+    assert m.VH_K == m.K == 174.68
+
+
+def test_metricas_no_h_adotado():
+    linha = avaliar(m.H_CALIBRADO)
+    assert linha["mae"] == pytest.approx(1.5866, abs=1e-4)
+    assert linha["r2"] == pytest.approx(0.99839, abs=1e-5)
+    assert linha["theta_erro_max"] == pytest.approx(42.90947)
+
+
+def test_fronteira_da_tracao():
+    h = m.vh_fronteira_tracao(32.0, 34.0, THETA)
+    assert h == pytest.approx(32.8863, abs=1e-4)
+    assert m.vh_extensao(h, THETA).min() >= 0
+
+
+def test_nos_da_familia():
+    nos = m.vh_nos_da_familia(m.VH_FAMILIA, THETA)
+    thetas = [t for t, _ in nos["nos"]]
+    assert thetas == pytest.approx([68.03, 185.71], abs=0.15)
+    assert nos["maximo"][0] == pytest.approx(130.38, abs=0.15)

@@ -7,9 +7,11 @@ from patent_data import estimate_peak, load_patent_data
 PATENT = load_patent_data()
 
 
-def test_patent_data_sorted_and_complete():
+def test_patent_data_complete_and_in_extraction_order():
+    import patent_data
     assert len(PATENT["theta_star"]) == len(PATENT["torque"]) == 29
-    assert np.all(np.diff(PATENT["theta_star"]) > 0)
+    assert PATENT["theta_star"] is patent_data.THETA_STAR_EXTRACTION
+    assert PATENT["torque"] is patent_data.TORQUE_EXTRACTION
 
 
 def test_peak_estimate_near_largest_sample():

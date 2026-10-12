@@ -223,212 +223,180 @@ ADICIONAL". Nada acima do marcador foi alterado: o `diff` das 506 primeiras
 linhas contra o original é vazio, e com `VH_RODAR = False` a execução direta
 produz a mesma saída e o mesmo PNG de antes.
 
-- **Saídas:** `results/vh_varredura_h.csv` (uma linha por h) e
-  `results/vh_h_notaveis.csv`. Separador `;`, decimal com vírgula e booleanos
-  `sim`/`nao`, para abrir direto no Excel pt-BR; as colunas de texto (`papeis`,
-  `motivo`) não são alteradas.
-- **Gráficos:** os dois da passada ficam desligados por padrão
-  (`VH_PLOT_PERFIL_RMSE` e `VH_PLOT_CURVAS_NOTAVEIS`).
-- **Tempo:** a execução direta completa leva cerca de 5 s.
+A varredura roda só na execução direta (`if VH_RODAR and __name__ ==
+"__main__"`). `import torque_model` não dispara nada. A execução direta leva
+cerca de 21 s para 10 403 valores de h.
 
-### Execução: guarda `__main__`
+### Dados da patente
 
-A varredura roda só na execução direta:
+`patent_data.py` contém os 29 pontos extraídos, na ordem da extração, e
+`load_patent_data()` os devolve como estão: sem reordenar, interpolar nem
+suavizar. A função `estimate_peak` foi mantida porque `calibration.py` a
+importa. A troca do carregador (que antes ordenava por θ*) não altera a saída
+nem o PNG do modelo congelado.
 
-```python
-if VH_RODAR and __name__ == "__main__":
-    varredura_h()
-```
+### Procedimento: K uma vez, depois h
 
-`import torque_model` (num notebook, em `calibration.py`, em `svaj.py`, no
-pytest) não dispara nada. Na execução direta, o bloco `__main__` do modelo
-(acima do marcador) roda primeiro, com o gráfico original, e depois vem a
-varredura.
+1. **K é obtido uma vez**, contra a extração, e fica congelado em 174,68.
+2. **Com K congelado, varre-se h** para gerar a família de curvas torque × θ*.
+
+K não é reidentificado por h em lugar nenhum (`VH_K = K`). A versão anterior
+da passada tinha uma subseção "perfil de identificabilidade" que recalculava K
+para cada h (K*, RMSE*). Ela foi removida, com todas as colunas
+correspondentes nos CSVs, porque contradiz o procedimento: um K diferente para
+cada h é outro modelo, e misturar as duas leituras confunde o resultado.
+
+**Checagem de consistência (uma linha).** No h adotado, o K de mínimos
+quadrados em forma fechada, K = Σ g·τ_pat / Σ g² com g = τ(h, K = 1), vale
+**174,676**, contra o congelado 174,68. Isso mostra que o par (K, h) é
+consistente. A forma fechada vale porque τ é exatamente linear em K (δ não
+depende de K). Um assert verifica max|τ(K) − K·τ(K = 1)| < 1e‑9 em cada h; o
+máximo na grade é 7,7e‑13.
 
 ### Critério de otimalidade
 
-"Ótimo" significa só **menor RMSE contra a curva extraída da patente**, que
-representa exclusivamente o torque do cabo. A gravidade fica fora do critério,
-da normalização e da ponderação, porque a curva extraída não contém o peso:
-somá-lo ou subtraí-lo mudaria o alvo, e as unidades não são comparáveis. As
-métricas de compensação do peso aparecem só como descritivas.
-
-h_otimo é **achado diagnóstico, não adoção**. K = 174,68, H_CALIBRADO = 22,701 mm
-e X_POSE = 37,383 mm continuam congelados; a seção não religa nenhum deles.
+"Ótimo" é só **menor RMSE contra a curva extraída**, que representa
+exclusivamente o torque do cabo. A gravidade fica fora do critério, da
+normalização e da ponderação. O h de menor RMSE é **achado diagnóstico, não
+adoção**: K, H_CALIBRADO e X_POSE continuam congelados.
 
 ### Unidades
 
-A ordenada da curva extraída não tem unidade declarada. A unidade do torque do
-cabo é herdada de K, que foi identificado contra essa curva; "N·m" só vale se K
-estiver em N/mm. O torque do peso está em N·m por construção. Não há conversão
-nem reescala, e as diferenças cabo − peso da varredura só têm sentido físico se
-K estiver em N/mm.
+A ordenada da extração não tem unidade declarada na fonte (u.p.). A unidade do
+torque do cabo é herdada de K. "N·m" só valeria se K estivesse em N/mm, e isso
+implicaria força máxima no cabo de **9 516 N** em H_CALIBRADO, inviável para o
+dispositivo. O torque do peso está em N·m por construção. Não há conversão nem
+reescala.
 
 ### Convenção de ancoragem
 
-Ao variar h, o comprimento livre é reancorado por X_POSE:
+`s_zero(h) = caminho_cabo(THETA_POSE, h) − X_POSE`: a extensão na pose fica em
+X_POSE para todo h, preservando a pré-tensão de montagem. É escolha de
+modelagem. A alternativa descartada seria s_zero fixo e extensão da pose livre,
+o que misturaria geometria e montagem. Erro máximo verificado: 2,1e‑14 mm.
 
-```
-s_zero(h) = caminho_cabo(THETA_POSE, h) − X_POSE
-```
+### Validade física
 
-A extensão na pose fica em X_POSE para todo h, ou seja, a pré-tensão de
-montagem é preservada. É **escolha de modelagem**, não consequência da
-geometria. Erro máximo verificado na grade: 2,1e‑14 mm.
+Viabilidade = `VH_CRITERIOS = ("tracao", "fechamento", "tv_ok")`, ou seja,
+(a) tração δ ≥ 0, (c) fechamento ρ > R e (d) trabalho virtual < 1e‑6 mm/rad.
 
-Alternativa descartada: manter s_zero fixo no valor de H_CALIBRADO
-(252,7974 mm) e deixar a extensão na pose variar com h. Cada h mudaria também
-a pré-tensão, e a varredura misturaria geometria e montagem.
+| critério | resultado na grade (10 403 h, passo 0,005 mm) |
+|---|---|
+| (a) tração | h de 8,000 (borda) a 32,885 mm na grade; fronteira por bissecção em **32,886318 mm** (δ mínimo = 0) |
+| (c) fechamento | 10 403 de 10 403 |
+| (d) trabalho virtual | todos; máximo 7,2e‑08 mm/rad nos viáveis |
 
-### Critérios de validade física
+A extensão de (a) é calculada **sem a saturação** de `calculate_delta`, para
+que o afrouxamento apareça como δ negativo.
 
-Viabilidade = `VH_CRITERIOS = ("tracao", "fechamento", "tv_ok")`. A
-viabilidade e o motivo de cada h são derivados dessa constante. A avaliação
-cobre toda a faixa θ* = 42,917° a 193,017°, com 1501 pontos.
+**Enrolamento: diagnóstico, não critério.** rel = 0 é arco de enrolamento
+nulo, não cabo fora da polia; quem garante o cabo no tambor é a tangência (c).
+Usado como critério, ele reprovava o próprio H_CALIBRADO, cujo arco positivo é
+de 7,42 µm. Na grade, rel troca de sinal a partir de h = 22,610 mm.
 
-| critério | condição | resultado na grade (1043 h) |
+### Resultados com K congelado
+
+No h adotado, H_CALIBRADO = 22,701 mm:
+
+| grandeza | valor |
+|---|---|
+| RMSE | 1,8305 (igual ao modelo congelado) |
+| erro absoluto médio | 1,5866 |
+| erro máximo | 3,3712 em θ* = 42,91° |
+| R² | 0,99839 |
+| pico | 147,072 u.p. em θ* = 125,57° |
+| δ | 12,044 a 54,479 mm |
+| força máxima K·δ | 9 516 |
+| mola esticada (L_LIVRE + δ_max) | 108,446 mm |
+
+**Menor RMSE: h = 22,735 mm, RMSE 1,8270, viável.** Ele fica a +0,034 mm de
+H_CALIBRADO, que é o posto 14 de 10 403.
+
+| folga | platô de RMSE | largura |
 |---|---|---|
-| (a) tração | extensão bruta caminho − s_zero ≥ 0 | h de 8,00 (borda) a 32,85 mm, 499 h |
-| (c) fechamento | ρ > R em toda a faixa (tangente real) | 1043 de 1043 |
-| (d) trabalho virtual | max\|d(caminho)/dθ* − m\| < 1e‑6 mm/rad | 1043 de 1043 (máx. 7,2e‑08) |
+| 1,01 | 22,660 a 22,805 mm | 0,145 mm |
+| 1,05 | 22,570 a 22,900 mm | 0,330 mm |
+| 1,10 | 22,495 a 22,970 mm | 0,475 mm |
+| 2,00 | 21,830 a 23,635 mm | 1,805 mm |
 
-Viáveis: **h de 8,00 a 32,85 mm** (499 h), com o limite superior imposto pela
-**tração**: o primeiro h fora é 32,90 mm, com δ_min = −0,016 mm.
+Degradação a partir do mínimo: o RMSE passa de 2× o mínimo em 21,825 e
+23,640 mm, e de 10× em 17,570 e 27,900 mm.
 
-**A extensão de (a) é calculada sem a saturação.** `calculate_delta` (acima do
-marcador) faz δ = máx(caminho − s_zero, 0), porque o cabo não empurra. Para o
-critério (a), a varredura usa a extensão bruta, para que o afrouxamento
-apareça como δ negativo em vez de ser zerado em silêncio. O torque usado no
-RMSE é o do modelo como está.
+**Com K congelado, a curva determina h dentro de 0,145 mm** a 1% do RMSE
+mínimo. Quem escolhe h é a curva; a restrição de projeto (tração até
+32,886 mm, fechamento, trabalho virtual) é verificação de viabilidade, e o h
+determinado pela curva a atende com folga.
 
-Uma exceção dentro da avaliação de um h, inclusive no teste de trabalho
-virtual, marca aquele h como sem fechamento, com o motivo. A varredura não é
-interrompida.
+**H_CAD = 34,785 mm (documental):** RMSE 43,48, R² 0,093, posto 4 810. Falha a
+tração, com δ mínimo = −2,257 mm em θ* = 42,917°: com a ancoragem por X_POSE,
+no h documental o cabo afrouxaria dentro da faixa de operação.
 
-### Por que o enrolamento deixou de ser critério
+**Marcos de mecanismo.**
+- **Entrada do ponto morto:** o ponto morto entra na faixa em h = 21,371769 mm
+  (forma fechada = bissecção a 4,6e‑14).
+- **Saída por THETA_MIN não existe:** para h > 0, θ*_pm fica entre 184,6° e
+  274,6°. A inversão por tangente devolve 3,9953 mm, um ramo espúrio.
 
-A versão anterior da passada usava um quarto critério: a troca de sinal de rel
-(`angulo_cabo_elo`), interpretada como "o cabo deixa a polia". A premissa era
-falsa:
+### Família de curvas e nós
 
-- **rel = 0 é arco de enrolamento nulo,** não cabo fora da polia.
-- **Quem garante o cabo no tambor é a tangência,** o critério (c) ρ > R, que vale
-  em toda a grade.
+A figura `results/vh_familia_curvas.png` mostra torque × θ* para h = 16, 18,
+20, 22,701, 25, 28 e 32,886 mm, com K congelado e os 29 pontos extraídos no
+mesmo eixo. h é grandeza ordenada, então usa uma rampa sequencial de um só tom,
+clara → escura; o h adotado aparece em laranja e mais grosso. O eixo é único:
+o torque do peso está em outra unidade e fica fora desta figura.
 
-Valores na faixa de operação:
+A família não se abre de modo uniforme. Medindo o espalhamento (máximo menos
+mínimo entre as curvas) numa malha de 0,1° em θ*:
 
-| h (mm) | rel (graus) | troca de sinal | maior arco positivo R·rel |
-|---|---|---|---|
-| 22,550 | −4,6517 a −0,0116 | não | 0 |
-| 22,600 | −4,6530 a −0,0016 | não | 0 |
-| 22,650 | −4,6544 a +0,0084 | sim | 3,36 µm |
-| 22,701 (H_CALIBRADO) | −4,6558 a +0,0186 | sim | 7,42 µm |
+| ponto | θ* | espalhamento |
+|---|---|---|
+| nó | 68,03° | 9,35 u.p. |
+| nó | 185,71° | 0,18 u.p. |
+| abertura máxima | 130,38° | 106,79 u.p. |
 
-O critério anterior **reprovava o próprio ponto congelado e verificado**
-(H_CALIBRADO), por causa de um arco de 7 µm. Ele também cortava a faixa viável
-em h ≤ 22,60 mm, logo abaixo de H_CALIBRADO. Era um falso negativo que mudava
-as conclusões da passada: h_otimo saía como não viável e a faixa viável perdia
-de 22,65 a 32,85 mm.
+Os pontos extraídos perto dos nós quase não carregam informação sobre h. A
+capacidade de discriminar h está concentrada entre cerca de 100° e 160°.
 
-O enrolamento continua reportado como **diagnóstico**, com as colunas
-`rel_min_grau`, `rel_max_grau`, `enrol_troca` e `arco_pos_max`. Na grade, rel
-troca de sinal em 750 de 1043 h, de 22,65 mm para cima. O maior arco positivo é
-3,0 mm, em h = 60 mm. Na tabela de flags, a troca aparece como `~`, fora da
-viabilidade.
+### h notáveis e classificação
 
-### Linearidade em K e o K* em forma fechada
+Os h notáveis, com K congelado, são:
+- o de menor RMSE e o H_CALIBRADO;
+- as bordas do platô em cada folga;
+- os h de degradação 2× e 10× de cada lado;
+- a fronteira da tração;
+- a entrada do ponto morto;
+- o H_CAD.
 
-δ não depende de K, então τ é exatamente linear em K: τ(K) = K·g, com
-g = τ(h, K = 1). Por isso o K que minimiza o erro quadrático para um h fixo tem
-forma fechada, K*(h) = Σ g·τ_pat / Σ g². Cada h verifica a linearidade com um
-assert (max|τ(K) − K·g| < 1e‑9). O máximo na grade é 8,4e‑13.
-
-### Classificação
+Um extremo que cai na borda da grade ou da faixa viável é marcado
+automaticamente, porque ali ele mede o intervalo varrido e não o mecanismo.
 
 | grandeza | classificação |
 |---|---|
-| h | VARRIDO: 8,00 a 60,00 mm em 0,05 mm, mais 22,701 e 34,785 exatos |
-| h_otimo, h_otimo_viavel, h_pior, h_otimo_K, bordas de platô, de validade e de degradação | DERIVADOS (diagnóstico) |
-| h_dc_entra | DERIVADO em forma fechada |
+| h | VARRIDO: 8,000 a 60,000 mm em 0,005 mm, mais 22,701 e 34,785 exatos |
+| h de menor RMSE, bordas de platô, degradação, fronteira da tração, entrada do ponto morto | DERIVADOS (diagnóstico) |
 | H_CAD = 34,785 mm | DOCUMENTAL |
-| H_CALIBRADO = 22,701 mm, K = 174,68, X_POSE = 37,383 mm | AJUSTADOS e congelados |
+| K = 174,68, H_CALIBRADO = 22,701 mm, X_POSE = 37,383 mm | AJUSTADOS e congelados |
 
-### h notáveis
+### Saídas
 
-| nome | definição | valor |
-|---|---|---|
-| h_otimo | argmin RMSE(h), K congelado, todos os h com fechamento | 22,750 mm, RMSE 1,8279, viável |
-| h_otimo_viavel | argmin RMSE entre os viáveis | 22,750 mm (coincide com h_otimo) |
-| h_pior | argmax RMSE entre os viáveis | 8,000 mm, RMSE 54,31, na borda da grade |
-| h_plato_min, h_plato_max | bordas do platô RMSE ≤ 1,05·mín | 22,600 e 22,900 mm |
-| h_otimo_K | argmin RMSE*(h), com K* por h | 22,950 mm, K* = 173,179, RMSE* 1,8033 |
-| h_rmse_2x_esq, h_rmse_2x_dir | primeiro h, de cada lado de h_otimo, com RMSE > 2·mín | 21,800 e 23,650 mm |
-| h_rmse_10x_esq, h_rmse_10x_dir | idem com RMSE > 10·mín | 17,550 e 27,950 mm |
-| h_tracao_min/max, h_viavel_min/max | bordas dos conjuntos válidos | 8,000 (borda da grade) e 32,850 mm |
-| h_dc_entra | θ*_pm(h) = THETA_MAX | 21,3718 mm |
-| h_tau_max (descritivo) | maximiza τ_max entre os viáveis | 32,850 mm, na borda da faixa viável |
-| h_min_deficit (descritivo) | minimiza max(τ_peso − τ_cabo) entre os viáveis | 8,000 mm, na borda da grade |
+- `results/vh_varredura_h.csv`: uma linha por h, com validade, RMSE, erro
+  médio, erro máximo e onde ocorre, R², pico, δ, força máxima, mola esticada e
+  diagnóstico de enrolamento.
+- `results/vh_h_notaveis.csv`: os h notáveis.
+- `results/vh_familia_curvas.png`: ligada por padrão (`VH_PLOT_FAMILIA`).
+- Gráficos opcionais, desligados por padrão: `vh_perfil_rmse.png` (perfil de
+  RMSE em escala log) e `vh_curvas_notaveis.png`.
 
-**h_pior na borda.** Ali o "pior" mede o intervalo varrido, não o mecanismo. A
-medida livre de escala de quanto o ajuste piora é a **degradação** (os h em que
-o erro passa de 2× e 10× o mínimo).
-
-| degradação | RMSE (K congelado) | RMSE* (K reidentificado) |
-|---|---|---|
-| 2× o mínimo | 21,800 e 23,650 mm | 20,350 e 25,250 mm |
-| 10× o mínimo | 17,550 e 27,950 mm | não atinge à esquerda na grade; 34,750 mm à direita |
-
-**Platô por tolerância.** A largura de um platô só tem sentido junto com o
-limiar que o define. A folga 1,05 é a referência para as bordas usadas no
-perfil de K*.
-
-| folga | platô de RMSE (K congelado) | platô de RMSE* (K reidentificado) |
-|---|---|---|
-| 1,01 | 22,700 a 22,800 mm (0,100 mm) | 22,750 a 23,100 mm (0,350 mm) |
-| 1,05 | 22,600 a 22,900 mm (0,300 mm) | 22,500 a 23,350 mm (0,850 mm) |
-| 1,10 | 22,500 a 22,950 mm (0,450 mm) | 22,300 a 23,550 mm (1,250 mm) |
-| 2,00 | 21,850 a 23,600 mm (1,750 mm) | 20,400 a 25,200 mm (4,800 mm) |
-
-K*/174,68 nas bordas do platô de referência: 1,0035 (h = 22,60) e 0,9931
-(h = 22,90).
-
-**h_dc_sai não existe.** Para h > 0, θ*_pm = 180 + atan2(P, h) + asen(R/C)
-fica entre 184,619° e 274,619°, e nunca chega a THETA_MIN = 42,917°. A inversão
-h = P / tan(θ − 180 − asen(R/C)) devolve 3,9953 mm, mas esse valor é de um ramo
-espúrio da tangente: θ*_pm(3,9953) = 222,917°. A bissecção própria não encontra
-troca de sinal. Já para h_dc_entra, a inversão analítica (21,371769480329 mm)
-bate com a bissecção a 4,6e‑14.
-
-### Referências: H_CALIBRADO e H_CAD
-
-- **H_CALIBRADO = 22,701 mm:** RMSE 1,8305, posto 2 de 1043, **viável**.
-  delta = h_otimo − H_CALIBRADO = +0,049 mm, menor que um passo da grade.
-  Hipótese registrada sem conserto: H_CALIBRADO foi identificado antes da
-  correção do enrolamento da polia, então o mínimo do modelo corrigido poderia
-  estar deslocado. Medido: deslocamento de 0,049 mm e diferença de RMSE de
-  0,0026.
-- **H_CAD = 34,785 mm (documental):** RMSE 43,48, posto 483, **falha a tração**,
-  com δ_min = −2,257 mm em θ* = 42,92°. Com a ancoragem por X_POSE, no h
-  documental o cabo afrouxaria dentro da faixa de operação.
-
-### Comprimento esticado da mola
-
-`mola_max = L_LIVRE + δ_max` (L_LIVRE = 53,967 mm, par documental com L_POSE =
-91,35 mm) é o comprimento máximo da mola esticada para cada h: 108,446 mm em
-H_CALIBRADO. É uma checagem de projeto a fazer contra o curso útil da mola.
+Os CSVs usam separador `;`, decimal com vírgula e `sim`/`nao`.
 
 ### Armadilha do h implícito e arquivos obsoletos
 
-Uma chamada que esquece o h já produziu erro silencioso: com o h do CAD no
-lugar do calibrado, a curva sai com RMSE 43,48 (posto 483) em vez de 1,8305. Na cadeia do
-modelo, h é obrigatório. Acima do marcador ainda existe o apelido `H = H_CAD`,
-mantido só para `calibration.py`. A varredura passa h explicitamente em todas
-as chamadas, e uma guarda aborta se as curvas de h = 15 e h = 30 saírem iguais.
+Uma chamada que esquecia h já produziu erro silencioso: com o h do CAD no lugar
+do calibrado, o RMSE sai 43,48 em vez de 1,8305. Na cadeia do modelo, h é
+obrigatório. O apelido `H = H_CAD`, acima do marcador, existe só para
+`calibration.py`. A varredura passa h explicitamente em todas as chamadas e
+aborta se as curvas de h = 15 e h = 30 saírem iguais.
 
 `calibration.py` e `svaj.py` ficam obsoletos sem serem corrigidos, de propósito:
-- **`calibration.py`** usa `model.H` (o do CAD) como padrão e rotula o torque
-  em N·m;
-- **`svaj.py`** usa o H do CAD como padrão próprio.
-
-Os dois continuam importando por causa do apelido. Corrigi-los está fora do
-escopo das passadas, que só acrescentam código depois do marcador.
+o primeiro usa o H do CAD como padrão e rotula o torque em N·m, e o segundo usa
+o H do CAD como padrão próprio.
