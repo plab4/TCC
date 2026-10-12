@@ -1,8 +1,14 @@
 # Modelo de torque: derivação e estado atual
 
 Referência vigente: **`torque_model.py`**. Para rodar: `python torque_model.py`
-(tabela, autotestes e gráfico) e `python -m pytest`. Os outros arquivos que
-calculam torque estão defasados (ver o fim deste documento).
+(tabela, autotestes e gráfico) e `python -m pytest`. Os números e as figuras do
+TCC saem de **`tcc_resultados.py`**, que importa o modelo sem alterar nenhum
+parâmetro (ver "Revisão do TCC"). Os outros arquivos que calculam torque estão
+defasados (ver "Arquivos defasados").
+
+Cada número deste documento foi conferido contra o código na revisão de outubro
+de 2026. Onde um valor anterior estava errado ou incompleto, o texto foi
+corrigido e a correção está listada em "Revisão do TCC".
 
 ## Cadeia de cálculo
 
@@ -48,8 +54,10 @@ não depende do sinal de β. A via original, `b_vector = b·(−cos(β−q), sen
 com `b = distancia_ponto_tangencia` e `β = angulo_beta`, é mantida como
 relatório e conferida contra T dentro da cadeia (diferença ≈ 1e‑12 mm).
 
-`b` é a distância do pivô ao ponto de tangência (282,4 a 285,3 mm na operação;
-limite teórico C ± R = 261 a 306 mm). **Não é o braço de momento.**
+`b` é a distância do pivô ao ponto de tangência: 282,50 a 284,36 mm na operação
+com H_CALIBRADO (282,38 a 285,33 mm com H_CAD; limite teórico C ± R = 261 a
+306 mm). **Não é o braço de momento**: com H_CALIBRADO, b é pelo menos 12,3 vezes
+o maior |m|. β fica entre 4,604° e 4,619°.
 
 **Braço de momento e torque.** `m = A_x sen φ − A_y cos φ` (`braco_perpendicular`)
 é a distância perpendicular do pivô à linha do cabo, limitada por |A| = √(h² + P²).
@@ -81,7 +89,10 @@ sinal do arco foi escolhido por esse teste, com H = 22,701:
 O autoteste `residuo_trabalho_virtual` repete essa conta toda vez que o modelo
 roda e exige < 1e‑3 mm.
 
-O arco varia 1,862 mm na faixa (4,49% da variação do vão). Ele entra só no
+O arco varia 1,862 mm na faixa: 4,49% da variação do vão (41,499 mm) e 4,39%
+da variação do caminho (42,435 mm). Com a mesma ancoragem na pose, ele muda δ em
+até 1,782 mm (θ* = 193,017°, 3,3% de δ ali); em termos relativos o efeito máximo
+é 6,3%, em θ* = 42,917°, onde δ = 12,044 mm. Ele entra só no
 comprimento do cabo, ou seja, em δ. φ, T, b, β, m, τ = −F·m e o ponto morto não
 mudam.
 
@@ -120,7 +131,9 @@ s_zero = 252,7974 mm. O caminho vai de 264,842 a 307,277 mm e δ de 12,044 a
 54,479 mm, sem folga em nenhum dos 302 pontos. Nenhum ajuste é feito dentro de
 `torque_model.py`.
 
-**RMSE contra a patente: 1,830 u.p.** Antes da correção do caminho era 1,152.
+**RMSE contra a patente: 1,830 u.p.** Antes da correção do caminho era 1,152
+(lei antiga, δ pelo vão reto, com X_POSE = 37,44 mm e K = 175,50
+reidentificados em H_CALIBRADO; com X_POSE = 37,383 congelado, 1,154).
 A piora vem de uma **correção de física**, não do modelo ter ficado pior: o
 modelo anterior ajustava melhor porque violava a conservação de energia (o vão
 reto erra d(caminho)/dθ* em até 1,71 mm).
@@ -128,9 +141,12 @@ reto erra d(caminho)/dθ* em até 1,71 mm).
 O pico calculado é 146,874 u.p. nos pontos da patente (alvo 147,310) e 147,072
 na grade de 0,5°.
 
-H_CALIBRADO não foi reajustado junto com K. Reajustá-lo daria H ≈ 24 mm com
-RMSE 1,682, mas levaria o ponto morto para φ_pat = −59,09°, mais longe do −60°
-da patente (com 22,701 fica em −59,515°).
+H_CALIBRADO não foi reajustado junto com K. Numa análise alternativa, que não é
+o procedimento principal, X_POSE e K são reidentificados para cada h (passo de
+0,25 mm). Ela dá mínimo interior em h ≈ 24,0 mm, com RMSE 1,682, X_POSE =
+38,83 mm e K = 160,46. Esse h levaria o ponto morto para φ_pat = −59,09°, mais
+longe do −60° da patente (com 22,701 fica em −59,515°). Ver "Auditoria da
+identificação".
 
 ## Unidades
 
@@ -167,8 +183,10 @@ x_cg  = CG_DX·cos(giro) − CG_DY·sen(giro)
 ```
 
 Pico de 11,1619 N·m em θ* = 133,58° (braço na horizontal). O módulo esconde a
-troca de sinal em θ* = 43,58°, que afeta 0,66° no início da faixa com
-|τ| ≤ 0,13 N·m; foi mantido por decisão. Inércia (Steiner) não entra num torque
+troca de sinal em θ* = 43,58° (elevação 179,44°), que afeta 0,66° no início da
+faixa com |τ| ≤ 0,13 N·m; foi mantido por decisão. O pico coincide com M·g·d
+(4,034309 kg × 9,80665 m/s² × 0,282128 m), e a tabela inercial do TCC é
+consistente com Steiner: 0,127111 + M·d² = 0,448227 kg·m². Inércia (Steiner) não entra num torque
 estático.
 
 ## Correções feitas no código original
@@ -263,9 +281,12 @@ adoção**: K, H_CALIBRADO e X_POSE continuam congelados.
 ### Unidades
 
 A ordenada da extração não tem unidade declarada na fonte (u.p.). A unidade do
-torque do cabo é herdada de K. "N·m" só valeria se K estivesse em N/mm, e isso
-implicaria força máxima no cabo de **9 516 N** em H_CALIBRADO, inviável para o
-dispositivo. O torque do peso está em N·m por construção. Não há conversão nem
+torque do cabo é herdada de K. "N·m" só valeria se K estivesse em N/mm. Isso
+implicaria força máxima no cabo de **9 516 N** em H_CALIBRADO e pico do torque do
+cabo de 147,07 N·m, 13,2 vezes o pico do torque do peso (11,16 N·m). Esse pico do
+peso seria equilibrado com cerca de 487 N no maior braço disponível (22,919 mm).
+A leitura em N·m é, portanto, implausível para o dispositivo. Isso descarta essa
+leitura, mas não determina a unidade. O torque do peso está em N·m por construção. Não há conversão nem
 reescala.
 
 ### Convenção de ancoragem
@@ -284,7 +305,7 @@ Viabilidade = `VH_CRITERIOS = ("tracao", "fechamento", "tv_ok")`, ou seja,
 |---|---|
 | (a) tração | h de 8,000 (borda) a 32,885 mm na grade; fronteira por bissecção em **32,886318 mm** (δ mínimo = 0) |
 | (c) fechamento | 10 403 de 10 403 |
-| (d) trabalho virtual | todos; máximo 7,2e‑08 mm/rad nos viáveis |
+| (d) trabalho virtual | todos; máximo 7,4e‑08 mm/rad na grade, 7,2e‑08 nos viáveis |
 
 A extensão de (a) é calculada **sem a saturação** de `calculate_delta`, para
 que o afrouxamento apareça como δ negativo.
@@ -323,9 +344,14 @@ Degradação a partir do mínimo: o RMSE passa de 2× o mínimo em 21,825 e
 23,640 mm, e de 10× em 17,570 e 27,900 mm.
 
 **Com K congelado, a curva determina h dentro de 0,145 mm** a 1% do RMSE
-mínimo. Quem escolhe h é a curva; a restrição de projeto (tração até
-32,886 mm, fechamento, trabalho virtual) é verificação de viabilidade, e o h
-determinado pela curva a atende com folga.
+mínimo. Isso **não é identificação independente de h**: K e X_POSE foram
+identificados no próprio H_CALIBRADO, então o mínimo perto dele é esperado por
+construção. O resultado mostra que o trio (K, X_POSE, H_CALIBRADO) é
+internamente consistente e que o ajuste é muito sensível a h. O RMSE dobra a
+cerca de 0,9 mm do mínimo e decuplica a cerca de 5,2 mm. A restrição de projeto
+(tração até 32,886 mm, fechamento, trabalho virtual) é verificação de
+viabilidade, e o h favorecido pela curva a atende com folga. O menor RMSE não
+prova validade física.
 
 **H_CAD = 34,785 mm (documental):** RMSE 43,48, R² 0,093, posto 4 810. Falha a
 tração, com δ mínimo = −2,257 mm em θ* = 42,917°: com a ancoragem por X_POSE,
@@ -400,3 +426,116 @@ aborta se as curvas de h = 15 e h = 30 saírem iguais.
 `calibration.py` e `svaj.py` ficam obsoletos sem serem corrigidos, de propósito:
 o primeiro usa o H do CAD como padrão e rotula o torque em N·m, e o segundo usa
 o H do CAD como padrão próprio.
+
+## Revisão do TCC (outubro de 2026)
+
+Na revisão dos capítulos 3 e 4 do TCC, cada número deste documento e do texto
+foi recalculado pelo código. `torque_model.py`, `calibration.py`, `svaj.py` e os
+gráficos 1 a 4 não foram alterados. O TCC revisado está em
+`tcc/TCC_revisado.docx` e o relatório da revisão em `tcc/relatorio_revisao.md`.
+
+### Script dos números do TCC
+
+`python tcc_resultados.py` (cerca de 23 s) importa o modelo, chama as funções com
+h explícito e grava:
+
+- `results/tcc_numeros.json`: todos os números citados no texto;
+- `results/tcc_tabela_patente.csv`: os 29 pontos na ordem da extração, com θ*,
+  φ_pat, elevação, torque extraído, torque do modelo (−τ) e resíduo;
+- `results/tcc_fig1_geometria.png` a `tcc_fig5_normalizado.png`: as cinco
+  figuras do TCC. A Figura 3 refaz, no mesmo estilo, a família de
+  `vh_familia_curvas.png` (mesmos h, mesmo K, mesmos nós).
+
+Convenções do TCC: θ* = 133,017° − φ_pat e elevação = φ_pat + 90° =
+223,017° − θ*. Na Figura 1 o centro do tambor é **D**, porque P já designa a
+componente p do vetor B.
+
+### Classificação das grandezas
+
+| classe | grandezas |
+|---|---|
+| VERIFICADO nesta revisão | resíduos da cadeia (f1, f2, τ = −F·m, T por duas vias, ponto morto, trabalho virtual); K = 174,676 pela forma fechada e X_POSE = 37,383 mm pela varredura, ambos em H_CALIBRADO; métricas do ajuste; grandezas do mecanismo; varredura de h; perfis normalizados; consistência da tabela inercial (Steiner e M·g·d) |
+| CONGELADO, origem não reproduzida | H_CALIBRADO = 22,701 mm e ANGLE_OFFSET = 133,017° |
+| DOCUMENTAL | H_CAD; L_CARCACA e L_POSE (CAD a confirmar); fator de escala 0,870; massa, CG e inércias do CAD e da planilha; os 29 pontos (método de extração e incerteza não documentados) |
+| HISTÓRICO | `calculate_array_vaos_livres` (= ρ em θ* + 180°); lei do vão reto; `calibration.py`; gráficos 1 a 4 |
+| DIAGNÓSTICO | varredura de h; h de menor RMSE; platôs; nós; enrolamento; análise alternativa com X_POSE e K por h |
+| HIPÓTESE | modelo plano; cabo inextensível; tambor sem atrito; mola linear sem tração inicial; ancoragem por X_POSE ao variar h |
+| NÃO EXECUTADO | equação de movimento (Lagrange), integração numérica, MBDyn, US 9.737.374 B2 e EP 3 504 033 B1 |
+
+### Auditoria da identificação
+
+**Reproduzido.** Com h = H_CALIBRADO e ANGLE_OFFSET fixos, a varredura de X_POSE
+em passo de 0,001 mm, com K em forma fechada, devolve X_POSE = 37,383 mm,
+K = 174,676 e RMSE 1,83045. O K congelado (174,68) é o arredondamento desse valor.
+
+**Não reproduzido.** A escolha de H_CALIBRADO e de ANGLE_OFFSET. O script da etapa
+de identificação e a restrição de projeto usada não estão no repositório.
+
+**Afirmação refutada.** A versão anterior do TCC dizia que o RMSE decresce
+monotonicamente com h, sem mínimo interior, e que o ótimo irrestrito exigiria
+extensão maior que 10 vezes o comprimento livre. A análise alternativa
+(X_POSE e K reidentificados para cada h, de 8 a 60 mm em passo de 0,25 mm) não
+reproduz isso em nenhuma das duas leis:
+
+| lei | h do mínimo | RMSE | X_POSE | K | δmax/L_LIVRE no mínimo |
+|---|---|---|---|---|---|
+| caminho s − R·rel (vigente) | 24,0 mm | 1,682 | 38,83 mm | 160,46 | 1,079 |
+| vão reto (antiga) | 23,0 mm | 1,146 | 37,77 mm | 172,06 | 0,995 |
+
+Na lei vigente, δmax/L_LIVRE vale 1,0095 em H_CALIBRADO e passa por 1 em
+h ≈ 22,52 mm. Ela só passa de 10 perto do fim da varredura (9,16 em 58 mm e
+11,57 em 60 mm). Essa análise é auditoria, não procedimento: no modelo, K não é
+reidentificado por h.
+
+### Resíduos do ajuste
+
+Resíduo = modelo (−τ) − extraído, em ordem de θ*:
+
+| zona | θ* (°) | elevação (°) | pontos | média (u.p.) |
+|---|---|---|---|---|
+| 1 | 42,909 a 68,142 | 180,1 a 154,9 | 7 | +1,970 |
+| 2 | 72,587 a 123,196 | 150,4 a 99,8 | 9 | −1,821 |
+| 3 | 128,931 a 177,677 | 94,1 a 45,3 | 9 | +1,406 |
+| 4 | 181,691 a 185,849 | 41,3 a 37,2 | 2 | −0,323 |
+| 5 | 189,146 | 33,9 | 1 | +0,389 |
+| 6 | 193,017 | 30,0 | 1 | −2,152 |
+
+O ponto 6 fica além do ponto morto. Ali o modelo dá −1,709 u.p. e a extração
+0,443 u.p., o que é coerente com a protuberância não modelada. O texto anterior
+do TCC citava três zonas, com "−1,97 na porção de braço baixo". Isso estava
+errado no sinal e no lado: θ* baixo é braço alto.
+
+### Números corrigidos nesta revisão
+
+| onde | antes | conferido |
+|---|---|---|
+| MD, b na operação | 282,4 a 285,3 mm | 282,50 a 284,36 mm com H_CALIBRADO (o valor antigo é de H_CAD) |
+| TCC, trabalho virtual "na grade inteira" | 7,2e‑08 | 7,4e‑08 na grade; 7,2e‑08 só nos h viáveis |
+| TCC, linearidade em K | 8,4e‑13 | 7,7e‑13 |
+| TCC, passo da varredura | 0,05 mm | 0,005 mm |
+| TCC, unidades do torque do cabo | N.m, N/(mm), "N.m /m" | u.p.; unidade de K implícita |
+| TCC, zonas de resíduo | 3 zonas, sinais trocados | 6 zonas (tabela acima) |
+| TCC, identificação de H | monotônica, restrição ativa | não reproduzida (ver auditoria) |
+
+### Testes executados
+
+- `python -m pytest`: **47 passed**. Os testes estão em `test_torque_model.py`,
+  `test_varredura.py`, `test_calibration.py` e `test_svaj.py`.
+- `python tcc_resultados.py`: roda os autotestes do modelo e a varredura completa
+  (10 403 h) sem falha de assert. Reescreve os arquivos `vh_*`, que saem
+  idênticos aos versionados.
+
+### Limitações em aberto
+
+- A unidade da ordenada da patente é desconhecida. Sem ela, não há torque do cabo
+  em N·m, torque resultante na junta nem análise dinâmica com significado
+  físico.
+- A origem de H_CALIBRADO e de ANGLE_OFFSET não foi reproduzida. H_CAD é
+  incompatível com os parâmetros congelados (falha a tração).
+- O método de extração dos 29 pontos e sua incerteza não estão documentados. Os
+  quatro parâmetros foram identificados e avaliados contra os mesmos pontos.
+- L_CARCACA e L_POSE são CAD a confirmar. δmax/L_LIVRE = 1,0095 exige conferir a
+  deflexão admissível da mola.
+- A protuberância da zona neutra não é modelada: o torque inverte o sinal depois
+  de θ* = 192,532°.
+- Não há código de dinâmica (Lagrange, integração, MBDyn) no projeto.
