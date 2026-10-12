@@ -9,6 +9,12 @@
 
 **Data:** outubro de 2026
 
+> **Atualização: ordenada da patente em N·m.** Por decisão do autor, o
+> `TCC_revisado.docx` passou a tomar a ordenada da curva da patente em N·m.
+> O texto só declara essa adoção, sem discuti-la. As seções 1 a 12 abaixo
+> descrevem a primeira rodada da revisão, quando o torque do cabo estava em
+> u.p.; as mudanças desta rodada estão na seção 13.
+
 ## 1. Arquivos
 
 | arquivo | situação |
@@ -255,3 +261,41 @@ python tcc_resultados.py      # números (JSON), tabela dos 29 pontos e figuras 
 python -m pytest              # 47 testes
 python torque_model.py        # autotestes, gráfico do modelo e varredura de h
 ```
+
+## 13. Adoção de u.p. = N·m (decisão do autor)
+
+O autor decidiu tomar a ordenada da curva da patente em N·m e pediu que o
+documento não discuta a plausibilidade dessa escala. O modelo e os parâmetros
+não mudam: só a unidade atribuída ao resultado.
+
+**Alterações no `TCC_revisado.docx`:**
+- u.p. passou a N·m em todo o texto, nas tabelas e nas figuras;
+- K passou a 174,68 N/mm, F a N e a tração máxima a 9.516,5 N;
+- a adoção é declarada na seção 3.9, e as seções 3.6 e 3.8 foram ajustadas
+  para a unidade comum;
+- a seção 3.12 deixou de tratar a unidade como pré-requisito pendente da
+  dinâmica;
+- foram removidos o parágrafo de plausibilidade de unidade da seção 4.6, a
+  limitação de unidade da seção 4.9 e o trecho correspondente da conclusão;
+- a seção 4.8 ganhou a comparação em magnitude: Figura 5 nova
+  (`results/tcc_fig6_compensacao.png`) e Tabela 12. Os perfis normalizados
+  passaram a ser a Figura 6.
+
+**Números da comparação em magnitude** (`results/tcc_numeros.json`, chave
+`compensacao`):
+- o torque do cabo supera o do peso a partir de 32.2° de
+  elevação;
+- entre 60° e 150°, a razão cabo/peso vai de 9.80 a
+  13.85, com média de 12.89;
+- no pico gravitacional (89,44°), o cabo entrega 144.67 N·m,
+  12.96 vezes os 11,16 N·m do peso;
+- o excedente máximo é de 136.03 N·m, a
+  97.88° de elevação.
+
+**Pontos que continuam no documento e convém o autor conferir:**
+- A seção 2.10 (capítulo 2, não alterado) afirma que curvas sem unidade
+  declarada não podem ser convertidas para N·m sem dado documentado, o que fica
+  em tensão com a adoção da seção 3.9.
+- Com esta escala, o mecanismo entrega cerca de 13 vezes o torque gravitacional
+  do braço, com tração de até 9,5 kN no cabo. O texto apresenta esses números
+  sem comentário, como pedido; uma banca deve perguntar sobre eles.

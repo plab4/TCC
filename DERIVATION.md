@@ -539,3 +539,13 @@ errado no sinal e no lado: θ* baixo é braço alto.
 - A protuberância da zona neutra não é modelada: o torque inverte o sinal depois
   de θ* = 192,532°.
 - Não há código de dinâmica (Lagrange, integração, MBDyn) no projeto.
+
+### Escala adotada no TCC
+
+O `torque_model.py` continua tratando o torque do cabo em u.p. Por decisão do
+autor, o `tcc/TCC_revisado.docx` toma a ordenada da patente em N·m. Nessa
+escala, K = 174,68 N/mm, F_max = 9 516 N, e o torque do cabo vale de 9,8 a 13,9
+vezes o torque do peso entre 60° e 150° de elevação. `tcc_resultados.py`
+rotula as figuras em N·m e grava a comparação em magnitude na chave
+`compensacao` de `results/tcc_numeros.json`. A seção "Unidades" acima continua
+valendo para o código: a escala em N·m é uma adoção, não algo verificado.

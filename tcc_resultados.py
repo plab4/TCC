@@ -11,6 +11,7 @@ chama as funções com h explícito e grava
     results/tcc_fig3_familia.png       família de curvas, K congelado
     results/tcc_fig4_rmse_h.png        RMSE em função de h, K congelado
     results/tcc_fig5_normalizado.png   perfis normalizados do cabo e do peso
+    results/tcc_fig6_compensacao.png   cabo × peso em N·m e razão cabo/peso
 
 A Figura 3 refaz, no estilo das demais, a família de curvas que a passada de
 varredura de torque_model.py grava em results/vh_familia_curvas.png (mesmos h,
@@ -69,7 +70,8 @@ def eixos(ax):
 
 
 def cabo(theta, h=H, k=K):
-    """Torque do cabo na convenção da patente (−τ do modelo), em u.p."""
+    """Torque do cabo na convenção da patente (−τ do modelo). O TCC adota a
+    ordenada da patente em N·m (decisão do autor), então sai em N·m."""
     return -tm.calculate_torque_curve(k, h, np.asarray(theta, dtype=float))["tau"]
 
 
@@ -346,12 +348,12 @@ def figura_ajuste(patente, met):
     ax1.plot(th, cabo(th), color=AZUL, lw=2, label="modelo congelado (−τ)")
     ax1.plot(patente["theta_star"], patente["torque"], "o", color=TINTA, ms=4,
              label="pontos extraídos da patente", zorder=5)
-    ax1.set_ylabel("Torque do cabo (u.p.)", color=TINTA_2)
+    ax1.set_ylabel("Torque do cabo (N·m)", color=TINTA_2)
     ax1.legend(loc="upper left", frameon=False, fontsize=8)
     ax2.axhline(0, color=TINTA_2, lw=0.8)
     ax2.vlines(patente["theta_star"], 0, met["res"], color=AZUL, lw=1.6)
     ax2.plot(patente["theta_star"], met["res"], "o", color=AZUL, ms=3.5)
-    ax2.set_ylabel("Resíduo (u.p.)", color=TINTA_2)
+    ax2.set_ylabel("Resíduo (N·m)", color=TINTA_2)
     ax2.set_xlabel("θ* (graus)", color=TINTA_2)
     for ax in (ax1, ax2):
         ax.xaxis.set_major_formatter(virgula(0))
@@ -379,7 +381,7 @@ def figura_rmse(varredura):
     ax1.axvline(tm.H_CAD, color=TINTA_2, lw=1.2, ls="--", label="H_CAD")
     ax1.set_yscale("log")
     ax1.set_xlabel("h (mm)", color=TINTA_2)
-    ax1.set_ylabel("RMSE (u.p.), escala log", color=TINTA_2)
+    ax1.set_ylabel("RMSE (N·m), escala log", color=TINTA_2)
     ax1.xaxis.set_major_formatter(virgula(0))
     ax1.legend(loc="upper right", frameon=False, fontsize=7)
     sel = (hs >= 21.6) & (hs <= 23.9)
@@ -391,7 +393,7 @@ def figura_rmse(varredura):
     ax2.plot(hs[sel], rm[sel], color=AZUL, lw=2)
     ax2.axvline(H, color=LARANJA, lw=1.4)
     ax2.set_xlabel("h (mm)", color=TINTA_2)
-    ax2.set_ylabel("RMSE (u.p.)", color=TINTA_2)
+    ax2.set_ylabel("RMSE (N·m)", color=TINTA_2)
     ax2.xaxis.set_major_formatter(virgula(1))
     ax2.yaxis.set_major_formatter(virgula(1))
     ax2.legend(loc="upper center", frameon=False, fontsize=7, ncol=2)
@@ -422,7 +424,7 @@ def figura_familia(patente):
     ax.plot(patente["theta_star"], patente["torque"], "o", color=TINTA, ms=4,
             label="pontos extraídos da patente", zorder=5)
     ax.set_xlabel("θ* (graus)", color=TINTA_2)
-    ax.set_ylabel("Torque do cabo (u.p.)", color=TINTA_2)
+    ax.set_ylabel("Torque do cabo (N·m)", color=TINTA_2)
     ax.xaxis.set_major_formatter(virgula(0))
     ax.yaxis.set_major_formatter(virgula(0))
     alcas, nomes = ax.get_legend_handles_labels()
@@ -486,6 +488,62 @@ def verificacoes_complementares(patente, varredura):
     }
 
 
+COMP_ELEVACOES = (35.0, 45.0, 60.0, 75.0, 90.0, 105.0, 120.0, 135.0, 150.0, 165.0)
+
+
+def compensacao():
+    """Torque do cabo (N·m, escala adotada no TCC) contra o torque do peso, em
+    função da elevação: razão cabo/peso e excedente cabo − peso."""
+    th = np.linspace(tm.THETA_MIN, tm.THETA_MAX, 150101)
+    elev = elevacao(th)
+    c, p = cabo(th), tm.torque_peso(th)
+    ordem = np.argsort(elev)
+    e_o, c_o, p_o = elev[ordem], c[ordem], p[ordem]
+    pontos = [{"elev": e, "theta": float(tm.ANGLE_OFFSET + 90.0 - e),
+               "cabo": float(np.interp(e, e_o, c_o)), "peso": float(np.interp(e, e_o, p_o)),
+               "razao": float(np.interp(e, e_o, c_o)/np.interp(e, e_o, p_o))}
+              for e in COMP_ELEVACOES]
+    razao = c_o/p_o
+    sel = (e_o >= 30.0) & (e_o <= 170.0) & (p_o > 0)
+    i_um = np.where(np.diff(np.sign(razao[sel] - 1.0)))[0]
+    i_pp = int(np.argmax(p))
+    faixa = (e_o >= 60.0) & (e_o <= 150.0)
+    return {
+        "pontos": pontos,
+        "elev_razao_1": [float(e_o[sel][i]) for i in i_um],
+        "cabo_no_pico_peso": float(c[i_pp]), "razao_no_pico_peso": float(c[i_pp]/p[i_pp]),
+        "razao_60_150": [float(razao[faixa].min()), float(razao[faixa].max())],
+        "media_razao_60_150": float(np.mean(razao[faixa])),
+        "excedente_max": float(np.max(c - p)), "elev_excedente_max": float(elev[np.argmax(c - p)]),
+    }
+
+
+def figura_compensacao():
+    th = np.linspace(tm.THETA_MIN, tm.THETA_MAX, 1501)
+    elev = elevacao(th)
+    c, p = cabo(th), tm.torque_peso(th)
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4.2), dpi=200, facecolor=SUPERFICIE)
+    for ax in (ax1, ax2):
+        eixos(ax)
+    ax1.axhline(0, color=TINTA_2, lw=0.8)
+    ax1.plot(elev, c, color=AZUL, lw=2, label="torque do cabo")
+    ax1.plot(elev, p, color=LARANJA, lw=2, label="torque do peso")
+    ax1.set_xlabel("Elevação anatômica do braço (graus)", color=TINTA_2)
+    ax1.set_ylabel("Torque (N·m)", color=TINTA_2)
+    ax1.legend(loc="upper right", frameon=False, fontsize=8)
+    sel = (elev >= 32.0) & (elev <= 170.0)
+    ax2.plot(elev[sel], c[sel]/p[sel], color=AZUL, lw=2)
+    ax2.axhline(1.0, color=TINTA_2, lw=0.8, ls=":")
+    ax2.set_xlabel("Elevação anatômica do braço (graus)", color=TINTA_2)
+    ax2.set_ylabel("Torque do cabo / torque do peso", color=TINTA_2)
+    for ax in (ax1, ax2):
+        ax.xaxis.set_major_formatter(virgula(0))
+        ax.yaxis.set_major_formatter(virgula(0))
+    fig.tight_layout()
+    fig.savefig(PASTA/"tcc_fig6_compensacao.png", facecolor=SUPERFICIE)
+    plt.close(fig)
+
+
 def figura_normalizada(cruzamentos):
     th = np.linspace(tm.THETA_MIN, tm.THETA_MAX, 1501)
     c = cabo(th)
@@ -495,9 +553,9 @@ def figura_normalizada(cruzamentos):
     eixos(ax)
     ax.axhline(0, color=TINTA_2, lw=0.8)
     ax.plot(elev, c/c.max(), color=AZUL, lw=2,
-            label="torque do cabo / pico (u.p./u.p.)")
+            label="torque do cabo / pico")
     ax.plot(elev, p/p.max(), color=LARANJA, lw=2,
-            label="torque do peso / pico (N·m/N·m)")
+            label="torque do peso / pico")
     for e in cruzamentos:
         ax.axvline(e, color=TINTA_2, lw=0.8, ls=":")
     ax.set_xlabel("Elevação anatômica do braço (graus)", color=TINTA_2)
@@ -528,6 +586,7 @@ def main():
     figura_familia(patente)
     figura_rmse(varredura)
     figura_normalizada(norm["cruzamentos_elev"])
+    figura_compensacao()
     tabela_patente(patente, met["calc"], met["res"])
 
     linha = {round(l["h"], 9): l for l in varredura["linhas"]}
@@ -554,6 +613,7 @@ def main():
         "autotestes": {k: float(v) for k, v in auto.items()},
         "mecanismo": mec,
         "normalizada": norm,
+        "compensacao": compensacao(),
         "geometria_pose": geo,
         "varredura": {
             "n": len(varredura["linhas"]),
