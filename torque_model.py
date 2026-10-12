@@ -513,8 +513,19 @@ if __name__ == "__main__":
 #
 # Regras desta seção: nenhum nome global existente é religado; toda conta
 # vive dentro de funções; h é passado explicitamente em toda chamada; nada
-# aqui substitui K, H_CALIBRADO ou X_POSE. Os únicos globais novos são as
-# funções abaixo e os três flags VH_ no fim.
+# aqui substitui K, H_CALIBRADO ou X_POSE. Globais novos: só as funções vh_* e
+# varredura_h, e as constantes VH_*.
+#
+# Viabilidade = (a) tração + (c) fechamento + (d) trabalho virtual
+# (VH_CRITERIOS). O ENROLAMENTO NÃO É CRITÉRIO: rel = 0 em angulo_cabo_elo
+# significa arco de enrolamento nulo, não cabo fora da polia. Quem garante o
+# cabo no tambor é a tangência, o critério (c) ρ > R. Usar a troca de sinal de
+# rel como critério reprovava o próprio H_CALIBRADO (arco de micrômetros). Não
+# reintroduzir; o enrolamento continua só como diagnóstico.
+
+VH_CRITERIOS = ("tracao", "fechamento", "tv_ok")
+VH_FOLGAS = (1.01, 1.05, 1.10, 2.00)
+VH_FOLGA_REFERENCIA = 1.05
 
 
 def vh_trapezio(y, x):
@@ -559,46 +570,55 @@ def vh_bissecao_theta_dc(theta_alvo, h_a=1e-3, h_b=1e3, tol=1e-13):
 
 
 def vh_avaliar_h(h, theta, patente, peso, tol_tv):
-    """Validade (a)–(d) e métricas de um h, sem saturação nem correção.
+    """Validade (a), (c), (d), diagnóstico de enrolamento e métricas de um h.
 
-    Torque do cabo na convenção da patente (−τ do modelo), K congelado.
+    Nada é saturado nem corrigido. Torque do cabo na convenção da patente
+    (−τ do modelo), K congelado.
     """
-    linha = {"h": float(h), "motivo": ""}
+    linha = {"h": float(h), "motivo": "", "viavel": False}
     q = calculate_q(theta)
     rho = calculate_rho(q, h)
     linha["fechamento"] = bool(np.all(rho > R))
     if not linha["fechamento"]:
         linha["motivo"] = "fechamento: ρ ≤ R em parte da faixa"
         return linha
-    s = calculate_tangent_span(rho)
-    phi = calculate_phi(q, s, h)
-    rel = angulo_cabo_elo(q, phi)
-    extensao = comprimento_caminho(q, s, phi) - s_zero(h)   # sem saturação
     try:
+        s = calculate_tangent_span(rho)
+        phi = calculate_phi(q, s, h)
+        rel = angulo_cabo_elo(q, phi)
+        extensao = comprimento_caminho(q, s, phi) - s_zero(h)   # sem saturação
         cabo = -calculate_torque_curve(K, h, theta)["tau"]
+        g_theta = -calculate_torque_curve(1.0, h, theta)["tau"]
         cabo_pat = -calculate_torque_curve(K, h, patente["theta_star"])["tau"]
         g = -calculate_torque_curve(1.0, h, patente["theta_star"])["tau"]
+        tv = residuo_trabalho_virtual(h)
     except (ValueError, AssertionError) as erro:
         linha["fechamento"] = False
         linha["motivo"] = f"fechamento: {erro}"
         return linha
 
-    tv = residuo_trabalho_virtual(h)
+    # τ é linear em K (δ não depende de K): τ(K) = K·g com g = τ(h, K = 1)
+    erro_linear = float(max(np.max(np.abs(cabo - K*g_theta)),
+                            np.max(np.abs(cabo_pat - K*g))))
+    assert erro_linear < 1e-9, f"τ não é linear em K: {erro_linear:.1e}"
+
+    i_min = int(np.argmin(extensao))
     linha.update(
         tracao=bool(np.all(extensao >= 0)),
-        enrolamento=not (rel.min() < 0 < rel.max()),
         trabalho_virtual=float(tv),
         tv_ok=bool(tv < tol_tv),
-        delta_min=float(extensao.min()),
+        delta_min=float(extensao[i_min]),
+        theta_delta_min=float(theta[i_min]),
         delta_max=float(extensao.max()),
+        mola_max=float(L_LIVRE + extensao.max()),
         rel_min_grau=float(np.degrees(rel.min())),
         rel_max_grau=float(np.degrees(rel.max())),
+        enrol_troca=bool(rel.min() < 0 < rel.max()),
+        arco_pos_max=max(0.0, float(R*rel.max())),
+        erro_linear_K=erro_linear,
     )
-    linha["viavel"] = (linha["fechamento"] and linha["tracao"]
-                       and linha["enrolamento"] and linha["tv_ok"])
-    motivos = [nome for nome in ("tracao", "enrolamento", "tv_ok")
-               if not linha[nome]]
-    linha["motivo"] = ", ".join(motivos)
+    linha["viavel"] = all(linha[c] for c in VH_CRITERIOS)
+    linha["motivo"] = ", ".join(c for c in VH_CRITERIOS if not linha[c])
 
     residuo = cabo_pat - patente["torque"]
     k_estrela = float((g @ patente["torque"])/(g @ g))   # forma fechada
@@ -614,10 +634,10 @@ def vh_avaliar_h(h, theta, patente, peso, tol_tv):
 
 
 def vh_valores_notaveis(h, theta, patente, peso, tol_tv):
-    """Valores notáveis da curva torque × θ* de um h."""
-    base = vh_avaliar_h(h, theta, patente, peso, tol_tv)
-    v = dict(base)
-    if not base["fechamento"]:
+    """Valores notáveis da curva torque × θ* de um h. Sem fechamento, devolve
+    só a avaliação básica (com o motivo)."""
+    v = vh_avaliar_h(h, theta, patente, peso, tol_tv)
+    if not v["fechamento"]:
         return v
     q = calculate_q(theta)
     s = calculate_tangent_span(calculate_rho(q, h))
@@ -657,28 +677,67 @@ def vh_valores_notaveis(h, theta, patente, peso, tol_tv):
 
 
 def vh_faixa(linhas, chave):
-    """Menor e maior h em que linhas[chave] é verdadeiro, e se é contínua."""
+    """Menor e maior h com linhas[chave] verdadeiro, quantos são e se o
+    conjunto é contíguo na grade (linhas ordenadas por h)."""
     hs = np.array([l["h"] for l in linhas])
     ok = np.array([bool(l.get(chave, False)) for l in linhas])
     if not ok.any():
         return None
-    trechos = 1 + np.count_nonzero(np.diff(ok[ok.argmax():len(ok) - ok[::-1].argmax()].astype(int)))
-    return {"min": float(hs[ok].min()), "max": float(hs[ok].max()),
-            "continua": trechos == 1,
-            "borda_min": bool(ok[0]), "borda_max": bool(ok[-1])}
+    indices = np.flatnonzero(ok)
+    primeiro, ultimo = int(indices[0]), int(indices[-1])
+    return {"min": float(hs[primeiro]), "max": float(hs[ultimo]),
+            "n": int(ok.sum()),
+            "contigua": bool(ok[primeiro:ultimo + 1].all()),
+            "borda_min": primeiro == 0, "borda_max": ultimo == len(ok) - 1}
 
 
-def vh_salvar_csv(caminho, linhas, colunas):
+def vh_plato(linhas, chave_rmse, folga):
+    """h com chave_rmse ≤ folga·mínimo (entre os h com fechamento)."""
+    minimo = min(l[chave_rmse] for l in linhas if l["fechamento"])
+    marcas = [{"h": l["h"], "ok": bool(l["fechamento"]
+                                       and l[chave_rmse] <= folga*minimo)}
+              for l in linhas]
+    faixa = vh_faixa(marcas, "ok")
+    faixa.update(folga=folga, minimo=minimo,
+                 largura=faixa["max"] - faixa["min"])
+    return faixa
+
+
+def vh_degradacao(linhas, chave_rmse, fatores=(2.0, 10.0)):
+    """A partir do h de menor erro, o primeiro h de cada lado em que o erro
+    passa de fator × mínimo (None se não passa dentro da grade)."""
+    calc = [l for l in linhas if l["fechamento"]]
+    i0 = min(range(len(calc)), key=lambda i: calc[i][chave_rmse])
+    minimo = calc[i0][chave_rmse]
+    saida = {}
+    for fator in fatores:
+        limite = fator*minimo
+        esq = next((calc[i]["h"] for i in range(i0, -1, -1)
+                    if calc[i][chave_rmse] > limite), None)
+        dir_ = next((calc[i]["h"] for i in range(i0, len(calc))
+                     if calc[i][chave_rmse] > limite), None)
+        saida[fator] = {"esq": esq, "dir": dir_}
+    return {"h_min": calc[i0]["h"], "minimo": minimo, "fatores": saida}
+
+
+def vh_salvar_csv(caminho, linhas, colunas, colunas_texto=("papeis", "motivo")):
+    """CSV para Excel pt-BR: separador ';', decimal vírgula, sim/nao."""
     texto = [";".join(colunas)]
     for l in linhas:
         celulas = []
         for c in colunas:
             valor = l.get(c, "")
-            if isinstance(valor, (list, tuple)):
-                valor = " ".join(f"{x:.4f}" for x in valor)
-            elif isinstance(valor, float):
-                valor = f"{valor:.6g}"
-            celulas.append(str(valor))
+            if c in colunas_texto:
+                celula = str(valor)
+            elif isinstance(valor, (bool, np.bool_)):
+                celula = "sim" if valor else "nao"
+            elif isinstance(valor, (list, tuple)):
+                celula = " ".join(f"{x:.4f}".replace(".", ",") for x in valor)
+            elif isinstance(valor, (float, np.floating)):
+                celula = f"{valor:.6g}".replace(".", ",")
+            else:
+                celula = str(valor)
+            celulas.append(celula)
         texto.append(";".join(celulas))
     caminho.write_text("\n".join(texto) + "\n", encoding="utf-8")
 
@@ -695,12 +754,12 @@ def vh_plot_perfil_rmse(linhas, notaveis, faixas, caminho_png):
 
     ok = [l for l in linhas if l["fechamento"]]
     hs = np.array([l["h"] for l in ok])
-    fig, ax = plt.subplots(figsize=(9.5, 5), dpi=150, facecolor="#fcfcfb")
+    fig, ax = plt.subplots(figsize=(9.5, 5), dpi=200, facecolor="#fcfcfb")
     ax.set_facecolor("#fcfcfb")
     viaveis = faixas.get("viavel")
     if viaveis:
         ax.axvspan(viaveis["min"], viaveis["max"], color="#1baf7a", alpha=0.12,
-                   label="h viáveis (a)–(d)")
+                   label="h viáveis: (a), (c), (d)")
     ax.plot(hs, [l["rmse"] for l in ok], color="#2a78d6", linewidth=2,
             label="RMSE(h), K congelado")
     ax.plot(hs, [l["rmse_k_estrela"] for l in ok], color="#eb6834",
@@ -709,11 +768,12 @@ def vh_plot_perfil_rmse(linhas, notaveis, faixas, caminho_png):
         ax.axvline(h, color="#52514e", linewidth=0.7, linestyle=":")
     ax.plot([], [], color="#52514e", linewidth=0.7, linestyle=":",
             label="h notáveis")
+    ax.set_yscale("log")
     ax.set_xlabel("h (mm)")
-    ax.set_ylabel("RMSE (unidade da curva extraída)")
+    ax.set_ylabel("RMSE (unidade da curva extraída), escala log")
     ax.xaxis.set_major_formatter(vh_formatador_virgula(0))
-    ax.yaxis.set_major_formatter(vh_formatador_virgula(0))
-    ax.grid(color="#e6e5e1", linewidth=0.8)
+    ax.grid(color="#e6e5e1", linewidth=0.8, which="both")
+    ax.set_axisbelow(True)
     ax.legend(loc="upper left", bbox_to_anchor=(1.01, 1.0), frameon=False,
               fontsize=8)
     fig.tight_layout()
@@ -728,8 +788,9 @@ def vh_plot_curvas_notaveis(notaveis, theta, patente, peso, caminho_png):
 
     cores = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4",
              "#008300", "#4a3aa7", "#e34948"]
-    fig, ax = plt.subplots(figsize=(9.5, 5), dpi=150, facecolor="#fcfcfb")
+    fig, ax = plt.subplots(figsize=(10, 5.2), dpi=200, facecolor="#fcfcfb")
     ax.set_facecolor("#fcfcfb")
+    ax.axhline(0, color="#52514e", linewidth=0.8)
     ax.plot(patente["theta_star"], patente["torque"], "o", color="#0b0b0b",
             markersize=4, label="Extração da patente (cabo)")
     for i, (nome, h) in enumerate(notaveis):
@@ -748,9 +809,10 @@ def vh_plot_curvas_notaveis(notaveis, theta, patente, peso, caminho_png):
     ax.set_xlabel("θ* (graus)")
     ax.set_ylabel("Torque do cabo (unidade da curva extraída)")
     ax2.set_ylabel("Torque do peso (N·m)")
-    for eixo, casas in ((ax.xaxis, 0), (ax.yaxis, 0), (ax2.yaxis, 0)):
+    for eixo, casas in ((ax.xaxis, 0), (ax.yaxis, 0), (ax2.yaxis, 1)):
         eixo.set_major_formatter(vh_formatador_virgula(casas))
     ax.grid(color="#e6e5e1", linewidth=0.8)
+    ax.set_axisbelow(True)
     linhas_a, nomes_a = ax.get_legend_handles_labels()
     linhas_b, nomes_b = ax2.get_legend_handles_labels()
     ax.legend(linhas_a + linhas_b, nomes_a + nomes_b, loc="upper left",
@@ -773,7 +835,6 @@ def varredura_h(plot_perfil=None, plot_curvas=None):
     VH_GRID = np.arange(8.0, 60.0 + 1e-9, 0.05)            # mm, h VARRIDO
     VH_THETA = np.linspace(THETA_MIN, THETA_MAX, 1501)      # graus
     VH_TOL_TV = 1e-6                                        # mm/rad
-    VH_FOLGA_PLATO = 1.05
     if plot_perfil is None:
         plot_perfil = VH_PLOT_PERFIL_RMSE
     if plot_curvas is None:
@@ -792,6 +853,7 @@ def varredura_h(plot_perfil=None, plot_curvas=None):
     grade = np.unique(np.concatenate([VH_GRID, [H_CALIBRADO, H_CAD]]))
     linhas = [vh_avaliar_h(h, VH_THETA, patente, peso, VH_TOL_TV)
               for h in grade]
+    linha_de = {round(l["h"], 9): l for l in linhas}
 
     # ancoragem: extensão na pose = X_POSE para todo h
     erro_ancora = max(abs(caminho_cabo(THETA_POSE, h) - s_zero(h) - X_POSE)
@@ -802,48 +864,44 @@ def varredura_h(plot_perfil=None, plot_curvas=None):
     tau_congelado = calculate_torque_curve(K, H_CALIBRADO,
                                            patente["theta_star"])["tau"]
     rmse_congelado = np.sqrt(np.mean((-tau_congelado - patente["torque"])**2))
-    linha_cal = next(l for l in linhas if l["h"] == H_CALIBRADO)
+    linha_cal = linha_de[round(H_CALIBRADO, 9)]
     assert linha_cal["rmse"] == rmse_congelado
 
     calculaveis = [l for l in linhas if l["fechamento"]]
     viaveis = [l for l in calculaveis if l["viavel"]]
-    ordem = sorted(calculaveis, key=lambda l: l["rmse"])
-    for posto, l in enumerate(ordem, start=1):
+    for posto, l in enumerate(sorted(calculaveis, key=lambda l: l["rmse"]),
+                              start=1):
         l["posto_rmse"] = posto
-    if viaveis:
-        for posto, l in enumerate(sorted(viaveis, key=lambda l: l["rmse"]),
-                                  start=1):
-            l["posto_rmse_viavel"] = posto
+    n_calc = len(calculaveis)
+    faixas = {nome: vh_faixa(linhas, nome)
+              for nome in ("tracao", "tv_ok", "viavel")}
+
+    def contexto(linha):
+        marcas = []
+        if linha["h"] in (grade[0], grade[-1]):
+            marcas.append("[borda da grade]")
+        if faixas["viavel"] and linha["h"] in (faixas["viavel"]["min"],
+                                                faixas["viavel"]["max"]):
+            marcas.append("[borda da faixa viável]")
+        return (" " + " ".join(marcas)) if marcas else ""
 
     # grupo A
-    otimo = ordem[0]
-    rmse_min = otimo["rmse"]
-    for l in linhas:
-        l["no_plato"] = bool(l["fechamento"]
-                             and l["rmse"] <= VH_FOLGA_PLATO*rmse_min)
-    plato_faixa = vh_faixa(linhas, "no_plato")
+    otimo = min(calculaveis, key=lambda l: l["rmse"])
     otimo_viavel = min(viaveis, key=lambda l: l["rmse"]) if viaveis else None
     pior = max(viaveis, key=lambda l: l["rmse"]) if viaveis else None
-
+    platos = {f: vh_plato(linhas, "rmse", f) for f in VH_FOLGAS}
+    degr = vh_degradacao(linhas, "rmse")
     # grupo B
     otimo_k = min(calculaveis, key=lambda l: l["rmse_k_estrela"])
-    for l in linhas:
-        l["no_plato_k"] = bool(l["fechamento"] and l["rmse_k_estrela"]
-                               <= VH_FOLGA_PLATO*otimo_k["rmse_k_estrela"])
-    plato_k = vh_faixa(linhas, "no_plato_k")
-    linha_de = {round(l["h"], 9): l for l in linhas}
-
-    # grupo C
-    faixas = {nome: vh_faixa(linhas, nome)
-              for nome in ("tracao", "enrolamento", "tv_ok", "viavel")}
-
+    platos_k = {f: vh_plato(linhas, "rmse_k_estrela", f) for f in VH_FOLGAS}
+    degr_k = vh_degradacao(linhas, "rmse_k_estrela")
+    plato_ref = platos[VH_FOLGA_REFERENCIA]
     # grupo D
     h_dc_entra = float(vh_h_de_theta_dc(THETA_MAX))
     h_dc_entra_bis = vh_bissecao_theta_dc(THETA_MAX)
     assert abs(h_dc_entra - h_dc_entra_bis) < 1e-12
     h_dc_sai_formula = float(vh_h_de_theta_dc(THETA_MIN))
     h_dc_sai_bis = vh_bissecao_theta_dc(THETA_MIN)
-
     # grupo F (descritivo, só entre viáveis)
     h_tau_max = max(viaveis, key=lambda l: l["tau_max"]) if viaveis else None
     h_deficit = min(viaveis, key=lambda l: l["deficit_max"]) if viaveis else None
@@ -868,49 +926,69 @@ def varredura_h(plot_perfil=None, plot_curvas=None):
     print(f"Classificação: h VARRIDO ({grade.size} valores, 8,00 a 60,00 mm em "
           f"0,05 mm + {H_CALIBRADO} e {H_CAD} exatos); h_otimo, h_pior e "
           f"demais h notáveis DERIVADOS (diagnóstico).")
+    print(f"Viabilidade = {' + '.join(VH_CRITERIOS)} (critérios (a), (c), (d)). "
+          f"Enrolamento só como diagnóstico.")
     print(f"Guarda do h implícito: curvas com h = 15 e h = 30 diferem "
           f"(máx. {np.max(np.abs(curva_a - curva_b)):.3f} u.p.). OK.")
+    print(f"Linearidade em K: max|τ(K) − K·g| na grade = "
+          f"{max(l['erro_linear_K'] for l in calculaveis):.1e} (< 1e-9), o que "
+          f"justifica o K* em forma fechada.")
     print(f"RMSE em H_CALIBRADO pela varredura = {linha_cal['rmse']:.6f} "
           f"(modelo congelado: {rmse_congelado:.6f}, idêntico).")
 
-    print("\nGrupo A - concordância com a extração (K congelado em "
-          f"{K}):")
-    print(f"  h_otimo        = {otimo['h']:.3f} mm  RMSE {rmse_min:.4f}  "
-          f"viável: {otimo['viavel']}"
+    print(f"\nGrupo A - concordância com a extração (K congelado em {K}):")
+    print(f"  h_otimo        = {otimo['h']:.3f} mm{contexto(otimo)}  RMSE "
+          f"{otimo['rmse']:.4f}  viável: {otimo['viavel']}"
           + (f" (falha: {otimo['motivo']})" if not otimo["viavel"] else ""))
-    if otimo_viavel:
+    if viaveis:
         coincide = otimo_viavel["h"] == otimo["h"]
-        print(f"  h_otimo_viavel = {otimo_viavel['h']:.3f} mm  RMSE "
-              f"{otimo_viavel['rmse']:.4f}  "
+        print(f"  h_otimo_viavel = {otimo_viavel['h']:.3f} mm"
+              f"{contexto(otimo_viavel)}  RMSE {otimo_viavel['rmse']:.4f}  "
               + ("(coincide com h_otimo)" if coincide
                  else "(DIFERE de h_otimo: o mínimo irrestrito não é viável)"))
-        print(f"  h_pior         = {pior['h']:.3f} mm  RMSE {pior['rmse']:.4f} "
-              f"(entre os viáveis"
-              f"{'; borda da grade' if pior['h'] in (grade[0], grade[-1]) else ''})")
+        print(f"  h_pior         = {pior['h']:.3f} mm{contexto(pior)}  RMSE "
+              f"{pior['rmse']:.4f} (entre os viáveis)")
+        if contexto(pior):
+            print("    ↳ h_pior cai numa borda: ali o 'pior' mede o intervalo "
+                  "varrido, não o mecanismo. Ver a degradação abaixo.")
     else:
         print("  nenhum h viável: h_otimo_viavel e h_pior não existem")
-    print(f"  platô (RMSE ≤ {VH_FOLGA_PLATO}·mín): h de {plato_faixa['min']:.3f} "
-          f"a {plato_faixa['max']:.3f} mm, largura "
-          f"{plato_faixa['max'] - plato_faixa['min']:.3f} mm, "
-          f"{'contínuo' if plato_faixa['continua'] else 'NÃO contínuo'}")
+    for f in VH_FOLGAS:
+        p = platos[f]
+        print(f"  platô RMSE ≤ {f:.2f}·mín: h de {p['min']:.3f} a {p['max']:.3f} "
+              f"mm, largura {p['largura']:.3f} mm, {p['n']} h"
+              f"{'' if p['contigua'] else ', NÃO contíguo'}"
+              f"{' (encosta na borda da grade)' if p['borda_min'] or p['borda_max'] else ''}"
+              f"{'   ← referência' if f == VH_FOLGA_REFERENCIA else ''}")
+    for fator, lados in degr["fatores"].items():
+        esq = "não atinge na grade" if lados["esq"] is None else f"{lados['esq']:.3f} mm"
+        dir_ = "não atinge na grade" if lados["dir"] is None else f"{lados['dir']:.3f} mm"
+        print(f"  degradação RMSE > {fator:g}×mín a partir de h = "
+              f"{degr['h_min']:.3f}: esquerda {esq}, direita {dir_}")
 
     print("\nPERFIL DE IDENTIFICABILIDADE - não altera parâmetros congelados")
     print("  (K reidentificado por h, mínimos quadrados lineares em forma fechada)")
-    print(f"  h_otimo_K = {otimo_k['h']:.3f} mm, K*(h_otimo_K) = "
-          f"{otimo_k['k_estrela']:.3f}, RMSE* = {otimo_k['rmse_k_estrela']:.4f}")
+    print(f"  h_otimo_K = {otimo_k['h']:.3f} mm{contexto(otimo_k)}, K*(h_otimo_K) "
+          f"= {otimo_k['k_estrela']:.3f}, RMSE* = {otimo_k['rmse_k_estrela']:.4f}")
     for nome in ("min", "max"):
-        l = linha_de[round(plato_faixa[nome], 9)]
-        print(f"  borda {nome} do platô (h = {l['h']:.3f}): K*/{K} = "
-              f"{l['k_estrela']/K:.4f}")
-    print(f"  platô de RMSE* (≤ {VH_FOLGA_PLATO}·mín): h de {plato_k['min']:.3f} "
-          f"a {plato_k['max']:.3f} mm, largura "
-          f"{plato_k['max'] - plato_k['min']:.3f} mm"
-          + (" (encosta na borda da grade)" if plato_k["borda_min"]
-             or plato_k["borda_max"] else ""))
+        l = linha_de[round(plato_ref[nome], 9)]
+        print(f"  borda {nome} do platô RMSE ({VH_FOLGA_REFERENCIA:.2f}, h = "
+              f"{l['h']:.3f}): K*/{K} = {l['k_estrela']/K:.4f}")
+    for f in VH_FOLGAS:
+        p = platos_k[f]
+        print(f"  platô RMSE* ≤ {f:.2f}·mín: h de {p['min']:.3f} a {p['max']:.3f} "
+              f"mm, largura {p['largura']:.3f} mm, {p['n']} h"
+              f"{'' if p['contigua'] else ', NÃO contíguo'}"
+              f"{' (encosta na borda da grade)' if p['borda_min'] or p['borda_max'] else ''}")
+    for fator, lados in degr_k["fatores"].items():
+        esq = "não atinge na grade" if lados["esq"] is None else f"{lados['esq']:.3f} mm"
+        dir_ = "não atinge na grade" if lados["dir"] is None else f"{lados['dir']:.3f} mm"
+        print(f"  degradação RMSE* > {fator:g}×mín a partir de h = "
+              f"{degr_k['h_min']:.3f}: esquerda {esq}, direita {dir_}")
 
     print("\nGrupo C - fronteiras de validade física (na grade):")
-    rotulos = {"tracao": "(a) tração", "enrolamento": "(b) enrolamento",
-               "tv_ok": "(d) trabalho virtual", "viavel": "viável (a)–(d)"}
+    rotulos = {"tracao": "(a) tração", "tv_ok": "(d) trabalho virtual",
+               "viavel": "viável (a), (c), (d)"}
     for nome, rotulo in rotulos.items():
         f = faixas[nome]
         if f is None:
@@ -919,11 +997,37 @@ def varredura_h(plot_perfil=None, plot_curvas=None):
         print(f"  {rotulo:22s} h de {f['min']:.3f}"
               f"{' (borda da grade)' if f['borda_min'] else ''} a "
               f"{f['max']:.3f}{' (borda da grade)' if f['borda_max'] else ''}"
-              f"{'' if f['continua'] else ', NÃO contínuo'}")
+              f", {f['n']} h{'' if f['contigua'] else ', NÃO contíguo'}")
     print(f"  (c) fechamento         {sum(l['fechamento'] for l in linhas)} de "
           f"{len(linhas)} h com solução real em toda a faixa")
+    if faixas["viavel"]:
+        for lado, borda in (("inferior", "min"), ("superior", "max")):
+            if faixas["viavel"][f"borda_{borda}"]:
+                print(f"  limite {lado} da faixa viável: borda da grade")
+                continue
+            vizinho = linhas[[l["h"] for l in linhas].index(faixas["viavel"][borda])
+                             + (1 if borda == "max" else -1)]
+            print(f"  limite {lado} da faixa viável: imposto por "
+                  f"{vizinho['motivo']} (primeiro h fora: {vizinho['h']:.3f} mm)")
     tv_max = max(l["trabalho_virtual"] for l in calculaveis)
     print(f"  trabalho virtual máximo na grade: {tv_max:.1e} mm/rad")
+
+    troca = [l for l in calculaveis if l["enrol_troca"]]
+    arco_max = max(calculaveis, key=lambda l: l["arco_pos_max"])
+    print("\n  Enrolamento - DIAGNÓSTICO, não critério de validade")
+    if troca:
+        primeiro = min(l["h"] for l in troca)
+        seguidos = all(l["enrol_troca"] for l in calculaveis
+                       if l["h"] >= primeiro)
+        print(f"    rel troca de sinal em {len(troca)} de {n_calc} h, a partir "
+              f"de h = {primeiro:.3f} mm"
+              f"{' (e em todos os h acima)' if seguidos else ' (não contíguo)'}")
+    else:
+        print("    rel não troca de sinal em nenhum h da grade")
+    print(f"    maior arco positivo R·rel: {arco_max['arco_pos_max']*1000:.2f} µm "
+          f"em h = {arco_max['h']:.3f} mm")
+    print("    rel = 0 é arco de enrolamento nulo, não cabo fora da polia; quem")
+    print("    garante o cabo no tambor é a tangência, o critério (c) ρ > R.")
 
     print("\nGrupo D - marcos de mecanismo (forma fechada):")
     print(f"  h_dc_entra = {h_dc_entra:.12f} mm (θ*_pm cruza THETA_MAX = "
@@ -933,77 +1037,92 @@ def varredura_h(plot_perfil=None, plot_curvas=None):
           f"{180 + np.degrees(np.arcsin(R/C)):.3f}° e "
           f"{270 + np.degrees(np.arcsin(R/C)):.3f}° e nunca chega a THETA_MIN = "
           f"{THETA_MIN:.3f}°. A inversão por tangente devolve h = "
-          f"{h_dc_sai_formula:.4f} mm, que é ramo espúrio: θ*_pm({h_dc_sai_formula:.4f})"
+          f"{h_dc_sai_formula:.4f} mm, ramo espúrio: θ*_pm({h_dc_sai_formula:.4f})"
           f" = {ponto_morto(h_dc_sai_formula):.3f}°. Bissecção: "
           f"{'sem troca de sinal' if h_dc_sai_bis is None else h_dc_sai_bis}.")
 
-    n = len(ordem)
     print("\nGrupo E - referências, não ótimos:")
     for nome, h in (("H_CALIBRADO", H_CALIBRADO), ("H_CAD", H_CAD)):
         l = linha_de[round(h, 9)]
         print(f"  {nome:12s} = {h:.3f} mm  RMSE {l['rmse']:.4f}  posto "
-              f"{l['posto_rmse']} de {n} (percentil {100*l['posto_rmse']/n:.1f}%)"
-              f"  viável: {l['viavel']}"
+              f"{l['posto_rmse']} de {n_calc} (percentil "
+              f"{100*l['posto_rmse']/n_calc:.1f}%)  viável: {l['viavel']}"
               + (f" (falha: {l['motivo']})" if not l["viavel"] else ""))
+    l_cad = linha_de[round(H_CAD, 9)]
+    if not l_cad["tracao"]:
+        print(f"    ↳ H_CAD falha a tração: δ_min = {l_cad['delta_min']:.3f} mm em "
+              f"θ* = {l_cad['theta_delta_min']:.2f}°. Com a ancoragem por X_POSE, "
+              f"no h documental o cabo afrouxaria dentro da faixa de operação.")
     print(f"  delta = h_otimo − H_CALIBRADO = {otimo['h'] - H_CALIBRADO:+.3f} mm")
 
     print("\nDESCRITIVO - a gravidade não define otimalidade neste trabalho")
     if viaveis:
-        borda = lambda l: (" (borda da faixa viável)"
-                           if l["h"] in (faixas["viavel"]["min"],
-                                         faixas["viavel"]["max"]) else "")
         print(f"  h que maximiza τ_max (entre viáveis): {h_tau_max['h']:.3f} mm"
-              f"{borda(h_tau_max)}, τ_max = {h_tau_max['tau_max']:.3f}")
+              f"{contexto(h_tau_max)}, τ_max = {h_tau_max['tau_max']:.3f}")
         print(f"  h que minimiza o pior déficit max(τ_peso − τ_cabo) (entre "
-              f"viáveis): {h_deficit['h']:.3f} mm{borda(h_deficit)}, déficit = "
+              f"viáveis): {h_deficit['h']:.3f} mm{contexto(h_deficit)}, déficit = "
               f"{h_deficit['deficit_max']:.3f} (negativo = cabo acima do peso "
               f"em toda a faixa)")
 
     # ------------------------------------------------- valores notáveis
-    papeis = [("h_otimo", otimo["h"]), ("h_plato_min", plato_faixa["min"]),
-              ("h_plato_max", plato_faixa["max"]), ("h_otimo_K", otimo_k["h"]),
+    papeis = [("h_otimo", otimo["h"]), ("h_otimo_K", otimo_k["h"]),
+              ("h_plato_min", plato_ref["min"]), ("h_plato_max", plato_ref["max"]),
               ("h_dc_entra", h_dc_entra), ("H_CALIBRADO", H_CALIBRADO),
               ("H_CAD", H_CAD)]
     if viaveis:
         papeis += [("h_otimo_viavel", otimo_viavel["h"]), ("h_pior", pior["h"]),
                    ("h_tau_max", h_tau_max["h"]),
                    ("h_min_deficit", h_deficit["h"])]
-    for nome in ("tracao", "enrolamento", "viavel"):
+    for nome in ("tracao", "viavel"):
         if faixas[nome]:
             papeis += [(f"h_{nome}_min", faixas[nome]["min"]),
                        (f"h_{nome}_max", faixas[nome]["max"])]
+    for fator, lados in degr["fatores"].items():
+        for lado in ("esq", "dir"):
+            if lados[lado] is not None:
+                papeis.append((f"h_rmse_{fator:g}x_{lado}", lados[lado]))
     agrupados, valor_exato = {}, {}
     for nome, h in papeis:
         chave = round(float(h), 9)
         agrupados.setdefault(chave, []).append(nome)
         valor_exato.setdefault(chave, float(h))
-    notaveis = []
+    notaveis, sem_fechamento = [], []
     for chave in sorted(agrupados):
         v = vh_valores_notaveis(valor_exato[chave], VH_THETA, patente, peso,
                                 VH_TOL_TV)
         v["papeis"] = "+".join(agrupados[chave])
         if valor_exato[chave] in (grade[0], grade[-1]):
             v["papeis"] += " [borda da grade]"
+        if not v["fechamento"]:
+            v["papeis"] += " [SEM FECHAMENTO]"
+            sem_fechamento.append(v)
+            continue
         l = linha_de.get(chave)
         v["posto_rmse"] = l.get("posto_rmse", "") if l else "fora da grade"
         notaveis.append(v)
 
     print("\nValores notáveis por h (ordenado por h; torque do cabo na convenção")
-    print("da patente, em u.p.; peso em N·m; flags a=tração b=enrolamento "
-          "c=fechamento d=trab. virtual)")
+    print("da patente, em u.p.; peso em N·m; flags a=tração c=fechamento "
+          "d=trab. virtual; ~ = rel troca de sinal, só diagnóstico)")
     print("Papéis de cada h:")
-    for v in notaveis:
+    for v in notaveis + sem_fechamento:
         print(f"  {v['h']:10.4f}  {v['papeis']}")
+    if sem_fechamento:
+        print("Sem fechamento (fora das tabelas de curva):")
+        for v in sem_fechamento:
+            print(f"  {v['h']:10.4f}  {v['motivo']}")
     print(f"\n{'h (mm)':>10} {'posto RMSE':>13} {'θ*_pm':>8} {'na faixa':>8}"
-          f" {'s_zero':>8} {'δ_min':>7} {'δ_max':>7} {'flags':>6}")
+          f" {'s_zero':>8} {'δ_min':>7} {'δ_max':>7} {'mola_max':>9} {'flags':>6}"
+          f" {'enrol':>5}")
     for v in notaveis:
         flags = "".join(c if v.get(k) else "-" for c, k in
-                        (("a", "tracao"), ("b", "enrolamento"),
-                         ("c", "fechamento"), ("d", "tv_ok")))
+                        (("a", "tracao"), ("c", "fechamento"), ("d", "tv_ok")))
         print(f"{v['h']:10.4f} {str(v['posto_rmse']):>13} "
               f"{v['theta_dc']:8.3f} {str(v['theta_dc_na_faixa']):>8} "
               f"{v['s_zero']:8.3f} {v['delta_min']:7.3f} {v['delta_max']:7.3f} "
-              f"{flags:>6}")
+              f"{v['mola_max']:9.3f} {flags:>6} {'~' if v['enrol_troca'] else '':>5}")
+    print(f"mola_max = L_LIVRE + δ_max (L_LIVRE = {L_LIVRE} mm): comprimento "
+          f"esticado da mola, a conferir contra o curso útil da mola.")
     print(f"\n{'h (mm)':>10} {'m_max':>7} {'θ*':>7} {'τ_max':>8} {'θ*':>7}"
           f" {'τ(θmin)':>8} {'τ(pose)':>8} {'τ(θmax)':>8} {'dτ/dθ pose':>11}")
     for v in notaveis:
@@ -1022,12 +1141,13 @@ def varredura_h(plot_perfil=None, plot_curvas=None):
               f"{v['razao_integrais']:7.2f}  {cruz}")
     print("Integrais em θ* em radianos; cabo − peso mistura u.p. e N·m (ver UNIDADES).")
     print(f"\n{'h (mm)':>10} {'RMSE':>8} {'|res|máx':>9} {'res médio':>10}"
-          f" {'zonas':>6} {'rel mín°':>9} {'rel máx°':>9} {'trab.virt.':>11}")
+          f" {'zonas':>6} {'rel mín°':>9} {'rel máx°':>9} {'arco+ µm':>9}"
+          f" {'trab.virt.':>11}")
     for v in notaveis:
         print(f"{v['h']:10.4f} {v['rmse']:8.4f} {v['residuo_max_abs']:9.3f} "
               f"{v['residuo_medio']:10.3f} {v['zonas_de_sinal']:6d} "
-              f"{v['rel_min_grau']:9.3f} {v['rel_max_grau']:9.3f} "
-              f"{v['trabalho_virtual']:11.1e}")
+              f"{v['rel_min_grau']:9.4f} {v['rel_max_grau']:9.4f} "
+              f"{v['arco_pos_max']*1000:9.2f} {v['trabalho_virtual']:11.1e}")
 
     # ---------------------------------------------------------- arquivos
     pasta = Path(__file__).parent/"results" if "__file__" in globals() \
@@ -1035,20 +1155,23 @@ def varredura_h(plot_perfil=None, plot_curvas=None):
     pasta.mkdir(exist_ok=True)
     arquivos = [pasta/"vh_varredura_h.csv", pasta/"vh_h_notaveis.csv"]
     vh_salvar_csv(arquivos[0], linhas,
-                  ["h", "fechamento", "tracao", "enrolamento", "tv_ok", "viavel",
-                   "motivo", "rmse", "posto_rmse", "k_estrela", "rmse_k_estrela",
-                   "delta_min", "delta_max", "rel_min_grau", "rel_max_grau",
-                   "trabalho_virtual", "tau_max", "deficit_max"])
-    vh_salvar_csv(arquivos[1], notaveis,
-                  ["h", "papeis", "posto_rmse", "theta_dc", "theta_dc_na_faixa",
-                   "s_zero", "delta_min", "delta_max", "braco_max",
-                   "theta_braco_max", "tau_max", "theta_tau_max",
-                   "tau_theta_min", "tau_pose", "tau_theta_max",
+                  ["h", "fechamento", "tracao", "tv_ok", "viavel", "motivo",
+                   "rmse", "posto_rmse", "k_estrela", "rmse_k_estrela",
+                   "delta_min", "theta_delta_min", "delta_max", "mola_max",
+                   "rel_min_grau", "rel_max_grau", "enrol_troca",
+                   "arco_pos_max", "trabalho_virtual", "erro_linear_K",
+                   "tau_max", "deficit_max"])
+    vh_salvar_csv(arquivos[1], notaveis + sem_fechamento,
+                  ["h", "papeis", "motivo", "posto_rmse", "theta_dc",
+                   "theta_dc_na_faixa", "s_zero", "delta_min", "delta_max",
+                   "mola_max", "braco_max", "theta_braco_max", "tau_max",
+                   "theta_tau_max", "tau_theta_min", "tau_pose", "tau_theta_max",
                    "dtau_dtheta_pose", "dif_min", "theta_dif_min", "dif_max",
                    "theta_dif_max", "cruzamentos", "integral_cabo",
                    "integral_peso", "razao_integrais", "rmse",
                    "residuo_max_abs", "residuo_medio", "zonas_de_sinal",
-                   "tracao", "enrolamento", "fechamento", "tv_ok",
+                   "tracao", "fechamento", "tv_ok", "viavel", "enrol_troca",
+                   "arco_pos_max", "rel_min_grau", "rel_max_grau",
                    "trabalho_virtual"])
     lista_notaveis = [(v["papeis"], v["h"]) for v in notaveis]
     if plot_perfil:
@@ -1062,14 +1185,15 @@ def varredura_h(plot_perfil=None, plot_curvas=None):
     for a in arquivos:
         print(f"  {a}")
     return {"linhas": linhas, "faixas": faixas, "notaveis": notaveis,
-            "plato": plato_faixa, "plato_k": plato_k,
+            "sem_fechamento": sem_fechamento, "platos": platos,
+            "platos_k": platos_k, "degradacao": degr, "degradacao_k": degr_k,
             "h_dc_entra": h_dc_entra, "h_dc_entra_bissecao": h_dc_entra_bis,
             "h_dc_sai_formula": h_dc_sai_formula, "h_dc_sai_bissecao": h_dc_sai_bis,
             "erro_ancora": erro_ancora, "rmse_congelado": rmse_congelado}
 
 
-VH_RODAR = True            # desligar para importar o módulo sem varrer
+VH_RODAR = True            # desligar para executar sem varrer
 VH_PLOT_PERFIL_RMSE = False
 VH_PLOT_CURVAS_NOTAVEIS = False
-if VH_RODAR:
+if VH_RODAR and __name__ == "__main__":
     varredura_h()
