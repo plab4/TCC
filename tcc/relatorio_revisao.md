@@ -360,3 +360,22 @@ O autor enviou sua própria versão, `tcc/TCC_apenas_exo1.docx`, com cópia em `
 - Pico, média e trabalho devolvidos crescem monotonicamente até o limite do CAD.
 
 Os números estão em `tcc_resultados.h_todos()`, chave `h_todos` de `results/tcc_numeros.json`.
+
+## 17. Seção 4.7 reorganizada em duas subseções
+
+Só a 4.7 mudou; o restante do documento foi conferido parágrafo a parágrafo e está idêntico à versão anterior. As tabelas passaram a cobrir todos os valores de h da Figura 3 (8 a 76 mm de 4 em 4 mm e 76,846 mm), mais o h identificado (22,701 mm) e a fronteira de tração (32,886 mm).
+
+**4.7 (parte comum)**
+- O h identificado é o único ajuste à patente (RMSE de 1,830 u.p.); os demais h são configurações possíveis do mesmo exoesqueleto.
+- Intervalo examinado e fronteira de tração.
+- Figura 3 (família de curvas) e Figura 4 (indicadores).
+- O torque devolvido cresce monotonicamente com h.
+
+**4.7.1 Cabo tracionado em toda a faixa**
+- Tabela 10: h de 8 a 32,886 mm.
+- Ótimo estrito na fronteira de tração.
+- Tabela 11: ótimo para cada margem mínima de extensão da mola.
+
+**4.7.2 Cabo com folga em parte da faixa**
+- Tabela 12: h de 36 a 76,846 mm, com o início do trecho sem torque e a inclinação do torque logo antes do afrouxamento.
+- Descontinuidade da derivada: o torque chega a zero de forma contínua, mas a curva faz uma quina nesse ponto.

@@ -514,8 +514,8 @@ def figura_folga():
     plt.close(fig)
 
 
-TODOS_H = (8.0, 12.0, 16.0, 20.0, H, 25.0, 28.0, 30.0, 32.88631833613309, 35.0, 40.0, 50.0,
-           60.0, 70.0, H_MAX_CAD)
+FAMILIA_H = tuple(np.arange(8.0, H_MAX_CAD, 4.0).tolist()) + (H_MAX_CAD,)   # curvas da Figura 3
+TODOS_H = tuple(sorted(set(FAMILIA_H) | {H, 32.88631833613309}))
 
 
 def h_todos():
@@ -548,7 +548,7 @@ def h_todos():
 
 def figura_familia_h(patente):
     th = np.linspace(tm.THETA_MIN, tm.THETA_MAX, 1501)
-    hs = np.arange(8.0, H_MAX_CAD, 4.0).tolist() + [H_MAX_CAD]
+    hs = list(FAMILIA_H)
     import matplotlib.colors as mcolors
     cmap = mcolors.LinearSegmentedColormap.from_list("h", ["#b9d4f5", "#2a78d6", "#0b2a52"])
     norma = mcolors.Normalize(vmin=8.0, vmax=H_MAX_CAD)
