@@ -10,6 +10,7 @@ chama as funções com h explícito e grava
     results/tcc_fig2_ajuste.png        torque do cabo × pontos extraídos
     results/tcc_fig3_familia.png       família de curvas, K congelado
     results/tcc_fig4_efeito_h.png      efeito de h sobre o torque entregue
+    results/tcc_fig_folga.png          torque com folga de cabo, h > fronteira de tração
     results/tcc_fig5_normalizado.png   perfis normalizados do cabo e do peso
 
 A Figura 3 refaz, no estilo das demais, a família de curvas que a passada de
@@ -470,6 +471,49 @@ def cenario_folga():
             "peso_pico": float(peso.max())}
 
 
+def figura_folga():
+    """Torque devolvido ao longo da elevação para h acima da fronteira de
+    tração (cabo frouxo no braço alto) e início da zona sem assistência."""
+    th = np.linspace(tm.THETA_MIN, tm.THETA_MAX, 3001)
+    el = elevacao(th)
+    hs = (40.0, 50.0, 60.0, 70.0, H_MAX_CAD)
+    rampa = ["#86b6ef", "#5598e7", "#2a78d6", "#184f95", "#0d366b"]
+    fig, (a, b) = plt.subplots(1, 2, figsize=(10, 4.4), dpi=200, facecolor=SUPERFICIE,
+                               gridspec_kw={"width_ratios": [1.6, 1]})
+    for ax in (a, b):
+        eixos(ax)
+    a.axhline(0, color=TINTA_2, lw=0.8)
+    a.plot(el, cabo(th, H), color=LARANJA, lw=2.4, label="h = 22,701 mm (adotado)")
+    a.plot(el, cabo(th, 32.88631833613309), color=TINTA_2, lw=1.4, ls="--",
+           label="h = 32,886 mm (fronteira de tração)")
+    for h, cor in zip(hs, rampa):
+        ext = tm.vh_extensao(h, th)
+        a.plot(el, cabo(th, h), color=cor, lw=1.6, label=f"h = {h:g} mm".replace(".", ","))
+        if np.any(ext < 0):
+            a.plot(el[ext < 0].min(), 0, "o", color=cor, ms=4, zorder=5)
+    a.set_xlabel("Elevação anatômica do braço (graus)", color=TINTA_2)
+    a.set_ylabel("Torque do cabo (u.p.)", color=TINTA_2)
+    a.legend(loc="upper right", frameon=False, fontsize=7)
+    grade = np.arange(33.0, H_MAX_CAD + 1e-9, 0.25)
+    inicio = []
+    for h in grade:
+        ext = tm.vh_extensao(h, th)
+        inicio.append(el[ext < 0].min())
+    b.plot(grade, inicio, color=AZUL, lw=2)
+    b.fill_between(grade, inicio, 180.1, color=AZUL, alpha=0.12, label="cabo frouxo, sem assistência")
+    b.axhline(90.0, color=TINTA_2, lw=0.8, ls=":")
+    b.set_ylim(80, 182)
+    b.set_xlabel("h (mm)", color=TINTA_2)
+    b.set_ylabel("Elevação em que a assistência cessa (graus)", color=TINTA_2)
+    b.legend(loc="lower left", frameon=False, fontsize=7)
+    for ax in (a, b):
+        ax.xaxis.set_major_formatter(virgula(0))
+        ax.yaxis.set_major_formatter(virgula(0))
+    fig.tight_layout()
+    fig.savefig(PASTA/"tcc_fig_folga.png", facecolor=SUPERFICIE)
+    plt.close(fig)
+
+
 def efeito_h():
     """Otimização de h para o maior torque devolvido, com K e X_POSE
     congelados, sujeita às restrições físicas (tração, fechamento, trabalho
@@ -662,6 +706,7 @@ def main():
     figura_familia(patente)
     efeito = efeito_h()
     figura_efeito_h(efeito)
+    figura_folga()
     figura_normalizada(norm["cruzamentos_elev"])
     tabela_patente(patente, met["calc"], met["res"])
 
