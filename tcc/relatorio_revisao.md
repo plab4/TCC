@@ -290,3 +290,25 @@ continuam congelados.
 - **Outros ajustes.** A remissão da seção 4.4 e o quarto parágrafo da conclusão foram atualizados.
 - **Ressalva mantida no texto.** Esses h são alternativas de projeto. Só H_CAL reproduz a curva da patente com K e X_pose congelados.
 - **Números.** Saem de `tcc_resultados.py`, chave `efeito_h` de `results/tcc_numeros.json`.
+
+## 14. Limite geométrico do CAD para h (76,846 mm)
+
+O autor informou que o CAD admite a ancoragem até h = 76,846 mm.
+
+**O que entrou no documento**
+- **Tabela 2:** linha "Maior posição da ancoragem admitida pela geometria", h_máx = 76,846 mm, com origem CAD.
+- **Seções 3.10 e 4.7:** a verificação de validade passou a ir até o limite do CAD. São 13.773 valores, em passo de 0,005 mm, mais H_CAL e H_CAD. O resultado:
+  - fechamento e trabalho virtual valem em todos os valores (resíduo máximo de 8,0e‑08 mm/rad);
+  - a tração continua só até 32,885 mm na grade, com fronteira de 32,886 mm.
+
+  O cálculo está em `tcc_resultados.limites_h()`; `torque_model.py` não foi alterado.
+- **Seção 4.7:** parágrafo novo com a hierarquia dos limites:
+  - geometria do CAD: 76,846 mm;
+  - alojamento da mola: 66,94 mm, para qualquer pré-extensão, porque o comprimento da mola depende só da geometria;
+  - tração com a montagem atual: 32,886 mm, o único limite ativo.
+
+  No limite do CAD, a mola teria curso de 134,6 mm e extensão mínima de −52,7 mm. Usar esse espaço exigiria outra mola.
+
+**O que não mudou**
+- A otimização continua com a mola e a montagem atuais. A análise com pré-extensão ajustada e deflexão máxima de 1,25 × L_livre foi calculada, mas não entrou no texto, por decisão do autor.
+- Uma busca de referência comercial encontrou anúncios de molas de tração de estoque com deflexão máxima entre cerca de 0,2 e 0,95 vez o comprimento livre. É uma amostra pequena e não documentada como norma. O valor atual, 1,0095, fica acima dessa faixa, ponto que convém conferir no catálogo do fabricante escolhido.

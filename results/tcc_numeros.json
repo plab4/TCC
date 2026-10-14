@@ -388,6 +388,22 @@
    150.0
   ]
  },
+ "limites_h": {
+  "n": 13773,
+  "h_max_cad": 76.846,
+  "fechamento_todos": true,
+  "tv_max": 8.006201124288737e-08,
+  "tracao_n": 4979,
+  "tracao_max": 32.88500000000389,
+  "tracao_contigua": true,
+  "h_alojamento": 66.94167424000659,
+  "no_cad": {
+   "delta_min": -52.7174046345155,
+   "mola_max": 135.87557593823811,
+   "curso": 134.62598057275363,
+   "rho_min": 230.5041470079475
+  }
+ },
  "geometria_pose": {
   "A": [
    4.966744234160894,

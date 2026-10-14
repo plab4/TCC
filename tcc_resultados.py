@@ -388,6 +388,49 @@ def _retorno(h, th, el):
     }
 
 
+H_MAX_CAD = 76.846              # mm, maior h que o CAD admite (posição física da ancoragem)
+
+
+def limites_h():
+    """Validade física de h de 8 mm até o limite geométrico do CAD, em passo de
+    0,005 mm, com K e X_POSE congelados: fechamento, trabalho virtual, tração
+    e comprimento máximo da mola contra o alojamento (L_CARCACA)."""
+    grade = np.unique(np.append(np.arange(8.0, H_MAX_CAD, 0.005), [H, tm.H_CAD, H_MAX_CAD]))
+    th = tm.VH_THETA
+    fech, tv, tracao, mola = [], [], [], []
+    for h in grade:
+        q = tm.calculate_q(th)
+        rho = tm.calculate_rho(q, h)
+        fech.append(bool(np.all(rho > tm.R)))
+        tv.append(float(tm.residuo_trabalho_virtual(h)))
+        ext = tm.vh_extensao(h, th)
+        tracao.append(bool(np.all(ext >= 0)))
+        mola.append(float(tm.L_LIVRE + ext.max()))
+    tracao, mola = np.array(tracao), np.array(mola)
+    viaveis = grade[tracao]
+    i = int(np.argmax(mola > tm.L_CARCACA))
+    a, b = grade[i - 1], grade[i]
+    for _ in range(60):
+        c = 0.5*(a + b)
+        if tm.L_LIVRE + tm.vh_extensao(c, th).max() > tm.L_CARCACA:
+            b = c
+        else:
+            a = c
+    th_f = np.linspace(tm.THETA_MIN, tm.THETA_MAX, 1501)
+    return {
+        "n": int(len(grade)), "h_max_cad": H_MAX_CAD,
+        "fechamento_todos": bool(all(fech)), "tv_max": float(max(tv)),
+        "tracao_n": int(tracao.sum()), "tracao_max": float(viaveis.max()),
+        "tracao_contigua": bool(np.all(tracao[:tracao.sum()])),
+        "h_alojamento": float(0.5*(a + b)),
+        "no_cad": {"delta_min": float(tm.vh_extensao(H_MAX_CAD, th).min()),
+                   "mola_max": float(mola[-1] if grade[-1] == H_MAX_CAD else
+                                     tm.L_LIVRE + tm.vh_extensao(H_MAX_CAD, th).max()),
+                   "curso": float(np.ptp(tm.caminho_cabo(th_f, H_MAX_CAD))),
+                   "rho_min": float(tm.calculate_rho(tm.calculate_q(th), H_MAX_CAD).min())},
+    }
+
+
 def efeito_h():
     """Otimização de h para o maior torque devolvido, com K e X_POSE
     congelados, sujeita às restrições físicas (tração, fechamento, trabalho
@@ -608,6 +651,7 @@ def main():
         "mecanismo": mec,
         "normalizada": norm,
         "efeito_h": {k: v for k, v in efeito.items() if k != "linhas"},
+        "limites_h": limites_h(),
         "geometria_pose": geo,
         "varredura": {
             "n": len(varredura["linhas"]),
