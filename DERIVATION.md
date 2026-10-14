@@ -539,3 +539,14 @@ errado no sinal e no lado: θ* baixo é braço alto.
 - A protuberância da zona neutra não é modelada: o torque inverte o sinal depois
   de θ* = 192,532°.
 - Não há código de dinâmica (Lagrange, integração, MBDyn) no projeto.
+
+### Otimização de h para o máximo torque devolvido (seção 4.7 do TCC)
+
+`tcc_resultados.efeito_h()` enumera h de 8 mm até a fronteira de tração, em
+passo de 0,01 mm, com K e X_POSE congelados. O pico, o torque médio de 90° a 150°
+de elevação e o trabalho devolvido crescem monotonicamente com h. O ótimo estrito
+é, portanto, a fronteira de tração, h = 32,886 mm, com +32% de
+torque médio sobre H_CALIBRADO e δ mínimo nulo. Com margem mínima de extensão de
+10, 5 e 2 mm, o ótimo fica em 24,44, 28,67, 31,20 mm. Esses h
+são alternativas de projeto: não substituem H_CALIBRADO no modelo, porque só ele
+reproduz a curva da patente com K e X_POSE congelados.

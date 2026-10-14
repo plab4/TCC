@@ -255,3 +255,38 @@ python tcc_resultados.py      # números (JSON), tabela dos 29 pontos e figuras 
 python -m pytest              # 47 testes
 python torque_model.py        # autotestes, gráfico do modelo e varredura de h
 ```
+
+## 13. Seção 4.7 reescrita: otimização de h para o máximo torque devolvido
+
+A pedido do autor, a seção 4.7 deixou de discutir o RMSE contra a patente
+(platôs, h de menor RMSE, tabela de h notáveis) e passou a tratar de **qual h
+devolve o maior torque com a mesma mola**. K = 174,68 e X_pose = 37,383 mm
+continuam congelados.
+
+- **Método.** A seção 3.10 foi reescrita com a formulação do problema:
+  - Equação (27): maximizar o torque médio de −τ entre 90° e 150° de elevação;
+  - Equação (28): restrições de tração com margem δ_marg, de fechamento e de trabalho virtual.
+
+  Critérios complementares: pico e trabalho devolvido na faixa toda. A busca é por enumeração, em passo de 0,01 mm, de 8 mm até a fronteira de tração.
+- **Resultado.** Pico, média e trabalho crescem monotonicamente com h, então não há ótimo interior. O ótimo estrito é a fronteira de tração, h* = 32,886 mm:
+  - média de 90° a 150°: 163,6 u.p., contra 123,6 no h adotado (+32%);
+  - pico: 211,9 u.p., contra 147,1.
+
+  Nesse ponto a extensão mínima da mola é zero, sem pré-tensão no braço elevado.
+- **Ótimos com margem de extensão:**
+  - 10 mm de margem: h* = 24,44 mm, ganho de +6,0% na média;
+  - 5 mm de margem: h* = 28,67 mm, ganho de +19,9% na média;
+  - 2 mm de margem: h* = 31,20 mm, ganho de +27,5% na média;
+  - o h adotado equivale a uma margem de 12,04 mm.
+- **Contrapartidas, do h adotado à fronteira:**
+  - a tração máxima cresce 10,5%;
+  - a mola chega a 114,1 mm, ainda abaixo do alojamento de 131,37 mm;
+  - δmax/L_livre passa de 1,009 para 1,115;
+  - o ponto morto vai de 30,49° para 32,92°.
+- **Figuras e tabelas.**
+  - A Figura 3 (família de curvas) foi mantida.
+  - A Figura 4 é nova: `results/tcc_fig4_efeito_h.png`, com pico e média, trabalho, margem de tração e ponto morto em função de h. Ela substitui `tcc_fig4_rmse_h.png`, que foi removida.
+  - As Tabelas 10 (torque por h) e 11 (ótimo por margem) substituem as de platôs e de h notáveis.
+- **Outros ajustes.** A remissão da seção 4.4 e o quarto parágrafo da conclusão foram atualizados.
+- **Ressalva mantida no texto.** Esses h são alternativas de projeto. Só H_CAL reproduz a curva da patente com K e X_pose congelados.
+- **Números.** Saem de `tcc_resultados.py`, chave `efeito_h` de `results/tcc_numeros.json`.

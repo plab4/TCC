@@ -9,7 +9,7 @@ chama as funções com h explícito e grava
     results/tcc_fig1_geometria.png     laço vetorial na pose de referência
     results/tcc_fig2_ajuste.png        torque do cabo × pontos extraídos
     results/tcc_fig3_familia.png       família de curvas, K congelado
-    results/tcc_fig4_rmse_h.png        RMSE em função de h, K congelado
+    results/tcc_fig4_efeito_h.png      efeito de h sobre o torque entregue
     results/tcc_fig5_normalizado.png   perfis normalizados do cabo e do peso
 
 A Figura 3 refaz, no estilo das demais, a família de curvas que a passada de
@@ -361,44 +361,96 @@ def figura_ajuste(patente, met):
     plt.close(fig)
 
 
-def figura_rmse(varredura):
-    linhas = [l for l in varredura["linhas"] if l["fechamento"]]
-    hs = np.array([l["h"] for l in linhas])
-    rm = np.array([l["rmse"] for l in linhas])
-    viavel = varredura["faixas"]["viavel"]
-    platos = varredura["platos"]
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4.2), dpi=200,
-                                   facecolor=SUPERFICIE,
-                                   gridspec_kw={"width_ratios": [1.5, 1]})
-    for ax in (ax1, ax2):
-        eixos(ax)
-    ax1.axvspan(viavel["min"], viavel["max"], color=VERDE, alpha=0.12,
-                label="h fisicamente viáveis")
-    ax1.plot(hs, rm, color=AZUL, lw=2, label="RMSE(h), K congelado")
-    ax1.axvline(H, color=LARANJA, lw=1.4, label="H_CALIBRADO")
-    ax1.axvline(tm.H_CAD, color=TINTA_2, lw=1.2, ls="--", label="H_CAD")
-    ax1.set_yscale("log")
-    ax1.set_xlabel("h (mm)", color=TINTA_2)
-    ax1.set_ylabel("RMSE (u.p.), escala log", color=TINTA_2)
-    ax1.xaxis.set_major_formatter(virgula(0))
-    ax1.legend(loc="upper right", frameon=False, fontsize=7)
-    sel = (hs >= 21.6) & (hs <= 23.9)
-    cores = {1.01: "#86b6ef", 1.05: "#5598e7", 1.10: "#2a78d6", 2.00: "#184f95"}
-    for f in (2.00, 1.10, 1.05, 1.01):
-        p = platos[f]
-        ax2.axvspan(p["min"], p["max"], color=cores[f], alpha=0.18,
-                    label=f"RMSE ≤ {f:.2f}·mín".replace(".", ","))
-    ax2.plot(hs[sel], rm[sel], color=AZUL, lw=2)
-    ax2.axvline(H, color=LARANJA, lw=1.4)
-    ax2.set_xlabel("h (mm)", color=TINTA_2)
-    ax2.set_ylabel("RMSE (u.p.)", color=TINTA_2)
-    ax2.xaxis.set_major_formatter(virgula(1))
-    ax2.yaxis.set_major_formatter(virgula(1))
-    ax2.legend(loc="upper center", frameon=False, fontsize=7, ncol=2)
-    fig.tight_layout()
-    fig.savefig(PASTA/"tcc_fig4_rmse_h.png", facecolor=SUPERFICIE)
-    plt.close(fig)
+EH_FAIXA = (90.0, 150.0)        # elevação: trabalho acima da linha dos ombros
+EH_TABELA = (8.0, 12.0, 16.0, 20.0, H, 25.0, 28.0, 30.0)
+EH_MARGENS = (10.0, 5.0, 2.0)   # extensão mínima exigida da mola (mm)
 
+
+def _retorno(h, th, el):
+    """Torque devolvido com K e X_POSE congelados: pico, média na faixa de
+    trabalho, trabalho devolvido na faixa toda e restrições físicas."""
+    c = cabo(th, h)
+    ordem = np.argsort(el)
+    e_o, c_o = el[ordem], c[ordem]
+    faixa = (e_o >= EH_FAIXA[0]) & (e_o <= EH_FAIXA[1])
+    ext = tm.vh_extensao(h, th)
+    return {
+        "h": float(h), "pico": float(c.max()), "elev_pico": float(el[np.argmax(c)]),
+        "media_trabalho": float(np.trapezoid(c_o[faixa], e_o[faixa])/(EH_FAIXA[1] - EH_FAIXA[0])),
+        "trabalho": float(np.trapezoid(c_o, np.radians(e_o))),
+        "tau_90": float(np.interp(90.0, e_o, c_o)),
+        "tau_150": float(np.interp(150.0, e_o, c_o)),
+        "elev_pm": float(elevacao(tm.ponto_morto(h))),
+        "delta_min": float(ext.min()), "delta_max": float(ext.max()),
+        "mola_max": float(tm.L_LIVRE + ext.max()),
+        "razao_ext_livre": float(ext.max()/tm.L_LIVRE),
+        "forca_max": float(K*ext.max()),
+    }
+
+
+def efeito_h():
+    """Otimização de h para o maior torque devolvido, com K e X_POSE
+    congelados, sujeita às restrições físicas (tração, fechamento, trabalho
+    virtual) e, opcionalmente, a uma margem mínima de extensão da mola."""
+    th = np.linspace(tm.THETA_MIN, tm.THETA_MAX, 15011)
+    el = elevacao(th)
+    h_lim = 32.88631833613309
+    grade = np.append(np.arange(8.0, h_lim, 0.01), h_lim)
+    linhas = [_retorno(h, th, el) for h in grade]
+    monotono = {k: bool(np.all(np.diff([l[k] for l in linhas]) > 0))
+                for k in ("pico", "media_trabalho", "trabalho")}
+    otimo = _retorno(h_lim, th, el)
+    hs = np.array([l["h"] for l in linhas])
+    dm = np.array([l["delta_min"] for l in linhas])
+    margens = []
+    for mg in EH_MARGENS:
+        h_mg = float(np.interp(mg, dm[::-1], hs[::-1]))
+        margens.append({"margem": mg, **_retorno(h_mg, th, el)})
+    ref = _retorno(H, th, el)
+    tabela = sorted([_retorno(h, th, el) for h in EH_TABELA] + [otimo], key=lambda l: l["h"])
+    return {"linhas": linhas, "tabela": tabela, "otimo": otimo, "margens": margens,
+            "adotado": ref, "monotono": monotono, "faixa": list(EH_FAIXA)}
+
+def figura_efeito_h(ef):
+    L = ef["linhas"]
+    hs = np.array([l["h"] for l in L])
+    def col(k):
+        return np.array([l[k] for l in L])
+    hx = ef["otimo"]["h"]
+    fig, axs = plt.subplots(2, 2, figsize=(10, 6.4), dpi=200, facecolor=SUPERFICIE, sharex=True)
+    (a, b), (c, d) = axs
+    for ax in axs.flat:
+        eixos(ax)
+        ax.axvline(H, color=LARANJA, lw=1.4)
+        ax.axvline(hx, color=VERDE, lw=1.2, ls="--")
+    a.plot(hs, col("pico"), color=AZUL, lw=2, label="pico")
+    a.plot(hs, col("media_trabalho"), color=TINTA_2, lw=1.6, ls=":", label="média de 90° a 150°")
+    a.set_ylabel("Torque devolvido (u.p.)", color=TINTA_2)
+    a.legend(loc="upper left", frameon=False, fontsize=7.5)
+    b.plot(hs, col("trabalho"), color=AZUL, lw=2)
+    b.set_ylabel("Trabalho devolvido na faixa (u.p.·rad)", color=TINTA_2)
+    c.plot(hs, col("delta_min"), color=AZUL, lw=2)
+    c.axhline(0.0, color=TINTA_2, lw=0.8)
+    for m in ef["margens"]:
+        c.plot(m["h"], m["margem"], "o", color=TINTA, ms=3.5, zorder=5)
+    c.set_ylabel("Extensão mínima da mola (mm)", color=TINTA_2)
+    d.plot(hs, col("elev_pm"), color=AZUL, lw=2)
+    d.axhline(30.0, color=TINTA_2, lw=0.8, ls=":")
+    d.set_ylabel("Elevação do ponto morto (graus)", color=TINTA_2)
+    for ax in (c, d):
+        ax.set_xlabel("h (mm)", color=TINTA_2)
+    for ax in axs.flat:
+        ax.xaxis.set_major_formatter(virgula(0))
+        ax.yaxis.set_major_formatter(virgula(0))
+    from matplotlib.lines import Line2D
+    fig.legend(handles=[Line2D([], [], color=LARANJA, lw=1.4),
+                        Line2D([], [], color=VERDE, lw=1.2, ls="--")],
+               labels=["h adotado (22,701 mm)",
+                       f"maior torque devolvido, fronteira de tração ({hx:.3f} mm)".replace(".", ",")],
+               loc="lower center", ncol=2, frameon=False, fontsize=8)
+    fig.tight_layout(rect=(0, 0.05, 1, 1))
+    fig.savefig(PASTA/"tcc_fig4_efeito_h.png", facecolor=SUPERFICIE)
+    plt.close(fig)
 
 def figura_familia(patente):
     """Família torque × θ* para os h de tm.VH_FAMILIA, com K congelado; nós da
@@ -526,7 +578,8 @@ def main():
     geo = figura_geometria()
     figura_ajuste(patente, met)
     figura_familia(patente)
-    figura_rmse(varredura)
+    efeito = efeito_h()
+    figura_efeito_h(efeito)
     figura_normalizada(norm["cruzamentos_elev"])
     tabela_patente(patente, met["calc"], met["res"])
 
@@ -554,6 +607,7 @@ def main():
         "autotestes": {k: float(v) for k, v in auto.items()},
         "mecanismo": mec,
         "normalizada": norm,
+        "efeito_h": {k: v for k, v in efeito.items() if k != "linhas"},
         "geometria_pose": geo,
         "varredura": {
             "n": len(varredura["linhas"]),
