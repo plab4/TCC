@@ -514,6 +514,122 @@ def figura_folga():
     plt.close(fig)
 
 
+TODOS_H = (8.0, 12.0, 16.0, 20.0, H, 25.0, 28.0, 30.0, 32.88631833613309, 35.0, 40.0, 50.0,
+           60.0, 70.0, H_MAX_CAD)
+
+
+def h_todos():
+    """Torque devolvido para h de 8 mm ao limite do CAD, com a mola e a montagem
+    atuais. Acima da fronteira de tração o cabo afrouxa no braço alto; ali o
+    torque é nulo. Registra também a descontinuidade da derivada no início da
+    folga: o torque vai a zero de forma contínua, mas com inclinação finita."""
+    th = np.linspace(tm.THETA_MIN, tm.THETA_MAX, 150001)
+    el = elevacao(th)
+    th_r = np.linspace(tm.THETA_MIN, tm.THETA_MAX, 15011)   # mesma malha de efeito_h
+    el_r = elevacao(th_r)
+    linhas = []
+    for h in TODOS_H:
+        l = _retorno(h, th_r, el_r)
+        ext = tm.vh_extensao(h, th)
+        frouxo = np.where(ext < 0)[0]
+        l["folga_de"] = None
+        if frouxo.size:
+            j = frouxo.max() + 1                       # primeiro ponto tracionado
+            c = cabo(th[j:j + 101], h)
+            inclin = (c[100] - c[0])/abs(el[j + 100] - el[j])
+            l.update(folga_de=float(el[j]), contigua=bool(frouxo.min() == 0 and
+                     np.all(np.diff(frouxo) == 1)), torque_no_limiar=float(cabo(th[[j]], h)[0]),
+                     inclinacao_limiar=float(inclin))
+        linhas.append(l)
+    grade = np.arange(8.0, H_MAX_CAD + 1e-9, 0.05)
+    media = [_retorno(h, th_r, el_r)["media_trabalho"] for h in grade]
+    return {"linhas": linhas, "media_monotona_ate_cad": bool(np.all(np.diff(media) > 0))}
+
+
+def figura_familia_h(patente):
+    th = np.linspace(tm.THETA_MIN, tm.THETA_MAX, 1501)
+    hs = np.arange(8.0, H_MAX_CAD, 4.0).tolist() + [H_MAX_CAD]
+    import matplotlib.colors as mcolors
+    cmap = mcolors.LinearSegmentedColormap.from_list("h", ["#b9d4f5", "#2a78d6", "#0b2a52"])
+    norma = mcolors.Normalize(vmin=8.0, vmax=H_MAX_CAD)
+    fig, ax = plt.subplots(figsize=(9.6, 5.0), dpi=200, facecolor=SUPERFICIE)
+    eixos(ax)
+    ax.axhline(0, color=TINTA_2, lw=0.8)
+    for h in hs:
+        ax.plot(th, cabo(th, h), color=cmap(norma(h)), lw=1.1)
+    ax.plot(th, cabo(th, 32.88631833613309), color=TINTA_2, lw=1.3, ls="--",
+            label="h = 32,886 mm, fronteira de tração")
+    ax.plot(th, cabo(th, H), color=LARANJA, lw=2.6, label="h = 22,701 mm, identificado")
+    ax.plot(patente["theta_star"], patente["torque"], "o", color=TINTA, ms=4, zorder=6,
+            label="pontos extraídos da patente")
+    sm = plt.cm.ScalarMappable(cmap=cmap, norm=norma)
+    barra = fig.colorbar(sm, ax=ax, pad=0.02)
+    barra.set_label("h (mm)", color=TINTA_2)
+    barra.ax.yaxis.set_major_formatter(virgula(0))
+    ax.set_xlabel("θ* (graus)", color=TINTA_2)
+    ax.set_ylabel("Torque do cabo (u.p.)", color=TINTA_2)
+    topo = ax.secondary_xaxis("top", functions=(lambda t: tm.ANGLE_OFFSET + 90.0 - t,
+                                                lambda e: tm.ANGLE_OFFSET + 90.0 - e))
+    topo.set_xlabel("Elevação anatômica do braço (graus)", color=TINTA_2)
+    topo.tick_params(colors=TINTA_2)
+    topo.xaxis.set_major_formatter(virgula(0))
+    ax.xaxis.set_major_formatter(virgula(0))
+    ax.yaxis.set_major_formatter(virgula(0))
+    ax.legend(loc="upper left", frameon=False, fontsize=8)
+    fig.tight_layout()
+    fig.savefig(PASTA/"tcc_fig3_familia_h.png", facecolor=SUPERFICIE)
+    plt.close(fig)
+
+
+def figura_indicadores_h():
+    th = np.linspace(tm.THETA_MIN, tm.THETA_MAX, 3001)
+    el = elevacao(th)
+    grade = np.arange(8.0, H_MAX_CAD + 1e-9, 0.1)
+    L = [_retorno(h, th, el) for h in grade]
+    col = lambda k: np.array([l[k] for l in L])
+    folga = []
+    for h in grade:
+        ext = tm.vh_extensao(h, th)
+        folga.append(el[ext < 0].min() if np.any(ext < 0) else np.nan)
+    hf = 32.88631833613309
+    fig, axs = plt.subplots(2, 2, figsize=(10, 6.4), dpi=200, facecolor=SUPERFICIE, sharex=True)
+    (a, b), (c, d) = axs
+    for ax in axs.flat:
+        eixos(ax)
+        ax.axvspan(hf, H_MAX_CAD, color=TINTA_2, alpha=0.07)
+        ax.axvline(H, color=LARANJA, lw=1.4)
+        ax.axvline(hf, color=TINTA_2, lw=1.1, ls="--")
+    a.plot(grade, col("pico"), color=AZUL, lw=2, label="pico")
+    a.plot(grade, col("media_trabalho"), color=TINTA_2, lw=1.6, ls=":", label="média de 90° a 150°")
+    a.set_ylabel("Torque devolvido (u.p.)", color=TINTA_2)
+    a.legend(loc="upper left", frameon=False, fontsize=7.5)
+    b.plot(grade, folga, color=AZUL, lw=2)
+    b.set_ylim(130, 182)
+    b.set_ylabel("Elevação do início da folga (graus)", color=TINTA_2)
+    c.plot(grade, col("delta_min"), color=AZUL, lw=2)
+    c.axhline(0, color=TINTA_2, lw=0.8)
+    c.set_ylabel("Extensão mínima da mola (mm)", color=TINTA_2)
+    d.plot(grade, col("elev_pm"), color=AZUL, lw=2)
+    d.set_ylabel("Elevação do ponto morto (graus)", color=TINTA_2)
+    for ax in (c, d):
+        ax.set_xlabel("h (mm)", color=TINTA_2)
+    for ax in axs.flat:
+        ax.xaxis.set_major_formatter(virgula(0))
+        ax.yaxis.set_major_formatter(virgula(0))
+    from matplotlib.ticker import MultipleLocator
+    d.yaxis.set_major_locator(MultipleLocator(4))
+    from matplotlib.lines import Line2D
+    from matplotlib.patches import Patch
+    fig.legend(handles=[Line2D([], [], color=LARANJA, lw=1.4), Line2D([], [], color=TINTA_2, lw=1.1, ls="--"),
+                        Patch(color=TINTA_2, alpha=0.15)],
+               labels=["h identificado (22,701 mm)", "fronteira de tração (32,886 mm)",
+                       "cabo frouxo em parte da faixa"],
+               loc="lower center", ncol=3, frameon=False, fontsize=8)
+    fig.tight_layout(rect=(0, 0.05, 1, 1))
+    fig.savefig(PASTA/"tcc_fig4_indicadores_h.png", facecolor=SUPERFICIE)
+    plt.close(fig)
+
+
 def efeito_h():
     """Otimização de h para o maior torque devolvido, com K e X_POSE
     congelados, sujeita às restrições físicas (tração, fechamento, trabalho
@@ -707,6 +823,8 @@ def main():
     efeito = efeito_h()
     figura_efeito_h(efeito)
     figura_folga()
+    figura_familia_h(patente)
+    figura_indicadores_h()
     figura_normalizada(norm["cruzamentos_elev"])
     tabela_patente(patente, met["calc"], met["res"])
 
@@ -737,6 +855,7 @@ def main():
         "efeito_h": {k: v for k, v in efeito.items() if k != "linhas"},
         "limites_h": limites_h(),
         "cenario_folga": cenario_folga(),
+        "h_todos": h_todos(),
         "geometria_pose": geo,
         "varredura": {
             "n": len(varredura["linhas"]),

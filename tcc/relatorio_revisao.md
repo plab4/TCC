@@ -337,3 +337,26 @@ O autor enviou sua própria versão, `tcc/TCC_apenas_exo1.docx`, com cópia em `
 - **4.4:** a remissão "essa afirmação" ficou sem referente depois que o autor removeu a frase anterior; foi trocada por "a identificação de h".
 - **Equações:** os asteriscos das equações antigas foram padronizados como ∗ (U+2217), igual às equações novas.
 - **Conclusão:** o parágrafo sobre h foi reescrito, e o de continuidade passou a incluir a conferência da deflexão admissível da mola.
+
+## 16. Seção 4.7 refeita (versão `TCC_apenas_exo1_revisado.docx`)
+
+**Escopo**
+- O RMSE aparece só para o h identificado: 22,701 mm, 1,830 u.p.
+- Os demais valores de h são apresentados como configurações possíveis do mesmo exoesqueleto, e não como ajustes à curva da patente.
+- Saíram da seção os detalhes biomecânicos: peso do braço, trabalho acima da cabeça e zona neutra.
+
+**Figuras**
+- **Figura 3 nova** (`results/tcc_fig3_familia_h.png`): família de curvas para todo o intervalo de h, de 8 a 76,846 mm, com escala de cores por h. Só a curva identificada aparece sobre os 29 pontos extraídos; o eixo superior traz a elevação.
+- **Figura 4 nova** (`results/tcc_fig4_indicadores_h.png`): pico e média, elevação do início da folga, extensão mínima e ponto morto, de 8 a 76,846 mm, com a região de cabo frouxo sombreada.
+
+**Tabelas**
+- A Tabela 10 passou a reunir h de 8 a 76,846 mm, incluindo os valores acima da fronteira, com a coluna "cabo frouxo".
+- A Tabela 12 foi eliminada; a Tabela 11 (margens) foi mantida.
+
+**Descontinuidade**
+- O torque vai a zero de forma contínua: no ponto de afrouxamento ele fica abaixo de 0,02 u.p.
+- A derivada, porém, salta: de 1,8 u.p./grau (h = 35 mm) a 17,9 u.p./grau (limite do CAD) para zero. É uma quina na curva, não um salto do torque.
+- O trecho frouxo é contíguo até o fim da faixa em todos os casos.
+- Pico, média e trabalho devolvidos crescem monotonicamente até o limite do CAD.
+
+Os números estão em `tcc_resultados.h_todos()`, chave `h_todos` de `results/tcc_numeros.json`.
