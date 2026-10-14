@@ -312,3 +312,28 @@ O autor informou que o CAD admite a ancoragem até h = 76,846 mm.
 **O que não mudou**
 - A otimização continua com a mola e a montagem atuais. A análise com pré-extensão ajustada e deflexão máxima de 1,25 × L_livre foi calculada, mas não entrou no texto, por decisão do autor.
 - Uma busca de referência comercial encontrou anúncios de molas de tração de estoque com deflexão máxima entre cerca de 0,2 e 0,95 vez o comprimento livre. É uma amostra pequena e não documentada como norma. O valor atual, 1,0095, fica acima dessa faixa, ponto que convém conferir no catálogo do fabricante escolhido.
+
+## 15. Revisão sobre `TCC_apenas_exo1.docx` (versão do autor)
+
+O autor enviou sua própria versão, `tcc/TCC_apenas_exo1.docx`, com cópia em `backup/TCC_apenas_exo1_original.docx`. Ela parte da versão anterior à otimização de h e contém edições de texto do autor, que foram mantidas. As alterações foram aplicadas diretamente sobre esse arquivo, e o resultado está em `tcc/TCC_apenas_exo1_revisado.docx`.
+
+**Seções substituídas**
+- **3.10:** passou a conter a formulação da otimização, Equações (27) e (28). A equação de Lagrange passou a ser a (29), e a remissão da 3.12 foi corrigida.
+- **4.7:** passou a tratar da otimização de h para o máximo torque devolvido. A Figura 3 do autor foi reaproveitada. A Figura 4 nova substitui a de RMSE, e as Tabelas 10 e 11 novas substituem as de platôs e de h notáveis.
+
+**Acréscimo na 4.7: cenário com folga de cabo** (h entre 32,886 e 76,846 mm, Tabela 12)
+- O torque total cresce até o limite do CAD.
+- Mas o cabo afrouxa nas posturas elevadas: sem assistência a partir de 173,8° com h = 35 mm e a partir de 137,6° com h = 76,846 mm.
+- O pico do torque migra para cerca de 89° de elevação.
+- Números em `tcc_resultados.cenario_folga()`.
+
+**Alojamento e deflexão relativa da mola** (extensão máxima sobre o comprimento livre)
+- Foram retirados do texto da 3.1, da 4.4, da 4.6, da Tabela 2 (linha do alojamento) e da Tabela 9 (linha da razão).
+- Passaram a aparecer só como fragilidade na 4.9, porque a precisão do desenho da patente não é conhecida, e na conclusão.
+- A 4.9 também ganhou a limitação do cenário com folga: modelo estático, sem saída do cabo do tambor nem impacto na retomada da tração.
+
+**Outros ajustes**
+- **Tabela 2:** nova linha "Maior posição da ancoragem admitida pela geometria", h_máx = 76,846 mm.
+- **4.4:** a remissão "essa afirmação" ficou sem referente depois que o autor removeu a frase anterior; foi trocada por "a identificação de h".
+- **Equações:** os asteriscos das equações antigas foram padronizados como ∗ (U+2217), igual às equações novas.
+- **Conclusão:** o parágrafo sobre h foi reescrito, e o de continuidade passou a incluir a conferência da deflexão admissível da mola.

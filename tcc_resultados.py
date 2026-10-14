@@ -431,6 +431,45 @@ def limites_h():
     }
 
 
+FOLGA_H = (32.88631833613309, 35.0, 40.0, 45.0, 50.0, 60.0, 70.0, H_MAX_CAD)
+
+
+def cenario_folga():
+    """h acima da fronteira de tração, com a mola e a montagem atuais: o cabo
+    afrouxa no início da faixa (braço alto) e ali o torque é nulo, pela
+    saturação de calculate_delta. Ignora o alojamento da mola."""
+    th = np.linspace(tm.THETA_MIN, tm.THETA_MAX, 15011)
+    el = elevacao(th)
+    ordem = np.argsort(el)
+    e_o = el[ordem]
+    faixa = (e_o >= EH_FAIXA[0]) & (e_o <= EH_FAIXA[1])
+    peso = tm.torque_peso(th)
+    linhas = []
+    for h in FOLGA_H:
+        c = cabo(th, h)
+        ext = tm.vh_extensao(h, th)
+        frouxo = el[ext < 0]
+        c_o = c[ordem]
+        inicio = float(frouxo.min()) if frouxo.size else None
+        linhas.append({
+            "h": float(h), "folga_de": inicio,
+            "peso_no_inicio": float(np.interp(inicio, e_o, peso[ordem])) if inicio else None,
+            "pico": float(c.max()), "elev_pico": float(el[np.argmax(c)]),
+            "media_trabalho": float(np.trapezoid(c_o[faixa], e_o[faixa])/(EH_FAIXA[1] - EH_FAIXA[0])),
+            "trabalho": float(np.trapezoid(c_o, np.radians(e_o))),
+            "tau_150": float(np.interp(150.0, e_o, c_o)),
+            "elev_pm": float(elevacao(tm.ponto_morto(h))),
+            "delta_min": float(ext.min()), "forca_max": float(K*max(ext.max(), 0.0)),
+        })
+    grade = np.arange(32.89, H_MAX_CAD, 0.01)
+    medias = []
+    for h in grade:
+        c_o = cabo(th, h)[ordem]
+        medias.append(np.trapezoid(c_o[faixa], e_o[faixa]))
+    return {"linhas": linhas, "media_monotona": bool(np.all(np.diff(medias) > 0)),
+            "peso_pico": float(peso.max())}
+
+
 def efeito_h():
     """Otimização de h para o maior torque devolvido, com K e X_POSE
     congelados, sujeita às restrições físicas (tração, fechamento, trabalho
@@ -652,6 +691,7 @@ def main():
         "normalizada": norm,
         "efeito_h": {k: v for k, v in efeito.items() if k != "linhas"},
         "limites_h": limites_h(),
+        "cenario_folga": cenario_folga(),
         "geometria_pose": geo,
         "varredura": {
             "n": len(varredura["linhas"]),
