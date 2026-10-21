@@ -21,7 +21,8 @@ alavanca presa ao braço. A alavanca tem um cotovelo: um trecho e a partir do
 pivô O e, depois dele, um trecho rígido C3 girado de β. Perto do pivô há um
 pino (elemento 78), preso ao braço. Acima de q* o elástico é reto (regime
 I); abaixo de q* ele encosta no 78 e se divide em A → 78 e 78 → P (regime
-II). Não há tambor nem tangência.
+II). Não há tambor nem tangência. HIPÓTESE: pino 78 pontual e sem atrito
+(mesma tração nos trechos A → 78 e 78 → P).
 
 Referencial. Origem no pivô O (centro do ombro = eixo da junta 20); x
 anterior, y para cima, z sai do plano. Todo ângulo é medido a partir de +x,
@@ -42,8 +43,9 @@ calculate_q, parâmetros em montar_geometria). Com k em N/mm, F sai em N e τ
 em N·m (b × F⃗ em N·mm, dividido por 1000). τ/k sai em N·m por N/mm.
 
 Sinal. τ positivo = anti-horário = sentido de θ* crescente (subida do
-braço). O torque do peso é negativo na faixa 0° < θ* < 180°; as razões e o
-alvo usam |τ_peso|.
+braço). O torque do peso é negativo enquanto o CG está à frente do pivô,
+0° < θ* + a_CG < 180°, com a_CG o ângulo do CG em relação ao eixo do braço
+(a_CG = 0 só com o membro humano); as razões e o alvo usam |τ_peso|.
 
 Origem dos números. Cada constante diz de onde veio: CAD (medido no
 modelo), de Leva Tab. 4 (literatura), derivado (calculado no código a partir
@@ -122,11 +124,15 @@ O_FUSION = None   # mm, centro da junta 20 no referencial do Fusion. NÃO MEDIDO
                   # enquanto for None, o braço do exo fica fora do peso e da
                   # inércia. Preenchido, o CG relativo a O é
                   # CG_BRACO_EXO_FUSION − O_FUSION, na pose do CAD.
+                  # HIPÓTESE: eixos do Fusion paralelos aos do modelo (x
+                  # anterior, y para cima, z = eixo da junta 20) e
+                  # IZZ_CG_BRACO_EXO em torno de z.
 
 # ---------------------------------------------- Fig. 16 e alvo de projeto
 FIG16_CSV = Path(__file__).parent/"fig16_curvas.csv"  # digitalização do autor
-FIG16_FAIXA_AJUSTE = (20.0, 165.0)    # graus θ*, ESTRITO (abaixo: regime II;
-                                      # perto de 180°: τ_peso → 0)
+FIG16_FAIXA_AJUSTE = (20.0, 165.0)    # graus θ*, ESTRITO (enunciado: abaixo de
+                                      # 20° o modelo do CAD está no regime II;
+                                      # perto de 180°, τ_peso → 0)
 FIG16_GRADE_S0 = (0.0, 390.0, 0.01)   # mm: início, fim, passo da busca de s0
 FIG16_FOLGA_FAIXA = 1.01              # faixa de identificação: RMS ≤ 1,01·mín
 ALVO_FRACAO = 0.4     # HIPÓTESE de projeto: 0,4·|τ_peso| (o fabricante alega
@@ -645,15 +651,21 @@ def load_fig16(caminho):
     [divisões da grade]}}, na ordem do arquivo.
     """
     caminho = Path(caminho)
-    linhas = [l for l in caminho.read_text(encoding="utf-8").splitlines()
+    linhas = [(n, l) for n, l in enumerate(
+                  caminho.read_text(encoding="utf-8-sig").splitlines(), start=1)
               if l.strip() and not l.lstrip().startswith("#")]
-    cabecalho = [c.strip().lower() for c in linhas[0].split(";")]
+    if not linhas:
+        raise ValueError(f"{caminho}: arquivo sem dados")
+    cabecalho = [c.strip().lower() for c in linhas[0][1].split(";")]
     esperado = ["curva", "theta_grau", "razao_div", "y_lido"]
     if cabecalho[:4] != esperado:
         raise ValueError(f"{caminho}: cabeçalho esperado {';'.join(esperado)}")
     curvas = {}
-    for linha in linhas[1:]:
+    for numero, linha in linhas[1:]:
         celulas = [c.strip() for c in linha.split(";")]
+        if len(celulas) < 3:
+            raise ValueError(f"{caminho}, linha {numero}: esperadas as colunas "
+                             f"{';'.join(esperado)}")
         dados = curvas.setdefault(_nome_curva(celulas[0]),
                                   {"theta": [], "razao": []})
         dados["theta"].append(float(celulas[1].replace(",", ".")))
@@ -704,6 +716,9 @@ def ajustar_fig16(theta_star, razao, e, geo, peso, faixa_theta, grade_s0,
     razao = np.asarray(razao, dtype=float)
     usar = (theta_star > faixa_theta[0]) & (theta_star < faixa_theta[1])
     th, r = theta_star[usar], razao[usar]
+    if r.size < 2:
+        raise ValueError(f"só {r.size} ponto(s) em {faixa_theta[0]:g}° < θ* < "
+                         f"{faixa_theta[1]:g}°: ajuste impossível")
     q = calculate_q(th, geo)
     contato, s, psi = resolver_circuito(q, e, geo)
     b = braco_momento(q, psi, e, geo, contato)
@@ -742,13 +757,18 @@ def ajustar_fig16(theta_star, razao, e, geo, peso, faixa_theta, grade_s0,
     b_a = float(braco_momento(q_a, psi_a, e, geo, contato_a))
     x_a = float(calculate_x(s_a, s0))
     tp_a = float(np.abs(torque_peso(theta_alvo, *peso)))
-    k_alvo = alvo*tp_a/(x_a*b_a/1000.0)
+    # x_alvo ≤ 0 (elástico frouxo em θ_alvo) não tem k que atinja o alvo
+    k_alvo = alvo*tp_a/(x_a*b_a/1000.0) if x_a*b_a > 0 else float("nan")
 
     return {"s0": s0, "limite": limite, "c": c, "sse": sse, "n": n,
             "rms": rms, "rms_max": rms/float(np.max(r)),
             "faixa_s0": (float(grade[idx[0]]), float(grade[idx[-1]])),
             "faixa_contigua": bool(dentro[idx[0]:idx[-1] + 1].all()),
+            "faixa_na_borda": bool(idx[0] == 0 or idx[-1] == grade.size - 1),
             "todos_regime_I": bool(not contato.any()),
+            "n_regime_II": int(contato.sum()),
+            "theta_regime_II": ((float(th[contato].min()), float(th[contato].max()))
+                                if contato.any() else None),
             "x_alvo": x_a, "b_alvo": b_a, "tau_peso_alvo": tp_a,
             "k_alvo": k_alvo, "forca_alvo": k_alvo*x_a,
             "usado": usar, "theta_ajuste": th}
@@ -1184,7 +1204,7 @@ def plot_projeto(theta, tau_exo, tau_peso_abs, alvo, theta_estrela, marcas,
 #
 # Viabilidade = (a) tração + (c) fechamento + (d) trabalho virtual.
 
-VE_GRID = np.arange(20.0, 50.0 + 1e-9, 0.05)       # mm, e VARRIDO
+VE_GRID = np.round(20.0 + 0.05*np.arange(601), 10)  # mm, e VARRIDO (20 a 50)
 VE_FAMILIA = (25.0, 30.0, E_CAD, 40.0, 45.0)       # mm, curvas τ × θ*
 VE_THETA = np.round(np.linspace(THETA_MIN, THETA_MAX, 1801), 10)  # graus θ*, 0,1°
 VE_FOLGAS = (1.01, 1.05, 1.10, 2.00)               # platôs de RMSE (só com extração)
@@ -1359,10 +1379,11 @@ def ve_salvar_csv(caminho, linhas, colunas,
 
 
 def ve_plot_familia(familia, nos, linhas_familia, theta, k, tau_peso_abs,
-                    alvo, caminho_png):
+                    alvo, patente, sinal_patente, rotulo_projeto, caminho_png):
     """Família de curvas × θ* em dois painéis: τ em N·m (com alvo·|τ_peso|
     sobreposto) e τ/k. e é ordenado: rampa sequencial de um só tom, clara →
-    escura; E_CAD mais espesso. q* de cada curva marcado; τ < 0 sombreado."""
+    escura; E_CAD mais espesso. q* de cada curva marcado; τ < 0 sombreado.
+    Se houver extração de torque (load_patent_data), ela é sobreposta."""
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -1400,10 +1421,16 @@ def ve_plot_familia(familia, nos, linhas_familia, theta, k, tau_peso_abs,
                 ax.plot([theta_est], [y_est], "o", color=cor, markersize=6,
                         markeredgecolor=FUNDO, markeredgewidth=1.5, zorder=4)
     ax1.plot([], [], "o", color=TINTA_2, markersize=6, label="q* (troca de regime)")
+    if patente is not None:
+        for ax, escala in ((ax1, 1.0), (ax2, 1.0/k)):
+            ax.plot(patente["theta"], escala*sinal_patente*patente["torque"],
+                    "o", color=TINTA, markersize=4.5, zorder=5,
+                    label=(f"Extração de torque ({len(patente['theta'])} pontos)"
+                           if ax is ax1 else None))
     if not negativos:
         ax1.plot([], [], " ", label="τ ≥ 0 em toda a faixa")
-    ax1.set_title(f"Família em e com o elástico do projeto padrão (k = "
-                  f"{k:.5f} N/mm, s0 fixo)".replace(".", ","), loc="left",
+    ax1.set_title(f"Família em e com o elástico do {rotulo_projeto} (k = "
+                  + f"{k:.5f} N/mm)".replace(".", ","), loc="left",
                   fontsize=10.5, color=TINTA)
     ax2.set_xlim(theta[0], theta[-1])
     ax1.legend(loc="upper left", bbox_to_anchor=(1.01, 1.0), frameon=False,
@@ -1415,7 +1442,8 @@ def ve_plot_familia(familia, nos, linhas_familia, theta, k, tau_peso_abs,
 
 
 def varredura_e(geo, k, defs0, theta_star, grade, familia, caminho_extracao,
-                sinal_patente, peso, alvo, pasta, plot_familia=True):
+                sinal_patente, peso, alvo, pasta, plot_familia=True,
+                rotulo_projeto="projeto padrão", sufixo=""):
     """Varre e com s0 e k fixos, classifica validade física, gera a família e
     reporta os indicadores. Diagnóstico: não calibra nada. Todos os
     parâmetros entram como argumentos; peso = argumentos_peso(conjunto)."""
@@ -1458,9 +1486,15 @@ def varredura_e(geo, k, defs0, theta_star, grade, familia, caminho_extracao,
     print("\n" + "=" * 78)
     print("VARREDURA PARAMÉTRICA DE e (diagnóstico)")
     print("=" * 78)
-    print(f"e = trecho O → cotovelo da alavanca, VARRIDO. s0 = "
-          f"{s_zero(E_CAD, geo, defs0):.3f} mm (forma {defs0.forma}) e k = "
-          f"{k:.5f} N/mm FIXOS: o elástico é o mesmo, só o parafuso muda.")
+    if defs0.forma == "b":
+        print(f"e = trecho O → cotovelo da alavanca, VARRIDO, com o elástico do "
+              f"{rotulo_projeto}: k = {k:.5f} N/mm e X_PRE = {defs0.x_pre:g} mm "
+              f"fixos; s0(e) = s(θ*_pre, e) − X_PRE VARIA com e (forma b).")
+    else:
+        print(f"e = trecho O → cotovelo da alavanca, VARRIDO, com o elástico do "
+              f"{rotulo_projeto}: s0 = {s_zero(E_CAD, geo, defs0):.3f} mm "
+              f"(forma {defs0.forma}) e k = {k:.5f} N/mm FIXOS: o elástico é o "
+              f"mesmo, só o parafuso muda.")
     print(f"Grade: {grade.size} valores de e, de {grade[0]:g} a {grade[-1]:g} mm "
           f"(passo 0,05 + família + E_CAD). Faixa θ*: {theta_star[0]:g}° a "
           f"{theta_star[-1]:g}°, {theta_star.size} pontos.")
@@ -1572,7 +1606,7 @@ def varredura_e(geo, k, defs0, theta_star, grade, familia, caminho_extracao,
     print("\nPor e (família e notáveis; τ em N·m, k do projeto; flags "
           "a=tração c=fechamento d=trab. virtual):")
     print(f"{'e (mm)':>10} {'d':>7} {'q* (°)':>8} {'θ*(q*)':>7} {'%II':>5} "
-          f"{'τ pico':>7} {'θ* pico':>7} {'τ mín':>7} {'x_min':>7} {'x_max':>7} "
+          f"{'τ pico':>7} {'θ* pico':>7} {'τ mín':>7} {'s−s0 mín':>8} {'x_max':>7} "
           f"{'θ* x_max':>8} {'tração em θ*':>13} {'flags':>5}  papéis")
     for v in notaveis:
         if not v["fechamento"]:
@@ -1585,7 +1619,7 @@ def varredura_e(geo, k, defs0, theta_star, grade, familia, caminho_extracao,
         print(f"{v['e']:10.4f} {v['d']:7.3f} {num(v['q_estrela'], '8.3f'):>8} "
               f"{num(v['theta_estrela'], '7.3f'):>7} {100*v['frac_contato']:5.1f} "
               f"{v['tau_pico']:7.3f} {v['theta_pico']:7.1f} {v['tau_min']:7.3f} "
-              f"{v['x_min']:7.2f} {v['x_max']:7.2f} {v['theta_x_max']:8.1f} "
+              f"{v['x_min']:8.2f} {v['x_max']:7.2f} {v['theta_x_max']:8.1f} "
               f"{faixa_q:>13} {flags:>5}  {v['papeis']}")
         if v["trechos_frouxos"]:
             print(f"{'':10}   ↳ elástico frouxo em θ* = {v['trechos_frouxos']}°")
@@ -1605,7 +1639,8 @@ def varredura_e(geo, k, defs0, theta_star, grade, familia, caminho_extracao,
     # ---------------------------------------------------------- arquivos
     pasta = Path(pasta)
     pasta.mkdir(exist_ok=True)
-    arquivos = [pasta/"ve_varredura_e.csv", pasta/"ve_e_notaveis.csv"]
+    arquivos = [pasta/f"ve_varredura_e{sufixo}.csv",
+                pasta/f"ve_e_notaveis{sufixo}.csv"]
     colunas = ["e", "fechamento", "tracao", "tv_ok", "viavel", "motivo", "d",
                "s0", "q_estrela", "theta_estrela", "frac_contato", "tau_pico",
                "theta_pico", "tau_min", "theta_tau_min", "tau_k_pico",
@@ -1619,9 +1654,10 @@ def varredura_e(geo, k, defs0, theta_star, grade, familia, caminho_extracao,
     ve_salvar_csv(arquivos[0], linhas, colunas)
     ve_salvar_csv(arquivos[1], notaveis, ["e", "papeis"] + colunas[1:])
     if plot_familia:
-        arquivos.append(pasta/"ve_familia_curvas.png")
+        arquivos.append(pasta/f"ve_familia_curvas{sufixo}.png")
         ve_plot_familia(familia, nos, linhas_familia, theta_star, k,
-                        tau_peso_abs, alvo, arquivos[-1])
+                        tau_peso_abs, alvo, patente, sinal_patente,
+                        rotulo_projeto, arquivos[-1])
     print("\nArquivos gerados pela varredura:")
     for a in arquivos:
         print(f"  {a}")
@@ -1638,6 +1674,8 @@ VE_RODAR = True            # desligar para executar sem varrer
 VE_PLOT_FAMILIA = True     # família τ × θ* e τ/k × θ*
 
 THETA_TABELA_PROJETO = (10.0, 30.0, 60.0, 90.0, 120.0, 150.0, 170.0)  # graus θ*
+Q_TABELA = (40.0, 60.0, 90.0, 100.0, 120.0, PARAMETROS_CAD["Q_POSE"], 200.0)
+                                    # graus q, ângulos representativos + q*
 THETA_MARCAS_RAZAO = (30.0, 60.0, 90.0, 120.0, 150.0)                 # graus θ*
 
 
@@ -1655,7 +1693,12 @@ def _argumentos():
                         help="X_PRE em mm (forma b)")
     leitor.add_argument("--fig16", type=Path, default=FIG16_CSV,
                         help="CSV das curvas da Fig. 16")
-    return leitor.parse_args()
+    args = leitor.parse_args()
+    if args.forma == "b" and (args.theta_pre is None or args.x_pre is None):
+        leitor.error("forma (b) pede --theta-pre e --x-pre (não há valor padrão)")
+    if args.x_pre is not None and args.x_pre < 0:
+        leitor.error("--x-pre é a extensão do elástico em θ*_pre: precisa ser ≥ 0")
+    return args
 
 
 if __name__ == "__main__":
@@ -1717,6 +1760,8 @@ if __name__ == "__main__":
               f"({par['BRACO_POSE'] + t['cg_angulo_braco_grau']:.3f}° de +x na "
               f"pose); Izz(O) = {t['izz_o_kgm2']:.6f} kg·m², Izz(CG) = "
               f"{t['izz_cg_kgm2']:.6f} kg·m²")
+        print("  HIPÓTESE: eixos do Fusion paralelos aos do modelo; Izz do Fusion "
+              "em torno de z.")
     else:
         print("  total = só membro humano (braço do exo fora: O_FUSION = None)")
     print(f"  |τ_peso(90°)| = {abs(float(torque_peso(90.0, *peso))):.3f} N·m; "
@@ -1724,13 +1769,18 @@ if __name__ == "__main__":
 
     # ------------------------------------------------------ Fig. 16
     fig16, ajustes = None, {}
-    if args.fig16.exists():
+    sem_ajuste = {}
+    if args.fig16.is_file():
         fig16 = load_fig16(args.fig16)
         for nome, dados in fig16.items():
-            ajustes[nome] = ajustar_fig16(dados["theta"], dados["razao"], e, geo,
-                                          peso, FIG16_FAIXA_AJUSTE,
-                                          FIG16_GRADE_S0, FIG16_FOLGA_FAIXA,
-                                          ALVO_FRACAO, THETA_ALVO)
+            try:
+                ajustes[nome] = ajustar_fig16(dados["theta"], dados["razao"], e,
+                                              geo, peso, FIG16_FAIXA_AJUSTE,
+                                              FIG16_GRADE_S0, FIG16_FOLGA_FAIXA,
+                                              ALVO_FRACAO, THETA_ALVO)
+            except ValueError as erro:
+                sem_ajuste[nome] = str(erro)
+        fig16 = {nome: d for nome, d in fig16.items() if nome in ajustes}
         print(f"\nFig. 16 da EP 3 504 033 B1 ({args.fig16.name}, curvas "
               f"{', '.join(fig16)}):")
         print("  CONTRADIÇÃO REGISTRADA: o texto da patente diz \"torque do peso")
@@ -1752,7 +1802,8 @@ if __name__ == "__main__":
             s0_txt = (f"{aj['s0']:.3f}" + (f" (limite {aj['limite']})"
                                            if aj["limite"] else ""))
             faixa_txt = (f"{aj['faixa_s0'][0]:.2f} a {aj['faixa_s0'][1]:.2f}"
-                         + ("" if aj["faixa_contigua"] else " (NÃO contígua)"))
+                         + ("" if aj["faixa_contigua"] else " (NÃO contígua)")
+                         + (" †" if aj["faixa_na_borda"] else ""))
             print(f"  {nome:>11} {aj['n']:3d} {s0_txt:>22} {aj['c']:9.5f} "
                   f"{100*aj['rms_max']:7.2f}% {faixa_txt:>20} "
                   f"{aj['x_alvo']:8.3f} {aj['k_alvo']:11.5f} "
@@ -1760,13 +1811,31 @@ if __name__ == "__main__":
         print("  A FORMA da curva só define s0 dentro da faixa de identificação")
         print(f"  (RMS ≤ {FIG16_FOLGA_FAIXA:g}·RMS_min). Dentro dela, s0 e k são "
               "decisão de projeto, não medida.")
-        print("  F(90°) é igual nas três curvas: o alvo e b(90°) não dependem de s0.")
+        if any(aj["faixa_na_borda"] for aj in ajustes.values()):
+            print("  † a faixa encosta na borda da grade de s0 (s0 < 0 não é físico).")
+        for nome, motivo in sem_ajuste.items():
+            print(f"  {nome:>11}: SEM AJUSTE ({motivo})")
+        print("  F(90°) é igual nas curvas POR CONSTRUÇÃO: cada curva recebe o seu")
+        print("  k_40, e F(90°) = alvo·|τ_peso(90°)|/b(90°) não depende de s0. Com")
+        print("  um mesmo atuador (k único) F(90°) seria diferente; só o k_40 da")
+        print("  curva de projeto tem significado.")
         regime_I = all(aj["todos_regime_I"] for aj in ajustes.values())
         q_est_e = q_estrela_numerico(e, geo, calculate_q(theta, geo))
+        if q_est_e is None:
+            onde_q = "sem troca de regime na faixa"
+        else:
+            th_q = float(theta_star_de_q(q_est_e, geo))
+            onde_q = (f"θ*(q*) = {th_q:.3f}° "
+                      f"{'<' if th_q < FIG16_FAIXA_AJUSTE[0] else '≥'} "
+                      f"{FIG16_FAIXA_AJUSTE[0]:g}°")
         print(f"  Regime: todos os pontos do ajuste caíram no regime I: "
-              f"{'SIM' if regime_I else 'NÃO'} (θ*(q*) = "
-              f"{theta_star_de_q(q_est_e, geo):.3f}° < {FIG16_FAIXA_AJUSTE[0]:g}°).")
-        assert regime_I, "há ponto do ajuste no regime II"
+              f"{'SIM' if regime_I else 'NÃO'} ({onde_q}).")
+        for nome, aj in ajustes.items():
+            if aj["n_regime_II"]:
+                print(f"  AVISO: {nome}: {aj['n_regime_II']} ponto(s) do ajuste no "
+                      f"regime II (θ* de {aj['theta_regime_II'][0]:.2f}° a "
+                      f"{aj['theta_regime_II'][1]:.2f}°); o ajuste usa o b do "
+                      f"regime II nesses pontos.")
     else:
         print(f"\nFig. 16: arquivo não encontrado ({args.fig16}).")
 
@@ -1776,14 +1845,17 @@ if __name__ == "__main__":
                            origem="PROVISÓRIO: s da pose do CAD")
         k, origem_k = K_ILUSTRATIVO, "ILUSTRATIVO, NÃO MEDIDO"
     elif args.forma == "b":
-        if args.theta_pre is None or args.x_pre is None:
-            raise SystemExit("forma (b) pede --theta-pre e --x-pre (não há "
-                             "valor padrão)")
+        if not THETA_MIN <= args.theta_pre <= THETA_MAX:
+            print(f"AVISO: θ*_pre = {args.theta_pre:g}° fora da faixa "
+                  f"{THETA_MIN:g}° a {THETA_MAX:g}°.")
         defs0 = definir_s0("b", theta_pre=args.theta_pre, x_pre=args.x_pre,
                            origem="pré-tensão escolhida por argumento")
         k, origem_k = K_ILUSTRATIVO, "ILUSTRATIVO, NÃO MEDIDO"
     else:
         curva = _nome_curva(args.curva)
+        if not args.fig16.is_file():
+            raise SystemExit(f"forma (c) pede o arquivo da Fig. 16, não "
+                             f"encontrado: {args.fig16}")
         if curva not in ajustes:
             raise SystemExit(f"forma (c) pede a curva '{args.curva}' da Fig. 16 "
                              f"({args.fig16}); disponíveis: {list(ajustes)}")
@@ -1792,6 +1864,19 @@ if __name__ == "__main__":
                            origem=f"AJUSTADO: forma da Fig. 16 ({curva})")
         k = aj["k_alvo"]
         origem_k = "AJUSTADO: forma da Fig. 16 + alvo de 40% (hipótese)"
+    if args.forma != "b" and (args.theta_pre is not None or args.x_pre is not None):
+        print(f"AVISO: --theta-pre/--x-pre ignorados na forma ({args.forma}).")
+    if args.forma != "c" and _nome_curva(args.curva) != _nome_curva(CURVA_PROJETO):
+        print(f"AVISO: --curva ignorado na forma ({args.forma}).")
+    if s_zero(e, geo, defs0) < 0:
+        raise SystemExit(f"s0 = {s_zero(e, geo, defs0):.3f} mm < 0 não é físico")
+    padrao = (args.forma == FORMA_S0_PROJETO
+              and _nome_curva(args.curva) == _nome_curva(CURVA_PROJETO))
+    rotulo_projeto = "projeto padrão" if padrao else (
+        f"projeto alternativo, forma ({args.forma})"
+        + (f", curva {_nome_curva(args.curva)}" if args.forma == "c" else ""))
+    sufixo = "" if padrao else (f"_forma_{args.forma}" + (
+        f"_{_nome_curva(args.curva)}" if args.forma == "c" else ""))
 
     # ------------------------------------------------------- autotestes
     a = autotestes(e, geo, k, defs0, theta, e_extra=(e + 10.0, 0.5*e, 2.0*e),
@@ -1835,21 +1920,23 @@ if __name__ == "__main__":
     # ----------------------------------------------------- projeto
     r = calculate_torque_curve(k, e, geo, defs0, theta)
     tp_abs = np.abs(torque_peso(theta, *peso))
-    i_xmax, i_xmin = int(np.argmax(r["extensao"])), int(np.argmin(r["extensao"]))
+    i_xmax, i_xmin = int(np.argmax(r["x"])), int(np.argmin(r["x"]))
+    i_ext = int(np.argmin(r["extensao"]))
     i_pico = int(np.argmax(r["tau"]))
     frouxo = trechos_frouxos(theta, r["extensao"])
     q_est = q_estrela_numerico(e, geo, r["q"])
     theta_est = None if q_est is None else float(theta_star_de_q(q_est, geo))
-    print(f"\nPROJETO ({'padrão' if args.forma == FORMA_S0_PROJETO else 'alternativo'}"
-          f"), e = {e:g} mm:")
+    print(f"\n{rotulo_projeto.replace('projeto', 'PROJETO', 1)}, e = {e:g} mm:")
     print(f"  forma de s0 ativa: ({defs0.forma}); s0 = {r['s0']:.3f} mm — "
           f"{defs0.origem}")
     print(f"  k = {k:.5f} N/mm — {origem_k}")
-    print(f"  x_max = {r['extensao'][i_xmax]:.3f} mm em θ* = {theta[i_xmax]:.1f}°; "
-          f"x_min = {r['extensao'][i_xmin]:.3f} mm em θ* = {theta[i_xmin]:.1f}°")
+    print(f"  x_max = {r['x'][i_xmax]:.3f} mm em θ* = {theta[i_xmax]:.1f}°; "
+          f"x_min = {r['x'][i_xmin]:.3f} mm em θ* = {theta[i_xmin]:.1f}°")
     if frouxo:
         print("  o elástico AFROUXA em θ* = "
-              + ", ".join(f"{i:.2f}° a {f:.2f}°" for i, f in frouxo))
+              + ", ".join(f"{i:.2f}° a {f:.2f}°" for i, f in frouxo)
+              + f" (menor s − s0 = {r['extensao'][i_ext]:.3f} mm em θ* = "
+              f"{theta[i_ext]:.1f}°)")
     else:
         print("  o elástico fica tracionado em toda a faixa")
     print(f"  pico de τ_exo = {r['tau'][i_pico]:.3f} N·m em θ* = "
@@ -1866,6 +1953,27 @@ if __name__ == "__main__":
               f"{rt['tau'][i]:11.3f} {tp_t[i]:9.3f} {rt['tau'][i]/tp_t[i]:14.3f}")
     print("τ positivo = anti-horário = sentido de θ* crescente. b = τ/F, só "
           "relatório.")
+
+    # tabela em q: ângulos representativos e q*, com a forma (a) ao lado
+    q_tab = np.radians(sorted(Q_TABELA + (() if q_est is None
+                                          else (float(np.degrees(q_est)),))))
+    rq = calculate_torque_curve(k, e, geo, defs0, theta_star_de_q(q_tab, geo))
+    x_a = calculate_x(rq["s"], S0_PROVISORIO)
+    print(f"\nTabela em q (e = {e:g} mm; x(a) = forma (a), s0 = S0_PROVISORIO "
+          f"= {S0_PROVISORIO:g} mm; x, F e τ da forma ativa):")
+    print("    q(°)    θ*(°) reg    ψ(°)    s(mm)  s−d(mm)   b(mm)  x(a)(mm)"
+          "    x(mm)     F(N)   τ(N·m)  τ/k(N·m por N/mm)")
+    for i, qq in enumerate(np.degrees(q_tab)):
+        th_i = rq["theta_star"][i]
+        smd = rq["s_menos_d"][i]
+        fora = " (fora da faixa)" if not THETA_MIN <= th_i <= THETA_MAX else ""
+        marca = " = q*" if q_est is not None and abs(np.radians(qq) - q_est) < 1e-12 else ""
+        print(f"{qq:8.3f} {th_i:8.3f} {'II' if rq['contato'][i] else 'I':>3} "
+              f"{np.degrees(rq['psi'][i]):7.3f} {rq['s'][i]:8.3f} "
+              f"{'—' if np.isnan(smd) else format(smd, '.3f'):>8} "
+              f"{rq['braco'][i]:7.3f} {x_a[i]:9.3f} {rq['x'][i]:8.3f} "
+              f"{rq['force'][i]:8.2f} {rq['tau'][i]:8.3f} "
+              f"{rq['tau'][i]/k:12.5f}{marca}{fora}")
     if theta_est is not None:
         i10 = int(np.argmin(np.abs(theta - 10.0)))
         print(f"DIVERGÊNCIA REGISTRADA (não corrigida): abaixo de θ*(q*) = "
@@ -1886,15 +1994,17 @@ if __name__ == "__main__":
     marcas = [(float(theta[j]), float(r["tau"][j]), float(razao[j]))
               for j in [int(np.argmin(np.abs(theta - th)))
                         for th in THETA_MARCAS_RAZAO] + [i_pico]]
-    gerados.append(pasta/"ottobock_projeto_padrao.png")
+    gerados.append(pasta/("ottobock_projeto_padrao.png" if padrao
+                          else f"ottobock_projeto{sufixo}.png"))
     plot_projeto(theta, r["tau"], tp_abs, ALVO_FRACAO, theta_est, marcas,
-                 f"Projeto: forma ({defs0.forma}), s0 = {r['s0']:.3f} mm, "
-                 f"k = {k:.5f} N/mm, e = {e:g} mm".replace(".", ","),
-                 gerados[-1])
+                 rotulo_projeto.capitalize() + f": forma ({defs0.forma}), "
+                 + f"s0 = {r['s0']:.3f} mm, k = {k:.5f} N/mm, "
+                 f"e = {e:g} mm".replace(".", ","), gerados[-1])
     print("\nGráficos:")
     for g in gerados:
         print(f"  {g}")
 
     if VE_RODAR:
         varredura_e(geo, k, defs0, VE_THETA, VE_GRID, VE_FAMILIA, EXTRACAO_EP,
-                    SINAL_PATENTE, peso, ALVO_FRACAO, pasta, VE_PLOT_FAMILIA)
+                    SINAL_PATENTE, peso, ALVO_FRACAO, pasta, VE_PLOT_FAMILIA,
+                    rotulo_projeto, sufixo)
