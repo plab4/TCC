@@ -11,11 +11,15 @@ explícito e grava
     results/ottobock_tcc_fig_a3_projeto.png      projeto padrão contra o torque do peso
     results/ottobock_tcc_fig_a4_normalizado.png  formas normalizadas na faixa de s0
     results/ottobock_tcc_fig_a5_familia.png      família em e (τ/K e razão exo/peso)
+    results/ottobock_tcc_fig_a6_razoes.png       s0 pelo espaçamento entre curvas e forma G
 
-Além do ajuste por curva de torque_model_ottobock.ajustar_fig16, calcula duas
-verificações que o modelo não faz: o ajuste conjunto das três curvas com uma
-só escala c (mesmo atuador e mesmo eixo y, como descreve [0093] da patente) e
-o ajuste com força constante (forma limite de s0 → −∞).
+O s0 adotado vem do espaçamento entre as três curvas da Fig. 16
+(torque_model_ottobock.identificar_s0_razoes), que não usa o braço de momento
+nem o torque do peso. O ajuste de forma por curva (ajustar_fig16) fica como
+resultado secundário, com duas verificações que o modelo não faz: o ajuste
+conjunto das três curvas com uma só escala c (mesmo atuador e mesmo eixo y,
+como descreve [0093] da patente) e o ajuste com força constante (forma limite
+de s0 → −∞).
 
 Convenção angular: θ_el é a anteversão do braço (0° pendente, 90° horizontal
 à frente), chamada theta_star no código; λ é o ângulo do trecho e da
@@ -220,6 +224,236 @@ def cruzamentos(theta, y):
             for k in i]
 
 
+FAIXAS_ROBUSTEZ = ((15.0, 170.0), (20.0, 165.0), (25.0, 160.0), (40.0, 150.0))
+DESLOC_ROBUSTEZ = 2.47      # graus: alinha a troca de regime com p78 = 0 ao início
+                            # das curvas da Fig. 16 (14,2° contra 11,8°)
+SIGMA_PX = 0.5              # erro mediano da extração, cabeçalho do CSV
+PX_POR_DIV = 21.1311        # pixels por divisão da grade (cabeçalho do CSV)
+PX_POR_GRAU = 266.2/20.0    # abscissa da Fig. 16 a 300 ppp (cerca de 266,2 px em 20°)
+N_MONTE_CARLO = 500
+ANGULOS_FORMA = (20.0, 30.0, 60.0, 90.0, 120.0, 150.0, 165.0)
+
+
+def razoes(fig16, geo, peso, par):
+    """Identificação de s0 pelo espaçamento entre as três curvas e suas
+    verificações: faixas de θ, ruído de extração, sinal de BRACO_POSE,
+    deslocamento da abscissa, fim da curva pontilhada, colapso de G e
+    comparação da forma G com a do modelo."""
+    principal = tmo.identificar_s0_razoes(fig16, ORDEM, E, geo, FAIXA)
+    s0 = principal["s0"]
+    rob = [{"faixa": list(f), **tmo.identificar_s0_razoes(fig16, ORDEM, E, geo, f)}
+           for f in FAIXAS_ROBUSTEZ]
+
+    # ruído de extração: σ de 0,5 px na ordenada e na abscissa
+    rng = np.random.default_rng(20261021)
+    mc = []
+    for _ in range(N_MONTE_CARLO):
+        ruido = {n: {"theta": np.sort(v["theta"] + rng.normal(0, SIGMA_PX/PX_POR_GRAU,
+                                                              v["theta"].size)),
+                     "razao": v["razao"] + rng.normal(0, SIGMA_PX/PX_POR_DIV,
+                                                      v["razao"].size)}
+                 for n, v in fig16.items()}
+        mc.append([tmo.identificar_s0_razoes(ruido, ORDEM, E, geo, FAIXA)["s0"][n]
+                   for n in ORDEM])
+    mc = np.array(mc)
+
+    _, geo_b, _ = montar(-par["BRACO_POSE"])
+    inv = tmo.identificar_s0_razoes(fig16, ORDEM, E, geo_b, FAIXA)
+    desl = {}
+    for d in (-DESLOC_ROBUSTEZ, DESLOC_ROBUSTEZ):
+        mov = {n: {"theta": v["theta"] + d, "razao": v["razao"]} for n, v in fig16.items()}
+        desl[f"{d:+.2f}"] = tmo.identificar_s0_razoes(mov, ORDEM, E, geo, FAIXA)
+    esp = {n: {"theta": (180.0 - v["theta"])[::-1], "razao": v["razao"][::-1]}
+           for n, v in fig16.items()}
+    espelhada = tmo.identificar_s0_razoes(esp, ORDEM, E, geo, FAIXA)
+
+    # ℓ lido no espaçamento entre as curvas pontilhada e contínua, contra o CAD:
+    # ℓ = (r_c·s0_p − r_p·s0_c)/(r_c − r_p)
+    tl = np.arange(35.0, 155.0 + 1e-9, 2.5)
+    lc = circuito(tl, E, geo)[2]
+    rp_ = np.interp(tl, fig16["pontilhada"]["theta"], fig16["pontilhada"]["razao"])
+    rc_ = np.interp(tl, fig16["continua"]["theta"], fig16["continua"]["razao"])
+    dl = (rc_*s0["pontilhada"] - rp_*s0["continua"])/(rc_ - rp_) - lc
+
+    # fim da curva pontilhada: zero extrapolado dos últimos pontos
+    th, rr = fig16["pontilhada"]["theta"], fig16["pontilhada"]["razao"]
+    fim = {}
+    for k in (2, 3):
+        a, b = np.polyfit(th[-k:], rr[-k:], 1)
+        t0 = float(-b/a)
+        fim[str(k)] = {"theta": t0, "l": float(circuito(np.array([t0]), E, geo)[2][0])}
+    lg = circuito(THETA, E, geo)[2]
+    theta_frouxo = {n: (float(THETA[np.argmax(lg < v)]) if (lg < v).any() else None)
+                    for n, v in s0.items()}
+
+    # colapso: G_i = r_i/(ℓ − s0_i) deve ser o mesmo para as três curvas
+    tg = np.arange(FAIXA[0], FAIXA[1] + 1e-9, 5.0)
+    q, ct, lt, pt, mt = circuito(tg, E, geo)
+    G = np.array([np.interp(tg, fig16[n]["theta"], fig16[n]["razao"])/(lt - s0[n])
+                  for n in ORDEM])
+    disp = (G.max(0) - G.min(0))/G.mean(0)
+    i150 = tg <= 150.0 + 1e-9
+    G_med = np.mean(G[1:], axis=0)           # tracejada e contínua: δ grande
+    forma = mt/(1000.0*np.abs(tmo.torque_peso(tg, *peso)))
+    k90 = int(np.argmin(np.abs(tg - 90.0)))
+    rel = (G_med/G_med[k90])/(forma/forma[k90])
+    m_impl = G_med*np.abs(tmo.torque_peso(tg, *peso))
+    tf = np.arange(FAIXA[0], FAIXA[1] + 1e-9, 0.5)
+    qf, cf, lf, pf, mf = circuito(tf, E, geo)
+    Gf = np.mean([np.interp(tf, fig16[n]["theta"], fig16[n]["razao"])/(lf - s0[n])
+                  for n in ORDEM[1:]], axis=0)
+    m_impl_f = Gf*np.abs(tmo.torque_peso(tf, *peso))
+
+    # modelo completo (b e τ_peso do CAD) com os s0 das razões
+    d = dados_ajuste(fig16, E, geo, peso)
+    mus = {n: tmo.modelo_fig16(d[n]["s"], d[n]["b"], d[n]["tp"], s0[n]) for n in ORDEM}
+    c_com = (sum(float(mus[n] @ d[n]["r"]) for n in ORDEM)
+             / sum(float(mus[n] @ mus[n]) for n in ORDEM))
+    modelo = {n: {"comum": metricas(c_com, mus[n], d[n]["r"]),
+                  "por_curva": metricas(float(mus[n] @ d[n]["r"])/float(mus[n] @ mus[n]),
+                                        mus[n], d[n]["r"])}
+              for n in ORDEM}
+
+    # teste sintético: curvas montadas com s0 conhecidos devem ser recuperadas
+    s0_sint = {"pontilhada": 300.0, "tracejada": 287.0, "continua": 275.0}
+    sint = {}
+    for n in ORDEM:
+        t = fig16[n]["theta"]
+        qs, cs, ls, ps, ms = circuito(t, E, geo)
+        sint[n] = {"theta": t, "razao": ms/np.abs(tmo.torque_peso(t, *peso))
+                   * np.maximum(ls - s0_sint[n], 0.0)}
+    rec = tmo.identificar_s0_razoes(sint, ORDEM, E, geo, FAIXA)["s0"]
+
+    # início das curvas: s0 = ℓ(início) deixaria o elástico frouxo acima dele
+    inicio = {}
+    for n in ORDEM:
+        t0 = inicio_curva(fig16[n]["theta"], fig16[n]["razao"])
+        l0 = float(circuito(np.array([t0]), E, geo)[2][0])
+        acima = THETA > t0
+        inicio[n] = {"theta": t0, "l": l0,
+                     "n_tracionado_acima": int(np.count_nonzero(lg[acima] > l0)),
+                     "n_acima": int(acima.sum())}
+
+    l_e = {k: float(circuito(np.array([a]), E, geo)[2][0]) for k, a in
+           (("0", 0.0), ("180", 180.0))}
+    saida = {
+        "s0": s0, "rms": principal["rms"], "n": principal["n"],
+        "robustez": rob,
+        "monte_carlo": {"n": N_MONTE_CARLO, "sigma_px": SIGMA_PX,
+                        "media": dict(zip(ORDEM, mc.mean(0).tolist())),
+                        "desvio": dict(zip(ORDEM, mc.std(0).tolist())),
+                        "p2_5": dict(zip(ORDEM, np.percentile(mc, 2.5, 0).tolist())),
+                        "p97_5": dict(zip(ORDEM, np.percentile(mc, 97.5, 0).tolist()))},
+        "braco_pose_invertido": inv["s0"], "rms_braco_pose_invertido": inv["rms"],
+        "deslocamento_abscissa": desl, "abscissa_espelhada": espelhada,
+        "l_figura_menos_cad": {"faixa": [35.0, 155.0], "rms": float(np.sqrt(np.mean(dl**2))),
+                               "max_abs": float(np.abs(dl).max())},
+        "fim_pontilhada": fim, "theta_frouxo": theta_frouxo, "inicio": inicio,
+        "passos": {"pontilhada_tracejada": s0["pontilhada"] - s0["tracejada"],
+                   "tracejada_continua": s0["tracejada"] - s0["continua"]},
+        "pre_tensao_180": {n: l_e["180"] - v for n, v in s0.items()},
+        "delta_0": {n: l_e["0"] - v for n, v in s0.items()},
+        "colapso": {"dispersao_mediana": float(np.median(disp)),
+                    "dispersao_max_ate_150": float(disp[i150].max()),
+                    "theta_dispersao_max_ate_150": float(tg[i150][np.argmax(disp[i150])]),
+                    "dispersao_max": float(disp.max()),
+                    "theta_dispersao_max": float(tg[np.argmax(disp)])},
+        "forma": {"angulos": list(ANGULOS_FORMA),
+                  "G_sobre_modelo": {f"{a:g}": float(rel[np.argmin(np.abs(tg - a))])
+                                     for a in ANGULOS_FORMA},
+                  "theta_pico_m_impl": float(tf[np.argmax(m_impl_f)]),
+                  "theta_pico_m_cad": float(THETA[np.argmax(circuito(THETA, E, geo)[4])])},
+        "modelo_completo": {"c_comum": c_com, "curvas": modelo},
+        "sintetico": {"s0_real": s0_sint, "s0_recuperado": rec,
+                      "erro_max": max(abs(rec[n] - s0_sint[n]) for n in ORDEM)},
+    }
+    extra = {"tg": tg, "G": G, "G_med": G_med, "forma": forma, "m_impl": m_impl,
+             "mus": mus, "c_com": c_com, "d": d}
+    return saida, extra
+
+
+def cenario(s0, geo, peso, tp, origem):
+    """Projeto com o alvo de 40 % do peso em 90°: K_40, curva e tabela."""
+    q9, c9, s9, p9, b9 = circuito(np.array([tmo.THETA_ALVO]), E, geo)
+    x9 = float(tmo.calculate_x(s9, s0)[0])
+    K = tmo.ALVO_FRACAO*float(np.abs(tmo.torque_peso(tmo.THETA_ALVO, *peso)))\
+        / (x9*float(b9[0])/1000.0)
+    defs0 = tmo.definir_s0("c", s0_fixo=s0, origem=origem)
+    r = tmo.calculate_torque_curve(K, E, geo, defs0, THETA)
+    i_pico = int(np.argmax(r["tau"]))
+    with np.errstate(divide="ignore", invalid="ignore"):
+        razao = r["tau"]/tp
+    angs = np.array(tmo.THETA_TABELA_PROJETO)
+    rt = tmo.calculate_torque_curve(K, E, geo, defs0, angs)
+    tpt = np.abs(tmo.torque_peso(angs, *peso))
+    proj = {
+        "origem": origem,
+        "s0": s0, "K": K, "tau_pico": float(r["tau"][i_pico]),
+        "theta_pico": float(THETA[i_pico]),
+        "x_max": float(r["x"].max()), "theta_x_max": float(THETA[np.argmax(r["x"])]),
+        "x_min": float(r["x"].min()), "theta_x_min": float(THETA[np.argmin(r["x"])]),
+        "frouxo": tmo.trechos_frouxos(THETA, r["extensao"]),
+        "tau_min": float(r["tau"].min()), "theta_tau_min": float(THETA[np.argmin(r["tau"])]),
+        "razao_pico": float(razao[i_pico]),
+        "F_max": float(r["force"].max()), "F_min": float(r["force"].min()),
+        "F_0": float(r["force"][0]), "F_180": float(r["force"][-1]),
+        "deformacao_max": float(r["x"].max()/s0),
+        "tabela": [{"theta": float(t), "lambda": float(np.degrees(qq)),
+                    "regime": "II" if c else "I", "l": float(ss), "x": float(xx),
+                    "m": float(bb), "F": float(ff), "tau": float(tt),
+                    "tau_g": float(g), "razao": float(tt/g)}
+                   for t, qq, c, ss, xx, bb, ff, tt, g in zip(
+                       angs, rt["q"], rt["contato"], rt["s"], rt["x"],
+                       rt["braco"], rt["force"], rt["tau"], tpt)],
+    }
+    return proj, K, defs0, r
+
+
+def sensibilidade(casos, geo, tp):
+    sens = []
+    for rot, s0 in casos:
+        qa, ca, sa, pa, ba = circuito(np.array([90.0]), E, geo)
+        xa = float(tmo.calculate_x(sa, s0)[0])
+        Ks = tmo.ALVO_FRACAO*float(tp[np.argmin(np.abs(THETA - 90))])/(xa*float(ba[0])/1000)
+        ds = tmo.definir_s0("c", s0_fixo=s0)
+        rs = tmo.calculate_torque_curve(Ks, E, geo, ds, THETA)
+        ip = int(np.argmax(rs["tau"]))
+        with np.errstate(divide="ignore", invalid="ignore"):
+            rz = rs["tau"]/tp
+        sens.append({"caso": rot, "s0": s0, "K": Ks,
+                     "tau_pico": float(rs["tau"][ip]), "theta_pico": float(THETA[ip]),
+                     "x_0": float(rs["x"][0]), "x_180": float(rs["x"][-1]),
+                     "razao": {str(int(a)): float(rz[np.argmin(np.abs(THETA - a))])
+                               for a in (30, 60, 120, 150)}})
+    return sens
+
+
+def normalizado(sens, geo, tp):
+    sel = (THETA >= FAIXA[0]) & (THETA <= FAIXA[1])
+    norm = {}
+    for caso in sens:
+        ds = tmo.definir_s0("c", s0_fixo=caso["s0"])
+        t1 = tmo.calculate_torque_curve(1.0, E, geo, ds, THETA)["tau"]
+        dif = t1/t1.max() - tp/tp.max()
+        cz = cruzamentos(THETA, dif)
+        bordas = [0.0] + cz + [180.0]
+        trechos = []
+        for ini, fim in zip(bordas[:-1], bordas[1:]):
+            j = (THETA > ini) & (THETA < fim)
+            if j.any():
+                k = int(np.argmax(np.abs(dif[j])))
+                trechos.append({"ini": ini, "fim": fim, "extremo": float(dif[j][k]),
+                                "theta": float(THETA[j][k])})
+        norm[caso["caso"]] = {
+            "s0": caso["s0"],
+            "theta_pico_exo": float(THETA[np.argmax(t1)]),
+            "cruzamentos": cz, "trechos": trechos,
+            "dif_max": float(dif[sel].max()), "theta_dif_max": float(THETA[sel][np.argmax(dif[sel])]),
+            "dif_min": float(dif[sel].min()), "theta_dif_min": float(THETA[sel][np.argmin(dif[sel])]),
+            "dif_10": float(dif[np.argmin(np.abs(THETA - 10))])}
+    return {"theta_pico_peso": float(THETA[np.argmax(tp)]), "casos": norm}
+
+
 def main():
     PASTA.mkdir(exist_ok=True)
     par, geo, der = montar()
@@ -326,69 +560,32 @@ def main():
     N["ajuste"] = {"individual": ind, "conjunto": conjunto,
                    "forca_constante": constante}
 
-    # ------------------------------------------------- projeto padrão
-    aj = ajustes[tmo.CURVA_PROJETO]
-    K = aj["k_alvo"]
-    defs0 = tmo.definir_s0("c", s0_fixo=aj["s0"], origem="tracejada")
-    r = tmo.calculate_torque_curve(K, E, geo, defs0, THETA)
+    # ------------------------------------- s0 pelo espaçamento entre curvas
     tp = np.abs(tmo.torque_peso(THETA, *peso))
-    i_pico = int(np.argmax(r["tau"]))
-    with np.errstate(divide="ignore", invalid="ignore"):
-        razao = r["tau"]/tp
-    angs = np.array(tmo.THETA_TABELA_PROJETO)
-    rt = tmo.calculate_torque_curve(K, E, geo, defs0, angs)
-    tpt = np.abs(tmo.torque_peso(angs, *peso))
-    N["projeto"] = {
-        "s0": aj["s0"], "K": K, "tau_pico": float(r["tau"][i_pico]),
-        "theta_pico": float(THETA[i_pico]),
-        "x_max": float(r["x"].max()), "theta_x_max": float(THETA[np.argmax(r["x"])]),
-        "x_min": float(r["x"].min()), "theta_x_min": float(THETA[np.argmin(r["x"])]),
-        "frouxo": tmo.trechos_frouxos(THETA, r["extensao"]),
-        "tau_min": float(r["tau"].min()), "theta_tau_min": float(THETA[np.argmin(r["tau"])]),
-        "razao_pico": float(razao[i_pico]),
-        "F_max": float(r["force"].max()), "F_min": float(r["force"].min()),
-        "tabela": [{"theta": float(t), "lambda": float(np.degrees(qq)),
-                    "regime": "II" if c else "I", "l": float(ss), "x": float(xx),
-                    "m": float(bb), "F": float(ff), "tau": float(tt),
-                    "tau_g": float(g), "razao": float(tt/g)}
-                   for t, qq, c, ss, xx, bb, ff, tt, g in zip(
-                       angs, rt["q"], rt["contato"], rt["s"], rt["x"],
-                       rt["braco"], rt["force"], rt["tau"], tpt)],
-    }
+    N["razoes"], extra_razoes = razoes(fig16, geo, peso, par)
+    aj = ajustes[tmo.CURVA_PROJETO]
+    s0_adot = N["razoes"]["s0"][tmo.CURVA_PROJETO]
 
-    # sensibilidade dentro da faixa de identificação (tracejada)
-    sens = []
-    for rot, s0 in (("faixa_min", aj["faixa_s0"][0]), ("s0", aj["s0"]),
-                    ("faixa_max", aj["faixa_s0"][1])):
-        qa, ca, sa, pa, ba = circuito(np.array([90.0]), E, geo)
-        xa = float(tmo.calculate_x(sa, s0)[0])
-        Ks = tmo.ALVO_FRACAO*float(tp[np.argmin(np.abs(THETA - 90))])/(xa*float(ba[0])/1000)
-        ds = tmo.definir_s0("c", s0_fixo=s0)
-        rs = tmo.calculate_torque_curve(Ks, E, geo, ds, THETA)
-        ip = int(np.argmax(rs["tau"]))
-        with np.errstate(divide="ignore", invalid="ignore"):
-            rz = rs["tau"]/tp
-        sens.append({"caso": rot, "s0": s0, "K": Ks,
-                     "tau_pico": float(rs["tau"][ip]), "theta_pico": float(THETA[ip]),
-                     "x_0": float(rs["x"][0]), "x_180": float(rs["x"][-1]),
-                     "razao": {str(int(a)): float(rz[np.argmin(np.abs(THETA - a))])
-                               for a in (30, 60, 120, 150)}})
+    # ------------------------------------------------- projeto padrão
+    # s0 adotado: espaçamento entre curvas; o do ajuste de forma fica como
+    # comparação em "projeto_forma"
+    N["projeto"], K, defs0, r = cenario(s0_adot, geo, peso, tp,
+                                    "espaçamento entre curvas")
+    N["projeto_forma"], _, _, _ = cenario(aj["s0"], geo, peso, tp, "ajuste de forma")
+
+    # sensibilidade de s0: espalhamento entre as faixas de θ testadas
+    # (adotado) e faixa de identificação do ajuste de forma (comparação)
+    s0_rob = [v["s0"][tmo.CURVA_PROJETO] for v in N["razoes"]["robustez"]]
+    sens = sensibilidade(((("faixa_min", min(s0_rob)), ("s0", s0_adot),
+                           ("faixa_max", max(s0_rob)))), geo, tp)
+    sens_forma = sensibilidade(((("faixa_min", aj["faixa_s0"][0]), ("s0", aj["s0"]),
+                                 ("faixa_max", aj["faixa_s0"][1]))), geo, tp)
     N["sensibilidade_s0"] = sens
+    N["sensibilidade_s0_forma"] = sens_forma
 
     # formas normalizadas (independem de K)
-    sel = (THETA >= FAIXA[0]) & (THETA <= FAIXA[1])
-    norm = {}
-    for caso in sens:
-        ds = tmo.definir_s0("c", s0_fixo=caso["s0"])
-        t1 = tmo.calculate_torque_curve(1.0, E, geo, ds, THETA)["tau"]
-        dif = t1/t1.max() - tp/tp.max()
-        norm[caso["caso"]] = {
-            "theta_pico_exo": float(THETA[np.argmax(t1)]),
-            "cruzamentos": cruzamentos(THETA, dif),
-            "dif_max": float(dif[sel].max()), "theta_dif_max": float(THETA[sel][np.argmax(dif[sel])]),
-            "dif_min": float(dif[sel].min()), "theta_dif_min": float(THETA[sel][np.argmin(dif[sel])]),
-            "dif_10": float(dif[np.argmin(np.abs(THETA - 10))])}
-    N["normalizado"] = {"theta_pico_peso": float(THETA[np.argmax(tp)]), "casos": norm}
+    N["normalizado"] = normalizado(sens, geo, tp)
+    N["normalizado_forma"] = normalizado(sens_forma, geo, tp)
 
     # ---------------------------------------------------------- família em e
     fam = []
@@ -400,7 +597,15 @@ def main():
         with np.errstate(divide="ignore", invalid="ignore"):
             rz = re_["tau"]/tp
         curvas[ee] = (re_["tau"], rz)
+        # extremos locais de τ/τ_g entre 20° e 178° (τ_g → 0 em 180°)
+        jj = np.flatnonzero((THETA > 20.0) & (THETA < 178.0))
+        dz = np.diff(rz[jj])
+        ext = [{"tipo": "max" if dz[k - 1] > 0 else "min",
+                "theta": float(THETA[jj[k]]), "razao": float(rz[jj[k]])}
+               for k in range(1, dz.size) if dz[k - 1]*dz[k] < 0]
         fam.append({"e": ee, "d78": tmo.calculate_d(ee, geo), "theta_t": tt,
+                    "frouxo": tmo.trechos_frouxos(THETA, re_["extensao"]),
+                    "extremos_razao": ext,
                     "tau_pico": float(re_["tau"][ip]), "theta_pico": float(THETA[ip]),
                     "tau_90": float(re_["tau"][np.argmin(np.abs(THETA - 90))]),
                     "razao_90": float(rz[np.argmin(np.abs(THETA - 90))]),
@@ -451,14 +656,14 @@ def main():
     N["verificacoes"]["q_estrela"] = float(np.degrees(a["q_estrela"]))
 
     figuras(N, fig16, ajustes, conjunto, d, geo, peso, der, K, defs0, r, tp,
-            curvas, sens)
+            curvas, sens, extra_razoes)
     with open(PASTA/"ottobock_tcc_numeros.json", "w", encoding="utf-8") as f:
         json.dump(N, f, ensure_ascii=False, indent=1, default=float)
     print(f"números: {PASTA/'ottobock_tcc_numeros.json'}")
 
 
 def figuras(N, fig16, ajustes, conjunto, d, geo, peso, der, K, defs0, r, tp,
-            curvas, sens):
+            curvas, sens, xr):
     # ------------------------------------------- A.1 geometria
     fig, (a1, a2) = plt.subplots(1, 2, figsize=(10, 4.6), dpi=200,
                                  facecolor=SUPERFICIE,
@@ -581,8 +786,8 @@ def figuras(N, fig16, ajustes, conjunto, d, geo, peso, der, K, defs0, r, tp,
     ax.fill_between(THETA, np.minimum(formas["faixa_min"], formas["faixa_max"]),
                     np.maximum(formas["faixa_min"], formas["faixa_max"]),
                     color=AZUL, alpha=0.18, lw=0,
-                    label="elástico, s0 na faixa de identificação")
-    ax.plot(THETA, formas["s0"], color=AZUL, lw=2, label="elástico, s0 ajustado")
+                    label="elástico, s0 entre as faixas de θ testadas")
+    ax.plot(THETA, formas["s0"], color=AZUL, lw=2, label="elástico, s0 adotado")
     ax.plot(THETA, tp/tp.max(), color=LARANJA, lw=2, label="peso do membro humano")
     ax.set_xlim(0, 180)
     ax.set_ylim(0, 1.05)
@@ -615,6 +820,39 @@ def figuras(N, fig16, ajustes, conjunto, d, geo, peso, der, K, defs0, r, tp,
     a1.legend(loc="upper left", frameon=False, fontsize=7.5)
     fig.tight_layout()
     fig.savefig(PASTA/"ottobock_tcc_fig_a5_familia.png", facecolor=SUPERFICIE)
+    plt.close(fig)
+
+    # ------------------------------------------- A.6 espaçamento entre curvas
+    fig, (a1, a2) = plt.subplots(1, 2, figsize=(10, 4.2), dpi=200,
+                                 facecolor=SUPERFICIE)
+    eixos(a1, 0, 3)
+    eixos(a2, 0, 1)
+    s0r = N["razoes"]["s0"]
+    for n in ORDEM:
+        th, rr = fig16[n]["theta"], fig16[n]["razao"]
+        usar = (th > FAIXA[0]) & (th < FAIXA[1])
+        lt = circuito(th[usar], E, geo)[2]
+        rot = (f"{NOME[n]}, s0 = {s0r[n]:.1f} mm").replace(".", ",")
+        a1.plot(th[usar], rr[usar]/(lt - s0r[n]), ESTILO[n], color=COR[n], lw=1.6,
+                marker="o", ms=3, label=rot)
+    a1.set_ylim(bottom=0)
+    a1.set_ylabel(r"$r/(\ell - s_0)$ (divisões por mm)", color=TINTA_2)
+    a1.legend(loc="upper left", frameon=False, fontsize=7.5)
+    k90 = int(np.argmin(np.abs(xr["tg"] - 90.0)))
+    a2.plot(xr["tg"], xr["G_med"]/xr["G_med"][k90], "o-", color=LARANJA, lw=1.8, ms=3.5,
+            label="lida na Figura 16, curvas tracejada e contínua")
+    a2.plot(xr["tg"], xr["forma"]/xr["forma"][k90], color=AZUL, lw=1.8,
+            label=r"modelo, $m/(1000\,|\tau_g|)$ com geometria do CAD")
+    a2.set_ylim(bottom=0)
+    a2.set_ylabel("G normalizado em 90°", color=TINTA_2)
+    a2.legend(loc="upper left", frameon=False, fontsize=7.5)
+    for ax in (a1, a2):
+        ax.set_xlim(15, 170)
+        ax.set_xlabel(r"Anteversão do braço, $\theta_{el}$ (graus)", color=TINTA_2)
+    a1.text(0.98, 0.04, "(a)", transform=a1.transAxes, ha="right", fontsize=8)
+    a2.text(0.98, 0.04, "(b)", transform=a2.transAxes, ha="right", fontsize=8)
+    fig.tight_layout()
+    fig.savefig(PASTA/"ottobock_tcc_fig_a6_razoes.png", facecolor=SUPERFICIE)
     plt.close(fig)
 
 

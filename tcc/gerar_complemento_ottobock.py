@@ -12,6 +12,12 @@ Rodar (na raiz do repositório):
     python tcc_resultados_ottobock.py
     python tcc/gerar_complemento_ottobock.py tcc/TCC_apenas_exo1.docx \
         tcc/TCC_apenas_exo1_complemento_Ottobock.docx
+
+Substituído por gerar_tcc_fundido.py, que funde a análise ao corpo do TCC.
+Depois dele, o JSON passou a adotar o s0 do espaçamento entre as curvas da
+Fig. 16 ("projeto"), e o do ajuste de forma foi para "projeto_forma"; este
+script lê as chaves antigas e só reproduz o apêndice com os resultados do
+commit fa91e3e.
 """
 import json
 import re

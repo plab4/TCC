@@ -774,6 +774,47 @@ def ajustar_fig16(theta_star, razao, e, geo, peso, faixa_theta, grade_s0,
             "usado": usar, "theta_ajuste": th}
 
 
+def identificar_s0_razoes(fig16, nomes, e, geo, faixa_theta):
+    """s0 de cada curva da Fig. 16 pelo espaçamento entre as curvas.
+
+    As curvas vêm do mesmo atuador, com a mesma geometria e só a pré-tensão
+    diferente ([0093]). Com o elástico tracionado, r_i(θ*) = G(θ*)·(s(θ*) − s0_i),
+    em que G = c·k·b/(1000·|τ_peso|) é comum às curvas e desconhecido. Cada par
+    (i, j) elimina G: r_j·s0_i − r_i·s0_j = (r_j − r_i)·s, linear nos s0. Usa os
+    pontos de i com faixa_theta[0] < θ* < faixa_theta[1] e r_j interpolado nos
+    mesmos θ*, para todos os pares ordenados; cada equação é dividida por
+    r_i + r_j. Não usa b, τ_peso nem k: só s(θ*) do circuito em e.
+
+    Devolve {"s0": {nome: mm}, "rms": resíduo RMS das equações [mm], "n"}.
+    """
+    linhas = []
+    for i, ni in enumerate(nomes):
+        for j, nj in enumerate(nomes):
+            if i == j:
+                continue
+            t, ri = fig16[ni]["theta"], fig16[ni]["razao"]
+            tj, rj_ = fig16[nj]["theta"], fig16[nj]["razao"]
+            usar = ((t > faixa_theta[0]) & (t < faixa_theta[1])
+                    & (t >= tj.min()) & (t <= tj.max()))
+            rj = np.interp(t[usar], tj, rj_)
+            for th, a, b in zip(t[usar], ri[usar], rj):
+                linhas.append((th, a, b, i, j))
+    if not linhas:
+        raise ValueError("nenhum par de pontos na faixa: identificação impossível")
+    th, ri, rj, i, j = (np.array(c) for c in zip(*linhas))
+    i, j = i.astype(int), j.astype(int)
+    _, s, _ = resolver_circuito(calculate_q(th, geo), e, geo)
+    w = 1.0/(ri + rj)
+    A = np.zeros((th.size, len(nomes)))
+    A[np.arange(th.size), i] = rj*w
+    A[np.arange(th.size), j] -= ri*w
+    y = (rj - ri)*s*w
+    s0, *_ = np.linalg.lstsq(A, y, rcond=None)
+    res = A @ s0 - y
+    return {"s0": {n: float(v) for n, v in zip(nomes, s0)},
+            "rms": float(np.sqrt(np.mean(res**2))), "n": int(th.size)}
+
+
 # ======================================================================
 # 9. Autotestes
 # ======================================================================
