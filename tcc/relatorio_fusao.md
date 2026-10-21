@@ -2,7 +2,7 @@
 
 Documento gerado: `TCC_exo1_exo2.docx`, a partir de `TCC_apenas_exo1.docx`.
 
-Blocos do original: 305, todos mantidos e na mesma ordem. Blocos novos: 248. Blocos do original com texto alterado: 77 (renumeração e as edições de EDICOES em gerar_tcc_fundido.py).
+Blocos do original: 305, todos mantidos e na mesma ordem. Blocos novos: 252. Blocos do original com texto alterado: 78 (renumeração e as edições de EDICOES em gerar_tcc_fundido.py).
 
 ## Numeração
 
@@ -186,7 +186,7 @@ Depois: 3A.13 Ferramentas e delimitação
 
 Antes: Este capítulo apresenta os resultados das etapas descritas nas seções 3.1 a 3.11, aplicadas ao gerador de torque da US 9.889.554 B2. Salvo indicação em contrário, os números foram obtidos com o modelo vigente e os parâmetros congelados K = 174,68, HCAL = 22,701 mm e Xpose = 37,383 mm. As etapas dinâmicas da seção 3.12 e a aplicação do procedimento à US 9.737.374 B2 e à EP 3 504 033 B1 não foram executadas.
 
-Depois: Esta seção apresenta os resultados das etapas descritas nas seções 3A.1 a 3A.11, aplicadas ao gerador de torque da US 9.889.554 B2. Salvo indicação em contrário, os números foram obtidos com o modelo vigente e os parâmetros congelados K = 174,68, HCAL = 22,701 mm e Xpose = 37,383 mm. As etapas dinâmicas da seção 3A.12 e a aplicação do procedimento à US 9.737.374 B2 não foram executadas; a EP 3 504 033 B1 é tratada na seção 4B.
+Depois: Esta seção apresenta os resultados das etapas descritas nas seções 3A.1 a 3A.11, aplicadas ao gerador de torque da US 9.889.554 B2. Salvo indicação em contrário, os números foram obtidos com o modelo vigente e os parâmetros congelados K = 174,68, HCAL = 22,701 mm e Xpose = 37,383 mm. As etapas dinâmicas da seção 3A.12 e a aplicação do procedimento à US 9.737.374 B2 não foram executadas.
 
 ### 30
 
@@ -466,12 +466,18 @@ Depois: Além das limitações de escopo da seção 3A.13, os resultados comport
 
 ### 76
 
+Antes: Por fim, os resultados referem-se a um único dispositivo, ao indivíduo de referência adotado e ao membro superior estendido sem ferramenta na mão, e limitam-se à análise estática. A generalização a outros percentis antropométricos, a outras configurações de cotovelo e à presença de carga na mão demanda a reexecução do procedimento com os parâmetros correspondentes.
+
+Depois: Por fim, os resultados desta seção referem-se a um único dispositivo, ao indivíduo de referência adotado e ao membro superior estendido sem ferramenta na mão, e limitam-se à análise estática. A generalização a outros percentis antropométricos, a outras configurações de cotovelo e à presença de carga na mão demanda a reexecução do procedimento com os parâmetros correspondentes.
+
+### 77
+
 Antes: O objetivo geral foi atingido em sua parte estática e para um dos três dispositivos previstos. Os objetivos específicos a, b, c e e foram cumpridos; o objetivo d, parcialmente, pois a rigidez e a extensão da mola na pose foram reproduzidas, mas a origem da posição da ancoragem e da calibração angular não. Os objetivos f e g, referentes à equação de movimento e ao acoplamento com o MBDyn, não foram executados. A principal restrição é a ausência de unidade na ordenada da curva da patente: o torque do cabo permanece em unidade da patente, e a leitura em N·m conduz a forças implausíveis, de modo que o modelo determina a forma do torque, mas não sua escala física.
 
 Depois: O objetivo geral foi atingido em sua parte estática e para o primeiro dos três dispositivos previstos; o segundo é tratado na seção 5B. Os objetivos específicos a, b, c e e foram cumpridos; o objetivo d, parcialmente, pois a rigidez e a extensão da mola na pose foram reproduzidas, mas a origem da posição da ancoragem e da calibração angular não. Os objetivos f e g, referentes à equação de movimento e ao acoplamento com o MBDyn, não foram executados. A principal restrição é a ausência de unidade na ordenada da curva da patente: o torque do cabo permanece em unidade da patente, e a leitura em N·m conduz a forças implausíveis, de modo que o modelo determina a forma do torque, mas não sua escala física.
 
-### 77
+### 78
 
 Antes: Como continuidade, recomenda-se obter um dado independente que fixe a escala do torque, como a especificação de uma mola comercial compatível; conferir no CAD a cota de ancoragem, o comprimento do alojamento e o comprimento da mola na pose; documentar o procedimento de extração dos pontos e sua incerteza; representar a protuberância responsável pela zona neutra; e, com o torque em unidade física, executar as etapas dinâmicas pela formulação de Lagrange e no MBDyn e estender o procedimento à US 9.737.374 B2 e à EP 3 504 033 B1.
 
-Depois: Como continuidade, recomenda-se obter um dado independente que fixe a escala do torque, como a especificação de uma mola comercial compatível; conferir no CAD a cota de ancoragem, o comprimento do alojamento e o comprimento da mola na pose; documentar o procedimento de extração dos pontos e sua incerteza; representar a protuberância responsável pela zona neutra; e, com o torque em unidade física, executar as etapas dinâmicas pela formulação de Lagrange e no MBDyn e estender o procedimento à US 9.737.374 B2; a extensão à EP 3 504 033 B1 é apresentada nas seções 3B, 4B e 5B.
+Depois: Como continuidade, recomenda-se obter um dado independente que fixe a escala do torque, como a especificação de uma mola comercial compatível; conferir no CAD a cota de ancoragem, o comprimento do alojamento e o comprimento da mola na pose; documentar o procedimento de extração dos pontos e sua incerteza; representar a protuberância responsável pela zona neutra; e, com o torque em unidade física, executar as etapas dinâmicas pela formulação de Lagrange e no MBDyn e estender o procedimento à US 9.737.374 B2. A extensão à EP 3 504 033 B1 é apresentada nas seções 3B, 4B e 5B.

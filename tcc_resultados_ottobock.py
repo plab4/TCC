@@ -229,7 +229,10 @@ DESLOC_ROBUSTEZ = 2.47      # graus: alinha a troca de regime com p78 = 0 ao in�
                             # das curvas da Fig. 16 (14,2° contra 11,8°)
 SIGMA_PX = 0.5              # erro mediano da extração, cabeçalho do CSV
 PX_POR_DIV = 21.1311        # pixels por divisão da grade (cabeçalho do CSV)
-PX_POR_GRAU = 266.2/20.0    # abscissa da Fig. 16 a 300 ppp (cerca de 266,2 px em 20°)
+PX_POR_DIV_300PPP = 215.7   # pixels por divisão da grade no PDF a 300 ppp
+# abscissa na mesma unidade da leitura vertical: 266,2 px em 20° a 300 ppp,
+# reduzidos pela razão entre a leitura (21,1311 px/div) e o PDF (215,7 px/div)
+PX_POR_GRAU = 266.2/20.0*PX_POR_DIV/PX_POR_DIV_300PPP
 N_MONTE_CARLO = 500
 ANGULOS_FORMA = (20.0, 30.0, 60.0, 90.0, 120.0, 150.0, 165.0)
 
@@ -257,8 +260,12 @@ def razoes(fig16, geo, peso, par):
                    for n in ORDEM])
     mc = np.array(mc)
 
-    _, geo_b, _ = montar(-par["BRACO_POSE"])
+    par_b, geo_b, _ = montar(-par["BRACO_POSE"])
     inv = tmo.identificar_s0_razoes(fig16, ORDEM, E, geo_b, FAIXA)
+    peso_b = tmo.argumentos_peso(conjunto_humano(par_b))
+    proj_b, _, _, _ = cenario(inv["s0"][tmo.CURVA_PROJETO], geo_b, peso_b,
+                              np.abs(tmo.torque_peso(THETA, *peso_b)),
+                              "espaçamento entre curvas, BRACO_POSE trocado")
     desl = {}
     for d in (-DESLOC_ROBUSTEZ, DESLOC_ROBUSTEZ):
         mov = {n: {"theta": v["theta"] + d, "razao": v["razao"]} for n, v in fig16.items()}
@@ -304,6 +311,19 @@ def razoes(fig16, geo, peso, par):
                   for n in ORDEM[1:]], axis=0)
     m_impl_f = Gf*np.abs(tmo.torque_peso(tf, *peso))
 
+    # se toda a diferença de forma viesse do braço de momento, ℓ seria a
+    # integral de −m_impl (Equação de trabalho virtual), a menos de escala e
+    # deslocamento; compara-se esse ℓ com o do CAD entre 35° e 155°
+    ti = np.arange(35.0, 155.0 + 1e-9, 0.5)
+    qi, ci, li, pi_, mi_ = circuito(ti, E, geo)
+    Gi_ = np.mean([np.interp(ti, fig16[n]["theta"], fig16[n]["razao"])/(li - s0[n])
+                   for n in ORDEM[1:]], axis=0)
+    mimp = Gi_*np.abs(tmo.torque_peso(ti, *peso))
+    integ = -np.concatenate([[0.0], np.cumsum(0.5*(mimp[1:] + mimp[:-1])
+                                              * np.diff(np.radians(ti)))])
+    Ai = np.column_stack([integ, np.ones_like(integ)])
+    dli = Ai @ np.linalg.lstsq(Ai, li, rcond=None)[0] - li
+
     # modelo completo (b e τ_peso do CAD) com os s0 das razões
     d = dados_ajuste(fig16, E, geo, peso)
     mus = {n: tmo.modelo_fig16(d[n]["s"], d[n]["b"], d[n]["tp"], s0[n]) for n in ORDEM}
@@ -340,11 +360,14 @@ def razoes(fig16, geo, peso, par):
         "s0": s0, "rms": principal["rms"], "n": principal["n"],
         "robustez": rob,
         "monte_carlo": {"n": N_MONTE_CARLO, "sigma_px": SIGMA_PX,
+                        "sigma_div": SIGMA_PX/PX_POR_DIV, "sigma_grau": SIGMA_PX/PX_POR_GRAU,
                         "media": dict(zip(ORDEM, mc.mean(0).tolist())),
                         "desvio": dict(zip(ORDEM, mc.std(0).tolist())),
                         "p2_5": dict(zip(ORDEM, np.percentile(mc, 2.5, 0).tolist())),
                         "p97_5": dict(zip(ORDEM, np.percentile(mc, 97.5, 0).tolist()))},
         "braco_pose_invertido": inv["s0"], "rms_braco_pose_invertido": inv["rms"],
+        "projeto_braco_pose_invertido": {k: proj_b[k] for k in
+                                         ("s0", "K", "tau_pico", "theta_pico")},
         "deslocamento_abscissa": desl, "abscissa_espelhada": espelhada,
         "l_figura_menos_cad": {"faixa": [35.0, 155.0], "rms": float(np.sqrt(np.mean(dl**2))),
                                "max_abs": float(np.abs(dl).max())},
@@ -362,7 +385,10 @@ def razoes(fig16, geo, peso, par):
                   "G_sobre_modelo": {f"{a:g}": float(rel[np.argmin(np.abs(tg - a))])
                                      for a in ANGULOS_FORMA},
                   "theta_pico_m_impl": float(tf[np.argmax(m_impl_f)]),
-                  "theta_pico_m_cad": float(THETA[np.argmax(circuito(THETA, E, geo)[4])])},
+                  "theta_pico_m_cad": float(THETA[np.argmax(circuito(THETA, E, geo)[4])]),
+                  "l_de_m_impl_menos_cad": {"faixa": [35.0, 155.0],
+                                            "rms": float(np.sqrt(np.mean(dli**2))),
+                                            "max_abs": float(np.abs(dli).max())}},
         "modelo_completo": {"c_comum": c_com, "curvas": modelo},
         "sintetico": {"s0_real": s0_sint, "s0_recuperado": rec,
                       "erro_max": max(abs(rec[n] - s0_sint[n]) for n in ORDEM)},
@@ -496,8 +522,8 @@ def main():
         m_min=float(bg.min()), theta_m_min=float(THETA[np.argmin(bg)]),
         l_0=float(sg[0]), l_180=float(sg[-1]), curso=float(sg[0] - sg[-1]),
         regime_II=[float(THETA[cg].min()), float(THETA[cg].max())])
-    angs = [0.0, 10.0, th_t, 30.0, 60.0, 90.0, der["theta_pose"], 120.0, 150.0,
-            180.0]
+    angs = sorted([0.0, 10.0, th_t, 30.0, 60.0, 90.0, der["theta_pose"], 120.0, 150.0,
+                   180.0])
     q, contato, s, psi, b = circuito(np.array(angs), E, geo)
     N["tabela_geometria"] = [
         {"theta": float(t), "lambda": float(np.degrees(qq)),
@@ -753,7 +779,7 @@ def figuras(N, fig16, ajustes, conjunto, d, geo, peso, der, K, defs0, r, tp,
     ax.plot(THETA, tp, color=LARANJA, lw=2, label=r"$|\tau_g|$, membro humano")
     ax.plot(THETA, tmo.ALVO_FRACAO*tp, color=LARANJA, lw=1.6, ls="--",
             label=r"0,4 $|\tau_g|$ (alvo, hipótese)")
-    ax.plot(THETA, r["tau"], color=AZUL, lw=2, label="τ do elástico, projeto padrão")
+    ax.plot(THETA, r["tau"], color=AZUL, lw=2, label="τ do elástico, cenário de projeto")
     th_t = N["geometria"]["theta_t"]
     ax.axvline(th_t, color=TINTA_2, lw=0.8, ls=":")
     ax.annotate(("transição de regime, $\\theta_{el}$ = " + f"{th_t:.2f}°").replace(".", ","),
@@ -840,7 +866,7 @@ def figuras(N, fig16, ajustes, conjunto, d, geo, peso, der, K, defs0, r, tp,
     a1.legend(loc="upper left", frameon=False, fontsize=7.5)
     k90 = int(np.argmin(np.abs(xr["tg"] - 90.0)))
     a2.plot(xr["tg"], xr["G_med"]/xr["G_med"][k90], "o-", color=LARANJA, lw=1.8, ms=3.5,
-            label="lida na Figura 16, curvas tracejada e contínua")
+            label="lida na Figura 16 da patente, curvas tracejada e contínua")
     a2.plot(xr["tg"], xr["forma"]/xr["forma"][k90], color=AZUL, lw=1.8,
             label=r"modelo, $m/(1000\,|\tau_g|)$ com geometria do CAD")
     a2.set_ylim(bottom=0)
