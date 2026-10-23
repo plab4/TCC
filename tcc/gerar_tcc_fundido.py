@@ -992,9 +992,12 @@ def parte_3B():
         "o ajuste conjunto."))
     a(P("Para expressar o torque em N·m, K foi fixado por hipótese de projeto, e "
         "não identificado. O alvo é 40% do torque do peso em θ_{el} = 90°; o "
-        "percentual é hipótese do autor, baseada na alegação do fabricante de "
-        "redução de até 40% da carga no ombro, que não consta da patente e cuja "
-        "fonte não está listada nas referências. O valor correspondente é"))
+        "percentual é hipótese do autor, baseada na alegação comercial de que o "
+        "exoesqueleto IX Shoulder Air reduz em 40% ou mais a sobrecarga no ombro "
+        "durante o trabalho acima da cabeça (SUITX, [202-]). A alegação não consta "
+        "da patente, não informa as condições em que a redução foi medida e não foi "
+        "verificada neste trabalho; o alvo adota o menor valor alegado. O valor "
+        "correspondente é"))
     a(EQ(("k40", r"K_{40} = \frac{0{,}4\,\tau_{g}\left( 90^{\circ} \right) \cdot 1000}{\delta\left( 90^{\circ} \right)\,m\left( 90^{\circ} \right)}")))
     a(P("calculado com o s_{0} adotado. Como F(90°) = 0,4 τ_{g}(90°)·1000/m(90°) não "
         "depende de s_{0}, a força em 90° é a mesma para qualquer s_{0}; o valor "
@@ -1858,9 +1861,11 @@ def parte_4B():
          ["Movimento fora do plano sagital",
           "Abdução e articulação esférica 22 não representadas",
           "Modelo espacial, fora do escopo deste trabalho"],
-         ["Fonte da alegação de assistência de 40%",
-          "Alvo de K_{40} sem fonte listada nas referências",
-          "Localizar e citar a fonte, ou tratar o alvo apenas como hipótese"],
+         ["Verificação da alegação de assistência de 40%",
+          "Alvo de K_{40} baseado em alegação comercial (SUITX, [202-]), sem "
+          "verificação independente",
+          "Confrontar o alvo com medições do torque do dispositivo ou com estudos "
+          "independentes"],
          ["Etapas dinâmicas e MBDyn",
           "Nenhum resultado dinâmico", "Resolver as pendências de K, I_{O} e "
           "Q_{nc} e montar o modelo no MBDyn"]],
@@ -2052,6 +2057,8 @@ def parte_5B():
 
 DOI_VIRTANEN = "https://doi.org/10.1038/s41592-019-0686-2"
 RID_DOI = "rIdExo2Doi1"
+URL_SUITX = "https://www.suitx.com/en/products/ix-shoulder-air-exoskeleton"
+RID_SUITX = "rIdExo2Url1"
 
 
 def ref_brent():
@@ -2070,6 +2077,17 @@ def ref_virtanen():
             f'<w:hyperlink r:id="{RID_DOI}" w:history="1"><w:r><w:rPr>'
             '<w:rStyle w:val="Hyperlink"/></w:rPr><w:t>10.1038/s41592-019-0686-2</w:t>'
             '</w:r></w:hyperlink><w:r><w:t>.</w:t></w:r></w:p>')
+
+
+def ref_suitx():
+    return ('<w:p><w:r><w:t xml:space="preserve">SUITX. </w:t></w:r>'
+            '<w:r><w:rPr><w:b/></w:rPr><w:t>IX SHOULDER AIR</w:t></w:r>'
+            '<w:r><w:t xml:space="preserve">. [S.l.], [202-]. Disponível em: '
+            '</w:t></w:r>'
+            f'<w:hyperlink r:id="{RID_SUITX}" w:history="1"><w:r><w:rPr>'
+            f'<w:rStyle w:val="Hyperlink"/></w:rPr><w:t>{URL_SUITX}</w:t>'
+            '</w:r></w:hyperlink><w:r><w:t xml:space="preserve">. Acesso em: '
+            '23 out. 2026.</w:t></w:r></w:p>')
 
 
 # ======================================================================
@@ -2165,6 +2183,7 @@ def montar(corpo_original):
         _unico(info, "4 RESULTADOS E DISCUSSÃO"): cap4_introducao(),
         _unico(info, "5 CONCLUSÃO"): cap5_titulo(),
         _unico(info, "BOUTERAA, Y.; BEN ABDALLAH"): [ref_brent()],
+        _unico(info, "SPADA, S. et al."): [ref_suitx()],
         _unico(info, "VAN ENGELHOVEN, L.; KAZEROONI"): [ref_virtanen()],
     }
     antes = {
@@ -2285,12 +2304,13 @@ def main(origem, destino):
             "</Relationships>",
             f'<Relationship Id="{rid}" Type="http://schemas.openxmlformats.org/'
             f'officeDocument/2006/relationships/image" Target="{alvo}"/></Relationships>')
-    assert RID_DOI not in rels
-    rels = rels.replace(
-        "</Relationships>",
-        f'<Relationship Id="{RID_DOI}" Type="http://schemas.openxmlformats.org/'
-        f'officeDocument/2006/relationships/hyperlink" Target="{DOI_VIRTANEN}" '
-        'TargetMode="External"/></Relationships>')
+    for rid, url in ((RID_DOI, DOI_VIRTANEN), (RID_SUITX, URL_SUITX)):
+        assert rid not in rels
+        rels = rels.replace(
+            "</Relationships>",
+            f'<Relationship Id="{rid}" Type="http://schemas.openxmlformats.org/'
+            f'officeDocument/2006/relationships/hyperlink" Target="{url}" '
+            'TargetMode="External"/></Relationships>')
     partes["word/_rels/document.xml.rels"] = rels.encode("utf-8")
 
     destino.parent.mkdir(parents=True, exist_ok=True)

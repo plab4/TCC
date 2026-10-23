@@ -1,6 +1,6 @@
 # Verificação do TCC fundido
 
-Original: TCC_apenas_exo1.docx, 305 blocos. Fundido: TCC_exo1_exo2.docx, 557 blocos.
+Original: TCC_apenas_exo1.docx, 305 blocos. Fundido: TCC_exo1_exo2.docx, 558 blocos.
 
 ## 1. Conteúdo do original
 
@@ -20,11 +20,11 @@ Referências sem alvo: 0.
 
 ## 4. Texto novo
 
-Blocos novos: 252. Travessões: 0. Restos da numeração do apêndice: 0.
+Blocos novos: 253. Travessões: 0. Restos da numeração do apêndice: 0.
 
 ## 5. Parágrafos do apêndice da versão anterior
 
-Idênticos: 14. Iguais a menos de números e referências: 31. Modificados: 36. Sem correspondente próximo: 14. Os últimos foram reescritos pelos novos resultados de s0 ou eram próprios do apêndice (título, apresentação e nota da lista de referências separada).
+Idênticos: 14. Iguais a menos de números e referências: 31. Modificados: 35. Sem correspondente próximo: 15. Os últimos foram reescritos pelos novos resultados de s0 ou eram próprios do apêndice (título, apresentação e nota da lista de referências separada).
 
 - Modificado (0.54): Os números do apêndice foram produzidos pelo modelo torque_model_ottobock.py e pelo script tcc_resultados_otto
   - mais próximo no fundido: A cadeia de cálculo do dispositivo da EP 3 504 033 B1, descrita nas seções 3B.5 a 3B.8, está implementada no a
@@ -80,8 +80,6 @@ Idênticos: 14. Iguais a menos de números e referências: 31. Modificados: 36. 
   - mais próximo no fundido: O dispositivo admite abdução, adução e movimentos do tronco (reivindicação 1; [0016] a [0019]). O modelo é pla
 - Modificado (0.92): com m = mI no regime I, m = mII no regime II e m > 0 quando o torque assiste a subida. Como no capítulo 3, o f
   - mais próximo no fundido: com m = mI no regime I, m = mII no regime II e m > 0 quando o torque assiste a subida. O fator 1/1000, herdado
-- Modificado (0.92): Para expressar o torque em N·m, K foi fixado por hipótese de projeto, e não identificado. O alvo é 40% do torq
-  - mais próximo no fundido: Para expressar o torque em N·m, K foi fixado por hipótese de projeto, e não identificado. O alvo é 40% do torq
 - Modificado (0.92): A Figura 17 não foi digitalizada. A seção A.11 faz apenas uma comparação visual com ela.
   - mais próximo no fundido: A Figura 17 da patente não foi digitalizada. A seção 4B.8 faz apenas uma comparação visual com ela.
 - Modificado (0.92): Como preferência, a patente indica que nenhuma força seja aplicada até que o braço ultrapasse um ângulo em rel
@@ -98,14 +96,16 @@ Idênticos: 14. Iguais a menos de números e referências: 31. Modificados: 36. 
   - mais próximo no fundido: Figura 10: Família de curvas em e, com s0 = 287,190 mm, com (a) o torque por unidade de rigidez e (b) a razão 
 - Modificado (0.97): Segundo [0093], as três curvas da Figura 16 foram obtidas com um único atuador passivo, com pré-tensões difere
   - mais próximo no fundido: Segundo [0093], as três curvas da Figura 16 da patente foram geradas com um único atuador passivo, com pré-ten
-- Sem correspondente (0.06): A variável independente é a anteversão do braço, θel, com 0° para o braço pendente e 90° para o braço horizont
-  - mais próximo no fundido: A Figura 16 da patente informa s0 de duas maneiras que não dependem da escala da ordenada: pelo espaçamento en
 - Sem correspondente (0.07): Foram executadas, para a EP 3 504 033 B1, a leitura da arquitetura na patente, a organização das grandezas do 
   - mais próximo no fundido: No modelo em CAD, o braço do exoesqueleto (elemento 8) tem massa de 163,951 g, centro de massa em (69,249; 151
 - Sem correspondente (0.07): A pré-tensão da curva pontilhada, descrita como quase nula [0093], também diverge do modelo. Essa curva exige 
   - mais próximo no fundido: em que s0 é o valor de ℓ em que o elástico atinge o comprimento livre e K a rigidez. A patente não informa K, 
 - Sem correspondente (0.07): As Figuras 16 e 17 da patente mostram curvas obtidas com o dispositivo [0092]. A abscissa é o ângulo de anteve
   - mais próximo no fundido: O atuador passivo (26) é uma mola de tração na Figura 1 da patente [0080] e um cabo ou fio elástico na Figura 
+- Sem correspondente (0.07): A variável independente é a anteversão do braço, θel, com 0° para o braço pendente e 90° para o braço horizont
+  - mais próximo no fundido: Para expressar o torque em N·m, K foi fixado por hipótese de projeto, e não identificado. O alvo é 40% do torq
+- Sem correspondente (0.09): Para expressar o torque em N·m, K foi fixado por hipótese de projeto, e não identificado. O alvo é 40% do torq
+  - mais próximo no fundido: com m = mI no regime I, m = mII no regime II e m > 0 quando o torque assiste a subida. O fator 1/1000, herdado
 - Sem correspondente (0.09): A forma do torque do elástico pode ser comparada à do peso sem depender de K, normalizando cada curva pelo pró
   - mais próximo no fundido: O espaçamento entre as três curvas da Figura 16 da patente determina os comprimentos de referência do elástico
 - Sem correspondente (0.09): O sinal de θb,pose = −7,962° está registrado no código como a confirmar. Com o sinal trocado, λ0 passa a −27,4

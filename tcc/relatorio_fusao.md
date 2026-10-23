@@ -2,7 +2,7 @@
 
 Documento gerado: `TCC_exo1_exo2.docx`, a partir de `TCC_apenas_exo1.docx`.
 
-Blocos do original: 305, todos mantidos e na mesma ordem. Blocos novos: 252. Blocos do original com texto alterado: 78 (renumeração e as edições de EDICOES em gerar_tcc_fundido.py).
+Blocos do original: 305, todos mantidos e na mesma ordem. Blocos novos: 253. Blocos do original com texto alterado: 78 (renumeração e as edições de EDICOES em gerar_tcc_fundido.py).
 
 ## Numeração
 

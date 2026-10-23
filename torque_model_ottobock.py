@@ -135,8 +135,9 @@ FIG16_FAIXA_AJUSTE = (20.0, 165.0)    # graus θ*, ESTRITO (enunciado: abaixo de
                                       # perto de 180°, τ_peso → 0)
 FIG16_GRADE_S0 = (0.0, 390.0, 0.01)   # mm: início, fim, passo da busca de s0
 FIG16_FOLGA_FAIXA = 1.01              # faixa de identificação: RMS ≤ 1,01·mín
-ALVO_FRACAO = 0.4     # HIPÓTESE de projeto: 0,4·|τ_peso| (o fabricante alega
-                      # reduzir até 40 % da carga no ombro), não dado medido
+ALVO_FRACAO = 0.4     # HIPÓTESE de projeto: 0,4·|τ_peso| (a suitX alega que o
+                      # IX Shoulder Air reduz em 40 % ou mais a sobrecarga no
+                      # ombro; ver SUITX, [202-]), não dado medido
 THETA_ALVO = 90.0     # graus θ*, onde k_40 iguala τ_exo ao alvo
 CURVA_PROJETO = "tracejada"   # curva da Fig. 16 do projeto padrão
 FORMA_S0_PROJETO = "c"        # forma de s0 do projeto padrão
