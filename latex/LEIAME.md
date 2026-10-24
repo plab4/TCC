@@ -30,7 +30,7 @@ Rótulos usados nas remissões:
 
 Os campos estão marcados com `COMPLETAR` no `tese.tex`:
 
-1. nome do autor (`\autor`) e do orientador (`\orientador`);
+1. título do orientador: está como "Prof. Dr."; confirme;
 2. nome do curso, em `\programaPosGraduacao` e em `\tccGraduacao`;
 3. unidade de ensino: está como Faculdade de Ciências Aplicadas (FCA), deduzida do logotipo enviado;
 4. dia e mês da defesa (`\datadadefesa`) e banca (`\avaliadorA` a `\avaliadorC`);
