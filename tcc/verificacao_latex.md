@@ -20,7 +20,7 @@ Equações no DOCX: 52, numeradas de (1) a (52). Números ausentes do PDF: nenhu
 
 ## 4. Referências
 
-Referências no DOCX: 49. Encontradas no PDF: 49.
+Referências no DOCX: 47. Encontradas no PDF: 47.
 
 ## 5. Compilação
 

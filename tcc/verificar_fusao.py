@@ -1,11 +1,12 @@
 """
 Verificação independente de TCC_exo1_exo2.docx, gerado por gerar_tcc_fundido.py.
 
-Não usa as funções do gerador, só a lista EDICOES, conferida à parte. Deduz a
-renumeração das legendas do próprio documento e confere:
+Não usa as funções do gerador, só as listas EDICOES e REMOVIDOS, conferidas à
+parte. Deduz a renumeração das legendas do próprio documento e confere:
 
-1. cada bloco do original aparece no fundido, na mesma ordem, com o XML
-   idêntico fora do texto e com o texto esperado (renumeração e EDICOES);
+1. cada bloco do original, menos os de REMOVIDOS, aparece no fundido, na mesma
+   ordem, com o XML idêntico fora do texto e com o texto esperado (renumeração e
+   EDICOES); os de REMOVIDOS não aparecem, nem citações aos seus autores;
 2. tabelas, figuras, equações e seções em sequência;
 3. toda referência a tabela, figura, equação ou seção aponta para um
    elemento existente, e figuras da patente estão qualificadas;
@@ -27,7 +28,7 @@ from xml.sax.saxutils import unescape
 
 PASTA = Path(__file__).resolve().parent
 sys.path.insert(0, str(PASTA))
-from gerar_tcc_fundido import EDICOES  # noqa: E402
+from gerar_tcc_fundido import EDICOES, REMOVIDOS  # noqa: E402
 
 ORIG = PASTA/"TCC_apenas_exo1.docx"
 NOVO = PASTA/"TCC_exo1_exo2.docx"
@@ -119,23 +120,34 @@ def main():
                                                     m.group(2)), t)
 
     # 1. blocos do original
+    for prefixo in REMOVIDOS:
+        assert sum(txt(x).startswith(prefixo) for x in O) == 1, prefixo
+    retirados = [txt(x) for x in O if txt(x).startswith(REMOVIDOS)]
+    Om = [x for x in O if not txt(x).startswith(REMOVIDOS)]
     j, diverge, casados = 0, [], set()
     for i, b in enumerate(Nn):
-        if j < len(O) and esqueleto(b) == esqueleto(O[j]):
-            t_esp = esperado(txt(O[j]))
-            if titulo(O[j]):
-                t_esp = re.sub(r"^([34])\.(\d+) ", r"\1A.\2 ", txt(O[j]))
+        if j < len(Om) and esqueleto(b) == esqueleto(Om[j]):
+            t_esp = esperado(txt(Om[j]))
+            if titulo(Om[j]):
+                t_esp = re.sub(r"^([34])\.(\d+) ", r"\1A.\2 ", txt(Om[j]))
             if txt(b) != t_esp:
                 diverge.append((j, txt(b)[:100], t_esp[:100]))
             casados.add(i)
             j += 1
     for a, _ in EDICOES:
         assert sum(a in txt(x) for x in O) == 1, a
+    # retirados: ausentes do fundido e sem citação ao primeiro autor
+    texto_novo = " ".join(txt(b) for b in Nn)
+    presentes = [t[:60] for t in retirados if any(txt(b) == t for b in Nn)]
+    citados = sorted({t.split(",")[0] for t in retirados
+                      if re.search(rf"\b{t.split(',')[0]}\b", texto_novo, flags=re.I)})
     diga("## 1. Conteúdo do original")
     diga()
     diga(f"Blocos do original encontrados em ordem, com XML idêntico fora do texto: "
-         f"{j} de {len(O)}. Texto diferente do esperado (renumeração e as "
-         f"{len(EDICOES)} edições declaradas): {len(diverge)}.")
+         f"{j} de {len(Om)} ({len(retirados)} retirados de propósito, REMOVIDOS). "
+         f"Texto diferente do esperado (renumeração e as {len(EDICOES)} edições "
+         f"declaradas): {len(diverge)}. Retirados ainda presentes: {len(presentes)}. "
+         f"Autores dos retirados ainda citados: {citados or 'nenhum'}.")
     diga(f"Renumeração das tabelas do original: {mapa['Tabela']}.")
     diga(f"Renumeração das figuras do original: {mapa['Figura']}.")
     for d in diverge:
@@ -260,7 +272,7 @@ def main():
          f"originais mantidas: {rel_ok}. sectPr final idêntico: {sect_ok}.")
 
     (PASTA/"verificacao_fusao.md").write_text("\n".join(SAIDA) + "\n", encoding="utf-8")
-    falhas = (j != len(O) or diverge or not ok2 or erros or travessoes or restos
+    falhas = (j != len(Om) or diverge or presentes or citados or not ok2 or erros or travessoes or restos
               or dif or not rel_ok or not sect_ok)
     if falhas:
         raise SystemExit("verificação falhou")

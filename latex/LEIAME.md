@@ -14,7 +14,7 @@ Versão LaTeX do `tcc/TCC_exo1_exo2.docx`. Ela usa o modelo de teses e disserta�
 | `tese.tex` | Arquivo principal: dados da capa e da folha de rosto, ordem dos elementos |
 | `preambulo.tex` | Pacotes e comandos acrescentados ao modelo |
 | `capitulos/*.tex` | Os cinco capítulos, gerados a partir do DOCX por `tcc/gerar_latex.py` |
-| `bibliografia.bib` | As 49 referências da lista do DOCX |
+| `bibliografia.bib` | As 47 referências da lista do DOCX |
 | `resumo.tex`, `agradecimentos.tex` | Elementos pré-textuais |
 | `figuras/` | As 12 figuras, extraídas do DOCX |
 | `logotipos/logo-fca.png` | Recorte do logotipo enviado com o modelo |
@@ -28,14 +28,9 @@ Rótulos usados nas remissões:
 
 ## O que falta completar
 
-Os campos estão marcados com `COMPLETAR` no `tese.tex`:
+Agradecimentos, dedicatória e epígrafe, em `agradecimentos.tex`, se houver. Não há ficha catalográfica.
 
-1. unidade de ensino: está como Faculdade de Ciências Aplicadas (FCA), deduzida do logotipo enviado;
-2. instituição de cada membro da banca: está como FCA/UNICAMP para os três;
-3. agradecimentos, dedicatória e epígrafe (`agradecimentos.tex`), se houver;
-4. ficha catalográfica (`\fichacatalografica`), se o curso exigir.
-
-A data da defesa (18/11/2026) está em `\datadadefesa`. O resumo e o abstract (`resumo.tex`) não existem no DOCX e foram redigidos a partir das conclusões, com os números do texto; confira-os antes da entrega.
+Dados já preenchidos: unidade (FCA), banca (os três da FCA/UNICAMP) e data da defesa (18/11/2026, em `\datadadefesa`). O resumo e o abstract (`resumo.tex`) não existem no DOCX e foram redigidos a partir das conclusões, com os números do texto.
 
 Depois da defesa, apague a linha `\finalversionfalse` do `tese.tex`. Ela mantém na folha de rosto o texto da versão entregue à banca e deixa a folha de aprovação para a versão final.
 

@@ -375,6 +375,11 @@ EDICOES = [
     # (2022) sai desta citação: sem o artigo, não há como conferir o que lhe é
     # atribuído aqui
     ("(NING et al., 2022; OKABE et al., 2025)", "(OKABE; BRITTES; BRITO, 2026)"),
+    # Ning et al. (2022 e 2023) saem do texto e da lista (REMOVIDOS): sem os
+    # artigos, não há como conferir o que lhes é atribuído nas seções 2.2 e 2.3
+    ("Entre os passivos destinados ao levantamento de cargas, Ning et al. (2023) "
+     "organizam a estrutura em módulos de braço, ombro e costas e dimensionam o "
+     "conjunto a partir da tração da mola. ", ""),
     # seção 2.3 reescrita: lista de Arakelian sem travessões, "frequentemente"
     # no lugar de "quase sempre" (o elástico da EP atua sem cabo nem polia), a
     # EP num parágrafo próprio (cap2_compensacao) e as escalas como o TCC as
@@ -388,10 +393,12 @@ EDICOES = [
      "de um atuador auxiliar. Nguyen"),
     ("Em exoesqueletos vestíveis, a inviabilidade do contrapeso impõe o predomínio da "
      "solução elástica, quase sempre associada a cabos, polias ou cames encarregados "
-     "de moldar a curva de torque;",
+     "de moldar a curva de torque; nessa linha, Ning et al. (2022) projetam o perfil "
+     "da came a partir do módulo de armazenamento de energia da mola e validam o "
+     "resultado por eletromiografia.",
      "Em exoesqueletos vestíveis, o contrapeso é inviável, e predomina a solução "
      "elástica, frequentemente associada a cabos, polias ou cames que moldam a curva "
-     "de torque;"),
+     "de torque."),
     ("descreve arranjo dessa natureza:", "descreve um arranjo desse tipo:"),
     ("constituído por mola e cabo tensionado", "formado por mola e cabo tensionado"),
     ("uma protuberância situada junto à junta restringe a mola, de modo que o torque "
@@ -408,6 +415,11 @@ EDICOES = [
      "na US 9.889.554 B2 e não tem sequer valores na EP 3 504 033 B1. Isso "
      "inviabiliza"),
 ]
+
+# Blocos do original retirados, pelo início do texto (cada um ocorre uma vez):
+# as referências de Ning et al., que deixaram de ser citadas
+REMOVIDOS = ("NING, Y. et al. Design and analysis of upper limb passive exoskeleton",
+             "NING, Y. et al. Structure design and analysis of upper limb wearable")
 
 
 # ======================================================================
@@ -2255,12 +2267,16 @@ def montar(corpo_original):
         _unico(info, "5 CONCLUSÃO"): parte_4B(),
         _unico(info, "REFERÊNCIAS"): parte_5B(),
     }
+    removidos = [i for i, (_, t, _) in enumerate(info) if t.startswith(REMOVIDOS)]
+    assert len(removidos) == len(REMOVIDOS), removidos
+    assert not set(removidos) & (set(depois) | set(antes))
     final = []
     for i, b in enumerate(editados):
         final += [("n", x) for x in antes.get(i, [])]
-        final.append(("o", b))
+        if i not in removidos:
+            final.append(("o", b))
         final += [("n", x) for x in depois.get(i, [])]
-    return orig, final
+    return orig, final, removidos
 
 
 def citacoes(txt):
@@ -2332,7 +2348,7 @@ def main(origem, destino):
     doc = partes["word/document.xml"].decode("utf-8")
     b0 = doc.index("<w:body>") + len("<w:body>")
     b1 = doc.rindex("<w:sectPr")
-    orig, final = montar(doc[b0:b1])
+    orig, final, removidos = montar(doc[b0:b1])
     # a descrição da leitura integral ("[0001] a [0105]") não é citação
     cit = citacoes(" ".join(texto(x) for o, x in final
                             if o == "n" and "⟦CITADOS⟧" not in x
@@ -2391,7 +2407,7 @@ def main(origem, destino):
             zout.writestr(zipfile.ZipInfo(nome_parte, date_time=(1980, 1, 1, 0, 0, 0)),
                           dados, compress_type=zipfile.ZIP_DEFLATED)
     shutil.move(tmp, destino)
-    relatorio(orig, final, num, sem_ref, destino)
+    relatorio(orig, final, num, sem_ref, removidos, destino)
     print(f"{destino}: {len(num['T'])} tabelas, {len(num['F'])} figuras, "
           f"{n_eq + len(EQUACOES)} equações ({len(EQUACOES)} novas), "
           f"{len(SECOES)} seções novas")
@@ -2399,11 +2415,12 @@ def main(origem, destino):
         print("sem referência no texto:", sem_ref)
 
 
-def relatorio(orig, final, num, sem_ref, destino):
+def relatorio(orig, final, num, sem_ref, removidos, destino):
     """tcc/relatorio_fusao.md: parágrafos originais alterados, antes e depois."""
     finais_o = [x for o, x in final if o == "o"]
-    assert len(finais_o) == len(orig)
-    mudados = [(texto(a), texto(b)) for a, b in zip(orig, finais_o)
+    mantidos = [b for i, b in enumerate(orig) if i not in removidos]
+    assert len(finais_o) == len(mantidos)
+    mudados = [(texto(a), texto(b)) for a, b in zip(mantidos, finais_o)
                if texto(a) != texto(b)]
 
     def mapa(tipo):
@@ -2412,7 +2429,8 @@ def relatorio(orig, final, num, sem_ref, destino):
                          if k.startswith("o"))
     linhas = ["# Relatório da fusão dos exoesqueletos 1 e 2", "",
               f"Documento gerado: `{destino.name}`, a partir de `TCC_apenas_exo1.docx`.",
-              "", f"Blocos do original: {len(orig)}, todos mantidos e na mesma ordem. "
+              "", f"Blocos do original: {len(orig)}; {len(removidos)} retirados "
+              "(REMOVIDOS em gerar_tcc_fundido.py), os demais mantidos e na mesma ordem. "
               f"Blocos novos: {sum(o == 'n' for o, _ in final)}. Blocos do original "
               f"com texto alterado: {len(mudados)} (renumeração e as edições de "
               "EDICOES em gerar_tcc_fundido.py).", "",
@@ -2420,7 +2438,9 @@ def relatorio(orig, final, num, sem_ref, destino):
               f"Tabelas do original (antes → depois): {mapa('T')}.", "",
               f"Figuras do original (antes → depois): {mapa('F')}.", "",
               "As equações do original mantêm os números (1) a (27).", "",
-              "## Blocos do original com texto alterado", ""]
+              "## Blocos do original retirados", ""]
+    linhas += [f"- {texto(orig[i])}" for i in removidos]
+    linhas += ["", "## Blocos do original com texto alterado", ""]
     for n, (ta, tb) in enumerate(mudados, start=1):
         linhas += [f"### {n}", "", f"Antes: {ta}", "", f"Depois: {tb}", ""]
     if sem_ref:
