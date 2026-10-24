@@ -31,12 +31,11 @@ Rótulos usados nas remissões:
 Os campos estão marcados com `COMPLETAR` no `tese.tex`:
 
 1. título do orientador: está como "Prof. Dr."; confirme;
-2. nome do curso, em `\programaPosGraduacao` e em `\tccGraduacao`;
-3. unidade de ensino: está como Faculdade de Ciências Aplicadas (FCA), deduzida do logotipo enviado;
-4. dia e mês da defesa (`\datadadefesa`) e banca (`\avaliadorA` a `\avaliadorC`);
-5. resumo e abstract (`resumo.tex`): o DOCX não tem nenhum dos dois;
-6. agradecimentos, dedicatória e epígrafe (`agradecimentos.tex`), se houver;
-7. ficha catalográfica (`\fichacatalografica`), se o curso exigir.
+2. unidade de ensino: está como Faculdade de Ciências Aplicadas (FCA), deduzida do logotipo enviado;
+3. dia e mês da defesa (`\datadadefesa`) e os dois outros membros da banca (`\avaliadorB` e `\avaliadorC`);
+4. resumo e abstract (`resumo.tex`): o DOCX não tem nenhum dos dois;
+5. agradecimentos, dedicatória e epígrafe (`agradecimentos.tex`), se houver;
+6. ficha catalográfica (`\fichacatalografica`), se o curso exigir.
 
 Depois da defesa, apague a linha `\finalversionfalse` do `tese.tex`. Ela mantém na folha de rosto o texto da versão entregue à banca e deixa a folha de aprovação para a versão final.
 
