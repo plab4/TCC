@@ -370,6 +370,9 @@ EDICOES = [
      "apresentada nas seções 3B, 4B e 5B."),
     ("Por fim, os resultados referem-se a um único dispositivo",
      "Por fim, os resultados desta seção referem-se a um único dispositivo"),
+    # a obra tem três autores, citados todos (NBR 10520); a referência foi
+    # acrescentada à lista (ref_okabe)
+    ("OKABE et al., 2025)", "OKABE; BRITTES; BRITO, 2025)"),
 ]
 
 
@@ -2090,6 +2093,14 @@ def ref_suitx():
             '23 out. 2026.</w:t></w:r></w:p>')
 
 
+def ref_okabe():
+    return ('<w:p><w:r><w:t xml:space="preserve">OKABE, E. P.; BRITTES, J. L. P.; BRITO, P. L. A. '
+            'Modeling and simulation of an upper limb exoskeleton. </w:t></w:r>'
+            '<w:r><w:rPr><w:b/></w:rPr><w:t>Journal of Computational and Nonlinear Dynamics</w:t></w:r>'
+            '<w:r><w:t xml:space="preserve">, [S.l.], 2025. Manuscrito CND-25-1354, submetido '
+            'para publicação.</w:t></w:r></w:p>')
+
+
 # ======================================================================
 # OMML pelo pandoc
 # ======================================================================
@@ -2183,6 +2194,7 @@ def montar(corpo_original):
         _unico(info, "4 RESULTADOS E DISCUSSÃO"): cap4_introducao(),
         _unico(info, "5 CONCLUSÃO"): cap5_titulo(),
         _unico(info, "BOUTERAA, Y.; BEN ABDALLAH"): [ref_brent()],
+        _unico(info, "OBUKHOV, A. et al."): [ref_okabe()],
         _unico(info, "SPADA, S. et al."): [ref_suitx()],
         _unico(info, "VAN ENGELHOVEN, L.; KAZEROONI"): [ref_virtanen()],
     }

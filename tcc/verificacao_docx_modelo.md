@@ -24,7 +24,7 @@ Figuras: 12 no DOCX novo e 12 no fundido; mesmos arquivos e ordem: sim.
 
 ## 6. Referências
 
-Referências: 47; ausentes da lista do PDF do LaTeX: 0.
+Referências: 48; ausentes da lista do PDF do LaTeX: 0.
 
 ## 7. Sumário e listas
 
