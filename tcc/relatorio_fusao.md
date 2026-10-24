@@ -18,7 +18,7 @@ As equações do original mantêm os números (1) a (27).
 
 Antes: O mapeamento da curva torque × ângulo gerada pelo mecanismo permite alinhar o perfil de suporte elástico à curva anatômica de carga do braço, otimizando a entrega de torque nas posições de maior exigência (NING et al., 2022; OKABE et al., 2025). Palazzi et al. (2022) mostram, em um exoesqueleto balanceado por gravidade, redução de 89% no torque de pico do ombro quando esse ajuste é bem resolvido.
 
-Depois: O mapeamento da curva torque × ângulo gerada pelo mecanismo permite alinhar o perfil de suporte elástico à curva anatômica de carga do braço, otimizando a entrega de torque nas posições de maior exigência (NING et al., 2022; OKABE; BRITTES; BRITO, 2025). Palazzi et al. (2022) mostram, em um exoesqueleto balanceado por gravidade, redução de 89% no torque de pico do ombro quando esse ajuste é bem resolvido.
+Depois: O mapeamento da curva torque × ângulo gerada pelo mecanismo permite alinhar o perfil de suporte elástico à curva anatômica de carga do braço, otimizando a entrega de torque nas posições de maior exigência (OKABE; BRITTES; BRITO, 2025). Palazzi et al. (2022) mostram, em um exoesqueleto balanceado por gravidade, redução de 89% no torque de pico do ombro quando esse ajuste é bem resolvido.
 
 ### 2
 

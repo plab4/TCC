@@ -370,9 +370,10 @@ EDICOES = [
      "apresentada nas seções 3B, 4B e 5B."),
     ("Por fim, os resultados referem-se a um único dispositivo",
      "Por fim, os resultados desta seção referem-se a um único dispositivo"),
-    # a obra tem três autores, citados todos (NBR 10520); a referência foi
-    # acrescentada à lista (ref_okabe)
-    ("OKABE et al., 2025)", "OKABE; BRITTES; BRITO, 2025)"),
+    # Okabe: três autores, citados todos (NBR 10520), com a referência
+    # acrescentada à lista (ref_okabe). Ning et al. (2022) sai desta citação:
+    # sem o artigo, não há como conferir o que lhe é atribuído aqui
+    ("(NING et al., 2022; OKABE et al., 2025)", "(OKABE; BRITTES; BRITO, 2025)"),
 ]
 
 
