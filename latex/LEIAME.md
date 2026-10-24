@@ -14,7 +14,7 @@ Versão LaTeX do `tcc/TCC_exo1_exo2.docx`. Ela usa o modelo de teses e disserta�
 | `tese.tex` | Arquivo principal: dados da capa e da folha de rosto, ordem dos elementos |
 | `preambulo.tex` | Pacotes e comandos acrescentados ao modelo |
 | `capitulos/*.tex` | Os cinco capítulos, gerados a partir do DOCX por `tcc/gerar_latex.py` |
-| `bibliografia.bib` | As 47 referências da lista do DOCX |
+| `bibliografia.bib` | As 48 referências da lista do DOCX |
 | `resumo.tex`, `agradecimentos.tex` | Elementos pré-textuais |
 | `figuras/` | As 12 figuras, extraídas do DOCX |
 | `logotipos/logo-fca.png` | Recorte do logotipo enviado com o modelo |
