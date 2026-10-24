@@ -30,9 +30,9 @@ Rótulos usados nas remissões:
 
 Os campos estão marcados com `COMPLETAR` no `tese.tex`:
 
-1. título do orientador: está como "Prof. Dr."; confirme;
-2. unidade de ensino: está como Faculdade de Ciências Aplicadas (FCA), deduzida do logotipo enviado;
-3. dia e mês da defesa (`\datadadefesa`) e os dois outros membros da banca (`\avaliadorB` e `\avaliadorC`);
+1. unidade de ensino: está como Faculdade de Ciências Aplicadas (FCA), deduzida do logotipo enviado;
+2. instituição de cada membro da banca: está como FCA/UNICAMP para os três;
+3. dia e mês da defesa (`\datadadefesa`);
 4. resumo e abstract (`resumo.tex`): o DOCX não tem nenhum dos dois;
 5. agradecimentos, dedicatória e epígrafe (`agradecimentos.tex`), se houver;
 6. ficha catalográfica (`\fichacatalografica`), se o curso exigir.
