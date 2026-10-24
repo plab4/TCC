@@ -9,16 +9,16 @@ lido por OCR.
 
 - As curvas de torque das três patentes (Doyle, Van Engelhoven e Kazerooni, Mizera et
   al.) foram digitalizadas no WebPlotDigitizer e interpoladas com a SciPy (manuscrito,
-  linhas 230 a 235).
+  linhas 233 e 234).
 - O "Model 1" é a patente de Doyle. O esquema da Figura 6 do manuscrito desenha a polia
   variável (came) da Figura 15A da patente, e a forma da curva (subida, patamar, queda)
   coincide com a do momento de elevação AASM da Figura 16 da patente.
 - Escala: o máximo das curvas dos Models 1, 2 e 3B foi fixado em 30 N·m, e o Model 3A
   recebeu o mesmo fator do 3B; os níveis mínimo e intermediário são 0,33 e 0,66 do
-  máximo (linhas 251 a 256). É uma escala de comparação, não identificada.
+  máximo (linhas 250 a 254). É uma escala de comparação, não identificada.
 - Ângulo: 0° com o braço na horizontal, negativo abaixo. O Model 1 vai de −75° a +30°.
 - As curvas entram no MBDyn como funções escalares do ângulo numa junta deformável; a
-  geometria do mecanismo não é modelada (linhas 257 a 261).
+  geometria do mecanismo não é modelada (linhas 255 a 259).
 
 ## O que a patente oferece
 
