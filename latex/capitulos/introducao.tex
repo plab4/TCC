@@ -1,0 +1,51 @@
+% Gerado por tcc/gerar_latex.py a partir de TCC_exo1_exo2.docx.
+% Edite à vontade; uma nova geração sobrescreve este arquivo.
+
+\chapter{Introdução}\label{sec:1}
+
+Vários setores como: Montagem automotiva, construção civil, solda e manutenção industrial exigem do trabalhador a manutenção dos braços elevados, muitas vezes acima da linha dos ombros. A análise de \textcite{vandermolen2017} associa a elevação dos braços ao dobro do risco de distúrbios na articulação ombro, e \textcite{seidler2020} estimam aumento de 21\% no risco a cada mil horas de trabalho com as mãos acima dessa linha.
+
+Em 2025, no Brasil, foram concedidos 4,12 milhões afastamentos por incapacidade temporária, e as lesões do ombro (CID M75) ficaram entre as maiores causas, com 135.093 concessões \cite{agenciabrasil2026}. Na série de 2008 a 2018, os distúrbios osteomusculares relacionados ao trabalho responderam por 786.923 benefícios acidentários, e o CID M75 foi a razão de afastamento mais frequente entre as mulheres \cite{manoel2025}.
+
+Os exoesqueletos surgem, então, como uma das respostas a esse problema. Os modelos passivos, que devolvem ao usuário a energia armazenada em molas, são os modelos predominantes no meio industrial por serem leves, baratos e independentes de fonte externa de energia \cite{delooze2016,reyes2023}. Revisões de estudos experimentais sugerem redução consistente da atividade dos deltoides e do trapézio durante o trabalho acima da cabeça \cite{bar2021,moeller2022}.
+
+Em um dispositivo passivo o auxílio é consequência da geometria do mecanismo e da mola. O torque entregue é uma função do ângulo de elevação, e projetar o dispositivo significa aproximar essa curva do torque gravitacional do braço. Quando as duas curvas se afastam, o exoesqueleto ajuda demais em uma faixa e de menos em outra, provocando uma compensação com a musculatura do usuário \cite{nasr2022}.
+
+Os modelos que chegaram ao mercado estão descritos em patentes, que detalham o mecanismo, mas não permitem quantificá-lo: apesar de conter as curvas de torque nos eixos, nenhuma delas informa massa, inércia ou rigidez. Avaliar um mecanismo desses exige reconstruir sua geometria e resolver o problema em duas etapas, o equilíbrio estático, que dimensiona a compensação de gravidade, e a dinâmica multicorpos, que expõe inércia, forças de Coriolis e atrito durante o movimento real.
+
+Este trabalho trata dessa lacuna: modelar e simular, de forma integrada, o comportamento estático e dinâmico de mecanismos passivos de apoio ao braço reconstruídos a partir de suas patentes, usando formulações amplamente conhecidas como a formulação de Lagrange e parâmetros antropométricos de referência.
+
+Nesta etapa, o procedimento foi aplicado a dois mecanismos de arquitetura distinta. O primeiro é o gerador de torque de mola, cabo e polia da US 9.889.554 B2 \cite{vanengelhoven2018}. O segundo é o dispositivo da EP 3 504 033 B1 \cite{ottobock2023}, em que um elemento elástico atua diretamente sobre uma alavanca solidária ao braço e um elemento de encosto junto à articulação reduz o torque com o braço baixado e o anula quando situado sobre o eixo de rotação. Os dois são tratados em partes separadas dos capítulos 3, 4 e 5, identificadas pelas letras A e B.
+
+\section{Objetivos}\label{sec:1.1}
+
+\subsection{Objetivo geral}\label{sec:1.1.1}
+
+Modelar e simular o comportamento estático e dinâmico de mecanismos passivos de apoio ao braço descritos em patentes, tomando como caso de referência o gerador de torque de mola da US 9.889.554 B2, US 9.737.374 B2 e da EP 3 504 033 B1 e comparar o torque entregue pelo mecanismo ao torque gravitacional do conjunto braço–exoesqueleto ao longo da faixa de elevação.
+
+\subsection{Objetivos específicos}\label{sec:1.1.2}
+
+\begin{enumerate}[label=\alph*)]
+  \item reconstruir em CAD a geometria do gerador de torque a partir dos desenhos da patente e extrair massa, centro de massa e momentos de inércia de cada peça;
+  \item estimar os parâmetros inerciais de braço, antebraço e mão segundo \textcite{deleva1996} e transportá-los ao eixo da junta pelo teorema dos eixos paralelos;
+  \item formular a cinemática de circuito fechado do mecanismo, obtendo o comprimento do cabo, a condição de tangência na polia, o braço de momento e o torque em função do ângulo;
+  \item identificar, por mínimos quadrados e sob restrições geométricas declaradas, os parâmetros que a patente não informa — posição da ancoragem, comprimento livre e rigidez da mola e calibração angular;
+  \item calcular, de forma independente da cadeia do cabo, o torque gravitacional do conjunto braço–exoesqueleto e confrontar as duas curvas ao longo da faixa de elevação;
+  \item obter a equação de movimento pela formulação de Lagrange e integrá-la numericamente, avaliando a resposta sob velocidades e acelerações transitórias;
+  \item acoplar o modelo ao MBDyn por meio de força estrutural externa, com troca de dados via \textit{socket}, para a simulação multicorpos do conjunto humano–exoesqueleto.
+\end{enumerate}
+
+Para o dispositivo da EP 3 504 033 B1, acrescentam-se os objetivos:
+
+\begin{enumerate}[label=\alph*), start=8]
+  \item aplicar a esse dispositivo a reconstrução, a composição inercial, a cinemática e o confronto com o torque gravitacional previstos nos itens a, b, c e e, substituindo o cabo e a polia por um circuito de dois regimes, com o elástico retilíneo ou apoiado no elemento de encosto junto à articulação;
+  \item identificar o comprimento de referência do elástico a partir das três curvas de pré-tensão publicadas na patente, por um procedimento que não dependa da escala da ordenada nem da rigidez.
+\end{enumerate}
+
+\section{Justificativa}\label{sec:1.2}
+
+O auxílio de um exoesqueleto passivo depende apenas da geometria e da mola, parâmetros que são definidos durante o projeto e inalteráveis após a manufatura do modelo. Um modelo confiável permite estudar rigidez, pré-carga e posição dos suportes antes do protótipo físico, quando mudar ainda é barato, e permite comparar mecanismos concorrentes sobre a mesma base quantitativa — algo que as patentes, por si, não oferecem.
+
+A escolha de ferramentas livres, Python e MBDyn, torna o modelo reprodutível por outros grupos e extensível a sistemas multicorpos mais completos. E o tema tem endereço local: as lesões de ombro continuam entre as principais causas de afastamento no país, em setores que concentram trabalho acima da cabeça.
+
+O segundo dispositivo acrescenta ao trabalho um caso de teste do procedimento de identificação. A EP 3 504 033 B1 publica, na mesma figura, três curvas obtidas com o mesmo atuador e pré-tensões diferentes \cite{ottobock2023}. Essa redundância permite obter grandezas que uma única curva sem escala não determina e confrontar, sobre a mesma base de cálculo, duas arquiteturas que a seção~\ref{sec:2.7} associa a produtos comerciais.

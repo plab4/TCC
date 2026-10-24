@@ -1,0 +1,162 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Arquivo principal do TCC, a partir do modelo para teses e
+% dissertações da FT/UNICAMP (André Leon Sampaio Gradvohl,
+% versão de 14/abril/2026). Os comentários originais do modelo
+% foram mantidos onde a opção continua valendo.
+%
+% Campos marcados com "COMPLETAR" dependem de dados que não
+% constam do texto original (autor, orientador, curso, banca,
+% data, resumo).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Escolha: Portugues ou Ingles ou Espanhol.
+% Para a versão final do texto, acrescente a palavra "Final".
+\documentclass[Portugues,Final]{tese-FT}
+%
+% A opção "Final" é necessária para que as figuras apareçam. A
+% linha a seguir mantém, na folha de rosto e na folha de
+% aprovação, os textos da versão entregue à banca antes da
+% defesa. Remova-a na versão final, depois da defesa.
+\finalversionfalse
+%
+% Caso queira gerar uma versão para avaliação pelo Turnitin,
+% adicione a opção Turnitin:
+%\documentclass[Portugues,Final,Turnitin]{tese-FT}
+
+%Adicione seu arquivo com as referências bibliográficas
+\addbibresource{bibliografia.bib}
+
+% Pacotes e comandos acrescentados ao modelo para este trabalho
+\input{preambulo}
+
+\begin{document}
+% Defina o nome da instituição e a sigla
+\instituicao{Universidade Estadual de Campinas}{UNICAMP}
+% Logotipo da unidade (FCA, UNICAMP Limeira), recortado do arquivo
+% enviado com o modelo. O modelo exige um logotipo nesta posição.
+\logoInstituicao{logo-fca.png}
+%
+% Defina o nome da unidade de ensino e a sigla.
+% COMPLETAR: confirmar a unidade (deduzida do logotipo da FCA).
+\unidadeEnsino{Faculdade de Ciências Aplicadas}{FCA}
+% Logotipo à direita da capa; deixe comentado se não houver.
+%\logoUnidadeEnsino{logo-ft.pdf}
+%
+% Defina a Cidade
+\cidade{Limeira}
+%
+% Se for TCC, o nome do curso (aparece na folha de aprovação).
+% COMPLETAR: nome do curso.
+\programaPosGraduacao{Curso de Graduação em COMPLETAR}
+%
+% Área de concentração: deixe comentado em TCC.
+%\areaConcentracao{Sistemas de Informação e Comunicação}
+
+% Escolha entre autor ou autora. COMPLETAR.
+\autor{Nome do autor}
+%\autora{Nome da Autora}
+
+% Título em português
+\titulo{Modelagem e simulação de mecanismos passivos de apoio ao braço}
+
+% Escolha entre orientador ou orientadora e inclua os títulos.
+% COMPLETAR.
+\orientador{Prof. Dr. Nome do Orientador}
+%\orientadora{Profa. Dra. Nome da Orientadora}
+%\coorientador{Prof. Dr. Nome do Coorientador}
+
+% Tipo do trabalho: TCC de graduação. O argumento é o nome do curso
+% no título obtido ("Bacharel em ..."); ver preambulo.tex.
+% COMPLETAR: nome do curso.
+\tccGraduacao{COMPLETAR}
+
+% Data da defesa no formato {Dia}{Mês}{Ano}, só com números.
+% O ano aparece na capa. COMPLETAR: dia e mês.
+\datadadefesa{00}{00}{2026}
+
+% Banca (aparece só na versão final). Repita o orientador no
+% primeiro avaliador. COMPLETAR.
+\avaliadorA{Prof. Dr. Nome do Orientador}{FCA/UNICAMP}
+\avaliadorB{Prof.ª Dr.ª Segunda Avaliadora}{Instituição da segunda avaliadora}
+\avaliadorC{Dr. Terceiro Avaliador}{Instituição do terceiro avaliador}
+
+% Para incluir a ficha catalográfica em PDF, descomente e informe
+% o arquivo:
+%\fichacatalografica{SeuArquivo.pdf}
+
+% Este comando deve ficar aqui:
+\paginasiniciais
+
+% O comando condicional \ifturnitin a seguir é importante para
+% preparar o texto para encaminhamento ao Turnitin.
+% NÃO REMOVA!!
+% O \fi correspondente está após o comando \tableofcontents
+\ifturnitin
+   \relax
+\else
+% Dedicatória, agradecimentos e epígrafe: agradecimentos.tex
+\input{agradecimentos}
+%
+% Resumo e abstract: resumo.tex
+\input{resumo}
+%
+% A lista de figuras:
+\listoffigures
+
+% A lista de tabelas:
+\listoftables
+
+% A lista de abreviações e siglas (comandos \Sigla e \SiglaHifen;
+% vazia enquanto nenhum for usado).
+\printnomenclature[3cm]
+
+% A lista de símbolos é opcional; o texto original não tem uma.
+%\input{listaSimbolos}
+
+% O sumário vem aqui:
+\tableofcontents
+
+%% O comando \fi a seguir é obrigatório para o controle
+%% da opção "turnitin". Não o remova!!
+\fi
+
+% E a linha a seguir deve ficar bem aqui. Não mude.
+\fimdaspaginasiniciais
+
+% Capítulos, gerados a partir do TCC_exo1_exo2.docx por
+% tcc/gerar_latex.py
+\include{capitulos/introducao}
+\include{capitulos/fundamentacao}
+\include{capitulos/materiais_metodos}
+\include{capitulos/resultados}
+\include{capitulos/conclusao}
+
+% O comando condicional \ifturnitin a seguir é importante para
+% preparar o texto para encaminhamento ao Turnitin.
+% NÃO REMOVA!!
+% O \fi correspondente está antes do \end{document}
+\ifturnitin
+    \relax
+\else
+% Define espaçamento simples em cada referência
+\begin{singlespacing}
+
+% Adiciona uma linha em branco entre duas referências
+\setlength\bibitemsep{10pt}
+%
+% A lista inclui todas as entradas de bibliografia.bib, como a
+% lista do texto original, que traz obras não citadas no texto.
+\nocite{*}
+\printbibliography[heading=bibintoc, % Adiciona no sumário
+                   title={Referências} % Nome do Capítulo
+                  ]
+\end{singlespacing}
+
+% O texto não tem apêndices nem anexos. Se houver, eles vêm aqui:
+%\appendix
+%\include{apendices}
+%
+%% O comando \fi a seguir é obrigatório para o controle
+%% da opção "turnitin". Não o remova!!
+\fi
+\end{document}

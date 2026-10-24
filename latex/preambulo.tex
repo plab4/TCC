@@ -1,0 +1,122 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pacotes e comandos acrescentados ao modelo tese-FT para este
+% trabalho. O arquivo tese-FT.cls não foi alterado; tudo o que
+% muda em relação ao modelo está aqui.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Tabelas que podem atravessar páginas, com cabeçalho repetido
+\usepackage{xltabular}
+% Listas com rótulo a), b), ... (objetivos específicos)
+\usepackage{enumitem}
+% Legendas acima de figuras e tabelas, como no texto original
+\usepackage{caption}
+\captionsetup{position=top,skip=6pt}
+\setlength{\LTcapwidth}{\textwidth}
+
+% Numeração contínua de figuras, tabelas e equações (Figura 1 a 12,
+% Tabela 1 a 26, Equação 1 a 52), como no DOCX. Para numerar por
+% capítulo (Figura 3.1), basta remover as três linhas a seguir.
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
+\counterwithout{equation}{chapter}
+
+% Nos capítulos 3, 4 e 5 as seções são uma por dispositivo: 3A, 3B,
+% com subseções 3A.1, 3A.2 etc. O comando é chamado logo depois do
+% \chapter desses capítulos.
+\newcommand{\secoesPorDispositivo}{%
+  \renewcommand{\thesection}{\thechapter\Alph{section}}}
+
+% Fonte e nota abaixo de figuras e tabelas
+\newcommand{\notaabnt}[2]{%
+  \par\nopagebreak{\footnotesize\setlength{\leftskip}{0pt}\setlength{\rightskip}{0pt}%
+  \setlength{\parfillskip}{0pt plus 1fil}\noindent #1: #2\par}}
+\newcommand{\fonte}[1]{\notaabnt{Fonte}{#1}}
+\newcommand{\nota}[1]{\notaabnt{Nota}{#1}}
+
+% Tabelas: espaçamento simples e corpo menor; nomes de arquivo longos
+% podem quebrar depois do sublinhado. As tabelas curtas são flutuantes
+% (table + tabularx); as longas usam o ambiente tabelaabnt, com
+% xltabular, que atravessa páginas e repete o cabeçalho.
+\newcommand{\estilotabela}[1]{%
+  \setstretch{1}#1\renewcommand{\_}{\textunderscore\allowbreak}}
+\newenvironment{tabelaabnt}[1]{%
+  \par\begingroup\estilotabela{#1}%
+  \setlength{\LTpre}{8pt}\setlength{\LTpost}{2pt}}%
+  {\par\endgroup\vspace{8pt}}
+
+% Espaço uniforme depois de ponto, como no texto original
+% ("6 jun. 2018" sem espaço maior depois da abreviatura)
+\frenchspacing
+
+% Caracteres do texto corrido que o pdflatex não conhece
+\DeclareUnicodeCharacter{03B1}{\ensuremath{\alpha}}
+\DeclareUnicodeCharacter{03B2}{\ensuremath{\beta}}
+\DeclareUnicodeCharacter{03B3}{\ensuremath{\gamma}}
+\DeclareUnicodeCharacter{03B4}{\ensuremath{\delta}}
+\DeclareUnicodeCharacter{03B5}{\ensuremath{\varepsilon}}
+\DeclareUnicodeCharacter{03B7}{\ensuremath{\eta}}
+\DeclareUnicodeCharacter{03B8}{\ensuremath{\theta}}
+\DeclareUnicodeCharacter{03BA}{\ensuremath{\kappa}}
+\DeclareUnicodeCharacter{03BB}{\ensuremath{\lambda}}
+\DeclareUnicodeCharacter{03BC}{\ensuremath{\mu}}
+\DeclareUnicodeCharacter{03C0}{\ensuremath{\pi}}
+\DeclareUnicodeCharacter{03C1}{\ensuremath{\rho}}
+\DeclareUnicodeCharacter{03C3}{\ensuremath{\sigma}}
+\DeclareUnicodeCharacter{03C4}{\ensuremath{\tau}}
+\DeclareUnicodeCharacter{03C6}{\ensuremath{\varphi}}
+\DeclareUnicodeCharacter{03C8}{\ensuremath{\psi}}
+\DeclareUnicodeCharacter{2113}{\ensuremath{\ell}}
+\DeclareUnicodeCharacter{2192}{\ensuremath{\rightarrow}}
+\DeclareUnicodeCharacter{2202}{\ensuremath{\partial}}
+\DeclareUnicodeCharacter{2212}{\ensuremath{-}}
+\DeclareUnicodeCharacter{221A}{\ensuremath{\surd}}
+\DeclareUnicodeCharacter{2248}{\ensuremath{\approx}}
+\DeclareUnicodeCharacter{2264}{\ensuremath{\leq}}
+\DeclareUnicodeCharacter{2265}{\ensuremath{\geq}}
+\DeclareUnicodeCharacter{22A5}{\ensuremath{\perp}}
+
+% Grau de TCC de graduação. O modelo traz apenas \bsi e \tads, com
+% os nomes dos cursos da FT; este comando segue o \bsi, com o nome
+% do curso como argumento e sem a página da ficha catalográfica.
+\makeatletter
+\gdef\tccGraduacao#1{%
+  \gdef\@textoaviso{\relax}%
+  \if\@autora\relax
+    \gdef\@degnamept{Bacharel em #1}%
+    \gdef\@artigo{o}%
+  \else
+    \gdef\@degnamept{Bacharela em #1}%
+    \gdef\@artigo{a}%
+  \fi
+  \gdef\@degnameen{Bachelor in #1}%
+  \gdef\@degnamees{Licenciatura en #1}%
+  \gdef\@monopt{Monografia}%
+  \gdef\@monoes{Monografía}%
+  \gdef\@monoen{Monograph}%
+  \gdef\@nivelEnsino{Graduação}%
+}
+\makeatother
+
+% Bibliografia: ajustes para reproduzir o formato da lista de
+% referências do texto original
+% uniquename=false: sem iniciais para distinguir autores de mesmo
+% sobrenome (Kim, Wang, Ferguson), como nas citações do texto original
+\ExecuteBibliographyOptions{useprefix=true,extradate=true,uniquename=false}
+% intervalo de páginas com hífen (p. 79-96)
+\DefineBibliographyExtras{brazil}{\protected\def\bibrangedash{-}}
+% "Disponível em: URL", sem os sinais < >
+\DeclareFieldFormat{url}{\bibstring{urlfrom}\addcolon\addspace\url{#1}}
+% "p." minúsculo depois de ponto, em capítulos e anais
+\DeclareFieldFormat[inproceedings,incollection]{pages}{p\adddot\addnbspace#1}
+% "(ed.)" minúsculo
+\DefineBibliographyStrings{brazil}{editor={ed\adddot}, editors={ed\adddot}}
+% nas patentes, a data só alimenta a citação; depósito e concessão
+% estão no campo note
+\AtEveryBibitem{\ifentrytype{patent}{\clearfield{year}\clearfield{month}\clearfield{day}}{}}
+
+% Citação que combina referências da lista com trabalhos citados no
+% texto original que não constam da lista (ver LEIAME.md):
+% \citecomsemref{Autor et al., 2017}{chave1,chave2}
+\newcommand{\citecomsemref}[2]{%
+  \AtNextCite{\renewcommand*{\postnotedelim}{\addsemicolon\space}}%
+  \cite[#1]{#2}}

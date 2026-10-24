@@ -1,2 +1,18 @@
 __pycache__/
 .pytest_cache/
+# compilação do LaTeX (o PDF fica versionado)
+latex/*.aux
+latex/capitulos/*.aux
+latex/*.bbl
+latex/*.bcf
+latex/*.blg
+latex/*.fdb_latexmk
+latex/*.fls
+latex/*.log
+latex/*.lof
+latex/*.lot
+latex/*.nlo
+latex/*.out
+latex/*.run.xml
+latex/*.toc
+latex/*.synctex.gz
