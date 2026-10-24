@@ -206,8 +206,9 @@ class Rotulos:
         self.tab, self.fig, self.eq, self.sec = {}, {}, {}, {}
 
 
-def substituicoes(t, rot, cit):
-    """Trechos do texto plano a trocar por LaTeX: [(ini, fim, latex)]."""
+def citacoes_no_texto(t, cit):
+    """Citações do texto plano: [(ini, fim, comando LaTeX)]. Uma citação a
+    obra ausente da lista sai como texto entre parênteses, sem comando."""
     subs = []
 
     def livre(i, j):
@@ -236,6 +237,16 @@ def substituicoes(t, rot, cit):
         comando = r"\Textcite" if t[ini].isupper() and prefixo and prefixo[0].isupper() else r"\textcite"
         cit.usadas.add(k)
         subs.append((ini, m.end(), comando + "{" + k + "}"))
+    return subs
+
+
+def substituicoes(t, rot, cit):
+    """Trechos do texto plano a trocar por LaTeX: [(ini, fim, latex)]."""
+    subs = citacoes_no_texto(t, cit)
+
+    def livre(i, j):
+        return all(not (i < b and a < j) for a, b, _ in subs)
+
     # tabelas
     for m in re.finditer(r"\b(Tabelas?) (\d+)((?:, \d+)*)((?: e \d+)?)", t):
         nums = re.findall(r"\d+", m.group(0))

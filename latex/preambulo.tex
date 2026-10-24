@@ -108,8 +108,8 @@
 \DeclareFieldFormat{url}{\bibstring{urlfrom}\addcolon\addspace\url{#1}}
 % "p." minúsculo depois de ponto, em capítulos e anais
 \DeclareFieldFormat[inproceedings,incollection]{pages}{p\adddot\addnbspace#1}
-% "(ed.)" minúsculo
-\DefineBibliographyStrings{brazil}{editor={ed\adddot}, editors={ed\adddot}}
+% "(ed.)" minúsculo: o estilo abnt põe o papel em maiúscula (\bibsentence)
+\DeclareFieldFormat{editortype}{\printtext[parens]{#1}}
 % nas patentes, a data só alimenta a citação; depósito e concessão
 % estão no campo note
 \AtEveryBibitem{\ifentrytype{patent}{\clearfield{year}\clearfield{month}\clearfield{day}}{}}

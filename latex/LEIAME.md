@@ -52,6 +52,10 @@ O texto dos parágrafos, tabelas, legendas, fontes e notas é o do DOCX. Mudou s
 - **Posição de figuras e tabelas.** As figuras e as tabelas curtas são flutuantes e podem mudar de página em relação ao DOCX. As tabelas 6, 14, 16 e 25 podem atravessar páginas e repetem o cabeçalho na continuação. A numeração continua corrida, como no DOCX: Figura 1 a 12, Tabela 1 a 26, Equação (1) a (52). Para numerar por capítulo, veja o comentário em `preambulo.tex`.
 - **Ligações.** As caixas em volta das ligações são o padrão do modelo e aparecem só na tela. Para escondê-las, acrescente `\hypersetup{hidelinks}` ao `preambulo.tex`.
 
+## Versão em Word no mesmo formato
+
+`tcc/TCC_modelo_FT.docx` reproduz em Word a formatação deste PDF: capa, folha de rosto, títulos "Capítulo N", cabeçalho corrente, tabelas com filetes, legendas acima, citações e referências como o biblatex as imprime e a fonte Linux Libertine O, embutida no arquivo. Ele é gerado por `tcc/gerar_docx_modelo.py`, que lê o DOCX fundido e os dados de `tese.tex`, `resumo.tex` e `bibliografia.bib`. Por isso, depois de mudar a capa, a banca ou o resumo aqui, basta rodar o gerador de novo. `tcc/verificar_docx_modelo.py` confere o resultado contra este PDF.
+
 ## Regenerar e verificar
 
 ```
