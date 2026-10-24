@@ -371,9 +371,42 @@ EDICOES = [
     ("Por fim, os resultados referem-se a um único dispositivo",
      "Por fim, os resultados desta seção referem-se a um único dispositivo"),
     # Okabe: três autores, citados todos (NBR 10520), com a referência
-    # acrescentada à lista (ref_okabe). Ning et al. (2022) sai desta citação:
-    # sem o artigo, não há como conferir o que lhe é atribuído aqui
-    ("(NING et al., 2022; OKABE et al., 2025)", "(OKABE; BRITTES; BRITO, 2025)"),
+    # acrescentada à lista (ref_okabe); o artigo saiu em 2026. Ning et al.
+    # (2022) sai desta citação: sem o artigo, não há como conferir o que lhe é
+    # atribuído aqui
+    ("(NING et al., 2022; OKABE et al., 2025)", "(OKABE; BRITTES; BRITO, 2026)"),
+    # seção 2.3 reescrita: lista de Arakelian sem travessões, "frequentemente"
+    # no lugar de "quase sempre" (o elástico da EP atua sem cabo nem polia), a
+    # EP num parágrafo próprio (cap2_compensacao) e as escalas como o TCC as
+    # descreve: abscissa em graus nas duas patentes, ordenada sem unidade na US
+    # e sem valores na EP
+    ("A compensação de gravidade constitui problema clássico",
+     "A compensação de gravidade é problema clássico"),
+    ("definidos pela natureza da força compensadora — contrapesos, molas ou força "
+     "ativa proveniente de atuador auxiliar —, e Nguyen",
+     "conforme a natureza da força compensadora: contrapesos, molas ou força ativa "
+     "de um atuador auxiliar. Nguyen"),
+    ("Em exoesqueletos vestíveis, a inviabilidade do contrapeso impõe o predomínio da "
+     "solução elástica, quase sempre associada a cabos, polias ou cames encarregados "
+     "de moldar a curva de torque;",
+     "Em exoesqueletos vestíveis, o contrapeso é inviável, e predomina a solução "
+     "elástica, frequentemente associada a cabos, polias ou cames que moldam a curva "
+     "de torque;"),
+    ("descreve arranjo dessa natureza:", "descreve um arranjo desse tipo:"),
+    ("constituído por mola e cabo tensionado", "formado por mola e cabo tensionado"),
+    ("uma protuberância situada junto à junta restringe a mola, de modo que o torque "
+     "decai a valor residual e o membro recupera liberdade de movimento. A patente "
+     "EP 3 504 033 B1 (OTTOBOCK, 2023), por sua vez, endereça o mesmo problema por "
+     "caminho construtivo distinto, transmitindo a força de um atuador passivo por "
+     "meio de elemento rígido apoiado na pelve.",
+     "uma protuberância junto à junta restringe o gerador de força, o torque cai a "
+     "um valor residual e o braço recupera a liberdade de movimento."),
+    ("Em ambos os documentos, contudo, as figuras exibem apenas a forma dos perfis "
+     "de torque, desprovidas de escala nos eixos, o que inviabiliza",
+     "Nenhum dos dois documentos, contudo, permite quantificar o torque: as curvas "
+     "publicadas têm a abscissa em graus, mas a ordenada não tem unidade declarada "
+     "na US 9.889.554 B2 e não tem sequer valores na EP 3 504 033 B1. Isso "
+     "inviabiliza"),
 ]
 
 
@@ -456,14 +489,16 @@ def cap1_justificativa():
 
 def cap2_compensacao():
     return [P(
-        "Na EP 3 504 033 B1, a faixa sem torque com o braço baixado não depende de "
-        "um batente. O elemento elástico passa a encostar, a partir de um ângulo "
-        "ajustável, num elemento de encosto situado junto à articulação; com esse "
-        "elemento sobre o eixo de rotação, as forças dos dois trechos do elástico "
-        "passam pelo eixo e não produzem torque, embora o elástico continue "
-        "tracionado (OTTOBOCK, 2023). Nessa patente, diferentemente do que se disse "
-        "acima para os dois documentos, a abscissa das curvas publicadas tem escala "
-        "em graus; só a ordenada é desprovida de escala.")]
+        "A patente EP 3 504 033 B1 (OTTOBOCK, 2023) trata o mesmo problema por outro "
+        "caminho construtivo: a força de um atuador passivo é transmitida por um "
+        "elemento rígido apoiado na pelve, e o elemento elástico atua diretamente "
+        "sobre uma alavanca solidária ao braço, sem o arranjo de cabo e polia. A "
+        "faixa sem torque com o braço baixado também não depende de uma "
+        "protuberância: a partir de um ângulo ajustável, o elástico passa a se "
+        "apoiar num elemento de encosto junto à articulação; com esse elemento sobre "
+        "o eixo de rotação, as forças dos dois trechos do elástico passam pelo eixo "
+        "e não produzem torque, embora o elástico continue tracionado "
+        "(OTTOBOCK, 2023).")]
 
 
 def cap2_curva():
@@ -2063,6 +2098,8 @@ DOI_VIRTANEN = "https://doi.org/10.1038/s41592-019-0686-2"
 RID_DOI = "rIdExo2Doi1"
 URL_SUITX = "https://www.suitx.com/en/products/ix-shoulder-air-exoskeleton"
 RID_SUITX = "rIdExo2Url1"
+DOI_ZEIAEE = "https://doi.org/10.1109/ICORR.2017.8009339"
+RID_ZEIAEE = "rIdExo2Doi2"
 
 
 def ref_brent():
@@ -2098,8 +2135,21 @@ def ref_okabe():
     return ('<w:p><w:r><w:t xml:space="preserve">OKABE, E. P.; BRITTES, J. L. P.; BRITO, P. L. A. '
             'Modeling and simulation of an upper limb exoskeleton. </w:t></w:r>'
             '<w:r><w:rPr><w:b/></w:rPr><w:t>Journal of Computational and Nonlinear Dynamics</w:t></w:r>'
-            '<w:r><w:t xml:space="preserve">, [S.l.], 2025. Manuscrito CND-25-1354, submetido '
-            'para publicação.</w:t></w:r></w:p>')
+            '<w:r><w:t xml:space="preserve">, [S.l.], v. 21, n. 7, art. 071006, '
+            'jul. 2026.</w:t></w:r></w:p>')
+
+
+def ref_zeiaee():
+    """No formato das demais do ICORR na lista (Barsotti, Gopura)."""
+    return ('<w:p><w:r><w:t xml:space="preserve">ZEIAEE, A. et al. Design and kinematic '
+            'analysis of a novel upper limb exoskeleton for rehabilitation of stroke '
+            'patients. In: INTERNATIONAL CONFERENCE ON REHABILITATION ROBOTICS (ICORR), '
+            '2017, Londres. </w:t></w:r><w:r><w:rPr><w:b/></w:rPr><w:t>Proceedings</w:t>'
+            '</w:r><w:r><w:t xml:space="preserve"> [...]. [S.l.]: IEEE, 2017. p. 759-764. '
+            'DOI: </w:t></w:r>'
+            f'<w:hyperlink r:id="{RID_ZEIAEE}" w:history="1"><w:r><w:rPr>'
+            '<w:rStyle w:val="Hyperlink"/></w:rPr><w:t>10.1109/ICORR.2017.8009339</w:t>'
+            '</w:r></w:hyperlink><w:r><w:t>.</w:t></w:r></w:p>')
 
 
 # ======================================================================
@@ -2184,7 +2234,7 @@ def montar(corpo_original):
         _unico(info, "Este trabalho trata dessa lacuna"): cap1_introducao(),
         _unico(info, "g) acoplar o modelo ao MBDyn"): cap1_objetivos(),
         _unico(info, "A escolha de ferramentas livres"): cap1_justificativa(),
-        _unico(info, "Em ambos os documentos, contudo"): cap2_compensacao(),
+        _unico(info, "A patente US 9.889.554 B2 (VAN ENGELHOVEN"): cap2_compensacao(),
         _unico(info, "O ajuste, entretanto, encontra limite"): cap2_curva(),
         _unico(info, "Näf et al. (2018)"): cap2_compatibilidade(),
         _unico(info, "O Airframe, da Levitate"): cap2_arquiteturas(),
@@ -2198,6 +2248,7 @@ def montar(corpo_original):
         _unico(info, "OBUKHOV, A. et al."): [ref_okabe()],
         _unico(info, "SPADA, S. et al."): [ref_suitx()],
         _unico(info, "VAN ENGELHOVEN, L.; KAZEROONI"): [ref_virtanen()],
+        _unico(info, "YOON, J. et al."): [ref_zeiaee()],
     }
     antes = {
         _unico(info, "4 RESULTADOS E DISCUSSÃO"): parte_3B(),
@@ -2317,7 +2368,8 @@ def main(origem, destino):
             "</Relationships>",
             f'<Relationship Id="{rid}" Type="http://schemas.openxmlformats.org/'
             f'officeDocument/2006/relationships/image" Target="{alvo}"/></Relationships>')
-    for rid, url in ((RID_DOI, DOI_VIRTANEN), (RID_SUITX, URL_SUITX)):
+    for rid, url in ((RID_DOI, DOI_VIRTANEN), (RID_SUITX, URL_SUITX),
+                     (RID_ZEIAEE, DOI_ZEIAEE)):
         assert rid not in rels
         rels = rels.replace(
             "</Relationships>",

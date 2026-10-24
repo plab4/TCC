@@ -1,10 +1,10 @@
 # Verificação do TCC fundido
 
-Original: TCC_apenas_exo1.docx, 305 blocos. Fundido: TCC_exo1_exo2.docx, 559 blocos.
+Original: TCC_apenas_exo1.docx, 305 blocos. Fundido: TCC_exo1_exo2.docx, 560 blocos.
 
 ## 1. Conteúdo do original
 
-Blocos do original encontrados em ordem, com XML idêntico fora do texto: 305 de 305. Texto diferente do esperado (renumeração e as 8 edições declaradas): 0.
+Blocos do original encontrados em ordem, com XML idêntico fora do texto: 305 de 305. Texto diferente do esperado (renumeração e as 15 edições declaradas): 0.
 Renumeração das tabelas do original: {1: 1, 2: 4, 3: 5, 4: 6, 5: 7, 6: 8, 7: 9, 8: 10, 9: 11, 10: 12, 11: 13}.
 Renumeração das figuras do original: {1: 1, 2: 4, 3: 5, 4: 6, 5: 7}.
 
@@ -20,7 +20,7 @@ Referências sem alvo: 0.
 
 ## 4. Texto novo
 
-Blocos novos: 254. Travessões: 0. Restos da numeração do apêndice: 0.
+Blocos novos: 255. Travessões: 0. Restos da numeração do apêndice: 0.
 
 ## 5. Parágrafos do apêndice da versão anterior
 

@@ -1,9 +1,10 @@
 # Exoesqueleto 3 (US 9.737.374 B2, Levitate): como Okabe obteve as curvas e viabilidade de replicar
 
 Análise preliminar, sem início do trabalho no exo 3. Fontes: manuscrito CND-25-1354
-(Okabe, Brittes e Brito, *Modeling and simulation of an upper limb exoskeleton*) e a
-patente US 9.737.374 B2 (Doyle, 2017), 67 páginas digitalizadas; o texto da patente foi
-lido por OCR.
+(Okabe, Brittes e Brito, *Modeling and simulation of an upper limb exoskeleton*,
+publicado em J. Comput. Nonlinear Dynam., v. 21, n. 7, 071006, 2026; os números de
+linha citados aqui são os do manuscrito) e a patente US 9.737.374 B2 (Doyle, 2017),
+67 páginas digitalizadas; o texto da patente foi lido por OCR.
 
 ## Como o manuscrito obteve as curvas
 

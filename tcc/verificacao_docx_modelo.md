@@ -4,7 +4,7 @@ DOCX: TCC_modelo_FT.docx. Referência de formato e texto: tese.pdf (90 páginas)
 
 ## 1. Capa, folha de rosto, folha de aprovação e resumo
 
-Parágrafos conferidos: 14; ausentes do PDF do LaTeX: 0.
+Parágrafos conferidos: 16; ausentes do PDF do LaTeX: 0.
 
 ## 2. Corpo do texto
 
@@ -24,7 +24,7 @@ Figuras: 12 no DOCX novo e 12 no fundido; mesmos arquivos e ordem: sim.
 
 ## 6. Referências
 
-Referências: 48; ausentes da lista do PDF do LaTeX: 0.
+Referências: 49; ausentes da lista do PDF do LaTeX: 0.
 
 ## 7. Sumário e listas
 

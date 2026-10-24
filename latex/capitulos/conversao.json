@@ -35,7 +35,7 @@
   "ning2022",
   "ning2023",
   "obukhov2025",
-  "okabe2025",
+  "okabe2026",
   "ottobock2023",
   "palazzi2022",
   "perry2007",
@@ -50,15 +50,14 @@
   "virtanen2020",
   "wang2022",
   "wu2016",
-  "yoon2022"
+  "yoon2022",
+  "zeiaee2017"
  ],
  "nao_citadas": [
   "foroutannia2026",
   "kim2012"
  ],
- "citacoes_sem_referencia": [
-  "ZEIAEE et al., 2017"
- ],
+ "citacoes_sem_referencia": [],
  "rotulos": {
   "tab": {
    "1": "tab:convencoes-angulares-sinal",

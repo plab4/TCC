@@ -115,7 +115,8 @@
 \AtEveryBibitem{\ifentrytype{patent}{\clearfield{year}\clearfield{month}\clearfield{day}}{}}
 
 % Citação que combina referências da lista com trabalhos citados no
-% texto original que não constam da lista (ver LEIAME.md):
+% texto que não constam da lista; tcc/gerar_latex.py a emprega quando
+% isso acontece (hoje, todas as citações têm referência):
 % \citecomsemref{Autor et al., 2017}{chave1,chave2}
 \newcommand{\citecomsemref}[2]{%
   \AtNextCite{\renewcommand*{\postnotedelim}{\addsemicolon\space}}%

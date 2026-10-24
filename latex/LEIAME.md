@@ -14,7 +14,7 @@ Versão LaTeX do `tcc/TCC_exo1_exo2.docx`. Ela usa o modelo de teses e disserta�
 | `tese.tex` | Arquivo principal: dados da capa e da folha de rosto, ordem dos elementos |
 | `preambulo.tex` | Pacotes e comandos acrescentados ao modelo |
 | `capitulos/*.tex` | Os cinco capítulos, gerados a partir do DOCX por `tcc/gerar_latex.py` |
-| `bibliografia.bib` | As 48 referências da lista do DOCX |
+| `bibliografia.bib` | As 49 referências da lista do DOCX |
 | `resumo.tex`, `agradecimentos.tex` | Elementos pré-textuais |
 | `figuras/` | As 12 figuras, extraídas do DOCX |
 | `logotipos/logo-fca.png` | Recorte do logotipo enviado com o modelo |
@@ -32,10 +32,10 @@ Os campos estão marcados com `COMPLETAR` no `tese.tex`:
 
 1. unidade de ensino: está como Faculdade de Ciências Aplicadas (FCA), deduzida do logotipo enviado;
 2. instituição de cada membro da banca: está como FCA/UNICAMP para os três;
-3. dia e mês da defesa (`\datadadefesa`);
-4. resumo e abstract (`resumo.tex`): o DOCX não tem nenhum dos dois;
-5. agradecimentos, dedicatória e epígrafe (`agradecimentos.tex`), se houver;
-6. ficha catalográfica (`\fichacatalografica`), se o curso exigir.
+3. agradecimentos, dedicatória e epígrafe (`agradecimentos.tex`), se houver;
+4. ficha catalográfica (`\fichacatalografica`), se o curso exigir.
+
+A data da defesa (18/11/2026) está em `\datadadefesa`. O resumo e o abstract (`resumo.tex`) não existem no DOCX e foram redigidos a partir das conclusões, com os números do texto; confira-os antes da entrega.
 
 Depois da defesa, apague a linha `\finalversionfalse` do `tese.tex`. Ela mantém na folha de rosto o texto da versão entregue à banca e deixa a folha de aprovação para a versão final.
 
@@ -47,7 +47,6 @@ O texto dos parágrafos, tabelas, legendas, fontes e notas é o do DOCX. Mudou s
 - **Legendas.** Todas seguem o formato "Tabela 1: ...". No DOCX, as legendas do exoesqueleto 1 usavam travessão.
 - **Citações.** Saem em caixa normal, como "(Spada et al., 2017)", pela NBR 10520:2023 adotada no modelo. Na lista de referências, o sobrenome também sai em caixa normal.
 - **"(SHEN et al., 2020)"** passa a "(Shen; Ferguson; Rosen, 2020)": a obra tem três autores, e a norma cita os três.
-- **Citação sem referência.** A citação de Zeiaee et al. (2017), feita duas vezes no capítulo 2, não tem entrada na lista do DOCX e ficou como texto, sem ligação. Para ligá-la, acrescente a entrada ao `.bib` e troque o texto por `\cite`; no parágrafo de Barsotti et al., troque o `\citecomsemref` por um `\cite` com todas as chaves.
 - **Referências não citadas.** Duas referências da lista não são citadas no texto: Foroutannia e Mohammadian (2026) e Kim, H. et al. (2012). Continuam na lista por causa do `\nocite{*}`.
 - **Posição de figuras e tabelas.** As figuras e as tabelas curtas são flutuantes e podem mudar de página em relação ao DOCX. As tabelas 6, 14, 16 e 25 podem atravessar páginas e repetem o cabeçalho na continuação. A numeração continua corrida, como no DOCX: Figura 1 a 12, Tabela 1 a 26, Equação (1) a (52). Para numerar por capítulo, veja o comentário em `preambulo.tex`.
 - **Ligações.** As caixas em volta das ligações são o padrão do modelo e aparecem só na tela. Para escondê-las, acrescente `\hypersetup{hidelinks}` ao `preambulo.tex`.

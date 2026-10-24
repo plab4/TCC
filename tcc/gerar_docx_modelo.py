@@ -617,9 +617,23 @@ def pre_textuais(doc, d, logo):
         c.append(espacador(ESPACO_PRE, nova_pagina=True))
         c.append(par(run(t), estilo="TituloPreTextual"))
     titulo_pre("Resumo")
-    c.append(par(run(d["resumo"]), estilo="PreTexto", jc="both"))
+    for t, antes in paragrafos_pre(d["resumo"]):
+        c.append(par(run(t), estilo="PreTexto", jc="both", antes=antes))
     titulo_pre("Abstract")
-    c.append(par(run(d["abstract"]), estilo="PreTexto", jc="both"))
+    for t, antes in paragrafos_pre(d["abstract"]):
+        c.append(par(run(t), estilo="PreTexto", jc="both", antes=antes))
+
+
+def paragrafos_pre(t):
+    """Parágrafos do resumo.tex como [(texto, espaço antes)]: \\bigskip vale
+    12 pt; \\noindent já é o padrão do estilo PreTexto."""
+    saida = []
+    for bloco in re.split(r"\n\s*\n", t):
+        antes = 240 if r"\bigskip" in bloco else None
+        bloco = re.sub(r"\\(?:bigskip|noindent)\s*", "", bloco).replace(r"\%", "%")
+        assert "\\" not in bloco, bloco
+        saida.append((" ".join(bloco.split()), antes))
+    return saida
 
 
 def listas_e_sumario(doc, paginas):
