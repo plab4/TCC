@@ -602,15 +602,13 @@ def parte_3B():
         "seção registra o motivo."))
     a(P("A classificação de origem é a da introdução deste capítulo: medida no modelo "
         "em CAD, obtida da literatura, documental, identificada por ajuste, derivada "
-        "pelo modelo ou assumida como hipótese. Os trechos da patente são citados "
-        "pelo número do parágrafo, entre colchetes, pelo número da reivindicação ou "
-        "pelo número da figura."))
+        "pelo modelo ou assumida como hipótese."))
 
     # ------------------------------------------------------------ fontes
     # (na introdução da parte, sem seção própria, para que 3B.k pareie com 3A.k)
     a(P("A análise usou os documentos e arquivos da Tabela ⟦T:fontes⟧. A patente foi "
-        "lida no documento B1 completo, de 44 páginas, com a descrição, os parágrafos "
-        "[0001] a [0105], as reivindicações em alemão, inglês e francês e as 29 "
+        "lida no documento B1 completo, de 44 páginas, com a descrição, as "
+        "reivindicações em alemão, inglês e francês e as 29 "
         "figuras, que ocupam as páginas 22 a 43 como imagens bitonais de 300 ppp. Os "
         "dados bibliográficos conferem com a referência listada: pedido "
         "europeu 18729947.4, depositado em 6 jun. 2018 (PCT/EP2018/064910, "
@@ -653,42 +651,41 @@ def parte_3B():
         "distanciador (8) e uma concha (10) e fixado ao braço por uma braçadeira "
         "(12), liga-se por uma articulação (20) à extremidade superior de um "
         "elemento de transmissão de força (18), uma barra telescópica no exemplo da "
-        "Figura 1 da patente [0078], [0079]. A extremidade inferior da barra apoia-se, por uma "
+        "Figura 1 da patente. A extremidade inferior da barra apoia-se, por uma "
         "articulação esférica (22), num elemento de contra-apoio (16) em forma de "
-        "cinto pélvico, de modo que a reação à força de apoio é levada à pelve "
-        "[0021], [0022], [0079]. Com o dispositivo vestido, a articulação 20 fica "
-        "aproximadamente na altura da articulação do ombro [0021], [0073]."))
-    a(P("O atuador passivo (26) é uma mola de tração na Figura 1 da patente [0080] e um cabo "
-        "ou fio elástico na Figura 18 da patente [0095]. Uma de suas extremidades fica presa à "
+        "cinto pélvico, de modo que a reação à força de apoio é levada à pelve. Com "
+        "o dispositivo vestido, a articulação 20 fica aproximadamente na altura da "
+        "articulação do ombro."))
+    a(P("O atuador passivo (26) é uma mola de tração na Figura 1 da patente e um cabo "
+        "ou fio elástico na Figura 18 da patente. Uma de suas extremidades fica presa à "
         "barra 18, e a outra atua sobre um elemento de alavanca (28) do elemento "
         "distanciador 8, de modo que a força é aplicada excentricamente em relação "
-        "ao eixo da articulação 20 [0043], [0080] (reivindicação 8). A força pode "
-        "ser alterada pela pré-tensão do atuador ou pela excentricidade do ponto de "
-        "aplicação (reivindicação 9; [0044]). A Figura 24 da patente mostra o ponto de ataque "
-        "(82) deslocado com uma chave de fenda em relação ao eixo da articulação "
-        "[0101], e o parágrafo [0060] prevê a regulagem do comprimento do braço de "
-        "alavanca por um parafuso."))
+        "ao eixo da articulação 20. A força pode ser alterada pela pré-tensão do "
+        "atuador ou pela excentricidade do ponto de aplicação. A Figura 24 da patente mostra o ponto de ataque "
+        "(82) deslocado com uma chave de fenda em relação ao eixo da articulação, e "
+        "a patente prevê ainda a regulagem do comprimento do braço de alavanca por "
+        "um parafuso."))
     a(P("O elemento 78, chamado na patente de Anlageelement e aqui de elemento de "
         "encosto, fica junto à articulação 20 e encosta no elemento elástico a partir "
         "de um ângulo predeterminado entre o elemento de apoio do braço e a barra "
-        "[0070], [0099] (Figura 22 da patente). A partir do contato, a direção da força deixa de ser a da reta "
+        "(Figura 22 da patente). A partir do contato, a direção da força deixa de ser a da reta "
         "entre os dois pontos de fixação do elástico e passa a depender do ponto de "
         "contato. A patente prefere o elemento 78 exatamente sobre o eixo da "
         "articulação 20; nesse caso, os dois trechos em que o elástico fica dividido "
         "exercem forças radiais ao eixo e não produzem torque, e o braço desce sem "
-        "assistência [0070], [0099]. O ângulo de contato é ajustável [0071], [0099]. "
+        "assistência. O ângulo de contato é ajustável. "
         "Esse é o mecanismo da faixa sem torque com o braço baixado, que no gerador "
         "da US 9.889.554 B2 resulta da protuberância descrita na seção 2.3."))
     a(P("Como preferência, a patente indica que nenhuma força seja aplicada até que "
         "o braço ultrapasse um ângulo em relação à vertical, com 45°, 60° ou 90° como "
         "exemplos, e que a força máxima ocorra entre 70° e 120°, de preferência em "
-        "90° [0043]. O documento não traz cotas do mecanismo nem rigidez, pré-tensão "
+        "90°. O documento não traz cotas do mecanismo nem rigidez, pré-tensão "
         "ou dimensões do elemento elástico. Os dados numéricos que contém são a "
         "largura de 3,0 cm ± 1,0 cm, de preferência 3,5 cm ± 0,2 cm, da extremidade "
-        "livre do cinto [0026], o afastamento lateral mínimo de 5 cm entre o "
-        "contra-apoio e a linha média da coluna [0074], limites de 1,1 a 5,0 para a "
+        "livre do cinto, o afastamento lateral mínimo de 5 cm entre o "
+        "contra-apoio e a linha média da coluna, limites de 1,1 a 5,0 para a "
         "razão entre a distância da articulação ao contra-apoio e a distância da "
-        "braçadeira à articulação [0023] e as escalas angulares das Figuras 16 e 17 "
+        "braçadeira à articulação e as escalas angulares das Figuras 16 e 17 "
         "da patente, nenhum deles utilizável como dimensão do gerador de torque."))
     a(P("Essas informações confirmam o que as seções 2.3 e 2.7 dizem do mecanismo: "
         "a força é transmitida por um elemento rígido apoiado na pelve, e o elemento "
@@ -700,9 +697,9 @@ def parte_3B():
         "de tangência, de caminho do cabo e de ponto morto das seções 3A.4 a 3A.7 "
         "não se aplicam e são substituídas pelas das seções ⟦S:cin⟧ a ⟦S:zero⟧, de "
         "mesma numeração."))
-    a(P("O dispositivo admite abdução, adução e movimentos do tronco (reivindicação "
-        "1; [0016] a [0019]). O modelo é plano, restrito ao plano sagital, e representa "
-        "somente a anteversão, que é o movimento das Figuras 16 e 17 da patente [0092]."))
+    a(P("O dispositivo admite abdução, adução e movimentos do tronco. O modelo é "
+        "plano, restrito ao plano sagital, e representa somente a anteversão, que é o "
+        "movimento das Figuras 16 e 17 da patente."))
 
     # ------------------------------------------------------------ CAD
     a(P("O circuito do mecanismo foi fechado no modelo em CAD do Autodesk Fusion, e "
@@ -742,15 +739,15 @@ def parte_3B():
         "uma única vez."))
     a(P("A variável independente é a anteversão do braço, θ_{el}, com 0° para o "
         "braço pendente e 90° para o braço horizontal à frente. É a grandeza da "
-        "abscissa das Figuras 16 e 17 da patente, definida nesses termos em [0092]. "
+        "abscissa das Figuras 16 e 17 da patente, definida nesses termos pela própria patente. "
         "Por isso, ao contrário da seção 3A.3, o ângulo da patente não precisa ser "
         "convertido em elevação anatômica. O modelo admite, porém, que o giro do "
         "elemento de apoio do braço em relação à barra 18 seja igual à anteversão, o "
         "que supõe o eixo da articulação 20 no centro do ombro e a barra 18 fixa em "
         "relação ao tronco. A patente situa a articulação na altura do ombro, na "
-        "região da escápula e afastada para trás do corpo com o braço pendente "
-        "[0030], [0083], com eixo que não coincide com o de abdução do ombro [0027], "
-        "e admite que a orientação da barra 18 mude com o movimento do braço [0040]. "
+        "região da escápula e afastada para trás do corpo com o braço pendente, com "
+        "eixo que não coincide com o de abdução do ombro, e admite que a orientação "
+        "da barra 18 mude com o movimento do braço. "
         "O documento não informa a relação entre o giro da articulação e a "
         "anteversão, e as comparações angulares com as Figuras 16 e 17 da patente "
         "dependem dessa hipótese. O eixo do braço aponta na direção θ_{el} − 90°. O "
@@ -872,7 +869,7 @@ def parte_3B():
     a(P("No regime II, o trecho entre o elemento 78 e P liga dois pontos do mesmo "
         "corpo; as forças que exerce sobre P e sobre o elemento 78 são iguais, "
         "opostas e colineares e não contribuem para o torque, o que corresponde à "
-        "descrição de [0099]. O braço de momento com sinal é"))
+        "descrição da patente. O braço de momento com sinal é"))
     a(EQ(("m", r"m_{\mathrm{I}} = e\sin\left( \lambda - \varphi \right) + C_{3}\sin\left( \lambda + \beta_{c} - \varphi \right),\quad m_{\mathrm{II}} = p_{78}\sin\left( \lambda + \eta_{78} - \varphi \right),\quad \tau = \frac{Fm}{1000}")))
     a(P("com m = m_{I} no regime I, m = m_{II} no regime II e m > 0 quando o torque "
         "assiste a subida. O fator 1/1000, herdado da formulação da seção 3A.6, "
@@ -886,7 +883,7 @@ def parte_3B():
         "oposto ao da Equação (17), vem de λ crescer com a elevação do braço, ao "
         "passo que θ* decresce; nos dois mecanismos, m é positivo quando assiste a "
         "subida, e o elástico se encurta quando o braço sobe e devolve energia, como "
-        "descreve [0034]."))
+        "descreve a patente."))
 
     # ------------------------------------------------------------ faixa sem torque
     a(SEC("3B", "zero", "Faixa sem torque com o braço baixado"))
@@ -894,7 +891,7 @@ def parte_3B():
         "Pela Equação (⟦E:m⟧), m_{II} é proporcional a p_{78}, de modo que, abaixo "
         "da transição, o torque só se anula se o elemento 78 estiver sobre o eixo. "
         "Com o elemento 78 sobre o eixo (p_{78} = 0), configuração preferida pela "
-        "patente [0099], a transição tem forma fechada:"))
+        "patente, a transição tem forma fechada:"))
     a(EQ(("lamt", r"\lambda_{t} = \operatorname{atan2}\left( r_{AO,y},\ r_{AO,x} \right) - \varepsilon,\quad \varepsilon = \operatorname{atan2}\left( C_{3}\sin\beta_{c},\ e + C_{3}\cos\beta_{c} \right)")))
     a(P("em que ε é o ângulo fixo de OP em relação ao trecho ‹e›. Nesse caso, a "
         "direção de OP na transição coincide com a de r_{AO}, a reta do elástico "
@@ -921,12 +918,12 @@ def parte_3B():
     # ------------------------------------------------------------ dados
     a(SEC("3B", "dados", "Dados da patente e identificação dos parâmetros"))
     a(P("As Figuras 16 e 17 da patente são apresentadas como representações "
-        "exemplares das curvas de força que o dispositivo pode aplicar ao braço "
-        "[0077], [0092]; o documento não informa se foram medidas ou calculadas, nem "
+        "exemplares das curvas de força que o dispositivo pode aplicar ao braço; "
+        "o documento não informa se foram medidas ou calculadas, nem "
         "a configuração do dispositivo que as gerou. A abscissa é o ângulo de "
         "anteversão, com escala de 0° a 180° e grade a cada 20°. A ordenada não tem "
         "rótulo nem valores, apenas linhas de grade: há cinco divisões acima da "
-        "linha de razão nula e uma abaixo (Figura ⟦F:pat16⟧). Segundo [0092], a "
+        "linha de razão nula e uma abaixo (Figura ⟦F:pat16⟧). Segundo a patente, a "
         "ordenada da Figura 16 da patente é uma razão de torques: o torque causado "
         "pelo peso próprio do braço e pela força peso, sem indicação do corpo a que "
         "esta se refere, dividido pelo torque aplicado pelo dispositivo. As curvas "
@@ -937,11 +934,11 @@ def parte_3B():
         "tracejada e contínua perto de 180°, onde o torque do peso tende a zero. "
         "Essa interpretação foi a adotada, e a divergência entre o texto e a figura "
         "fica registrada."))
-    a(P("Segundo [0093], as três curvas da Figura 16 da patente foram geradas com um único "
+    a(P("Segundo a patente, as três curvas da Figura 16 da patente foram geradas com um único "
         "atuador passivo, com pré-tensões diferentes: quase nula na curva pontilhada "
         "e crescente na tracejada e na contínua. A Figura 17 da patente mantém a pré-tensão e "
         "desloca o ponto de ataque do atuador, cuja distância ao eixo da articulação "
-        "cresce da curva pontilhada para a contínua [0094]; o texto descreve a "
+        "cresce da curva pontilhada para a contínua; o texto descreve a "
         "ordenada dessa figura como a força aplicável ao braço, sem outra "
         "definição."))
     a(LEG_F("pat16", "Figura 16 da EP 3 504 033 B1, razão de torques em função da "
@@ -991,8 +988,8 @@ def parte_3B():
         "modelo está no regime II e depende da posição do elemento 78, e os pontos "
         "até 20° ficam perto dessa transição; perto de 180°, τ_{g} tende a zero e a "
         "razão varia rapidamente com o ângulo."))
-    a(P("As três curvas foram geradas com o mesmo atuador e pré-tensões diferentes "
-        "[0093]; admite-se que a geometria e a rigidez sejam as mesmas nas três, "
+    a(P("As três curvas foram geradas com o mesmo atuador e pré-tensões diferentes; "
+        "admite-se que a geometria e a rigidez sejam as mesmas nas três, "
         "hipótese testada pela coincidência dos fatores G_{i} (seção ⟦S:r_s0⟧). Com "
         "o elástico tracionado, a razão de cada curva i escreve-se"))
     a(EQ(("rG", r"r_{i}\left( \theta_{\mathrm{el}} \right) = G\left( \theta_{\mathrm{el}} \right)\left\lbrack \ell\left( \theta_{\mathrm{el}} \right) - s_{0,i} \right\rbrack,\quad G = \frac{K\, m}{1000\,\sigma\,\tau_{g}}")))
@@ -1021,7 +1018,7 @@ def parte_3B():
         "com curvas montadas pelo próprio modelo a partir de valores conhecidos de "
         "s_{0} nos ângulos dos pontos extraídos, confere a implementação."))
     a(P("Uma verificação independente vem do fim da curva pontilhada, de "
-        "pré-tensão quase nula [0093]. Como ℓ decresce com θ_{el}, Equação "
+        "pré-tensão quase nula. Como ℓ decresce com θ_{el}, Equação "
         "(⟦E:tv⟧), o elástico afrouxa primeiro com o braço elevado, e a razão da "
         "curva menos tensionada deve chegar a zero onde ℓ = s_{0}. O ângulo desse "
         "zero foi obtido por extrapolação linear dos dois e dos três últimos pontos "
@@ -1043,7 +1040,7 @@ def parte_3B():
         f"o mínimo. Os {n_aj} pontos ajustados ficaram todos no regime I. A Tabela "
         "⟦T:forma⟧ reúne os resultados, e a Figura ⟦F:ajustes⟧(a) sobrepõe as curvas "
         "ajustadas aos pontos extraídos."))
-    a(P("A patente atribui as três curvas a um único atuador [0093] e as desenha no "
+    a(P("A patente atribui as três curvas a um único atuador e as desenha no "
         "mesmo eixo, o que implica K e σ comuns e, portanto, um único c. Esse ajuste "
         "conjunto foi feito como verificação independente da hipótese do modelo, "
         "com c comum e um s_{0} por curva:"))
@@ -1071,8 +1068,8 @@ def parte_3B():
     a(SEC("3B", "varr", "Varredura paramétrica do trecho ‹e› da alavanca"))
     a(P("O comprimento ‹e› do trecho do pivô ao cotovelo da alavanca define, com "
         "C_{3} e β_{c}, a excentricidade |OP| do ponto de aplicação, um dos "
-        "parâmetros de ajuste previstos na patente (reivindicação 9; [0044], [0060], "
-        "[0101]) e objeto da Figura 17 da patente [0094]. Por isso, o papel de h na "
+        "parâmetros de ajuste previstos na patente e objeto da Figura 17 da "
+        "patente. Por isso, o papel de h na "
         "seção 4A é desempenhado aqui por ‹e›. A "
         f"varredura manteve s_{{0}} = {f(pr['s0'])} mm e "
         f"K = {f(pr['K'], 5)} N/mm, isto é, o mesmo elástico, e variou apenas "
@@ -1230,7 +1227,7 @@ def parte_4B():
         f"ℓ_{{pose}} em {sci(g['erro_s_pose'])} mm, valor inferior à resolução de "
         "três casas decimais da medida. O elemento 78 está a "
         f"p_{{78}} = {f(par['P'])} mm do eixo da articulação, enquanto a patente "
-        "prefere esse elemento sobre o eixo [0099]; as consequências dessa "
+        "prefere esse elemento sobre o eixo; as consequências dessa "
         "diferença são tratadas nas seções ⟦S:zero⟧ e ⟦S:r_conf⟧."))
     a(LEG_T("massa", "Propriedades de massa do membro humano em relação ao eixo da "
                      "articulação 20"))
@@ -1376,7 +1373,7 @@ def parte_4B():
         f"Equação (⟦E:pares⟧). Na faixa adotada, s_{{0}} vale {f(s0p)} mm na curva "
         f"pontilhada, {f(s0t)} mm na tracejada e {f(s0c)} mm na contínua, com "
         f"RMSE de {f(rz['rms'])} mm nas {rz['n']} equações. A ordem coincide "
-        "com a das pré-tensões descritas em [0093], porque menor s_{0} significa "
+        "com a das pré-tensões descritas na patente, porque menor s_{0} significa "
         "maior extensão do elástico em qualquer ângulo, e os passos entre curvas, "
         f"{f(rz['passos']['pontilhada_tracejada'], 2)} e "
         f"{f(rz['passos']['tracejada_continua'], 2)} mm, são da mesma ordem."))
@@ -1458,8 +1455,8 @@ def parte_4B():
         f"{f(s0p - fim['2']['l'], 2)} e {f(s0p - fim['3']['l'], 2)} mm do s_{{0}} "
         "identificado pelo espaçamento; com esse s_{0}, o modelo afrouxa a partir de "
         f"{f(rz['theta_frouxo']['pontilhada'], 1)}°. A patente não diz em que "
-        "posição a pré-tensão é medida. Interpretando a pré-tensão quase nula de "
-        "[0093] como extensão próxima de zero na posição de menor comprimento do "
+        "posição a pré-tensão é medida. Interpretando a pré-tensão quase nula "
+        "como extensão próxima de zero na posição de menor comprimento do "
         "elástico, perto de 180°, o s_{0} identificado é compatível com essa "
         "descrição: a curva pontilhada fica frouxa perto de 180°, com "
         f"ℓ(180°) − s_{{0}} = {f(rz['pre_tensao_180']['pontilhada'], 2)} mm, e as "
@@ -1476,10 +1473,9 @@ def parte_4B():
         f"{milhar(ic['tracejada']['n_acima'])} pontos da malha acima desse ângulo, e "
         "o torque seria nulo justamente onde a figura o mostra. O início das curvas é "
         "atribuído, neste trabalho, ao contato do elástico com o elemento 78, cujo "
-        "ângulo a patente ajusta pela posição desse elemento [0071], [0099]; a "
+        "ângulo a patente ajusta pela posição desse elemento; a "
         "patente não indica a configuração que gerou a Figura 16 da patente e cita outros "
-        "meios de anular a força abaixo de um ângulo, como cames e corrediças "
-        "[0043]."))
+        "meios de anular a força abaixo de um ângulo, como cames e corrediças."))
     a(LEG_F("razoes", "Identificação de s_{0} pelo espaçamento entre as curvas, com "
                       "(a) o fator G_{i} de cada curva e (b) o fator G lido na Figura "
                       "16 da patente e a forma prevista pelo modelo, normalizados em "
@@ -1524,7 +1520,7 @@ def parte_4B():
         f"encontra (Tabela ⟦T:forma⟧), {f(po['s0'], 2)} mm na pontilhada, "
         f"{f(tr['s0'], 2)} mm na tracejada e o limite s_{{0}} = 0 na contínua, ficam "
         "longe dos do espaçamento, e as escalas por curva contrariam o atuador único "
-        "de [0093]. São mantidos como resultado secundário: descrevem a melhor forma "
+        "descrito na patente. São mantidos como resultado secundário: descrevem a melhor forma "
         "que o modelo consegue produzir com a geometria do CAD, e não a pré-tensão "
         "do dispositivo."))
     a(LEG_T("forma", "Ajuste de s_{0} à forma de cada curva da Figura 16 da patente"))
@@ -1589,7 +1585,7 @@ def parte_4B():
     a(PEQUENO(f"Nota: no ajuste conjunto, c = {f(cj['c'], 4)}, comum às três "
               "curvas; na força constante, c é ajustado por curva."))
     a(P("O ajuste conjunto ordena os comprimentos de referência como as pré-tensões "
-        f"descritas em [0093]: s_{{0}} = {f(pcj['pontilhada']['s0'])} mm na curva "
+        f"descritas na patente: s_{{0}} = {f(pcj['pontilhada']['s0'])} mm na curva "
         f"pontilhada, {f(pcj['tracejada']['s0'])} mm na tracejada e "
         f"{f(pcj['continua']['s0'])} mm na contínua; menor s_{{0}} significa maior "
         "extensão do elástico em qualquer ângulo. As curvas tracejada e contínua "
@@ -1603,7 +1599,7 @@ def parte_4B():
         f"de {pct(fc['pontilhada']['rms_max'])} e {pct(fc['tracejada']['rms_max'])}."))
     x180_po = g["l_180"] - po["s0"]
     x180_po_cj = g["l_180"] - pcj["pontilhada"]["s0"]
-    a(P("A pré-tensão da curva pontilhada, descrita como quase nula [0093], também "
+    a(P("A pré-tensão da curva pontilhada, descrita como quase nula, também "
         "diverge do ajuste de forma. Pelo critério da seção ⟦S:r_s0⟧, a extensão em "
         f"180°, essa curva teria {f(x180_po, 2)} mm com o s_{{0}} individual e "
         f"{f(x180_po_cj, 2)} mm com o do ajuste conjunto, contra "
@@ -1644,7 +1640,7 @@ def parte_4B():
           "Não identificado; varrido na seção ⟦S:r_varr⟧"],
          ["Posição do elemento 78", "p_{78}; η_{78}",
           f"{f(par['P'])} mm; {f(der['phi'])}°", "Medida em CAD e derivada",
-          "Não identificada; a patente prefere p_{78} = 0 [0099]"],
+          "Não identificada; a patente prefere p_{78} = 0"],
          ["Defasagem angular", "λ_{0}", f"{f(der['delta'])}°",
           "Derivada do CAD", "Depende do sinal de θ_{b,pose}, a confirmar"],
          ["Massa e centro de massa do braço do exoesqueleto", "", "Não incluídos",
@@ -1738,7 +1734,7 @@ def parte_4B():
         "excentricidade, contínua, atinge o máximo perto de 100°, decresce e cruza "
         "as outras duas entre cerca de 155° e 160°, e as três sobem acentuadamente "
         "acima de 160°. O texto registra que, acima de cerca de 150°, o andamento "
-        "difere do da Figura 16 da patente [0094]. No modelo, as curvas de τ/τ_{g} da família "
+        "difere do da Figura 16 da patente. No modelo, as curvas de τ/τ_{g} da família "
         f"têm máximo entre {f(min(x['theta'] for x in mx), 1)}° e "
         f"{f(max(x['theta'] for x in mx), 1)}°, que ocorre mais cedo quanto maior "
         f"o trecho ‹e›, e mínimo local entre {f(min(x['theta'] for x in mn), 1)}° e "
@@ -1784,14 +1780,14 @@ def parte_4B():
         f"{f(nrm['faixa_max']['theta_pico_exo'], 1)}° a "
         f"{f(nrm['faixa_min']['theta_pico_exo'], 1)}°, de modo que essas "
         "conclusões não dependem da faixa escolhida. A posição do pico fica na faixa "
-        "de 70° a 120° em que a patente prefere a força máxima [0043], desde que essa "
+        "de 70° a 120° em que a patente prefere a força máxima, desde que essa "
         "força seja lida como a força de apoio sobre o braço, proporcional ao torque "
         "na articulação, interpretação do autor; a força do próprio elástico é máxima "
         "com o braço pendente. O mesmo parágrafo cita, como exemplo, força nula até "
         "45°, 60° ou 90°, preferência que nem a Figura 16 da patente, com razão não "
         "nula a partir de cerca de 14°, nem o modelo, com torque desde 0°, seguem; "
-        "como esse ângulo é ajustável pela posição do elemento 78 [0071], [0099], os "
-        "valores citados em [0043] correspondem a regulagens para as quais a patente "
+        "como esse ângulo é ajustável pela posição do elemento 78, os "
+        "valores citados pela patente correspondem a regulagens para as quais a patente "
         "não publica curva."))
     nf = nrm_f["s0"]
     a(P(f"Com o s_{{0}} do ajuste de forma, {f(prf['s0'])} mm, o pico normalizado "
@@ -1843,7 +1839,7 @@ def parte_4B():
         f"{f(g['theta_t'], 2)}°, o modelo mantém torque positivo, "
         f"{f(tab[10.0]['tau'])} N·m em 10° no cenário de projeto, porque o elemento "
         f"78 está a {f(par['P'])} mm do eixo. A Figura 16 da patente mostra razão nula abaixo "
-        "de cerca de 14°, e a patente prefere o elemento 78 sobre o eixo [0099]. "
+        "de cerca de 14°, e a patente prefere o elemento 78 sobre o eixo. "
         "A divergência foi mantida no modelo, e não corrigida: ela depende da "
         "posição real do elemento 78 e de seu raio de contato, que não estão "
         "documentados."))
@@ -1913,7 +1909,7 @@ def parte_4B():
           "força inicial"],
          ["Posição e raio de contato do elemento 78",
           "Torque não nulo abaixo da transição, contra razão nula na Figura 16 da patente",
-          "Conferir no CAD; comparar com p_{78} = 0, preferido em [0099]"],
+          "Conferir no CAD; comparar com p_{78} = 0, preferido pela patente"],
          ["Procedimento e incerteza da extração da Figura 16 da patente",
           "Incerteza da leitura estimada só pelo erro mediano declarado; a "
           "identificação supõe que a figura, apresentada como exemplar, seja fiel em "
@@ -2293,36 +2289,13 @@ def montar(corpo_original):
 
 
 def citacoes(txt):
-    """Parágrafos, reivindicações e figuras da patente citados no texto novo,
-    para a Tabela de fontes: '[0016] a [0019], [0021]; reivindicações 1 e 8;
-    Figuras 1 e 16 da patente'."""
-    par = set()
-    for m in re.finditer(r"\[(\d{4})\](?: a \[(\d{4})\])?", txt):
-        ini = int(m.group(1))
-        par.update(range(ini, int(m.group(2) or ini) + 1))
-    rei = {int(n) for m in re.finditer(r"reivindicaç(?:ão|ões) (\d+(?:(?:, | e )\d+)*)", txt)
-           for n in re.findall(r"\d+", m.group(1))}
+    """Figuras da patente citadas no texto novo, para a Tabela de fontes:
+    'Figuras 1, 16 e 17 da patente'."""
     fig = {int(n) for m in re.finditer(r"Figuras? (\d+(?:(?:, | e )\d+)*) da (?:patente|EP)", txt)
            for n in re.findall(r"\d+", m.group(1))}
-
-    def lista(itens):
-        itens = [str(x) for x in itens]
-        return itens[0] if len(itens) == 1 else ", ".join(itens[:-1]) + " e " + itens[-1]
-    blocos_par, ini = [], None
-    for n in sorted(par):
-        if ini is None:
-            ini = fim = n
-        elif n == fim + 1:
-            fim = n
-        else:
-            blocos_par.append((ini, fim))
-            ini = fim = n
-    blocos_par.append((ini, fim))
-    texto_par = ", ".join(f"[{a:04d}]" if a == b else
-                          (f"[{a:04d}], [{b:04d}]" if b == a + 1 else f"[{a:04d}] a [{b:04d}]")
-                          for a, b in blocos_par)
-    return (f"{texto_par}; reivindicaç{'ões' if len(rei) > 1 else 'ão'} "
-            f"{lista(sorted(rei))}; Figuras {lista(sorted(fig))} da patente")
+    itens = [str(x) for x in sorted(fig)]
+    lista = itens[0] if len(itens) == 1 else ", ".join(itens[:-1]) + " e " + itens[-1]
+    return f"Figura{'s' if len(itens) > 1 else ''} {lista} da patente"
 
 
 MARCA = re.compile(r"⟦([TFES])([#:])([^⟧]+)⟧")
@@ -2362,10 +2335,8 @@ def main(origem, destino):
     b0 = doc.index("<w:body>") + len("<w:body>")
     b1 = doc.rindex("<w:sectPr")
     orig, final, removidos = montar(doc[b0:b1])
-    # a descrição da leitura integral ("[0001] a [0105]") não é citação
     cit = citacoes(" ".join(texto(x) for o, x in final
-                            if o == "n" and "⟦CITADOS⟧" not in x
-                            and "[0001] a [0105]" not in texto(x)))
+                            if o == "n" and "⟦CITADOS⟧" not in x))
     final = [(o, x.replace("⟦CITADOS⟧", escape(cit))) for o, x in final]
 
     # equações do original: números (1) a (n), antes de toda equação nova
