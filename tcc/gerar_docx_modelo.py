@@ -176,12 +176,19 @@ def dados_tese():
         "autor": um("autor"), "titulo": um("titulo"), "orientador": um("orientador"),
         "curso": um("tccGraduacao"), "data": um("datadadefesa", 3),
         "final": not re.search(r"^\s*\\finalversionfalse", t, flags=re.M),
+        # \folhadeaprovacaoantecipada (preambulo.tex): banca já na versão
+        # entregue antes da defesa
+        "aprovacao_antecipada": bool(re.search(r"^\s*\\folhadeaprovacaoantecipada", t,
+                                               flags=re.M)),
         "banca": [um(f"avaliador{c}", 2) for c in "ABCDEFGH"],
     }
     d["banca"] = [b for b in d["banca"] if b]
     r = sem_comentarios((LATEX / "resumo.tex").read_text(encoding="utf-8"))
     d["resumo"] = re.search(r"\\begin\{resumo\}(.*?)\\end\{resumo\}", r, flags=re.S).group(1).strip()
     d["abstract"] = re.search(r"\\begin\{abstract\}(.*?)\\end\{abstract\}", r, flags=re.S).group(1).strip()
+    a = sem_comentarios((LATEX / "agradecimentos.tex").read_text(encoding="utf-8"))
+    m = re.search(r"\\prefacesection\{Agradecimentos\}(.*?)(?:\\epigrafe|\Z)", a, flags=re.S)
+    d["agradecimentos"] = m.group(1).strip() if m else None
     return d
 
 
@@ -597,17 +604,20 @@ def pre_textuais(doc, d, logo):
              "ESTE EXEMPLAR CORRESPONDE À VERSÃO DA MONOGRAFIA ENTREGUE À BANCA ANTES DA DEFESA.")
     c.append(par(run(aviso), antes=2190, linha=290, recuo=0, jc="both"))
     # folha de aprovação
-    if d["final"]:
+    if d["final"] or d["aprovacao_antecipada"]:
         dia, mes, ano = d["data"]
         c.append(par(run("Folha de Aprovação", b=True, sz=41), linha=600, jc="center", recuo=0,
                      nova_pagina=True))
         c.append(par(run(d["autor"].upper()), antes=1134, linha=290, jc="center", recuo=0))
         c.append(par(run(f"Monografia apresentada ao {d['programa']}, defendida na data de "
                          f"{dia}/{mes}/{ano}."), antes=1134, linha=290, recuo=0, jc="both"))
-        c.append(par(run("Composição da Comissão Examinadora:"), antes=720, linha=290, recuo=0))
+        c.append(par(run("Composição da Comissão Examinadora:"), antes=720, linha=290, recuo=0,
+                     jc="left"))
         for j, (nome, inst_b) in enumerate(d["banca"]):
             seg = "Presidente da Comissão Julgadora" if j == 0 else inst_b
-            c.append(par(run(nome) + quebra() + run(seg), antes=720, linha=290, recuo=0))
+            # alinhado à esquerda: justificada, a linha antes da quebra se esticaria
+            c.append(par(run(nome) + quebra() + run(seg), antes=720, linha=290, recuo=0,
+                         jc="left"))
     else:
         c.append(par(run(f"Na versão final, esta página será substituída por outra informando a "
                          f"composição da banca e que a ata de defesa está arquivada pela {inst}."),
@@ -616,12 +626,32 @@ def pre_textuais(doc, d, logo):
     def titulo_pre(t):
         c.append(espacador(ESPACO_PRE, nova_pagina=True))
         c.append(par(run(t), estilo="TituloPreTextual"))
+    if d["agradecimentos"]:
+        # como no LaTeX: \parskip de \medskipamount (6 pt) e recuo do corpo do
+        # texto a partir do segundo parágrafo (o \parindent volta depois da
+        # folha de aprovação)
+        corpo = re.sub(r"\\begingroup\\setlength\{\\parskip\}\{\\medskipamount\}|"
+                       r"\\par\\endgroup", "", d["agradecimentos"])
+        titulo_pre("Agradecimentos")
+        for j, bloco in enumerate(re.split(r"\n\s*\n", corpo.strip())):
+            c.append(par(runs_pre(" ".join(bloco.split())), estilo="PreTexto", jc="both",
+                         antes=120 if j else None, recuo=360 if j else None))
     titulo_pre("Resumo")
     for t, antes in paragrafos_pre(d["resumo"]):
         c.append(par(run(t), estilo="PreTexto", jc="both", antes=antes))
     titulo_pre("Abstract")
     for t, antes in paragrafos_pre(d["abstract"]):
         c.append(par(run(t), estilo="PreTexto", jc="both", antes=antes))
+
+
+def runs_pre(t):
+    """Texto das páginas iniciais com \\textit{...} em itálico."""
+    saida = []
+    for k, parte in enumerate(re.split(r"\\textit\{([^{}]*)\}", t)):
+        assert "\\" not in parte, parte
+        if parte:
+            saida.append(run(parte, i=bool(k % 2)))
+    return "".join(saida)
 
 
 def paragrafos_pre(t):

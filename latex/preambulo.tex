@@ -114,6 +114,18 @@
 % estão no campo note
 \AtEveryBibitem{\ifentrytype{patent}{\clearfield{year}\clearfield{month}\clearfield{day}}{}}
 
+% Folha de aprovação já na versão entregue à banca. No modelo, a
+% composição da banca só aparece na versão final, e a mesma chave
+% (\finalversionfalse) põe na folha de rosto o aviso de versão
+% anterior à defesa. Chamado no tese.tex, este comando mostra a
+% folha de aprovação completa e mantém o aviso; depois da defesa,
+% com \finalversionfalse removido, ele não muda nada.
+\makeatletter
+\newcommand{\folhadeaprovacaoantecipada}{%
+  \let\approvalpageFT\approvalpage
+  \def\approvalpage{\begingroup\finalversiontrue\approvalpageFT\endgroup}}
+\makeatother
+
 % Citação que combina referências da lista com trabalhos citados no
 % texto que não constam da lista; tcc/gerar_latex.py a emprega quando
 % isso acontece (hoje, todas as citações têm referência):

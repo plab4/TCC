@@ -72,7 +72,9 @@ def main():
     p_cap1 = next(i for i, t in enumerate(paginas, 1) if re.search(r"Capítulo 1\s+Introdução", t))
     p_ref = min(i for i, t in enumerate(paginas, 1)
                 if i > p_cap1 and re.match(r"\s*(?:\d+\s*\n)?\s*Referências\s*\n", t))
-    fonte_pre = norm(" ".join(paginas[:5]))
+    # pré-textuais do PDF: as páginas antes da Lista de Figuras
+    p_listas = next(i for i, t in enumerate(paginas, 1) if t.lstrip().startswith("Lista de Figuras"))
+    fonte_pre = norm(" ".join(paginas[:p_listas - 1]))
     corpo_pdf = vl.texto_pdf(pdf, p_cap1, p_ref - 1)
     fonte = norm(corpo_pdf)
     fonte_ref = norm(vl.texto_pdf(pdf, p_ref, n_pag))

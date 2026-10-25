@@ -1,10 +1,10 @@
 # Verificação do DOCX no formato do modelo
 
-DOCX: TCC_modelo_FT.docx. Referência de formato e texto: tese.pdf (90 páginas). Conteúdo de origem: TCC_exo1_exo2.docx.
+DOCX: TCC_modelo_FT.docx. Referência de formato e texto: tese.pdf (91 páginas). Conteúdo de origem: TCC_exo1_exo2.docx.
 
 ## 1. Capa, folha de rosto, folha de aprovação e resumo
 
-Parágrafos conferidos: 16; ausentes do PDF do LaTeX: 0.
+Parágrafos conferidos: 29; ausentes do PDF do LaTeX: 0.
 
 ## 2. Corpo do texto
 

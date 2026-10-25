@@ -28,11 +28,11 @@ Rótulos usados nas remissões:
 
 ## O que falta completar
 
-Agradecimentos, dedicatória e epígrafe, em `agradecimentos.tex`, se houver. Não há ficha catalográfica.
+Os agradecimentos (`agradecimentos.tex`) são um rascunho: os trechos entre colchetes são para completar ou apagar. Dedicatória e epígrafe, se houver, ficam no mesmo arquivo. Não há ficha catalográfica.
 
 Dados já preenchidos: unidade (FCA), banca (os três da FCA/UNICAMP) e data da defesa (18/11/2026, em `\datadadefesa`). O resumo e o abstract (`resumo.tex`) não existem no DOCX e foram redigidos a partir das conclusões, com os números do texto.
 
-Depois da defesa, apague a linha `\finalversionfalse` do `tese.tex`. Ela mantém na folha de rosto o texto da versão entregue à banca e deixa a folha de aprovação para a versão final.
+A folha de aprovação, com a banca e a data, já aparece nesta versão por causa do `\folhadeaprovacaoantecipada` no `tese.tex` (definido em `preambulo.tex`); sem ele, o modelo só a mostra na versão final. Depois da defesa, apague a linha `\finalversionfalse` do `tese.tex`: ela mantém na folha de rosto o texto da versão entregue à banca.
 
 ## Diferenças em relação ao DOCX
 
@@ -48,7 +48,7 @@ O texto dos parágrafos, tabelas, legendas, fontes e notas é o do DOCX. Mudou s
 
 ## Versão em Word no mesmo formato
 
-`tcc/TCC_modelo_FT.docx` reproduz em Word a formatação deste PDF: capa, folha de rosto, títulos "Capítulo N", cabeçalho corrente, tabelas com filetes, legendas acima, citações e referências como o biblatex as imprime e a fonte Linux Libertine O, embutida no arquivo. Ele é gerado por `tcc/gerar_docx_modelo.py`, que lê o DOCX fundido e os dados de `tese.tex`, `resumo.tex` e `bibliografia.bib`. Por isso, depois de mudar a capa, a banca ou o resumo aqui, basta rodar o gerador de novo. `tcc/verificar_docx_modelo.py` confere o resultado contra este PDF.
+`tcc/TCC_modelo_FT.docx` reproduz em Word a formatação deste PDF: capa, folha de rosto, títulos "Capítulo N", cabeçalho corrente, tabelas com filetes, legendas acima, citações e referências como o biblatex as imprime e a fonte Linux Libertine O, embutida no arquivo. Ele é gerado por `tcc/gerar_docx_modelo.py`, que lê o DOCX fundido e os dados de `tese.tex`, `resumo.tex`, `agradecimentos.tex` e `bibliografia.bib`. Por isso, depois de mudar a capa, a banca, os agradecimentos ou o resumo aqui, basta rodar o gerador de novo. `tcc/verificar_docx_modelo.py` confere o resultado contra este PDF.
 
 ## Regenerar e verificar
 

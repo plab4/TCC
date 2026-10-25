@@ -1,6 +1,6 @@
 # Verificação do TCC em LaTeX
 
-DOCX: TCC_exo1_exo2.docx. PDF: tese.pdf, 90 páginas; capítulos nas páginas 10 a 86, referências a partir da página 87.
+DOCX: TCC_exo1_exo2.docx. PDF: tese.pdf, 91 páginas; capítulos nas páginas 11 a 87, referências a partir da página 88.
 
 ## 1. Texto corrido, títulos, legendas, fontes e notas
 
