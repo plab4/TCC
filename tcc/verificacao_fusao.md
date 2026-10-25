@@ -24,7 +24,7 @@ Blocos novos: 254. Travessões: 0. Restos da numeração do apêndice: 0.
 
 ## 5. Parágrafos do apêndice da versão anterior
 
-Idênticos: 13. Iguais a menos de números e referências: 30. Modificados: 34. Sem correspondente próximo: 18. Os últimos foram reescritos pelos novos resultados de s0 ou eram próprios do apêndice (título, apresentação e nota da lista de referências separada).
+Idênticos: 13. Iguais a menos de números e referências: 29. Modificados: 35. Sem correspondente próximo: 18. Os últimos foram reescritos pelos novos resultados de s0 ou eram próprios do apêndice (título, apresentação e nota da lista de referências separada).
 
 - Modificado (0.54): Os números do apêndice foram produzidos pelo modelo torque_model_ottobock.py e pelo script tcc_resultados_otto
   - mais próximo no fundido: A cadeia de cálculo do dispositivo da EP 3 504 033 B1, descrita nas seções 3B.3 a 3B.8, está implementada no a
@@ -48,6 +48,8 @@ Idênticos: 13. Iguais a menos de números e referências: 30. Modificados: 34. 
   - mais próximo no fundido: 3B.2 Parâmetros inerciais do membro e transporte ao eixo da articulação 20
 - Modificado (0.75): O circuito do mecanismo foi fechado pelo autor no modelo em CAD do Autodesk Fusion, e as grandezas medidas nes
   - mais próximo no fundido: O circuito do mecanismo foi fechado no modelo em CAD do Autodesk Fusion, e as grandezas medidas nesse modelo, 
+- Modificado (0.77): Figura A.1: Circuito do mecanismo na pose do CAD (regime I, θel = 82,038°) e em θel = 10° (regime II)
+  - mais próximo no fundido: Figura 2: Circuitos do mecanismo: regime I na pose do CAD (θel = 82,038°) e regime II em θel = 10°
 - Modificado (0.79): Figura A.6: Cenário de projeto: torque do elástico com K = K40, torque do peso do membro humano e alvo de 40%
   - mais próximo no fundido: Figura 12: Torque do elástico com K = K40 no cenário de projeto, torque do peso do membro humano e alvo de 40%
 - Modificado (0.82): A classificação de origem é a da seção 3: medida no modelo em CAD, obtida da literatura, documental, identific

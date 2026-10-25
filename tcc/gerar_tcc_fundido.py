@@ -834,16 +834,20 @@ def parte_3B():
         f"λ_{{t}} = {f(g['lambda_t'])}°, isto é, θ_{{el,t}} = {f(g['theta_t'])}°; "
         f"nesse ponto, ℓ = {f(g['s_t'])} mm e m = {f(g['b_t'])} mm nos dois "
         "regimes."))
-    a(LEG_F("circ", f"Circuito do mecanismo na pose do CAD (regime I, "
-                    f"θ_{{el}} = {f(der['theta_pose'])}°) e em θ_{{el}} = 10° (regime II)"))
+    a(LEG_F("circ", f"Circuitos do mecanismo: regime I na pose do CAD "
+                    f"(θ_{{el}} = {f(der['theta_pose'])}°) e regime II em θ_{{el}} = 10°"))
     a(FIGURA("ottobock_tcc_fig_a1_geometria.png", 6.5,
-             "Circuito do mecanismo da Ottobock: ancoragem A, pivô O, alavanca com "
-             "cotovelo até P, elemento 78 e elástico, na pose do CAD e com o braço "
-             "a 10 graus de anteversão; à direita, ampliação da região do pivô."))
+             "Circuitos do mecanismo da Ottobock. Acima, regime I na pose do CAD: "
+             "vetores C1, C2, e e s fechando o circuito de A por O e P. Abaixo, "
+             "regime II com o braço a 10 graus: circuito C1, C2, p e s menos x, "
+             "e triângulo e, p, x. À direita, ampliação da região do pivô."))
     a(FONTE)
-    a(PEQUENO("Nota: à direita, ampliação da região do pivô. O traço preto vai de O "
-              "ao cotovelo e ao ponto P; os quadrados marcam o centro do elemento "
-              "78; as linhas pontilhadas indicam o eixo do braço."))
+    a(PEQUENO("Nota: à direita, ampliação da região do pivô. A alavanca está "
+              "representada pelo segmento OP, de comprimento |OP|. Regime I: "
+              "circuito fechado C_{1}, C_{2}, OP e s. Regime II: circuito fechado "
+              "C_{1}, C_{2}, p e s − x, e triângulo OP, p e x (OP tracejado); o "
+              "elemento 78, na ponta de p, só entra depois do contato. As linhas "
+              "pontilhadas indicam o eixo do braço."))
 
     # ------------------------------------------------------------ força
     a(SEC("3B", "forca", "Comprimento do elástico, lei da mola e torque"))

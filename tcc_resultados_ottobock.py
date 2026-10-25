@@ -35,6 +35,7 @@ from pathlib import Path
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.patches import FancyArrowPatch
 import numpy as np
 from matplotlib.ticker import FuncFormatter
 
@@ -691,46 +692,70 @@ def main():
 def figuras(N, fig16, ajustes, conjunto, d, geo, peso, der, K, defs0, r, tp,
             curvas, sens, xr):
     # ------------------------------------------- A.1 geometria
-    fig, (a1, a2) = plt.subplots(1, 2, figsize=(10, 4.6), dpi=200,
-                                 facecolor=SUPERFICIE,
-                                 gridspec_kw={"width_ratios": [1, 1.5]})
+    # Os circuitos da formulação do autor, com a alavanca como segmento reto OP:
+    # regime I, circuito fechado C1, C2, e, s; regime II, circuito fechado C1,
+    # C2, p, s − x e triângulo e, p, x. O elemento 78 (p) só entra após o contato.
+    fig, eixos_fig = plt.subplots(2, 2, figsize=(10, 8.4), dpi=200,
+                                  facecolor=SUPERFICIE,
+                                  gridspec_kw={"width_ratios": [1, 1.25]})
     A = tmo.ponto_A(geo)
-    poses = ((der["theta_pose"], LARANJA, "pose do CAD, regime I"),
-             (10.0, AZUL, r"$\theta_{el}$ = 10°, regime II"))
-    for ax in (a1, a2):
-        eixos(ax, 0, 0)
-        ax.set_aspect("equal")
-        for th, cor, rot in poses:
-            q = tmo.calculate_q(th, geo)
-            cot = E*tmo.versor(q)
-            P = tmo.ponto_P(q, E, geo)
-            C = tmo.ponto_78(q, geo)
-            contato = tmo.em_contato(q, E, geo)
-            braco = 300*tmo.versor(tmo.direcao_braco(th))
-            ax.plot([0, braco[0]], [0, braco[1]], color=cor, lw=1.0, ls=":",
-                    label=f"eixo do braço, {rot}" if ax is a2 else None)
-            ax.plot([0, cot[0], P[0]], [0, cot[1], P[1]], color=TINTA, lw=2.0)
-            via = [A, C, P] if contato else [A, P]
-            ax.plot([p[0] for p in via], [p[1] for p in via], color=cor, lw=1.6,
-                    label=f"elástico, {rot}" if ax is a2 else None)
-            ax.plot(*C, "s", color=cor, ms=4.5, zorder=5)
+    J = A + geo.c1*tmo.versor(-geo.alpha)          # fim de C1, início de C2
+
+    def vetor(ax, ini, fim, cor, rotulo, lw=1.6, ls="-", desl=(4, 4)):
+        # patch da própria área do gráfico: recortado nos limites, ao
+        # contrário da seta de annotate
+        ax.add_patch(FancyArrowPatch(tuple(ini), tuple(fim), arrowstyle="-|>",
+                                     color=cor, lw=lw, ls=ls, shrinkA=0, shrinkB=0,
+                                     mutation_scale=9, zorder=4))
+        meio = (np.asarray(ini) + np.asarray(fim))/2
+        ax.annotate(rotulo, meio, xytext=desl, textcoords="offset points",
+                    fontsize=8, color=cor, annotation_clip=True)
+
+    casos = ((der["theta_pose"], LARANJA, "regime I, pose do CAD"),
+             (10.0, AZUL, "regime II"))
+    for (th, cor, rot), (a_tot, a_zoom) in zip(casos, eixos_fig):
+        q = tmo.calculate_q(th, geo)
+        P = tmo.ponto_P(q, E, geo)
+        C = tmo.ponto_78(q, geo)
+        contato = bool(tmo.em_contato(q, E, geo))
+        assert contato == (rot == "regime II"), (th, contato)
+        braco = 300*tmo.versor(tmo.direcao_braco(th))
+        for ax in (a_tot, a_zoom):
+            eixos(ax, 0, 0)
+            ax.set_aspect("equal")
+            ax.plot([0, braco[0]], [0, braco[1]], color=cor, lw=1.0, ls=":")
+            vetor(ax, A, J, TINTA, "C$_1$", desl=(2, -10))
+            vetor(ax, J, (0, 0), TINTA, "C$_2$", desl=(4, 0))
+            if not contato:
+                vetor(ax, (0, 0), P, TINTA, "e", desl=(-2, 5))
+                vetor(ax, P, A, cor, "s", desl=(-12, 0))
+            else:
+                vetor(ax, (0, 0), C, TINTA, "p", desl=(-4, 4))
+                vetor(ax, C, A, cor, "s − x", desl=(-30, 0))
+                vetor(ax, (0, 0), P, TINTA_2, "e", ls="--", desl=(4, -4))
+                vetor(ax, C, P, cor, "x", desl=(-10, 2))
+                ax.plot(*C, "s", color=cor, ms=4.5, zorder=5)
             ax.plot(*P, "o", color=cor, ms=4.5, zorder=5)
-        ax.plot(0, 0, "o", color=TINTA, ms=5, zorder=6)
-    a1.plot(*A, "o", color=TINTA, ms=5)
-    a1.annotate("A", A, xytext=(6, 0), textcoords="offset points", fontsize=8)
-    a1.annotate("O", (0, 0), xytext=(6, -10), textcoords="offset points", fontsize=8)
-    a1.set_xlim(-150, 250)
-    a1.set_ylim(-360, 70)
-    a2.set_xlim(-75, 60)
-    a2.set_ylim(-45, 45)
-    a2.annotate("O", (0, 0), xytext=(5, -11), textcoords="offset points", fontsize=8)
-    for ax in (a1, a2):
-        ax.set_xlabel("x (mm)", color=TINTA_2)
-    a1.set_ylabel("y (mm)", color=TINTA_2)
-    a2.plot([], [], "o", color=TINTA_2, ms=4.5, label="P (fim do cotovelo C3)")
-    a2.plot([], [], "s", color=TINTA_2, ms=4.5, label="centro do elemento 78")
-    a2.legend(loc="upper left", bbox_to_anchor=(1.02, 1.0), frameon=False,
-              fontsize=7)
+            ax.plot(0, 0, "o", color=TINTA, ms=5, zorder=6)
+            ax.set_xlabel("x (mm)", color=TINTA_2)
+        a_tot.plot(*A, "o", color=TINTA, ms=5)
+        a_tot.annotate("A", A, xytext=(6, 0), textcoords="offset points", fontsize=8)
+        a_tot.annotate("O", (0, 0), xytext=(6, -10), textcoords="offset points",
+                       fontsize=8)
+        a_tot.set_xlim(-150, 250)
+        a_tot.set_ylim(-360, 70)
+        a_tot.set_ylabel("y (mm)", color=TINTA_2)
+        a_tot.set_title(f"{rot}, " + rf"$\theta_{{el}}$ = {th:.3f}°".replace(".", ","),
+                        fontsize=9, color=TINTA)
+        a_zoom.set_xlim(-75, 60)
+        a_zoom.set_ylim(-45, 55)
+        a_zoom.annotate("O", (0, 0), xytext=(5, -11), textcoords="offset points",
+                        fontsize=8)
+        a_zoom.annotate("P", P, xytext=(5, 3), textcoords="offset points", fontsize=8)
+        if contato:
+            a_zoom.annotate("78", C, xytext=(-14, -10), textcoords="offset points",
+                            fontsize=8)
+        a_zoom.set_title("ampliação da região do pivô", fontsize=9, color=TINTA)
     fig.tight_layout()
     fig.savefig(PASTA/"ottobock_tcc_fig_a1_geometria.png", facecolor=SUPERFICIE)
     plt.close(fig)
