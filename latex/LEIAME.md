@@ -28,7 +28,7 @@ Rótulos usados nas remissões:
 
 ## O que falta completar
 
-Os agradecimentos (`agradecimentos.tex`) são um rascunho: os trechos entre colchetes são para completar ou apagar. Dedicatória e epígrafe, se houver, ficam no mesmo arquivo. Não há ficha catalográfica.
+Nada. Os agradecimentos estão em `agradecimentos.tex`; dedicatória e epígrafe, se houver, ficam no mesmo arquivo. Não há ficha catalográfica.
 
 Dados já preenchidos: unidade (FCA), banca (os três da FCA/UNICAMP) e data da defesa (18/11/2026, em `\datadadefesa`). O resumo e o abstract (`resumo.tex`) não existem no DOCX e foram redigidos a partir das conclusões, com os números do texto.
 
