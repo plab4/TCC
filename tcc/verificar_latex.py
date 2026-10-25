@@ -73,6 +73,24 @@ def texto_pdf(pdf, primeira, ultima):
     return "\n".join(partes)
 
 
+def titulo_separado(t, fonte, janela=600, normalizar=None):
+    """Título numerado que o pdftotext separou do número: o número pode sair
+    junto dos números de equação do bloco anterior ("3B.5" antes de "(36)").
+    Aceita o título se o número aparece até janela caracteres antes dele.
+    normalizar: a mesma normalização usada para montar fonte (norm, por padrão)."""
+    normalizar = normalizar or norm
+    m = re.match(r"^(\d[A-C]?(?:\.\d+)+)\s*(\S.{14,})$", t)
+    if not m:
+        return False
+    num, tit = normalizar(m.group(1)), normalizar(m.group(2))
+    k = fonte.find(tit)
+    while k >= 0:
+        if num in fonte[max(0, k - janela):k]:
+            return True
+        k = fonte.find(tit, k + 1)
+    return False
+
+
 def encontrar(alvo, fonte, min_peca=15, janela=8000, min_lacuna=20):
     """Procura alvo em fonte admitindo interrupções do lado do PDF (cabeçalho,
     figura ou tabela no meio do parágrafo). Uma interrupção menor que
@@ -244,7 +262,7 @@ def main():
                 legenda_pos = None
         n_par += 1
         ok, pecas = encontrar(norm(t), fonte)
-        if not ok:
+        if not ok and not titulo_separado(t, fonte):
             falhas.append("parágrafo: " + t[:160])
         elif pecas > 1:
             interrompidos.append((pecas, t[:80]))

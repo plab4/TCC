@@ -594,9 +594,10 @@ def parte_3B():
     B = []
     a = B.append
     a(H("3B EXOESQUELETO 2: EP 3 504 033 B1"))
-    a(P("As seções ⟦S:fontes⟧ a ⟦S:ferr⟧ aplicam à EP 3 504 033 B1 (OTTOBOCK, 2023) "
+    a(P("As seções ⟦S:cad⟧ a ⟦S:ferr⟧ aplicam à EP 3 504 033 B1 (OTTOBOCK, 2023) "
         "o procedimento das seções 3A.1 a 3A.13, que foi executado para o gerador de "
-        "torque da US 9.889.554 B2. Quando uma etapa não se aplica ao mecanismo da "
+        "torque da US 9.889.554 B2, com a mesma numeração: a seção 3B.k corresponde "
+        "à seção 3A.k. Quando uma etapa não se aplica ao mecanismo da "
         "Ottobock ou não pôde ser concluída com os dados disponíveis, a própria "
         "seção registra o motivo."))
     a(P("A classificação de origem é a da introdução deste capítulo: medida no modelo "
@@ -606,7 +607,7 @@ def parte_3B():
         "pelo número da figura."))
 
     # ------------------------------------------------------------ fontes
-    a(SEC("3B", "fontes", "Fontes e arquivos utilizados"))
+    # (na introdução da parte, sem seção própria, para que 3B.k pareie com 3A.k)
     a(P("A análise usou os documentos e arquivos da Tabela ⟦T:fontes⟧. A patente foi "
         "lida no documento B1 completo, de 44 páginas, com a descrição, os parágrafos "
         "[0001] a [0105], as reivindicações em alemão, inglês e francês e as 29 "
@@ -645,8 +646,9 @@ def parte_3B():
     a(FONTE)
 
     # ------------------------------------------------------------ arquitetura
-    a(SEC("3B", "arq", "Arquitetura descrita na patente"))
-    a(P("A EP 3 504 033 B1 descreve um dispositivo de apoio de pelo menos um braço do "
+    a(SEC("3B", "cad", "Reconstrução geométrica em CAD"))
+    SECOES["arq"] = SECOES["cad"]
+    a(P("A reconstrução parte da arquitetura descrita na patente. A EP 3 504 033 B1 descreve um dispositivo de apoio de pelo menos um braço do "
         "usuário. O elemento de apoio do braço (6), formado por um elemento "
         "distanciador (8) e uma concha (10) e fixado ao braço por uma braçadeira "
         "(12), liga-se por uma articulação (20) à extremidade superior de um "
@@ -696,13 +698,13 @@ def parte_3B():
         "não tem cabo, polia nem tambor: o elástico liga diretamente a barra à alavanca, e a "
         "faixa sem torque resulta do contato com o elemento 78. Por isso, as relações "
         "de tangência, de caminho do cabo e de ponto morto das seções 3A.4 a 3A.7 "
-        "não se aplicam e são substituídas pelas das seções ⟦S:cin⟧ e ⟦S:forca⟧."))
+        "não se aplicam e são substituídas pelas das seções ⟦S:cin⟧ a ⟦S:zero⟧, de "
+        "mesma numeração."))
     a(P("O dispositivo admite abdução, adução e movimentos do tronco (reivindicação "
         "1; [0016] a [0019]). O modelo é plano, restrito ao plano sagital, e representa "
         "somente a anteversão, que é o movimento das Figuras 16 e 17 da patente [0092]."))
 
     # ------------------------------------------------------------ CAD
-    a(SEC("3B", "cad", "Reconstrução geométrica em CAD"))
     a(P("O circuito do mecanismo foi fechado no modelo em CAD do Autodesk Fusion, e "
         "as grandezas medidas nesse modelo, com as derivadas delas, estão na Tabela "
         "⟦T:cad⟧ (seção ⟦S:r_geo⟧). Para o gerador da US 9.889.554 B2, a seção 4A.1 "
@@ -710,7 +712,7 @@ def parte_3B():
         "Ottobock, o arquivo do modelo e o critério de escala não constam do "
         "repositório, e as medições não têm, por isso, conferência independente. A "
         "planilha de composição inercial identifica o modelo como Ottobock iX "
-        "Shoulder Air; como a patente não nomeia o produto (seção ⟦S:arq⟧), a "
+        "Shoulder Air; como a patente não nomeia o produto, a "
         "correspondência entre esse produto, o modelo em CAD e os desenhos da "
         "patente não está documentada. As grandezas "
         "são tratadas como medidas em CAD, nos termos da seção 3A.1, e não como "
@@ -793,13 +795,13 @@ def parte_3B():
     a(P(f"O sinal de θ_{{b,pose}} = {f(par['BRACO_POSE'])}° ainda precisa ser "
         "confirmado no CAD. Com o sinal trocado, λ_{0} passa a "
         f"{f(inv['delta'])}° e θ_{{el,pose}} a {f(inv['theta_pose'])}°, e a "
-        f"transição de regime da seção ⟦S:cin⟧ vai de {f(g['theta_t'], 2)}° para "
+        f"transição de regime da seção ⟦S:contato⟧ vai de {f(g['theta_t'], 2)}° para "
         f"{f(inv['theta_t'], 2)}°. Os efeitos sobre s_{{0}} e K_{{40}} estão na "
         "seção ⟦S:r_s0⟧, e os resultados da seção 4B dependem da confirmação desse "
         "sinal."))
 
     # ------------------------------------------------------------ cinemática
-    a(SEC("3B", "cin", "Cinemática: equações de circuito e troca de regime"))
+    a(SEC("3B", "cin", "Equação de fechamento do circuito vetorial"))
     a(P("A ancoragem A do elástico fica na barra 18, e o ponto P, no fim do "
         "cotovelo da alavanca solidária ao braço (Figura ⟦F:circ⟧). O vetor fixo de "
         "A a O, a posição de P e a do centro C_{78} do elemento 78 são"))
@@ -821,6 +823,7 @@ def parte_3B():
         "regime II, é conhecido para cada λ:"))
     a(EQ(("solI", r"\ell\,\mathbf{u}(\varphi) = \mathbf{r}_{AO} + \mathbf{P}"),
          ("solII", r"\left( \ell - d_{78} \right)\mathbf{u}(\varphi) = \mathbf{r}_{AO} + \mathbf{C}_{78}")))
+    a(SEC("3B", "contato", "Ponto de contato e troca de regime"))
     a(P("A troca de regime não é imposta por um ângulo. Ela é detectada pelo sinal "
         "do produto vetorial"))
     a(EQ(("kappa", r"\kappa = \left\lbrack \left( \mathbf{P} - \mathbf{A} \right) \times \left( \mathbf{C}_{78} - \mathbf{A} \right) \right\rbrack_{z}")))
@@ -831,18 +834,6 @@ def parte_3B():
         f"λ_{{t}} = {f(g['lambda_t'])}°, isto é, θ_{{el,t}} = {f(g['theta_t'])}°; "
         f"nesse ponto, ℓ = {f(g['s_t'])} mm e m = {f(g['b_t'])} mm nos dois "
         "regimes."))
-    a(P("Com o elemento 78 sobre o eixo (p_{78} = 0), configuração preferida pela "
-        "patente [0099], a transição tem forma fechada:"))
-    a(EQ(("lamt", r"\lambda_{t} = \operatorname{atan2}\left( r_{AO,y},\ r_{AO,x} \right) - \varepsilon,\quad \varepsilon = \operatorname{atan2}\left( C_{3}\sin\beta_{c},\ e + C_{3}\cos\beta_{c} \right)")))
-    a(P("em que ε é o ângulo fixo de OP em relação ao trecho ‹e›. Nesse caso, a "
-        "direção de OP na transição coincide com a de r_{AO}, a reta do elástico "
-        "passa pelo pivô e o torque no regime II é nulo. Com as demais grandezas do "
-        f"CAD, a Equação (⟦E:lamt⟧) dá θ_{{el,t}} = {f(g['theta_t_p0'])}°. As curvas "
-        "da Figura 16 da patente partem de razão nula entre "
-        f"{f(min(fg[n]['inicio'] for n in ORDEM), 2)}° e "
-        f"{f(max(fg[n]['inicio'] for n in ORDEM), 2)}° (seção ⟦S:r_dados⟧), entre os "
-        "dois valores do modelo; só no caso p_{78} = 0, porém, o modelo tem torque "
-        "nulo antes da transição (seção ⟦S:r_conf⟧)."))
     a(LEG_F("circ", f"Circuito do mecanismo na pose do CAD (regime I, "
                     f"θ_{{el}} = {f(der['theta_pose'])}°) e em θ_{{el}} = 10° (regime II)"))
     a(FIGURA("ottobock_tcc_fig_a1_geometria.png", 6.5,
@@ -855,7 +846,7 @@ def parte_3B():
               "78; as linhas pontilhadas indicam o eixo do braço."))
 
     # ------------------------------------------------------------ força
-    a(SEC("3B", "forca", "Força elástica e torque"))
+    a(SEC("3B", "forca", "Comprimento do elástico, lei da mola e torque"))
     a(P("O elástico é tratado como linear e sem massa, com a mesma lei da Equação "
         "(19):"))
     a(EQ(("lei", r"\delta = \max\left( \ell - s_{0},\ 0 \right),\quad F = K\delta")))
@@ -893,6 +884,24 @@ def parte_3B():
         "subida, e o elástico se encurta quando o braço sobe e devolve energia, como "
         "descreve [0034]."))
 
+    # ------------------------------------------------------------ faixa sem torque
+    a(SEC("3B", "zero", "Faixa sem torque com o braço baixado"))
+    a(P("Esta seção faz o papel da seção 3A.7: indica onde o modelo libera o braço. "
+        "Pela Equação (⟦E:m⟧), m_{II} é proporcional a p_{78}, de modo que, abaixo "
+        "da transição, o torque só se anula se o elemento 78 estiver sobre o eixo. "
+        "Com o elemento 78 sobre o eixo (p_{78} = 0), configuração preferida pela "
+        "patente [0099], a transição tem forma fechada:"))
+    a(EQ(("lamt", r"\lambda_{t} = \operatorname{atan2}\left( r_{AO,y},\ r_{AO,x} \right) - \varepsilon,\quad \varepsilon = \operatorname{atan2}\left( C_{3}\sin\beta_{c},\ e + C_{3}\cos\beta_{c} \right)")))
+    a(P("em que ε é o ângulo fixo de OP em relação ao trecho ‹e›. Nesse caso, a "
+        "direção de OP na transição coincide com a de r_{AO}, a reta do elástico "
+        "passa pelo pivô e o torque no regime II é nulo. Com as demais grandezas do "
+        f"CAD, a Equação (⟦E:lamt⟧) dá θ_{{el,t}} = {f(g['theta_t_p0'])}°. As curvas "
+        "da Figura 16 da patente partem de razão nula entre "
+        f"{f(min(fg[n]['inicio'] for n in ORDEM), 2)}° e "
+        f"{f(max(fg[n]['inicio'] for n in ORDEM), 2)}° (seção ⟦S:r_dados⟧), entre os "
+        "dois valores do modelo; só no caso p_{78} = 0, porém, o modelo tem torque "
+        "nulo antes da transição (seção ⟦S:r_conf⟧)."))
+
     # ------------------------------------------------------------ peso
     a(SEC("3B", "peso", "Torque gravitacional"))
     a(P("O torque do peso é calculado de forma independente da cadeia do elástico. "
@@ -906,7 +915,7 @@ def parte_3B():
         "sinal perto dos extremos da faixa."))
 
     # ------------------------------------------------------------ dados
-    a(SEC("3B", "dados", "Dados da patente"))
+    a(SEC("3B", "dados", "Dados da patente e identificação dos parâmetros"))
     a(P("As Figuras 16 e 17 da patente são apresentadas como representações "
         "exemplares das curvas de força que o dispositivo pode aplicar ao braço "
         "[0077], [0092]; o documento não informa se foram medidas ou calculadas, nem "
@@ -950,13 +959,13 @@ def parte_3B():
         "0,5 px se refere à unidade da leitura vertical, ele corresponde a "
         f"{f(mc['sigma_div'])} divisão na ordenada e, na mesma unidade, a "
         f"{f(mc['sigma_grau'], 2)}° na abscissa. A incerteza da extração não foi "
-        "avaliada de forma independente; a seção ⟦S:ident⟧ propaga esse erro "
+        "avaliada de forma independente; a identificação, adiante, propaga esse erro "
         "mediano à identificação por sorteio."))
     a(P("A Figura 17 da patente não foi digitalizada. A seção ⟦S:r_varr⟧ faz apenas uma "
         "comparação visual com ela."))
 
     # ------------------------------------------------------------ identificação
-    a(SEC("3B", "ident", "Identificação dos parâmetros a partir da Figura 16 da patente"))
+    SECOES["ident"] = SECOES["dados"]
     a(P("A Figura 16 da patente informa s_{0} de duas maneiras que não dependem da escala da "
         "ordenada: pelo espaçamento entre as três curvas e pelo fim da curva "
         "pontilhada. O ajuste da forma de cada curva, com s_{0} e escala livres, dá "
@@ -1218,7 +1227,7 @@ def parte_4B():
         "três casas decimais da medida. O elemento 78 está a "
         f"p_{{78}} = {f(par['P'])} mm do eixo da articulação, enquanto a patente "
         "prefere esse elemento sobre o eixo [0099]; as consequências dessa "
-        "diferença são tratadas nas seções ⟦S:cin⟧ e ⟦S:r_conf⟧."))
+        "diferença são tratadas nas seções ⟦S:zero⟧ e ⟦S:r_conf⟧."))
     a(LEG_T("massa", "Propriedades de massa do membro humano em relação ao eixo da "
                      "articulação 20"))
     linhas = []

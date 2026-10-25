@@ -139,7 +139,7 @@ def main():
             legenda_pos = fonte.rfind(norm(t)[:60])
             legenda_pos = None if legenda_pos < 0 else legenda_pos
         ok, _ = vl.encontrar(norm(t), fonte)
-        if not ok:
+        if not ok and not vl.titulo_separado(t, fonte, normalizar=norm):
             falhas.append("parágrafo: " + t[:140])
     diga("## 2. Corpo do texto")
     diga()

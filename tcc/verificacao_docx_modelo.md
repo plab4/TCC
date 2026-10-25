@@ -8,7 +8,7 @@ Parágrafos conferidos: 29; ausentes do PDF do LaTeX: 0.
 
 ## 2. Corpo do texto
 
-Parágrafos, títulos, legendas, itens, fontes e notas conferidos: 431; ausentes do PDF do LaTeX: 0.
+Parágrafos, títulos, legendas, itens, fontes e notas conferidos: 430; ausentes do PDF do LaTeX: 0.
 
 ## 3. Tabelas
 
@@ -28,7 +28,7 @@ Referências: 47; ausentes da lista do PDF do LaTeX: 0.
 
 ## 7. Sumário e listas
 
-Entradas do sumário: 74 (títulos no corpo: 74). Entradas das listas: 38 (legendas: 12 figuras e 26 tabelas). Sem número de página: 0.
+Entradas do sumário: 73 (títulos no corpo: 73). Entradas das listas: 38 (legendas: 12 figuras e 26 tabelas). Sem número de página: 0.
 
 ## 8. Fontes
 

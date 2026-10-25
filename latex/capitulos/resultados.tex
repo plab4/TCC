@@ -366,11 +366,11 @@ Por fim, os resultados desta seção referem-se a um único dispositivo, ao indi
 
 \section{Exoesqueleto 2: EP 3 504 033 B1}\label{sec:4B}
 
-Esta seção apresenta os resultados das etapas das seções~\ref{sec:3B.3} a \ref{sec:3B.12}, aplicadas ao dispositivo da EP 3 504 033 B1. Salvo indicação em contrário, os números foram obtidos com a geometria do CAD, \textit{e} = 34,785 mm, s\textsubscript{0} = 287,190 mm, identificado pelo espaçamento entre as curvas da Figura 16 da patente, e K = K\textsubscript{40} = 1,45915 N/mm, hipótese de projeto. As etapas dinâmicas da seção~\ref{sec:3B.13} não foram executadas.
+Esta seção apresenta os resultados das etapas das seções~\ref{sec:3B.1} a \ref{sec:3B.11}, aplicadas ao dispositivo da EP 3 504 033 B1. Salvo indicação em contrário, os números foram obtidos com a geometria do CAD, \textit{e} = 34,785 mm, s\textsubscript{0} = 287,190 mm, identificado pelo espaçamento entre as curvas da Figura 16 da patente, e K = K\textsubscript{40} = 1,45915 N/mm, hipótese de projeto. As etapas dinâmicas da seção~\ref{sec:3B.12} não foram executadas.
 
 \subsection{Geometria reconstruída e propriedades de massa}\label{sec:4B.1}
 
-A Tabela~\ref{tab:grandezas-medidas-modelo-cad} reúne as grandezas medidas no modelo em CAD e as que delas derivam, com a origem de cada uma (seção~\ref{sec:3B.3}).
+A Tabela~\ref{tab:grandezas-medidas-modelo-cad} reúne as grandezas medidas no modelo em CAD e as que delas derivam, com a origem de cada uma (seção~\ref{sec:3B.1}).
 
 \begin{tabelaabnt}{\small}
 \begin{xltabular}{\textwidth}{@{}>{\hsize=1.902\hsize\raggedright\arraybackslash}X>{\hsize=0.641\hsize\centering\arraybackslash}X>{\hsize=0.534\hsize\centering\arraybackslash}X>{\hsize=0.588\hsize\centering\arraybackslash}X>{\hsize=1.335\hsize\raggedright\arraybackslash}X@{}}
@@ -405,14 +405,14 @@ Anteversão na pose do CAD & θ\textsubscript{el,pose} & 82,038 & graus & Deriva
 Distância de A a O & |r\textsubscript{AO}| & 341,686 & mm & Derivada, Equação~\eqref{eq:30} \\
 Comprimento do trecho entre o elemento 78 e P & d\textsubscript{78} & 51,360 & mm & Derivada, Equação~\eqref{eq:35} \\
 Distância do pivô ao ponto P & |OP| & 45,866 & mm & Derivada \\
-Ângulo de OP em relação ao trecho \textit{e} & ε & −14,340 & graus & Derivada, Equação~\eqref{eq:39} \\
+Ângulo de OP em relação ao trecho \textit{e} & ε & −14,340 & graus & Derivada, Equação~\eqref{eq:43} \\
 Distância do elemento 78 ao cotovelo & x\textsubscript{78} & 38,972 & mm & Derivada; apenas informativa \\
 \end{xltabular}
 \fonte{elaborada pelo autor.}
-\nota{ângulos medidos a partir de +x, no sentido anti-horário (seção~\ref{sec:3B.5}). x\textsubscript{78} = (p\textsubscript{78}\textsuperscript{2} + \textit{e}\textsuperscript{2} − 2 p\textsubscript{78} \textit{e} cos η\textsubscript{78})\textsuperscript{1/2} não entra no cálculo e não é a extensão do elástico. O valor de \textit{e} coincide, até a terceira casa decimal, com a cota H\textsubscript{CAD} do outro mecanismo (seção~\ref{sec:3A.4}); a coincidência deve ser conferida no modelo em CAD.}
+\nota{ângulos medidos a partir de +x, no sentido anti-horário (seção~\ref{sec:3B.3}). x\textsubscript{78} = (p\textsubscript{78}\textsuperscript{2} + \textit{e}\textsuperscript{2} − 2 p\textsubscript{78} \textit{e} cos η\textsubscript{78})\textsuperscript{1/2} não entra no cálculo e não é a extensão do elástico. O valor de \textit{e} coincide, até a terceira casa decimal, com a cota H\textsubscript{CAD} do outro mecanismo (seção~\ref{sec:3A.4}); a coincidência deve ser conferida no modelo em CAD.}
 \end{tabelaabnt}
 
-Na pose do CAD, o modelo situa P em (−38,090; 25,551) mm e o centro do elemento 78 em (1,071; −7,680) mm, e calcula ℓ = 359,7679 mm, que difere do comprimento medido ℓ\textsubscript{pose} em 1,4 × 10\textsuperscript{−4} mm, valor inferior à resolução de três casas decimais da medida. O elemento 78 está a p\textsubscript{78} = 7,754 mm do eixo da articulação, enquanto a patente prefere esse elemento sobre o eixo [0099]; as consequências dessa diferença são tratadas nas seções~\ref{sec:3B.6} e \ref{sec:4B.9}.
+Na pose do CAD, o modelo situa P em (−38,090; 25,551) mm e o centro do elemento 78 em (1,071; −7,680) mm, e calcula ℓ = 359,7679 mm, que difere do comprimento medido ℓ\textsubscript{pose} em 1,4 × 10\textsuperscript{−4} mm, valor inferior à resolução de três casas decimais da medida. O elemento 78 está a p\textsubscript{78} = 7,754 mm do eixo da articulação, enquanto a patente prefere esse elemento sobre o eixo [0099]; as consequências dessa diferença são tratadas nas seções~\ref{sec:3B.7} e \ref{sec:4B.9}.
 
 \begin{table}[!htbp]
 \estilotabela{\small}
@@ -506,12 +506,12 @@ Foram extraídos 48 pontos da curva tracejada, 47 da pontilhada e 51 da contínu
 51 &  &  &  &  & (170,28) & (4,6319) \\
 \end{xltabular}
 \fonte{elaborada pelo autor, a partir da EP 3 504 033 B1 \cite{ottobock2023}.}
-\nota{valores entre parênteses ficam fora da faixa 20° < θ\textsubscript{el} < 165° usada na identificação (seção~\ref{sec:3B.10}).}
+\nota{valores entre parênteses ficam fora da faixa 20° < θ\textsubscript{el} < 165° usada na identificação (seção~\ref{sec:3B.9}).}
 \end{tabelaabnt}
 
 \subsection{Verificação da cadeia de cálculo}\label{sec:4B.3}
 
-As verificações automáticas da seção~\ref{sec:3B.12} resultaram nos resíduos da Tabela~\ref{tab:verificacoes-cadeia-calculo-modelo}, todos da ordem do erro de arredondamento da aritmética de ponto flutuante, exceto os do trabalho virtual, limitados pelo truncamento da diferença finita, e o do fechamento com o CAD, limitado pela resolução da medida. No teste sintético, a identificação pelo espaçamento entre as curvas recupera os valores de s\textsubscript{0} com erro máximo de 0,062 mm, limitado pela interpolação linear entre os pontos de cada curva.
+As verificações automáticas da seção~\ref{sec:3B.11} resultaram nos resíduos da Tabela~\ref{tab:verificacoes-cadeia-calculo-modelo}, todos da ordem do erro de arredondamento da aritmética de ponto flutuante, exceto os do trabalho virtual, limitados pelo truncamento da diferença finita, e o do fechamento com o CAD, limitado pela resolução da medida. No teste sintético, a identificação pelo espaçamento entre as curvas recupera os valores de s\textsubscript{0} com erro máximo de 0,062 mm, limitado pela interpolação linear entre os pontos de cada curva.
 
 \begin{table}[!htbp]
 \estilotabela{\small}
@@ -524,11 +524,11 @@ Equações de circuito do regime I, Equação~\eqref{eq:33} & 1,1 × 10\textsupe
 Equações de circuito do regime II, Equação~\eqref{eq:34} & 1,1 × 10\textsuperscript{−13} mm \\
 d\textsubscript{78} constante em λ, Equação~\eqref{eq:35} & 1,4 × 10\textsuperscript{−14} mm \\
 Fechamento com o comprimento medido na pose do CAD & 1,4 × 10\textsuperscript{−4} mm \\
-Trabalho virtual no regime I, Equação~\eqref{eq:43} & 5,0 × 10\textsuperscript{−8} mm/rad \\
-Trabalho virtual no regime II, Equação~\eqref{eq:43} & 7,6 × 10\textsuperscript{−8} mm/rad \\
+Trabalho virtual no regime I, Equação~\eqref{eq:42} & 5,0 × 10\textsuperscript{−8} mm/rad \\
+Trabalho virtual no regime II, Equação~\eqref{eq:42} & 7,6 × 10\textsuperscript{−8} mm/rad \\
 Continuidade de ℓ na transição & 5,7 × 10\textsuperscript{−14} mm \\
 Continuidade de τ/F na transição & 8,6 × 10\textsuperscript{−13} mm \\
-Caso p\textsubscript{78} = 0: λ\textsubscript{t} numérico contra a Equação~\eqref{eq:39} & 4,6 × 10\textsuperscript{−14} rad \\
+Caso p\textsubscript{78} = 0: λ\textsubscript{t} numérico contra a Equação~\eqref{eq:43} & 4,6 × 10\textsuperscript{−14} rad \\
 Caso p\textsubscript{78} = 0: ℓ = |r\textsubscript{AO}| + |OP| no regime II & 0 mm \\
 Caso p\textsubscript{78} = 0: τ no regime II, força unitária & 0 N·mm \\
 τ pelo produto vetorial contra τ = F m/1000 & 2,7 × 10\textsuperscript{−15} N·m \\
@@ -586,9 +586,9 @@ O ângulo em que as curvas começam, perto de 14°, não identifica s\textsubscr
 
 \subsection{Forma das curvas e ajuste de forma}\label{sec:4B.5}
 
-Com os valores de s\textsubscript{0} da Tabela~\ref{tab:comprimento-referencia-s0-identificado}, o fator G lido na Figura 16 da patente e a forma m/(1000 τ\textsubscript{g}) do modelo diferem (Figura~\ref{fig:identificacao-s0-espacamento-curvas}(b)). Normalizada em 90°, a razão entre os dois vale 0,38 em 20°, 0,78 em 60°, 1,34 em 120°, 2,04 em 150° e 3,03 em 165°. Com esses valores de s\textsubscript{0} e com o m do CAD e o τ\textsubscript{g} do membro humano, a razão calculada não reproduz a Figura 16 da patente: com escala comum às três curvas, o coeficiente de determinação é −0,548 (pontilhada), −1,620 (tracejada) e −0,674 (contínua). Como o ℓ implícito na figura concorda com o do CAD (seção~\ref{sec:4B.4}), a diferença não se explica por ℓ. Restam o braço de momento, que depende da derivada de ℓ, e o torque do peso que a patente usou para formar a razão, que o texto não define de forma consistente (seção~\ref{sec:3B.9}). Entre 35° e 155°, a concordância de ℓ limita a primeira causa: pela Equação~\eqref{eq:43}, atribuir ao braço de momento toda a diferença afastaria o ℓ implícito do ℓ do CAD em até 7,78 mm (3,24 mm RMS), contra os 2,31 mm observados. Nessa faixa, a causa mais compatível com os dados é o torque do peso ou a definição da ordenada; o braço de momento permanece possível perto dos extremos. A patente não traz dado que permita confirmar a causa.
+Com os valores de s\textsubscript{0} da Tabela~\ref{tab:comprimento-referencia-s0-identificado}, o fator G lido na Figura 16 da patente e a forma m/(1000 τ\textsubscript{g}) do modelo diferem (Figura~\ref{fig:identificacao-s0-espacamento-curvas}(b)). Normalizada em 90°, a razão entre os dois vale 0,38 em 20°, 0,78 em 60°, 1,34 em 120°, 2,04 em 150° e 3,03 em 165°. Com esses valores de s\textsubscript{0} e com o m do CAD e o τ\textsubscript{g} do membro humano, a razão calculada não reproduz a Figura 16 da patente: com escala comum às três curvas, o coeficiente de determinação é −0,548 (pontilhada), −1,620 (tracejada) e −0,674 (contínua). Como o ℓ implícito na figura concorda com o do CAD (seção~\ref{sec:4B.4}), a diferença não se explica por ℓ. Restam o braço de momento, que depende da derivada de ℓ, e o torque do peso que a patente usou para formar a razão, que o texto não define de forma consistente (seção~\ref{sec:3B.9}). Entre 35° e 155°, a concordância de ℓ limita a primeira causa: pela Equação~\eqref{eq:42}, atribuir ao braço de momento toda a diferença afastaria o ℓ implícito do ℓ do CAD em até 7,78 mm (3,24 mm RMS), contra os 2,31 mm observados. Nessa faixa, a causa mais compatível com os dados é o torque do peso ou a definição da ordenada; o braço de momento permanece possível perto dos extremos. A patente não traz dado que permita confirmar a causa.
 
-O ajuste de forma da seção~\ref{sec:3B.10} deixa s\textsubscript{0} e a escala livres em cada curva e, por isso, absorve essa diferença em s\textsubscript{0}. Os valores que ele encontra (Tabela~\ref{tab:ajuste-s0-forma-curva}), 276,56 mm na pontilhada, 159,94 mm na tracejada e o limite s\textsubscript{0} = 0 na contínua, ficam longe dos do espaçamento, e as escalas por curva contrariam o atuador único de [0093]. São mantidos como resultado secundário: descrevem a melhor forma que o modelo consegue produzir com a geometria do CAD, e não a pré-tensão do dispositivo.
+O ajuste de forma da seção~\ref{sec:3B.9} deixa s\textsubscript{0} e a escala livres em cada curva e, por isso, absorve essa diferença em s\textsubscript{0}. Os valores que ele encontra (Tabela~\ref{tab:ajuste-s0-forma-curva}), 276,56 mm na pontilhada, 159,94 mm na tracejada e o limite s\textsubscript{0} = 0 na contínua, ficam longe dos do espaçamento, e as escalas por curva contrariam o atuador único de [0093]. São mantidos como resultado secundário: descrevem a melhor forma que o modelo consegue produzir com a geometria do CAD, e não a pré-tensão do dispositivo.
 
 \begin{table}[!htbp]
 \estilotabela{\small}
@@ -769,7 +769,7 @@ Em N·m, a comparação só é possível sob a hipótese K = K\textsubscript{40}
 \bottomrule
 \end{tabularx}
 \fonte{elaborada pelo autor.}
-\nota{K\textsubscript{40} é hipótese de projeto (seção~\ref{sec:3B.10}); τ\textsubscript{g} considera só o membro humano.}
+\nota{K\textsubscript{40} é hipótese de projeto (seção~\ref{sec:3B.9}); τ\textsubscript{g} considera só o membro humano.}
 \end{table}
 
 \begin{figure}[!htbp]
@@ -788,7 +788,7 @@ Como na seção~\ref{sec:4A.8}, o resultado ilustra a limitação discutida na s
 
 \subsection{Limitações dos resultados}\label{sec:4B.10}
 
-Além das limitações de escopo da seção~\ref{sec:3B.14}, os resultados comportam as ressalvas da Tabela~\ref{tab:pendencias-analise-ep-b1}, que reúne o que falta para concluir cada etapa, a consequência da ausência e a forma de obter o dado. A principal é a diferença de forma entre o modelo e a Figura 16 da patente (seção~\ref{sec:4B.5}): o s\textsubscript{0} identificado pelo espaçamento entre as curvas não depende dela, mas a distribuição angular do torque calculado, sim.
+Além das limitações de escopo da seção~\ref{sec:3B.13}, os resultados comportam as ressalvas da Tabela~\ref{tab:pendencias-analise-ep-b1}, que reúne o que falta para concluir cada etapa, a consequência da ausência e a forma de obter o dado. A principal é a diferença de forma entre o modelo e a Figura 16 da patente (seção~\ref{sec:4B.5}): o s\textsubscript{0} identificado pelo espaçamento entre as curvas não depende dela, mas a distribuição angular do torque calculado, sim.
 
 \begin{tabelaabnt}{\small}
 \begin{xltabular}{\textwidth}{@{}>{\hsize=0.897\hsize\raggedright\arraybackslash}X>{\hsize=0.987\hsize\raggedright\arraybackslash}X>{\hsize=1.115\hsize\raggedright\arraybackslash}X@{}}
@@ -806,10 +806,10 @@ Além das limitações de escopo da seção~\ref{sec:3B.14}, os resultados compo
 \bottomrule
 \endlastfoot
 Arquivo do modelo em CAD e critério de escala da reconstrução & Grandezas da Tabela~\ref{tab:grandezas-medidas-modelo-cad} sem conferência independente & Incluir o modelo no repositório e registrar o critério de escala, como na seção~\ref{sec:4A.1} \\
-Sinal de θ\textsubscript{b,pose} & Altera λ\textsubscript{0}, a transição, s\textsubscript{0} e K\textsubscript{40} (seções~\ref{sec:3B.5} e \ref{sec:4B.4}) & Medir no CAD o ângulo do braço na pose, com o sentido positivo declarado \\
+Sinal de θ\textsubscript{b,pose} & Altera λ\textsubscript{0}, a transição, s\textsubscript{0} e K\textsubscript{40} (seções~\ref{sec:3B.3} e \ref{sec:4B.4}) & Medir no CAD o ângulo do braço na pose, com o sentido positivo declarado \\
 Posição do eixo da articulação 20 no referencial do Fusion & Braço do exoesqueleto fora de τ\textsubscript{g} e de I\textsubscript{O} & Medir o centro do eixo no Fusion e confirmar que os eixos do Fusion são paralelos aos do modelo \\
 Forma do fator G: braço de momento ou torque do peso usado na Figura 16 da patente & Modelo completo não reproduz a figura com os s\textsubscript{0} identificados (R\textsuperscript{2} negativo); distribuição angular do torque incerta & Conferir a configuração do dispositivo que gerou a figura, não informada no documento, e a definição de sua ordenada \\
-Relação entre o giro da articulação 20 e a anteversão & Comparações angulares com a patente (início das curvas, transição, posição do pico) dependem da hipótese de eixo no centro do ombro e barra fixa no tronco (seção~\ref{sec:3B.5}) & Representar o afastamento entre o eixo da articulação e o ombro e o giro da barra 18 em torno da articulação esférica 22 \\
+Relação entre o giro da articulação 20 e a anteversão & Comparações angulares com a patente (início das curvas, transição, posição do pico) dependem da hipótese de eixo no centro do ombro e barra fixa no tronco (seção~\ref{sec:3B.3}) & Representar o afastamento entre o eixo da articulação e o ombro e o giro da barra 18 em torno da articulação esférica 22 \\
 Valor de \textit{e} igual à cota H\textsubscript{CAD} do outro mecanismo & Possível erro de transcrição; todos os resultados dependem de \textit{e} & Conferir \textit{e} no modelo em CAD \\
 Rigidez K e escala da ordenada da Figura 16 da patente & K só por hipótese (K\textsubscript{40}); torque em N·m apenas como cenário & Especificação ou ensaio de força e extensão do elemento elástico, ou documento com a escala da figura \\
 Lei do elástico e significado de s\textsubscript{0} & Identificação pelo espaçamento supõe elástico linear e mesmo K nas três curvas; ajuste de forma no limite s\textsubscript{0} = 0 na curva contínua & Curva de força e extensão do elástico; testar lei não linear ou força inicial \\
@@ -825,7 +825,7 @@ Etapas dinâmicas e MBDyn & Nenhum resultado dinâmico & Resolver as pendências
 
 \subsection{Comparação com o exoesqueleto 1}\label{sec:4B.11}
 
-A Tabela~\ref{tab:comparacao-dois-dispositivos-analisados} compara os dois dispositivos com os números das seções~\ref{sec:4A} e \ref{sec:4B}. Os ângulos são comparáveis porque as duas convenções medem o braço a partir da posição pendente: a elevação anatômica da seção~\ref{sec:3A.3} e a anteversão da seção~\ref{sec:3B.5}.
+A Tabela~\ref{tab:comparacao-dois-dispositivos-analisados} compara os dois dispositivos com os números das seções~\ref{sec:4A} e \ref{sec:4B}. Os ângulos são comparáveis porque as duas convenções medem o braço a partir da posição pendente: a elevação anatômica da seção~\ref{sec:3A.3} e a anteversão da seção~\ref{sec:3B.3}.
 
 \begin{table}[!htbp]
 \estilotabela{\small}
