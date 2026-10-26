@@ -1,6 +1,6 @@
 # Verificação do DOCX no formato do modelo
 
-DOCX: TCC_modelo_FT.docx. Referência de formato e texto: tese.pdf (92 páginas). Conteúdo de origem: TCC_exo1_exo2.docx.
+DOCX: TCC_modelo_FT.docx. Referência de formato e texto: tese.pdf (93 páginas). Conteúdo de origem: TCC_exo1_exo2.docx.
 
 ## 1. Capa, folha de rosto, folha de aprovação e resumo
 
@@ -8,15 +8,15 @@ Parágrafos conferidos: 32; ausentes do PDF do LaTeX: 0.
 
 ## 2. Corpo do texto
 
-Parágrafos, títulos, legendas, itens, fontes e notas conferidos: 430; ausentes do PDF do LaTeX: 0.
+Parágrafos, títulos, legendas, itens, fontes e notas conferidos: 432; ausentes do PDF do LaTeX: 0.
 
 ## 3. Tabelas
 
-Tabelas: 26 no DOCX novo e 26 no DOCX fundido. Células: 1579; diferentes do DOCX fundido: 0; ausentes do PDF do LaTeX: 0.
+Tabelas: 26 no DOCX novo e 26 no DOCX fundido. Células: 1594; diferentes do DOCX fundido: 0; ausentes do PDF do LaTeX: 0.
 
 ## 4. Equações
 
-Equações: 52 no DOCX novo e 52 no fundido; OMML idêntica: 52; numeração de (1) a (52).
+Equações: 54 no DOCX novo e 54 no fundido; OMML idêntica: 54; numeração de (1) a (54).
 
 ## 5. Figuras
 

@@ -431,6 +431,14 @@ ind, cj, fc = aj["individual"], aj["conjunto"], aj["forca_constante"]
 pr, prf, ver, fam = N["projeto"], N["projeto_forma"], N["verificacoes"], N["familia"]
 par, der = g["parametros_cad"], g["derivados"]
 inv = N["braco_pose_invertido"]
+# notação do autor para o exo 2: alavanca como segmento OP, de comprimento e
+# e direção q = λ + ε (λ, direção do trecho e_c no código); φ é a defasagem do
+# elemento 78 em relação a q
+EPS = g["angulo_OP"]
+E_OP = g["raio_OP"]
+PHI_S = der["phi"] - EPS
+QT = g["lambda_t"] + EPS
+X_S = g["d78"]
 fg = N["fig16"]["curvas"]
 rz = N["razoes"]
 s0r = rz["s0"]
@@ -751,30 +759,40 @@ def parte_3B():
         "da barra 18 mude com o movimento do braço. "
         "O documento não informa a relação entre o giro da articulação e a "
         "anteversão, e as comparações angulares com as Figuras 16 e 17 da patente "
-        "dependem dessa hipótese. O eixo do braço aponta na direção θ_{el} − 90°. O "
-        "ângulo λ do trecho ‹e› da alavanca, "
-        "variável interna da cinemática, relaciona-se com θ_{el} por"))
-    a(EQ(("lam", r"\lambda = \theta_{\mathrm{el}} + 90^{\circ} + \lambda_{0}"),
-         ("lam0", r"\lambda_{0} = \lambda_{\mathrm{pose}} - \left( 180^{\circ} + \theta_{b,\mathrm{pose}} \right),\quad \theta_{\mathrm{el,pose}} = 90^{\circ} + \theta_{b,\mathrm{pose}}")))
-    a(P("em que θ_{b,pose} é o ângulo do braço com a horizontal na pose do CAD, "
-        "positivo acima. A Tabela ⟦T:conv⟧ resume as convenções e indica o nome de "
-        "cada grandeza no código e sua correspondência com a seção 3A. Alguns "
-        "símbolos da seção 3A foram substituídos nesta parte para evitar dois "
-        "significados para a mesma letra."))
+        "dependem dessa hipótese. O eixo do braço aponta na direção θ_{el} − 90°. A "
+        "alavanca é representada pelo segmento OP, de comprimento ‹e› e direção q "
+        "(seção ⟦S:cin⟧); o ângulo q, variável interna da cinemática, relaciona-se "
+        "com θ_{el} por"))
+    a(EQ(("lam", r"q = \theta_{\mathrm{el}} + 90^{\circ} + q_{0}"),
+         ("lam0", r"q_{0} = q_{\mathrm{pose}} - \left( 180^{\circ} + \theta_{b,\mathrm{pose}} \right),\quad \theta_{\mathrm{el,pose}} = 90^{\circ} + \theta_{b,\mathrm{pose}}")))
+    a(P("em que q_{pose} é a direção de OP na pose do CAD e θ_{b,pose} o ângulo do "
+        "braço com a horizontal nessa pose, positivo acima. A Tabela ⟦T:conv⟧ resume "
+        "as convenções e indica o nome de cada grandeza no código e sua "
+        "correspondência com a seção 3A. Os símbolos desta parte seguem a "
+        "formulação do autor para este mecanismo; s, ψ e φ têm, na seção 3A, outro "
+        "significado."))
     a(LEG_T("conv", "Convenções angulares e de sinal do modelo da Ottobock"))
     a(TABELA(
         ["Símbolo", "Definição", "Relação", "No código", "Correspondência na seção 3A"],
         [["θ_{el}", "Anteversão do braço", "Variável independente, em graus",
           "theta_star", "Elevação anatômica θ_{el}, Equação (4)"],
-         ["λ", "Ângulo do trecho ‹e› a partir de +x", "Equação (⟦E:lam⟧)", "q",
-          "Papel de q, Equação (2), com outra definição"],
-         ["λ_{0}", "Defasagem constante entre λ e θ_{el} + 90°",
-          "Equação (⟦E:lam0⟧)", "delta", "Papel de θ_{off}, sem identificação"],
-         ["φ", "Direção do trecho do elástico ligado a A",
-          "Equações (⟦E:solI⟧) e (⟦E:solII⟧)", "psi", "Mesmo papel de φ, Equação (8)"],
-         ["ℓ", "Comprimento do elástico entre A e P",
-          "Equações (⟦E:solI⟧) e (⟦E:solII⟧)", "s", "Mesmo papel de ℓ, Equação (16)"],
-         ["s_{0}", "Valor de ℓ em que o elástico atinge o comprimento livre",
+         ["q", "Direção do segmento OP a partir de +x", "Equação (⟦E:lam⟧)",
+          "q + angulo_OP", "Papel de q, Equação (2), com outra definição"],
+         ["q_{0}", "Defasagem constante entre q e θ_{el} + 90°",
+          "Equação (⟦E:lam0⟧)", "delta + angulo_OP", "Papel de θ_{off}, sem identificação"],
+         ["q*", "Valor de q no contato do elástico com o elemento 78",
+          "Seção ⟦S:contato⟧", "q_estrela", "Sem correspondente"],
+         ["φ", "Defasagem constante entre a direção de p e q", "Equação (⟦E:eta⟧)",
+          "phi − angulo_OP", "Na seção 3A, φ é a direção do cabo"],
+         ["ψ", "Direção do trecho do elástico ligado a A",
+          "Equações (⟦E:solI⟧) e (⟦E:solII⟧)", "psi",
+          "Papel de φ, Equação (8); na seção 3A, ψ é o ângulo entre o cabo e o elo"],
+         ["s", "Comprimento do elástico entre A e P",
+          "Equações (⟦E:solI⟧) e (⟦E:solII⟧)", "s",
+          "Papel de ℓ, Equação (16); na seção 3A, s é o vão livre do cabo"],
+         ["x", "Comprimento do trecho do elástico entre o elemento 78 e P",
+          "Equação (⟦E:d78⟧)", "calculate_d", "Sem correspondente"],
+         ["s_{0}", "Valor de s em que o elástico atinge o comprimento livre",
           "Seção ⟦S:forca⟧", "s0", "Mesmo papel de s_{0}, Equação (18)"],
          ["δ", "Extensão elástica", "Equação (⟦E:lei⟧)", "x",
           "Mesmo papel de δ, Equação (19)"],
@@ -791,47 +809,63 @@ def parte_3B():
         "crescente; τ > 0 assiste a subida do braço. O torque do peso tem sinal "
         "oposto na faixa de 0° a 180°, e as comparações usam seu módulo τ_{g}."))
     a(P(f"O sinal de θ_{{b,pose}} = {f(par['BRACO_POSE'])}° ainda precisa ser "
-        "confirmado no CAD. Com o sinal trocado, λ_{0} passa a "
-        f"{f(inv['delta'])}° e θ_{{el,pose}} a {f(inv['theta_pose'])}°, e a "
-        f"transição de regime da seção ⟦S:contato⟧ vai de {f(g['theta_t'], 2)}° para "
+        "confirmado no CAD. Com o sinal trocado, q_{0} passa a "
+        f"{f(inv['delta'] + EPS)}° e θ_{{el,pose}} a {f(inv['theta_pose'])}°, e o "
+        f"contato da seção ⟦S:contato⟧ vai de {f(g['theta_t'], 2)}° para "
         f"{f(inv['theta_t'], 2)}°. Os efeitos sobre s_{{0}} e K_{{40}} estão na "
         "seção ⟦S:r_s0⟧, e os resultados da seção 4B dependem da confirmação desse "
         "sinal."))
 
     # ------------------------------------------------------------ cinemática
     a(SEC("3B", "cin", "Equação de fechamento do circuito vetorial"))
-    a(P("A ancoragem A do elástico fica na barra 18, e o ponto P, no fim do "
-        "cotovelo da alavanca solidária ao braço (Figura ⟦F:circ⟧). O vetor fixo de "
-        "A a O, a posição de P e a do centro C_{78} do elemento 78 são"))
-    a(EQ(("rAO", r"\mathbf{r}_{AO} = C_{1}\,\mathbf{u}\left( - \alpha_{1} \right) + C_{2}\,\mathbf{u}\left( \gamma_{2} \right),\quad \alpha_{1} = 90^{\circ} - \gamma_{2}"),
-         ("P", r"\mathbf{P} = e\,\mathbf{u}(\lambda) + C_{3}\,\mathbf{u}\left( \lambda + \beta_{c} \right),\quad \mathbf{C}_{78} = p_{78}\,\mathbf{u}\left( \lambda + \eta_{78} \right)"),
-         ("eta", r"\eta_{78} = \lambda_{78,\mathrm{pose}} - \lambda_{\mathrm{pose}}")))
-    a(P("com A = −r_{AO}. Acima do ângulo de transição, o elástico é retilíneo de A "
-        "a P (regime I); abaixo dele, encosta no elemento 78 e fica dividido nos "
-        "trechos de A ao elemento 78 e do elemento 78 a P (regime II). As equações de "
-        "circuito dos dois regimes são"))
-    a(EQ(("circI", r"\mathbf{r}_{AO} + e\,\mathbf{u}(\lambda) + C_{3}\,\mathbf{u}\left( \lambda + \beta_{c} \right) - \ell\,\mathbf{u}(\varphi) = \mathbf{0}"),
-         ("circII", r"\mathbf{r}_{AO} + p_{78}\,\mathbf{u}\left( \lambda + \eta_{78} \right) - \left( \ell - d_{78} \right)\mathbf{u}(\varphi) = \mathbf{0}")))
-    a(P("em que ℓ é o comprimento total do elástico entre A e P, φ a direção do "
-        "trecho ligado a A e d_{78} o comprimento do trecho entre o elemento 78 e P. "
-        "Como P e o elemento 78 giram juntos com o braço, d_{78} não depende de λ:"))
-    a(EQ(("d78", r"d_{78} = \left| \mathbf{P} - \mathbf{C}_{78} \right| = \left| e + C_{3}\,\mathbf{u}\left( \beta_{c} \right) - p_{78}\,\mathbf{u}\left( \eta_{78} \right) \right|")))
-    a(P("Cada regime tem solução fechada, sem procedimento iterativo, porque o lado "
-        "direito das relações abaixo, a primeira para o regime I e a segunda para o "
-        "regime II, é conhecido para cada λ:"))
-    a(EQ(("solI", r"\ell\,\mathbf{u}(\varphi) = \mathbf{r}_{AO} + \mathbf{P}"),
-         ("solII", r"\left( \ell - d_{78} \right)\mathbf{u}(\varphi) = \mathbf{r}_{AO} + \mathbf{C}_{78}")))
+    a(P("A ancoragem A do elástico fica na barra 18, e o ponto P, na extremidade da "
+        "alavanca solidária ao braço (Figura ⟦F:circ⟧). No modelo em CAD, a alavanca "
+        "tem um cotovelo: um trecho e_{c} a partir de O e um trecho C_{3} girado de "
+        "β_{c}. Como os dois giram juntos com o braço, a alavanca é representada pelo "
+        "segmento OP, de comprimento ‹e›, que forma com o trecho e_{c} o ângulo fixo ε:"))
+    a(EQ(("opc", r"e = \left| e_{c} + C_{3}\,\mathbf{u}\left( \beta_{c} \right) \right|,\quad \varepsilon = \operatorname{atan2}\left( C_{3}\sin\beta_{c},\ e_{c} + C_{3}\cos\beta_{c} \right)")))
+    a(P(f"Com e_{{c}} = {f(g['E_CAD'])} mm, C_{{3}} = {f(par['C3'])} mm e "
+        f"β_{{c}} = {f(par['BETA'])}°, medidos no CAD, resulta ‹e› = {f(E_OP)} mm e "
+        f"ε = {f(EPS)}°. O vetor fixo de A a O, a posição de P e a do centro do "
+        "elemento 78, na extremidade do vetor p, são"))
+    a(EQ(("rAO", r"\mathbf{r}_{AO} = C_{1}\,\mathbf{u}\left( - \alpha \right) + C_{2}\,\mathbf{u}\left( \gamma \right),\quad \alpha = 90^{\circ} - \gamma"),
+         ("P", r"\mathbf{P} = e\,\mathbf{u}(q),\quad \mathbf{C}_{78} = p\,\mathbf{u}\left( q + \varphi \right)"),
+         ("eta", r"\varphi = q_{78,\mathrm{pose}} - q_{\mathrm{pose}}")))
+    a(P("com A = −r_{AO}. O elemento 78 é preso ao braço, e φ é a defasagem "
+        f"constante entre a direção de p e q, {f(PHI_S)}° na geometria do CAD. Para "
+        "q > q*, o elástico é retilíneo de A a P (regime I), e o circuito fechado é"))
+    a(EQ(("circI", r"C_{1}\,\mathbf{u}\left( - \alpha \right) + C_{2}\,\mathbf{u}\left( \gamma \right) + e\,\mathbf{u}(q) - s\,\mathbf{u}(\psi) = \mathbf{0}")))
+    a(P("Para q ≤ q*, o elástico encosta no elemento 78 e fica dividido nos trechos "
+        "de A ao elemento 78 e do elemento 78 a P (regime II). O elemento 78 só "
+        "entra no circuito a partir do contato, e há dois circuitos: o circuito "
+        "fechado que passa pelo elemento 78 e o triângulo formado por ‹e›, p e x,"))
+    a(EQ(("circII", r"C_{1}\,\mathbf{u}\left( - \alpha \right) + C_{2}\,\mathbf{u}\left( \gamma \right) + p\,\mathbf{u}\left( q + \varphi \right) - \left( s - x \right)\mathbf{u}(\psi) = \mathbf{0}"),
+         ("tri", r"x = \left| e\,\mathbf{u}(q) - p\,\mathbf{u}\left( q + \varphi \right) \right|")))
+    a(P("em que s é o comprimento total do elástico entre A e P, ψ a direção do "
+        "trecho ligado a A e x o comprimento do trecho entre o elemento 78 e P. No "
+        "triângulo, ‹e› e p são constantes e o ângulo entre eles é a defasagem φ, de "
+        "modo que x não depende de q:"))
+    a(EQ(("d78", r"x = \sqrt{e^{2} + p^{2} - 2\,e\,p\cos\varphi}")))
+    a(P(f"Com as grandezas do CAD, x = {f(X_S)} mm. Cada regime tem solução fechada, "
+        "sem procedimento iterativo, porque o lado direito das relações abaixo, a "
+        "primeira para o regime I e a segunda para o regime II, é conhecido para "
+        "cada q:"))
+    a(EQ(("solI", r"s\,\mathbf{u}(\psi) = \mathbf{r}_{AO} + \mathbf{P}"),
+         ("solII", r"\left( s - x \right)\mathbf{u}(\psi) = \mathbf{r}_{AO} + \mathbf{C}_{78}")))
+
+    # ------------------------------------------------------------ contato
     a(SEC("3B", "contato", "Ponto de contato e troca de regime"))
-    a(P("A troca de regime não é imposta por um ângulo. Ela é detectada pelo sinal "
-        "do produto vetorial"))
+    a(P("O contato não é imposto por um ângulo. Ele é detectado pelo sinal do "
+        "produto vetorial"))
     a(EQ(("kappa", r"\kappa = \left\lbrack \left( \mathbf{P} - \mathbf{A} \right) \times \left( \mathbf{C}_{78} - \mathbf{A} \right) \right\rbrack_{z}")))
     a(P("O regime II ocorre quando κ ≥ 0, isto é, quando o elemento 78 ficaria do "
         "outro lado da reta de A a P se o elástico não o contornasse. O ângulo de "
-        "transição λ_{t} é a raiz de κ, obtida por bissecção, com a condição de que o "
+        "contato q* é a raiz de κ, obtida por bissecção, com a condição de que o "
         "elemento 78 fique entre A e P. Para a geometria do CAD, "
-        f"λ_{{t}} = {f(g['lambda_t'])}°, isto é, θ_{{el,t}} = {f(g['theta_t'])}°; "
-        f"nesse ponto, ℓ = {f(g['s_t'])} mm e m = {f(g['b_t'])} mm nos dois "
-        "regimes."))
+        f"q* = {f(QT)}°, isto é, θ_{{el}} = {f(g['theta_t'])}°; "
+        f"nesse ponto, s = {f(g['s_t'])} mm e m = {f(g['b_t'])} mm nos dois "
+        "regimes, porque A, o elemento 78 e P estão alinhados e o trecho x completa "
+        "o comprimento."))
     a(LEG_F("circ", f"Circuitos do mecanismo: regime I na pose do CAD "
                     f"(θ_{{el}} = {f(der['theta_pose'])}°) e regime II em θ_{{el}} = 10°"))
     a(FIGURA("ottobock_tcc_fig_a1_geometria.png", 6.5,
@@ -841,9 +875,9 @@ def parte_3B():
              "e triângulo e, p, x. À direita, ampliação da região do pivô."))
     a(FONTE)
     a(PEQUENO("Nota: à direita, ampliação da região do pivô. A alavanca está "
-              "representada pelo segmento OP, de comprimento |OP|. Regime I: "
-              "circuito fechado C_{1}, C_{2}, OP e s. Regime II: circuito fechado "
-              "C_{1}, C_{2}, p e s − x, e triângulo OP, p e x (OP tracejado); o "
+              "representada pelo segmento OP, de comprimento ‹e›. Regime I: "
+              "circuito fechado C_{1}, C_{2}, ‹e› e s. Regime II: circuito fechado "
+              "C_{1}, C_{2}, p e s − x, e triângulo ‹e›, p e x (‹e› tracejado); o "
               "elemento 78, na ponta de p, só entra depois do contato. As linhas "
               "pontilhadas indicam o eixo do braço."))
 
@@ -851,37 +885,37 @@ def parte_3B():
     a(SEC("3B", "forca", "Comprimento do elástico, lei da mola e torque"))
     a(P("O elástico é tratado como linear e sem massa, com a mesma lei da Equação "
         "(19):"))
-    a(EQ(("lei", r"\delta = \max\left( \ell - s_{0},\ 0 \right),\quad F = K\delta")))
-    a(P("em que s_{0} é o valor de ℓ em que o elástico atinge o comprimento livre e "
+    a(EQ(("lei", r"\delta = \max\left( s - s_{0},\ 0 \right),\quad F = K\delta")))
+    a(P("em que s_{0} é o valor de s em que o elástico atinge o comprimento livre e "
         "K a rigidez. A patente não informa K, o comprimento livre nem a "
         "pré-tensão. O código admite três formas de definir s_{0}: constante, igual "
-        f"ao comprimento medido na pose do CAD, ℓ_{{pose}} = {f(par['S_POSE'])} mm, "
+        f"ao comprimento medido na pose do CAD, s_{{pose}} = {f(par['S_POSE'])} mm, "
         "apenas provisória; por uma pré-tensão X_{pre} num ângulo θ_{el,pre}, com "
-        "s_{0} = ℓ(θ_{el,pre}) − X_{pre}, análoga à Equação (18); e identificada a "
+        "s_{0} = s(θ_{el,pre}) − X_{pre}, análoga à Equação (18); e identificada a "
         "partir das curvas da Figura 16 da patente (seção ⟦S:ident⟧). As duas "
         "primeiras usam K = 9 N/mm, valor ilustrativo sem origem documental, e não "
         "produzem resultados neste trabalho; a terceira é a adotada, com s_{0} "
         "obtido pelo espaçamento entre as três curvas."))
     a(P("A força do trecho ligado a A atua em P, no regime I, ou no centro do "
-        "elemento 78, no regime II, com direção oposta a u(φ):"))
-    a(EQ(("tau", r"\tau = \frac{\left\lbrack \mathbf{r}_{F} \times \mathbf{V} \right\rbrack_{z}}{1000},\quad \mathbf{V} = - F\,\mathbf{u}(\varphi),\quad \mathbf{r}_{F,\mathrm{I}} = \mathbf{P},\quad \mathbf{r}_{F,\mathrm{II}} = \mathbf{C}_{78}")))
+        "elemento 78, no regime II, com direção oposta a u(ψ):"))
+    a(EQ(("tau", r"\tau = \frac{\left\lbrack \mathbf{r}_{F} \times \mathbf{V} \right\rbrack_{z}}{1000},\quad \mathbf{V} = - F\,\mathbf{u}(\psi),\quad \mathbf{r}_{F,\mathrm{I}} = \mathbf{P},\quad \mathbf{r}_{F,\mathrm{II}} = \mathbf{C}_{78}")))
     a(P("em que r_{F} é o ponto de aplicação da força: r_{F} = r_{F,I} no regime I "
         "e r_{F} = r_{F,II} no regime II."))
-    a(P("No regime II, o trecho entre o elemento 78 e P liga dois pontos do mesmo "
-        "corpo; as forças que exerce sobre P e sobre o elemento 78 são iguais, "
-        "opostas e colineares e não contribuem para o torque, o que corresponde à "
-        "descrição da patente. O braço de momento com sinal é"))
-    a(EQ(("m", r"m_{\mathrm{I}} = e\sin\left( \lambda - \varphi \right) + C_{3}\sin\left( \lambda + \beta_{c} - \varphi \right),\quad m_{\mathrm{II}} = p_{78}\sin\left( \lambda + \eta_{78} - \varphi \right),\quad \tau = \frac{Fm}{1000}")))
+    a(P("No regime II, o trecho x liga dois pontos do mesmo corpo; as forças que "
+        "exerce sobre P e sobre o elemento 78 são iguais, opostas e colineares e não "
+        "contribuem para o torque, o que corresponde à descrição da patente. O braço "
+        "de momento com sinal é"))
+    a(EQ(("m", r"m_{\mathrm{I}} = e\sin\left( q - \psi \right),\quad m_{\mathrm{II}} = p\sin\left( q + \varphi - \psi \right),\quad \tau = \frac{Fm}{1000}")))
     a(P("com m = m_{I} no regime I, m = m_{II} no regime II e m > 0 quando o torque "
         "assiste a subida. O fator 1/1000, herdado da formulação da seção 3A.6, "
         "converte N·mm em N·m; "
         "aqui o torque resulta em N·m sempre que K estiver em N/mm. Admitido o "
         "elemento 78 pontual e sem atrito, hipótese que a patente não discute, a "
         "tração é igual nos dois trechos, e o princípio dos trabalhos virtuais exige"))
-    a(EQ(("tv", r"\frac{d\ell}{d\lambda} = - m")))
-    a(P("com λ em radianos, relação análoga à Equação (17), verificada "
+    a(EQ(("tv", r"\frac{ds}{dq} = - m")))
+    a(P("com q em radianos, relação análoga à Equação (17), verificada "
         "numericamente nos dois regimes (seção ⟦S:r_verif⟧). O sinal negativo, "
-        "oposto ao da Equação (17), vem de λ crescer com a elevação do braço, ao "
+        "oposto ao da Equação (17), vem de q crescer com a elevação do braço, ao "
         "passo que θ* decresce; nos dois mecanismos, m é positivo quando assiste a "
         "subida, e o elástico se encurta quando o braço sobe e devolve energia, como "
         "descreve a patente."))
@@ -889,20 +923,19 @@ def parte_3B():
     # ------------------------------------------------------------ faixa sem torque
     a(SEC("3B", "zero", "Faixa sem torque com o braço baixado"))
     a(P("Esta seção faz o papel da seção 3A.7: indica onde o modelo libera o braço. "
-        "Pela Equação (⟦E:m⟧), m_{II} é proporcional a p_{78}, de modo que, abaixo "
-        "da transição, o torque só se anula se o elemento 78 estiver sobre o eixo. "
-        "Com o elemento 78 sobre o eixo (p_{78} = 0), configuração preferida pela "
-        "patente, a transição tem forma fechada:"))
-    a(EQ(("lamt", r"\lambda_{t} = \operatorname{atan2}\left( r_{AO,y},\ r_{AO,x} \right) - \varepsilon,\quad \varepsilon = \operatorname{atan2}\left( C_{3}\sin\beta_{c},\ e + C_{3}\cos\beta_{c} \right)")))
-    a(P("em que ε é o ângulo fixo de OP em relação ao trecho ‹e›. Nesse caso, a "
-        "direção de OP na transição coincide com a de r_{AO}, a reta do elástico "
-        "passa pelo pivô e o torque no regime II é nulo. Com as demais grandezas do "
-        f"CAD, a Equação (⟦E:lamt⟧) dá θ_{{el,t}} = {f(g['theta_t_p0'])}°. As curvas "
-        "da Figura 16 da patente partem de razão nula entre "
+        "Pela Equação (⟦E:m⟧), m_{II} é proporcional a p, de modo que, abaixo do "
+        "contato, o torque só se anula se o elemento 78 estiver sobre o eixo. "
+        "Com o elemento 78 sobre o eixo (p = 0), configuração preferida pela "
+        "patente, x = ‹e› e o ângulo de contato tem forma fechada:"))
+    a(EQ(("lamt", r"q^{*} = \operatorname{atan2}\left( r_{AO,y},\ r_{AO,x} \right)")))
+    a(P("Nesse caso, a direção de OP no contato coincide com a de r_{AO}, a reta do "
+        "elástico passa pelo pivô e o torque no regime II é nulo. Com as demais "
+        f"grandezas do CAD, a Equação (⟦E:lamt⟧) dá θ_{{el}} = {f(g['theta_t_p0'])}°. "
+        "As curvas da Figura 16 da patente partem de razão nula entre "
         f"{f(min(fg[n]['inicio'] for n in ORDEM), 2)}° e "
         f"{f(max(fg[n]['inicio'] for n in ORDEM), 2)}° (seção ⟦S:r_dados⟧), entre os "
-        "dois valores do modelo; só no caso p_{78} = 0, porém, o modelo tem torque "
-        "nulo antes da transição (seção ⟦S:r_conf⟧)."))
+        "dois valores do modelo; só no caso p = 0, porém, o modelo tem torque "
+        "nulo antes do contato (seção ⟦S:r_conf⟧)."))
 
     # ------------------------------------------------------------ peso
     a(SEC("3B", "peso", "Torque gravitacional"))
@@ -996,19 +1029,19 @@ def parte_3B():
         "admite-se que a geometria e a rigidez sejam as mesmas nas três, "
         "hipótese testada pela coincidência dos fatores G_{i} (seção ⟦S:r_s0⟧). Com "
         "o elástico tracionado, a razão de cada curva i escreve-se"))
-    a(EQ(("rG", r"r_{i}\left( \theta_{\mathrm{el}} \right) = G\left( \theta_{\mathrm{el}} \right)\left\lbrack \ell\left( \theta_{\mathrm{el}} \right) - s_{0,i} \right\rbrack,\quad G = \frac{K\, m}{1000\,\sigma\,\tau_{g}}")))
+    a(EQ(("rG", r"r_{i}\left( \theta_{\mathrm{el}} \right) = G\left( \theta_{\mathrm{el}} \right)\left\lbrack s\left( \theta_{\mathrm{el}} \right) - s_{0,i} \right\rbrack,\quad G = \frac{K\, m}{1000\,\sigma\,\tau_{g}}")))
     a(P("em que G reúne o que as três curvas têm em comum: a rigidez, a escala da "
         "ordenada, o braço de momento e o torque do peso. Para duas curvas i e j, a "
         "razão r_{i}/r_{j} elimina G, e a relação resultante é linear nos "
         "comprimentos de referência:"))
-    a(EQ(("pares", r"r_{j}\, s_{0,i} - r_{i}\, s_{0,j} = \left( r_{j} - r_{i} \right)\ell")))
+    a(EQ(("pares", r"r_{j}\, s_{0,i} - r_{i}\, s_{0,j} = \left( r_{j} - r_{i} \right)s")))
     a(P("A Equação (⟦E:pares⟧) foi escrita em cada ponto extraído de uma curva, com "
         "a razão da outra interpolada linearmente no mesmo ângulo, para os seis "
         "pares ordenados de curvas, e cada equação foi dividida por r_{i} + r_{j}, "
         "para que os pontos de razão maior não dominem o ajuste. O sistema, com "
         f"{rz['n']} equações e três incógnitas, foi resolvido por mínimos quadrados "
         "lineares, sem procedimento iterativo nem ponto de partida. O método usa "
-        "apenas ℓ(θ_{el}) do circuito da seção ⟦S:cin⟧: não depende de K, de σ, de m "
+        "apenas s(θ_{el}) do circuito da seção ⟦S:cin⟧: não depende de K, de σ, de m "
         "nem de τ_{g}."))
     a(P("A identificação foi repetida nas faixas de θ_{el} de 15° a 170°, de 25° a "
         f"160° e de 40° a 150°; em {mc['n']} sorteios com ruído gaussiano somado às "
@@ -1017,18 +1050,18 @@ def parte_3B():
         f"é, {f(mc['sigma_div'])} divisão na ordenada e {f(mc['sigma_grau'], 2)}° na "
         "abscissa; com o sinal de θ_{b,pose} trocado; com a "
         "abscissa da figura deslocada de ±2,47°, diferença entre o início das curvas "
-        "e a transição calculada com p_{78} = 0; e com a abscissa espelhada, "
+        "e o contato calculado com p = 0; e com a abscissa espelhada, "
         "θ_{el} → 180° − θ_{el}, como teste de discriminação. Um teste sintético, "
         "com curvas montadas pelo próprio modelo a partir de valores conhecidos de "
         "s_{0} nos ângulos dos pontos extraídos, confere a implementação."))
     a(P("Uma verificação independente vem do fim da curva pontilhada, de "
-        "pré-tensão quase nula. Como ℓ decresce com θ_{el}, Equação "
+        "pré-tensão quase nula. Como s decresce com θ_{el}, Equação "
         "(⟦E:tv⟧), o elástico afrouxa primeiro com o braço elevado, e a razão da "
-        "curva menos tensionada deve chegar a zero onde ℓ = s_{0}. O ângulo desse "
+        "curva menos tensionada deve chegar a zero onde s = s_{0}. O ângulo desse "
         "zero foi obtido por extrapolação linear dos dois e dos três últimos pontos "
         "da curva."))
     a(P("Com os valores identificados, o fator de cada curva é"))
-    a(EQ(("Gi", r"G_{i}\left( \theta_{\mathrm{el}} \right) = \frac{r_{i}\left( \theta_{\mathrm{el}} \right)}{\ell\left( \theta_{\mathrm{el}} \right) - s_{0,i}}")))
+    a(EQ(("Gi", r"G_{i}\left( \theta_{\mathrm{el}} \right) = \frac{r_{i}\left( \theta_{\mathrm{el}} \right)}{s\left( \theta_{\mathrm{el}} \right) - s_{0,i}}")))
     a(P("A coincidência das três estimativas testa a hipótese de G comum. A média "
         "das curvas tracejada e contínua, de maior extensão, é comparada à forma "
         "m/(1000 τ_{g}) prevista pelo modelo, com as duas normalizadas em 90°."))
@@ -1069,15 +1102,16 @@ def parte_3B():
         "escolhido muda K_{40} e a distribuição da força no restante da faixa."))
 
     # ------------------------------------------------------------ varredura
-    a(SEC("3B", "varr", "Varredura paramétrica do trecho ‹e› da alavanca"))
-    a(P("O comprimento ‹e› do trecho do pivô ao cotovelo da alavanca define, com "
-        "C_{3} e β_{c}, a excentricidade |OP| do ponto de aplicação, um dos "
+    a(SEC("3B", "varr", "Varredura paramétrica do trecho e_{c} da alavanca"))
+    a(P("O comprimento e_{c} do trecho do pivô ao cotovelo da alavanca define, com "
+        "C_{3} e β_{c}, o comprimento ‹e› e a direção do segmento OP, isto é, a "
+        "excentricidade do ponto de aplicação, um dos "
         "parâmetros de ajuste previstos na patente e objeto da Figura 17 da "
         "patente. Por isso, o papel de h na "
-        "seção 4A é desempenhado aqui por ‹e›. A "
+        "seção 4A é desempenhado aqui por e_{c}. A "
         f"varredura manteve s_{{0}} = {f(pr['s0'])} mm e "
         f"K = {f(pr['K'], 5)} N/mm, isto é, o mesmo elástico, e variou apenas "
-        "‹e›, de 20 a 50 mm em passo de 0,05 mm, com o acréscimo do valor do CAD, num "
+        "e_{c}, de 20 a 50 mm em passo de 0,05 mm, com o acréscimo do valor do CAD, num "
         f"total de {var['n']} valores. As demais grandezas ficaram congeladas nos "
         "valores da Tabela ⟦T:cad⟧. Como na seção 3A.10, trata-se de diagnóstico, e "
         "nenhum parâmetro é substituído pelo resultado."))
@@ -1091,11 +1125,11 @@ def parte_3B():
         "ponto de tangência pelas Equações (10) e (13), ponto morto pela Equação "
         "(21) e identidade X_{pose} = L_{pose} − L_{livre}, não se aplicam a este "
         "mecanismo e foram substituídas pela continuidade na troca de regime e pelo "
-        f"caso limite p_{{78}} = 0. Os valores são de ‹e› = {f(34.785)} mm, com "
+        f"caso limite p = 0. Os valores são de e_{{c}} = {f(34.785)} mm, com "
         "s_{0} e K do cenário de projeto, em malha de 0,1° de 0° a 180°."))
-    a(P("O modelo verifica ainda que o regime II ocorre exatamente para λ ≤ λ_{t} "
-        "na malha, que o elemento 78 fica entre A e P na transição, que ‹e› é "
-        "argumento obrigatório de toda a cadeia e que dois valores diferentes de ‹e› "
+    a(P("O modelo verifica ainda que o regime II ocorre exatamente para q ≤ q* "
+        "na malha, que o elemento 78 fica entre A e P na transição, que e_{c} é "
+        "argumento obrigatório de toda a cadeia e que dois valores diferentes de e_{c} "
         "produzem curvas diferentes. Não há, para este modelo, um conjunto de "
         "testes automatizados executado com o pytest como o da seção 3A.11; as "
         "verificações são asserções executadas a cada cálculo, e a identificação "
@@ -1109,7 +1143,7 @@ def parte_3B():
     a(EQ(("mov", r"I_{O}\,{\ddot{\theta}}_{\mathrm{el}} = \tau\left( \theta_{\mathrm{el}} \right) + \tau_{g,s}\left( \theta_{\mathrm{el}} \right) + Q_{nc}")))
     a(P("em que τ_{g,s} é o torque do peso com sinal e Q_{nc} reúne os esforços não "
         "conservativos. Pela Equação (⟦E:tv⟧), a energia elástica V_{e} = K δ^{2}/2 "
-        "satisfaz dV_{e}/dλ = −K δ m, de modo que a força generalizada elástica "
+        "satisfaz dV_{e}/dq = −K δ m, de modo que a força generalizada elástica "
         "coincide, a menos do fator 1/1000, com o torque da Equação (⟦E:m⟧); esse "
         "pré-requisito estático está verificado (Tabela ⟦T:verif⟧)."))
     a(P("A integração não foi executada, pelas razões seguintes. O torque do "
@@ -1165,7 +1199,7 @@ def parte_4B():
     a(H("4B EXOESQUELETO 2: EP 3 504 033 B1"))
     a(P("Esta seção apresenta os resultados das etapas das seções ⟦S:cad⟧ a "
         "⟦S:verif⟧, aplicadas ao dispositivo da EP 3 504 033 B1. Salvo indicação em "
-        f"contrário, os números foram obtidos com a geometria do CAD, ‹e› = {f(34.785)} "
+        f"contrário, os números foram obtidos com a geometria do CAD, e_{{c}} = {f(34.785)} "
         f"mm, s_{{0}} = {f(pr['s0'])} mm, identificado pelo espaçamento entre as "
         f"curvas da Figura 16 da patente, e K = K_{{40}} = {f(pr['K'], 5)} N/mm, "
         "hipótese de projeto. As etapas dinâmicas da seção ⟦S:din⟧ não foram "
@@ -1178,59 +1212,57 @@ def parte_4B():
     a(LEG_T("cad", "Grandezas medidas no modelo em CAD e grandezas derivadas"))
     a(TABELA(
         ["Grandeza", "Símbolo", "Valor", "Unidade", "Origem"],
-        [["Componente do vetor de A a O na direção u(−α_{1})", "C_{1}",
+        [["Componente do vetor de A a O na direção u(−α)", "C_{1}",
           f(par["C1"]), "mm", "CAD"],
-         ["Componente do vetor de A a O na direção u(γ_{2})", "C_{2}",
+         ["Componente do vetor de A a O na direção u(γ)", "C_{2}",
           f(par["C2"]), "mm", "CAD"],
-         ["Direção de C_{2}", "γ_{2}", f(par["GAMMA"]), "graus", "CAD"],
-         ["Direção de C_{1}, perpendicular a C_{2}", "α_{1}", f(der["alpha"]),
-          "graus", "Derivada, α_{1} = 90° − γ_{2}"],
-         ["Trecho do pivô ao cotovelo da alavanca", "‹e›", f(g["E_CAD"]),
+         ["Direção de C_{2}", "γ", f(par["GAMMA"]), "graus", "CAD"],
+         ["Direção de C_{1}, perpendicular a C_{2}", "α", f(der["alpha"]),
+          "graus", "Derivada, α = 90° − γ"],
+         ["Trecho do pivô ao cotovelo da alavanca", "e_{c}", f(g["E_CAD"]),
           "mm", "CAD; varrido na seção ⟦S:r_varr⟧"],
          ["Trecho rígido do cotovelo ao ponto P", "C_{3}", f(par["C3"]), "mm", "CAD"],
-         ["Giro de C_{3} em relação ao trecho ‹e›", "β_{c}", f(par["BETA"]),
+         ["Giro de C_{3} em relação ao trecho e_{c}", "β_{c}", f(par["BETA"]),
           "graus", "CAD"],
-         ["Distância do pivô ao centro do elemento 78", "p_{78}", f(par["P"]),
+         ["Distância do pivô ao centro do elemento 78", "p", f(par["P"]),
           "mm", "CAD"],
-         ["Ângulo do trecho ‹e› na pose do CAD", "λ_{pose}", f(par["Q_POSE"]),
+         ["Ângulo do trecho e_{c} na pose do CAD", "q_{c,pose}", f(par["Q_POSE"]),
           "graus", "CAD"],
-         ["Comprimento do elástico na pose do CAD", "ℓ_{pose}", f(par["S_POSE"]),
+         ["Comprimento do elástico na pose do CAD", "s_{pose}", f(par["S_POSE"]),
           "mm", "CAD"],
-         ["Direção do centro do elemento 78 na pose do CAD", "λ_{78,pose}",
+         ["Direção do centro do elemento 78 na pose do CAD", "q_{78,pose}",
           f(par["PHI_ABS_POSE"]), "graus", "CAD"],
          ["Ângulo do braço com a horizontal na pose do CAD, positivo acima",
           "θ_{b,pose}", f(par["BRACO_POSE"]), "graus", "CAD; sinal a confirmar"],
-         ["Ângulo do elemento 78 em relação ao trecho ‹e›", "η_{78}", f(der["phi"]),
+         ["Comprimento do segmento OP", "‹e›", f(E_OP), "mm",
+          "Derivada, Equação (⟦E:opc⟧)"],
+         ["Ângulo de OP em relação ao trecho e_{c}", "ε", f(EPS), "graus",
+          "Derivada, Equação (⟦E:opc⟧)"],
+         ["Direção de OP na pose do CAD", "q_{pose}", f(par["Q_POSE"] + EPS),
+          "graus", "Derivada, q_{c,pose} + ε"],
+         ["Defasagem entre a direção de p e q", "φ", f(PHI_S),
           "graus", "Derivada, Equação (⟦E:eta⟧)"],
-         ["Defasagem entre λ e θ_{el} + 90°", "λ_{0}", f(der["delta"]), "graus",
+         ["Defasagem entre q e θ_{el} + 90°", "q_{0}", f(der["delta"] + EPS), "graus",
           "Derivada, Equação (⟦E:lam0⟧)"],
          ["Anteversão na pose do CAD", "θ_{el,pose}", f(der["theta_pose"]),
           "graus", "Derivada, Equação (⟦E:lam0⟧)"],
          ["Distância de A a O", "|r_{AO}|", f(g["modulo_B"]), "mm",
           "Derivada, Equação (⟦E:rAO⟧)"],
-         ["Comprimento do trecho entre o elemento 78 e P", "d_{78}", f(g["d78"]),
-          "mm", "Derivada, Equação (⟦E:d78⟧)"],
-         ["Distância do pivô ao ponto P", "|OP|", f(g["raio_OP"]), "mm",
-          "Derivada"],
-         ["Ângulo de OP em relação ao trecho ‹e›", "ε", f(g["angulo_OP"]), "graus",
-          "Derivada, Equação (⟦E:lamt⟧)"],
-         ["Distância do elemento 78 ao cotovelo", "x_{78}", f(g["x78"]), "mm",
-          "Derivada; apenas informativa"]],
+         ["Comprimento do trecho entre o elemento 78 e P", "x", f(X_S),
+          "mm", "Derivada, Equação (⟦E:d78⟧)"]],
         [3560, 1200, 1000, 1100, 2500], ["left", "center", "center", "center", "left"]))
     a(FONTE)
     a(PEQUENO("Nota: ângulos medidos a partir de +x, no sentido anti-horário (seção "
-              "⟦S:conv⟧). x_{78} = (p_{78}^{2} + ‹e›^{2} − 2 p_{78} ‹e› cos η_{78})^{1/2} "
-              "não entra no cálculo e não é a extensão do elástico. O valor de ‹e› "
-              "coincide, até a terceira casa decimal, com a cota H_{CAD} do outro "
-              "mecanismo (seção 3A.4); a coincidência deve ser conferida no modelo em "
-              "CAD."))
+              "⟦S:conv⟧). O valor de e_{c} coincide, até a terceira casa decimal, com "
+              "a cota H_{CAD} do outro mecanismo (seção 3A.4); a coincidência deve ser "
+              "conferida no modelo em CAD."))
     a(P(f"Na pose do CAD, o modelo situa P em ({f(g['P_pose'][0])}; "
         f"{f(g['P_pose'][1])}) mm e o centro do elemento 78 em "
         f"({f(g['C78_pose'][0])}; {f(g['C78_pose'][1])}) mm, e calcula "
-        f"ℓ = {f(g['s_pose_modelo'], 4)} mm, que difere do comprimento medido "
-        f"ℓ_{{pose}} em {sci(g['erro_s_pose'])} mm, valor inferior à resolução de "
+        f"s = {f(g['s_pose_modelo'], 4)} mm, que difere do comprimento medido "
+        f"s_{{pose}} em {sci(g['erro_s_pose'])} mm, valor inferior à resolução de "
         "três casas decimais da medida. O elemento 78 está a "
-        f"p_{{78}} = {f(par['P'])} mm do eixo da articulação, enquanto a patente "
+        f"p = {f(par['P'])} mm do eixo da articulação, enquanto a patente "
         "prefere esse elemento sobre o eixo; as consequências dessa "
         "diferença são tratadas nas seções ⟦S:zero⟧ e ⟦S:r_conf⟧."))
     a(LEG_T("massa", "Propriedades de massa do conjunto que gira com o braço em "
@@ -1356,27 +1388,27 @@ def parte_4B():
           f"{sci(max(ver['residuo_f1'], ver['residuo_f2']))} mm"],
          ["Equações de circuito do regime II, Equação (⟦E:circII⟧)",
           f"{sci(max(ver['residuo_f3'], ver['residuo_f4']))} mm"],
-         ["d_{78} constante em λ, Equação (⟦E:d78⟧)", f"{sci(ver['d_constante'])} mm"],
+         ["x constante em q, Equação (⟦E:d78⟧)", f"{sci(ver['d_constante'])} mm"],
          ["Fechamento com o comprimento medido na pose do CAD",
           f"{sci(ver['erro_s_pose'])} mm"],
          ["Trabalho virtual no regime I, Equação (⟦E:tv⟧)",
           f"{sci(ver['tv_I'])} mm/rad"],
          ["Trabalho virtual no regime II, Equação (⟦E:tv⟧)",
           f"{sci(ver['tv_II'])} mm/rad"],
-         ["Continuidade de ℓ na transição",
+         ["Continuidade de s no contato",
           f"{sci(ver['continuidade_s'])} mm"],
          ["Continuidade de τ/F na transição",
           f"{sci(ver['continuidade_tau'])} mm"],
-         ["Caso p_{78} = 0: λ_{t} numérico contra a Equação (⟦E:lamt⟧)",
+         ["Caso p = 0: q* numérico contra a Equação (⟦E:lamt⟧)",
           f"{sci(pz['erro_q'])} rad"],
-         ["Caso p_{78} = 0: ℓ = |r_{AO}| + |OP| no regime II",
+         ["Caso p = 0: s = |r_{AO}| + ‹e› no regime II",
           f"{sci(pz['erro_s'])} mm"],
-         ["Caso p_{78} = 0: τ no regime II, força unitária",
+         ["Caso p = 0: τ no regime II, força unitária",
           f"{sci(pz['tau_max'])} N·mm"],
          ["τ pelo produto vetorial contra τ = F m/1000",
           f"{sci(ver['tau_duas_vias'])} N·m"],
          ["Linearidade em K, τ(K) = K τ(K = 1)", f"{sci(ver['erro_linear_K'])} N·m"],
-         ["Ancoragem: s_{0} igual para todo ‹e› (s_{0} adotado)",
+         ["Ancoragem: s_{0} igual para todo e_{c} (s_{0} adotado)",
           f"{sci(ver['ancoragem'])} mm"],
          ["Espaçamento entre curvas: s_{0} conhecidos recuperados em curvas "
           "sintéticas", f"{f(sint['erro_max'])} mm"]],
@@ -1384,7 +1416,7 @@ def parte_4B():
     a(FONTE)
     a(PEQUENO("Nota: o fechamento com o CAD é limitado pela resolução de três casas "
               "decimais da medida; o trabalho virtual, pelo truncamento da "
-              "diferença finita centrada em λ, com passo de 10^{−6} rad."))
+              "diferença finita centrada em q, com passo de 10^{−6} rad."))
 
     # ------------------------------------------------------------ s0 por razões
     a(SEC("4B", "r_s0", "Identificação de s_{0} pelo espaçamento entre as curvas"))
@@ -1448,7 +1480,7 @@ def parte_4B():
         f"no regime II, e K_{{40}}, de {f(tr['k_alvo'], 5)} para "
         f"{f(inv['k_alvo'], 5)} N/mm. Com a abscissa "
         f"espelhada, o RMSE sobe para {f(esp['rms'], 2)} mm e os três valores de "
-        f"s_{{0}} ficam acima de ℓ(0°) = {f(g['l_0'], 2)} mm, maior comprimento do "
+        f"s_{{0}} ficam acima de s(0°) = {f(g['l_0'], 2)} mm, maior comprimento do "
         "elástico na faixa, o que o deixaria frouxo em todos os ângulos; essa "
         "leitura da figura é rejeitada."))
     col = rz["colapso"]
@@ -1461,17 +1493,17 @@ def parte_4B():
         f"{f(col['theta_dispersao_max'], 0)}°, porque a extensão da curva "
         "pontilhada tende a zero e o quociente da Equação (⟦E:Gi⟧) fica mal "
         "condicionado. O comprimento do elástico lido no espaçamento entre as "
-        "curvas pontilhada e contínua, ℓ = (r_{c} s_{0,p} − r_{p} s_{0,c})/(r_{c} − "
-        f"r_{{p}}), difere do ℓ do CAD em {f(lf['rms'], 2)} mm RMS e no máximo "
+        "curvas pontilhada e contínua, s = (r_{c} s_{0,p} − r_{p} s_{0,c})/(r_{c} − "
+        f"r_{{p}}), difere do s do CAD em {f(lf['rms'], 2)} mm RMS e no máximo "
         f"{f(lf['max_abs'], 2)} mm entre {lf['faixa'][0]:.0f}° e "
-        f"{lf['faixa'][1]:.0f}°: a variação de ℓ com o ângulo implícita na figura é "
+        f"{lf['faixa'][1]:.0f}°: a variação de s com o ângulo implícita na figura é "
         "a do modelo."))
     fim = rz["fim_pontilhada"]
     a(P("O fim da curva pontilhada confirma o resultado de forma independente. A "
         "razão dessa curva, extrapolada, chega a zero em "
         f"{f(fim['2']['theta'], 2)}° com os dois últimos pontos e em "
         f"{f(fim['3']['theta'], 2)}° com os três últimos, onde "
-        f"ℓ = {f(fim['2']['l'], 2)} e {f(fim['3']['l'], 2)} mm, a "
+        f"s = {f(fim['2']['l'], 2)} e {f(fim['3']['l'], 2)} mm, a "
         f"{f(s0p - fim['2']['l'], 2)} e {f(s0p - fim['3']['l'], 2)} mm do s_{{0}} "
         "identificado pelo espaçamento; com esse s_{0}, o modelo afrouxa a partir de "
         f"{f(rz['theta_frouxo']['pontilhada'], 1)}°. A patente não diz em que "
@@ -1479,7 +1511,7 @@ def parte_4B():
         "como extensão próxima de zero na posição de menor comprimento do "
         "elástico, perto de 180°, o s_{0} identificado é compatível com essa "
         "descrição: a curva pontilhada fica frouxa perto de 180°, com "
-        f"ℓ(180°) − s_{{0}} = {f(rz['pre_tensao_180']['pontilhada'], 2)} mm, e as "
+        f"s(180°) − s_{{0}} = {f(rz['pre_tensao_180']['pontilhada'], 2)} mm, e as "
         "curvas tracejada e contínua têm extensão de "
         f"{f(rz['pre_tensao_180']['tracejada'], 2)} e "
         f"{f(rz['pre_tensao_180']['continua'], 2)} mm em 180°."))
@@ -1488,7 +1520,7 @@ def parte_4B():
         f"três começam em {f(ic['pontilhada']['theta'], 2)}°, "
         f"{f(ic['tracejada']['theta'], 2)}° e {f(ic['continua']['theta'], 2)}°, "
         "apesar das pré-tensões diferentes, e o elástico se encurta quando o braço "
-        "sobe: com s_{0} igual a ℓ no início da curva tracejada, "
+        "sobe: com s_{0} igual a s no início da curva tracejada, "
         f"{f(ic['tracejada']['l'], 2)} mm, o elástico ficaria frouxo em todos os "
         f"{milhar(ic['tracejada']['n_acima'])} pontos da malha acima desse ângulo, e "
         "o torque seria nulo justamente onde a figura o mostra. O início das curvas é "
@@ -1523,13 +1555,13 @@ def parte_4B():
         "calculada não reproduz a Figura 16 da patente: com escala comum às três curvas, o "
         f"coeficiente de determinação é {f(mcomp['pontilhada']['comum']['r2'], 3)} "
         f"(pontilhada), {f(mcomp['tracejada']['comum']['r2'], 3)} (tracejada) e "
-        f"{f(mcomp['continua']['comum']['r2'], 3)} (contínua). Como o ℓ implícito na "
+        f"{f(mcomp['continua']['comum']['r2'], 3)} (contínua). Como o s implícito na "
         "figura concorda com o do CAD (seção ⟦S:r_s0⟧), a diferença não se explica "
-        "por ℓ. Restam o braço de momento, que depende da derivada de ℓ, e o torque "
+        "por s. Restam o braço de momento, que depende da derivada de s, e o torque "
         "do peso que a patente usou para formar a razão, que o texto não define de "
-        "forma consistente (seção ⟦S:dados⟧). Entre 35° e 155°, a concordância de ℓ "
+        "forma consistente (seção ⟦S:dados⟧). Entre 35° e 155°, a concordância de s "
         "limita a primeira causa: pela Equação (⟦E:tv⟧), atribuir ao braço de "
-        "momento toda a diferença afastaria o ℓ implícito do ℓ do CAD em até "
+        "momento toda a diferença afastaria o s implícito do s do CAD em até "
         f"{f(lm['max_abs'], 2)} mm ({f(lm['rms'], 2)} mm RMS), contra os "
         f"{f(lf['max_abs'], 2)} mm observados. Nessa faixa, a causa mais compatível "
         "com os dados é o torque do peso ou a definição da ordenada; o braço de "
@@ -1656,12 +1688,12 @@ def parte_4B():
           f"θ_{{el}}; {f(rz['braco_pose_invertido']['tracejada'], 2)} mm com o sinal "
           "de θ_{b,pose} trocado"],
          ["Trecho da alavanca, que fixa a excentricidade |OP| do ponto de aplicação",
-          "‹e›", f"{f(34.785)} mm", "Medida em CAD",
+          "e_{{c}}", f"{f(34.785)} mm", "Medida em CAD",
           "Não identificado; varrido na seção ⟦S:r_varr⟧"],
-         ["Posição do elemento 78", "p_{78}; η_{78}",
-          f"{f(par['P'])} mm; {f(der['phi'])}°", "Medida em CAD e derivada",
-          "Não identificada; a patente prefere p_{78} = 0"],
-         ["Defasagem angular", "λ_{0}", f"{f(der['delta'])}°",
+         ["Posição do elemento 78", "p; φ",
+          f"{f(par['P'])} mm; {f(PHI_S)}°", "Medida em CAD e derivada",
+          "Não identificada; a patente prefere p = 0"],
+         ["Defasagem angular", "q_{0}", f"{f(der['delta'] + EPS)}°",
           "Derivada do CAD", "Depende do sinal de θ_{b,pose}, a confirmar"],
          ["Massa e centro de massa do braço do exoesqueleto", "",
           f"{f(mas['braco_exo']['massa_g'])} g; {f(corpos['braço do exo']['d'])} mm",
@@ -1672,8 +1704,8 @@ def parte_4B():
 
     # ------------------------------------------------------------ mecanismo
     a(SEC("4B", "r_mec", "Comportamento do elástico e do mecanismo"))
-    a(P(f"Na faixa de 0° a 180° de anteversão, λ varia de {f(g['lambda_faixa'][0])}° "
-        f"a {f(g['lambda_faixa'][1])}°, e o regime II ocupa θ_{{el}} de 0° a "
+    a(P(f"Na faixa de 0° a 180° de anteversão, q varia de {f(g['lambda_faixa'][0] + EPS)}° "
+        f"a {f(g['lambda_faixa'][1] + EPS)}°, e o regime II ocupa θ_{{el}} de 0° a "
         f"{f(g['theta_t'])}°. O braço de momento permanece positivo em toda a "
         f"faixa, com mínimo de {f(g['b_t'])} mm na transição e máximo de "
         f"{f(g['m_max'])} mm em θ_{{el}} = {f(g['theta_m_max'], 1)}°, igual a |OP|: "
@@ -1682,15 +1714,15 @@ def parte_4B():
         "não se anula, não há ponto morto na faixa, ao contrário da seção 3A.7. A "
         "Tabela ⟦T:circ⟧ reúne as grandezas do circuito em ângulos representativos."))
     a(LEG_T("circ", f"Grandezas do circuito em ângulos representativos "
-                    f"(‹e› = {f(34.785)} mm)"))
+                    f"(e_{{c}} = {f(34.785)} mm)"))
     linhas = []
     for l in N["tabela_geometria"]:
         regime = ("I e II (transição)" if abs(l["theta"] - g["theta_t"]) < 1e-9
                   else l["regime"])
-        linhas.append([f(l["theta"]), f(l["lambda"]), regime, f(l["l"]),
+        linhas.append([f(l["theta"]), f(l["lambda"] + EPS), regime, f(l["l"]),
                        f(l["phi"]), "" if l["l_menos_d"] is None else f(l["l_menos_d"]),
                        f(l["m"])])
-    a(TABELA(["θ_{el} (°)", "λ (°)", "Regime", "ℓ (mm)", "φ (°)", "ℓ − d_{78} (mm)",
+    a(TABELA(["θ_{el} (°)", "q (°)", "Regime", "s (mm)", "ψ (°)", "s − x (mm)",
               "m (mm)"], linhas, [1300, 1300, 1000, 1400, 1300, 1700, 1360],
              ["center"]*7))
     a(FONTE)
@@ -1710,27 +1742,27 @@ def parte_4B():
         "não especifica."))
 
     # ------------------------------------------------------------ varredura e
-    a(SEC("4B", "r_varr", "Varredura paramétrica do trecho ‹e› da alavanca"))
+    a(SEC("4B", "r_varr", "Varredura paramétrica do trecho e_{c} da alavanca"))
     ftr = var["faixas"]["tracao"]
     l45 = fam["linhas"][-1]
     a(P("Dos três critérios de validade física da seção 3A.10, adaptados ao "
-        "mecanismo, o fechamento dos dois regimes (ℓ > 0 e ℓ − d_{78} > 0) e o "
-        "trabalho virtual foram atendidos em todos os valores de ‹e›, com resíduo "
+        "mecanismo, o fechamento dos dois regimes (s > 0 e s − x > 0) e o "
+        "trabalho virtual foram atendidos em todos os valores de e_{c}, com resíduo "
         f"máximo de {sci(var['tv_max'])} mm/rad. A extensão não negativa do elástico "
-        f"em toda a faixa só é atendida para ‹e› ≤ {f(ftr['max'], 2)} mm, em "
+        f"em toda a faixa só é atendida para e_{{c}} ≤ {f(ftr['max'], 2)} mm, em "
         f"{ftr['n']} dos {var['n']} valores: acima desse valor, com o s_{{0}} "
         "adotado, o elástico afrouxa perto de 180°, como mostra a curva de "
-        f"‹e› = {f(l45['e'], 0)} mm, frouxa de {f(l45['frouxo'][0][0], 2)}° a 180°. A "
+        f"e_{{c}} = {f(l45['e'], 0)} mm, frouxa de {f(l45['frouxo'][0][0], 2)}° a 180°. A "
         f"transição de regime desloca-se de θ_{{el}} = {f(var['theta_t'][1], 2)}° "
-        f"(‹e› = 20 mm) para {f(var['theta_t'][0], 2)}° (‹e› = 50 mm). A Tabela "
+        f"(e_{{c}} = 20 mm) para {f(var['theta_t'][0], 2)}° (e_{{c}} = 50 mm). A Tabela "
         "⟦T:fam⟧ e a Figura ⟦F:fam⟧ mostram a família de curvas para cinco valores "
-        "de ‹e›."))
-    a(LEG_T("fam", f"Família de curvas em ‹e›, com s_{{0}} = {f(pr['s0'])} mm e "
+        "de e_{c}."))
+    a(LEG_T("fam", f"Família de curvas em e_{{c}}, com s_{{0}} = {f(pr['s0'])} mm e "
                    f"K = {f(pr['K'], 5)} N/mm"))
     linhas = [[f(l["e"]), f(l["d78"]), f(l["theta_t"], 2), f(l["tau_pico"]),
                f(l["theta_pico"], 1), f(l["tau_90"]), f(l["razao_90"]),
                f(l["x_min"], 2), f(l["x_max"], 2)] for l in fam["linhas"]]
-    a(TABELA(["‹e› (mm)", "d_{78} (mm)", "θ_{el,t} (°)", "Pico de τ (N·m)",
+    a(TABELA(["e_{c} (mm)", "x (mm)", "θ_{el,t} (°)", "Pico de τ (N·m)",
               "θ_{el} do pico (°)", "τ(90°) (N·m)", "τ/τ_{g} em 90°",
               "δ_{mín} (mm)", "δ_{máx} (mm)"], linhas,
              [1000, 1000, 1000, 1100, 1100, 1040, 1040, 1040, 1040], ["center"]*9))
@@ -1741,8 +1773,8 @@ def parte_4B():
     no1, no2 = var["nos"]
     cz = fam["cruzamentos_e_extremos"][0]
     a(P(f"Nos ângulos abaixo de cerca de {f(cz, 0)}°, onde as curvas dos valores "
-        "extremos de ‹e› se cruzam, o torque aumenta com ‹e›; acima desse ângulo, "
-        "diminui. Com o aumento de ‹e›, o pico se desloca de "
+        "extremos de e_{c} se cruzam, o torque aumenta com e_{c}; acima desse ângulo, "
+        "diminui. Com o aumento de e_{c}, o pico se desloca de "
         f"{f(fam['linhas'][0]['theta_pico'], 1)}° para "
         f"{f(fam['linhas'][-1]['theta_pico'], 1)}° e a transição ocorre mais cedo. "
         "Medido o espalhamento entre as curvas de τ/K, máximo menos mínimo em cada "
@@ -1759,7 +1791,7 @@ def parte_4B():
         "difere do da Figura 16 da patente. No modelo, as curvas de τ/τ_{g} da família "
         f"têm máximo entre {f(min(x['theta'] for x in mx), 1)}° e "
         f"{f(max(x['theta'] for x in mx), 1)}°, que ocorre mais cedo quanto maior "
-        f"o trecho ‹e›, e mínimo local entre {f(min(x['theta'] for x in mn), 1)}° e "
+        f"o trecho e_{{c}}, e mínimo local entre {f(min(x['theta'] for x in mn), 1)}° e "
         f"{f(max(x['theta'] for x in mn), 1)}° nas curvas que permanecem "
         f"tracionadas; as curvas se cruzam perto de {f(cz, 0)}°. Qualitativamente, o "
         "modelo reproduz a sequência de máximo, vale e subida perto de 180°, mas com "
@@ -1767,7 +1799,7 @@ def parte_4B():
         "comparação quantitativa depende da digitalização da Figura 17 da patente, "
         "da definição de sua ordenada e dos valores de excentricidade, que a patente "
         "não informa."))
-    a(LEG_F("fam", f"Família de curvas em ‹e›, com s_{{0}} = {f(pr['s0'])} mm, com "
+    a(LEG_F("fam", f"Família de curvas em e_{{c}}, com s_{{0}} = {f(pr['s0'])} mm, com "
                    "(a) o torque por unidade de rigidez e (b) a razão entre o torque "
                    "do elástico e o do peso com K = K_{40}"))
     a(FIGURA("ottobock_tcc_fig_a5_familia.png", 6.5,
@@ -1839,10 +1871,10 @@ def parte_4B():
         "⟦S:r_mec⟧."))
     a(LEG_T("proj", f"Cenário de projeto com s_{{0}} = {f(pr['s0'])} mm e "
                     f"K = K_{{40}} = {f(pr['K'], 5)} N/mm"))
-    linhas = [[f(l["theta"], 0), f(l["lambda"]), l["regime"], f(l["l"]), f(l["x"]),
+    linhas = [[f(l["theta"], 0), f(l["lambda"] + EPS), l["regime"], f(l["l"]), f(l["x"]),
                f(l["m"]), f(l["F"], 2), f(l["tau"]), f(l["tau_g"]), f(l["razao"])]
               for l in pr["tabela"]]
-    a(TABELA(["θ_{el} (°)", "λ (°)", "Regime", "ℓ (mm)", "δ (mm)", "m (mm)",
+    a(TABELA(["θ_{el} (°)", "q (°)", "Regime", "s (mm)", "δ (mm)", "m (mm)",
               "F (N)", "τ (N·m)", "τ_{g} (N·m)", "τ/τ_{g}"], linhas,
              [860, 960, 1000, 960, 960, 900, 900, 940, 1000, 880], ["center"]*10))
     a(FONTE)
@@ -1899,7 +1931,7 @@ def parte_4B():
           "Incluir o modelo no repositório e registrar o critério de escala, como "
           "na seção 4A.1"],
          ["Sinal de θ_{b,pose}",
-          "Altera λ_{0}, a transição, s_{0} e K_{40} (seções ⟦S:conv⟧ e ⟦S:r_s0⟧)",
+          "Altera q_{0}, o contato, s_{0} e K_{40} (seções ⟦S:conv⟧ e ⟦S:r_s0⟧)",
           "Medir no CAD o ângulo do braço na pose, com o sentido positivo declarado"],
          ["Posição do eixo da articulação 20 no referencial do Fusion",
           "Braço do exoesqueleto fora de τ_{g} e de I_{O}",
@@ -1917,9 +1949,9 @@ def parte_4B():
           "fixa no tronco (seção ⟦S:conv⟧)",
           "Representar o afastamento entre o eixo da articulação e o ombro e o giro "
           "da barra 18 em torno da articulação esférica 22"],
-         ["Valor de ‹e› igual à cota H_{CAD} do outro mecanismo",
-          "Possível erro de transcrição; todos os resultados dependem de ‹e›",
-          "Conferir ‹e› no modelo em CAD"],
+         ["Valor de e_{c} igual à cota H_{CAD} do outro mecanismo",
+          "Possível erro de transcrição; todos os resultados dependem de e_{c}",
+          "Conferir e_{c} no modelo em CAD"],
          ["Rigidez K e escala da ordenada da Figura 16 da patente",
           "K só por hipótese (K_{40}); torque em N·m apenas como cenário",
           "Especificação ou ensaio de força e extensão do elemento elástico, ou "
@@ -1931,14 +1963,14 @@ def parte_4B():
           "força inicial"],
          ["Posição e raio de contato do elemento 78",
           "Torque não nulo abaixo da transição, contra razão nula na Figura 16 da patente",
-          "Conferir no CAD; comparar com p_{78} = 0, preferido pela patente"],
+          "Conferir no CAD; comparar com p = 0, preferido pela patente"],
          ["Procedimento e incerteza da extração da Figura 16 da patente",
           "Incerteza da leitura estimada só pelo erro mediano declarado; a "
           "identificação supõe que a figura, apresentada como exemplar, seja fiel em "
           "escala, o que a patente não declara",
           "Registrar imagem, resolução e método da extração; repetir a leitura"],
          ["Digitalização da Figura 17 da patente",
-          "Efeito de ‹e› comparado só visualmente",
+          "Efeito de e_{c} comparado só visualmente",
           "Digitalizar a Figura 17 da patente e obter os valores de excentricidade"],
          ["Movimento fora do plano sagital",
           "Abdução e articulação esférica 22 não representadas",
@@ -2050,7 +2082,7 @@ def parte_5B():
         "regimes em forma fechada, o torque pelo produto vetorial, o torque "
         "gravitacional, o tratamento da Figura 16 da patente, a identificação de "
         "s_{0} pelo espaçamento entre as curvas e pelo ajuste de forma, a varredura "
-        "do trecho ‹e› e as verificações numéricas."))
+        "do trecho e_{c} e as verificações numéricas."))
     a(P("O espaçamento entre as três curvas da Figura 16 da patente determina os "
         "comprimentos de referência do elástico sem depender da escala da ordenada, "
         "da rigidez, do braço de momento ou do torque do peso: "
@@ -2093,12 +2125,12 @@ def parte_5B():
     a(P("As relações de circuito dos dois regimes e o princípio dos trabalhos "
         f"virtuais foram verificados com resíduos de até {sci(res_circ)} mm e "
         f"{sci(max(ver['tv_I'], ver['tv_II']))} mm/rad. Com s_{{0}} e K mantidos, a "
-        "varredura do trecho ‹e› mostrou que o elástico permanece tracionado em toda "
-        f"a faixa só para ‹e› ≤ {f(var['faixas']['tracao']['max'], 2)} mm; o aumento "
-        f"de ‹e› antecipa a transição de regime, de {f(var['theta_t'][1], 2)}° para "
+        "varredura do trecho e_{c} mostrou que o elástico permanece tracionado em toda "
+        f"a faixa só para e_{{c}} ≤ {f(var['faixas']['tracao']['max'], 2)} mm; o aumento "
+        f"de e_{{c}} antecipa a transição de regime, de {f(var['theta_t'][1], 2)}° para "
         f"{f(var['theta_t'][0], 2)}°, e desloca o pico do torque de "
         f"{f(linhas_e[25.0]['theta_pico'], 1)}° para "
-        f"{f(linhas_e[45.0]['theta_pico'], 1)}° entre ‹e› = 25 mm e ‹e› = 45 mm. A "
+        f"{f(linhas_e[45.0]['theta_pico'], 1)}° entre e_{{c}} = 25 mm e e_{{c}} = 45 mm. A "
         "comparação com a Figura 17 da patente ficou restrita à inspeção visual."))
     a(P("Dos objetivos acrescentados para esse dispositivo, o item h foi cumprido "
         "na parte estática, com três ressalvas: a escala do torque depende da "
@@ -2126,7 +2158,7 @@ def parte_5B():
         "forma dos perfis, mas não quanto à magnitude."))
     a(P("Como continuidade para esse dispositivo, recomenda-se incluir o modelo em "
         "CAD no repositório e confirmar nele o sinal do ângulo do braço na pose e o "
-        "valor de ‹e›, que coincide com a cota "
+        "valor de e_{c}, que coincide com a cota "
         "H_{CAD} do outro mecanismo; esclarecer a definição da ordenada da Figura 16 "
         "da patente e a configuração do dispositivo que a gerou, que a patente não "
         "informa; conferir a posição e o raio de contato do elemento de encosto, "

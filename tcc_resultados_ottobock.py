@@ -863,7 +863,7 @@ def figuras(N, fig16, ajustes, conjunto, d, geo, peso, der, K, defs0, r, tp,
     eixos(a2, 0, 1)
     for i, ee in enumerate(sorted(curvas)):
         cad = abs(ee - E) < 1e-9
-        rot = (f"e = {ee:g} mm" + (" (CAD)" if cad else "")).replace(".", ",")
+        rot = (f"$e_c$ = {ee:g} mm" + (" (CAD)" if cad else "")).replace(".", ",")
         a1.plot(THETA, curvas[ee][0]/K, color=rampa[i], lw=2.6 if cad else 1.6,
                 label=rot)
         a2.plot(THETA, curvas[ee][1], color=rampa[i], lw=2.6 if cad else 1.6)

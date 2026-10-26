@@ -2,7 +2,7 @@
  "titulo": "Modelagem e simulação de mecanismos passivos de apoio ao braço",
  "tabelas": 26,
  "figuras": 12,
- "equacoes": 52,
+ "equacoes": 54,
  "secoes": 72,
  "citadas": [
   "agenciabrasil2026",
@@ -80,7 +80,7 @@
    "20": "tab:ajuste-conjunto-escala-comum",
    "21": "tab:parametros-nao-publicados-origem-identificabilidade",
    "22": "tab:grandezas-circuito-angulos-representativos",
-   "23": "tab:familia-curvas-s0-mm",
+   "23": "tab:familia-curvas-ec-s0",
    "24": "tab:cenario-projeto-s0-mm",
    "25": "tab:pendencias-analise-ep-b1",
    "26": "tab:comparacao-dois-dispositivos-analisados"
@@ -95,7 +95,7 @@
    "7": "fig:torque-cabo-torque-gravitacional",
    "8": "fig:identificacao-s0-espacamento-curvas",
    "9": "fig:pontos-extraidos-figura-patente",
-   "10": "fig:familia-curvas-s0-mm",
+   "10": "fig:familia-curvas-ec-s0",
    "11": "fig:torque-elastico-torque-peso",
    "12": "fig:torque-elastico-k-k40"
   }

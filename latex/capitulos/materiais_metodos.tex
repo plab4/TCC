@@ -321,89 +321,113 @@ O membro humano segue \textcite{deleva1996}, com o mesmo indivíduo de referênc
 
 O mecanismo é tratado como plano, com origem O no eixo da articulação 20, admitido coincidente com o centro do ombro, eixo x anterior e eixo y para cima. Os ângulos são medidos a partir de +x, no sentido anti-horário, com u(x) = (cos x, sen x), como na seção~\ref{sec:3A.4}. Comprimentos estão em milímetros, e os ângulos entram em graus e são convertidos para radianos uma única vez.
 
-A variável independente é a anteversão do braço, θ\textsubscript{el}, com 0° para o braço pendente e 90° para o braço horizontal à frente. É a grandeza da abscissa das Figuras 16 e 17 da patente, definida nesses termos pela própria patente. Por isso, ao contrário da seção~\ref{sec:3A.3}, o ângulo da patente não precisa ser convertido em elevação anatômica. O modelo admite, porém, que o giro do elemento de apoio do braço em relação à barra 18 seja igual à anteversão, o que supõe o eixo da articulação 20 no centro do ombro e a barra 18 fixa em relação ao tronco. A patente situa a articulação na altura do ombro, na região da escápula e afastada para trás do corpo com o braço pendente, com eixo que não coincide com o de abdução do ombro, e admite que a orientação da barra 18 mude com o movimento do braço. O documento não informa a relação entre o giro da articulação e a anteversão, e as comparações angulares com as Figuras 16 e 17 da patente dependem dessa hipótese. O eixo do braço aponta na direção θ\textsubscript{el} − 90°. O ângulo λ do trecho \textit{e} da alavanca, variável interna da cinemática, relaciona-se com θ\textsubscript{el} por
+A variável independente é a anteversão do braço, θ\textsubscript{el}, com 0° para o braço pendente e 90° para o braço horizontal à frente. É a grandeza da abscissa das Figuras 16 e 17 da patente, definida nesses termos pela própria patente. Por isso, ao contrário da seção~\ref{sec:3A.3}, o ângulo da patente não precisa ser convertido em elevação anatômica. O modelo admite, porém, que o giro do elemento de apoio do braço em relação à barra 18 seja igual à anteversão, o que supõe o eixo da articulação 20 no centro do ombro e a barra 18 fixa em relação ao tronco. A patente situa a articulação na altura do ombro, na região da escápula e afastada para trás do corpo com o braço pendente, com eixo que não coincide com o de abdução do ombro, e admite que a orientação da barra 18 mude com o movimento do braço. O documento não informa a relação entre o giro da articulação e a anteversão, e as comparações angulares com as Figuras 16 e 17 da patente dependem dessa hipótese. O eixo do braço aponta na direção θ\textsubscript{el} − 90°. A alavanca é representada pelo segmento OP, de comprimento \textit{e} e direção q (seção~\ref{sec:3B.4}); o ângulo q, variável interna da cinemática, relaciona-se com θ\textsubscript{el} por
 
 \begin{gather}
-  \lambda = \theta_{el} + 90^{\circ} + \lambda_{0} \label{eq:28} \\
-  \lambda_{0} = \lambda_{pose} - \left( 180^{\circ} + \theta_{b,pose} \right),\quad\theta_{el,pose} = 90^{\circ} + \theta_{b,pose} \label{eq:29}
+  q = \theta_{el} + 90^{\circ} + q_{0} \label{eq:28} \\
+  q_{0} = q_{pose} - \left( 180^{\circ} + \theta_{b,pose} \right),\quad\theta_{el,pose} = 90^{\circ} + \theta_{b,pose} \label{eq:29}
 \end{gather}
 
-em que θ\textsubscript{b,pose} é o ângulo do braço com a horizontal na pose do CAD, positivo acima. A Tabela~\ref{tab:convencoes-angulares-sinal-modelo} resume as convenções e indica o nome de cada grandeza no código e sua correspondência com a seção~\ref{sec:3A}. Alguns símbolos da seção~\ref{sec:3A} foram substituídos nesta parte para evitar dois significados para a mesma letra.
+em que q\textsubscript{pose} é a direção de OP na pose do CAD e θ\textsubscript{b,pose} o ângulo do braço com a horizontal nessa pose, positivo acima. A Tabela~\ref{tab:convencoes-angulares-sinal-modelo} resume as convenções e indica o nome de cada grandeza no código e sua correspondência com a seção~\ref{sec:3A}. Os símbolos desta parte seguem a formulação do autor para este mecanismo; s, ψ e φ têm, na seção~\ref{sec:3A}, outro significado.
 
-\begin{table}[!htbp]
-\estilotabela{\small}
-\caption{Convenções angulares e de sinal do modelo da Ottobock}\label{tab:convencoes-angulares-sinal-modelo}
-\begin{tabularx}{\textwidth}{@{}>{\hsize=0.588\hsize\centering\arraybackslash}X>{\hsize=1.207\hsize\raggedright\arraybackslash}X>{\hsize=1.015\hsize\raggedright\arraybackslash}X>{\hsize=0.748\hsize\centering\arraybackslash}X>{\hsize=1.442\hsize\raggedright\arraybackslash}X@{}}
+\begin{tabelaabnt}{\small}
+\begin{xltabular}{\textwidth}{@{}>{\hsize=0.588\hsize\centering\arraybackslash}X>{\hsize=1.207\hsize\raggedright\arraybackslash}X>{\hsize=1.015\hsize\raggedright\arraybackslash}X>{\hsize=0.748\hsize\centering\arraybackslash}X>{\hsize=1.442\hsize\raggedright\arraybackslash}X@{}}
+\caption{Convenções angulares e de sinal do modelo da Ottobock}\label{tab:convencoes-angulares-sinal-modelo}\\
 \toprule
 \centering\textbf{Símbolo} & \centering\textbf{Definição} & \centering\textbf{Relação} & \centering\textbf{No código} & \centering\textbf{Correspondência na seção~\ref{sec:3A}} \tabularnewline
 \midrule
-θ\textsubscript{el} & Anteversão do braço & Variável independente, em graus & theta\_star & Elevação anatômica θ\textsubscript{el}, Equação~\eqref{eq:04} \\
-λ & Ângulo do trecho \textit{e} a partir de +x & Equação~\eqref{eq:28} & q & Papel de q, Equação~\eqref{eq:02}, com outra definição \\
-λ\textsubscript{0} & Defasagem constante entre λ e θ\textsubscript{el} + 90° & Equação~\eqref{eq:29} & delta & Papel de θ\textsubscript{off}, sem identificação \\
-φ & Direção do trecho do elástico ligado a A & Equações~\eqref{eq:36} e \eqref{eq:37} & psi & Mesmo papel de φ, Equação~\eqref{eq:08} \\
-ℓ & Comprimento do elástico entre A e P & Equações~\eqref{eq:36} e \eqref{eq:37} & s & Mesmo papel de ℓ, Equação~\eqref{eq:16} \\
-s\textsubscript{0} & Valor de ℓ em que o elástico atinge o comprimento livre & Seção~\ref{sec:3B.6} & s0 & Mesmo papel de s\textsubscript{0}, Equação~\eqref{eq:18} \\
-δ & Extensão elástica & Equação~\eqref{eq:39} & x & Mesmo papel de δ, Equação~\eqref{eq:19} \\
-m & Braço de momento, positivo quando assiste a subida & Equação~\eqref{eq:41} & braco & Mesmo significado de m, Equação~\eqref{eq:14}; a relação com τ muda de sinal porque τ segue a convenção de −τ \\
-τ & Torque do elástico & Positivo no sentido de θ\textsubscript{el} crescente & tau & Mesmo sentido de −τ na Tabela~\ref{tab:convencoes-angulares-sinal} \\
-τ\textsubscript{g} & Módulo do torque do peso & Equação~\eqref{eq:44} & torque\_peso & Equação~\eqref{eq:24} \\
+\endfirsthead
+\toprule
+\centering\textbf{Símbolo} & \centering\textbf{Definição} & \centering\textbf{Relação} & \centering\textbf{No código} & \centering\textbf{Correspondência na seção~\ref{sec:3A}} \tabularnewline
+\midrule
+\endhead
 \bottomrule
-\end{tabularx}
+\endfoot
+\bottomrule
+\endlastfoot
+θ\textsubscript{el} & Anteversão do braço & Variável independente, em graus & theta\_star & Elevação anatômica θ\textsubscript{el}, Equação~\eqref{eq:04} \\
+q & Direção do segmento OP a partir de +x & Equação~\eqref{eq:28} & q + angulo\_OP & Papel de q, Equação~\eqref{eq:02}, com outra definição \\
+q\textsubscript{0} & Defasagem constante entre q e θ\textsubscript{el} + 90° & Equação~\eqref{eq:29} & delta + angulo\_OP & Papel de θ\textsubscript{off}, sem identificação \\
+q* & Valor de q no contato do elástico com o elemento 78 & Seção~\ref{sec:3B.5} & q\_estrela & Sem correspondente \\
+φ & Defasagem constante entre a direção de p e q & Equação~\eqref{eq:33} & phi − angulo\_OP & Na seção~\ref{sec:3A}, φ é a direção do cabo \\
+ψ & Direção do trecho do elástico ligado a A & Equações~\eqref{eq:38} e \eqref{eq:39} & psi & Papel de φ, Equação~\eqref{eq:08}; na seção~\ref{sec:3A}, ψ é o ângulo entre o cabo e o elo \\
+s & Comprimento do elástico entre A e P & Equações~\eqref{eq:38} e \eqref{eq:39} & s & Papel de ℓ, Equação~\eqref{eq:16}; na seção~\ref{sec:3A}, s é o vão livre do cabo \\
+x & Comprimento do trecho do elástico entre o elemento 78 e P & Equação~\eqref{eq:37} & calculate\_d & Sem correspondente \\
+s\textsubscript{0} & Valor de s em que o elástico atinge o comprimento livre & Seção~\ref{sec:3B.6} & s0 & Mesmo papel de s\textsubscript{0}, Equação~\eqref{eq:18} \\
+δ & Extensão elástica & Equação~\eqref{eq:41} & x & Mesmo papel de δ, Equação~\eqref{eq:19} \\
+m & Braço de momento, positivo quando assiste a subida & Equação~\eqref{eq:43} & braco & Mesmo significado de m, Equação~\eqref{eq:14}; a relação com τ muda de sinal porque τ segue a convenção de −τ \\
+τ & Torque do elástico & Positivo no sentido de θ\textsubscript{el} crescente & tau & Mesmo sentido de −τ na Tabela~\ref{tab:convencoes-angulares-sinal} \\
+τ\textsubscript{g} & Módulo do torque do peso & Equação~\eqref{eq:46} & torque\_peso & Equação~\eqref{eq:24} \\
+\end{xltabular}
 \fonte{elaborada pelo autor.}
-\end{table}
+\end{tabelaabnt}
 
 O torque τ é positivo no sentido anti-horário, que é o de θ\textsubscript{el} crescente; τ > 0 assiste a subida do braço. O torque do peso tem sinal oposto na faixa de 0° a 180°, e as comparações usam seu módulo τ\textsubscript{g}.
 
-O sinal de θ\textsubscript{b,pose} = −7,962° ainda precisa ser confirmado no CAD. Com o sinal trocado, λ\textsubscript{0} passa a −27,475° e θ\textsubscript{el,pose} a 97,962°, e a transição de regime da seção~\ref{sec:3B.5} vai de 19,09° para 35,02°. Os efeitos sobre s\textsubscript{0} e K\textsubscript{40} estão na seção~\ref{sec:4B.4}, e os resultados da seção~\ref{sec:4B} dependem da confirmação desse sinal.
+O sinal de θ\textsubscript{b,pose} = −7,962° ainda precisa ser confirmado no CAD. Com o sinal trocado, q\textsubscript{0} passa a −41,815° e θ\textsubscript{el,pose} a 97,962°, e o contato da seção~\ref{sec:3B.5} vai de 19,09° para 35,02°. Os efeitos sobre s\textsubscript{0} e K\textsubscript{40} estão na seção~\ref{sec:4B.4}, e os resultados da seção~\ref{sec:4B} dependem da confirmação desse sinal.
 
 \subsection{Equação de fechamento do circuito vetorial}\label{sec:3B.4}
 
-A ancoragem A do elástico fica na barra 18, e o ponto P, no fim do cotovelo da alavanca solidária ao braço (Figura~\ref{fig:circuitos-mecanismo-regime-i}). O vetor fixo de A a O, a posição de P e a do centro C\textsubscript{78} do elemento 78 são
-
-\begin{gather}
-  \mathbf{r}_{AO} = C_{1}\,\mathbf{u}\left( - \alpha_{1} \right) + C_{2}\,\mathbf{u}\left( \gamma_{2} \right),\quad\alpha_{1} = 90^{\circ} - \gamma_{2} \label{eq:30} \\
-  \mathbf{P} = e\,\mathbf{u}(\lambda) + C_{3}\,\mathbf{u}\left( \lambda + \beta_{c} \right),\quad\mathbf{C}_{78} = p_{78}\,\mathbf{u}\left( \lambda + \eta_{78} \right) \label{eq:31} \\
-  \eta_{78} = \lambda_{78,pose} - \lambda_{pose} \label{eq:32}
-\end{gather}
-
-com A = −r\textsubscript{AO}. Acima do ângulo de transição, o elástico é retilíneo de A a P (regime I); abaixo dele, encosta no elemento 78 e fica dividido nos trechos de A ao elemento 78 e do elemento 78 a P (regime II). As equações de circuito dos dois regimes são
-
-\begin{gather}
-  \mathbf{r}_{AO} + e\,\mathbf{u}(\lambda) + C_{3}\,\mathbf{u}\left( \lambda + \beta_{c} \right) - \ell\,\mathbf{u}(\varphi) = \mathbf{0} \label{eq:33} \\
-  \mathbf{r}_{AO} + p_{78}\,\mathbf{u}\left( \lambda + \eta_{78} \right) - \left( \ell - d_{78} \right)\mathbf{u}(\varphi) = \mathbf{0} \label{eq:34}
-\end{gather}
-
-em que ℓ é o comprimento total do elástico entre A e P, φ a direção do trecho ligado a A e d\textsubscript{78} o comprimento do trecho entre o elemento 78 e P. Como P e o elemento 78 giram juntos com o braço, d\textsubscript{78} não depende de λ:
+A ancoragem A do elástico fica na barra 18, e o ponto P, na extremidade da alavanca solidária ao braço (Figura~\ref{fig:circuitos-mecanismo-regime-i}). No modelo em CAD, a alavanca tem um cotovelo: um trecho e\textsubscript{c} a partir de O e um trecho C\textsubscript{3} girado de β\textsubscript{c}. Como os dois giram juntos com o braço, a alavanca é representada pelo segmento OP, de comprimento \textit{e}, que forma com o trecho e\textsubscript{c} o ângulo fixo ε:
 
 \begin{equation}
-  d_{78} = \left| \mathbf{P} - \mathbf{C}_{78} \right| = \left| e + C_{3}\,\mathbf{u}\left( \beta_{c} \right) - p_{78}\,\mathbf{u}\left( \eta_{78} \right) \right|
-  \label{eq:35}
+  e = \left| e_{c} + C_{3}\,\mathbf{u}\left( \beta_{c} \right) \right|,\quad\varepsilon = \operatorname{atan2}\left( C_{3}\sin\beta_{c},\ e_{c} + C_{3}\cos\beta_{c} \right)
+  \label{eq:30}
 \end{equation}
 
-Cada regime tem solução fechada, sem procedimento iterativo, porque o lado direito das relações abaixo, a primeira para o regime I e a segunda para o regime II, é conhecido para cada λ:
+Com e\textsubscript{c} = 34,785 mm, C\textsubscript{3} = 14,907 mm e β\textsubscript{c} = −49,647°, medidos no CAD, resulta \textit{e} = 45,866 mm e ε = −14,340°. O vetor fixo de A a O, a posição de P e a do centro do elemento 78, na extremidade do vetor p, são
 
 \begin{gather}
-  \ell\,\mathbf{u}(\varphi) = \mathbf{r}_{AO} + \mathbf{P} \label{eq:36} \\
-  \left( \ell - d_{78} \right)\mathbf{u}(\varphi) = \mathbf{r}_{AO} + \mathbf{C}_{78} \label{eq:37}
+  \mathbf{r}_{AO} = C_{1}\,\mathbf{u}( - \alpha) + C_{2}\,\mathbf{u}(\gamma),\quad\alpha = 90^{\circ} - \gamma \label{eq:31} \\
+  \mathbf{P} = e\,\mathbf{u}(q),\quad\mathbf{C}_{78} = p\,\mathbf{u}(q + \varphi) \label{eq:32} \\
+  \varphi = q_{78,pose} - q_{pose} \label{eq:33}
+\end{gather}
+
+com A = −r\textsubscript{AO}. O elemento 78 é preso ao braço, e φ é a defasagem constante entre a direção de p e q, 131,790° na geometria do CAD. Para q > q*, o elástico é retilíneo de A a P (regime I), e o circuito fechado é
+
+\begin{equation}
+  C_{1}\,\mathbf{u}( - \alpha) + C_{2}\,\mathbf{u}(\gamma) + e\,\mathbf{u}(q) - s\,\mathbf{u}(\psi) = \mathbf{0}
+  \label{eq:34}
+\end{equation}
+
+Para q ≤ q*, o elástico encosta no elemento 78 e fica dividido nos trechos de A ao elemento 78 e do elemento 78 a P (regime II). O elemento 78 só entra no circuito a partir do contato, e há dois circuitos: o circuito fechado que passa pelo elemento 78 e o triângulo formado por \textit{e}, p e x,
+
+\begin{gather}
+  C_{1}\,\mathbf{u}( - \alpha) + C_{2}\,\mathbf{u}(\gamma) + p\,\mathbf{u}(q + \varphi) - (s - x)\mathbf{u}(\psi) = \mathbf{0} \label{eq:35} \\
+  x = \left| e\,\mathbf{u}(q) - p\,\mathbf{u}(q + \varphi) \right| \label{eq:36}
+\end{gather}
+
+em que s é o comprimento total do elástico entre A e P, ψ a direção do trecho ligado a A e x o comprimento do trecho entre o elemento 78 e P. No triângulo, \textit{e} e p são constantes e o ângulo entre eles é a defasagem φ, de modo que x não depende de q:
+
+\begin{equation}
+  x = \sqrt{e^{2} + p^{2} - 2\, e\, p\cos\varphi}
+  \label{eq:37}
+\end{equation}
+
+Com as grandezas do CAD, x = 51,360 mm. Cada regime tem solução fechada, sem procedimento iterativo, porque o lado direito das relações abaixo, a primeira para o regime I e a segunda para o regime II, é conhecido para cada q:
+
+\begin{gather}
+  s\,\mathbf{u}(\psi) = \mathbf{r}_{AO} + \mathbf{P} \label{eq:38} \\
+  (s - x)\mathbf{u}(\psi) = \mathbf{r}_{AO} + \mathbf{C}_{78} \label{eq:39}
 \end{gather}
 
 \subsection{Ponto de contato e troca de regime}\label{sec:3B.5}
 
-A troca de regime não é imposta por um ângulo. Ela é detectada pelo sinal do produto vetorial
+O contato não é imposto por um ângulo. Ele é detectado pelo sinal do produto vetorial
 
 \begin{equation}
   \kappa = \left\lbrack \left( \mathbf{P} - \mathbf{A} \right) \times \left( \mathbf{C}_{78} - \mathbf{A} \right) \right\rbrack_{z}
-  \label{eq:38}
+  \label{eq:40}
 \end{equation}
 
-O regime II ocorre quando κ ≥ 0, isto é, quando o elemento 78 ficaria do outro lado da reta de A a P se o elástico não o contornasse. O ângulo de transição λ\textsubscript{t} é a raiz de κ, obtida por bissecção, com a condição de que o elemento 78 fique entre A e P. Para a geometria do CAD, λ\textsubscript{t} = 97,543°, isto é, θ\textsubscript{el,t} = 19,094°; nesse ponto, ℓ = 387,222 mm e m = 5,163 mm nos dois regimes.
+O regime II ocorre quando κ ≥ 0, isto é, quando o elemento 78 ficaria do outro lado da reta de A a P se o elástico não o contornasse. O ângulo de contato q* é a raiz de κ, obtida por bissecção, com a condição de que o elemento 78 fique entre A e P. Para a geometria do CAD, q* = 83,203°, isto é, θ\textsubscript{el} = 19,094°; nesse ponto, s = 387,222 mm e m = 5,163 mm nos dois regimes, porque A, o elemento 78 e P estão alinhados e o trecho x completa o comprimento.
 
 \begin{figure}[!htbp]
 \centering
 \caption{Circuitos do mecanismo: regime I na pose do CAD (θ\textsubscript{el} = 82,038°) e regime II em θ\textsubscript{el} = 10°}\label{fig:circuitos-mecanismo-regime-i}
 \includegraphics[width=1.00\textwidth]{circuitos-mecanismo-regime-i.png}
 \fonte{elaborada pelo autor.}
-\nota{à direita, ampliação da região do pivô. A alavanca está representada pelo segmento OP, de comprimento |OP|. Regime I: circuito fechado C\textsubscript{1}, C\textsubscript{2}, OP e s. Regime II: circuito fechado C\textsubscript{1}, C\textsubscript{2}, p e s − x, e triângulo OP, p e x (OP tracejado); o elemento 78, na ponta de p, só entra depois do contato. As linhas pontilhadas indicam o eixo do braço.}
+\nota{à direita, ampliação da região do pivô. A alavanca está representada pelo segmento OP, de comprimento \textit{e}. Regime I: circuito fechado C\textsubscript{1}, C\textsubscript{2}, \textit{e} e s. Regime II: circuito fechado C\textsubscript{1}, C\textsubscript{2}, p e s − x, e triângulo \textit{e}, p e x (\textit{e} tracejado); o elemento 78, na ponta de p, só entra depois do contato. As linhas pontilhadas indicam o eixo do braço.}
 \end{figure}
 
 \subsection{Comprimento do elástico, lei da mola e torque}\label{sec:3B.6}
@@ -411,47 +435,47 @@ O regime II ocorre quando κ ≥ 0, isto é, quando o elemento 78 ficaria do out
 O elástico é tratado como linear e sem massa, com a mesma lei da Equação~\eqref{eq:19}:
 
 \begin{equation}
-  \delta = \max\left( \ell - s_{0},\ 0 \right),\quad F = K\delta
-  \label{eq:39}
+  \delta = \max\left( s - s_{0},\ 0 \right),\quad F = K\delta
+  \label{eq:41}
 \end{equation}
 
-em que s\textsubscript{0} é o valor de ℓ em que o elástico atinge o comprimento livre e K a rigidez. A patente não informa K, o comprimento livre nem a pré-tensão. O código admite três formas de definir s\textsubscript{0}: constante, igual ao comprimento medido na pose do CAD, ℓ\textsubscript{pose} = 359,768 mm, apenas provisória; por uma pré-tensão X\textsubscript{pre} num ângulo θ\textsubscript{el,pre}, com s\textsubscript{0} = ℓ(θ\textsubscript{el,pre}) − X\textsubscript{pre}, análoga à Equação~\eqref{eq:18}; e identificada a partir das curvas da Figura 16 da patente (seção~\ref{sec:3B.9}). As duas primeiras usam K = 9 N/mm, valor ilustrativo sem origem documental, e não produzem resultados neste trabalho; a terceira é a adotada, com s\textsubscript{0} obtido pelo espaçamento entre as três curvas.
+em que s\textsubscript{0} é o valor de s em que o elástico atinge o comprimento livre e K a rigidez. A patente não informa K, o comprimento livre nem a pré-tensão. O código admite três formas de definir s\textsubscript{0}: constante, igual ao comprimento medido na pose do CAD, s\textsubscript{pose} = 359,768 mm, apenas provisória; por uma pré-tensão X\textsubscript{pre} num ângulo θ\textsubscript{el,pre}, com s\textsubscript{0} = s(θ\textsubscript{el,pre}) − X\textsubscript{pre}, análoga à Equação~\eqref{eq:18}; e identificada a partir das curvas da Figura 16 da patente (seção~\ref{sec:3B.9}). As duas primeiras usam K = 9 N/mm, valor ilustrativo sem origem documental, e não produzem resultados neste trabalho; a terceira é a adotada, com s\textsubscript{0} obtido pelo espaçamento entre as três curvas.
 
-A força do trecho ligado a A atua em P, no regime I, ou no centro do elemento 78, no regime II, com direção oposta a u(φ):
+A força do trecho ligado a A atua em P, no regime I, ou no centro do elemento 78, no regime II, com direção oposta a u(ψ):
 
 \begin{equation}
-  \tau = \frac{\left\lbrack \mathbf{r}_{F} \times \mathbf{V} \right\rbrack_{z}}{1000},\quad\mathbf{V} = - F\,\mathbf{u}(\varphi),\quad\mathbf{r}_{F,I} = \mathbf{P},\quad\mathbf{r}_{F,II} = \mathbf{C}_{78}
-  \label{eq:40}
+  \tau = \frac{\left\lbrack \mathbf{r}_{F} \times \mathbf{V} \right\rbrack_{z}}{1000},\quad\mathbf{V} = - F\,\mathbf{u}(\psi),\quad\mathbf{r}_{F,I} = \mathbf{P},\quad\mathbf{r}_{F,II} = \mathbf{C}_{78}
+  \label{eq:42}
 \end{equation}
 
 em que r\textsubscript{F} é o ponto de aplicação da força: r\textsubscript{F} = r\textsubscript{F,I} no regime I e r\textsubscript{F} = r\textsubscript{F,II} no regime II.
 
-No regime II, o trecho entre o elemento 78 e P liga dois pontos do mesmo corpo; as forças que exerce sobre P e sobre o elemento 78 são iguais, opostas e colineares e não contribuem para o torque, o que corresponde à descrição da patente. O braço de momento com sinal é
+No regime II, o trecho x liga dois pontos do mesmo corpo; as forças que exerce sobre P e sobre o elemento 78 são iguais, opostas e colineares e não contribuem para o torque, o que corresponde à descrição da patente. O braço de momento com sinal é
 
 \begin{equation}
-  m_{I} = e\sin(\lambda - \varphi) + C_{3}\sin\left( \lambda + \beta_{c} - \varphi \right),\quad m_{II} = p_{78}\sin\left( \lambda + \eta_{78} - \varphi \right),\quad\tau = \frac{Fm}{1000}
-  \label{eq:41}
+  m_{I} = e\sin(q - \psi),\quad m_{II} = p\sin(q + \varphi - \psi),\quad\tau = \frac{Fm}{1000}
+  \label{eq:43}
 \end{equation}
 
 com m = m\textsubscript{I} no regime I, m = m\textsubscript{II} no regime II e m > 0 quando o torque assiste a subida. O fator 1/1000, herdado da formulação da seção~\ref{sec:3A.6}, converte N·mm em N·m; aqui o torque resulta em N·m sempre que K estiver em N/mm. Admitido o elemento 78 pontual e sem atrito, hipótese que a patente não discute, a tração é igual nos dois trechos, e o princípio dos trabalhos virtuais exige
 
 \begin{equation}
-  \frac{d\ell}{d\lambda} = - m
-  \label{eq:42}
+  \frac{ds}{dq} = - m
+  \label{eq:44}
 \end{equation}
 
-com λ em radianos, relação análoga à Equação~\eqref{eq:17}, verificada numericamente nos dois regimes (seção~\ref{sec:4B.3}). O sinal negativo, oposto ao da Equação~\eqref{eq:17}, vem de λ crescer com a elevação do braço, ao passo que θ* decresce; nos dois mecanismos, m é positivo quando assiste a subida, e o elástico se encurta quando o braço sobe e devolve energia, como descreve a patente.
+com q em radianos, relação análoga à Equação~\eqref{eq:17}, verificada numericamente nos dois regimes (seção~\ref{sec:4B.3}). O sinal negativo, oposto ao da Equação~\eqref{eq:17}, vem de q crescer com a elevação do braço, ao passo que θ* decresce; nos dois mecanismos, m é positivo quando assiste a subida, e o elástico se encurta quando o braço sobe e devolve energia, como descreve a patente.
 
 \subsection{Faixa sem torque com o braço baixado}\label{sec:3B.7}
 
-Esta seção faz o papel da seção~\ref{sec:3A.7}: indica onde o modelo libera o braço. Pela Equação~\eqref{eq:41}, m\textsubscript{II} é proporcional a p\textsubscript{78}, de modo que, abaixo da transição, o torque só se anula se o elemento 78 estiver sobre o eixo. Com o elemento 78 sobre o eixo (p\textsubscript{78} = 0), configuração preferida pela patente, a transição tem forma fechada:
+Esta seção faz o papel da seção~\ref{sec:3A.7}: indica onde o modelo libera o braço. Pela Equação~\eqref{eq:43}, m\textsubscript{II} é proporcional a p, de modo que, abaixo do contato, o torque só se anula se o elemento 78 estiver sobre o eixo. Com o elemento 78 sobre o eixo (p = 0), configuração preferida pela patente, x = \textit{e} e o ângulo de contato tem forma fechada:
 
 \begin{equation}
-  \lambda_{t} = \operatorname{atan2}\left( r_{AO,y},\ r_{AO,x} \right) - \varepsilon,\quad\varepsilon = \operatorname{atan2}\left( C_{3}\sin\beta_{c},\ e + C_{3}\cos\beta_{c} \right)
-  \label{eq:43}
+  q^{*} = \operatorname{atan2}\left( r_{AO,y},\ r_{AO,x} \right)
+  \label{eq:45}
 \end{equation}
 
-em que ε é o ângulo fixo de OP em relação ao trecho \textit{e}. Nesse caso, a direção de OP na transição coincide com a de r\textsubscript{AO}, a reta do elástico passa pelo pivô e o torque no regime II é nulo. Com as demais grandezas do CAD, a Equação~\eqref{eq:43} dá θ\textsubscript{el,t} = 11,765°. As curvas da Figura 16 da patente partem de razão nula entre 14,23° e 14,36° (seção~\ref{sec:4B.2}), entre os dois valores do modelo; só no caso p\textsubscript{78} = 0, porém, o modelo tem torque nulo antes da transição (seção~\ref{sec:4B.9}).
+Nesse caso, a direção de OP no contato coincide com a de r\textsubscript{AO}, a reta do elástico passa pelo pivô e o torque no regime II é nulo. Com as demais grandezas do CAD, a Equação~\eqref{eq:45} dá θ\textsubscript{el} = 11,765°. As curvas da Figura 16 da patente partem de razão nula entre 14,23° e 14,36° (seção~\ref{sec:4B.2}), entre os dois valores do modelo; só no caso p = 0, porém, o modelo tem torque nulo antes do contato (seção~\ref{sec:4B.9}).
 
 \subsection{Torque gravitacional}\label{sec:3B.8}
 
@@ -459,7 +483,7 @@ O torque do peso é calculado de forma independente da cadeia do elástico. O co
 
 \begin{equation}
   \tau_{g} = \frac{Mgd\left| \cos\left( \theta_{el} - 90^{\circ} + a_{CG} \right) \right|}{1000}
-  \label{eq:44}
+  \label{eq:46}
 \end{equation}
 
 O conjunto reúne o membro humano e o braço do exoesqueleto (elemento 8), cujo centro de massa é referido ao eixo da articulação 20 pela posição desse eixo no modelo em CAD (seção~\ref{sec:4B.1}). Com o membro humano, alinhado ao eixo do braço, a\textsubscript{CG} seria nulo e τ\textsubscript{g} = M g d sen θ\textsubscript{el}/1000; o braço do exoesqueleto desloca o centro de massa do conjunto em a\textsubscript{CG} = 0,287°, e o máximo de τ\textsubscript{g}, 10,604 N·m, ocorre em θ\textsubscript{el} = 89,7°.
@@ -488,7 +512,7 @@ O modelo da razão de torques é
 
 \begin{equation}
   \mu\left( \theta_{el};\ s_{0} \right) = \frac{\delta\, m}{1000\,\tau_{g}},\quad\widehat{r} = c\,\mu
-  \label{eq:45}
+  \label{eq:47}
 \end{equation}
 
 em que r é a razão extraída, em divisões, e c um fator de escala. Como τ é linear em K, μ é o torque por unidade de rigidez dividido por τ\textsubscript{g}, e c reúne K e o valor desconhecido de uma divisão da ordenada: c = K/σ, com σ a razão de torques que corresponde a uma divisão. A curva da patente não separa K de σ, e por isso K não é identificável a partir dela. É a mesma limitação discutida na seção~\ref{sec:4A.6} para o outro mecanismo, aqui explícita na ausência de escala da ordenada.
@@ -498,28 +522,28 @@ Salvo indicação em contrário, os procedimentos desta seção usam apenas os p
 As três curvas foram geradas com o mesmo atuador e pré-tensões diferentes; admite-se que a geometria e a rigidez sejam as mesmas nas três, hipótese testada pela coincidência dos fatores G\textsubscript{i} (seção~\ref{sec:4B.4}). Com o elástico tracionado, a razão de cada curva i escreve-se
 
 \begin{equation}
-  r_{i}\left( \theta_{el} \right) = G\left( \theta_{el} \right)\left\lbrack \ell\left( \theta_{el} \right) - s_{0,i} \right\rbrack,\quad G = \frac{K\, m}{1000\,\sigma\,\tau_{g}}
-  \label{eq:46}
+  r_{i}\left( \theta_{el} \right) = G\left( \theta_{el} \right)\left\lbrack s\left( \theta_{el} \right) - s_{0,i} \right\rbrack,\quad G = \frac{K\, m}{1000\,\sigma\,\tau_{g}}
+  \label{eq:48}
 \end{equation}
 
 em que G reúne o que as três curvas têm em comum: a rigidez, a escala da ordenada, o braço de momento e o torque do peso. Para duas curvas i e j, a razão r\textsubscript{i}/r\textsubscript{j} elimina G, e a relação resultante é linear nos comprimentos de referência:
 
 \begin{equation}
-  r_{j}\, s_{0,i} - r_{i}\, s_{0,j} = \left( r_{j} - r_{i} \right)\ell
-  \label{eq:47}
+  r_{j}\, s_{0,i} - r_{i}\, s_{0,j} = \left( r_{j} - r_{i} \right)s
+  \label{eq:49}
 \end{equation}
 
-A Equação~\eqref{eq:47} foi escrita em cada ponto extraído de uma curva, com a razão da outra interpolada linearmente no mesmo ângulo, para os seis pares ordenados de curvas, e cada equação foi dividida por r\textsubscript{i} + r\textsubscript{j}, para que os pontos de razão maior não dominem o ajuste. O sistema, com 234 equações e três incógnitas, foi resolvido por mínimos quadrados lineares, sem procedimento iterativo nem ponto de partida. O método usa apenas ℓ(θ\textsubscript{el}) do circuito da seção~\ref{sec:3B.4}: não depende de K, de σ, de m nem de τ\textsubscript{g}.
+A Equação~\eqref{eq:49} foi escrita em cada ponto extraído de uma curva, com a razão da outra interpolada linearmente no mesmo ângulo, para os seis pares ordenados de curvas, e cada equação foi dividida por r\textsubscript{i} + r\textsubscript{j}, para que os pontos de razão maior não dominem o ajuste. O sistema, com 234 equações e três incógnitas, foi resolvido por mínimos quadrados lineares, sem procedimento iterativo nem ponto de partida. O método usa apenas s(θ\textsubscript{el}) do circuito da seção~\ref{sec:3B.4}: não depende de K, de σ, de m nem de τ\textsubscript{g}.
 
-A identificação foi repetida nas faixas de θ\textsubscript{el} de 15° a 170°, de 25° a 160° e de 40° a 150°; em 500 sorteios com ruído gaussiano somado às duas coordenadas de cada ponto, com desvio padrão igual ao erro mediano declarado no arquivo, 0,5 px na unidade da leitura, isto é, 0,024 divisão na ordenada e 0,38° na abscissa; com o sinal de θ\textsubscript{b,pose} trocado; com a abscissa da figura deslocada de ±2,47°, diferença entre o início das curvas e a transição calculada com p\textsubscript{78} = 0; e com a abscissa espelhada, θ\textsubscript{el} → 180° − θ\textsubscript{el}, como teste de discriminação. Um teste sintético, com curvas montadas pelo próprio modelo a partir de valores conhecidos de s\textsubscript{0} nos ângulos dos pontos extraídos, confere a implementação.
+A identificação foi repetida nas faixas de θ\textsubscript{el} de 15° a 170°, de 25° a 160° e de 40° a 150°; em 500 sorteios com ruído gaussiano somado às duas coordenadas de cada ponto, com desvio padrão igual ao erro mediano declarado no arquivo, 0,5 px na unidade da leitura, isto é, 0,024 divisão na ordenada e 0,38° na abscissa; com o sinal de θ\textsubscript{b,pose} trocado; com a abscissa da figura deslocada de ±2,47°, diferença entre o início das curvas e o contato calculado com p = 0; e com a abscissa espelhada, θ\textsubscript{el} → 180° − θ\textsubscript{el}, como teste de discriminação. Um teste sintético, com curvas montadas pelo próprio modelo a partir de valores conhecidos de s\textsubscript{0} nos ângulos dos pontos extraídos, confere a implementação.
 
-Uma verificação independente vem do fim da curva pontilhada, de pré-tensão quase nula. Como ℓ decresce com θ\textsubscript{el}, Equação~\eqref{eq:42}, o elástico afrouxa primeiro com o braço elevado, e a razão da curva menos tensionada deve chegar a zero onde ℓ = s\textsubscript{0}. O ângulo desse zero foi obtido por extrapolação linear dos dois e dos três últimos pontos da curva.
+Uma verificação independente vem do fim da curva pontilhada, de pré-tensão quase nula. Como s decresce com θ\textsubscript{el}, Equação~\eqref{eq:44}, o elástico afrouxa primeiro com o braço elevado, e a razão da curva menos tensionada deve chegar a zero onde s = s\textsubscript{0}. O ângulo desse zero foi obtido por extrapolação linear dos dois e dos três últimos pontos da curva.
 
 Com os valores identificados, o fator de cada curva é
 
 \begin{equation}
-  G_{i}\left( \theta_{el} \right) = \frac{r_{i}\left( \theta_{el} \right)}{\ell\left( \theta_{el} \right) - s_{0,i}}
-  \label{eq:48}
+  G_{i}\left( \theta_{el} \right) = \frac{r_{i}\left( \theta_{el} \right)}{s\left( \theta_{el} \right) - s_{0,i}}
+  \label{eq:50}
 \end{equation}
 
 A coincidência das três estimativas testa a hipótese de G comum. A média das curvas tracejada e contínua, de maior extensão, é comparada à forma m/(1000 τ\textsubscript{g}) prevista pelo modelo, com as duas normalizadas em 90°.
@@ -528,7 +552,7 @@ No ajuste de forma, para cada s\textsubscript{0}, a escala e a soma dos quadrado
 
 \begin{equation}
   c = \frac{\sum_{i}^{}\mu_{i}r_{i}}{\sum_{i}^{}\mu_{i}^{2}},\quad SSE = \sum_{i}^{}\left( c\mu_{i} - r_{i} \right)^{2},\quad RMSE = \sqrt{SSE/n}
-  \label{eq:49}
+  \label{eq:51}
 \end{equation}
 
 O mínimo foi procurado em s\textsubscript{0} de 0 a 390 mm, em grade de 0,01 mm, e refinado pelo método de Brent limitado \cite{brent1973} entre os vizinhos do melhor ponto, com a biblioteca SciPy \cite{virtanen2020}. Valores negativos de s\textsubscript{0} não correspondem a um elástico ligado diretamente entre A e P e foram excluídos. A faixa de identificação é o intervalo de s\textsubscript{0}, na mesma grade, em que a raiz do erro quadrático médio não excede 1,01 vez o mínimo. Os 117 pontos ajustados ficaram todos no regime I. A Tabela~\ref{tab:ajuste-s0-forma-curva} reúne os resultados, e a Figura~\ref{fig:pontos-extraidos-figura-patente}(a) sobrepõe as curvas ajustadas aos pontos extraídos.
@@ -537,7 +561,7 @@ A patente atribui as três curvas a um único atuador e as desenha no mesmo eixo
 
 \begin{equation}
   c = \frac{\sum_{j}^{}{\sum_{i}^{}\mu_{ij}}r_{ij}}{\sum_{j}^{}{\sum_{i}^{}\mu_{ij}^{2}}}
-  \label{eq:50}
+  \label{eq:52}
 \end{equation}
 
 com j a curva e i o ponto. Os três valores de s\textsubscript{0} foram buscados por descida coordenada na mesma grade, a partir de 125 combinações iniciais, com refinamento de Brent. A Tabela~\ref{tab:ajuste-conjunto-escala-comum} compara o resultado com os ajustes individuais e com uma força constante, forma limite do modelo quando s\textsubscript{0} tende a valores muito negativos; a Figura~\ref{fig:pontos-extraidos-figura-patente}(b) mostra o ajuste conjunto.
@@ -546,20 +570,20 @@ Para expressar o torque em N·m, K foi fixado por hipótese de projeto, e não i
 
 \begin{equation}
   K_{40} = \frac{0{,}4\,\tau_{g}\left( 90^{\circ} \right) \cdot 1000}{\delta\left( 90^{\circ} \right)\, m\left( 90^{\circ} \right)}
-  \label{eq:51}
+  \label{eq:53}
 \end{equation}
 
 calculado com o s\textsubscript{0} adotado. Como F(90°) = 0,4 τ\textsubscript{g}(90°)·1000/m(90°) não depende de s\textsubscript{0}, a força em 90° é a mesma para qualquer s\textsubscript{0}; o valor escolhido muda K\textsubscript{40} e a distribuição da força no restante da faixa.
 
-\subsection{\texorpdfstring{Varredura paramétrica do trecho \textit{e} da alavanca}{Varredura paramétrica do trecho e da alavanca}}\label{sec:3B.10}
+\subsection{\texorpdfstring{Varredura paramétrica do trecho e\textsubscript{c} da alavanca}{Varredura paramétrica do trecho ec da alavanca}}\label{sec:3B.10}
 
-O comprimento \textit{e} do trecho do pivô ao cotovelo da alavanca define, com C\textsubscript{3} e β\textsubscript{c}, a excentricidade |OP| do ponto de aplicação, um dos parâmetros de ajuste previstos na patente e objeto da Figura 17 da patente. Por isso, o papel de h na seção~\ref{sec:4A} é desempenhado aqui por \textit{e}. A varredura manteve s\textsubscript{0} = 287,190 mm e K = 1,46670 N/mm, isto é, o mesmo elástico, e variou apenas \textit{e}, de 20 a 50 mm em passo de 0,05 mm, com o acréscimo do valor do CAD, num total de 602 valores. As demais grandezas ficaram congeladas nos valores da Tabela~\ref{tab:grandezas-medidas-modelo-cad}. Como na seção~\ref{sec:3A.10}, trata-se de diagnóstico, e nenhum parâmetro é substituído pelo resultado.
+O comprimento e\textsubscript{c} do trecho do pivô ao cotovelo da alavanca define, com C\textsubscript{3} e β\textsubscript{c}, o comprimento \textit{e} e a direção do segmento OP, isto é, a excentricidade do ponto de aplicação, um dos parâmetros de ajuste previstos na patente e objeto da Figura 17 da patente. Por isso, o papel de h na seção~\ref{sec:4A} é desempenhado aqui por e\textsubscript{c}. A varredura manteve s\textsubscript{0} = 287,190 mm e K = 1,46670 N/mm, isto é, o mesmo elástico, e variou apenas e\textsubscript{c}, de 20 a 50 mm em passo de 0,05 mm, com o acréscimo do valor do CAD, num total de 602 valores. As demais grandezas ficaram congeladas nos valores da Tabela~\ref{tab:grandezas-medidas-modelo-cad}. Como na seção~\ref{sec:3A.10}, trata-se de diagnóstico, e nenhum parâmetro é substituído pelo resultado.
 
 \subsection{Verificações numéricas}\label{sec:3B.11}
 
-O modelo executa as verificações da Tabela~\ref{tab:verificacoes-cadeia-calculo-modelo} a cada execução, com tolerância declarada, e interrompe o cálculo se alguma for violada; a exceção é o teste sintético da última linha, calculado pelo script de resultados. As verificações próprias do cabo e do tambor da seção~\ref{sec:3A.11}, ponto de tangência pelas Equações~\eqref{eq:10} e \eqref{eq:13}, ponto morto pela Equação~\eqref{eq:21} e identidade X\textsubscript{pose} = L\textsubscript{pose} − L\textsubscript{livre}, não se aplicam a este mecanismo e foram substituídas pela continuidade na troca de regime e pelo caso limite p\textsubscript{78} = 0. Os valores são de \textit{e} = 34,785 mm, com s\textsubscript{0} e K do cenário de projeto, em malha de 0,1° de 0° a 180°.
+O modelo executa as verificações da Tabela~\ref{tab:verificacoes-cadeia-calculo-modelo} a cada execução, com tolerância declarada, e interrompe o cálculo se alguma for violada; a exceção é o teste sintético da última linha, calculado pelo script de resultados. As verificações próprias do cabo e do tambor da seção~\ref{sec:3A.11}, ponto de tangência pelas Equações~\eqref{eq:10} e \eqref{eq:13}, ponto morto pela Equação~\eqref{eq:21} e identidade X\textsubscript{pose} = L\textsubscript{pose} − L\textsubscript{livre}, não se aplicam a este mecanismo e foram substituídas pela continuidade na troca de regime e pelo caso limite p = 0. Os valores são de e\textsubscript{c} = 34,785 mm, com s\textsubscript{0} e K do cenário de projeto, em malha de 0,1° de 0° a 180°.
 
-O modelo verifica ainda que o regime II ocorre exatamente para λ ≤ λ\textsubscript{t} na malha, que o elemento 78 fica entre A e P na transição, que \textit{e} é argumento obrigatório de toda a cadeia e que dois valores diferentes de \textit{e} produzem curvas diferentes. Não há, para este modelo, um conjunto de testes automatizados executado com o pytest como o da seção~\ref{sec:3A.11}; as verificações são asserções executadas a cada cálculo, e a identificação pelo espaçamento entre as curvas é conferida pelo teste sintético da seção~\ref{sec:3B.9}.
+O modelo verifica ainda que o regime II ocorre exatamente para q ≤ q* na malha, que o elemento 78 fica entre A e P na transição, que e\textsubscript{c} é argumento obrigatório de toda a cadeia e que dois valores diferentes de e\textsubscript{c} produzem curvas diferentes. Não há, para este modelo, um conjunto de testes automatizados executado com o pytest como o da seção~\ref{sec:3A.11}; as verificações são asserções executadas a cada cálculo, e a identificação pelo espaçamento entre as curvas é conferida pelo teste sintético da seção~\ref{sec:3B.9}.
 
 \subsection{Etapas dinâmicas previstas}\label{sec:3B.12}
 
@@ -567,10 +591,10 @@ A equação de movimento teria a forma da Equação~\eqref{eq:27}, com θ\textsu
 
 \begin{equation}
   I_{O}\,{\ddot{\theta}}_{el} = \tau\left( \theta_{el} \right) + \tau_{g,s}\left( \theta_{el} \right) + Q_{nc}
-  \label{eq:52}
+  \label{eq:54}
 \end{equation}
 
-em que τ\textsubscript{g,s} é o torque do peso com sinal e Q\textsubscript{nc} reúne os esforços não conservativos. Pela Equação~\eqref{eq:42}, a energia elástica V\textsubscript{e} = K δ\textsuperscript{2}/2 satisfaz dV\textsubscript{e}/dλ = −K δ m, de modo que a força generalizada elástica coincide, a menos do fator 1/1000, com o torque da Equação~\eqref{eq:41}; esse pré-requisito estático está verificado (Tabela~\ref{tab:verificacoes-cadeia-calculo-modelo}).
+em que τ\textsubscript{g,s} é o torque do peso com sinal e Q\textsubscript{nc} reúne os esforços não conservativos. Pela Equação~\eqref{eq:44}, a energia elástica V\textsubscript{e} = K δ\textsuperscript{2}/2 satisfaz dV\textsubscript{e}/dq = −K δ m, de modo que a força generalizada elástica coincide, a menos do fator 1/1000, com o torque da Equação~\eqref{eq:43}; esse pré-requisito estático está verificado (Tabela~\ref{tab:verificacoes-cadeia-calculo-modelo}).
 
 A integração não foi executada, pelas razões seguintes. O torque do elástico só está em N·m sob a hipótese K = K\textsubscript{40}: a unidade deixou de ser o impedimento da seção~\ref{sec:3A.12}, mas a escala resulta de uma hipótese de projeto, e não de dado do dispositivo. O momento de inércia disponível, I\textsubscript{O} = 0,436010 kg·m\textsuperscript{2}, reúne o membro humano e o braço do exoesqueleto; a alavanca e a braçadeira não estão modeladas como corpos separados. Massa e amortecimento do elástico e atrito no elemento 78 e na articulação 20 são desconhecidos, de modo que Q\textsubscript{nc} não pode ser escrito. O MBDyn não foi empregado nesta etapa. Nenhum resultado dinâmico é apresentado, e as condições para executar a etapa estão na seção~\ref{sec:4B.10}.
 
