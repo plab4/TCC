@@ -442,6 +442,7 @@ n_aj = sum(ind[n]["n"] for n in ORDEM)
 sens = {s["caso"]: s for s in N["sensibilidade_s0"]}
 sens_f = {s["caso"]: s for s in N["sensibilidade_s0_forma"]}
 nrm = N["normalizado"]["casos"]
+nrm_peso_pico = N["normalizado"]["theta_pico_peso"]
 nrm_f = N["normalizado_forma"]["casos"]
 var = N["varredura"]
 tab = {l["theta"]: l for l in pr["tabela"]}
@@ -909,11 +910,14 @@ def parte_3B():
         "O conjunto que gira com o braço é rígido, e seu centro de massa, a uma "
         "distância d de O e a um ângulo a_{CG} do eixo do braço, acompanha θ_{el}:"))
     a(EQ(("tg", r"\tau_{g} = \frac{Mgd\left| \cos\left( \theta_{\mathrm{el}} - 90^{\circ} + a_{CG} \right) \right|}{1000}")))
-    a(P("Com apenas o membro humano, a_{CG} = 0 e τ_{g} = M g d sen θ_{el}/1000, "
-        f"com máximo de {f(mas['tau_g_pico'])} N·m em θ_{{el}} = 90°. A Equação "
-        "(⟦E:tg⟧) mantém a_{CG} para o caso em que o braço do exoesqueleto for "
-        "incorporado; nesse caso, o máximo se desloca do ângulo a_{CG}, e o torque troca de "
-        "sinal perto dos extremos da faixa."))
+    a(P("O conjunto reúne o membro humano e o braço do exoesqueleto (elemento 8), "
+        "cujo centro de massa é referido ao eixo da articulação 20 pela posição "
+        "desse eixo no modelo em CAD (seção ⟦S:r_geo⟧). Com o membro humano, "
+        "alinhado ao eixo do braço, a_{CG} seria nulo e τ_{g} = M g d sen θ_{el}/1000; "
+        f"o braço do exoesqueleto desloca o centro de massa do conjunto em "
+        f"a_{{CG}} = {f(mas['total']['cg_angulo_braco_grau'])}°, e o máximo de "
+        f"τ_{{g}}, {f(mas['tau_g_pico'])} N·m, ocorre em "
+        f"θ_{{el}} = {f(mas['theta_tau_g_pico'], 1)}°."))
 
     # ------------------------------------------------------------ dados
     a(SEC("3B", "dados", "Dados da patente e identificação dos parâmetros"))
@@ -1112,10 +1116,9 @@ def parte_3B():
         "elástico só está em N·m sob a hipótese K = K_{40}: a unidade deixou de ser "
         "o impedimento da seção 3A.12, mas a escala resulta de uma hipótese de "
         "projeto, e não de dado do dispositivo. O momento de inércia disponível, "
-        f"I_{{O}} = {f(hum['izz_o_kgm2'], 6)} kg·m^{{2}}, é só o do membro humano; o "
-        "braço do exoesqueleto está fora pela falta da posição do eixo da "
-        "articulação no Fusion, e a alavanca e a braçadeira não estão modeladas como "
-        "corpos separados. Massa e amortecimento do elástico e atrito no elemento 78 "
+        f"I_{{O}} = {f(mas['total']['izz_o_kgm2'], 6)} kg·m^{{2}}, reúne o membro "
+        "humano e o braço do exoesqueleto; a alavanca e a braçadeira não estão "
+        "modeladas como corpos separados. Massa e amortecimento do elástico e atrito no elemento 78 "
         "e na articulação 20 são desconhecidos, de modo que Q_{nc} não pode ser "
         "escrito. O MBDyn não foi empregado nesta etapa. Nenhum resultado dinâmico é "
         "apresentado, e as "
@@ -1137,8 +1140,9 @@ def parte_3B():
         "pontual e sem atrito e eixo da articulação 20 no centro do ombro, com a "
         "barra 18 fixa em relação ao tronco, hipótese discutida na seção "
         "⟦S:conv⟧. O torque "
-        "gravitacional considera só o membro humano estendido, sem ferramenta na "
-        "mão; o braço do exoesqueleto, a alavanca e a braçadeira não entram nele."))
+        "gravitacional considera o membro humano estendido, sem ferramenta na mão, e "
+        "o braço do exoesqueleto; a alavanca, o elemento 78 e a braçadeira não "
+        "entram nele."))
     return B
 
 
@@ -1229,8 +1233,8 @@ def parte_4B():
         f"p_{{78}} = {f(par['P'])} mm do eixo da articulação, enquanto a patente "
         "prefere esse elemento sobre o eixo; as consequências dessa "
         "diferença são tratadas nas seções ⟦S:zero⟧ e ⟦S:r_conf⟧."))
-    a(LEG_T("massa", "Propriedades de massa do membro humano em relação ao eixo da "
-                     "articulação 20"))
+    a(LEG_T("massa", "Propriedades de massa do conjunto que gira com o braço em "
+                     "relação ao eixo da articulação 20"))
     linhas = []
     for nm, rot in (("braço", "Braço"), ("antebraço", "Antebraço"), ("mão", "Mão")):
         c = corpos[nm]
@@ -1240,16 +1244,27 @@ def parte_4B():
     linhas.append(["Membro humano", f(hum["massa_kg"], 4), "",
                    f"d = {f(hum['cg_raio_mm'])}", f(hum["izz_cg_kgm2"], 6),
                    f(hum["izz_o_kgm2"], 6)])
+    cx = corpos["braço do exo"]
+    linhas.append(["Braço do exoesqueleto (elemento 8)", f(cx["massa"], 4), "",
+                   f(cx["d"]), f(cx["izz_cg"], 6), f(cx["izz_o"], 6)])
+    tot = mas["total"]
+    linhas.append(["Conjunto", f(tot["massa_kg"], 4), "",
+                   f"d = {f(tot['cg_raio_mm'])}", f(tot["izz_cg_kgm2"], 6),
+                   f(tot["izz_o_kgm2"], 6)])
     a(TABELA(["Segmento", "Massa (kg)", "L (mm)", "Distância do centro de massa a O "
               "(mm)", "I_{cm} (kg·m^{2})", "I_{O} (kg·m^{2})"], linhas,
              [1660, 1300, 1100, 2100, 1600, 1600],
              ["left", "center", "center", "center", "center", "center"]))
-    a(PEQUENO("Fonte: elaborada pelo autor, com dados de de Leva (1996).", True))
-    a(P("A consistência foi conferida pela Equação (1): "
+    a(PEQUENO("Fonte: elaborada pelo autor, com dados de de Leva (1996) e do "
+              "modelo em CAD.", True))
+    a(P("A consistência foi conferida pela Equação (1): para o membro humano, "
         f"I_{{cm}} + M d^{{2}} = {f(hum['izz_cg_kgm2'], 6)} + "
         f"{f(hum['izz_o_kgm2'] - hum['izz_cg_kgm2'], 6)} = "
-        f"{f(hum['izz_o_kgm2'], 6)} kg·m^{{2}}. A amplitude do momento "
-        f"gravitacional do membro é M g d = {f(mas['tau_g_pico'])} N·m."))
+        f"{f(hum['izz_o_kgm2'], 6)} kg·m^{{2}}, e, para o conjunto, "
+        f"{f(tot['izz_cg_kgm2'], 6)} + {f(tot['izz_o_kgm2'] - tot['izz_cg_kgm2'], 6)} = "
+        f"{f(tot['izz_o_kgm2'], 6)} kg·m^{{2}}. A amplitude do momento "
+        f"gravitacional é M g d = {f(mas['tau_g_pico_humano'])} N·m para o membro "
+        f"e {f(mas['tau_g_pico'])} N·m para o conjunto."))
     bx = mas["braco_exo"]
     a(P(f"No modelo em CAD, o braço do exoesqueleto (elemento 8) tem massa de "
         f"{f(bx['massa_g'])} g, centro de massa em ({f(bx['cg_fusion'][0])}; "
@@ -1257,15 +1272,20 @@ def parte_4B():
         f"de {sci(bx['izz_cg_gmm2'], 3)} g·mm^{{2}} no centro de massa. São "
         "estimativas obtidas da geometria reconstruída e de um material atribuído no "
         "CAD, náilon 6/6 em peça oca segundo a planilha, e não propriedades do "
-        "produto. Esse corpo não entra no torque do peso nem no momento de inércia "
-        "desta seção, porque a posição do eixo da articulação 20 no referencial do "
-        "Fusion não foi medida; sem ela, a distância do centro de massa ao eixo é "
-        "desconhecida. A alavanca, o elemento 78 e a braçadeira não estão modelados "
-        "como corpos separados, e as peças do lado do tronco (barra 18, barra de "
-        "ancoragem e capas do elástico) apoiam-se no cinto e não giram com o braço. "
-        "A Tabela ⟦T:o3⟧ da seção 4A.1 soma ao membro as peças do outro "
-        "exoesqueleto; os valores desta seção referem-se só ao membro humano e não "
-        "são comparáveis aos totais daquela tabela."))
+        "produto. O eixo da articulação 20 está em "
+        f"({f(bx['o_fusion'][0])}; {f(bx['o_fusion'][1])}) mm no mesmo referencial, "
+        f"de modo que o centro de massa fica a {f(cx['d'])} mm do eixo. Admitidos os "
+        "eixos do Fusion paralelos aos do modelo, esse vetor foi levado ao eixo do "
+        "braço pela direção do braço na pose do CAD, cujo sinal ainda depende de "
+        "confirmação (seção ⟦S:conv⟧), e somado ao membro humano pela Equação (1). "
+        "O braço do exoesqueleto acrescenta "
+        f"{f(cx['massa'], 4)} kg ao conjunto e desloca seu centro de massa em "
+        f"{f(tot['cg_angulo_braco_grau'])}° em relação ao eixo do braço. A "
+        "alavanca, o elemento 78 e a braçadeira não estão modelados como corpos "
+        "separados, e as peças do lado do tronco (barra 18, barra de ancoragem e "
+        "capas do elástico) apoiam-se no cinto e não giram com o braço. A Tabela "
+        "⟦T:o3⟧ da seção 4A.1 tem o mesmo membro humano e soma a ele as peças do "
+        "outro exoesqueleto."))
 
     # ------------------------------------------------------------ dados
     a(SEC("4B", "r_dados", "Dados extraídos da patente"))
@@ -1499,7 +1519,7 @@ def parte_4B():
         "Normalizada em 90°, a razão entre os dois vale "
         f"{f(fr['20'], 2)} em 20°, {f(fr['60'], 2)} em 60°, {f(fr['120'], 2)} em "
         f"120°, {f(fr['150'], 2)} em 150° e {f(fr['165'], 2)} em 165°. Com esses "
-        "valores de s_{0} e com o m do CAD e o τ_{g} do membro humano, a razão "
+        "valores de s_{0} e com o m do CAD e o τ_{g} do conjunto, a razão "
         "calculada não reproduz a Figura 16 da patente: com escala comum às três curvas, o "
         f"coeficiente de determinação é {f(mcomp['pontilhada']['comum']['r2'], 3)} "
         f"(pontilhada), {f(mcomp['tracejada']['comum']['r2'], 3)} (tracejada) e "
@@ -1643,8 +1663,10 @@ def parte_4B():
           "Não identificada; a patente prefere p_{78} = 0"],
          ["Defasagem angular", "λ_{0}", f"{f(der['delta'])}°",
           "Derivada do CAD", "Depende do sinal de θ_{b,pose}, a confirmar"],
-         ["Massa e centro de massa do braço do exoesqueleto", "", "Não incluídos",
-          "Medida em CAD", "Falta a posição do eixo da articulação no Fusion"]],
+         ["Massa e centro de massa do braço do exoesqueleto", "",
+          f"{f(mas['braco_exo']['massa_g'])} g; {f(corpos['braço do exo']['d'])} mm",
+          "Medida em CAD", "Incluídos no peso e na inércia; eixos do Fusion "
+          "admitidos paralelos aos do modelo"]],
         [2300, 1060, 1500, 2000, 2500], ["left", "center", "center", "left", "left"]))
     a(FONTE)
 
@@ -1765,7 +1787,7 @@ def parte_4B():
     a(P("A forma do torque do elástico pode ser comparada à do peso sem depender de "
         "K, normalizando cada curva pelo próprio pico (Figura ⟦F:norm⟧). Com o "
         "s_{0} adotado, o pico normalizado do elástico ocorre em "
-        f"θ_{{el}} = {f(ns['theta_pico_exo'], 1)}°, contra 90° do peso, e as curvas "
+        f"θ_{{el}} = {f(ns['theta_pico_exo'], 1)}°, contra {f(nrm_peso_pico, 1)}° do peso, e as curvas "
         f"normalizadas se cruzam em {f(cz_n[0], 2)}° (regime II), "
         f"{f(cz_n[1], 2)}°, {f(cz_n[2], 2)}° e {f(cz_n[3], 2)}°. Abaixo de "
         f"{f(cz_n[0], 2)}°, a forma do elástico fica acima da do peso, que tende a "
@@ -1825,9 +1847,9 @@ def parte_4B():
              [860, 960, 1000, 960, 960, 900, 900, 940, 1000, 880], ["center"]*10))
     a(FONTE)
     a(PEQUENO("Nota: K_{40} é hipótese de projeto (seção ⟦S:ident⟧); τ_{g} considera "
-              "só o membro humano."))
+              "o membro humano e o braço do exoesqueleto."))
     a(LEG_F("proj", "Torque do elástico com K = K_{40} no cenário de projeto, torque "
-                    "do peso do membro humano e alvo de 40%"))
+                    "do peso do membro e do braço do exoesqueleto e alvo de 40%"))
     a(FIGURA("ottobock_tcc_fig_a3_projeto.png", 6.0,
              "Torque do elástico no cenário de projeto, torque do peso e 40 por "
              "cento do torque do peso em função da anteversão, com a razão entre "
@@ -1968,7 +1990,7 @@ def parte_4B():
           f"{f(pr['theta_pico'], 1)}° de anteversão, com o s_{{0}} adotado"],
          ["Torque gravitacional de referência",
           "Conjunto braço e exoesqueleto, pico de 11,1619 N·m",
-          f"Só o membro humano, pico de {f(mas['tau_g_pico'])} N·m"]],
+          f"Membro humano e braço do exoesqueleto, pico de {f(mas['tau_g_pico'])} N·m"]],
         [2300, 3530, 3530]))
     a(PEQUENO("Fonte: elaborada pelo autor, com os resultados das seções 4A e 4B.",
               True))
@@ -2081,8 +2103,9 @@ def parte_5B():
     a(P("Dos objetivos acrescentados para esse dispositivo, o item h foi cumprido "
         "na parte estática, com três ressalvas: a escala do torque depende da "
         "hipótese K = K_{40}; as grandezas do CAD não puderam ser conferidas; e a "
-        "composição inercial e o torque gravitacional incluem só o membro humano, "
-        "sem as peças do exoesqueleto previstas nos itens a e e. O item i foi "
+        "composição inercial e o torque gravitacional incluem o membro humano e o "
+        "braço do exoesqueleto, mas não a alavanca, o elemento 78 e a braçadeira, "
+        "previstos nos itens a e e. O item i foi "
         "cumprido pelo espaçamento entre as curvas. Para esse dispositivo, o "
         "objetivo geral foi atingido na parte estática, com o confronto com o torque "
         "gravitacional feito pela forma normalizada e, em N·m, apenas no cenário de "
@@ -2096,14 +2119,14 @@ def parte_5B():
         "CAD, e o torque só chega a N·m por hipótese. Nos dois casos, o pico de "
         "assistência fica afastado do pico gravitacional, acima dele no primeiro "
         "(97,5° contra 89,4°) e abaixo no segundo "
-        f"({f(pr['theta_pico'], 1)}° contra 90°), e a faixa sem torque com o braço "
+        f"({f(pr['theta_pico'], 1)}° contra {f(mas['theta_tau_g_pico'], 1)}°), e a faixa sem torque com o braço "
         "baixado é produzida por meios distintos, uma protuberância no primeiro e o "
         "contato com o elemento de encosto no segundo. A comparação proposta na "
         "seção 2.11 fica, assim, respondida na parte estática quanto aos ângulos e à "
         "forma dos perfis, mas não quanto à magnitude."))
     a(P("Como continuidade para esse dispositivo, recomenda-se incluir o modelo em "
-        "CAD no repositório e confirmar nele o sinal do ângulo do braço na pose, a "
-        "posição do eixo da articulação e o valor de ‹e›, que coincide com a cota "
+        "CAD no repositório e confirmar nele o sinal do ângulo do braço na pose e o "
+        "valor de ‹e›, que coincide com a cota "
         "H_{CAD} do outro mecanismo; esclarecer a definição da ordenada da Figura 16 "
         "da patente e a configuração do dispositivo que a gerou, que a patente não "
         "informa; conferir a posição e o raio de contato do elemento de encosto, "

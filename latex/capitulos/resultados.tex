@@ -366,7 +366,7 @@ Por fim, os resultados desta seção referem-se a um único dispositivo, ao indi
 
 \section{Exoesqueleto 2: EP 3 504 033 B1}\label{sec:4B}
 
-Esta seção apresenta os resultados das etapas das seções~\ref{sec:3B.1} a \ref{sec:3B.11}, aplicadas ao dispositivo da EP 3 504 033 B1. Salvo indicação em contrário, os números foram obtidos com a geometria do CAD, \textit{e} = 34,785 mm, s\textsubscript{0} = 287,190 mm, identificado pelo espaçamento entre as curvas da Figura 16 da patente, e K = K\textsubscript{40} = 1,45915 N/mm, hipótese de projeto. As etapas dinâmicas da seção~\ref{sec:3B.12} não foram executadas.
+Esta seção apresenta os resultados das etapas das seções~\ref{sec:3B.1} a \ref{sec:3B.11}, aplicadas ao dispositivo da EP 3 504 033 B1. Salvo indicação em contrário, os números foram obtidos com a geometria do CAD, \textit{e} = 34,785 mm, s\textsubscript{0} = 287,190 mm, identificado pelo espaçamento entre as curvas da Figura 16 da patente, e K = K\textsubscript{40} = 1,46670 N/mm, hipótese de projeto. As etapas dinâmicas da seção~\ref{sec:3B.12} não foram executadas.
 
 \subsection{Geometria reconstruída e propriedades de massa}\label{sec:4B.1}
 
@@ -416,7 +416,7 @@ Na pose do CAD, o modelo situa P em (−38,090; 25,551) mm e o centro do element
 
 \begin{table}[!htbp]
 \estilotabela{\small}
-\caption{Propriedades de massa do membro humano em relação ao eixo da articulação 20}\label{tab:propriedades-massa-membro-humano}
+\caption{Propriedades de massa do conjunto que gira com o braço em relação ao eixo da articulação 20}\label{tab:propriedades-massa-conjunto-que}
 \begin{tabularx}{\textwidth}{@{}>{\hsize=1.064\hsize\raggedright\arraybackslash}X>{\hsize=0.833\hsize\centering\arraybackslash}X>{\hsize=0.705\hsize\centering\arraybackslash}X>{\hsize=1.346\hsize\centering\arraybackslash}X>{\hsize=1.026\hsize\centering\arraybackslash}X>{\hsize=1.026\hsize\centering\arraybackslash}X@{}}
 \toprule
 \centering\textbf{Segmento} & \centering\textbf{Massa (kg)} & \centering\textbf{L (mm)} & \centering\textbf{Distância do centro de massa a O (mm)} & \centering\textbf{I\textsubscript{cm} (kg·m\textsuperscript{2})} & \centering\textbf{I\textsubscript{O} (kg·m\textsuperscript{2})} \tabularnewline
@@ -425,14 +425,16 @@ Braço & 1,9783 & 281,7 & 162,597 & 0,011360 & 0,063662 \\
 Antebraço & 1,1826 & 268,9 & 404,695 & 0,006005 & 0,199689 \\
 Mão & 0,4453 & 86,2 & 618,698 & 0,000871 & 0,171326 \\
 Membro humano & 3,6062 &  & d = 298,310 & 0,113765 & 0,434676 \\
+Braço do exoesqueleto (elemento 8) & 0,1640 &  & 47,362 & 0,000966 & 0,001334 \\
+Conjunto & 3,7702 &  & d = 286,819 & 0,125859 & 0,436010 \\
 \bottomrule
 \end{tabularx}
-\fonte{elaborada pelo autor, com dados de \textcite{deleva1996}.}
+\fonte{elaborada pelo autor, com dados de \textcite{deleva1996} e do modelo em CAD.}
 \end{table}
 
-A consistência foi conferida pela Equação~\eqref{eq:01}: I\textsubscript{cm} + M d\textsuperscript{2} = 0,113765 + 0,320911 = 0,434676 kg·m\textsuperscript{2}. A amplitude do momento gravitacional do membro é M g d = 10,550 N·m.
+A consistência foi conferida pela Equação~\eqref{eq:01}: para o membro humano, I\textsubscript{cm} + M d\textsuperscript{2} = 0,113765 + 0,320911 = 0,434676 kg·m\textsuperscript{2}, e, para o conjunto, 0,125859 + 0,310151 = 0,436010 kg·m\textsuperscript{2}. A amplitude do momento gravitacional é M g d = 10,550 N·m para o membro e 10,604 N·m para o conjunto.
 
-No modelo em CAD, o braço do exoesqueleto (elemento 8) tem massa de 163,951 g, centro de massa em (69,249; 151,559) mm no referencial do Fusion e momento de inércia de 9,659 × 10\textsuperscript{5} g·mm\textsuperscript{2} no centro de massa. São estimativas obtidas da geometria reconstruída e de um material atribuído no CAD, náilon 6/6 em peça oca segundo a planilha, e não propriedades do produto. Esse corpo não entra no torque do peso nem no momento de inércia desta seção, porque a posição do eixo da articulação 20 no referencial do Fusion não foi medida; sem ela, a distância do centro de massa ao eixo é desconhecida. A alavanca, o elemento 78 e a braçadeira não estão modelados como corpos separados, e as peças do lado do tronco (barra 18, barra de ancoragem e capas do elástico) apoiam-se no cinto e não giram com o braço. A Tabela~\ref{tab:propriedades-massa-conjunto-braco} da seção~\ref{sec:4A.1} soma ao membro as peças do outro exoesqueleto; os valores desta seção referem-se só ao membro humano e não são comparáveis aos totais daquela tabela.
+No modelo em CAD, o braço do exoesqueleto (elemento 8) tem massa de 163,951 g, centro de massa em (69,249; 151,559) mm no referencial do Fusion e momento de inércia de 9,659 × 10\textsuperscript{5} g·mm\textsuperscript{2} no centro de massa. São estimativas obtidas da geometria reconstruída e de um material atribuído no CAD, náilon 6/6 em peça oca segundo a planilha, e não propriedades do produto. O eixo da articulação 20 está em (31,023; 123,596) mm no mesmo referencial, de modo que o centro de massa fica a 47,362 mm do eixo. Admitidos os eixos do Fusion paralelos aos do modelo, esse vetor foi levado ao eixo do braço pela direção do braço na pose do CAD, cujo sinal ainda depende de confirmação (seção~\ref{sec:3B.3}), e somado ao membro humano pela Equação~\eqref{eq:01}. O braço do exoesqueleto acrescenta 0,1640 kg ao conjunto e desloca seu centro de massa em 0,287° em relação ao eixo do braço. A alavanca, o elemento 78 e a braçadeira não estão modelados como corpos separados, e as peças do lado do tronco (barra 18, barra de ancoragem e capas do elástico) apoiam-se no cinto e não giram com o braço. A Tabela~\ref{tab:propriedades-massa-conjunto-braco} da seção~\ref{sec:4A.1} tem o mesmo membro humano e soma a ele as peças do outro exoesqueleto.
 
 \subsection{Dados extraídos da patente}\label{sec:4B.2}
 
@@ -511,7 +513,7 @@ Foram extraídos 48 pontos da curva tracejada, 47 da pontilhada e 51 da contínu
 
 \subsection{Verificação da cadeia de cálculo}\label{sec:4B.3}
 
-As verificações automáticas da seção~\ref{sec:3B.11} resultaram nos resíduos da Tabela~\ref{tab:verificacoes-cadeia-calculo-modelo}, todos da ordem do erro de arredondamento da aritmética de ponto flutuante, exceto os do trabalho virtual, limitados pelo truncamento da diferença finita, e o do fechamento com o CAD, limitado pela resolução da medida. No teste sintético, a identificação pelo espaçamento entre as curvas recupera os valores de s\textsubscript{0} com erro máximo de 0,062 mm, limitado pela interpolação linear entre os pontos de cada curva.
+As verificações automáticas da seção~\ref{sec:3B.11} resultaram nos resíduos da Tabela~\ref{tab:verificacoes-cadeia-calculo-modelo}, todos da ordem do erro de arredondamento da aritmética de ponto flutuante, exceto os do trabalho virtual, limitados pelo truncamento da diferença finita, e o do fechamento com o CAD, limitado pela resolução da medida. No teste sintético, a identificação pelo espaçamento entre as curvas recupera os valores de s\textsubscript{0} com erro máximo de 0,063 mm, limitado pela interpolação linear entre os pontos de cada curva.
 
 \begin{table}[!htbp]
 \estilotabela{\small}
@@ -531,10 +533,10 @@ Continuidade de τ/F na transição & 8,6 × 10\textsuperscript{−13} mm \\
 Caso p\textsubscript{78} = 0: λ\textsubscript{t} numérico contra a Equação~\eqref{eq:43} & 4,6 × 10\textsuperscript{−14} rad \\
 Caso p\textsubscript{78} = 0: ℓ = |r\textsubscript{AO}| + |OP| no regime II & 0 mm \\
 Caso p\textsubscript{78} = 0: τ no regime II, força unitária & 0 N·mm \\
-τ pelo produto vetorial contra τ = F m/1000 & 2,7 × 10\textsuperscript{−15} N·m \\
+τ pelo produto vetorial contra τ = F m/1000 & 1,8 × 10\textsuperscript{−15} N·m \\
 Linearidade em K, τ(K) = K τ(K = 1) & 1,8 × 10\textsuperscript{−15} N·m \\
 Ancoragem: s\textsubscript{0} igual para todo \textit{e} (s\textsubscript{0} adotado) & 0 mm \\
-Espaçamento entre curvas: s\textsubscript{0} conhecidos recuperados em curvas sintéticas & 0,062 mm \\
+Espaçamento entre curvas: s\textsubscript{0} conhecidos recuperados em curvas sintéticas & 0,063 mm \\
 \bottomrule
 \end{tabularx}
 \fonte{elaborada pelo autor.}
@@ -568,7 +570,7 @@ Abscissa espelhada, θ\textsubscript{el} → 180° − θ\textsubscript{el} & 39
 \nota{ruído gaussiano de 0,5 px na unidade da leitura (0,024 divisão na ordenada e 0,38° na abscissa), em 500 sorteios; a faixa adotada é a dos demais casos, exceto nas linhas de outras faixas.}
 \end{table}
 
-Entre as quatro faixas de θ\textsubscript{el}, o s\textsubscript{0} da curva tracejada varia de 286,01 a 288,74 mm. O ruído de extração dá desvio padrão de 1,019 mm nessa curva, e o deslocamento da abscissa de −2,47° e de +2,47° o leva a 287,76 e 286,01 mm, respectivamente, com RMSE maior que o da abscissa original, 0,337 e 0,347 mm. A maior sensibilidade é ao sinal de θ\textsubscript{b,pose}: com ele trocado, o s\textsubscript{0} da tracejada vai a 297,55 mm, com RMSE de 0,620 mm, e K\textsubscript{40}, a 1,64025 N/mm, com pico de τ de 4,225 N·m em 92,1°; no ajuste de forma, o s\textsubscript{0} da tracejada vai de 159,944 mm para 279,526 mm, com 4 dos 40 pontos ajustados no regime II, e K\textsubscript{40}, de 0,50185 para 1,29549 N/mm. Com a abscissa espelhada, o RMSE sobe para 1,31 mm e os três valores de s\textsubscript{0} ficam acima de ℓ(0°) = 389,23 mm, maior comprimento do elástico na faixa, o que o deixaria frouxo em todos os ângulos; essa leitura da figura é rejeitada.
+Entre as quatro faixas de θ\textsubscript{el}, o s\textsubscript{0} da curva tracejada varia de 286,01 a 288,74 mm. O ruído de extração dá desvio padrão de 1,019 mm nessa curva, e o deslocamento da abscissa de −2,47° e de +2,47° o leva a 287,76 e 286,01 mm, respectivamente, com RMSE maior que o da abscissa original, 0,337 e 0,347 mm. A maior sensibilidade é ao sinal de θ\textsubscript{b,pose}: com ele trocado, o s\textsubscript{0} da tracejada vai a 297,55 mm, com RMSE de 0,620 mm, e K\textsubscript{40}, a 1,65068 N/mm, com pico de τ de 4,252 N·m em 92,1°; no ajuste de forma, o s\textsubscript{0} da tracejada vai de 167,098 mm para 280,059 mm, com 4 dos 40 pontos ajustados no regime II, e K\textsubscript{40}, de 0,52377 para 1,31188 N/mm. Com a abscissa espelhada, o RMSE sobe para 1,31 mm e os três valores de s\textsubscript{0} ficam acima de ℓ(0°) = 389,23 mm, maior comprimento do elástico na faixa, o que o deixaria frouxo em todos os ângulos; essa leitura da figura é rejeitada.
 
 Os fatores G\textsubscript{i} da Equação~\eqref{eq:48} coincidem nas três curvas (Figura~\ref{fig:identificacao-s0-espacamento-curvas}(a)), com dispersão mediana de 0,87\% entre 20° e 165° e de no máximo 4,69\% até 150°. Acima de 150°, a dispersão cresce, até 104,6\% em 165°, porque a extensão da curva pontilhada tende a zero e o quociente da Equação~\eqref{eq:48} fica mal condicionado. O comprimento do elástico lido no espaçamento entre as curvas pontilhada e contínua, ℓ = (r\textsubscript{c} s\textsubscript{0,p} − r\textsubscript{p} s\textsubscript{0,c})/(r\textsubscript{c} − r\textsubscript{p}), difere do ℓ do CAD em 1,12 mm RMS e no máximo 2,31 mm entre 35° e 155°: a variação de ℓ com o ângulo implícita na figura é a do modelo.
 
@@ -586,9 +588,9 @@ O ângulo em que as curvas começam, perto de 14°, não identifica s\textsubscr
 
 \subsection{Forma das curvas e ajuste de forma}\label{sec:4B.5}
 
-Com os valores de s\textsubscript{0} da Tabela~\ref{tab:comprimento-referencia-s0-identificado}, o fator G lido na Figura 16 da patente e a forma m/(1000 τ\textsubscript{g}) do modelo diferem (Figura~\ref{fig:identificacao-s0-espacamento-curvas}(b)). Normalizada em 90°, a razão entre os dois vale 0,38 em 20°, 0,78 em 60°, 1,34 em 120°, 2,04 em 150° e 3,03 em 165°. Com esses valores de s\textsubscript{0} e com o m do CAD e o τ\textsubscript{g} do membro humano, a razão calculada não reproduz a Figura 16 da patente: com escala comum às três curvas, o coeficiente de determinação é −0,548 (pontilhada), −1,620 (tracejada) e −0,674 (contínua). Como o ℓ implícito na figura concorda com o do CAD (seção~\ref{sec:4B.4}), a diferença não se explica por ℓ. Restam o braço de momento, que depende da derivada de ℓ, e o torque do peso que a patente usou para formar a razão, que o texto não define de forma consistente (seção~\ref{sec:3B.9}). Entre 35° e 155°, a concordância de ℓ limita a primeira causa: pela Equação~\eqref{eq:42}, atribuir ao braço de momento toda a diferença afastaria o ℓ implícito do ℓ do CAD em até 7,78 mm (3,24 mm RMS), contra os 2,31 mm observados. Nessa faixa, a causa mais compatível com os dados é o torque do peso ou a definição da ordenada; o braço de momento permanece possível perto dos extremos. A patente não traz dado que permita confirmar a causa.
+Com os valores de s\textsubscript{0} da Tabela~\ref{tab:comprimento-referencia-s0-identificado}, o fator G lido na Figura 16 da patente e a forma m/(1000 τ\textsubscript{g}) do modelo diferem (Figura~\ref{fig:identificacao-s0-espacamento-curvas}(b)). Normalizada em 90°, a razão entre os dois vale 0,39 em 20°, 0,79 em 60°, 1,33 em 120°, 2,02 em 150° e 2,97 em 165°. Com esses valores de s\textsubscript{0} e com o m do CAD e o τ\textsubscript{g} do conjunto, a razão calculada não reproduz a Figura 16 da patente: com escala comum às três curvas, o coeficiente de determinação é −0,521 (pontilhada), −1,565 (tracejada) e −0,635 (contínua). Como o ℓ implícito na figura concorda com o do CAD (seção~\ref{sec:4B.4}), a diferença não se explica por ℓ. Restam o braço de momento, que depende da derivada de ℓ, e o torque do peso que a patente usou para formar a razão, que o texto não define de forma consistente (seção~\ref{sec:3B.9}). Entre 35° e 155°, a concordância de ℓ limita a primeira causa: pela Equação~\eqref{eq:42}, atribuir ao braço de momento toda a diferença afastaria o ℓ implícito do ℓ do CAD em até 7,68 mm (3,20 mm RMS), contra os 2,31 mm observados. Nessa faixa, a causa mais compatível com os dados é o torque do peso ou a definição da ordenada; o braço de momento permanece possível perto dos extremos. A patente não traz dado que permita confirmar a causa.
 
-O ajuste de forma da seção~\ref{sec:3B.9} deixa s\textsubscript{0} e a escala livres em cada curva e, por isso, absorve essa diferença em s\textsubscript{0}. Os valores que ele encontra (Tabela~\ref{tab:ajuste-s0-forma-curva}), 276,56 mm na pontilhada, 159,94 mm na tracejada e o limite s\textsubscript{0} = 0 na contínua, ficam longe dos do espaçamento, e as escalas por curva contrariam o atuador único descrito na patente. São mantidos como resultado secundário: descrevem a melhor forma que o modelo consegue produzir com a geometria do CAD, e não a pré-tensão do dispositivo.
+O ajuste de forma da seção~\ref{sec:3B.9} deixa s\textsubscript{0} e a escala livres em cada curva e, por isso, absorve essa diferença em s\textsubscript{0}. Os valores que ele encontra (Tabela~\ref{tab:ajuste-s0-forma-curva}), 277,43 mm na pontilhada, 167,10 mm na tracejada e o limite s\textsubscript{0} = 0 na contínua, ficam longe dos do espaçamento, e as escalas por curva contrariam o atuador único descrito na patente. São mantidos como resultado secundário: descrevem a melhor forma que o modelo consegue produzir com a geometria do CAD, e não a pré-tensão do dispositivo.
 
 \begin{table}[!htbp]
 \estilotabela{\small}
@@ -598,27 +600,27 @@ O ajuste de forma da seção~\ref{sec:3B.9} deixa s\textsubscript{0} e a escala 
 \centering\textbf{Indicador} & \centering\textbf{Pontilhada} & \centering\textbf{Tracejada} & \centering\textbf{Contínua} \tabularnewline
 \midrule
 Pontos usados, n & 40 & 40 & 37 \\
-s\textsubscript{0} (mm) & 276,556 & 159,944 & 0,000 (limite inferior) \\
-Faixa de identificação de s\textsubscript{0} (mm) & 271,94 a 280,64 & 143,91 a 173,51 & 0,00 a 4,86 (na borda da grade) \\
-Escala c & 2,89897 & 1,55457 & 1,08650 \\
-RMSE (divisão) & 0,1628 & 0,1116 & 0,1604 \\
-RMSE/máx & 15,11\% & 6,59\% & 5,17\% \\
-Erro absoluto médio (divisão) & 0,1419 & 0,0956 & 0,1077 \\
-Erro máximo (divisão), em θ\textsubscript{el} & 0,3575, em 162,08° & 0,2595, em 21,39° & 0,3644, em 164,09° \\
-Coeficiente de determinação, R\textsuperscript{2} & 0,5614 & 0,8545 & 0,9387 \\
+s\textsubscript{0} (mm) & 277,434 & 167,098 & 0,000 (limite inferior) \\
+Faixa de identificação de s\textsubscript{0} (mm) & 273,02 a 281,36 & 152,49 a 179,55 & 0,00 a 4,72 (na borda da grade) \\
+Escala c & 2,95496 & 1,62444 & 1,08614 \\
+RMSE (divisão) & 0,1614 & 0,1111 & 0,1497 \\
+RMSE/máx & 14,97\% & 6,56\% & 4,83\% \\
+Erro absoluto médio (divisão) & 0,1407 & 0,0953 & 0,1002 \\
+Erro máximo (divisão), em θ\textsubscript{el} & 0,3548, em 162,08° & 0,2559, em 21,39° & 0,3308, em 164,09° \\
+Coeficiente de determinação, R\textsuperscript{2} & 0,5690 & 0,8560 & 0,9466 \\
 Zonas de sinal do resíduo & 3 & 3 & 4 \\
-δ(90°) (mm) & 77,342 & 193,955 & 353,898 \\
-K\textsubscript{40} (N/mm), hipótese & 1,25852 & 0,50185 & 0,27504 \\
-σ = K\textsubscript{40}/c, hipótese & 0,4341 & 0,3228 & 0,2531 \\
+δ(90°) (mm) & 76,465 & 186,800 & 353,898 \\
+K\textsubscript{40} (N/mm), hipótese & 1,27956 & 0,52377 & 0,27647 \\
+σ = K\textsubscript{40}/c, hipótese & 0,4330 & 0,3224 & 0,2545 \\
 \bottomrule
 \end{tabularx}
 \fonte{elaborada pelo autor.}
 \nota{resíduo = cμ − r; RMSE/máx = raiz do erro quadrático médio dividida pelo maior valor extraído da curva na faixa do ajuste.}
 \end{table}
 
-A forma da curva fixa s\textsubscript{0} apenas dentro da faixa de identificação, de 8,70 mm na curva pontilhada e 29,60 mm na tracejada; na contínua, a faixa encosta no limite s\textsubscript{0} = 0. O ajuste é pior que o da seção~\ref{sec:4A}: R\textsuperscript{2} de 0,561 (pontilhada), 0,855 (tracejada) e 0,939 (contínua), contra 0,99839 na Tabela~\ref{tab:indicadores-qualidade-ajuste-curva}, e resíduos em três ou quatro zonas de sinal, o que indica diferença sistemática de forma entre o modelo e as curvas. Na curva pontilhada, o modelo não acompanha a queda da razão acima de 100°, com erro máximo de 0,358 divisão em 162,08°. Na contínua, o mínimo da soma dos quadrados fica no limite s\textsubscript{0} = 0, que corresponde a um elástico de comprimento livre nulo no sentido de \textcite{herder2001}, e o erro continua a diminuir quando s\textsubscript{0} se aproxima desse limite.
+A forma da curva fixa s\textsubscript{0} apenas dentro da faixa de identificação, de 8,34 mm na curva pontilhada e 27,06 mm na tracejada; na contínua, a faixa encosta no limite s\textsubscript{0} = 0. O ajuste é pior que o da seção~\ref{sec:4A}: R\textsuperscript{2} de 0,569 (pontilhada), 0,856 (tracejada) e 0,947 (contínua), contra 0,99839 na Tabela~\ref{tab:indicadores-qualidade-ajuste-curva}, e resíduos em três ou quatro zonas de sinal, o que indica diferença sistemática de forma entre o modelo e as curvas. Na curva pontilhada, o modelo não acompanha a queda da razão acima de 100°, com erro máximo de 0,355 divisão em 162,08°. Na contínua, o mínimo da soma dos quadrados fica no limite s\textsubscript{0} = 0, que corresponde a um elástico de comprimento livre nulo no sentido de \textcite{herder2001}, e o erro continua a diminuir quando s\textsubscript{0} se aproxima desse limite.
 
-No ajuste de forma, a curva tracejada dá K\textsubscript{40} = 0,50185 N/mm e F(90°) = 97,34 N. O valor de F(90°) é o mesmo nas três curvas por construção: cada uma recebe seu K\textsubscript{40}, e F(90°) = 0,4 τ\textsubscript{g}(90°)·1000/m(90°) não depende de s\textsubscript{0}. Sob a mesma hipótese, uma divisão da ordenada corresponderia a σ = 0,323 na curva tracejada, 0,434 na pontilhada e 0,253 na contínua. Como as três curvas compartilham o mesmo eixo na patente, os valores distintos de σ mostram que o alvo de 40\% não pode valer para as três ao mesmo tempo com os s\textsubscript{0} do ajuste de forma.
+No ajuste de forma, a curva tracejada dá K\textsubscript{40} = 0,52377 N/mm e F(90°) = 97,84 N. O valor de F(90°) é o mesmo nas três curvas por construção: cada uma recebe seu K\textsubscript{40}, e F(90°) = 0,4 τ\textsubscript{g}(90°)·1000/m(90°) não depende de s\textsubscript{0}. Sob a mesma hipótese, uma divisão da ordenada corresponderia a σ = 0,322 na curva tracejada, 0,433 na pontilhada e 0,255 na contínua. Como as três curvas compartilham o mesmo eixo na patente, os valores distintos de σ mostram que o alvo de 40\% não pode valer para as três ao mesmo tempo com os s\textsubscript{0} do ajuste de forma.
 
 \begin{table}[!htbp]
 \estilotabela{\small}
@@ -627,22 +629,22 @@ No ajuste de forma, a curva tracejada dá K\textsubscript{40} = 0,50185 N/mm e F
 \toprule
 \centering\textbf{Indicador} & \centering\textbf{Pontilhada} & \centering\textbf{Tracejada} & \centering\textbf{Contínua} \tabularnewline
 \midrule
-s\textsubscript{0}, ajuste individual (mm) & 276,556 & 159,944 & 0,000 (limite inferior) \\
-s\textsubscript{0}, ajuste conjunto (mm) & 221,841 & 154,277 & 88,842 \\
-RMSE/máx, ajuste individual & 15,11\% & 6,59\% & 5,17\% \\
-RMSE/máx, ajuste conjunto & 21,62\% & 6,60\% & 6,57\% \\
-R\textsuperscript{2}, ajuste conjunto & 0,1013 & 0,8541 & 0,9013 \\
-RMSE/máx, força constante & 35,55\% & 12,90\% & 3,43\% \\
-R\textsuperscript{2}, força constante & −1,4289 & 0,4429 & 0,9731 \\
+s\textsubscript{0}, ajuste individual (mm) & 277,434 & 167,098 & 0,000 (limite inferior) \\
+s\textsubscript{0}, ajuste conjunto (mm) & 227,040 & 162,401 & 100,009 \\
+RMSE/máx, ajuste individual & 14,97\% & 6,56\% & 4,83\% \\
+RMSE/máx, ajuste conjunto & 21,35\% & 6,57\% & 6,45\% \\
+R\textsuperscript{2}, ajuste conjunto & 0,1240 & 0,8557 & 0,9048 \\
+RMSE/máx, força constante & 35,96\% & 13,28\% & 3,44\% \\
+R\textsuperscript{2}, força constante & −1,4848 & 0,4095 & 0,9730 \\
 \bottomrule
 \end{tabularx}
 \fonte{elaborada pelo autor.}
-\nota{no ajuste conjunto, c = 1,5051, comum às três curvas; na força constante, c é ajustado por curva.}
+\nota{no ajuste conjunto, c = 1,5794, comum às três curvas; na força constante, c é ajustado por curva.}
 \end{table}
 
-O ajuste conjunto ordena os comprimentos de referência como as pré-tensões descritas na patente: s\textsubscript{0} = 221,841 mm na curva pontilhada, 154,277 mm na tracejada e 88,842 mm na contínua; menor s\textsubscript{0} significa maior extensão do elástico em qualquer ângulo. As curvas tracejada e contínua ficam com RMSE/máx de 6,60\% e 6,57\%, e a pontilhada passa de 15,11\% para 21,62\%. Com uma só escala, o modelo linear reproduz a ordem das pré-tensões, mas não a forma da curva de menor pré-tensão. A força constante descreve a curva contínua com RMSE/máx de 3,43\%, menor que os 5,17\% do ajuste em s\textsubscript{0} = 0, e as outras duas com erros de 35,55\% e 12,90\%.
+O ajuste conjunto ordena os comprimentos de referência como as pré-tensões descritas na patente: s\textsubscript{0} = 227,040 mm na curva pontilhada, 162,401 mm na tracejada e 100,009 mm na contínua; menor s\textsubscript{0} significa maior extensão do elástico em qualquer ângulo. As curvas tracejada e contínua ficam com RMSE/máx de 6,57\% e 6,45\%, e a pontilhada passa de 14,97\% para 21,35\%. Com uma só escala, o modelo linear reproduz a ordem das pré-tensões, mas não a forma da curva de menor pré-tensão. A força constante descreve a curva contínua com RMSE/máx de 3,44\%, menor que os 4,83\% do ajuste em s\textsubscript{0} = 0, e as outras duas com erros de 35,96\% e 13,28\%.
 
-A pré-tensão da curva pontilhada, descrita como quase nula, também diverge do ajuste de forma. Pelo critério da seção~\ref{sec:4B.4}, a extensão em 180°, essa curva teria 20,37 mm com o s\textsubscript{0} individual e 75,09 mm com o do ajuste conjunto, contra −3,98 mm com o s\textsubscript{0} do espaçamento, isto é, elástico frouxo perto de 180°. No ajuste de forma, a questão não tem solução com os dados disponíveis; a identificação pelo espaçamento entre as curvas a resolve.
+A pré-tensão da curva pontilhada, descrita como quase nula, também diverge do ajuste de forma. Pelo critério da seção~\ref{sec:4B.4}, a extensão em 180°, essa curva teria 19,50 mm com o s\textsubscript{0} individual e 69,89 mm com o do ajuste conjunto, contra −3,98 mm com o s\textsubscript{0} do espaçamento, isto é, elástico frouxo perto de 180°. No ajuste de forma, a questão não tem solução com os dados disponíveis; a identificação pelo espaçamento entre as curvas a resolve.
 
 \begin{figure}[!htbp]
 \centering
@@ -663,12 +665,12 @@ A Tabela~\ref{tab:parametros-nao-publicados-origem-identificabilidade} resume a 
 \toprule
 \centering\textbf{Parâmetro} & \centering\textbf{Símbolo} & \centering\textbf{Valor adotado} & \centering\textbf{Origem} & \centering\textbf{Situação} \tabularnewline
 \midrule
-Rigidez do elástico & K & 1,45915 N/mm & Hipótese de projeto (K\textsubscript{40}) & Não identificável pela Figura 16 da patente, cuja ordenada não tem escala \\
+Rigidez do elástico & K & 1,46670 N/mm & Hipótese de projeto (K\textsubscript{40}) & Não identificável pela Figura 16 da patente, cuja ordenada não tem escala \\
 Referência da extensão & s\textsubscript{0} & 287,190 mm & Identificado pelo espaçamento entre as curvas (tracejada) & De 286,01 a 288,74 mm entre as faixas de θ\textsubscript{el}; 297,55 mm com o sinal de θ\textsubscript{b,pose} trocado \\
 Trecho da alavanca, que fixa a excentricidade |OP| do ponto de aplicação & \textit{e} & 34,785 mm & Medida em CAD & Não identificado; varrido na seção~\ref{sec:4B.8} \\
 Posição do elemento 78 & p\textsubscript{78}; η\textsubscript{78} & 7,754 mm; 117,450° & Medida em CAD e derivada & Não identificada; a patente prefere p\textsubscript{78} = 0 \\
 Defasagem angular & λ\textsubscript{0} & −11,551° & Derivada do CAD & Depende do sinal de θ\textsubscript{b,pose}, a confirmar \\
-Massa e centro de massa do braço do exoesqueleto &  & Não incluídos & Medida em CAD & Falta a posição do eixo da articulação no Fusion \\
+Massa e centro de massa do braço do exoesqueleto &  & 163,951 g; 47,362 mm & Medida em CAD & Incluídos no peso e na inércia; eixos do Fusion admitidos paralelos aos do modelo \\
 \bottomrule
 \end{tabularx}
 \fonte{elaborada pelo autor.}
@@ -701,7 +703,7 @@ Na faixa de 0° a 180° de anteversão, λ varia de 78,449° a 258,449°, e o re
 \nota{a linha θ\textsubscript{el} = 19,094° é a transição; a linha θ\textsubscript{el} = 82,038° é a pose do CAD.}
 \end{table}
 
-Com s\textsubscript{0} = 287,190 mm, a extensão do elástico vai de 102,04 mm com o braço pendente a 9,74 mm em 180°, e o elástico permanece tracionado em toda a faixa. A deformação máxima equivale a 35,5\% do comprimento de referência. Com K = K\textsubscript{40}, a força vai de 148,89 N a 14,21 N. O ajuste de forma levaria a valores bem diferentes: com s\textsubscript{0} = 159,944 mm, a extensão iria de 229,29 a 136,99 mm, com deformação de 143,4\%, e a força, com o K\textsubscript{40} correspondente, de 115,07 a 68,75 N. A viabilidade dessas extensões depende do elemento elástico, que a patente não especifica.
+Com s\textsubscript{0} = 287,190 mm, a extensão do elástico vai de 102,04 mm com o braço pendente a 9,74 mm em 180°, e o elástico permanece tracionado em toda a faixa. A deformação máxima equivale a 35,5\% do comprimento de referência. Com K = K\textsubscript{40}, a força vai de 149,67 N a 14,29 N. O ajuste de forma levaria a valores bem diferentes: com s\textsubscript{0} = 167,098 mm, a extensão iria de 222,13 a 129,83 mm, com deformação de 132,9\%, e a força, com o K\textsubscript{40} correspondente, de 116,35 a 68,00 N. A viabilidade dessas extensões depende do elemento elástico, que a patente não especifica.
 
 \subsection{\texorpdfstring{Varredura paramétrica do trecho \textit{e} da alavanca}{Varredura paramétrica do trecho e da alavanca}}\label{sec:4B.8}
 
@@ -709,16 +711,16 @@ Dos três critérios de validade física da seção~\ref{sec:3A.10}, adaptados a
 
 \begin{table}[!htbp]
 \estilotabela{\footnotesize}
-\caption{Família de curvas em \textit{e}, com s\textsubscript{0} = 287,190 mm e K = 1,45915 N/mm}\label{tab:familia-curvas-s0-mm}
+\caption{Família de curvas em \textit{e}, com s\textsubscript{0} = 287,190 mm e K = 1,46670 N/mm}\label{tab:familia-curvas-s0-mm}
 \begin{tabularx}{\textwidth}{@{}>{\hsize=0.962\hsize\centering\arraybackslash}X>{\hsize=0.962\hsize\centering\arraybackslash}X>{\hsize=0.962\hsize\centering\arraybackslash}X>{\hsize=1.058\hsize\centering\arraybackslash}X>{\hsize=1.058\hsize\centering\arraybackslash}X>{\hsize=1.000\hsize\centering\arraybackslash}X>{\hsize=1.000\hsize\centering\arraybackslash}X>{\hsize=1.000\hsize\centering\arraybackslash}X>{\hsize=1.000\hsize\centering\arraybackslash}X@{}}
 \toprule
 \centering\textbf{\textit{e} (mm)} & \centering\textbf{d\textsubscript{78} (mm)} & \centering\textbf{θ\textsubscript{el,t} (°)} & \centering\textbf{Pico de τ (N·m)} & \centering\textbf{θ\textsubscript{el} do pico (°)} & \centering\textbf{τ(90°) (N·m)} & \centering\textbf{τ/τ\textsubscript{g} em 90°} & \centering\textbf{δ\textsubscript{mín} (mm)} & \centering\textbf{δ\textsubscript{máx} (mm)} \tabularnewline
 \midrule
-25,000 & 42,356 & 23,72 & 3,296 & 84,7 & 3,274 & 0,310 & 19,52 & 93,04 \\
-30,000 & 46,918 & 21,13 & 3,822 & 81,4 & 3,754 & 0,356 & 14,52 & 97,60 \\
-34,785 & 51,360 & 19,09 & 4,354 & 78,8 & 4,220 & 0,400 & 9,74 & 102,04 \\
-40,000 & 56,266 & 17,24 & 4,965 & 76,6 & 4,736 & 0,449 & 4,53 & 106,95 \\
-45,000 & 61,017 & 15,74 & 5,580 & 74,8 & 5,241 & 0,497 & −0,47 & 111,70 \\
+25,000 & 42,356 & 23,72 & 3,313 & 84,7 & 3,291 & 0,310 & 19,52 & 93,04 \\
+30,000 & 46,918 & 21,13 & 3,841 & 81,4 & 3,773 & 0,356 & 14,52 & 97,60 \\
+34,785 & 51,360 & 19,09 & 4,376 & 78,8 & 4,242 & 0,400 & 9,74 & 102,04 \\
+40,000 & 56,266 & 17,24 & 4,990 & 76,6 & 4,761 & 0,449 & 4,53 & 106,95 \\
+45,000 & 61,017 & 15,74 & 5,609 & 74,8 & 5,268 & 0,497 & −0,47 & 111,70 \\
 \bottomrule
 \end{tabularx}
 \fonte{elaborada pelo autor.}
@@ -727,7 +729,7 @@ Dos três critérios de validade física da seção~\ref{sec:3A.10}, adaptados a
 
 Nos ângulos abaixo de cerca de 134°, onde as curvas dos valores extremos de \textit{e} se cruzam, o torque aumenta com \textit{e}; acima desse ângulo, diminui. Com o aumento de \textit{e}, o pico se desloca de 84,7° para 74,8° e a transição ocorre mais cedo. Medido o espalhamento entre as curvas de τ/K, máximo menos mínimo em cada θ\textsubscript{el}, há dois nós, em 15,7° e 133,9°, e a abertura máxima ocorre em 64,2°.
 
-A Figura 17 da patente não foi digitalizada, e a comparação com ela é visual. Nela, as três curvas partem de perto de 14°; a de maior excentricidade, contínua, atinge o máximo perto de 100°, decresce e cruza as outras duas entre cerca de 155° e 160°, e as três sobem acentuadamente acima de 160°. O texto registra que, acima de cerca de 150°, o andamento difere do da Figura 16 da patente. No modelo, as curvas de τ/τ\textsubscript{g} da família têm máximo entre 54,4° e 75,6°, que ocorre mais cedo quanto maior o trecho \textit{e}, e mínimo local entre 152,4° e 169,5° nas curvas que permanecem tracionadas; as curvas se cruzam perto de 134°. Qualitativamente, o modelo reproduz a sequência de máximo, vale e subida perto de 180°, mas com o máximo antes do da patente e o cruzamento das curvas mais cedo. A comparação quantitativa depende da digitalização da Figura 17 da patente, da definição de sua ordenada e dos valores de excentricidade, que a patente não informa.
+A Figura 17 da patente não foi digitalizada, e a comparação com ela é visual. Nela, as três curvas partem de perto de 14°; a de maior excentricidade, contínua, atinge o máximo perto de 100°, decresce e cruza as outras duas entre cerca de 155° e 160°, e as três sobem acentuadamente acima de 160°. O texto registra que, acima de cerca de 150°, o andamento difere do da Figura 16 da patente. No modelo, as curvas de τ/τ\textsubscript{g} da família têm máximo entre 54,8° e 76,0°, que ocorre mais cedo quanto maior o trecho \textit{e}, e mínimo local entre 151,9° e 169,1° nas curvas que permanecem tracionadas; as curvas se cruzam perto de 134°. Qualitativamente, o modelo reproduz a sequência de máximo, vale e subida perto de 180°, mas com o máximo antes do da patente e o cruzamento das curvas mais cedo. A comparação quantitativa depende da digitalização da Figura 17 da patente, da definição de sua ordenada e dos valores de excentricidade, que a patente não informa.
 
 \begin{figure}[!htbp]
 \centering
@@ -738,9 +740,9 @@ A Figura 17 da patente não foi digitalizada, e a comparação com ela é visual
 
 \subsection{Confronto com o torque gravitacional}\label{sec:4B.9}
 
-A forma do torque do elástico pode ser comparada à do peso sem depender de K, normalizando cada curva pelo próprio pico (Figura~\ref{fig:torque-elastico-torque-peso}). Com o s\textsubscript{0} adotado, o pico normalizado do elástico ocorre em θ\textsubscript{el} = 78,8°, contra 90° do peso, e as curvas normalizadas se cruzam em 11,48° (regime II), 44,76°, 83,72° e 177,42°. Abaixo de 11,48°, a forma do elástico fica acima da do peso, que tende a zero com o braço pendente; entre 11,48° e 44,76°, fica abaixo, com diferença de até −0,154 em 19,1°, perto da transição; entre 44,76° e 83,72°, fica ligeiramente acima, com no máximo +0,044 em 64,3°; entre 83,72° e 177,42°, volta a ficar abaixo, com diferença de até −0,274 em 139,5°; e acima de 177,42° fica de novo acima. Entre as faixas de θ\textsubscript{el} testadas na identificação, o pico vai de 78,5° a 79,1°, de modo que essas conclusões não dependem da faixa escolhida. A posição do pico fica na faixa de 70° a 120° em que a patente prefere a força máxima, desde que essa força seja lida como a força de apoio sobre o braço, proporcional ao torque na articulação, interpretação do autor; a força do próprio elástico é máxima com o braço pendente. O mesmo parágrafo cita, como exemplo, força nula até 45°, 60° ou 90°, preferência que nem a Figura 16 da patente, com razão não nula a partir de cerca de 14°, nem o modelo, com torque desde 0°, seguem; como esse ângulo é ajustável pela posição do elemento 78, os valores citados pela patente correspondem a regulagens para as quais a patente não publica curva.
+A forma do torque do elástico pode ser comparada à do peso sem depender de K, normalizando cada curva pelo próprio pico (Figura~\ref{fig:torque-elastico-torque-peso}). Com o s\textsubscript{0} adotado, o pico normalizado do elástico ocorre em θ\textsubscript{el} = 78,8°, contra 89,7° do peso, e as curvas normalizadas se cruzam em 11,24° (regime II), 45,59°, 83,60° e 177,05°. Abaixo de 11,24°, a forma do elástico fica acima da do peso, que tende a zero com o braço pendente; entre 11,24° e 45,59°, fica abaixo, com diferença de até −0,159 em 19,1°, perto da transição; entre 45,59° e 83,60°, fica ligeiramente acima, com no máximo +0,042 em 64,6°; entre 83,60° e 177,05°, volta a ficar abaixo, com diferença de até −0,270 em 139,3°; e acima de 177,05° fica de novo acima. Entre as faixas de θ\textsubscript{el} testadas na identificação, o pico vai de 78,5° a 79,1°, de modo que essas conclusões não dependem da faixa escolhida. A posição do pico fica na faixa de 70° a 120° em que a patente prefere a força máxima, desde que essa força seja lida como a força de apoio sobre o braço, proporcional ao torque na articulação, interpretação do autor; a força do próprio elástico é máxima com o braço pendente. O mesmo parágrafo cita, como exemplo, força nula até 45°, 60° ou 90°, preferência que nem a Figura 16 da patente, com razão não nula a partir de cerca de 14°, nem o modelo, com torque desde 0°, seguem; como esse ângulo é ajustável pela posição do elemento 78, os valores citados pela patente correspondem a regulagens para as quais a patente não publica curva.
 
-Com o s\textsubscript{0} do ajuste de forma, 159,944 mm, o pico normalizado ficaria em 95,6°, e as curvas se cruzariam em 9,44° e 92,87°, com a forma do elástico abaixo da do peso entre 9,44° e 92,87° e acima dela fora desse intervalo. A distribuição angular da assistência depende, portanto, de qual identificação de s\textsubscript{0} se adota.
+Com o s\textsubscript{0} do ajuste de forma, 167,098 mm, o pico normalizado ficaria em 95,1°, e as curvas se cruzariam em 9,24° e 92,48°, com a forma do elástico abaixo da do peso entre 9,24° e 92,48° e acima dela fora desse intervalo. A distribuição angular da assistência depende, portanto, de qual identificação de s\textsubscript{0} se adota.
 
 \begin{figure}[!htbp]
 \centering
@@ -750,41 +752,41 @@ Com o s\textsubscript{0} do ajuste de forma, 159,944 mm, o pico normalizado fica
 \nota{faixa sombreada: s\textsubscript{0} de 286,01 a 288,74 mm, valores da curva tracejada nas faixas de θ\textsubscript{el} da Tabela~\ref{tab:comprimento-referencia-s0-identificado}.}
 \end{figure}
 
-Em N·m, a comparação só é possível sob a hipótese K = K\textsubscript{40}, e por isso a Figura~\ref{fig:torque-elastico-k-k40} e a Tabela~\ref{tab:cenario-projeto-s0-mm} descrevem um cenário de projeto, e não o dispositivo comercial. Nesse cenário, o torque do elástico atinge 4,354 N·m em θ\textsubscript{el} = 78,8°, e a razão τ/τ\textsubscript{g} vai de 0,35 em 30° a 0,43 em 60°, 0,40 em 90° e 0,20 em 150°, com 0,19 em 170°. A força e a extensão do elástico nesse cenário estão na seção~\ref{sec:4B.7}.
+Em N·m, a comparação só é possível sob a hipótese K = K\textsubscript{40}, e por isso a Figura~\ref{fig:torque-elastico-k-k40} e a Tabela~\ref{tab:cenario-projeto-s0-mm} descrevem um cenário de projeto, e não o dispositivo comercial. Nesse cenário, o torque do elástico atinge 4,376 N·m em θ\textsubscript{el} = 78,8°, e a razão τ/τ\textsubscript{g} vai de 0,34 em 30° a 0,43 em 60°, 0,40 em 90° e 0,21 em 150°, com 0,20 em 170°. A força e a extensão do elástico nesse cenário estão na seção~\ref{sec:4B.7}.
 
 \begin{table}[!htbp]
 \estilotabela{\footnotesize}
-\caption{Cenário de projeto com s\textsubscript{0} = 287,190 mm e K = K\textsubscript{40} = 1,45915 N/mm}\label{tab:cenario-projeto-s0-mm}
+\caption{Cenário de projeto com s\textsubscript{0} = 287,190 mm e K = K\textsubscript{40} = 1,46670 N/mm}\label{tab:cenario-projeto-s0-mm}
 \begin{tabularx}{\textwidth}{@{}>{\hsize=0.919\hsize\centering\arraybackslash}X>{\hsize=1.026\hsize\centering\arraybackslash}X>{\hsize=1.068\hsize\centering\arraybackslash}X>{\hsize=1.026\hsize\centering\arraybackslash}X>{\hsize=1.026\hsize\centering\arraybackslash}X>{\hsize=0.962\hsize\centering\arraybackslash}X>{\hsize=0.962\hsize\centering\arraybackslash}X>{\hsize=1.004\hsize\centering\arraybackslash}X>{\hsize=1.068\hsize\centering\arraybackslash}X>{\hsize=0.940\hsize\centering\arraybackslash}X@{}}
 \toprule
 \centering\textbf{θ\textsubscript{el} (°)} & \centering\textbf{λ (°)} & \centering\textbf{Regime} & \centering\textbf{ℓ (mm)} & \centering\textbf{δ (mm)} & \centering\textbf{m (mm)} & \centering\textbf{F (N)} & \centering\textbf{τ (N·m)} & \centering\textbf{τ\textsubscript{g} (N·m)} & \centering\textbf{τ/τ\textsubscript{g}} \tabularnewline
 \midrule
-10 & 88,449 & II & 388,112 & 100,921 & 6,025 & 147,26 & 0,887 & 1,832 & 0,484 \\
-30 & 108,449 & I & 385,516 & 98,326 & 12,720 & 143,47 & 1,825 & 5,275 & 0,346 \\
-60 & 138,449 & I & 373,805 & 86,615 & 31,271 & 126,38 & 3,952 & 9,136 & 0,433 \\
-90 & 168,449 & I & 353,898 & 66,708 & 43,353 & 97,34 & 4,220 & 10,550 & 0,400 \\
-120 & 198,449 & I & 330,220 & 43,030 & 45,076 & 62,79 & 2,830 & 9,136 & 0,310 \\
-150 & 228,449 & I & 308,989 & 21,799 & 33,783 & 31,81 & 1,075 & 5,275 & 0,204 \\
-170 & 248,449 & I & 299,573 & 12,382 & 19,398 & 18,07 & 0,350 & 1,832 & 0,191 \\
+10 & 88,449 & II & 388,112 & 100,921 & 6,025 & 148,02 & 0,892 & 1,894 & 0,471 \\
+30 & 108,449 & I & 385,516 & 98,326 & 12,720 & 144,21 & 1,834 & 5,348 & 0,343 \\
+60 & 138,449 & I & 373,805 & 86,615 & 31,271 & 127,04 & 3,973 & 9,210 & 0,431 \\
+90 & 168,449 & I & 353,898 & 66,708 & 43,353 & 97,84 & 4,242 & 10,604 & 0,400 \\
+120 & 198,449 & I & 330,220 & 43,030 & 45,076 & 63,11 & 2,845 & 9,157 & 0,311 \\
+150 & 228,449 & I & 308,989 & 21,799 & 33,783 & 31,97 & 1,080 & 5,256 & 0,205 \\
+170 & 248,449 & I & 299,573 & 12,382 & 19,398 & 18,16 & 0,352 & 1,789 & 0,197 \\
 \bottomrule
 \end{tabularx}
 \fonte{elaborada pelo autor.}
-\nota{K\textsubscript{40} é hipótese de projeto (seção~\ref{sec:3B.9}); τ\textsubscript{g} considera só o membro humano.}
+\nota{K\textsubscript{40} é hipótese de projeto (seção~\ref{sec:3B.9}); τ\textsubscript{g} considera o membro humano e o braço do exoesqueleto.}
 \end{table}
 
 \begin{figure}[!htbp]
 \centering
-\caption{Torque do elástico com K = K\textsubscript{40} no cenário de projeto, torque do peso do membro humano e alvo de 40\%}\label{fig:torque-elastico-k-k40}
+\caption{Torque do elástico com K = K\textsubscript{40} no cenário de projeto, torque do peso do membro e do braço do exoesqueleto e alvo de 40\%}\label{fig:torque-elastico-k-k40}
 \includegraphics[width=0.92\textwidth]{torque-elastico-k-k40.png}
 \fonte{elaborada pelo autor.}
 \nota{os rótulos indicam τ/τ\textsubscript{g}; a linha pontilhada marca a transição de regime.}
 \end{figure}
 
-Abaixo da transição, em θ\textsubscript{el} < 19,09°, o modelo mantém torque positivo, 0,887 N·m em 10° no cenário de projeto, porque o elemento 78 está a 7,754 mm do eixo. A Figura 16 da patente mostra razão nula abaixo de cerca de 14°, e a patente prefere o elemento 78 sobre o eixo. A divergência foi mantida no modelo, e não corrigida: ela depende da posição real do elemento 78 e de seu raio de contato, que não estão documentados.
+Abaixo da transição, em θ\textsubscript{el} < 19,09°, o modelo mantém torque positivo, 0,892 N·m em 10° no cenário de projeto, porque o elemento 78 está a 7,754 mm do eixo. A Figura 16 da patente mostra razão nula abaixo de cerca de 14°, e a patente prefere o elemento 78 sobre o eixo. A divergência foi mantida no modelo, e não corrigida: ela depende da posição real do elemento 78 e de seu raio de contato, que não estão documentados.
 
-Entre os valores de s\textsubscript{0} obtidos nas faixas de θ\textsubscript{el} testadas, de 286,01 a 288,74 mm, K\textsubscript{40} varia de 1,43382 a 1,49390 N/mm, e o pico de τ, de 4,346 a 4,365 N·m; as razões τ/τ\textsubscript{g} em 30°, 60°, 120° e 150° mudam no máximo 0,017. A escolha final de K, que a figura não determina, é decisão de projeto.
+Entre os valores de s\textsubscript{0} obtidos nas faixas de θ\textsubscript{el} testadas, de 286,01 a 288,74 mm, K\textsubscript{40} varia de 1,44125 a 1,50164 N/mm, e o pico de τ, de 4,368 a 4,388 N·m; as razões τ/τ\textsubscript{g} em 30°, 60°, 120° e 150° mudam no máximo 0,017. A escolha final de K, que a figura não determina, é decisão de projeto.
 
-Como na seção~\ref{sec:4A.8}, o resultado ilustra a limitação discutida na seção~\ref{sec:2.4} \cite{nasr2022}, mas com o compromisso invertido: com o s\textsubscript{0} adotado, a forma do elástico fica abaixo da do peso entre 83,72° e 177,42°, de modo que, no modelo, a subcompensação recai sobre a faixa acima da horizontal, onde se concentra o risco documentado por \textcite{vandermolen2017} e \textcite{seidler2020}. Como essa forma depende da geometria do CAD, que não reproduz a Figura 16 da patente (seção~\ref{sec:4B.5}), a leitura vale para o modelo.
+Como na seção~\ref{sec:4A.8}, o resultado ilustra a limitação discutida na seção~\ref{sec:2.4} \cite{nasr2022}, mas com o compromisso invertido: com o s\textsubscript{0} adotado, a forma do elástico fica abaixo da do peso entre 83,60° e 177,05°, de modo que, no modelo, a subcompensação recai sobre a faixa acima da horizontal, onde se concentra o risco documentado por \textcite{vandermolen2017} e \textcite{seidler2020}. Como essa forma depende da geometria do CAD, que não reproduz a Figura 16 da patente (seção~\ref{sec:4B.5}), a leitura vale para o modelo.
 
 \subsection{Limitações dos resultados}\label{sec:4B.10}
 
@@ -838,10 +840,10 @@ Arquitetura & Mola, cabo e polia entre elo proximal e elo distal & Elástico lig
 Faixa sem torque com o braço baixado & Protuberância junto à junta, não modelada; ponto morto em 30,485° de elevação & Contato com o elemento 78; transição em 19,09° de anteversão no CAD, com torque não nulo abaixo dela \\
 Dado da patente & Uma curva de torque sem unidade na ordenada; 29 pontos extraídos & Três curvas de razão de torques sem escala na ordenada, com pré-tensões diferentes; 146 pontos extraídos \\
 Parâmetros identificados & θ\textsubscript{off}, h, X\textsubscript{pose} e K, este em unidade da patente & s\textsubscript{0} das três curvas, pelo espaçamento; K não identificável \\
-Reprodução da curva publicada & R\textsuperscript{2} = 0,99839 & R\textsuperscript{2} negativo com os s\textsubscript{0} identificados; de 0,561 a 0,939 no ajuste de forma, com s\textsubscript{0} livre por curva \\
-Escala do torque & Unidade da patente; leitura em N·m implausível, com tração de 9,5 kN & N·m sob a hipótese K = K\textsubscript{40}, com força de 14 a 149 N \\
+Reprodução da curva publicada & R\textsuperscript{2} = 0,99839 & R\textsuperscript{2} negativo com os s\textsubscript{0} identificados; de 0,569 a 0,947 no ajuste de forma, com s\textsubscript{0} livre por curva \\
+Escala do torque & Unidade da patente; leitura em N·m implausível, com tração de 9,5 kN & N·m sob a hipótese K = K\textsubscript{40}, com força de 14 a 150 N \\
 Pico do torque de assistência & 97,48° de elevação & 78,8° de anteversão, com o s\textsubscript{0} adotado \\
-Torque gravitacional de referência & Conjunto braço e exoesqueleto, pico de 11,1619 N·m & Só o membro humano, pico de 10,550 N·m \\
+Torque gravitacional de referência & Conjunto braço e exoesqueleto, pico de 11,1619 N·m & Membro humano e braço do exoesqueleto, pico de 10,604 N·m \\
 \bottomrule
 \end{tabularx}
 \fonte{elaborada pelo autor, com os resultados das seções~\ref{sec:4A} e \ref{sec:4B}.}
@@ -849,4 +851,4 @@ Torque gravitacional de referência & Conjunto braço e exoesqueleto, pico de 11
 
 O contraste mais útil para o procedimento está na identificação. Uma única curva sem unidade, como a da US 9.889.554 B2, fixa a forma do perfil, e o ajuste de quatro parâmetros contra os mesmos 29 pontos reproduz essa forma sem constituir validação independente (seção~\ref{sec:4A.5}). As três curvas da EP 3 504 033 B1 trazem uma redundância que permitiu separar o comprimento de referência do elástico, determinado pelo espaçamento entre elas, da forma do perfil, que depende do braço de momento e do torque do peso. Essa separação revelou uma diferença de forma que o ajuste de uma curva isolada teria escondido no valor de s\textsubscript{0}.
 
-Os dois mecanismos também distribuem a assistência de modo distinto em relação à demanda gravitacional. O gerador da US 9.889.554 B2 concentra o torque acima da horizontal e acompanha a forma do peso entre 105° e 150° de elevação (seção~\ref{sec:4A.8}). Com o s\textsubscript{0} adotado, a forma normalizada do elástico na EP 3 504 033 B1 acompanha a do peso de 45° a 84° e fica abaixo dela entre 84° e 177°, com diferença normalizada de até −0,274 em 139,5° (seção~\ref{sec:4B.9}). Como a forma desse segundo perfil depende da geometria do CAD, que não reproduz a Figura 16 da patente, a comparação vale para os modelos, e não para os produtos. A comparação é quantitativa quanto aos ângulos e à forma dos perfis, mas não quanto à magnitude: o torque do primeiro dispositivo está em unidade da patente, o do segundo só chega a N·m por hipótese, e as referências de torque gravitacional são diferentes.
+Os dois mecanismos também distribuem a assistência de modo distinto em relação à demanda gravitacional. O gerador da US 9.889.554 B2 concentra o torque acima da horizontal e acompanha a forma do peso entre 105° e 150° de elevação (seção~\ref{sec:4A.8}). Com o s\textsubscript{0} adotado, a forma normalizada do elástico na EP 3 504 033 B1 acompanha a do peso de 46° a 84° e fica abaixo dela entre 84° e 177°, com diferença normalizada de até −0,270 em 139,3° (seção~\ref{sec:4B.9}). Como a forma desse segundo perfil depende da geometria do CAD, que não reproduz a Figura 16 da patente, a comparação vale para os modelos, e não para os produtos. A comparação é quantitativa quanto aos ângulos e à forma dos perfis, mas não quanto à magnitude: o torque do primeiro dispositivo está em unidade da patente, o do segundo só chega a N·m por hipótese, e as referências de torque gravitacional são diferentes.

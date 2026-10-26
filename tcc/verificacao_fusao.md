@@ -24,7 +24,7 @@ Blocos novos: 254. Travessões: 0. Restos da numeração do apêndice: 0.
 
 ## 5. Parágrafos do apêndice da versão anterior
 
-Idênticos: 11. Iguais a menos de números e referências: 30. Modificados: 33. Sem correspondente próximo: 21. Os últimos foram reescritos pelos novos resultados de s0 ou eram próprios do apêndice (título, apresentação e nota da lista de referências separada).
+Idênticos: 11. Iguais a menos de números e referências: 26. Modificados: 35. Sem correspondente próximo: 23. Os últimos foram reescritos pelos novos resultados de s0 ou eram próprios do apêndice (título, apresentação e nota da lista de referências separada).
 
 - Modificado (0.54): Os números do apêndice foram produzidos pelo modelo torque_model_ottobock.py e pelo script tcc_resultados_otto
   - mais próximo no fundido: A cadeia de cálculo do dispositivo da EP 3 504 033 B1, descrita nas seções 3B.3 a 3B.8, está implementada no a
@@ -40,10 +40,12 @@ Idênticos: 11. Iguais a menos de números e referências: 30. Modificados: 33. 
   - mais próximo no fundido: O atuador passivo (26) é uma mola de tração na Figura 1 da patente e um cabo ou fio elástico na Figura 18 da p
 - Modificado (0.66): Com o aumento de e, o torque cresce em quase toda a faixa, o pico se desloca de 100,5° para 92,0° e a transiçã
   - mais próximo no fundido: Nos ângulos abaixo de cerca de 134°, onde as curvas dos valores extremos de e se cruzam, o torque aumenta com 
-- Modificado (0.71): A integração não foi executada, pelas razões seguintes. O torque do elástico só está em N·m sob a hipótese K =
-  - mais próximo no fundido: A integração não foi executada, pelas razões seguintes. O torque do elástico só está em N·m sob a hipótese K =
+- Modificado (0.69): Figura A.6: Cenário de projeto: torque do elástico com K = K40, torque do peso do membro humano e alvo de 40%
+  - mais próximo no fundido: Figura 12: Torque do elástico com K = K40 no cenário de projeto, torque do peso do membro e do braço do exoesq
+- Modificado (0.70): A consistência foi conferida pela Equação (1): Icm + M D2 = 0,113765 + 0,320911 = 0,434676 kg·m2. A amplitude 
+  - mais próximo no fundido: A consistência foi conferida pela Equação (1): para o membro humano, Icm + M d2 = 0,113765 + 0,320911 = 0,4346
 - Modificado (0.71): Dentro da faixa de identificação de s0, K40 varia de 0,46353 a 0,53960 N/mm, e o pico de τ, de 4,235 a 4,250 N
-  - mais próximo no fundido: Entre os valores de s0 obtidos nas faixas de θel testadas, de 286,01 a 288,74 mm, K40 varia de 1,43382 a 1,493
+  - mais próximo no fundido: Entre os valores de s0 obtidos nas faixas de θel testadas, de 286,01 a 288,74 mm, K40 varia de 1,44125 a 1,501
 - Modificado (0.74): A.4 Parâmetros inerciais e transporte ao eixo da junta (seções 3.2 e 4.1)
   - mais próximo no fundido: 3B.2 Parâmetros inerciais do membro e transporte ao eixo da articulação 20
 - Modificado (0.75): O circuito do mecanismo foi fechado pelo autor no modelo em CAD do Autodesk Fusion, e as grandezas medidas nes
@@ -54,10 +56,12 @@ Idênticos: 11. Iguais a menos de números e referências: 30. Modificados: 33. 
   - mais próximo no fundido: Figura 2: Circuitos do mecanismo: regime I na pose do CAD (θel = 82,038°) e regime II em θel = 10°
 - Modificado (0.78): A EP 3 504 033 B1 descreve um dispositivo de apoio a ao menos um braço do usuário. O elemento de apoio do braç
   - mais próximo no fundido: A reconstrução parte da arquitetura descrita na patente. A EP 3 504 033 B1 descreve um dispositivo de apoio de
-- Modificado (0.79): Figura A.6: Cenário de projeto: torque do elástico com K = K40, torque do peso do membro humano e alvo de 40%
-  - mais próximo no fundido: Figura 12: Torque do elástico com K = K40 no cenário de projeto, torque do peso do membro humano e alvo de 40%
+- Modificado (0.79): A integração não foi executada, pelas razões seguintes. O torque do elástico só está em N·m sob a hipótese K =
+  - mais próximo no fundido: A integração não foi executada, pelas razões seguintes. O torque do elástico só está em N·m sob a hipótese K =
+- Modificado (0.83): Tabela A.3: Propriedades de massa do membro humano em relação ao eixo da articulação 20
+  - mais próximo no fundido: Tabela 15: Propriedades de massa do conjunto que gira com o braço em relação ao eixo da articulação 20
 - Modificado (0.83): Tabela A.12: Projeto padrão: s0 = 159,944 mm e K = K40 = 0,50185 N/mm
-  - mais próximo no fundido: Tabela 24: Cenário de projeto com s0 = 287,190 mm e K = K40 = 1,45915 N/mm
+  - mais próximo no fundido: Tabela 24: Cenário de projeto com s0 = 287,190 mm e K = K40 = 1,46670 N/mm
 - Modificado (0.83): O dispositivo admite abdução, adução e movimentos do tronco (reivindicação 1; [0016] a [0019]). O modelo deste
   - mais próximo no fundido: O dispositivo admite abdução, adução e movimentos do tronco. O modelo é plano, restrito ao plano sagital, e re
 - Modificado (0.84): Foram extraídos 48 pontos da curva tracejada, 47 da pontilhada e 51 da contínua. As três começam com razão lig
@@ -79,7 +83,7 @@ Idênticos: 11. Iguais a menos de números e referências: 30. Modificados: 33. 
 - Modificado (0.90): Como preferência, a patente indica que nenhuma força seja aplicada até que o braço ultrapasse um ângulo em rel
   - mais próximo no fundido: Como preferência, a patente indica que nenhuma força seja aplicada até que o braço ultrapasse um ângulo em rel
 - Modificado (0.91): Com a curva tracejada, K40 = 0,50185 N/mm e F(90°) = 97,34 N. O valor de F(90°) é o mesmo nas três curvas por 
-  - mais próximo no fundido: No ajuste de forma, a curva tracejada dá K40 = 0,50185 N/mm e F(90°) = 97,34 N. O valor de F(90°) é o mesmo na
+  - mais próximo no fundido: No ajuste de forma, a curva tracejada dá K40 = 0,52377 N/mm e F(90°) = 97,84 N. O valor de F(90°) é o mesmo na
 - Modificado (0.92): com m = mI no regime I, m = mII no regime II e m > 0 quando o torque assiste a subida. Como no capítulo 3, o f
   - mais próximo no fundido: com m = mI no regime I, m = mII no regime II e m > 0 quando o torque assiste a subida. O fator 1/1000, herdado
 - Modificado (0.92): A Figura 17 não foi digitalizada. A seção A.11 faz apenas uma comparação visual com ela.
@@ -96,14 +100,14 @@ Idênticos: 11. Iguais a menos de números e referências: 30. Modificados: 33. 
   - mais próximo no fundido: A Figura 16 da patente informa s0 de duas maneiras que não dependem da escala da ordenada: pelo espaçamento en
 - Sem correspondente (0.06): As Figuras 16 e 17 da patente mostram curvas obtidas com o dispositivo [0092]. A abscissa é o ângulo de anteve
   - mais próximo no fundido: Como preferência, a patente indica que nenhuma força seja aplicada até que o braço ultrapasse um ângulo em rel
-- Sem correspondente (0.07): Foram executadas, para a EP 3 504 033 B1, a leitura da arquitetura na patente, a organização das grandezas do 
-  - mais próximo no fundido: No modelo em CAD, o braço do exoesqueleto (elemento 8) tem massa de 163,951 g, centro de massa em (69,249; 151
 - Sem correspondente (0.07): A pré-tensão da curva pontilhada, descrita como quase nula [0093], também diverge do modelo. Essa curva exige 
   - mais próximo no fundido: em que s0 é o valor de ℓ em que o elástico atinge o comprimento livre e K a rigidez. A patente não informa K, 
 - Sem correspondente (0.07): A variável independente é a anteversão do braço, θel, com 0° para o braço pendente e 90° para o braço horizont
   - mais próximo no fundido: Para expressar o torque em N·m, K foi fixado por hipótese de projeto, e não identificado. O alvo é 40% do torq
 - Sem correspondente (0.09): Para expressar o torque em N·m, K foi fixado por hipótese de projeto, e não identificado. O alvo é 40% do torq
   - mais próximo no fundido: No regime II, o trecho entre o elemento 78 e P liga dois pontos do mesmo corpo; as forças que exerce sobre P e
+- Sem correspondente (0.09): Foram executadas, para a EP 3 504 033 B1, a leitura da arquitetura na patente, a organização das grandezas do 
+  - mais próximo no fundido: Dos objetivos acrescentados para esse dispositivo, o item h foi cumprido na parte estática, com três ressalvas
 - Sem correspondente (0.09): A forma do torque do elástico pode ser comparada à do peso sem depender de K, normalizando cada curva pelo pró
   - mais próximo no fundido: O espaçamento entre as três curvas da Figura 16 da patente determina os comprimentos de referência do elástico
 - Sem correspondente (0.09): O sinal de θb,pose = −7,962° está registrado no código como a confirmar. Com o sinal trocado, λ0 passa a −27,4
@@ -118,12 +122,16 @@ Idênticos: 11. Iguais a menos de números e referências: 30. Modificados: 33. 
   - mais próximo no fundido: Os pontos das três curvas foram extraídos pelo autor e estão no arquivo fig16_curvas.csv (Tabela 16). A extraç
 - Sem correspondente (0.18): Em N·m, a comparação só é possível sob a hipótese K = K40, e por isso a Figura A.6 e a Tabela A.12 descrevem u
   - mais próximo no fundido: Com s0 = 287,190 mm, a extensão do elástico vai de 102,04 mm com o braço pendente a 9,74 mm em 180°, e o elást
+- Sem correspondente (0.23): Com apenas o membro humano, aCG = 0 e τg = M g D sen θel/1000, com máximo de 10,550 N·m em θel = 90°. A Equaçã
+  - mais próximo no fundido: O conjunto reúne o membro humano e o braço do exoesqueleto (elemento 8), cujo centro de massa é referido ao ei
 - Sem correspondente (0.33): As referências citadas no apêndice e já cadastradas no trabalho estão na lista de referências. As referências 
   - mais próximo no fundido: i) identificar o comprimento de referência do elástico a partir das três curvas de pré-tensão publicadas na pa
 - Sem correspondente (0.33): O elemento 78, chamado na patente de elemento de apoio (Anlageelement), fica junto à articulação 20 e encosta 
   - mais próximo no fundido: O elemento 78, chamado na patente de Anlageelement e aqui de elemento de encosto, fica junto à articulação 20 
 - Sem correspondente (0.33): com λ em radianos, relação análoga à Equação (17), verificada numericamente nos dois regimes (seção A.12). O s
   - mais próximo no fundido: O torque τ é positivo no sentido anti-horário, que é o de θel crescente; τ > 0 assiste a subida do braço. O to
+- Sem correspondente (0.35): No modelo em CAD, o braço do exoesqueleto (elemento 8) tem massa de 163,951 g, centro de massa em (69,249; 151
+  - mais próximo no fundido: No modelo em CAD, o braço do exoesqueleto (elemento 8) tem massa de 163,951 g, centro de massa em (69,249; 151
 - Sem correspondente (0.43): A Tabela A.13 reúne o que falta para concluir cada etapa, a consequência da ausência e a forma de obter o dado
   - mais próximo no fundido: A Tabela 21 resume a situação dos parâmetros que a patente não publica, no formato da Tabela 8.
 - Sem correspondente (0.43): Com o elemento 78 sobre o eixo (p78 = 0), configuração preferida pela patente [0099], a transição tem forma fe

@@ -120,10 +120,10 @@ GRAVIDADE = 9.80665            # m/s², valor padrão (gravidade = −y)
 MASSA_BRACO_EXO = 163.951                 # g, CAD, Fusion
 CG_BRACO_EXO_FUSION = (69.249, 151.559)   # mm, CAD, Fusion (referencial do Fusion)
 IZZ_CG_BRACO_EXO = 9.659e5                # g·mm², CAD, Fusion
-O_FUSION = None   # mm, centro da junta 20 no referencial do Fusion. NÃO MEDIDO:
-                  # enquanto for None, o braço do exo fica fora do peso e da
-                  # inércia. Preenchido, o CG relativo a O é
-                  # CG_BRACO_EXO_FUSION − O_FUSION, na pose do CAD.
+O_FUSION = (31.023, 123.596)   # mm, CAD, Fusion: centro da junta 20 no
+                  # referencial do Fusion, informado pelo autor. Com None, o
+                  # braço do exo fica fora do peso e da inércia. O CG relativo
+                  # a O é CG_BRACO_EXO_FUSION − O_FUSION, na pose do CAD.
                   # HIPÓTESE: eixos do Fusion paralelos aos do modelo (x
                   # anterior, y para cima, z = eixo da junta 20) e
                   # IZZ_CG_BRACO_EXO em torno de z.

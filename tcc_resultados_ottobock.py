@@ -545,9 +545,15 @@ def main():
     N["massa"] = {"humano": conj["humano"], "total": conj["total"],
                   "exo_incluido": conj["exo_incluido"], "corpos": corpos,
                   "segmentos_de_leva": seg,
-                  "tau_g_pico": abs(float(tmo.torque_peso(90.0, *peso))),
+                  # amplitude M g d do conjunto, atingida em 90° − a_CG
+                  "tau_g_pico": float(peso[0]*tmo.GRAVIDADE*peso[1]/1000.0),
+                  "theta_tau_g_pico": float(90.0 - peso[2]),
+                  "tau_g_pico_humano": float(conj["humano"]["massa_kg"]*tmo.GRAVIDADE
+                                             * conj["humano"]["cg_raio_mm"]/1000.0),
                   "braco_exo": {"massa_g": tmo.MASSA_BRACO_EXO,
                                 "cg_fusion": list(tmo.CG_BRACO_EXO_FUSION),
+                                "o_fusion": (list(tmo.O_FUSION) if tmo.O_FUSION
+                                             is not None else None),
                                 "izz_cg_gmm2": tmo.IZZ_CG_BRACO_EXO}}
 
     # ---------------------------------------------------------- Fig. 16
@@ -801,7 +807,7 @@ def figuras(N, fig16, ajustes, conjunto, d, geo, peso, der, K, defs0, r, tp,
     fig, ax = plt.subplots(figsize=(8, 4.2), dpi=200, facecolor=SUPERFICIE)
     eixos(ax, 0, 1)
     ax.axhline(0, color=TINTA_2, lw=0.8)
-    ax.plot(THETA, tp, color=LARANJA, lw=2, label=r"$|\tau_g|$, membro humano")
+    ax.plot(THETA, tp, color=LARANJA, lw=2, label=r"$|\tau_g|$, membro e braço do exo")
     ax.plot(THETA, tmo.ALVO_FRACAO*tp, color=LARANJA, lw=1.6, ls="--",
             label=r"0,4 $|\tau_g|$ (alvo, hipótese)")
     ax.plot(THETA, r["tau"], color=AZUL, lw=2, label="τ do elástico, cenário de projeto")
@@ -839,7 +845,7 @@ def figuras(N, fig16, ajustes, conjunto, d, geo, peso, der, K, defs0, r, tp,
                     color=AZUL, alpha=0.18, lw=0,
                     label="elástico, s0 entre as faixas de θ testadas")
     ax.plot(THETA, formas["s0"], color=AZUL, lw=2, label="elástico, s0 adotado")
-    ax.plot(THETA, tp/tp.max(), color=LARANJA, lw=2, label="peso do membro humano")
+    ax.plot(THETA, tp/tp.max(), color=LARANJA, lw=2, label="peso do membro e do braço do exo")
     ax.set_xlim(0, 180)
     ax.set_ylim(0, 1.05)
     ax.set_xlabel(r"Anteversão do braço, $\theta_{el}$ (graus)", color=TINTA_2)
