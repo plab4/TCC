@@ -1235,13 +1235,13 @@ def cap4_introducao():
               "dispositivo da EP 3 504 033 B1, encerrada por uma comparação entre os "
               "dois. O terceiro dispositivo previsto, a US 9.737.374 B2, não foi "
               "analisado nesta etapa."),
-            H("4.1 Exoesqueleto 1: gerador de torque de mola, cabo e polia")]
+            H("4.1 Exoesqueleto 1")]
 
 
 def parte_4B():
     B = []
     a = B.append
-    a(H("4.2 Exoesqueleto 2: elástico com alavanca e elemento de encosto"))
+    a(H("4.2 Exoesqueleto 2"))
     a(P("Esta seção apresenta os resultados das etapas das seções ⟦S:cad⟧ a "
         "⟦S:verif⟧, aplicadas ao dispositivo da EP 3 504 033 B1. Salvo indicação em "
         f"contrário, os números foram obtidos com a geometria do CAD, e_{{c}} = {f(34.785)} "
@@ -2105,7 +2105,7 @@ def cap5_titulo():
     return [P("As conclusões estão organizadas por dispositivo: a seção 5.1 trata do "
               "gerador de torque da US 9.889.554 B2, e a seção 5.2, do dispositivo da "
               "EP 3 504 033 B1."),
-            H("5.1 Exoesqueleto 1: gerador de torque de mola, cabo e polia")]
+            H("5.1 Exoesqueleto 1")]
 
 
 def parte_5B():
@@ -2120,7 +2120,7 @@ def parte_5B():
     linhas_e = {l["e"]: l for l in fam["linhas"]}
     res_circ = max(ver["residuo_f1"], ver["residuo_f2"], ver["residuo_f3"],
                    ver["residuo_f4"])
-    a(H("5.2 Exoesqueleto 2: elástico com alavanca e elemento de encosto"))
+    a(H("5.2 Exoesqueleto 2"))
     a(P("Para a EP 3 504 033 B1, foram executadas a leitura da arquitetura na "
         "patente, a organização das grandezas do CAD com sua origem, a composição "
         "inercial do membro humano, as convenções angulares, a cinemática de dois "

@@ -12,7 +12,7 @@ Renumeração das figuras do original: {1: 1, 2: 6, 3: 7, 4: 8, 5: 9}.
 
 Tabelas 1 a 26 em sequência: True. Figuras 1 a 14: True. Equações (1) a (54): True.
 Seções por parte: 1.1 a 1.2 (ok); 1.1.1 a 1.1.2 (ok); 2.1 a 2.11 (ok); 3.1 a 3.2 (ok); 3.1.1 a 3.1.13 (ok); 3.2.1 a 3.2.13 (ok); 4.1 a 4.2 (ok); 4.1.1 a 4.1.9 (ok); 4.2.1 a 4.2.11 (ok); 5.1 a 5.2 (ok).
-Títulos de capítulo e de parte: 1 INTRODUÇÃO; 2 FUNDAMENTAÇÃO TEÓRICA; 3 MATERIAIS E MÉTODOS; 3.1 Exoesqueleto 1; 3.2 Exoesqueleto 2; 4 RESULTADOS E DISCUSSÃO; 4.1 Exoesqueleto 1: gerador de torque de mola, cabo e polia; 4.2 Exoesqueleto 2: elástico com alavanca e elemento de encosto; 5 CONCLUSÃO; 5.1 Exoesqueleto 1: gerador de torque de mola, cabo e polia; 5.2 Exoesqueleto 2: elástico com alavanca e elemento de encosto; REFERÊNCIAS.
+Títulos de capítulo e de parte: 1 INTRODUÇÃO; 2 FUNDAMENTAÇÃO TEÓRICA; 3 MATERIAIS E MÉTODOS; 3.1 Exoesqueleto 1; 3.2 Exoesqueleto 2; 4 RESULTADOS E DISCUSSÃO; 4.1 Exoesqueleto 1; 4.2 Exoesqueleto 2; 5 CONCLUSÃO; 5.1 Exoesqueleto 1; 5.2 Exoesqueleto 2; REFERÊNCIAS.
 
 ## 3. Referências
 
@@ -144,14 +144,14 @@ Idênticos: 5. Iguais a menos de números e referências: 25. Modificados: 39. S
   - mais próximo no fundido: No modelo em CAD, o braço do exoesqueleto (elemento 8) tem massa de 163,951 g, centro de massa em (69,249; 151
 - Sem correspondente (0.38): A ancoragem A do elástico fica na barra 18, e o ponto P, no fim do cotovelo da alavanca solidária ao braço (Fi
   - mais próximo no fundido: Nota: desenho da patente em cinza, girado para a orientação de leitura; vetores, pontos e linhas pontilhadas d
-- Sem correspondente (0.40): A.3 Reconstrução geométrica e grandezas do modelo (seções 3.1 e 4.1)
-  - mais próximo no fundido: Tabela 3: Convenções angulares e de sinal do modelo da Ottobock
 - Sem correspondente (0.43): A Tabela A.13 reúne o que falta para concluir cada etapa, a consequência da ausência e a forma de obter o dado
   - mais próximo no fundido: A Tabela 21 resume a situação dos parâmetros que a patente não publica, no formato da Tabela 8.
 - Sem correspondente (0.43): Com o elemento 78 sobre o eixo (p78 = 0), configuração preferida pela patente [0099], a transição tem forma fe
   - mais próximo no fundido: Nota: página do documento girada para a orientação de leitura. A patente não traz rótulo nem escala na ordenad
 - Sem correspondente (0.45): com A = −rAO. Acima do ângulo de transição, o elástico é retilíneo de A a P (regime I); abaixo dele, encosta n
   - mais próximo no fundido: Para q ≤ q*, o elástico encosta no elemento 78 e fica dividido nos trechos de A ao elemento 78 e do elemento 7
+- Sem correspondente (0.45): A.3 Reconstrução geométrica e grandezas do modelo (seções 3.1 e 4.1)
+  - mais próximo no fundido: 4.2.1 Geometria reconstruída e propriedades de massa
 - Sem correspondente (0.48): A.6 Cinemática: equações de circuito e troca de regime (seções 3.4, 3.5 e 3.7)
   - mais próximo no fundido: Tabela 22: Grandezas do circuito em ângulos representativos (ec = 34,785 mm)
 - Sem correspondente (0.48): A.10 Identificação dos parâmetros a partir da Figura 16 (seções 3.9, 4.4 e 4.5)
