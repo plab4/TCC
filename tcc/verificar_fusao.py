@@ -191,7 +191,7 @@ def main():
             erros.append(m.group(0))
     for m in re.finditer(r"\bFiguras? (\d+)((?:, \d+)*(?: e \d+)?)(.{0,14})", todo):
         n, resto = int(m.group(1)), m.group(3)
-        patente = (resto.startswith((" da patente", " da EP")) or re.match(r", p\. \d", resto)
+        patente = (resto.startswith((" da patente", " da EP", " da US")) or re.match(r", p\. \d", resto)
                    or n == 56
                    or m.group(2).startswith(", 16"))
         if not patente and n > len(figs):

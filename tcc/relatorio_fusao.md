@@ -2,13 +2,13 @@
 
 Documento gerado: `TCC_exo1_exo2.docx`, a partir de `TCC_apenas_exo1.docx`.
 
-Blocos do original: 305; 2 retirados (REMOVIDOS em gerar_tcc_fundido.py), os demais mantidos e na mesma ordem. Blocos novos: 263. Blocos do original com texto alterado: 83 (renumeração e as edições de EDICOES em gerar_tcc_fundido.py).
+Blocos do original: 305; 2 retirados (REMOVIDOS em gerar_tcc_fundido.py), os demais mantidos e na mesma ordem. Blocos novos: 268. Blocos do original com texto alterado: 83 (renumeração e as edições de EDICOES em gerar_tcc_fundido.py).
 
 ## Numeração
 
 Tabelas do original (antes → depois): 1 → 1, 2 → 4, 3 → 5, 4 → 6, 5 → 7, 6 → 8, 7 → 9, 8 → 10, 9 → 11, 10 → 12, 11 → 13.
 
-Figuras do original (antes → depois): 1 → 1, 2 → 5, 3 → 6, 4 → 7, 5 → 8.
+Figuras do original (antes → depois): 1 → 1, 2 → 6, 3 → 7, 4 → 8, 5 → 9.
 
 As equações do original mantêm os números (1) a (27).
 
@@ -347,13 +347,13 @@ Depois: 4.1.5 Qualidade do ajuste à curva da patente
 
 Antes: A Figura 2 sobrepõe o torque calculado com os parâmetros congelados aos 29 pontos extraídos, e a Tabela 7 reúne os indicadores do ajuste. 
 
-Depois: A Figura 5 sobrepõe o torque calculado com os parâmetros congelados aos 29 pontos extraídos, e a Tabela 9 reúne os indicadores do ajuste. 
+Depois: A Figura 6 sobrepõe o torque calculado com os parâmetros congelados aos 29 pontos extraídos, e a Tabela 9 reúne os indicadores do ajuste. 
 
 ### 56
 
 Antes: Figura 2 — Torque do cabo calculado (−τ) e pontos extraídos da patente, com os resíduos no painel inferior (K = 174,68; h = 22,701 mm; Xpose = 37,383 mm) 
 
-Depois: Figura 5 — Torque do cabo calculado (−τ) e pontos extraídos da patente, com os resíduos no painel inferior (K = 174,68; h = 22,701 mm; Xpose = 37,383 mm) 
+Depois: Figura 6 — Torque do cabo calculado (−τ) e pontos extraídos da patente, com os resíduos no painel inferior (K = 174,68; h = 22,701 mm; Xpose = 37,383 mm) 
 
 ### 57
 
@@ -419,25 +419,25 @@ Depois: 4.1.7 Varredura paramétrica de h com K congelado
 
 Antes: A Figura 3 mostra a família de curvas de torque para sete valores de h, com K congelado em 174,68 e a extensão na pose fixada em Xpose.
 
-Depois: A Figura 6 mostra a família de curvas de torque para sete valores de h, com K congelado em 174,68 e a extensão na pose fixada em Xpose.
+Depois: A Figura 7 mostra a família de curvas de torque para sete valores de h, com K congelado em 174,68 e a extensão na pose fixada em Xpose.
 
 ### 68
 
 Antes: Figura 3 — Família de curvas de torque do cabo para h de 16 a 32,886 mm, com K = 174,68 e Xpose = 37,383 mm congelados, e os 29 pontos extraídos da patente
 
-Depois: Figura 6 — Família de curvas de torque do cabo para h de 16 a 32,886 mm, com K = 174,68 e Xpose = 37,383 mm congelados, e os 29 pontos extraídos da patente
+Depois: Figura 7 — Família de curvas de torque do cabo para h de 16 a 32,886 mm, com K = 174,68 e Xpose = 37,383 mm congelados, e os 29 pontos extraídos da patente
 
 ### 69
 
 Antes: A Figura 4 apresenta o RMSE em função de h.
 
-Depois: A Figura 7 apresenta o RMSE em função de h.
+Depois: A Figura 8 apresenta o RMSE em função de h.
 
 ### 70
 
 Antes: Figura 4 — RMSE contra os pontos extraídos em função de h, com K congelado: faixa completa, em escala logarítmica, com os valores fisicamente viáveis, e ampliação em torno do mínimo, com os platôs de RMSE
 
-Depois: Figura 7 — RMSE contra os pontos extraídos em função de h, com K congelado: faixa completa, em escala logarítmica, com os valores fisicamente viáveis, e ampliação em torno do mínimo, com os platôs de RMSE
+Depois: Figura 8 — RMSE contra os pontos extraídos em função de h, com K congelado: faixa completa, em escala logarítmica, com os valores fisicamente viáveis, e ampliação em torno do mínimo, com os platôs de RMSE
 
 ### 71
 
@@ -479,13 +479,13 @@ Depois: O torque gravitacional do conjunto, calculado pela Equação (24) de for
 
 Antes: A comparação entre as duas curvas exige cautela metodológica. Como a ordenada da curva publicada não tem unidade declarada e a seção 4.6 mostrou que sua leitura em N·m é implausível, as magnitudes não são comparáveis. O que se pode confrontar é a forma dos perfis, apresentados na Figura 5 normalizados pelos respectivos valores de pico, em função da elevação anatômica. Como a normalização elimina a escala, o confronto não informa que fração do torque gravitacional o mecanismo compensa.
 
-Depois: A comparação entre as duas curvas exige cautela metodológica. Como a ordenada da curva publicada não tem unidade declarada e a seção 4.1.6 mostrou que sua leitura em N·m é implausível, as magnitudes não são comparáveis. O que se pode confrontar é a forma dos perfis, apresentados na Figura 8 normalizados pelos respectivos valores de pico, em função da elevação anatômica. Como a normalização elimina a escala, o confronto não informa que fração do torque gravitacional o mecanismo compensa.
+Depois: A comparação entre as duas curvas exige cautela metodológica. Como a ordenada da curva publicada não tem unidade declarada e a seção 4.1.6 mostrou que sua leitura em N·m é implausível, as magnitudes não são comparáveis. O que se pode confrontar é a forma dos perfis, apresentados na Figura 9 normalizados pelos respectivos valores de pico, em função da elevação anatômica. Como a normalização elimina a escala, o confronto não informa que fração do torque gravitacional o mecanismo compensa.
 
 ### 78
 
 Antes: Figura 5 — Torque do cabo e torque gravitacional normalizados pelos respectivos picos, em função da elevação anatômica (K = 174,68; h = 22,701 mm; Xpose = 37,383 mm)
 
-Depois: Figura 8 — Torque do cabo e torque gravitacional normalizados pelos respectivos picos, em função da elevação anatômica (K = 174,68; h = 22,701 mm; Xpose = 37,383 mm)
+Depois: Figura 9 — Torque do cabo e torque gravitacional normalizados pelos respectivos picos, em função da elevação anatômica (K = 174,68; h = 22,701 mm; Xpose = 37,383 mm)
 
 ### 79
 

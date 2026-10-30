@@ -760,6 +760,8 @@ def rotular_circuito(a_tot, a_zoom, geo, P, C, contato):
 # a partir de +x da imagem, anti-horário, pelo eixo médio entre as bordas de
 # cada peça. O centro da articulação 20 com o braço baixado foi localizado
 # transportando, como corpo rígido, os dois furos do elemento 8 da outra pose.
+# O circuito fecha pela barra 18 embaixo: a ancoragem A do modelo vai à
+# extremidade inferior do elástico desenhado, junto à braçadeira da barra.
 FIG22 = Path(__file__).parent/"patentes"/"EP3504033B1_fig22.png"
 REGISTRO_FIG22 = (
     {"pose": "braço elevado", "O": (313.5, 305.5), "barra": 80.52, "braco": 7.90,
@@ -770,19 +772,22 @@ REGISTRO_FIG22 = (
 
 
 def registro_fig22(geo):
-    """Registro do modelo sobre a Figura 22 da patente: o centro da
-    articulação 20 vai a O, a direção da barra 18 à de C2 (γ) e a escala sai
-    do comprimento OP com o braço elevado. Devolve, por pose, a escala
-    [px/mm], o giro R [graus], θ_el lido na figura e as distâncias, na escala
-    do registro [mm], entre P do modelo e a fixação do elástico desenhada,
-    entre A e a extremidade inferior do elástico desenhado e, com o braço
-    baixado, entre o centro do 78 do modelo e o ponto em que o elástico
-    desenhado se dobra."""
-    r0 = REGISTRO_FIG22[0]
-    escala = float(np.hypot(*np.subtract(r0["P"], r0["O"])))/float(tmo.raio_OP(E, geo))
+    """Registro do modelo sobre a Figura 22 da patente, por pose, com dois
+    pontos: o centro da articulação 20 vai a O e a extremidade inferior do
+    elástico desenhado, junto à braçadeira da barra 18, vai à ancoragem A, de
+    modo que o circuito C1, C2 fecha pela barra embaixo. Devolve, por pose, a
+    escala [px/mm], o giro R [graus], θ_el lido na figura e, na escala do
+    registro [mm], o comprimento de OP desenhado, a distância entre P do
+    modelo e a fixação do elástico desenhada e, com o braço baixado, a
+    distância entre o centro do 78 do modelo e o ponto em que o elástico
+    desenhado se dobra; dbarra [graus] é o desvio entre C2 e o eixo da barra
+    desenhada."""
+    A = tmo.ponto_A(geo)
     saida = []
     for r in REGISTRO_FIG22:
-        giro = r["barra"] - np.degrees(geo.gamma)
+        vd = (r["fim_elastico"][0] - r["O"][0], -(r["fim_elastico"][1] - r["O"][1]))
+        escala = float(np.hypot(*vd)/np.hypot(*A))
+        giro = float(np.degrees(np.arctan2(vd[1], vd[0]) - np.arctan2(A[1], A[0])))
         th = r["braco"] - giro + 90.0
         q = tmo.calculate_q(th, geo)
         c, s_ = np.cos(np.radians(giro)), np.sin(np.radians(giro))
@@ -797,7 +802,8 @@ def registro_fig22(geo):
                 "theta": float(th), "contato": bool(tmo.em_contato(q, E, geo)),
                 "dP_mm": dist(tmo.ponto_P(q, E, geo), r["P"]),
                 "OP_desenho_mm": float(np.hypot(*np.subtract(r["P"], r["O"])))/escala,
-                "dA_mm": dist(tmo.ponto_A(geo), r["fim_elastico"])}
+                "dA_mm": dist(A, r["fim_elastico"]),
+                "dbarra": float(r["barra"] - (np.degrees(geo.gamma) + giro))}
         if "dobra_78" in r:
             item["d78_mm"] = dist(tmo.ponto_78(q, geo), r["dobra_78"])
         saida.append(item)
@@ -816,6 +822,8 @@ def figura_sobreposicao(geo, reg):
     for r, rg, cor, (a_tot, a_zoom) in zip(REGISTRO_FIG22, reg, cores, eixos_fig):
         for ax in (a_tot, a_zoom):
             eixos(ax, 0, 0)
+            ax.grid(False)                         # a grade cortaria o desenho
+            ax.set_facecolor("white")
             # pixel do recorte → mm do modelo: translação para O, escala com
             # inversão de y e giro de −R
             tr = (Affine2D().translate(-r["O"][0], -r["O"][1])
@@ -827,8 +835,8 @@ def figura_sobreposicao(geo, reg):
             P, C, contato = circuito_modelo(ax, rg["theta"], geo, cor)
             ax.set_xlabel("x (mm)", color=TINTA_2)
         rotular_circuito(a_tot, a_zoom, geo, P, C, contato)
-        a_tot.set_xlim(-150, 300)
-        a_tot.set_ylim(-540, 80)
+        a_tot.set_xlim(-150, 230)
+        a_tot.set_ylim(-400, 80)
         a_tot.set_ylabel("y (mm)", color=TINTA_2)
         regime = "regime II" if contato else "regime I"
         a_tot.set_title(f"{r['pose']}, {regime}, " +

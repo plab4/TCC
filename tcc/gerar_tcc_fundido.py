@@ -590,6 +590,27 @@ def cap2_identificacao():
 # capítulo 3
 # ======================================================================
 
+def cap3_sobreposicao_fig42():
+    """Circuito da Figura 1 sobre a Figura 42 da patente, logo depois dela."""
+    sob = json.loads((RES/"tcc_numeros.json").read_text(encoding="utf-8"))["sobreposicao_fig42"]
+    return [
+        P("A Figura ⟦F:sobrep42⟧ sobrepõe esse circuito à Figura 42 da patente, na "
+          "mesma pose e com o mesmo h, alinhado pelo pivô 151, que faz o papel de O, "
+          "e pelo centro do tambor 183, que faz o papel de D."),
+        LEG_F("sobrep42", "Circuito vetorial do gerador de torque sobreposto à Figura "
+                          "42 da patente, na pose de referência "
+                          f"(θ* = {f(sob['theta'])}°, h = {f(sob['h'])} mm)"),
+        FIGURA("tcc_fig1_sobreposicao.png", 6.5,
+               "Figura 42 da US 9.889.554 B2 em cinza, vista em corte do gerador de "
+               "torque, com o circuito vetorial do modelo sobreposto; à direita, "
+               "ampliação da região do pivô."),
+        PEQUENO("Fonte: adaptada da Figura 42 da US 9.889.554 B2 (VAN ENGELHOVEN; "
+                "KAZEROONI, 2018), com o circuito do modelo sobreposto pelo autor.", True),
+        PEQUENO("Nota: desenho da patente em cinza; elementos do modelo como na Figura "
+                "⟦F:o1⟧. O painel da direita amplia a região do pivô."),
+    ]
+
+
 def cap3_introducao():
     return [P(
         "A cadeia de cálculo do dispositivo da EP 3 504 033 B1, descrita nas seções "
@@ -884,24 +905,13 @@ def parte_3B():
               "elemento 78, na ponta de p, só entra depois do contato. As linhas "
               "pontilhadas indicam o eixo do braço."))
     se, sb = SOB22
-    a(P("A Figura ⟦F:sobrep⟧ sobrepõe esses circuitos à Figura 22 da patente, que "
-        "mostra o mecanismo com o braço elevado, sem contato com o elemento 78, e "
-        "com o braço baixado, com o elástico apoiado nele. Em cada desenho, o "
-        "modelo foi calculado na anteversão lida na figura, "
-        f"θ_{{el}} = {f(se['theta'], 1)}° e {f(sb['theta'], 1)}°, e registrado pelo "
-        "centro da articulação 20, pela direção da barra 18 e pelo comprimento ‹e› "
-        "do segmento OP desenhado com o braço elevado. Nessa posição, o ponto P do "
-        f"modelo fica a {f(se['dP_mm'], 1)} mm do ponto de fixação do elástico "
-        "desenhado, e o trecho s acompanha o elástico 26. Com o braço baixado, o "
-        f"segmento OP desenhado mede {f(sb['OP_desenho_mm'], 1)} mm na escala do "
-        f"registro, contra ‹e› = {f(E_OP)} mm, e P fica a {f(sb['dP_mm'], 1)} mm "
-        "do desenho. Não coincidem com a patente a ancoragem A, a "
-        f"{f(se['dA_mm'], 0)} mm e {f(sb['dA_mm'], 0)} mm da extremidade inferior "
-        "do elástico desenhado, junto à braçadeira da barra 18, e o elemento 78: "
-        "com o braço baixado, o elástico desenhado se dobra a "
-        f"{f(sb['d78_mm'], 0)} mm do centro do elemento 78 do modelo. São diferenças "
-        "entre as grandezas do CAD e os desenhos da patente, cuja correspondência "
-        "não está documentada (seção ⟦S:cad⟧)."))
+    a(P("A Figura ⟦F:sobrep⟧ sobrepõe esses circuitos à Figura 22 da patente, com "
+        "o braço elevado e com o braço baixado. Em cada desenho, o modelo foi "
+        "calculado na anteversão lida na figura, "
+        f"θ_{{el}} = {f(se['theta'], 1)}° e {f(sb['theta'], 1)}°, e alinhado pelo "
+        "centro da articulação 20, que faz o papel de O, e pela extremidade inferior "
+        "do elástico desenhado, junto à braçadeira da barra 18, onde fica a "
+        "ancoragem A."))
     a(LEG_F("sobrep", "Circuitos do modelo sobrepostos à Figura 22 da patente, com "
                       f"o braço elevado (regime I, θ_{{el}} = {f(se['theta'], 1)}°) e "
                       f"baixado (regime II, θ_{{el}} = {f(sb['theta'], 1)}°)"))
@@ -2353,6 +2363,7 @@ def montar(corpo_original):
         _unico(info, "O Airframe, da Levitate"): cap2_arquiteturas(),
         _unico(info, "Wu, Wang e Du (2016)"): cap2_balanceamento(),
         _unico(info, "O procedimento usual consiste no ajuste"): cap2_identificacao(),
+        _unico(info, "Nota: O é o pivô"): cap3_sobreposicao_fig42(),
         _unico(info, "A cadeia de cálculo descrita nas seções"):
             cap3_introducao() + [H("3.1 Exoesqueleto 1: gerador de torque de mola, cabo e polia")],
         _unico(info, "4 RESULTADOS E DISCUSSÃO"): cap4_introducao(),

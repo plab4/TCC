@@ -8,7 +8,7 @@ Parágrafos conferidos: 32; ausentes do PDF do LaTeX: 0.
 
 ## 2. Corpo do texto
 
-Parágrafos, títulos, legendas, itens, fontes e notas conferidos: 436; ausentes do PDF do LaTeX: 0.
+Parágrafos, títulos, legendas, itens, fontes e notas conferidos: 440; ausentes do PDF do LaTeX: 0.
 
 ## 3. Tabelas
 
@@ -20,7 +20,7 @@ Equações: 54 no DOCX novo e 54 no fundido; OMML idêntica: 54; numeração de 
 
 ## 5. Figuras
 
-Figuras: 13 no DOCX novo e 13 no fundido; mesmos arquivos e ordem: sim.
+Figuras: 14 no DOCX novo e 14 no fundido; mesmos arquivos e ordem: sim.
 
 ## 6. Referências
 
@@ -28,7 +28,7 @@ Referências: 47; ausentes da lista do PDF do LaTeX: 0.
 
 ## 7. Sumário e listas
 
-Entradas do sumário: 73 (títulos no corpo: 73). Entradas das listas: 39 (legendas: 13 figuras e 26 tabelas). Sem número de página: 0. Entradas sem PAGEREF para um marcador existente: 0. Atualização dos campos ao abrir: não.
+Entradas do sumário: 73 (títulos no corpo: 73). Entradas das listas: 40 (legendas: 14 figuras e 26 tabelas). Sem número de página: 0. Entradas sem PAGEREF para um marcador existente: 0. Atualização dos campos ao abrir: não.
 
 ## 8. Fontes
 

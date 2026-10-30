@@ -7,6 +7,7 @@ chama as funções com h explícito e grava
     results/tcc_numeros.json          todos os números citados no texto
     results/tcc_tabela_patente.csv     rastreabilidade dos 29 pontos extraídos
     results/tcc_fig1_geometria.png     laço vetorial na pose de referência
+    results/tcc_fig1_sobreposicao.png  o mesmo laço sobre a Figura 42 da patente
     results/tcc_fig2_ajuste.png        torque do cabo × pontos extraídos
     results/tcc_fig3_familia.png       família de curvas, K congelado
     results/tcc_fig4_efeito_h.png      efeito de h sobre o torque entregue
@@ -33,6 +34,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
+from PIL import Image
 
 import torque_model as tm
 from patent_data import load_patent_data
@@ -334,6 +336,88 @@ def figura_geometria():
     return {"A": A.tolist(), "Pc": Pc.tolist(), "T": T.tolist(), "m": float(m),
             "phi_grau": float(np.degrees(phi)), "q_grau": float(np.degrees(q)),
             "s": float(s)}
+
+
+# Figura 42 da US 9.889.554 B2 (VAN ENGELHOVEN; KAZEROONI, 2018), vista em
+# corte do gerador de torque 108, enviada pelo autor (patentes/
+# US9889554B2_fig42.png). Coordenadas em pixels da imagem: centro dos anéis
+# do pivô 151 e do tambor 183. O laço do modelo é alinhado por esses dois
+# pontos (O e D), na pose de referência e com o h adotado, como na Figura 1.
+FIG42 = Path(__file__).parent/"patentes"/"US9889554B2_fig42.png"
+REGISTRO_FIG42 = {"O": (584.5, 194.8), "D": (140.5, 218.5)}
+
+
+def figura_sobreposicao_fig42():
+    """Laço vetorial da Figura 1 sobre a Figura 42 da patente."""
+    from matplotlib.transforms import Affine2D
+    th = tm.THETA_POSE
+    q = tm.calculate_q(th)
+    s = tm.calculate_tangent_span(tm.calculate_rho(q, H))
+    phi = tm.calculate_phi(q, s, H)
+    A = np.array(tm.calculate_base_vector(H))
+    Pc = -tm.C*np.array([np.cos(q), np.sin(q)])
+    T = tm.ponto_tangencia(q, phi)
+    u = np.array([np.cos(phi), np.sin(phi)])
+    m = tm.braco_perpendicular(phi, H)
+    pe = A + (-A @ u)*u
+    O_d, D_d = np.array(REGISTRO_FIG42["O"]), np.array(REGISTRO_FIG42["D"])
+    vd = np.array([D_d[0] - O_d[0], -(D_d[1] - O_d[1])])
+    escala = float(np.hypot(*vd)/np.hypot(*Pc))
+    giro = float(np.degrees(np.arctan2(vd[1], vd[0]) - np.arctan2(Pc[1], Pc[0])))
+    img = np.array(Image.open(FIG42).convert("L"))/255.0
+    fundo = 1.0 - 0.45*(1.0 - img)                 # traço do desenho em cinza
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4.6), dpi=200,
+                                   facecolor=SUPERFICIE,
+                                   gridspec_kw={"width_ratios": [2.0, 1]})
+    alcas = []
+    for ax in (ax1, ax2):
+        eixos(ax)
+        ax.grid(False)                             # a grade cortaria o desenho
+        ax.set_facecolor("white")
+        ax.set_aspect("equal")
+        tr = (Affine2D().translate(-O_d[0], -O_d[1]).scale(1/escala, -1/escala)
+              .rotate_deg(-giro) + ax.transData)
+        ax.imshow(fundo, cmap="gray", vmin=0, vmax=1, interpolation="bilinear",
+                  extent=(0, fundo.shape[1], fundo.shape[0], 0), transform=tr, zorder=1)
+        ax.add_patch(plt.Circle(Pc, tm.R, fill=False, color=TINTA_2, lw=1.2, zorder=3))
+        alcas = [
+            ax.plot([0, Pc[0]], [0, Pc[1]], color=TINTA, lw=2.2, zorder=3,
+                    label="elo O → D (comprimento C)")[0],
+            ax.plot([A[0], T[0]], [A[1], T[1]], color=AZUL, lw=1.8, zorder=3,
+                    label="vão reto s (A → T), linha de ação do cabo")[0],
+            ax.plot([0, A[0]], [0, A[1]], color=LARANJA, lw=1.8, zorder=3,
+                    label="vetor fixo B (O → A)")[0],
+            ax.plot([0, pe[0]], [0, pe[1]], color=VERDE, lw=1.6, ls="--", zorder=3,
+                    label=f"braço perpendicular m = {m:.2f} mm".replace(".", ","))[0],
+            ax.plot([0, T[0]], [0, T[1]], color=TINTA_2, lw=1.0, ls=":", zorder=3,
+                    label="distância b (O → T), não é braço de momento")[0],
+        ]
+        ax.xaxis.set_major_formatter(virgula(0))
+        ax.yaxis.set_major_formatter(virgula(0))
+        ax.set_xlabel("x (mm)", color=TINTA_2)
+    pontos = {"O": (np.zeros(2), (6, -12)), "A": (A, (6, 2)),
+              "D": (Pc, (6, -12)), "T": (T, (-4, 6))}
+    for nome, (p, desloc) in pontos.items():
+        for ax in (ax1, ax2):
+            ax.plot(*p, "o", color=TINTA, ms=4, zorder=5)
+        ax1.annotate(nome, p, xytext=desloc, textcoords="offset points",
+                     fontsize=8, color=TINTA, zorder=6)
+    for nome in ("O", "A"):
+        p, desloc = pontos[nome]
+        ax2.annotate(nome, p, xytext=desloc, textcoords="offset points",
+                     fontsize=8, color=TINTA, zorder=6)
+    ax1.set_ylabel("y (mm)", color=TINTA_2)
+    ax1.set_xlim(-345, 85)
+    ax1.set_ylim(-75, 125)
+    ax2.set_xlim(-40, 40)
+    ax2.set_ylim(-20, 50)
+    fig.legend(handles=alcas, loc="lower center", ncol=3, frameon=False,
+               fontsize=7.5)
+    fig.subplots_adjust(left=0.07, right=0.98, top=0.98, bottom=0.24, wspace=0.15)
+    fig.savefig(PASTA/"tcc_fig1_sobreposicao.png", facecolor=SUPERFICIE)
+    plt.close(fig)
+    return {"escala": escala, "giro": giro, "theta": float(th), "h": float(H)}
 
 
 def figura_ajuste(patente, met):
@@ -818,6 +902,7 @@ def main():
     ident = identificacao_no_h_adotado(patente)
     h_restricao = h_restricao_extensao(patente)
     geo = figura_geometria()
+    sob42 = figura_sobreposicao_fig42()
     figura_ajuste(patente, met)
     figura_familia(patente)
     efeito = efeito_h()
@@ -857,6 +942,7 @@ def main():
         "cenario_folga": cenario_folga(),
         "h_todos": h_todos(),
         "geometria_pose": geo,
+        "sobreposicao_fig42": sob42,
         "varredura": {
             "n": len(varredura["linhas"]),
             "h_menor_rmse": otimo["h"], "rmse_min": otimo["rmse"],

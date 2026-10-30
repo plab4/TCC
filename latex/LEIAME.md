@@ -16,7 +16,7 @@ Versão LaTeX do `tcc/TCC_exo1_exo2.docx`. Ela usa o modelo de teses e disserta�
 | `capitulos/*.tex` | Os cinco capítulos, gerados a partir do DOCX por `tcc/gerar_latex.py` |
 | `bibliografia.bib` | As 47 referências da lista do DOCX |
 | `resumo.tex`, `agradecimentos.tex` | Elementos pré-textuais |
-| `figuras/` | As 13 figuras, extraídas do DOCX |
+| `figuras/` | As 14 figuras, extraídas do DOCX |
 | `logotipos/logo-fca.png` | Recorte do logotipo enviado com o modelo |
 | `tese-FT.cls`, `README.md`, `CHANGELOG.md` | Arquivos do modelo, sem alteração |
 | `tese.pdf` | PDF compilado |
@@ -43,7 +43,7 @@ O texto dos parágrafos, tabelas, legendas, fontes e notas é o do DOCX. Mudou s
 - **Citações.** Saem em caixa normal, como "(Spada et al., 2017)", pela NBR 10520:2023 adotada no modelo. Na lista de referências, o sobrenome também sai em caixa normal.
 - **"(SHEN et al., 2020)"** passa a "(Shen; Ferguson; Rosen, 2020)": a obra tem três autores, e a norma cita os três.
 - **Referências não citadas.** Duas referências da lista não são citadas no texto: Foroutannia e Mohammadian (2026) e Kim, H. et al. (2012). Continuam na lista por causa do `\nocite{*}`.
-- **Posição de figuras e tabelas.** As figuras e as tabelas curtas são flutuantes e podem mudar de página em relação ao DOCX. As tabelas 6, 14, 16 e 25 podem atravessar páginas e repetem o cabeçalho na continuação. A numeração continua corrida, como no DOCX: Figura 1 a 13, Tabela 1 a 26, Equação (1) a (54). Para numerar por capítulo, veja o comentário em `preambulo.tex`.
+- **Posição de figuras e tabelas.** As figuras e as tabelas curtas são flutuantes e podem mudar de página em relação ao DOCX. As tabelas 6, 14, 16 e 25 podem atravessar páginas e repetem o cabeçalho na continuação. A numeração continua corrida, como no DOCX: Figura 1 a 14, Tabela 1 a 26, Equação (1) a (54). Para numerar por capítulo, veja o comentário em `preambulo.tex`.
 - **Ligações.** As caixas em volta das ligações são o padrão do modelo e aparecem só na tela. Para escondê-las, acrescente `\hypersetup{hidelinks}` ao `preambulo.tex`.
 
 ## Versão em Word no mesmo formato

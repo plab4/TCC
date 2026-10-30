@@ -256,7 +256,7 @@ def substituicoes(t, rot, cit):
     # figuras do documento (as da patente ficam como texto)
     for m in re.finditer(r"\b(Figuras?) (\d+)((?:, \d+)*)((?: e \d+)?)(?=(.{0,14}))", t):
         n, resto = int(m.group(2)), m.group(5)
-        patente = (resto.startswith((" da patente", " da EP")) or re.match(r", p\. \d", resto)
+        patente = (resto.startswith((" da patente", " da EP", " da US")) or re.match(r", p\. \d", resto)
                    or n == 56
                    or m.group(3).startswith(", 16"))
         if patente:

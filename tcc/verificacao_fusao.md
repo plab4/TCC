@@ -1,16 +1,16 @@
 # Verificação do TCC fundido
 
-Original: TCC_apenas_exo1.docx, 305 blocos. Fundido: TCC_exo1_exo2.docx, 566 blocos.
+Original: TCC_apenas_exo1.docx, 305 blocos. Fundido: TCC_exo1_exo2.docx, 571 blocos.
 
 ## 1. Conteúdo do original
 
 Blocos do original encontrados em ordem, com XML idêntico fora do texto: 303 de 303 (2 retirados de propósito, REMOVIDOS). Texto diferente do esperado (renumeração e as 16 edições declaradas): 0. Retirados ainda presentes: 0. Autores dos retirados ainda citados: nenhum.
 Renumeração das tabelas do original: {1: 1, 2: 4, 3: 5, 4: 6, 5: 7, 6: 8, 7: 9, 8: 10, 9: 11, 10: 12, 11: 13}.
-Renumeração das figuras do original: {1: 1, 2: 5, 3: 6, 4: 7, 5: 8}.
+Renumeração das figuras do original: {1: 1, 2: 6, 3: 7, 4: 8, 5: 9}.
 
 ## 2. Numeração
 
-Tabelas 1 a 26 em sequência: True. Figuras 1 a 13: True. Equações (1) a (54): True.
+Tabelas 1 a 26 em sequência: True. Figuras 1 a 14: True. Equações (1) a (54): True.
 Seções por parte: 1.1 a 1.2 (ok); 1.1.1 a 1.1.2 (ok); 2.1 a 2.11 (ok); 3.1 a 3.2 (ok); 3.1.1 a 3.1.13 (ok); 3.2.1 a 3.2.13 (ok); 4.1 a 4.2 (ok); 4.1.1 a 4.1.9 (ok); 4.2.1 a 4.2.11 (ok); 5.1 a 5.2 (ok).
 Títulos de capítulo e de parte: 1 INTRODUÇÃO; 2 FUNDAMENTAÇÃO TEÓRICA; 3 MATERIAIS E MÉTODOS; 3.1 Exoesqueleto 1: gerador de torque de mola, cabo e polia; 3.2 Exoesqueleto 2: elástico com alavanca e elemento de encosto; 4 RESULTADOS E DISCUSSÃO; 4.1 Exoesqueleto 1: gerador de torque de mola, cabo e polia; 4.2 Exoesqueleto 2: elástico com alavanca e elemento de encosto; 5 CONCLUSÃO; 5.1 Exoesqueleto 1: gerador de torque de mola, cabo e polia; 5.2 Exoesqueleto 2: elástico com alavanca e elemento de encosto; REFERÊNCIAS.
 
@@ -20,7 +20,7 @@ Referências sem alvo: 0.
 
 ## 4. Texto novo
 
-Blocos novos: 263. Travessões: 0. Restos da numeração do apêndice: 0.
+Blocos novos: 268. Travessões: 0. Restos da numeração do apêndice: 0.
 
 ## 5. Parágrafos do apêndice da versão anterior
 
@@ -43,7 +43,7 @@ Idênticos: 5. Iguais a menos de números e referências: 25. Modificados: 39. S
 - Modificado (0.66): Com o aumento de e, o torque cresce em quase toda a faixa, o pico se desloca de 100,5° para 92,0° e a transiçã
   - mais próximo no fundido: Nos ângulos abaixo de cerca de 134°, onde as curvas dos valores extremos de ec se cruzam, o torque aumenta com
 - Modificado (0.69): Figura A.6: Cenário de projeto: torque do elástico com K = K40, torque do peso do membro humano e alvo de 40%
-  - mais próximo no fundido: Figura 13: Torque do elástico com K = K40 no cenário de projeto, torque do peso do membro e do braço do exoesq
+  - mais próximo no fundido: Figura 14: Torque do elástico com K = K40 no cenário de projeto, torque do peso do membro e do braço do exoesq
 - Modificado (0.70): A consistência foi conferida pela Equação (1): Icm + M D2 = 0,113765 + 0,320911 = 0,434676 kg·m2. A amplitude 
   - mais próximo no fundido: A consistência foi conferida pela Equação (1): para o membro humano, Icm + M d2 = 0,113765 + 0,320911 = 0,4346
 - Modificado (0.71): A excentricidade do ponto de aplicação é o parâmetro de ajuste previsto na patente (reivindicação 9; [0044], [
@@ -55,7 +55,7 @@ Idênticos: 5. Iguais a menos de números e referências: 25. Modificados: 39. S
 - Modificado (0.75): A.4 Parâmetros inerciais e transporte ao eixo da junta (seções 3.2 e 4.1)
   - mais próximo no fundido: 3.2.2 Parâmetros inerciais do membro e transporte ao eixo da articulação 20
 - Modificado (0.77): Figura A.1: Circuito do mecanismo na pose do CAD (regime I, θel = 82,038°) e em θel = 10° (regime II)
-  - mais próximo no fundido: Figura 2: Circuitos do mecanismo: regime I na pose do CAD (θel = 82,038°) e regime II em θel = 10°
+  - mais próximo no fundido: Figura 3: Circuitos do mecanismo: regime I na pose do CAD (θel = 82,038°) e regime II em θel = 10°
 - Modificado (0.78): A EP 3 504 033 B1 descreve um dispositivo de apoio a ao menos um braço do usuário. O elemento de apoio do braç
   - mais próximo no fundido: A reconstrução parte da arquitetura descrita na patente. A EP 3 504 033 B1 descreve um dispositivo de apoio de
 - Modificado (0.80): A integração não foi executada, pelas razões seguintes. O torque do elástico só está em N·m sob a hipótese K =
@@ -79,7 +79,7 @@ Idênticos: 5. Iguais a menos de números e referências: 25. Modificados: 39. S
 - Modificado (0.87): Segundo [0093], as três curvas da Figura 16 foram obtidas com um único atuador passivo, com pré-tensões difere
   - mais próximo no fundido: Segundo a patente, as três curvas da Figura 16 da patente foram geradas com um único atuador passivo, com pré-
 - Modificado (0.87): Figura A.3: Pontos extraídos da Figura 16 e razão calculada pelo modelo: (a) escala c por curva; (b) escala c 
-  - mais próximo no fundido: Figura 10: Pontos extraídos da Figura 16 da patente e razão calculada pelo ajuste de forma, com (a) escala c p
+  - mais próximo no fundido: Figura 11: Pontos extraídos da Figura 16 da patente e razão calculada pelo ajuste de forma, com (a) escala c p
 - Modificado (0.88): O modelo verifica ainda que o regime II ocorre exatamente para λ ≤ λt na malha, que o elemento 78 fica entre A
   - mais próximo no fundido: O modelo verifica ainda que o regime II ocorre exatamente para q ≤ q* na malha, que o elemento 78 fica entre A
 - Modificado (0.89): A.5 Referenciais e convenções angulares e de sinal (seção 3.3)
@@ -101,7 +101,7 @@ Idênticos: 5. Iguais a menos de números e referências: 25. Modificados: 39. S
 - Modificado (0.95): O membro humano segue de Leva (1996), com o mesmo indivíduo de referência do capítulo 4: homem de 73,0 kg e 1,
   - mais próximo no fundido: O membro humano segue de Leva (1996), com o mesmo indivíduo de referência da seção 4.1: homem de 73,0 kg e 1,7
 - Modificado (0.95): Figura A.4: Família de curvas em e, com s0 = 159,944 mm: (a) torque por unidade de rigidez; (b) razão entre o 
-  - mais próximo no fundido: Figura 11: Família de curvas em ec, com s0 = 287,190 mm, com (a) o torque por unidade de rigidez e (b) a razão
+  - mais próximo no fundido: Figura 12: Família de curvas em ec, com s0 = 287,190 mm, com (a) o torque por unidade de rigidez e (b) a razão
 - Modificado (0.96): A análise usou os documentos e arquivos da Tabela A.1. A patente foi lida no documento B1 completo, de 44 pági
   - mais próximo no fundido: A análise usou os documentos e arquivos da Tabela 2. A patente foi lida no documento B1 completo, de 44 página
 - Sem correspondente (0.06): A classificação de origem é a da seção 3: medida no modelo em CAD, obtida da literatura, documental, identific
@@ -159,4 +159,4 @@ Idênticos: 5. Iguais a menos de números e referências: 25. Modificados: 39. S
 
 ## 6. Pacote
 
-Partes alteradas além do documento e das relações: nenhuma. Partes novas: ['word/media/exo2_1.png', 'word/media/exo2_2.png', 'word/media/exo2_3.png', 'word/media/exo2_4.png', 'word/media/exo2_5.png', 'word/media/exo2_6.png', 'word/media/exo2_7.png', 'word/media/exo2_8.png']. Relações originais mantidas: True. sectPr final idêntico: True.
+Partes alteradas além do documento e das relações: nenhuma. Partes novas: ['word/media/exo2_1.png', 'word/media/exo2_2.png', 'word/media/exo2_3.png', 'word/media/exo2_4.png', 'word/media/exo2_5.png', 'word/media/exo2_6.png', 'word/media/exo2_7.png', 'word/media/exo2_8.png', 'word/media/exo2_9.png']. Relações originais mantidas: True. sectPr final idêntico: True.
