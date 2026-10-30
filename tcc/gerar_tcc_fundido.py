@@ -626,7 +626,7 @@ def cap3_introducao():
 def parte_3B():
     B = []
     a = B.append
-    a(H("3.2 Exoesqueleto 2: elástico com alavanca e elemento de encosto"))
+    a(H("3.2 Exoesqueleto 2"))
     a(P("As seções ⟦S:cad⟧ a ⟦S:ferr⟧ aplicam à EP 3 504 033 B1 (OTTOBOCK, 2023) "
         "o procedimento das seções 3.1.1 a 3.1.13, que foi executado para o gerador de "
         "torque da US 9.889.554 B2, com a mesma numeração: a seção 3.2.k corresponde "
@@ -2365,7 +2365,7 @@ def montar(corpo_original):
         _unico(info, "O procedimento usual consiste no ajuste"): cap2_identificacao(),
         _unico(info, "Nota: O é o pivô"): cap3_sobreposicao_fig42(),
         _unico(info, "A cadeia de cálculo descrita nas seções"):
-            cap3_introducao() + [H("3.1 Exoesqueleto 1: gerador de torque de mola, cabo e polia")],
+            cap3_introducao() + [H("3.1 Exoesqueleto 1")],
         _unico(info, "4 RESULTADOS E DISCUSSÃO"): cap4_introducao(),
         _unico(info, "5 CONCLUSÃO"): cap5_titulo(),
         _unico(info, "BOUTERAA, Y.; BEN ABDALLAH"): [ref_brent()],

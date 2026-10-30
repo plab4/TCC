@@ -12,7 +12,7 @@ Renumeração das figuras do original: {1: 1, 2: 6, 3: 7, 4: 8, 5: 9}.
 
 Tabelas 1 a 26 em sequência: True. Figuras 1 a 14: True. Equações (1) a (54): True.
 Seções por parte: 1.1 a 1.2 (ok); 1.1.1 a 1.1.2 (ok); 2.1 a 2.11 (ok); 3.1 a 3.2 (ok); 3.1.1 a 3.1.13 (ok); 3.2.1 a 3.2.13 (ok); 4.1 a 4.2 (ok); 4.1.1 a 4.1.9 (ok); 4.2.1 a 4.2.11 (ok); 5.1 a 5.2 (ok).
-Títulos de capítulo e de parte: 1 INTRODUÇÃO; 2 FUNDAMENTAÇÃO TEÓRICA; 3 MATERIAIS E MÉTODOS; 3.1 Exoesqueleto 1: gerador de torque de mola, cabo e polia; 3.2 Exoesqueleto 2: elástico com alavanca e elemento de encosto; 4 RESULTADOS E DISCUSSÃO; 4.1 Exoesqueleto 1: gerador de torque de mola, cabo e polia; 4.2 Exoesqueleto 2: elástico com alavanca e elemento de encosto; 5 CONCLUSÃO; 5.1 Exoesqueleto 1: gerador de torque de mola, cabo e polia; 5.2 Exoesqueleto 2: elástico com alavanca e elemento de encosto; REFERÊNCIAS.
+Títulos de capítulo e de parte: 1 INTRODUÇÃO; 2 FUNDAMENTAÇÃO TEÓRICA; 3 MATERIAIS E MÉTODOS; 3.1 Exoesqueleto 1; 3.2 Exoesqueleto 2; 4 RESULTADOS E DISCUSSÃO; 4.1 Exoesqueleto 1: gerador de torque de mola, cabo e polia; 4.2 Exoesqueleto 2: elástico com alavanca e elemento de encosto; 5 CONCLUSÃO; 5.1 Exoesqueleto 1: gerador de torque de mola, cabo e polia; 5.2 Exoesqueleto 2: elástico com alavanca e elemento de encosto; REFERÊNCIAS.
 
 ## 3. Referências
 
