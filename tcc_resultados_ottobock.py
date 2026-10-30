@@ -37,6 +37,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyArrowPatch
 import numpy as np
+from PIL import Image
 from matplotlib.ticker import FuncFormatter
 
 import torque_model_ottobock as tmo
@@ -690,9 +691,155 @@ def main():
 
     figuras(N, fig16, ajustes, conjunto, d, geo, peso, der, K, defs0, r, tp,
             curvas, sens, extra_razoes)
+    reg = registro_fig22(geo)
+    N["sobreposicao_fig22"] = reg
+    figura_sobreposicao(geo, reg)
     with open(PASTA/"ottobock_tcc_numeros.json", "w", encoding="utf-8") as f:
         json.dump(N, f, ensure_ascii=False, indent=1, default=float)
     print(f"números: {PASTA/'ottobock_tcc_numeros.json'}")
+
+
+def vetor(ax, ini, fim, cor, rotulo, lw=1.6, ls="-", desl=(4, 4)):
+    """Seta de ini a fim, com rótulo no meio. Patch da própria área do
+    gráfico: recortado nos limites, ao contrário da seta de annotate."""
+    ax.add_patch(FancyArrowPatch(tuple(ini), tuple(fim), arrowstyle="-|>",
+                                 color=cor, lw=lw, ls=ls, shrinkA=0, shrinkB=0,
+                                 mutation_scale=9, zorder=4))
+    meio = (np.asarray(ini) + np.asarray(fim))/2
+    ax.annotate(rotulo, meio, xytext=desl, textcoords="offset points",
+                fontsize=8, color=cor, annotation_clip=True)
+
+
+def circuito_modelo(ax, th, geo, cor):
+    """Circuitos da formulação do autor em θ_el = th [graus], em mm: regime I,
+    C1, C2, e, s; regime II, C1, C2, p, s − x e o triângulo e, p, x. Devolve
+    P, C78 e o regime (True no contato)."""
+    A = tmo.ponto_A(geo)
+    J = A + geo.c1*tmo.versor(-geo.alpha)          # fim de C1, início de C2
+    q = tmo.calculate_q(th, geo)
+    P = tmo.ponto_P(q, E, geo)
+    C = tmo.ponto_78(q, geo)
+    contato = bool(tmo.em_contato(q, E, geo))
+    braco = 300*tmo.versor(tmo.direcao_braco(th))
+    ax.set_aspect("equal")
+    ax.plot([0, braco[0]], [0, braco[1]], color=cor, lw=1.0, ls=":")
+    vetor(ax, A, J, TINTA, "C$_1$", desl=(2, -10))
+    vetor(ax, J, (0, 0), TINTA, "C$_2$", desl=(4, 0))
+    if not contato:
+        vetor(ax, (0, 0), P, TINTA, "e", desl=(-2, 5))
+        vetor(ax, P, A, cor, "s", desl=(-12, 0))
+    else:
+        vetor(ax, (0, 0), C, TINTA, "p", desl=(-4, 4))
+        vetor(ax, C, A, cor, "s − x", desl=(-30, 0))
+        vetor(ax, (0, 0), P, TINTA_2, "e", ls="--", desl=(4, -4))
+        vetor(ax, C, P, cor, "x", desl=(-10, 2))
+        ax.plot(*C, "s", color=cor, ms=4.5, zorder=5)
+    ax.plot(*P, "o", color=cor, ms=4.5, zorder=5)
+    ax.plot(0, 0, "o", color=TINTA, ms=5, zorder=6)
+    return P, C, contato
+
+
+def rotular_circuito(a_tot, a_zoom, geo, P, C, contato):
+    """Rótulos de A e O na vista geral e de O, P e 78 na ampliação."""
+    A = tmo.ponto_A(geo)
+    a_tot.plot(*A, "o", color=TINTA, ms=5)
+    a_tot.annotate("A", A, xytext=(6, 0), textcoords="offset points", fontsize=8)
+    a_tot.annotate("O", (0, 0), xytext=(6, -10), textcoords="offset points",
+                   fontsize=8)
+    a_zoom.annotate("O", (0, 0), xytext=(5, -11), textcoords="offset points",
+                    fontsize=8)
+    a_zoom.annotate("P", P, xytext=(5, 3), textcoords="offset points", fontsize=8)
+    if contato:
+        a_zoom.annotate("78", C, xytext=(-14, -10), textcoords="offset points",
+                        fontsize=8)
+
+
+# Figura 22 da EP 3 504 033 B1 (OTTOBOCK, 2023), digitalizada a 300 ppp da
+# página 37 do documento B1 e girada para a orientação de leitura (recorte em
+# patentes/EP3504033B1_fig22.png). Coordenadas em pixels do recorte; ângulos
+# a partir de +x da imagem, anti-horário, pelo eixo médio entre as bordas de
+# cada peça. O centro da articulação 20 com o braço baixado foi localizado
+# transportando, como corpo rígido, os dois furos do elemento 8 da outra pose.
+FIG22 = Path(__file__).parent/"patentes"/"EP3504033B1_fig22.png"
+REGISTRO_FIG22 = (
+    {"pose": "braço elevado", "O": (313.5, 305.5), "barra": 80.52, "braco": 7.90,
+     "P": (230.0, 279.0), "fim_elastico": (116.0, 1178.0)},
+    {"pose": "braço baixado", "O": (1230.0, 312.0), "barra": 80.59, "braco": -90.67,
+     "P": (1260.0, 240.0), "fim_elastico": (1045.0, 1142.0), "dobra_78": (1256.0, 278.0)},
+)
+
+
+def registro_fig22(geo):
+    """Registro do modelo sobre a Figura 22 da patente: o centro da
+    articulação 20 vai a O, a direção da barra 18 à de C2 (γ) e a escala sai
+    do comprimento OP com o braço elevado. Devolve, por pose, a escala
+    [px/mm], o giro R [graus], θ_el lido na figura e as distâncias, na escala
+    do registro [mm], entre P do modelo e a fixação do elástico desenhada,
+    entre A e a extremidade inferior do elástico desenhado e, com o braço
+    baixado, entre o centro do 78 do modelo e o ponto em que o elástico
+    desenhado se dobra."""
+    r0 = REGISTRO_FIG22[0]
+    escala = float(np.hypot(*np.subtract(r0["P"], r0["O"])))/float(tmo.raio_OP(E, geo))
+    saida = []
+    for r in REGISTRO_FIG22:
+        giro = r["barra"] - np.degrees(geo.gamma)
+        th = r["braco"] - giro + 90.0
+        q = tmo.calculate_q(th, geo)
+        c, s_ = np.cos(np.radians(giro)), np.sin(np.radians(giro))
+
+        def img(m):
+            return (r["O"][0] + escala*(c*m[0] - s_*m[1]),
+                    r["O"][1] - escala*(s_*m[0] + c*m[1]))
+
+        def dist(m, ref):
+            return float(np.hypot(*np.subtract(img(m), ref)))/escala
+        item = {"pose": r["pose"], "escala": escala, "giro": float(giro),
+                "theta": float(th), "contato": bool(tmo.em_contato(q, E, geo)),
+                "dP_mm": dist(tmo.ponto_P(q, E, geo), r["P"]),
+                "OP_desenho_mm": float(np.hypot(*np.subtract(r["P"], r["O"])))/escala,
+                "dA_mm": dist(tmo.ponto_A(geo), r["fim_elastico"])}
+        if "dobra_78" in r:
+            item["d78_mm"] = dist(tmo.ponto_78(q, geo), r["dobra_78"])
+        saida.append(item)
+    return saida
+
+
+def figura_sobreposicao(geo, reg):
+    """Circuitos do modelo sobre a Figura 22 da patente, nas duas poses."""
+    from matplotlib.transforms import Affine2D
+    img = np.array(Image.open(FIG22).convert("L")) < 128
+    fundo = np.where(img, 0.55, 1.0)               # traço do desenho em cinza
+    fig, eixos_fig = plt.subplots(2, 2, figsize=(10, 11.6), dpi=200,
+                                  facecolor=SUPERFICIE,
+                                  gridspec_kw={"width_ratios": [1, 1.1]})
+    cores = (LARANJA, AZUL)
+    for r, rg, cor, (a_tot, a_zoom) in zip(REGISTRO_FIG22, reg, cores, eixos_fig):
+        for ax in (a_tot, a_zoom):
+            eixos(ax, 0, 0)
+            # pixel do recorte → mm do modelo: translação para O, escala com
+            # inversão de y e giro de −R
+            tr = (Affine2D().translate(-r["O"][0], -r["O"][1])
+                  .scale(1/rg["escala"], -1/rg["escala"]).rotate_deg(-rg["giro"])
+                  + ax.transData)
+            ax.imshow(fundo, cmap="gray", vmin=0, vmax=1, interpolation="nearest",
+                      extent=(0, fundo.shape[1], fundo.shape[0], 0), transform=tr,
+                      zorder=1)
+            P, C, contato = circuito_modelo(ax, rg["theta"], geo, cor)
+            ax.set_xlabel("x (mm)", color=TINTA_2)
+        rotular_circuito(a_tot, a_zoom, geo, P, C, contato)
+        a_tot.set_xlim(-150, 300)
+        a_tot.set_ylim(-540, 80)
+        a_tot.set_ylabel("y (mm)", color=TINTA_2)
+        regime = "regime II" if contato else "regime I"
+        a_tot.set_title(f"{r['pose']}, {regime}, " +
+                        rf"$\theta_{{el}}$ = {rg['theta']:.1f}°".replace(".", ","),
+                        fontsize=9, color=TINTA)
+        a_zoom.set_xlim(-75, 60)
+        a_zoom.set_ylim(-45, 55)
+        a_zoom.set_title("ampliação da região do pivô", fontsize=9, color=TINTA)
+    fig.tight_layout()
+    fig.savefig(PASTA/"ottobock_tcc_fig_a7_sobreposicao.png", facecolor=SUPERFICIE)
+    plt.close(fig)
 
 
 def figuras(N, fig16, ajustes, conjunto, d, geo, peso, der, K, defs0, r, tp,
@@ -704,50 +851,15 @@ def figuras(N, fig16, ajustes, conjunto, d, geo, peso, der, K, defs0, r, tp,
     fig, eixos_fig = plt.subplots(2, 2, figsize=(10, 8.4), dpi=200,
                                   facecolor=SUPERFICIE,
                                   gridspec_kw={"width_ratios": [1, 1.25]})
-    A = tmo.ponto_A(geo)
-    J = A + geo.c1*tmo.versor(-geo.alpha)          # fim de C1, início de C2
-
-    def vetor(ax, ini, fim, cor, rotulo, lw=1.6, ls="-", desl=(4, 4)):
-        # patch da própria área do gráfico: recortado nos limites, ao
-        # contrário da seta de annotate
-        ax.add_patch(FancyArrowPatch(tuple(ini), tuple(fim), arrowstyle="-|>",
-                                     color=cor, lw=lw, ls=ls, shrinkA=0, shrinkB=0,
-                                     mutation_scale=9, zorder=4))
-        meio = (np.asarray(ini) + np.asarray(fim))/2
-        ax.annotate(rotulo, meio, xytext=desl, textcoords="offset points",
-                    fontsize=8, color=cor, annotation_clip=True)
-
     casos = ((der["theta_pose"], LARANJA, "regime I, pose do CAD"),
              (10.0, AZUL, "regime II"))
     for (th, cor, rot), (a_tot, a_zoom) in zip(casos, eixos_fig):
-        q = tmo.calculate_q(th, geo)
-        P = tmo.ponto_P(q, E, geo)
-        C = tmo.ponto_78(q, geo)
-        contato = bool(tmo.em_contato(q, E, geo))
-        assert contato == (rot == "regime II"), (th, contato)
-        braco = 300*tmo.versor(tmo.direcao_braco(th))
         for ax in (a_tot, a_zoom):
             eixos(ax, 0, 0)
-            ax.set_aspect("equal")
-            ax.plot([0, braco[0]], [0, braco[1]], color=cor, lw=1.0, ls=":")
-            vetor(ax, A, J, TINTA, "C$_1$", desl=(2, -10))
-            vetor(ax, J, (0, 0), TINTA, "C$_2$", desl=(4, 0))
-            if not contato:
-                vetor(ax, (0, 0), P, TINTA, "e", desl=(-2, 5))
-                vetor(ax, P, A, cor, "s", desl=(-12, 0))
-            else:
-                vetor(ax, (0, 0), C, TINTA, "p", desl=(-4, 4))
-                vetor(ax, C, A, cor, "s − x", desl=(-30, 0))
-                vetor(ax, (0, 0), P, TINTA_2, "e", ls="--", desl=(4, -4))
-                vetor(ax, C, P, cor, "x", desl=(-10, 2))
-                ax.plot(*C, "s", color=cor, ms=4.5, zorder=5)
-            ax.plot(*P, "o", color=cor, ms=4.5, zorder=5)
-            ax.plot(0, 0, "o", color=TINTA, ms=5, zorder=6)
+            P, C, contato = circuito_modelo(ax, th, geo, cor)
             ax.set_xlabel("x (mm)", color=TINTA_2)
-        a_tot.plot(*A, "o", color=TINTA, ms=5)
-        a_tot.annotate("A", A, xytext=(6, 0), textcoords="offset points", fontsize=8)
-        a_tot.annotate("O", (0, 0), xytext=(6, -10), textcoords="offset points",
-                       fontsize=8)
+        assert contato == (rot == "regime II"), (th, contato)
+        rotular_circuito(a_tot, a_zoom, geo, P, C, contato)
         a_tot.set_xlim(-150, 250)
         a_tot.set_ylim(-360, 70)
         a_tot.set_ylabel("y (mm)", color=TINTA_2)
@@ -755,12 +867,6 @@ def figuras(N, fig16, ajustes, conjunto, d, geo, peso, der, K, defs0, r, tp,
                         fontsize=9, color=TINTA)
         a_zoom.set_xlim(-75, 60)
         a_zoom.set_ylim(-45, 55)
-        a_zoom.annotate("O", (0, 0), xytext=(5, -11), textcoords="offset points",
-                        fontsize=8)
-        a_zoom.annotate("P", P, xytext=(5, 3), textcoords="offset points", fontsize=8)
-        if contato:
-            a_zoom.annotate("78", C, xytext=(-14, -10), textcoords="offset points",
-                            fontsize=8)
         a_zoom.set_title("ampliação da região do pivô", fontsize=9, color=TINTA)
     fig.tight_layout()
     fig.savefig(PASTA/"ottobock_tcc_fig_a1_geometria.png", facecolor=SUPERFICIE)

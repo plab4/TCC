@@ -20,12 +20,6 @@
 \counterwithout{table}{chapter}
 \counterwithout{equation}{chapter}
 
-% Nos capítulos 3, 4 e 5 as seções são uma por dispositivo: 3A, 3B,
-% com subseções 3A.1, 3A.2 etc. O comando é chamado logo depois do
-% \chapter desses capítulos.
-\newcommand{\secoesPorDispositivo}{%
-  \renewcommand{\thesection}{\thechapter\Alph{section}}}
-
 % Fonte e nota abaixo de figuras e tabelas
 \newcommand{\notaabnt}[2]{%
   \par\nopagebreak{\footnotesize\setlength{\leftskip}{0pt}\setlength{\rightskip}{0pt}%

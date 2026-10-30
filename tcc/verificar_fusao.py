@@ -106,8 +106,7 @@ def main():
         mapa[tipo][num] = cand[0]
 
     def esperado(t):
-        for a, b in EDICOES:
-            t = t.replace(a, b)
+        # renumeração do original e, depois, as EDICOES, na ordem do gerador
         t = re.sub(r"^(Tabela|Figura) (\d+)(?= —)",
                    lambda m: f"{m.group(1)} {mapa[m.group(1)][int(m.group(2))]}", t)
         t = re.sub(r"(?<!^)\bTabela (\d+)\b",
@@ -115,9 +114,12 @@ def main():
         t = re.sub(r"(?<!^)\bFigura (\d+)\b",
                    lambda m: (f"Figura {mapa['Figura'][int(m.group(1))]}"
                               if int(m.group(1)) in mapa["Figura"] else m.group(0)), t)
-        return re.sub(r"(seç(?:ão|ões)\s+)([\d.]+(?:(?:\s+a\s+|\s+e\s+|,\s*)[\d.]+)*)",
-                      lambda m: m.group(1) + re.sub(r"\b([34])\.(\d+)\b", r"\1A.\2",
-                                                    m.group(2)), t)
+        t = re.sub(r"(seç(?:ão|ões)\s+)([\d.]+(?:(?:\s+a\s+|\s+e\s+|,\s*)[\d.]+)*)",
+                   lambda m: m.group(1) + re.sub(r"\b([34])\.(\d+)\b", r"\1.1.\2",
+                                                 m.group(2)), t)
+        for a, b in EDICOES:
+            t = t.replace(a, b)
+        return t
 
     # 1. blocos do original
     for prefixo in REMOVIDOS:
@@ -129,7 +131,7 @@ def main():
         if j < len(Om) and esqueleto(b) == esqueleto(Om[j]):
             t_esp = esperado(txt(Om[j]))
             if titulo(Om[j]):
-                t_esp = re.sub(r"^([34])\.(\d+) ", r"\1A.\2 ", txt(Om[j]))
+                t_esp = re.sub(r"^([34])\.(\d+) ", r"\1.1.\2 ", txt(Om[j]))
             if txt(b) != t_esp:
                 diverge.append((j, txt(b)[:100], t_esp[:100]))
             casados.add(i)
@@ -163,7 +165,7 @@ def main():
     nums = [t.split(" ")[0] for t in tits]
     grupos = {}
     for n in nums:
-        m = re.match(r"^(\d[A-C]?)\.(\d+)$", n)
+        m = re.match(r"^(\d+(?:\.\d+)*)\.(\d+)$", n)
         if m:
             grupos.setdefault(m.group(1), []).append(int(m.group(2)))
 
@@ -177,26 +179,27 @@ def main():
     diga("Seções por parte: " + "; ".join(f"{k}.1 a {k}.{max(v)} ({'ok' if seq(v) else 'falha'})"
                                           for k, v in grupos.items()) + ".")
     diga("Títulos de capítulo e de parte: " + "; ".join(
-        t for t in tits if re.match(r"^(\d|\d[AB]) ", t) or t.isupper()) + ".")
+        t for t in tits if re.match(r"^(\d|[345]\.[12]) ", t) or t.isupper()) + ".")
     diga()
 
     # 3. referências
     todo = " ".join(txt(b) for b in Nn)
-    secs = set(nums) | {"3A", "3B", "4A", "4B", "5A", "5B"}
+    secs = set(nums)
     erros = []
     for m in re.finditer(r"\bTabelas? (\d+)", todo):
         if int(m.group(1)) > len(tabs):
             erros.append(m.group(0))
     for m in re.finditer(r"\bFiguras? (\d+)((?:, \d+)*(?: e \d+)?)(.{0,14})", todo):
         n, resto = int(m.group(1)), m.group(3)
-        patente = (resto.startswith((" da patente", " da EP", ", p. 31")) or n == 56
+        patente = (resto.startswith((" da patente", " da EP")) or re.match(r", p\. \d", resto)
+                   or n == 56
                    or m.group(2).startswith(", 16"))
         if not patente and n > len(figs):
             erros.append("figura da patente sem qualificação: " + m.group(0))
     for m in re.finditer(r"\bEquaç(?:ão|ões) \((\d+)\)", todo):
         if int(m.group(1)) > len(eqs):
             erros.append(m.group(0))
-    padrao_sec = r"\d[A-C]?(?:\.\d+)*"
+    padrao_sec = r"\d+(?:\.\d+)*"
     for m in re.finditer(rf"\bseç(?:ão|ões) ({padrao_sec}(?:(?:\s+a\s+|\s+e\s+|,\s*){padrao_sec})*)",
                          todo):
         for s in re.findall(padrao_sec, m.group(1)):

@@ -1,7 +1,7 @@
 {
  "titulo": "Modelagem e simulação de mecanismos passivos de apoio ao braço",
  "tabelas": 26,
- "figuras": 12,
+ "figuras": 13,
  "equacoes": 54,
  "secoes": 72,
  "citadas": [
@@ -88,16 +88,17 @@
   "fig": {
    "1": "fig:circuito-vetorial-gerador-torque",
    "2": "fig:circuitos-mecanismo-regime-i",
-   "3": "fig:figura-ep-b1-razao",
-   "4": "fig:torque-cabo-calculado-pontos",
-   "5": "fig:familia-curvas-torque-cabo",
-   "6": "fig:rmse-contra-pontos-extraidos",
-   "7": "fig:torque-cabo-torque-gravitacional",
-   "8": "fig:identificacao-s0-espacamento-curvas",
-   "9": "fig:pontos-extraidos-figura-patente",
-   "10": "fig:familia-curvas-ec-s0",
-   "11": "fig:torque-elastico-torque-peso",
-   "12": "fig:torque-elastico-k-k40"
+   "3": "fig:circuitos-modelo-sobrepostos-figura",
+   "4": "fig:figura-ep-b1-razao",
+   "5": "fig:torque-cabo-calculado-pontos",
+   "6": "fig:familia-curvas-torque-cabo",
+   "7": "fig:rmse-contra-pontos-extraidos",
+   "8": "fig:torque-cabo-torque-gravitacional",
+   "9": "fig:identificacao-s0-espacamento-curvas",
+   "10": "fig:pontos-extraidos-figura-patente",
+   "11": "fig:familia-curvas-ec-s0",
+   "12": "fig:torque-elastico-torque-peso",
+   "13": "fig:torque-elastico-k-k40"
   }
  }
 }

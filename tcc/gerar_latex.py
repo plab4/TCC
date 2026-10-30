@@ -33,10 +33,6 @@ TITULOS_CAPITULO = {
     "RESULTADOS E DISCUSSÃO": "Resultados e discussão",
     "CONCLUSÃO": "Conclusão",
 }
-TITULOS_PARTE = {
-    "EXOESQUELETO 1: US 9.889.554 B2": "Exoesqueleto 1: US 9.889.554 B2",
-    "EXOESQUELETO 2: EP 3 504 033 B1": "Exoesqueleto 2: EP 3 504 033 B1",
-}
 
 # caracteres fora do Latin-1 usados no texto corrido; o preâmbulo declara
 # cada um com \DeclareUnicodeCharacter (ver preambulo.tex)
@@ -260,7 +256,8 @@ def substituicoes(t, rot, cit):
     # figuras do documento (as da patente ficam como texto)
     for m in re.finditer(r"\b(Figuras?) (\d+)((?:, \d+)*)((?: e \d+)?)(?=(.{0,14}))", t):
         n, resto = int(m.group(2)), m.group(5)
-        patente = (resto.startswith((" da patente", " da EP", ", p. 31")) or n == 56
+        patente = (resto.startswith((" da patente", " da EP")) or re.match(r", p\. \d", resto)
+                   or n == 56
                    or m.group(3).startswith(", 16"))
         if patente:
             continue
@@ -282,7 +279,7 @@ def substituicoes(t, rot, cit):
         if livre(m.start(), m.end()):
             subs.append((m.start(), m.end(), saida))
     # seções
-    num = r"\d[A-C]?(?:\.\d+)*"
+    num = r"\d+(?:\.\d+)*"
     for m in re.finditer(rf"\b([Ss]eç(?:ão|ões)) ({num}(?:(?:\s+a\s+|\s+e\s+|,\s*){num})*)", t):
         saida = m.group(1) + "~"
         for p in re.split(rf"({num})", m.group(2)):
@@ -361,10 +358,8 @@ def slug(t, usados, prefixo):
 CAPTION = re.compile(r"^(Tabela|Figura) (\d+)(?: —|:) ")
 TITULO = [
     (re.compile(r"^(\d) (.+)$"), "chapter"),
-    (re.compile(r"^(\d[AB]) (.+)$"), "section"),
     (re.compile(r"^(\d\.\d+) (.+)$"), "section"),
     (re.compile(r"^(\d\.\d+\.\d+) (.+)$"), "subsection"),
-    (re.compile(r"^(\d[AB]\.\d+) (.+)$"), "subsection"),
 ]
 
 
@@ -570,13 +565,8 @@ def converter(docx, destino):
                 capitulos[atual] = [f"% Gerado por tcc/gerar_latex.py a partir de {Path(docx).name}.",
                                     "% Edite à vontade; uma nova geração sobrescreve este arquivo.", ""]
                 emitir([f"\\chapter{{{TITULOS_CAPITULO[nome]}}}\\label{{sec:{num}}}", ""])
-                if atual >= 3:
-                    emitir(["\\secoesPorDispositivo", ""])
             else:
-                if nome in TITULOS_PARTE:
-                    lx = TITULOS_PARTE[nome]
-                else:
-                    lx = para_latex(runs(b), rot, cit, cortar_inicio=len(num) + 1)
+                lx = para_latex(runs(b), rot, cit, cortar_inicio=len(num) + 1)
                 if "\\" in lx:
                     lx = f"\\texorpdfstring{{{lx}}}{{{escapar(nome)}}}"
                 emitir([f"\\{nivel}{{{lx}}}\\label{{sec:{num}}}", ""])

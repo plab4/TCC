@@ -204,6 +204,17 @@ def main():
     sumario = entradas("Sumrio1|Sumrio2|Sumrio3")
     listas = entradas("ndicedeilustraes")
     sem_pag = [t for t in sumario + listas if not re.search(r"\d+$", t.strip())]
+    # página de cada entrada: campo PAGEREF para um marcador existente, e o
+    # Word não atualiza os campos sozinho ao abrir (recalcularia as listas
+    # antes de paginar, com página 1 em todas as entradas)
+    blocos_ent = [b for b in bn[:i_cap1]
+                  if re.search(r'<w:pStyle w:val="(Sumrio[123]|ndicedeilustraes)"/>', b)]
+    marcadores = set(re.findall(r'<w:bookmarkStart [^>]*w:name="([^"]+)"', xml_n))
+    alvos = [re.findall(r"PAGEREF (\S+) \\h", b) for b in blocos_ent]
+    sem_pageref = sum(1 for a in alvos if len(a) != 1 or a[0] not in marcadores)
+    atualiza = "updateFields" in zn.read("word/settings.xml").decode()
+    if sem_pageref or atualiza:
+        falhas.append(f"entradas sem PAGEREF válido: {sem_pageref}; atualização ao abrir: {atualiza}")
     titulos = sum(1 for b in bn[i_cap1:] if re.search(r'<w:pStyle w:val="Ttulo[123]"/>', b))
     n_fig = len(re.findall(r'SEQ Figura', xml_n))
     n_tab = len(re.findall(r'SEQ Tabela', xml_n))
@@ -214,7 +225,8 @@ def main():
     diga()
     diga(f"Entradas do sumário: {len(sumario)} (títulos no corpo: {titulos}). Entradas das listas: "
          f"{len(listas)} (legendas: {n_fig} figuras e {n_tab} tabelas). Sem número de página: "
-         f"{len(sem_pag)}.")
+         f"{len(sem_pag)}. Entradas sem PAGEREF para um marcador existente: {sem_pageref}. "
+         f"Atualização dos campos ao abrir: {'sim' if atualiza else 'não'}.")
     diga()
 
     # 8. fontes

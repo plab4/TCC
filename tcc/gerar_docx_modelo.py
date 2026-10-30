@@ -668,7 +668,10 @@ def paragrafos_pre(t):
 
 def listas_e_sumario(doc, paginas):
     """Lista de figuras, lista de tabelas e sumário como campos do Word,
-    com as entradas já preenchidas (páginas da renderização)."""
+    com as entradas já preenchidas. O número de página de cada entrada é um
+    campo PAGEREF para o marcador do título ou da legenda, com o valor da
+    renderização como resultado: o Word o recalcula ao atualizar o campo, e
+    os leitores que não atualizam campos mostram o valor gravado."""
     c = doc.corpo
 
     def titulo_pre(t):
@@ -683,8 +686,13 @@ def listas_e_sumario(doc, paginas):
             c.append(par(inicio + fim, estilo=estilo))
             return
         for j, (est, texto, marca) in enumerate(entradas):
+            pagina = (f'<w:r><w:fldChar w:fldCharType="begin"/></w:r><w:r><w:instrText '
+                      f'xml:space="preserve"> PAGEREF {marca} \\h </w:instrText></w:r>'
+                      '<w:r><w:fldChar w:fldCharType="separate"/></w:r>'
+                      + run(str(paginas.get(marca, 0))) +
+                      '<w:r><w:fldChar w:fldCharType="end"/></w:r>')
             ligacao = (f'<w:hyperlink w:anchor="{marca}" w:history="1">' + texto +
-                       run("\t" + str(paginas.get(marca, 0))) + "</w:hyperlink>")
+                       run("\t") + pagina + "</w:hyperlink>")
             c.append(par((inicio if j == 0 else "") + ligacao + (fim if j == len(entradas) - 1 else ""),
                          estilo=est))
 
@@ -781,10 +789,7 @@ def converter_corpo(doc, docx, tx, larguras):
                 doc.sumario.append((1, num, run(titulo), marca, f"Capítulo {num} {titulo}"))
             else:
                 est = "Ttulo2" if nivel == "section" else "Ttulo3"
-                if nome in gl.TITULOS_PARTE:
-                    conteudo = run(gl.TITULOS_PARTE[nome])
-                else:
-                    conteudo = tx.runs(gl.runs(b), cortar=len(num) + 1)
+                conteudo = tx.runs(gl.runs(b), cortar=len(num) + 1)
                 marca, n = doc.marca()
                 antes = None
                 if anterior == "Ttulo2" and est == "Ttulo3":
@@ -1088,7 +1093,7 @@ def montar(docx_origem, paginas, fontes, render, d):
             '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'
             f'<w:settings {NS}><w:zoom w:percent="100"/><w:embedTrueTypeFonts/>'
             '<w:defaultTabStop w:val="708"/><w:autoHyphenation/><w:hyphenationZone w:val="425"/>'
-            '<w:characterSpacingControl w:val="doNotCompress"/><w:updateFields w:val="true"/>'
+            '<w:characterSpacingControl w:val="doNotCompress"/>'
             '<w:compat><w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/'
             'office/word" w:val="15"/></w:compat>'
             '<m:mathPr><m:mathFont m:val="Cambria Math"/><m:brkBin m:val="before"/>'

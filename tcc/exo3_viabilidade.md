@@ -69,7 +69,7 @@ linha citados aqui são os do manuscrito) e a patente US 9.737.374 B2 (Doyle, 20
 
 - Models 3A e 3B (EP 3 504 033 B1): o manuscrito usa as Figuras 16 e 17 da patente
   como curvas de torque escaladas. O TCC lê a ordenada da Figura 16 como razão entre o
-  torque do dispositivo e o do peso ([0092], seção 3B.9); uma razão multiplicada por
+  torque do dispositivo e o do peso ([0092], seção 3.2.9); uma razão multiplicada por
   constante não vira torque, porque o torque do peso varia com o ângulo. As três curvas
   de cada figura são pré-tensões (Figura 16) e posições do ponto de ataque (Figura 17)
   do mesmo atuador [0093], [0094].
