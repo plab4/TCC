@@ -28,7 +28,7 @@ from xml.sax.saxutils import unescape
 
 PASTA = Path(__file__).resolve().parent
 sys.path.insert(0, str(PASTA))
-from gerar_tcc_fundido import EDICOES, REMOVIDOS  # noqa: E402
+from gerar_tcc_fundido import EDICOES, REMOVIDOS, parenteses_fixos  # noqa: E402
 
 ORIG = PASTA/"TCC_apenas_exo1.docx"
 NOVO = PASTA/"TCC_exo1_exo2.docx"
@@ -128,7 +128,7 @@ def main():
     Om = [x for x in O if not txt(x).startswith(REMOVIDOS)]
     j, diverge, casados = 0, [], set()
     for i, b in enumerate(Nn):
-        if j < len(Om) and esqueleto(b) == esqueleto(Om[j]):
+        if j < len(Om) and esqueleto(b) == esqueleto(parenteses_fixos(Om[j])):
             t_esp = esperado(txt(Om[j]))
             if titulo(Om[j]):
                 t_esp = re.sub(r"^([34])\.(\d+) ", r"\1.1.\2 ", txt(Om[j]))
@@ -145,7 +145,8 @@ def main():
                       if re.search(rf"\b{t.split(',')[0]}\b", texto_novo, flags=re.I)})
     diga("## 1. Conteúdo do original")
     diga()
-    diga(f"Blocos do original encontrados em ordem, com XML idêntico fora do texto: "
+    diga(f"Blocos do original encontrados em ordem, com XML idêntico fora do texto "
+         f"(nas equações, os delimitadores simples passam a ter tamanho fixo): "
          f"{j} de {len(Om)} ({len(retirados)} retirados de propósito, REMOVIDOS). "
          f"Texto diferente do esperado (renumeração e as {len(EDICOES)} edições "
          f"declaradas): {len(diverge)}. Retirados ainda presentes: {len(presentes)}. "

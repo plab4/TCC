@@ -1,17 +1,17 @@
 # Verificação do TCC fundido
 
-Original: TCC_apenas_exo1.docx, 305 blocos. Fundido: TCC_exo1_exo2.docx, 571 blocos.
+Original: TCC_apenas_exo1.docx, 305 blocos. Fundido: TCC_exo1_exo2.docx, 594 blocos.
 
 ## 1. Conteúdo do original
 
-Blocos do original encontrados em ordem, com XML idêntico fora do texto: 303 de 303 (2 retirados de propósito, REMOVIDOS). Texto diferente do esperado (renumeração e as 16 edições declaradas): 0. Retirados ainda presentes: 0. Autores dos retirados ainda citados: nenhum.
+Blocos do original encontrados em ordem, com XML idêntico fora do texto (nas equações, os delimitadores simples passam a ter tamanho fixo): 303 de 303 (2 retirados de propósito, REMOVIDOS). Texto diferente do esperado (renumeração e as 17 edições declaradas): 0. Retirados ainda presentes: 0. Autores dos retirados ainda citados: nenhum.
 Renumeração das tabelas do original: {1: 1, 2: 4, 3: 5, 4: 6, 5: 7, 6: 8, 7: 9, 8: 10, 9: 11, 10: 12, 11: 13}.
 Renumeração das figuras do original: {1: 1, 2: 6, 3: 7, 4: 8, 5: 9}.
 
 ## 2. Numeração
 
-Tabelas 1 a 26 em sequência: True. Figuras 1 a 14: True. Equações (1) a (54): True.
-Seções por parte: 1.1 a 1.2 (ok); 1.1.1 a 1.1.2 (ok); 2.1 a 2.11 (ok); 3.1 a 3.2 (ok); 3.1.1 a 3.1.13 (ok); 3.2.1 a 3.2.13 (ok); 4.1 a 4.2 (ok); 4.1.1 a 4.1.9 (ok); 4.2.1 a 4.2.11 (ok); 5.1 a 5.2 (ok).
+Tabelas 1 a 26 em sequência: True. Figuras 1 a 14: True. Equações (1) a (61): True.
+Seções por parte: 1.1 a 1.2 (ok); 1.1.1 a 1.1.2 (ok); 2.1 a 2.11 (ok); 3.1 a 3.3 (ok); 3.1.1 a 3.1.13 (ok); 3.2.1 a 3.2.13 (ok); 3.3.1 a 3.3.4 (ok); 4.1 a 4.2 (ok); 4.1.1 a 4.1.9 (ok); 4.2.1 a 4.2.11 (ok); 5.1 a 5.2 (ok).
 Títulos de capítulo e de parte: 1 INTRODUÇÃO; 2 FUNDAMENTAÇÃO TEÓRICA; 3 MATERIAIS E MÉTODOS; 3.1 Exoesqueleto 1; 3.2 Exoesqueleto 2; 4 RESULTADOS E DISCUSSÃO; 4.1 Exoesqueleto 1; 4.2 Exoesqueleto 2; 5 CONCLUSÃO; 5.1 Exoesqueleto 1; 5.2 Exoesqueleto 2; REFERÊNCIAS.
 
 ## 3. Referências
@@ -20,7 +20,7 @@ Referências sem alvo: 0.
 
 ## 4. Texto novo
 
-Blocos novos: 268. Travessões: 0. Restos da numeração do apêndice: 0.
+Blocos novos: 291. Travessões: 0. Restos da numeração do apêndice: 0.
 
 ## 5. Parágrafos do apêndice da versão anterior
 
@@ -88,10 +88,10 @@ Idênticos: 5. Iguais a menos de números e referências: 25. Modificados: 39. S
   - mais próximo no fundido: Como preferência, a patente indica que nenhuma força seja aplicada até que o braço ultrapasse um ângulo em rel
 - Modificado (0.90): Cada regime tem solução fechada, sem procedimento iterativo, porque o lado direito das relações abaixo, a prim
   - mais próximo no fundido: Com as grandezas do CAD, x = 51,360 mm. Cada regime tem solução fechada, sem procedimento iterativo, porque o 
+- Modificado (0.91): com m = mI no regime I, m = mII no regime II e m > 0 quando o torque assiste a subida. Como no capítulo 3, o f
+  - mais próximo no fundido: com m = mI no regime I, m = mII no regime II e m > 0 quando o torque assiste a subida. O fator 1/1000, herdado
 - Modificado (0.91): Com a curva tracejada, K40 = 0,50185 N/mm e F(90°) = 97,34 N. O valor de F(90°) é o mesmo nas três curvas por 
   - mais próximo no fundido: No ajuste de forma, a curva tracejada dá K40 = 0,52377 N/mm e F(90°) = 97,84 N. O valor de F(90°) é o mesmo na
-- Modificado (0.92): com m = mI no regime I, m = mII no regime II e m > 0 quando o torque assiste a subida. Como no capítulo 3, o f
-  - mais próximo no fundido: com m = mI no regime I, m = mII no regime II e m > 0 quando o torque assiste a subida. O fator 1/1000, herdado
 - Modificado (0.93): No regime II, o trecho entre o elemento 78 e P liga dois pontos do mesmo corpo; as forças que exerce sobre P e
   - mais próximo no fundido: No regime II, o trecho x liga dois pontos do mesmo corpo; as forças que exerce sobre P e sobre o elemento 78 s
 - Modificado (0.93): A Figura 17 não foi digitalizada. A seção A.11 faz apenas uma comparação visual com ela.
@@ -106,14 +106,14 @@ Idênticos: 5. Iguais a menos de números e referências: 25. Modificados: 39. S
   - mais próximo no fundido: A análise usou os documentos e arquivos da Tabela 2. A patente foi lida no documento B1 completo, de 44 página
 - Sem correspondente (0.06): A classificação de origem é a da seção 3: medida no modelo em CAD, obtida da literatura, documental, identific
   - mais próximo no fundido: A Figura 16 da patente informa s0 de duas maneiras que não dependem da escala da ordenada: pelo espaçamento en
-- Sem correspondente (0.06): A pré-tensão da curva pontilhada, descrita como quase nula [0093], também diverge do modelo. Essa curva exige 
-  - mais próximo no fundido: O fim da curva pontilhada confirma o resultado de forma independente. A razão dessa curva, extrapolada, chega 
 - Sem correspondente (0.06): As Figuras 16 e 17 da patente mostram curvas obtidas com o dispositivo [0092]. A abscissa é o ângulo de anteve
   - mais próximo no fundido: Como preferência, a patente indica que nenhuma força seja aplicada até que o braço ultrapasse um ângulo em rel
-- Sem correspondente (0.07): Para expressar o torque em N·m, K foi fixado por hipótese de projeto, e não identificado. O alvo é 40% do torq
-  - mais próximo no fundido: Nesse caso, a direção de OP no contato coincide com a de rAO, a reta do elástico passa pelo pivô e o torque no
 - Sem correspondente (0.07): A variável independente é a anteversão do braço, θel, com 0° para o braço pendente e 90° para o braço horizont
   - mais próximo no fundido: Para expressar o torque em N·m, K foi fixado por hipótese de projeto, e não identificado. O alvo é 40% do torq
+- Sem correspondente (0.07): A pré-tensão da curva pontilhada, descrita como quase nula [0093], também diverge do modelo. Essa curva exige 
+  - mais próximo no fundido: A coordenada generalizada é θel, em radianos; pela Equação (28), q difere de θel por uma constante, e δq = δθe
+- Sem correspondente (0.08): Para expressar o torque em N·m, K foi fixado por hipótese de projeto, e não identificado. O alvo é 40% do torq
+  - mais próximo no fundido: O peso do conjunto que gira com o braço é conservativo, com potencial Vg = M g yG/1000, em que yG é a altura d
 - Sem correspondente (0.09): O sinal de θb,pose = −7,962° está registrado no código como a confirmar. Com o sinal trocado, λ0 passa a −27,4
   - mais próximo no fundido: As relações de circuito dos dois regimes e o princípio dos trabalhos virtuais foram verificados com resíduos d
 - Sem correspondente (0.09): Foram executadas, para a EP 3 504 033 B1, a leitura da arquitetura na patente, a organização das grandezas do 

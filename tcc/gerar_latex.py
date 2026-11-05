@@ -36,7 +36,7 @@ TITULOS_CAPITULO = {
 
 # caracteres fora do Latin-1 usados no texto corrido; o preâmbulo declara
 # cada um com \DeclareUnicodeCharacter (ver preambulo.tex)
-UNICODE_TEXTO = set("θτℓλδφψσαβργηπκεμ−≤≥≈⊥√∂→ŷ—–")
+UNICODE_TEXTO = set("θτℓλδφψσαβργηπκεμξ−≤≥≈⊥√∂→ŷ—–")
 
 ESCAPE = {"\\": r"\textbackslash{}", "{": r"\{", "}": r"\}", "$": r"\$",
           "&": r"\&", "%": r"\%", "#": r"\#", "_": r"\_",

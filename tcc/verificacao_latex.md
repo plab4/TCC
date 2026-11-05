@@ -1,11 +1,11 @@
 # Verificação do TCC em LaTeX
 
-DOCX: TCC_exo1_exo2.docx. PDF: tese.pdf, 94 páginas; capítulos nas páginas 11 a 90, referências a partir da página 91.
+DOCX: TCC_exo1_exo2.docx. PDF: tese.pdf, 98 páginas; capítulos nas páginas 11 a 94, referências a partir da página 95.
 
 ## 1. Texto corrido, títulos, legendas, fontes e notas
 
-Elementos conferidos: 440. Encontrados no PDF: 440.
-Encontrados com interrupção do lado do PDF (cabeçalho, figura ou tabela no meio do parágrafo): 5.
+Elementos conferidos: 457. Encontrados no PDF: 457.
+Encontrados com interrupção do lado do PDF (cabeçalho, figura ou tabela no meio do parágrafo): 7.
 Diferenças esperadas, impostas pelo estilo ABNT do modelo: 'SHEN et al., 2020' passa a 'SHEN; FERGUSON; ROSEN, 2020'.
 
 ## 2. Células de tabela
@@ -16,7 +16,7 @@ Células com texto procuradas no PDF: 1566; não encontradas: 0.
 
 ## 3. Equações
 
-Equações no DOCX: 54, numeradas de (1) a (54). Números ausentes do PDF: nenhum.
+Equações no DOCX: 61, numeradas de (1) a (61). Números ausentes do PDF: nenhum.
 
 ## 4. Referências
 

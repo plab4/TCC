@@ -348,17 +348,21 @@ REGISTRO_FIG42 = {"O": (584.5, 194.8), "D": (140.5, 218.5)}
 
 
 def figura_sobreposicao_fig42():
-    """Laço vetorial da Figura 1 sobre a Figura 42 da patente."""
+    """Laço vetorial sobre a Figura 42 da patente, com h = H_CAD: a perna h vai
+    de 151 ao longo do 150 até antes do 176 e a perna p fecha a 90° no 176."""
     from matplotlib.transforms import Affine2D
-    th = tm.THETA_POSE
+    th, h = tm.THETA_POSE, tm.H_CAD
     q = tm.calculate_q(th)
-    s = tm.calculate_tangent_span(tm.calculate_rho(q, H))
-    phi = tm.calculate_phi(q, s, H)
-    A = np.array(tm.calculate_base_vector(H))
+    s = tm.calculate_tangent_span(tm.calculate_rho(q, h))
+    phi = tm.calculate_phi(q, s, h)
+    A = np.array(tm.calculate_base_vector(h))
+    a = np.radians(tm.ALPHA)
+    E = h*np.array([np.sin(a), np.cos(a)])       # fim da perna h, ao longo do 150
+    assert np.allclose(E + tm.P*np.array([-np.cos(a), np.sin(a)]), A)
     Pc = -tm.C*np.array([np.cos(q), np.sin(q)])
     T = tm.ponto_tangencia(q, phi)
     u = np.array([np.cos(phi), np.sin(phi)])
-    m = tm.braco_perpendicular(phi, H)
+    m = tm.braco_perpendicular(phi, h)
     pe = A + (-A @ u)*u
     O_d, D_d = np.array(REGISTRO_FIG42["O"]), np.array(REGISTRO_FIG42["D"])
     vd = np.array([D_d[0] - O_d[0], -(D_d[1] - O_d[1])])
@@ -388,6 +392,9 @@ def figura_sobreposicao_fig42():
                     label="vão reto s (A → T), linha de ação do cabo")[0],
             ax.plot([0, A[0]], [0, A[1]], color=LARANJA, lw=1.8, zorder=3,
                     label="vetor fixo B (O → A)")[0],
+            ax.plot([0, E[0], A[0]], [0, E[1], A[1]], color=LARANJA, lw=1.0,
+                    ls=(0, (4, 2)), zorder=3,
+                    label="componentes h (ao longo do 150) e p (a 90°)")[0],
             ax.plot([0, pe[0]], [0, pe[1]], color=VERDE, lw=1.6, ls="--", zorder=3,
                     label=f"braço perpendicular m = {m:.2f} mm".replace(".", ","))[0],
             ax.plot([0, T[0]], [0, T[1]], color=TINTA_2, lw=1.0, ls=":", zorder=3,
@@ -396,28 +403,38 @@ def figura_sobreposicao_fig42():
         ax.xaxis.set_major_formatter(virgula(0))
         ax.yaxis.set_major_formatter(virgula(0))
         ax.set_xlabel("x (mm)", color=TINTA_2)
-    pontos = {"O": (np.zeros(2), (6, -12)), "A": (A, (6, 2)),
+    # marca do ângulo reto entre as pernas h e p
+    ua, up = E/np.hypot(*E), A - E
+    up = up/np.hypot(*up)
+    k = 1.6
+    ax2.plot(*np.array([E - k*ua, E - k*ua + k*up, E + k*up]).T, color=LARANJA,
+             lw=0.8, zorder=4)
+    pontos = {"O": (np.zeros(2), (6, -12)), "A": (A, (5, 3)),
               "D": (Pc, (6, -12)), "T": (T, (-4, 6))}
-    for nome, (p, desloc) in pontos.items():
+    for nome, (pt, desloc) in pontos.items():
         for ax in (ax1, ax2):
-            ax.plot(*p, "o", color=TINTA, ms=4, zorder=5)
-        ax1.annotate(nome, p, xytext=desloc, textcoords="offset points",
+            ax.plot(*pt, "o", color=TINTA, ms=4, zorder=5)
+        ax1.annotate(nome, pt, xytext=desloc, textcoords="offset points",
                      fontsize=8, color=TINTA, zorder=6)
-    for nome in ("O", "A"):
-        p, desloc = pontos[nome]
-        ax2.annotate(nome, p, xytext=desloc, textcoords="offset points",
+    for nome, desloc in (("O", (6, -12)), ("A", (-11, 5))):
+        ax2.annotate(nome, pontos[nome][0], xytext=desloc, textcoords="offset points",
                      fontsize=8, color=TINTA, zorder=6)
+    ax2.annotate("h", E/2, xytext=(5, -4), textcoords="offset points", fontsize=8,
+                 color=LARANJA, zorder=6)
+    ax2.annotate("p", (E + A)/2, xytext=(1, 6), textcoords="offset points",
+                 fontsize=8, color=LARANJA, zorder=6)
     ax1.set_ylabel("y (mm)", color=TINTA_2)
     ax1.set_xlim(-345, 85)
     ax1.set_ylim(-75, 125)
-    ax2.set_xlim(-40, 40)
-    ax2.set_ylim(-20, 50)
+    ax2.set_xlim(-30, 40)
+    ax2.set_ylim(-15, 55)
     fig.legend(handles=alcas, loc="lower center", ncol=3, frameon=False,
                fontsize=7.5)
     fig.subplots_adjust(left=0.07, right=0.98, top=0.98, bottom=0.24, wspace=0.15)
     fig.savefig(PASTA/"tcc_fig1_sobreposicao.png", facecolor=SUPERFICIE)
     plt.close(fig)
-    return {"escala": escala, "giro": giro, "theta": float(th), "h": float(H)}
+    return {"escala": escala, "giro": giro, "theta": float(th), "h": float(h),
+            "h_cal": float(H), "p": float(tm.P), "m": float(m)}
 
 
 def figura_ajuste(patente, met):

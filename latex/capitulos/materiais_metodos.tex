@@ -3,7 +3,7 @@
 
 \chapter{Materiais e métodos}\label{sec:3}
 
-O trabalho é teórico-computacional. O procedimento parte da reconstrução geométrica do mecanismo e chega ao torque estático que ele entrega em função do ângulo, passando pela identificação dos parâmetros que a patente não publica. Ele foi concebido para os geradores de torque da US 9.889.554 B2, da US 9.737.374 B2 e da EP 3 504 033 B1, mas, nesta etapa do trabalho, foi executado para o gerador de torque da US 9.889.554 B2, ao qual se referem as seções~\ref{sec:3.1}, \ref{sec:4.1} e \ref{sec:5.1}, e para o dispositivo da EP 3 504 033 B1, ao qual se referem as seções~\ref{sec:3.2}, \ref{sec:4.2} e \ref{sec:5.2}.
+O trabalho é teórico-computacional. O procedimento parte da reconstrução geométrica do mecanismo e chega ao torque estático que ele entrega em função do ângulo, passando pela identificação dos parâmetros que a patente não publica. Ele foi concebido para os geradores de torque da US 9.889.554 B2, da US 9.737.374 B2 e da EP 3 504 033 B1, mas, nesta etapa do trabalho, foi executado para o gerador de torque da US 9.889.554 B2, ao qual se referem as seções~\ref{sec:3.1}, \ref{sec:4.1} e \ref{sec:5.1}, e para o dispositivo da EP 3 504 033 B1, ao qual se referem as seções~\ref{sec:3.2}, \ref{sec:4.2} e \ref{sec:5.2}. A seção~\ref{sec:3.3} formula os dois modelos estáticos pelo princípio dos trabalhos virtuais.
 
 Cada grandeza empregada é classificada quanto à origem: medida no modelo em CAD, obtida da literatura, documental (lida em desenho ou documento, sem verificação independente), identificada por ajuste à curva da patente, derivada pelo modelo ou assumida como hipótese. A classificação impede que um parâmetro ajustado seja apresentado como medida e que uma hipótese de projeto seja apresentada como lei física.
 
@@ -75,7 +75,7 @@ q & θ* referido ao desenho, em radianos & Equação~\eqref{eq:02} & Fechamento 
 A cinemática do gerador de torque é descrita por um circuito vetorial fechado (Figura~\ref{fig:circuito-vetorial-gerador-torque}), percorrido do pivô O até a ancoragem A do cabo, de A até o ponto de tangência T ao longo do vão livre do cabo, de T até o centro D do tambor e de D de volta a O ao longo do elo. O vetor fixo do pivô à ancoragem, no referencial do desenho, é
 
 \begin{equation}
-  \mathbf{B} = \left( h\sin\alpha - p\cos\alpha,\quad h\cos\alpha + p\sin\alpha \right)
+  \mathbf{B} = (h\sin\alpha - p\cos\alpha,\quad h\cos\alpha + p\sin\alpha)
   \label{eq:05}
 \end{equation}
 
@@ -89,14 +89,14 @@ em que h e p são as componentes desse vetor no referencial do elo proximal. A p
 em que s é o comprimento do vão livre do cabo, de A a T, R o raio do tambor e C a distância do pivô ao centro do tambor. As duas componentes da Equação~\eqref{eq:06} são as equações escalares de fechamento f\textsubscript{1} = 0 e f\textsubscript{2} = 0. Isolando-se os termos em φ, o lado esquerdo torna-se o vetor (s, R) girado de φ, o que permite resolver o sistema em forma fechada, sem procedimento iterativo:
 
 \begin{gather}
-  \mathbf{W} = - \left( \mathbf{B} + C\mathbf{u}(q) \right),\quad\rho = \left| \mathbf{W} \right|,\quad s = \sqrt{\rho^{2} - R^{2}} \label{eq:07} \\
-  \varphi = \operatorname{atan2}\left( W_{y},W_{x} \right) - \operatorname{atan2}(R,s) \label{eq:08}
+  \mathbf{W} = - (\mathbf{B} + C\mathbf{u}(q)),\quad\rho = \left| \mathbf{W} \right|,\quad s = \sqrt{\rho^{2} - R^{2}} \label{eq:07} \\
+  \varphi = \operatorname{atan2}{(W_{y},W_{x})} - \operatorname{atan2}{(R,s)} \label{eq:08}
 \end{gather}
 
 A grandeza ρ é a distância da ancoragem ao centro do tambor, e a tangente existe somente se ρ > R, condição verificada em cada ponto calculado. A formulação original do autor para essa distância, obtida pela lei dos cossenos,
 
 \begin{equation}
-  \rho_{orig}\left( \theta^{*} \right) = \sqrt{h^{2} + p^{2} + C^{2} + 2C\left( h\cos\theta^{*} + p\sin\theta^{*} \right)}
+  \rho_{orig}(\theta^{*}) = \sqrt{h^{2} + p^{2} + C^{2} + 2C(h\cos\theta^{*} + p\sin\theta^{*})}
   \label{eq:09}
 \end{equation}
 
@@ -110,14 +110,14 @@ foi preservada no código como referência. Ela difere da Equação~\eqref{eq:07
 \nota{O é o pivô, A a ancoragem do cabo, D o centro do tambor e T o ponto de tangência. O painel da direita amplia a região do pivô, onde se distinguem o vetor B e o braço m.}
 \end{figure}
 
-A Figura~\ref{fig:circuito-vetorial-gerador-torque-sobreposto} sobrepõe esse circuito à Figura 42 da patente, na mesma pose e com o mesmo h, alinhado pelo pivô 151, que faz o papel de O, e pelo centro do tambor 183, que faz o papel de D.
+A Figura~\ref{fig:circuito-vetorial-gerador-torque-sobreposto} sobrepõe esse circuito à Figura 42 da patente, na mesma pose, alinhado pelo pivô 151, que faz o papel de O, e pelo centro do tambor 183, que faz o papel de D. O vetor B foi desenhado com a cota do CAD, h = H\textsubscript{CAD} = 34,785 mm, medida de 151 ao longo do 150 até antes do 176, e com p = 3,155 mm, a 90°, até o 176, onde fica a ancoragem A.
 
 \begin{figure}[!htbp]
 \centering
-\caption{Circuito vetorial do gerador de torque sobreposto à Figura 42 da patente, na pose de referência (θ* = 115,017°, h = 22,701 mm)}\label{fig:circuito-vetorial-gerador-torque-sobreposto}
+\caption{Circuito vetorial do gerador de torque sobreposto à Figura 42 da patente, na pose de referência (θ* = 115,017°, h = H\textsubscript{CAD} = 34,785 mm)}\label{fig:circuito-vetorial-gerador-torque-sobreposto}
 \includegraphics[width=1.00\textwidth]{circuito-vetorial-gerador-torque-sobreposto.png}
 \fonte{adaptada da Figura 42 da US 9.889.554 B2 \cite{vanengelhoven2018}, com o circuito do modelo sobreposto pelo autor.}
-\nota{desenho da patente em cinza; elementos do modelo como na Figura~\ref{fig:circuito-vetorial-gerador-torque}. O painel da direita amplia a região do pivô.}
+\nota{desenho da patente em cinza; elementos do modelo como na Figura~\ref{fig:circuito-vetorial-gerador-torque}, com as componentes h e p de B tracejadas. Com h = H\textsubscript{CAL} = 22,701 mm, valor adotado no modelo (Figura~\ref{fig:circuito-vetorial-gerador-torque}), A fica 12,084 mm abaixo, sobre a perna h. O painel da direita amplia a região do pivô.}
 \end{figure}
 
 \subsection{Ponto de tangência, distância b, ângulo β e braço de momento}\label{sec:3.1.5}
@@ -125,16 +125,16 @@ A Figura~\ref{fig:circuito-vetorial-gerador-torque-sobreposto} sobrepõe esse ci
 O ponto em que o cabo deixa o tambor é
 
 \begin{equation}
-  \mathbf{T} = \mathbf{D} + R\left( \operatorname{sen}\varphi,\quad - \cos\varphi \right),\quad\mathbf{D} = - C\mathbf{u}(q)
+  \mathbf{T} = \mathbf{D} + R(\operatorname{sen}\varphi,\quad - \cos\varphi),\quad\mathbf{D} = - C\mathbf{u}(q)
   \label{eq:10}
 \end{equation}
 
 Na formulação original do autor, o mesmo ponto é obtido a partir da distância b = |OT| e do ângulo β entre a linha do elo (de O a D) e o segmento OT, calculados pela lei dos cossenos nos triângulos pivô–ancoragem–tangência e pivô–tambor–tangência:
 
 \begin{gather}
-  b^{2} = s^{2} + \left| \mathbf{B} \right|^{2} + 2s\left| \mathbf{B} \right|\cos\left( \varphi - \varphi_{B} \right) \label{eq:11} \\
+  b^{2} = s^{2} + \left| \mathbf{B} \right|^{2} + 2s\left| \mathbf{B} \right|\cos{(\varphi - \varphi_{B})} \label{eq:11} \\
   \cos\beta = \frac{b^{2} + C^{2} - R^{2}}{2bC} \label{eq:12} \\
-  \mathbf{T} = b\left( - \cos(\beta - q),\quad\operatorname{sen}(\beta - q) \right) \label{eq:13}
+  \mathbf{T} = b( - \cos{(\beta - q)},\quad\operatorname{sen}{(\beta - q)}) \label{eq:13}
 \end{gather}
 
 em que φ\textsubscript{B} = atan2(B\textsubscript{y}, B\textsubscript{x}) é a direção do vetor B. As duas vias são comparadas numericamente (seção~\ref{sec:3.1.11}), e a Equação~\eqref{eq:10} é a usada na cadeia por não depender do sinal de β. A distância b, entretanto, não é o braço de momento do cabo: como T pertence a uma circunferência de raio R centrada a C do pivô, b fica necessariamente entre C − R e C + R. O braço de momento é a distância perpendicular do pivô à linha de ação do cabo, que passa por A com direção u(φ):
@@ -158,11 +158,11 @@ A mola é tracionada pelo cabo, que vai da ancoragem até o tambor, onde se enro
 o caminho variável do cabo é
 
 \begin{equation}
-  \ell\left( \theta^{*} \right) = s\left( \theta^{*} \right) - R\psi\left( \theta^{*} \right)
+  \ell(\theta^{*}) = s(\theta^{*}) - R\psi(\theta^{*})
   \label{eq:16}
 \end{equation}
 
-Entra no modelo apenas a parcela variável do enrolamento, um arco constante cancela-se na extensão da mola, porque o caminho e o comprimento de referência são calculados pela mesma expressão. O sinal do termo do arco foi fixado pelo princípio dos trabalhos virtuais. Em um mecanismo conservativo, sem atrito no tambor, o trabalho da tração no cabo iguala o do torque no elo, o que exige
+Entra no modelo apenas a parcela variável do enrolamento, um arco constante cancela-se na extensão da mola, porque o caminho e o comprimento de referência são calculados pela mesma expressão. O sinal do termo do arco foi fixado pelo princípio dos trabalhos virtuais, formulado na seção~\ref{sec:3.3}. Em um mecanismo conservativo, sem atrito no tambor, o trabalho da tração no cabo iguala o do torque no elo, o que exige
 
 \begin{equation}
   \frac{d\ell}{d\theta^{*}} = m
@@ -174,8 +174,8 @@ com θ* em radianos. A Equação~\eqref{eq:17} é verificada numericamente por d
 A extensão da mola é referida a um comprimento, e não a um ângulo. Sendo X\textsubscript{pose} a extensão elástica da mola na pose de referência θ*\textsubscript{pose} = 115,017°, o valor do caminho em que a mola atinge o comprimento livre é
 
 \begin{gather}
-  s_{0}(h) = \ell\left( \theta_{pose}^{*},h \right) - X_{pose} \label{eq:18} \\
-  \delta = \max\left( \ell - s_{0},\quad 0 \right),\quad F = K\delta \label{eq:19}
+  s_{0}(h) = \ell(\theta_{pose}^{*},h) - X_{pose} \label{eq:18} \\
+  \delta = \max{(\ell - s_{0},\quad 0)},\quad F = K\delta \label{eq:19}
 \end{gather}
 
 em que δ é a extensão elástica, F a tração no cabo e K a rigidez da mola. A extensão é limitada a valores não negativos porque o cabo traciona, mas não empurra. O comprimento livre L\textsubscript{livre} e o comprimento na pose L\textsubscript{pose} entram no modelo somente pela diferença X\textsubscript{pose} = L\textsubscript{pose} − L\textsubscript{livre}: qualquer par com a mesma diferença produz a mesma curva de torque.
@@ -194,7 +194,7 @@ A identidade τ = −F m/1000 decorre de T e A estarem sobre a mesma linha de a�
 O torque do cabo se anula quando a linha de ação passa pelo pivô (m = 0). Da geometria do circuito, esse ponto morto tem forma fechada em função de h, formulação original do autor aqui escrita com a notação desta seção:
 
 \begin{equation}
-  \theta_{pm}^{*}(h) = 180{^\circ} + \operatorname{atan2}(p,h) + \operatorname{arcsen}\left( \frac{R}{C} \right)
+  \theta_{pm}^{*}(h) = 180{^\circ} + \operatorname{atan2}{(p,h)} + \operatorname{arcsen}\left( \frac{R}{C} \right)
   \label{eq:21}
 \end{equation}
 
@@ -234,7 +234,7 @@ A rigidez tem forma fechada. Como a extensão δ não depende de K, o torque é 
 Com h e θ\textsubscript{off} fixados, X\textsubscript{pose} foi reidentificado por varredura unidimensional, em passo de 0,001 mm, com K dado pela Equação~\eqref{eq:25} em cada valor. A qualidade do ajuste é avaliada pela raiz do erro quadrático médio (RMSE), pelo erro absoluto médio (MAE), pelo erro máximo e pelo coeficiente de determinação R\textsuperscript{2}, com resíduo e\textsubscript{i} = ŷ\textsubscript{i} − y\textsubscript{i}, em que ŷ\textsubscript{i} é o torque calculado na convenção da patente, −τ:
 
 \begin{equation}
-  RMSE = \sqrt{\frac{1}{N}\sum_{i = 1}^{N}{e_{i}}^{2}},\quad MAE = \frac{1}{N}\sum_{i = 1}^{N}\left| e_{i} \right|,\quad R^{2} = 1 - \frac{\sum_{i = 1}^{N}{e_{i}}^{2}}{\sum_{i = 1}^{N}\left( y_{i} - \overline{y} \right)^{2}}
+  RMSE = \sqrt{\frac{1}{N}\sum_{i = 1}^{N}{e_{i}}^{2}},\quad MAE = \frac{1}{N}\sum_{i = 1}^{N}\left| e_{i} \right|,\quad R^{2} = 1 - \frac{\sum_{i = 1}^{N}{e_{i}}^{2}}{\sum_{i = 1}^{N}{(y_{i} - \overline{y})}^{2}}
   \label{eq:26}
 \end{equation}
 
@@ -265,7 +265,7 @@ Os objetivos específicos f e g preveem a obtenção da equação de movimento p
 O sistema seria tratado como mecanismo plano de um grau de liberdade, a rotação do conjunto membro–elo distal em torno do eixo da junta, com coordenada generalizada θ*. A energia cinética seria escrita com o momento de inércia I\textsubscript{O} da Equação~\eqref{eq:01}, e a energia potencial reuniria a parcela gravitacional e a parcela elástica V\textsubscript{e} = K δ\textsuperscript{2}/2. Pela Equação~\eqref{eq:17}, ∂V\textsubscript{e}/∂θ* = K δ m, de modo que a força generalizada elástica coincide, a menos do fator 1/1000, com o torque do cabo da Equação~\eqref{eq:20}. A equação de movimento teria a forma
 
 \begin{equation}
-  I_{O}{\ddot{\theta}}^{*} = \tau\left( \theta^{*} \right) + \tau_{g,s}\left( \theta^{*} \right) + Q_{nc}
+  I_{O}{\ddot{\theta}}^{*} = \tau(\theta^{*}) + \tau_{g,s}(\theta^{*}) + Q_{nc}
   \label{eq:27}
 \end{equation}
 
@@ -333,7 +333,7 @@ A variável independente é a anteversão do braço, θ\textsubscript{el}, com 0
 
 \begin{gather}
   q = \theta_{el} + 90^{\circ} + q_{0} \label{eq:28} \\
-  q_{0} = q_{pose} - \left( 180^{\circ} + \theta_{b,pose} \right),\quad\theta_{el,pose} = 90^{\circ} + \theta_{b,pose} \label{eq:29}
+  q_{0} = q_{pose} - (180^{\circ} + \theta_{b,pose}),\quad\theta_{el,pose} = 90^{\circ} + \theta_{b,pose} \label{eq:29}
 \end{gather}
 
 em que q\textsubscript{pose} é a direção de OP na pose do CAD e θ\textsubscript{b,pose} o ângulo do braço com a horizontal nessa pose, positivo acima. A Tabela~\ref{tab:convencoes-angulares-sinal-modelo} resume as convenções e indica o nome de cada grandeza no código e sua correspondência com a seção~\ref{sec:3.1}. Os símbolos desta parte seguem a formulação do autor para este mecanismo; s, ψ e φ têm, na seção~\ref{sec:3.1}, outro significado.
@@ -379,7 +379,7 @@ O sinal de θ\textsubscript{b,pose} = −7,962° ainda precisa ser confirmado no
 A ancoragem A do elástico fica na barra 18, e o ponto P, na extremidade da alavanca solidária ao braço (Figura~\ref{fig:circuitos-mecanismo-regime-i}). No modelo em CAD, a alavanca tem um cotovelo: um trecho e\textsubscript{c} a partir de O e um trecho C\textsubscript{3} girado de β\textsubscript{c}. Como os dois giram juntos com o braço, a alavanca é representada pelo segmento OP, de comprimento \textit{e}, que forma com o trecho e\textsubscript{c} o ângulo fixo ε:
 
 \begin{equation}
-  e = \left| e_{c} + C_{3}\,\mathbf{u}\left( \beta_{c} \right) \right|,\quad\varepsilon = \operatorname{atan2}\left( C_{3}\sin\beta_{c},\ e_{c} + C_{3}\cos\beta_{c} \right)
+  e = \left| e_{c} + C_{3}\,\mathbf{u}(\beta_{c}) \right|,\quad\varepsilon = \operatorname{atan2}{(C_{3}\sin\beta_{c},\ e_{c} + C_{3}\cos\beta_{c})}
   \label{eq:30}
 \end{equation}
 
@@ -424,7 +424,7 @@ Com as grandezas do CAD, x = 51,360 mm. Cada regime tem solução fechada, sem p
 O contato não é imposto por um ângulo. Ele é detectado pelo sinal do produto vetorial
 
 \begin{equation}
-  \kappa = \left\lbrack \left( \mathbf{P} - \mathbf{A} \right) \times \left( \mathbf{C}_{78} - \mathbf{A} \right) \right\rbrack_{z}
+  \kappa = {\lbrack(\mathbf{P} - \mathbf{A}) \times (\mathbf{C}_{78} - \mathbf{A})\rbrack}_{z}
   \label{eq:40}
 \end{equation}
 
@@ -453,7 +453,7 @@ A Figura~\ref{fig:circuitos-modelo-sobrepostos-figura} sobrepõe esses circuitos
 O elástico é tratado como linear e sem massa, com a mesma lei da Equação~\eqref{eq:19}:
 
 \begin{equation}
-  \delta = \max\left( s - s_{0},\ 0 \right),\quad F = K\delta
+  \delta = \max{(s - s_{0},\ 0)},\quad F = K\delta
   \label{eq:41}
 \end{equation}
 
@@ -462,7 +462,7 @@ em que s\textsubscript{0} é o valor de s em que o elástico atinge o compriment
 A força do trecho ligado a A atua em P, no regime I, ou no centro do elemento 78, no regime II, com direção oposta a u(ψ):
 
 \begin{equation}
-  \tau = \frac{\left\lbrack \mathbf{r}_{F} \times \mathbf{V} \right\rbrack_{z}}{1000},\quad\mathbf{V} = - F\,\mathbf{u}(\psi),\quad\mathbf{r}_{F,I} = \mathbf{P},\quad\mathbf{r}_{F,II} = \mathbf{C}_{78}
+  \tau = \frac{{\lbrack\mathbf{r}_{F} \times \mathbf{V}\rbrack}_{z}}{1000},\quad\mathbf{V} = - F\,\mathbf{u}(\psi),\quad\mathbf{r}_{F,I} = \mathbf{P},\quad\mathbf{r}_{F,II} = \mathbf{C}_{78}
   \label{eq:42}
 \end{equation}
 
@@ -471,11 +471,11 @@ em que r\textsubscript{F} é o ponto de aplicação da força: r\textsubscript{F
 No regime II, o trecho x liga dois pontos do mesmo corpo; as forças que exerce sobre P e sobre o elemento 78 são iguais, opostas e colineares e não contribuem para o torque, o que corresponde à descrição da patente. O braço de momento com sinal é
 
 \begin{equation}
-  m_{I} = e\sin(q - \psi),\quad m_{II} = p\sin(q + \varphi - \psi),\quad\tau = \frac{Fm}{1000}
+  m_{I} = e\sin{(q - \psi)},\quad m_{II} = p\sin{(q + \varphi - \psi)},\quad\tau = \frac{Fm}{1000}
   \label{eq:43}
 \end{equation}
 
-com m = m\textsubscript{I} no regime I, m = m\textsubscript{II} no regime II e m > 0 quando o torque assiste a subida. O fator 1/1000, herdado da formulação da seção~\ref{sec:3.1.6}, converte N·mm em N·m; aqui o torque resulta em N·m sempre que K estiver em N/mm. Admitido o elemento 78 pontual e sem atrito, hipótese que a patente não discute, a tração é igual nos dois trechos, e o princípio dos trabalhos virtuais exige
+com m = m\textsubscript{I} no regime I, m = m\textsubscript{II} no regime II e m > 0 quando o torque assiste a subida. O fator 1/1000, herdado da formulação da seção~\ref{sec:3.1.6}, converte N·mm em N·m; aqui o torque resulta em N·m sempre que K estiver em N/mm. Admitido o elemento 78 pontual e sem atrito, hipótese que a patente não discute, a tração é igual nos dois trechos, e o princípio dos trabalhos virtuais (seção~\ref{sec:3.3}) exige
 
 \begin{equation}
   \frac{ds}{dq} = - m
@@ -489,7 +489,7 @@ com q em radianos, relação análoga à Equação~\eqref{eq:17}, verificada num
 Esta seção faz o papel da seção~\ref{sec:3.1.7}: indica onde o modelo libera o braço. Pela Equação~\eqref{eq:43}, m\textsubscript{II} é proporcional a p, de modo que, abaixo do contato, o torque só se anula se o elemento 78 estiver sobre o eixo. Com o elemento 78 sobre o eixo (p = 0), configuração preferida pela patente, x = \textit{e} e o ângulo de contato tem forma fechada:
 
 \begin{equation}
-  q^{*} = \operatorname{atan2}\left( r_{AO,y},\ r_{AO,x} \right)
+  q^{*} = \operatorname{atan2}{(r_{AO,y},\ r_{AO,x})}
   \label{eq:45}
 \end{equation}
 
@@ -500,7 +500,7 @@ Nesse caso, a direção de OP no contato coincide com a de r\textsubscript{AO}, 
 O torque do peso é calculado de forma independente da cadeia do elástico. O conjunto que gira com o braço é rígido, e seu centro de massa, a uma distância d de O e a um ângulo a\textsubscript{CG} do eixo do braço, acompanha θ\textsubscript{el}:
 
 \begin{equation}
-  \tau_{g} = \frac{Mgd\left| \cos\left( \theta_{el} - 90^{\circ} + a_{CG} \right) \right|}{1000}
+  \tau_{g} = \frac{Mgd\left| \cos{(\theta_{el} - 90^{\circ} + a_{CG})} \right|}{1000}
   \label{eq:46}
 \end{equation}
 
@@ -529,7 +529,7 @@ A Figura 16 da patente informa s\textsubscript{0} de duas maneiras que não depe
 O modelo da razão de torques é
 
 \begin{equation}
-  \mu\left( \theta_{el};\ s_{0} \right) = \frac{\delta\, m}{1000\,\tau_{g}},\quad\widehat{r} = c\,\mu
+  \mu(\theta_{el};\ s_{0}) = \frac{\delta\, m}{1000\,\tau_{g}},\quad\widehat{r} = c\,\mu
   \label{eq:47}
 \end{equation}
 
@@ -540,14 +540,14 @@ Salvo indicação em contrário, os procedimentos desta seção usam apenas os p
 As três curvas foram geradas com o mesmo atuador e pré-tensões diferentes; admite-se que a geometria e a rigidez sejam as mesmas nas três, hipótese testada pela coincidência dos fatores G\textsubscript{i} (seção~\ref{sec:4.2.4}). Com o elástico tracionado, a razão de cada curva i escreve-se
 
 \begin{equation}
-  r_{i}\left( \theta_{el} \right) = G\left( \theta_{el} \right)\left\lbrack s\left( \theta_{el} \right) - s_{0,i} \right\rbrack,\quad G = \frac{K\, m}{1000\,\sigma\,\tau_{g}}
+  r_{i}(\theta_{el}) = G(\theta_{el})\lbrack s(\theta_{el}) - s_{0,i}\rbrack,\quad G = \frac{K\, m}{1000\,\sigma\,\tau_{g}}
   \label{eq:48}
 \end{equation}
 
 em que G reúne o que as três curvas têm em comum: a rigidez, a escala da ordenada, o braço de momento e o torque do peso. Para duas curvas i e j, a razão r\textsubscript{i}/r\textsubscript{j} elimina G, e a relação resultante é linear nos comprimentos de referência:
 
 \begin{equation}
-  r_{j}\, s_{0,i} - r_{i}\, s_{0,j} = \left( r_{j} - r_{i} \right)s
+  r_{j}\, s_{0,i} - r_{i}\, s_{0,j} = (r_{j} - r_{i})s
   \label{eq:49}
 \end{equation}
 
@@ -560,7 +560,7 @@ Uma verificação independente vem do fim da curva pontilhada, de pré-tensão q
 Com os valores identificados, o fator de cada curva é
 
 \begin{equation}
-  G_{i}\left( \theta_{el} \right) = \frac{r_{i}\left( \theta_{el} \right)}{s\left( \theta_{el} \right) - s_{0,i}}
+  G_{i}(\theta_{el}) = \frac{r_{i}(\theta_{el})}{s(\theta_{el}) - s_{0,i}}
   \label{eq:50}
 \end{equation}
 
@@ -569,7 +569,7 @@ A coincidência das três estimativas testa a hipótese de G comum. A média das
 No ajuste de forma, para cada s\textsubscript{0}, a escala e a soma dos quadrados dos resíduos têm forma fechada:
 
 \begin{equation}
-  c = \frac{\sum_{i}^{}\mu_{i}r_{i}}{\sum_{i}^{}\mu_{i}^{2}},\quad SSE = \sum_{i}^{}\left( c\mu_{i} - r_{i} \right)^{2},\quad RMSE = \sqrt{SSE/n}
+  c = \frac{\sum_{i}^{}\mu_{i}r_{i}}{\sum_{i}^{}\mu_{i}^{2}},\quad SSE = \sum_{i}^{}{(c\mu_{i} - r_{i})}^{2},\quad RMSE = \sqrt{SSE/n}
   \label{eq:51}
 \end{equation}
 
@@ -587,7 +587,7 @@ com j a curva e i o ponto. Os três valores de s\textsubscript{0} foram buscados
 Para expressar o torque em N·m, K foi fixado por hipótese de projeto, e não identificado. O alvo é 40\% do torque do peso em θ\textsubscript{el} = 90°; o percentual é hipótese do autor, baseada na alegação comercial de que o exoesqueleto IX Shoulder Air reduz em 40\% ou mais a sobrecarga no ombro durante o trabalho acima da cabeça \cite{suitx}. A alegação não consta da patente, não informa as condições em que a redução foi medida e não foi verificada neste trabalho; o alvo adota o menor valor alegado. O valor correspondente é
 
 \begin{equation}
-  K_{40} = \frac{0{,}4\,\tau_{g}\left( 90^{\circ} \right) \cdot 1000}{\delta\left( 90^{\circ} \right)\, m\left( 90^{\circ} \right)}
+  K_{40} = \frac{0{,}4\,\tau_{g}(90^{\circ}) \cdot 1000}{\delta(90^{\circ})\, m(90^{\circ})}
   \label{eq:53}
 \end{equation}
 
@@ -608,7 +608,7 @@ O modelo verifica ainda que o regime II ocorre exatamente para q ≤ q* na malha
 A equação de movimento teria a forma da Equação~\eqref{eq:27}, com θ\textsubscript{el} como coordenada generalizada:
 
 \begin{equation}
-  I_{O}\,{\ddot{\theta}}_{el} = \tau\left( \theta_{el} \right) + \tau_{g,s}\left( \theta_{el} \right) + Q_{nc}
+  I_{O}\,{\ddot{\theta}}_{el} = \tau(\theta_{el}) + \tau_{g,s}(\theta_{el}) + Q_{nc}
   \label{eq:54}
 \end{equation}
 
@@ -621,3 +621,67 @@ A integração não foi executada, pelas razões seguintes. O torque do elástic
 Foram empregados o Autodesk Fusion, para fechar o circuito do mecanismo e extrair as propriedades de massa do braço do exoesqueleto; uma planilha eletrônica, para a composição inercial; e a linguagem Python, com a biblioteca NumPy \cite{harris2020} para o cálculo vetorizado, a biblioteca SciPy \cite{virtanen2020} para o refinamento pelo método de Brent \cite{brent1973} no ajuste de forma e a biblioteca Matplotlib \cite{hunter2007} para as figuras. A identificação pelo espaçamento entre as curvas é um problema de mínimos quadrados lineares, resolvido em forma fechada. O MBDyn não foi empregado.
 
 Valem as exclusões de escopo da seção~\ref{sec:3.1.13}. O modelo é plano, restrito ao plano sagital, e admite elástico linear e sem massa, F = K δ, elemento 78 pontual e sem atrito e eixo da articulação 20 no centro do ombro, com a barra 18 fixa em relação ao tronco, hipótese discutida na seção~\ref{sec:3.2.3}. O torque gravitacional considera o membro humano estendido, sem ferramenta na mão, e o braço do exoesqueleto; a alavanca, o elemento 78 e a braçadeira não entram nele.
+
+\section{Formulação pelo princípio dos trabalhos virtuais}\label{sec:3.3}
+
+Nas seções~\ref{sec:3.1.6} e \ref{sec:3.2.6}, o torque do dispositivo é obtido pelo produto vetorial entre o ponto de aplicação e a força do cabo ou do elástico, Equações~\eqref{eq:20} e \eqref{eq:42}, e o princípio dos trabalhos virtuais aparece apenas como verificação, nas Equações~\eqref{eq:17} e \eqref{eq:44}. Esta seção formula os dois modelos estáticos diretamente por esse princípio, com as hipóteses das seções~\ref{sec:3.1.13} e \ref{sec:3.2.13}: mecanismo plano, de um grau de liberdade, cabo inextensível, elemento elástico linear e sem massa e vínculos sem atrito na junta, no tambor e no elemento 78.
+
+\subsection{Princípio e força generalizada}\label{sec:3.3.1}
+
+Em um sistema com vínculos ideais, uma configuração é de equilíbrio estático quando o trabalho virtual das forças ativas se anula para todo deslocamento virtual compatível com os vínculos. As reações nos vínculos ideais não realizam trabalho virtual e não entram na equação. Com uma única coordenada generalizada ξ, cada ponto de aplicação r\textsubscript{i} é função de ξ, e o trabalho virtual se escreve
+
+\begin{equation}
+  \delta W = \sum_{i}^{}\mathbf{F}_{i} \cdot \delta\mathbf{r}_{i} = Q\,\delta\xi,\quad Q = \sum_{i}^{}\mathbf{F}_{i} \cdot \frac{d\mathbf{r}_{i}}{d\xi}
+  \label{eq:55}
+\end{equation}
+
+em que Q é a força generalizada associada a ξ, com dimensão de torque quando ξ é um ângulo. Uma força que deriva de um potencial V(ξ) contribui com Q = −dV/dξ. Três esforços realizam trabalho nos dois mecanismos: a força do elemento elástico, o peso do conjunto que gira com o braço e o torque τ\textsubscript{u} que o usuário aplica ao braço em torno do eixo da junta. Os dois primeiros são conservativos e são escritos a seguir como forças generalizadas, sem recorrer ao braço de momento.
+
+\subsection{Exoesqueleto 1}\label{sec:3.3.2}
+
+A coordenada generalizada é θ*, em radianos; pela Equação~\eqref{eq:02}, δq = δθ*. Com o cabo inextensível e sem massa, a extensão da mola acompanha a variação do caminho do cabo, ℓ da Equação~\eqref{eq:16}, e o potencial elástico é
+
+\begin{equation}
+  V_{e}(\theta^{*}) = \frac{K\delta^{2}}{2},\quad\delta = \max{(\ell(\theta^{*}) - s_{0},\ 0)}
+  \label{eq:56}
+\end{equation}
+
+com s\textsubscript{0} da Equação~\eqref{eq:18}. Num deslocamento virtual δθ*, a mola se estende de δℓ = (dℓ/dθ*) δθ*, e a força F = K δ, que se opõe à extensão, realiza o trabalho virtual −F δℓ. A força generalizada da mola e o torque correspondente são
+
+\begin{equation}
+  Q_{e} = - \frac{dV_{e}}{d\theta^{*}} = - F\frac{d\ell}{d\theta^{*}},\quad\tau = \frac{Q_{e}}{1000} = - \frac{F}{1000}\frac{d\ell}{d\theta^{*}}
+  \label{eq:57}
+\end{equation}
+
+válidos também com o cabo frouxo, em que δ = 0 e Q\textsubscript{e} = 0. O fator 1/1000 tem o mesmo papel da Equação~\eqref{eq:20}. A expressão depende apenas do comprimento do caminho em função de θ*: não usa o ponto de tangência, a direção do cabo nem o braço de momento. A Equação~\eqref{eq:20} obtém o mesmo torque pelo produto vetorial, τ = −F m/1000, e as duas formulações coincidem em toda a faixa somente se dℓ/dθ* = m, que é a Equação~\eqref{eq:17}. Essa igualdade envolve apenas a geometria do mecanismo e não depende de K, X\textsubscript{pose} nem s\textsubscript{0}. É ela que fixa como o arco enrolado entra no caminho do cabo: das formulações ℓ = s, ℓ = s + Rψ e ℓ = s − Rψ, só a última satisfaz a Equação~\eqref{eq:17} (seção~\ref{sec:4.1.3}), e por isso o modelo adota a Equação~\eqref{eq:16}.
+
+\subsection{Exoesqueleto 2}\label{sec:3.3.3}
+
+A coordenada generalizada é θ\textsubscript{el}, em radianos; pela Equação~\eqref{eq:28}, q difere de θ\textsubscript{el} por uma constante, e δq = δθ\textsubscript{el}. O elástico vai de A a P em linha reta no regime I e passa pelo elemento 78 no regime II; nos dois casos, s é seu comprimento total, igual a (s − x) + x no regime II (Equação~\eqref{eq:35}). Com o elemento 78 pontual e sem atrito, o elástico desliza sobre ele com a mesma tração nos dois trechos, o contato é um vínculo ideal, cujas reações não realizam trabalho virtual, e o potencial elástico depende apenas de s:
+
+\begin{gather}
+  V_{e}(\theta_{el}) = \frac{K\delta^{2}}{2},\quad\delta = \max{(s(\theta_{el}) - s_{0},\ 0)} \label{eq:58} \\
+  Q_{e} = - \frac{dV_{e}}{dq} = - F\frac{ds}{dq},\quad\tau = \frac{Q_{e}}{1000} = - \frac{F}{1000}\frac{ds}{dq} \label{eq:59}
+\end{gather}
+
+A Equação~\eqref{eq:43} dá o mesmo torque pelo produto vetorial, τ = F m/1000, e as duas formulações coincidem se ds/dq = −m, que é a Equação~\eqref{eq:44}. O sinal oposto ao do exoesqueleto 1 vem das convenções da seção~\ref{sec:3.2.6}: aqui, τ e q crescem com a elevação do braço. Na formulação vetorial, o regime II exige o argumento de que as forças do trecho x se anulam por ligarem dois pontos do mesmo corpo (seção~\ref{sec:3.2.6}); na formulação pelo trabalho virtual, esse resultado decorre de V\textsubscript{e} depender só de s. A troca de regime aparece apenas na função s(q), contínua no contato (seção~\ref{sec:3.2.11}), e não exige identificar o ponto de aplicação da força.
+
+\subsection{Peso do conjunto e equilíbrio estático}\label{sec:3.3.4}
+
+O peso do conjunto que gira com o braço é conservativo, com potencial V\textsubscript{g} = M g y\textsubscript{G}/1000, em que y\textsubscript{G} é a altura do centro de massa em relação a O, em milímetros. Num giro δξ em torno de O, no sentido anti-horário, o centro de massa sobe x\textsubscript{G} δξ, sendo x\textsubscript{G} sua coordenada horizontal, e a força generalizada do peso é o torque gravitacional com sinal:
+
+\begin{equation}
+  \tau_{g,s} = - \frac{dV_{g}}{d\xi} = - \frac{Mg\, x_{G}}{1000}
+  \label{eq:60}
+\end{equation}
+
+com ξ = θ* e x\textsubscript{G} = x\textsubscript{g} da Equação~\eqref{eq:23} no exoesqueleto 1, e ξ = θ\textsubscript{el} e x\textsubscript{G} = d cos(θ\textsubscript{el} − 90° + a\textsubscript{CG}) no exoesqueleto 2. O módulo de τ\textsubscript{g,s} é o τ\textsubscript{g} das Equações~\eqref{eq:24} e \eqref{eq:46}. Com o torque τ\textsubscript{u} do usuário, o trabalho virtual total se anula no equilíbrio:
+
+\begin{equation}
+  \delta W = (\tau + \tau_{g,s} + \tau_{u})\,\delta\xi = 0\quad \Rightarrow \quad\tau_{u} = - (\tau + \tau_{g,s})
+  \label{eq:61}
+\end{equation}
+
+em que τ\textsubscript{u} é o torque que o usuário precisa exercer para manter o braço parado no ângulo ξ. Sem o dispositivo, τ\textsubscript{u} = −τ\textsubscript{g,s}, e o usuário sustenta todo o torque do peso. O dispositivo reduz |τ\textsubscript{u}| onde τ tem sinal oposto ao de τ\textsubscript{g,s} e módulo menor que 2τ\textsubscript{g}; o balanceamento estático exato, τ\textsubscript{u} = 0 em toda a faixa, corresponde a uma energia potencial total V\textsubscript{e} + V\textsubscript{g} constante \cite{herder2001}. As seções~\ref{sec:4.1} e \ref{sec:4.2} confrontam τ com τ\textsubscript{g}, isto é, os dois primeiros termos da Equação~\eqref{eq:61}. No exoesqueleto 1, τ está na unidade da patente e τ\textsubscript{g,s} em N·m, de modo que τ\textsubscript{u} só tem valor físico se u.p. corresponder a N·m (seção~\ref{sec:3.1.12}); a comparação fica restrita à forma e aos ângulos. No exoesqueleto 2, τ está em N·m sob a hipótese K = K\textsubscript{40} (seção~\ref{sec:3.2.9}).
+
+Com aceleração nula e o torque do usuário como único esforço não conservativo, Q\textsubscript{nc} = τ\textsubscript{u}, as Equações~\eqref{eq:27} e \eqref{eq:54} reduzem-se à Equação~\eqref{eq:61}. A formulação desta seção é, portanto, o caso estático das etapas dinâmicas previstas nas seções~\ref{sec:3.1.12} e \ref{sec:3.2.12}, e Q\textsubscript{e} e τ\textsubscript{g,s} entram nelas sem alteração. As igualdades das Equações~\eqref{eq:17} e \eqref{eq:44}, que ligam esta formulação à vetorial, são verificadas numericamente a cada execução dos modelos (Tabelas~\ref{tab:verificacoes-cadeia-calculo-h} e \ref{tab:verificacoes-cadeia-calculo-modelo}).
