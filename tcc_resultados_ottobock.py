@@ -1007,7 +1007,7 @@ def figuras(N, fig16, ajustes, conjunto, d, geo, peso, der, K, defs0, r, tp,
         a1.plot(th[usar], rr[usar]/(lt - s0r[n]), ESTILO[n], color=COR[n], lw=1.6,
                 marker="o", ms=3, label=rot)
     a1.set_ylim(bottom=0)
-    a1.set_ylabel(r"$r/(\ell - s_0)$ (divisões por mm)", color=TINTA_2)
+    a1.set_ylabel(r"$r/(s - s_0)$ (divisões por mm)", color=TINTA_2)
     a1.legend(loc="upper left", frameon=False, fontsize=7.5)
     k90 = int(np.argmin(np.abs(xr["tg"] - 90.0)))
     a2.plot(xr["tg"], xr["G_med"]/xr["G_med"][k90], "o-", color=LARANJA, lw=1.8, ms=3.5,

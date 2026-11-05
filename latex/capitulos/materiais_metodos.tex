@@ -32,7 +32,7 @@ em que I\textsubscript{O} é o momento de inércia em relação ao eixo da junta
 
 \subsection{Referenciais e convenções angulares e de sinal}\label{sec:3.1.3}
 
-O mecanismo é tratado como plano, com origem O no eixo da junta (pivô). Comprimentos são expressos em milímetros e ângulos em graus na entrada, com uma única conversão para radianos dentro das contas. Quatro ângulos aparecem no cálculo e são mantidos separados, por serem fonte recorrente de erro (Tabela~\ref{tab:convencoes-angulares-sinal}). O ângulo interno θ* entre os elos é a variável independente do modelo, e q é sua versão referida ao desenho:
+O mecanismo é tratado como plano, com origem O no eixo da junta (pivô). Comprimentos são expressos em milímetros e ângulos em graus na entrada, com uma única conversão para radianos dentro das contas. Seis ângulos aparecem no cálculo e são mantidos separados, por serem fonte recorrente de erro (Tabela~\ref{tab:convencoes-angulares-sinal}). O ângulo interno θ* entre os elos é a variável independente do modelo, e q é sua versão referida ao desenho:
 
 \begin{equation}
   q = \theta^{*} - \frac{\pi}{2} - \alpha
@@ -242,7 +242,7 @@ O RMSE mede a aderência à curva extraída, e não a validade física. Duas for
 
 \subsection{Varredura paramétrica de h com K congelado}\label{sec:3.1.10}
 
-Para separar o que a curva extraída informa sobre h do que a geometria impõe, h foi varrido de 8 a 60 mm, em passo de 0,005 mm, com o acréscimo dos valores exatos H\textsubscript{CAL} e H\textsubscript{CAD}, num total de 10.403 valores. A varredura é um diagnóstico, não uma otimização: K permanece congelado em 174,68 em todos os valores de h, não é reidentificado por h, e nenhum parâmetro do modelo é substituído pelo resultado.
+Para separar o que a curva extraída informa sobre h do que a geometria impõe, h foi varrido de 8 a 60 mm, em passo de 0,005 mm, com o acréscimo dos valores exatos H\textsubscript{CAL} e H\textsubscript{CAD}, num total de 10.402 valores distintos, porque a cota do CAD, 34,785 mm, já pertence à malha. A varredura é um diagnóstico, não uma otimização: K permanece congelado em 174,68 em todos os valores de h, não é reidentificado por h, e nenhum parâmetro do modelo é substituído pelo resultado.
 
 Ao variar h, a referência s\textsubscript{0}(h) da Equação~\eqref{eq:18} é recalculada de modo que a extensão da mola na pose permaneça X\textsubscript{pose} = 37,383 mm, preservando a pré-tensão de montagem. Essa ancoragem é uma escolha de modelagem, que isola o efeito de h do efeito da montagem.
 
@@ -281,7 +281,7 @@ Não integram o escopo a avaliação experimental com participantes humanos, a e
 
 \section{Exoesqueleto 2}\label{sec:3.2}
 
-As seções~\ref{sec:3.2.1} a \ref{sec:3.2.13} aplicam à EP 3 504 033 B1 \cite{ottobock2023} o procedimento das seções~\ref{sec:3.1.1} a \ref{sec:3.1.13}, que foi executado para o gerador de torque da US 9.889.554 B2, com a mesma numeração: a seção~\ref{sec:3.2}.k corresponde à seção~\ref{sec:3.1}.k. Quando uma etapa não se aplica ao mecanismo da Ottobock ou não pôde ser concluída com os dados disponíveis, a própria seção registra o motivo.
+As seções~\ref{sec:3.2.1} a \ref{sec:3.2.13} aplicam à EP 3 504 033 B1 \cite{mizera2023} o procedimento das seções~\ref{sec:3.1.1} a \ref{sec:3.1.13}, que foi executado para o gerador de torque da US 9.889.554 B2, com a mesma numeração: a seção~\ref{sec:3.2}.k corresponde à seção~\ref{sec:3.1}.k. Quando uma etapa não se aplica ao mecanismo da Ottobock ou não pôde ser concluída com os dados disponíveis, a própria seção registra o motivo.
 
 A classificação de origem é a da introdução deste capítulo: medida no modelo em CAD, obtida da literatura, documental, identificada por ajuste, derivada pelo modelo ou assumida como hipótese.
 
@@ -294,7 +294,7 @@ A análise usou os documentos e arquivos da Tabela~\ref{tab:fontes-arquivos-util
 \toprule
 \centering\textbf{Fonte} & \centering\textbf{Conteúdo utilizado} & \centering\textbf{Classificação} & \centering\textbf{Verificação nesta análise} \tabularnewline
 \midrule
-EP 3 504 033 B1, documento B1 em PDF \cite{ottobock2023} & Arquitetura e numeração dos elementos; Figuras 1, 16, 17, 18, 22, 24 e 42 da patente & Documental & Lida integralmente; trechos citados conferidos no original em alemão \\
+EP 3 504 033 B1, documento B1 em PDF \cite{mizera2023} & Arquitetura e numeração dos elementos; Figuras 1, 16, 17, 18, 22, 24 e 42 da patente & Documental & Lida integralmente; trechos citados conferidos no original em alemão \\
 Modelo em CAD do autor (Autodesk Fusion) & Grandezas da Tabela~\ref{tab:grandezas-medidas-modelo-cad}; massa, centro de massa e momento de inércia do braço do exoesqueleto (elemento 8) & Medida em CAD & Arquivo do modelo ausente do repositório; valores usados como informados, sem conferência independente \\
 Planilha inercia\_steiner\_junta20\_ottobock.xlsx, do autor & Composição inercial do membro humano e do braço do exoesqueleto & Literatura (de Leva) e medida em CAD & Fórmulas lidas; valores do membro humano reproduzidos pelo modelo (seção~\ref{sec:4.2.1}) \\
 Arquivo fig16\_curvas.csv, digitalização do autor & 146 pontos das três curvas da Figura 16 da patente & Documental (extração) & Arquivo lido; procedimento registrado apenas no cabeçalho do arquivo \\
@@ -336,7 +336,7 @@ A variável independente é a anteversão do braço, θ\textsubscript{el}, com 0
   q_{0} = q_{pose} - (180^{\circ} + \theta_{b,pose}),\quad\theta_{el,pose} = 90^{\circ} + \theta_{b,pose} \label{eq:29}
 \end{gather}
 
-em que q\textsubscript{pose} é a direção de OP na pose do CAD e θ\textsubscript{b,pose} o ângulo do braço com a horizontal nessa pose, positivo acima. A Tabela~\ref{tab:convencoes-angulares-sinal-modelo} resume as convenções e indica o nome de cada grandeza no código e sua correspondência com a seção~\ref{sec:3.1}. Os símbolos desta parte seguem a formulação do autor para este mecanismo; s, ψ e φ têm, na seção~\ref{sec:3.1}, outro significado.
+em que q\textsubscript{pose} é a direção de OP na pose do CAD e θ\textsubscript{b,pose} o ângulo do braço com a horizontal nessa pose, positivo acima. A Tabela~\ref{tab:convencoes-angulares-sinal-modelo} resume as convenções e indica o nome de cada grandeza no código e sua correspondência com a seção~\ref{sec:3.1}. Os símbolos desta parte seguem a formulação do autor para este mecanismo; s, ψ, φ, p, α e γ têm, na seção~\ref{sec:3.1}, outro significado.
 
 \begin{tabelaabnt}{\small}
 \begin{xltabular}{\textwidth}{@{}>{\hsize=0.588\hsize\centering\arraybackslash}X>{\hsize=1.207\hsize\raggedright\arraybackslash}X>{\hsize=1.015\hsize\raggedright\arraybackslash}X>{\hsize=0.748\hsize\centering\arraybackslash}X>{\hsize=1.442\hsize\raggedright\arraybackslash}X@{}}
@@ -444,7 +444,7 @@ A Figura~\ref{fig:circuitos-modelo-sobrepostos-figura} sobrepõe esses circuitos
 \centering
 \caption{Circuitos do modelo sobrepostos à Figura 22 da patente, com o braço elevado (regime I, θ\textsubscript{el} = 96,5°) e baixado (regime II, θ\textsubscript{el} = −2,2°)}\label{fig:circuitos-modelo-sobrepostos-figura}
 \includegraphics[width=1.00\textwidth]{circuitos-modelo-sobrepostos-figura.png}
-\fonte{adaptada de \textcite{ottobock2023}, Figura 22, p. 37 do documento B1, com os circuitos do modelo sobrepostos pelo autor.}
+\fonte{adaptada de \textcite{mizera2023}, Figura 22, p. 37 do documento B1, com os circuitos do modelo sobrepostos pelo autor.}
 \nota{desenho da patente em cinza, girado para a orientação de leitura; vetores, pontos e linhas pontilhadas do modelo como na Figura~\ref{fig:circuitos-mecanismo-regime-i}. À direita, ampliação da região do pivô.}
 \end{figure}
 
@@ -516,7 +516,7 @@ Segundo a patente, as três curvas da Figura 16 da patente foram geradas com um 
 \centering
 \caption{Figura 16 da EP 3 504 033 B1, razão de torques em função da anteversão para três pré-tensões do mesmo atuador}\label{fig:figura-ep-b1-razao}
 \includegraphics[width=0.92\textwidth]{figura-ep-b1-razao.png}
-\fonte{\textcite{ottobock2023}, Figura 16, p. 31 do documento B1.}
+\fonte{\textcite{mizera2023}, Figura 16, p. 31 do documento B1.}
 \nota{página do documento girada para a orientação de leitura. A patente não traz rótulo nem escala na ordenada.}
 \end{figure}
 

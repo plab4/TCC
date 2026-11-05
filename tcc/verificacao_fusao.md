@@ -1,10 +1,10 @@
 # Verificação do TCC fundido
 
-Original: TCC_apenas_exo1.docx, 305 blocos. Fundido: TCC_exo1_exo2.docx, 594 blocos.
+Original: TCC_apenas_exo1.docx, 305 blocos. Fundido: TCC_exo1_exo2.docx, 592 blocos.
 
 ## 1. Conteúdo do original
 
-Blocos do original encontrados em ordem, com XML idêntico fora do texto (nas equações, os delimitadores simples passam a ter tamanho fixo): 303 de 303 (2 retirados de propósito, REMOVIDOS). Texto diferente do esperado (renumeração e as 17 edições declaradas): 0. Retirados ainda presentes: 0. Autores dos retirados ainda citados: nenhum.
+Blocos do original encontrados em ordem, com XML idêntico fora do texto (nas equações, os delimitadores simples passam a ter tamanho fixo): 300 de 300 (5 retirados de propósito, REMOVIDOS). Texto diferente do esperado (renumeração e as 34 edições declaradas): 0. Retirados ainda presentes: 0. Autores dos retirados ainda citados: nenhum.
 Renumeração das tabelas do original: {1: 1, 2: 4, 3: 5, 4: 6, 5: 7, 6: 8, 7: 9, 8: 10, 9: 11, 10: 12, 11: 13}.
 Renumeração das figuras do original: {1: 1, 2: 6, 3: 7, 4: 8, 5: 9}.
 
@@ -20,11 +20,11 @@ Referências sem alvo: 0.
 
 ## 4. Texto novo
 
-Blocos novos: 291. Travessões: 0. Restos da numeração do apêndice: 0.
+Blocos novos: 292. Travessões: 0. Restos da numeração do apêndice: 0.
 
 ## 5. Parágrafos do apêndice da versão anterior
 
-Idênticos: 5. Iguais a menos de números e referências: 25. Modificados: 39. Sem correspondente próximo: 26. Os últimos foram reescritos pelos novos resultados de s0 ou eram próprios do apêndice (título, apresentação e nota da lista de referências separada).
+Idênticos: 5. Iguais a menos de números e referências: 25. Modificados: 40. Sem correspondente próximo: 25. Os últimos foram reescritos pelos novos resultados de s0 ou eram próprios do apêndice (título, apresentação e nota da lista de referências separada).
 
 - Modificado (0.51): em que θb,pose é o ângulo do braço com a horizontal na pose do CAD, positivo acima. A Tabela A.4 resume as con
   - mais próximo no fundido: em que qpose é a direção de OP na pose do CAD e θb,pose o ângulo do braço com a horizontal nessa pose, positiv
@@ -34,6 +34,8 @@ Idênticos: 5. Iguais a menos de números e referências: 25. Modificados: 39. S
   - mais próximo no fundido: A cadeia de cálculo do dispositivo da EP 3 504 033 B1, descrita nas seções 3.2.3 a 3.2.8, está implementada no
 - Modificado (0.61): Em cada curva, foram usados apenas os pontos com 20° < θel < 165°. Abaixo de 20°, perto da transição, o modelo
   - mais próximo no fundido: Salvo indicação em contrário, os procedimentos desta seção usam apenas os pontos com 20° < θel < 165°. Abaixo 
+- Modificado (0.61): Em N·m, a comparação só é possível sob a hipótese K = K40, e por isso a Figura A.6 e a Tabela A.12 descrevem u
+  - mais próximo no fundido: Em N·m, a comparação só é possível sob a hipótese K = K40, e por isso a Figura 14 e a Tabela 24 descrevem um c
 - Modificado (0.64): em que ℓ é o comprimento total do elástico entre A e P, φ a direção do trecho ligado a A e d78 o comprimento d
   - mais próximo no fundido: em que s é o comprimento total do elástico entre A e P, ψ a direção do trecho ligado a A e x o comprimento do 
 - Modificado (0.64): O atuador passivo (26) é uma mola de tração na Figura 1 [0080] e um cabo ou fio elástico na Figura 18 [0095]. 
@@ -114,6 +116,8 @@ Idênticos: 5. Iguais a menos de números e referências: 25. Modificados: 39. S
   - mais próximo no fundido: A coordenada generalizada é θel, em radianos; pela Equação (28), q difere de θel por uma constante, e δq = δθe
 - Sem correspondente (0.08): Para expressar o torque em N·m, K foi fixado por hipótese de projeto, e não identificado. O alvo é 40% do torq
   - mais próximo no fundido: O peso do conjunto que gira com o braço é conservativo, com potencial Vg = M g yG/1000, em que yG é a altura d
+- Sem correspondente (0.08): Este apêndice aplica à EP 3 504 033 B1 (OTTOBOCK, 2023) o procedimento dos capítulos 3 e 4, que no corpo do tr
+  - mais próximo no fundido: O segundo dispositivo acrescenta ao trabalho um caso de teste do procedimento de identificação. A EP 3 504 033
 - Sem correspondente (0.09): O sinal de θb,pose = −7,962° está registrado no código como a confirmar. Com o sinal trocado, λ0 passa a −27,4
   - mais próximo no fundido: As relações de circuito dos dois regimes e o princípio dos trabalhos virtuais foram verificados com resíduos d
 - Sem correspondente (0.09): Foram executadas, para a EP 3 504 033 B1, a leitura da arquitetura na patente, a organização das grandezas do 
@@ -124,12 +128,8 @@ Idênticos: 5. Iguais a menos de números e referências: 25. Modificados: 39. S
   - mais próximo no fundido: Como na seção 4.1.8, o resultado ilustra a limitação discutida na seção 2.4 (NASR; FERGUSON; McPHEE, 2022), ma
 - Sem correspondente (0.10): A Figura 17 da patente não foi digitalizada, e a comparação com ela é visual. Nela, as três curvas partem de p
   - mais próximo no fundido: Como preferência, a patente indica que nenhuma força seja aplicada até que o braço ultrapasse um ângulo em rel
-- Sem correspondente (0.10): Este apêndice aplica à EP 3 504 033 B1 (OTTOBOCK, 2023) o procedimento dos capítulos 3 e 4, que no corpo do tr
-  - mais próximo no fundido: O segundo dispositivo acrescenta ao trabalho um caso de teste do procedimento de identificação. A EP 3 504 033
 - Sem correspondente (0.14): Os pontos das três curvas foram extraídos pelo autor e estão no arquivo fig16_curvas.csv (Tabela A.6). Segundo
   - mais próximo no fundido: Os pontos das três curvas foram extraídos pelo autor e estão no arquivo fig16_curvas.csv (Tabela 16). A extraç
-- Sem correspondente (0.18): Em N·m, a comparação só é possível sob a hipótese K = K40, e por isso a Figura A.6 e a Tabela A.12 descrevem u
-  - mais próximo no fundido: Com s0 = 287,190 mm, a extensão do elástico vai de 102,04 mm com o braço pendente a 9,74 mm em 180°, e o elást
 - Sem correspondente (0.23): Com apenas o membro humano, aCG = 0 e τg = M g D sen θel/1000, com máximo de 10,550 N·m em θel = 90°. A Equaçã
   - mais próximo no fundido: O conjunto reúne o membro humano e o braço do exoesqueleto (elemento 8), cujo centro de massa é referido ao ei
 - Sem correspondente (0.33): APÊNDICE A: ANÁLISE COMPLEMENTAR DO EXOESQUELETO DA EP 3 504 033 B1

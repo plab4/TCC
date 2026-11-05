@@ -28,7 +28,7 @@ from xml.sax.saxutils import unescape
 
 PASTA = Path(__file__).resolve().parent
 sys.path.insert(0, str(PASTA))
-from gerar_tcc_fundido import EDICOES, REMOVIDOS, parenteses_fixos  # noqa: E402
+from gerar_tcc_fundido import EDICOES, EDICOES_RE, REMOVIDOS, parenteses_fixos  # noqa: E402
 
 ORIG = PASTA/"TCC_apenas_exo1.docx"
 NOVO = PASTA/"TCC_exo1_exo2.docx"
@@ -119,6 +119,8 @@ def main():
                                                  m.group(2)), t)
         for a, b in EDICOES:
             t = t.replace(a, b)
+        for padrao, b in EDICOES_RE:
+            t = re.sub(padrao, b, t)
         return t
 
     # 1. blocos do original
@@ -141,8 +143,13 @@ def main():
     # retirados: ausentes do fundido e sem citação ao primeiro autor
     texto_novo = " ".join(txt(b) for b in Nn)
     presentes = [t[:60] for t in retirados if any(txt(b) == t for b in Nn)]
-    citados = sorted({t.split(",")[0] for t in retirados
-                      if re.search(rf"\b{t.split(',')[0]}\b", texto_novo, flags=re.I)})
+    # citação na forma ABNT: sobrenome (et al.) seguido do ano da referência
+    def citacao(t):
+        lider = re.match(r"[A-ZÀ-Ý][A-ZÀ-Ý'-]*", t).group(0)
+        anos = "|".join(sorted(set(re.findall(r"\b(?:19|20)\d{2}\b", t))))
+        return rf"\b{re.escape(lider)}(?: et al\.)?(?:, | \()(?:{anos})"
+    citados = sorted({t.split(",")[0].split(".")[0] for t in retirados
+                      if re.search(citacao(t), texto_novo, flags=re.I)})
     diga("## 1. Conteúdo do original")
     diga()
     diga(f"Blocos do original encontrados em ordem, com XML idêntico fora do texto "

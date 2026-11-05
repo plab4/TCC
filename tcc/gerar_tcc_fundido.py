@@ -418,12 +418,75 @@ EDICOES = [
      "publicadas têm a abscissa em graus, mas a ordenada não tem unidade declarada "
      "na US 9.889.554 B2 e não tem sequer valores na EP 3 504 033 B1. Isso "
      "inviabiliza"),
+    # revisão de banca: precisão coerente entre picos e defasagem
+    ("ocorre na elevação de 97,48°, e o do torque gravitacional, em 89,44°, com "
+     "defasagem de 8,05°.",
+     "ocorre na elevação de 97,484°, e o do torque gravitacional, em 89,438°, com "
+     "defasagem de 8,046°."),
+    ("O pico do torque do cabo, a 97,5°, fica 8,05° acima do pico gravitacional",
+     "O pico do torque do cabo, a 97,5°, fica cerca de 8° acima do pico gravitacional"),
+    # resíduo do trabalho virtual em mm/rad, como na seção 3.1.10 e na Tabela 17
+    ("é de 1,7129 mm;", "é de 1,7129 mm/rad;"),
+    ("é de 3,4258 mm;", "é de 3,4258 mm/rad;"),
+    (" mm. Um resíduo da ordem do milímetro significa",
+     " mm/rad. Um resíduo da ordem de 1 mm/rad significa"),
+    ("com resíduo de 1,71 mm.", "com resíduo de 1,71 mm/rad."),
+    # a Tabela 1 lista seis ângulos
+    ("Quatro ângulos aparecem no cálculo", "Seis ângulos aparecem no cálculo"),
+    # o ponto 29 fica fora da faixa de operação declarada na seção 3.1.3
+    ("de 2,87° a 8,03° em θ*.",
+     "de 2,87° a 8,03° em θ*; o ponto 29, em θ* = 42,909°, fica 0,008° abaixo do "
+     "limite inferior da faixa de operação, θ* = 42,917° (seção 3.1.3)."),
+    # a remissão diz só o que a seção 2.3 diz
+    ("conforme a seção 2.3, a patente prevê que o dispositivo libere o braço nas "
+     "posturas de não trabalho, em que o usuário precisa de mobilidade para alcançar "
+     "ferramentas ou repousar o membro.",
+     "conforme a seção 2.3, abaixo do ângulo de transição o torque cai a um valor "
+     "residual e o braço recupera a liberdade de movimento."),
+    # H_CAD já pertence à malha de 0,005 mm: 10.402 valores distintos
+    (", num total de 10.403 valores.",
+     ", num total de 10.402 valores distintos, porque a cota do CAD, 34,785 mm, já "
+     "pertence à malha."),
+    ("entre os 10.403 valores, com RMSE", "entre os 10.402 valores, com RMSE"),
+    ("em todos os 10.403 valores de h", "em todos os 10.402 valores de h"),
+    # citação da EP no formato das US e ressalva sobre os nomes comerciais
+    ("e se anula com o braço junto ao corpo (OTTOBOCK, 2023).",
+     "e se anula com o braço junto ao corpo (MIZERA et al., 2023). Os nomes "
+     "comerciais não aparecem nas patentes citadas, que identificam apenas os "
+     "titulares; a associação de cada produto à sua patente não pôde ser conferida "
+     "nesses documentos (seção 3.2.1)."),
+    # redação
+    ("Embora fora constatado que o efeito do arco é pequeno em valor absoluto.",
+     "Constatou-se, contudo, que o efeito do arco é pequeno em valor absoluto."),
+    ("o que assegura a condição é que o cabo", "o que assegura que o cabo"),
+    ("tomando como caso de referência o gerador de torque de mola da US 9.889.554 "
+     "B2, US 9.737.374 B2 e da EP 3 504 033 B1 e comparar o torque entregue pelo "
+     "mecanismo",
+     "tomando como casos de referência os mecanismos da US 9.889.554 B2, da US "
+     "9.737.374 B2 e da EP 3 504 033 B1, e comparar o torque entregue por cada "
+     "mecanismo"),
+    ("Por essa razão, o torque de um mecanismo passivo resulta do produto",
+     "Nesse exercício de projeto, o torque de um mecanismo passivo resulta do produto"),
+]
+
+# Edições por expressão regular, para trechos que o Word divide em runs de
+# formatação diferente: o padrão casa só no run a trocar. A mesma expressão
+# vale para o texto do parágrafo (fim em $) e para o do bloco inteiro, que o
+# verificador confere (célula seguinte em seguida).
+EDICOES_RE = [
+    # Tabela 7: resíduo do trabalho virtual em mm/rad; o "−8" é sobrescrito
+    (r"(?<=4,7 × 10−8) mm(?=$|Par da mola)", " mm/rad"),
 ]
 
 # Blocos do original retirados, pelo início do texto (cada um ocorre uma vez):
-# as referências de Ning et al., que deixaram de ser citadas
+# as referências de Ning et al., que deixaram de ser citadas; as de Foroutannia e
+# Mohammadian e de Kim, H. et al., que o texto nunca citou; e a da EP, que volta
+# no formato das patentes US, pelo inventor (ref_mizera)
 REMOVIDOS = ("NING, Y. et al. Design and analysis of upper limb passive exoskeleton",
-             "NING, Y. et al. Structure design and analysis of upper limb wearable")
+             "NING, Y. et al. Structure design and analysis of upper limb wearable",
+             "FOROUTANNIA, A.; MOHAMMADIAN, M. A comprehensive survey",
+             "KIM, H. et al. Redundancy resolution of the human arm",
+             "OTTOBOCK SE & CO. KGAA. Oliver Mizera et al.")
 
 
 # ======================================================================
@@ -460,6 +523,9 @@ nrm_peso_pico = N["normalizado"]["theta_pico_peso"]
 nrm_f = N["normalizado_forma"]["casos"]
 var = N["varredura"]
 tab = {l["theta"]: l for l in pr["tabela"]}
+# mínimo de τ/τ_g na curva da família com o e_c do CAD (cenário de projeto)
+vmin_cad = next(x for x in next(l for l in fam["linhas"] if abs(l["e"] - g["E_CAD"]) < 1e-9)
+                ["extremos_razao"] if x["tipo"] == "min")
 tab_f = {l["theta"]: l for l in prf["tabela"]}
 rob = {tuple(x["faixa"]): x for x in rz["robustez"]}
 mc = rz["monte_carlo"]
@@ -485,7 +551,7 @@ def cap1_introducao():
         "Nesta etapa, o procedimento foi aplicado a dois mecanismos de arquitetura "
         "distinta. O primeiro é o gerador de torque de mola, cabo e polia da "
         "US 9.889.554 B2 (VAN ENGELHOVEN; KAZEROONI, 2018). O segundo é o "
-        "dispositivo da EP 3 504 033 B1 (OTTOBOCK, 2023), em que um elemento "
+        "dispositivo da EP 3 504 033 B1 (MIZERA et al., 2023), em que um elemento "
         "elástico atua diretamente sobre uma alavanca solidária ao braço e um "
         "elemento de encosto junto à articulação reduz o torque com o braço baixado "
         "e o anula quando situado sobre o eixo de rotação. Os dois são tratados em "
@@ -510,14 +576,14 @@ def cap1_justificativa():
         "O segundo dispositivo acrescenta ao trabalho um caso de teste do "
         "procedimento de identificação. A EP 3 504 033 B1 publica, na mesma figura, "
         "três curvas obtidas com o mesmo atuador e pré-tensões diferentes "
-        "(OTTOBOCK, 2023). Essa redundância permite obter grandezas que uma única "
+        "(MIZERA et al., 2023). Essa redundância permite obter grandezas que uma única "
         "curva sem escala não determina e confrontar, sobre a mesma base de "
         "cálculo, duas arquiteturas que a seção 2.7 associa a produtos comerciais.")]
 
 
 def cap2_compensacao():
     return [P(
-        "A patente EP 3 504 033 B1 (OTTOBOCK, 2023) trata o mesmo problema por outro "
+        "A patente EP 3 504 033 B1 (MIZERA et al., 2023) trata o mesmo problema por outro "
         "caminho construtivo: a força de um atuador passivo é transmitida por um "
         "elemento rígido apoiado na pelve, e o elemento elástico atua diretamente "
         "sobre uma alavanca solidária ao braço, sem o arranjo de cabo e polia. A "
@@ -526,7 +592,7 @@ def cap2_compensacao():
         "apoiar num elemento de encosto junto à articulação; com esse elemento sobre "
         "o eixo de rotação, as forças dos dois trechos do elástico passam pelo eixo "
         "e não produzem torque, embora o elástico continue tracionado "
-        "(OTTOBOCK, 2023).")]
+        "(MIZERA et al., 2023).")]
 
 
 def cap2_curva():
@@ -534,7 +600,7 @@ def cap2_curva():
         "A EP 3 504 033 B1 explicita esse requisito na forma de preferências de "
         "projeto: nenhuma força abaixo de um ângulo do braço em relação à vertical, "
         "como 45°, 60° ou 90°, e força máxima entre 70° e 120°, de preferência em 90° "
-        "(OTTOBOCK, 2023). A patente destaca, nas reivindicações, dois meios de "
+        "(MIZERA et al., 2023). A patente destaca, nas reivindicações, dois meios de "
         "ajustar a força, a pré-tensão do elemento elástico e a excentricidade do "
         "ponto de aplicação, e publica curvas para cada um deles; a descrição cita "
         "ainda o comprimento da mola sem carga, a posição do elemento de encosto "
@@ -546,7 +612,7 @@ def cap2_compatibilidade():
         "A EP 3 504 033 B1 trata a compatibilidade cinemática por outro caminho. A "
         "patente atribui ao estado da técnica o alinhamento dos eixos do dispositivo "
         "aos do ombro e observa que, mesmo assim, movimentos do tronco, da coluna e "
-        "da cintura escapular não são acompanhados (OTTOBOCK, 2023). Em vez disso, o "
+        "da cintura escapular não são acompanhados (MIZERA et al., 2023). Em vez disso, o "
         "elemento de apoio do braço liga-se ao elemento de transmissão de força por "
         "uma única articulação, cujo eixo não coincide com o de abdução do ombro, e "
         "esse elemento pode girar em relação ao cinto pélvico. Com isso, a concha do "
@@ -562,7 +628,7 @@ def cap2_arquiteturas():
         "um cinto pélvico, e o elemento elástico, uma mola de tração ou um cabo "
         "elástico, liga essa barra a uma alavanca do elemento que acompanha o braço, "
         "sem cabo de transmissão nem polia; a descrição admite outras variantes, "
-        "como o princípio do cabo Bowden e o uso de cames ou engrenagens (OTTOBOCK, "
+        "como o princípio do cabo Bowden e o uso de cames ou engrenagens (MIZERA et al., "
         "2023).")]
 
 
@@ -637,7 +703,7 @@ def parte_3B():
     B = []
     a = B.append
     a(H("3.2 Exoesqueleto 2"))
-    a(P("As seções ⟦S:cad⟧ a ⟦S:ferr⟧ aplicam à EP 3 504 033 B1 (OTTOBOCK, 2023) "
+    a(P("As seções ⟦S:cad⟧ a ⟦S:ferr⟧ aplicam à EP 3 504 033 B1 (MIZERA et al., 2023) "
         "o procedimento das seções 3.1.1 a 3.1.13, que foi executado para o gerador de "
         "torque da US 9.889.554 B2, com a mesma numeração: a seção 3.2.k corresponde "
         "à seção 3.1.k. Quando uma etapa não se aplica ao mecanismo da "
@@ -660,7 +726,7 @@ def parte_3B():
     a(LEG_T("fontes", "Fontes e arquivos utilizados na análise da EP 3 504 033 B1"))
     a(TABELA(
         ["Fonte", "Conteúdo utilizado", "Classificação", "Verificação nesta análise"],
-        [["EP 3 504 033 B1, documento B1 em PDF (OTTOBOCK, 2023)",
+        [["EP 3 504 033 B1, documento B1 em PDF (MIZERA et al., 2023)",
           "Arquitetura e numeração dos elementos; ⟦CITADOS⟧", "Documental",
           "Lida integralmente; trechos citados conferidos no original em alemão"],
          ["Modelo em CAD do autor (Autodesk Fusion)",
@@ -803,8 +869,8 @@ def parte_3B():
         "braço com a horizontal nessa pose, positivo acima. A Tabela ⟦T:conv⟧ resume "
         "as convenções e indica o nome de cada grandeza no código e sua "
         "correspondência com a seção 3.1. Os símbolos desta parte seguem a "
-        "formulação do autor para este mecanismo; s, ψ e φ têm, na seção 3.1, outro "
-        "significado."))
+        "formulação do autor para este mecanismo; s, ψ, φ, p, α e γ têm, na seção 3.1, "
+        "outro significado."))
     a(LEG_T("conv", "Convenções angulares e de sinal do modelo da Ottobock"))
     a(TABELA(
         ["Símbolo", "Definição", "Relação", "No código", "Correspondência na seção 3.1"],
@@ -930,7 +996,7 @@ def parte_3B():
              "sobrepostos: acima, braço elevado; abaixo, braço baixado, com o "
              "elástico apoiado no elemento 78; à direita, ampliações da região do "
              "pivô."))
-    a(PEQUENO("Fonte: adaptada de OTTOBOCK (2023), Figura 22, p. 37 do documento "
+    a(PEQUENO("Fonte: adaptada de Mizera et al. (2023), Figura 22, p. 37 do documento "
               "B1, com os circuitos do modelo sobrepostos pelo autor.", True))
     a(PEQUENO("Nota: desenho da patente em cinza, girado para a orientação de "
               "leitura; vetores, pontos e linhas pontilhadas do modelo como na "
@@ -1039,7 +1105,7 @@ def parte_3B():
              "Reprodução da Figura 16 da EP 3 504 033 B1: três curvas, pontilhada, "
              "tracejada e contínua, em função da anteversão de 0 a 180 graus; "
              "ordenada sem escala."))
-    a(PEQUENO("Fonte: OTTOBOCK (2023), Figura 16, p. 31 do documento B1.", True))
+    a(PEQUENO("Fonte: Mizera et al. (2023), Figura 16, p. 31 do documento B1.", True))
     a(PEQUENO("Nota: página do documento girada para a orientação de leitura. A "
               "patente não traz rótulo nem escala na ordenada."))
     a(P("Os pontos das três curvas foram extraídos pelo autor e estão no arquivo "
@@ -1525,7 +1591,7 @@ def parte_4B():
               "Pontilhada\nθ_{el} (°)", "Pontilhada\nrazão",
               "Contínua\nθ_{el} (°)", "Contínua\nrazão"], linhas,
              [720, 1440, 1440, 1440, 1440, 1440, 1440], ["center"]*7))
-    a(PEQUENO("Fonte: elaborada pelo autor, a partir da EP 3 504 033 B1 (OTTOBOCK, "
+    a(PEQUENO("Fonte: elaborada pelo autor, a partir da EP 3 504 033 B1 (MIZERA et al., "
               "2023).", True))
     a(PEQUENO("Nota: valores entre parênteses ficam fora da faixa 20° < θ_{el} < "
               "165° usada na identificação (seção ⟦S:ident⟧)."))
@@ -1697,7 +1763,7 @@ def parte_4B():
              "À esquerda, razão de cada curva dividida pela extensão do elástico, "
              "em função da anteversão, com as três curvas sobrepostas; à direita, "
              "fator comum lido na figura e forma prevista pelo modelo."))
-    a(PEQUENO("Fonte: elaborada pelo autor, a partir da EP 3 504 033 B1 (OTTOBOCK, "
+    a(PEQUENO("Fonte: elaborada pelo autor, a partir da EP 3 504 033 B1 (MIZERA et al., "
               "2023).", True))
     a(PEQUENO("Nota: s_{0} da Tabela ⟦T:s0r⟧, faixa adotada; em (b), média das curvas "
               "tracejada e contínua."))
@@ -1828,7 +1894,7 @@ def parte_4B():
              "extraídos das três curvas da Figura 16 da patente e curvas do modelo, com a faixa "
              "de 20 a 165 graus sombreada; à esquerda, escala por curva; à direita, "
              "escala comum."))
-    a(PEQUENO("Fonte: elaborada pelo autor, a partir da EP 3 504 033 B1 (OTTOBOCK, "
+    a(PEQUENO("Fonte: elaborada pelo autor, a partir da EP 3 504 033 B1 (MIZERA et al., "
               "2023).", True))
     a(PEQUENO("Nota: faixa sombreada: 20° < θ_{el} < 165°, usada no ajuste; pontos "
               "cinza: fora dessa faixa."))
@@ -1849,7 +1915,7 @@ def parte_4B():
           f"θ_{{el}}; {f(rz['braco_pose_invertido']['tracejada'], 2)} mm com o sinal "
           "de θ_{b,pose} trocado"],
          ["Trecho da alavanca, que fixa a excentricidade |OP| do ponto de aplicação",
-          "e_{{c}}", f"{f(34.785)} mm", "Medida em CAD",
+          "e_{c}", f"{f(34.785)} mm", "Medida em CAD",
           "Não identificado; varrido na seção ⟦S:r_varr⟧"],
          ["Posição do elemento 78", "p; φ",
           f"{f(par['P'])} mm; {f(PHI_S)}°", "Medida em CAD e derivada",
@@ -2028,8 +2094,8 @@ def parte_4B():
         f"τ/τ_{{g}} vai de {f(tab[30.0]['razao'], 2)} em 30° a "
         f"{f(tab[60.0]['razao'], 2)} em 60°, {f(tab[90.0]['razao'], 2)} em 90° e "
         f"{f(tab[150.0]['razao'], 2)} em 150°, com {f(tab[170.0]['razao'], 2)} em "
-        "170°. A força e a extensão do elástico nesse cenário estão na seção "
-        "⟦S:r_mec⟧."))
+        f"170° e mínimo de {f(vmin_cad['razao'], 2)} em {f(vmin_cad['theta'], 1)}°. "
+        "A força e a extensão do elástico nesse cenário estão na seção ⟦S:r_mec⟧."))
     a(LEG_T("proj", f"Cenário de projeto com s_{{0}} = {f(pr['s0'])} mm e "
                     f"K = K_{{40}} = {f(pr['K'], 5)} N/mm"))
     linhas = [[f(l["theta"], 0), f(l["lambda"] + EPS), l["regime"], f(l["l"]), f(l["x"]),
@@ -2368,6 +2434,15 @@ def ref_suitx():
             '23 out. 2026.</w:t></w:r></w:p>')
 
 
+def ref_mizera():
+    """EP no formato das duas patentes US: inventor, título, depositante e titular."""
+    return ('<w:p><w:r><w:t xml:space="preserve">MIZERA, O. et al. </w:t></w:r>'
+            '<w:r><w:rPr><w:b/></w:rPr><w:t>Vorrichtung zum Unterstützen wenigstens '
+            'eines Armes eines Benutzers</w:t></w:r><w:r><w:t xml:space="preserve">. '
+            'Depositante e titular: Ottobock SE &amp; Co. KGaA. EP 3 504 033 B1. '
+            'Depósito: 6 jun. 2018. Concessão: 29 mar. 2023.</w:t></w:r></w:p>')
+
+
 def ref_okabe():
     return ('<w:p><w:r><w:t xml:space="preserve">OKABE, E. P.; BRITTES, J. L. P.; BRITO, P. L. A. '
             'Modeling and simulation of an upper limb exoskeleton. </w:t></w:r>'
@@ -2495,6 +2570,9 @@ def montar(corpo_original):
         for antes, depois in EDICOES:
             if antes in t:
                 regras.append((re.escape(antes), lambda m, d=depois: d))
+        for padrao, depois in EDICOES_RE:
+            if re.search(padrao, t):
+                regras.append((padrao, lambda m, d=depois: d))
         # renumeração antes das edições: o texto das EDICOES já traz números
         # novos ("seções 3.1, 4.1 e 5.1"), que não podem ser renumerados
         b2 = editar(b, (REGRA_TITULO if titulo else []) + REGRAS_ORIGINAL)
@@ -2502,6 +2580,8 @@ def montar(corpo_original):
         editados.append(b2)
     for antes, _ in EDICOES:
         assert sum(antes in t for _, t, _ in info) == 1, antes
+    for padrao, _ in EDICOES_RE:
+        assert sum(bool(re.search(padrao, t)) for _, t, _ in info) == 1, padrao
 
     # pontos de inserção (índice do bloco original depois do qual entra o novo)
     depois = {
@@ -2520,6 +2600,7 @@ def montar(corpo_original):
         _unico(info, "4 RESULTADOS E DISCUSSÃO"): cap4_introducao(),
         _unico(info, "5 CONCLUSÃO"): cap5_titulo(),
         _unico(info, "BOUTERAA, Y.; BEN ABDALLAH"): [ref_brent()],
+        _unico(info, "MASARATI, P."): [ref_mizera()],
         _unico(info, "OBUKHOV, A. et al."): [ref_okabe()],
         _unico(info, "SPADA, S. et al."): [ref_suitx()],
         _unico(info, "VAN ENGELHOVEN, L.; KAZEROONI"): [ref_virtanen()],

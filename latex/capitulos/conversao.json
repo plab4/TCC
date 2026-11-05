@@ -26,6 +26,7 @@
   "kim2018b",
   "manoel2025",
   "masarati2014",
+  "mizera2023",
   "moeller2022",
   "musso2022",
   "naf2018",
@@ -34,7 +35,6 @@
   "nguyen2026",
   "obukhov2025",
   "okabe2026",
-  "ottobock2023",
   "palazzi2022",
   "perry2007",
   "rahman2015",
@@ -51,10 +51,7 @@
   "yoon2022",
   "zeiaee2017"
  ],
- "nao_citadas": [
-  "foroutannia2026",
-  "kim2012"
- ],
+ "nao_citadas": [],
  "citacoes_sem_referencia": [],
  "rotulos": {
   "tab": {

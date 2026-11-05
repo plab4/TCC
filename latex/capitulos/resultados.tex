@@ -57,7 +57,7 @@ A consistência interna da Tabela~\ref{tab:propriedades-massa-conjunto-braco} fo
 
 \subsection{Dados extraídos da patente}\label{sec:4.1.2}
 
-A Tabela~\ref{tab:pontos-extraidos-curva-patente} reúne os 29 pontos extraídos da curva da patente, na ordem da extração, com os ângulos correspondentes nas convenções da seção~\ref{sec:3.1.3}, o torque calculado pelo modelo com os parâmetros congelados e o resíduo. Os pontos cobrem θ* de 42,909° a 193,017°, isto é, elevação de 180,1° a 30,0°, com espaçamento irregular, de 2,87° a 8,03° em θ*. O maior valor extraído, 147,310 u.p., ocorre em θ* = 123,196° (elevação de 99,8°), e a média dos 29 valores é 81,840 u.p. Os valores são expressos em u.p. porque a figura de origem não declara unidade (seção~\ref{sec:2.10}).
+A Tabela~\ref{tab:pontos-extraidos-curva-patente} reúne os 29 pontos extraídos da curva da patente, na ordem da extração, com os ângulos correspondentes nas convenções da seção~\ref{sec:3.1.3}, o torque calculado pelo modelo com os parâmetros congelados e o resíduo. Os pontos cobrem θ* de 42,909° a 193,017°, isto é, elevação de 180,1° a 30,0°, com espaçamento irregular, de 2,87° a 8,03° em θ*; o ponto 29, em θ* = 42,909°, fica 0,008° abaixo do limite inferior da faixa de operação, θ* = 42,917° (seção~\ref{sec:3.1.3}). O maior valor extraído, 147,310 u.p., ocorre em θ* = 123,196° (elevação de 99,8°), e a média dos 29 valores é 81,840 u.p. Os valores são expressos em u.p. porque a figura de origem não declara unidade (seção~\ref{sec:2.10}).
 
 \begin{tabelaabnt}{\footnotesize}
 \begin{xltabular}{\textwidth}{@{}>{\hsize=0.524\hsize\centering\arraybackslash}X>{\hsize=0.972\hsize\centering\arraybackslash}X>{\hsize=0.972\hsize\centering\arraybackslash}X>{\hsize=0.972\hsize\centering\arraybackslash}X>{\hsize=1.197\hsize\centering\arraybackslash}X>{\hsize=1.182\hsize\centering\arraybackslash}X>{\hsize=1.182\hsize\centering\arraybackslash}X@{}}
@@ -123,16 +123,16 @@ Equações de fechamento f\textsubscript{1} e f\textsubscript{2}, Equação~\eqr
 Identidade τ = −F m/1000, Equação~\eqref{eq:20}, com força unitária & 1,6 × 10\textsuperscript{−13} mm \\
 Ponto de tangência pelas Equações~\eqref{eq:10} e \eqref{eq:13} & 8,0 × 10\textsuperscript{−13} mm \\
 Ponto morto, Equação~\eqref{eq:21} contra bissecção & 1,3 × 10\textsuperscript{−11} grau \\
-Trabalho virtual, Equação~\eqref{eq:17} & 4,7 × 10\textsuperscript{−8} mm \\
+Trabalho virtual, Equação~\eqref{eq:17} & 4,7 × 10\textsuperscript{−8} mm/rad \\
 Par da mola, X\textsubscript{pose} = L\textsubscript{pose} − L\textsubscript{livre} & 7,1 × 10\textsuperscript{−15} mm \\
 \bottomrule
 \end{tabularx}
 \fonte{elaborada pelo autor.}
 \end{table}
 
-A verificação do trabalho virtual decidiu a formulação do caminho do cabo. Com a extensão da mola acompanhando apenas o vão livre s, como na formulação inicialmente pensada, o resíduo da Equação~\eqref{eq:17} é de 1,7129 mm; com o arco somado ao vão, s + Rψ, é de 3,4258 mm; somente com ℓ = s − Rψ, Equação~\eqref{eq:16}, ele cai a 4,7 × 10\textsuperscript{−8} mm. Um resíduo da ordem do milímetro significa que o modelo entrega torque sem a correspondente variação da energia da mola, violando assim, a conservação de energia em um mecanismo sem atrito.
+A verificação do trabalho virtual decidiu a formulação do caminho do cabo. Com a extensão da mola acompanhando apenas o vão livre s, como na formulação inicialmente pensada, o resíduo da Equação~\eqref{eq:17} é de 1,7129 mm/rad; com o arco somado ao vão, s + Rψ, é de 3,4258 mm/rad; somente com ℓ = s − Rψ, Equação~\eqref{eq:16}, ele cai a 4,7 × 10\textsuperscript{−8} mm/rad. Um resíduo da ordem de 1 mm/rad significa que o modelo entrega torque sem a correspondente variação da energia da mola, violando assim, a conservação de energia em um mecanismo sem atrito.
 
-Embora fora constatado que o efeito do arco é pequeno em valor absoluto. O arco varia 1,862 mm na faixa de operação, contra 42,435 mm de variação do caminho total (4,4\%). Com a mesma ancoragem na pose, sua incorporação altera a extensão da mola em até 1,782 mm, em θ* = 193,017° (elevação de 30°), onde a extensão está próxima do máximo e o desvio relativo é de 3,3\%. Em termos relativos, o efeito é maior no extremo oposto, em θ* = 42,917° (elevação de 180,1°), onde a extensão cai a 12,044 mm e o desvio chega a 6,3\%.
+Constatou-se, contudo, que o efeito do arco é pequeno em valor absoluto. O arco varia 1,862 mm na faixa de operação, contra 42,435 mm de variação do caminho total (4,4\%). Com a mesma ancoragem na pose, sua incorporação altera a extensão da mola em até 1,782 mm, em θ* = 193,017° (elevação de 30°), onde a extensão está próxima do máximo e o desvio relativo é de 3,3\%. Em termos relativos, o efeito é maior no extremo oposto, em θ* = 42,917° (elevação de 180,1°), onde a extensão cai a 12,044 mm e o desvio chega a 6,3\%.
 
 \subsection{Parâmetros do modelo e reprodução da identificação}\label{sec:4.1.4}
 
@@ -253,7 +253,7 @@ Ponto morto, θ*\textsubscript{pm} & 192,532° (elevação de 30,485°) \\
 \fonte{elaborada pelo autor.}
 \end{table}
 
-A extensão da mola permanece positiva em toda a faixa, o que assegura a condição é que o cabo continua tracionado em todos os pontos avaliados. O máximo da extensão ocorre no ponto morto, como exige a Equação~\eqref{eq:17}: onde m se anula, dℓ/dθ* também se anula, e o caminho do cabo passa por um extremo. O comprimento máximo da mola, 108,446 mm, é inferior ao comprimento útil do alojamento, 131,37 mm (valor a confirmar), com margem de 22,9 mm. A razão de 1,0095 entre a extensão máxima e o comprimento livre significa que a mola precisaria ser estendida a aproximadamente o dobro de seu comprimento livre; a viabilidade desse requisito depende da deflexão admissível da mola a especificar e deve ser confrontada com dados de fabricante.
+A extensão da mola permanece positiva em toda a faixa, o que assegura que o cabo continua tracionado em todos os pontos avaliados. O máximo da extensão ocorre no ponto morto, como exige a Equação~\eqref{eq:17}: onde m se anula, dℓ/dθ* também se anula, e o caminho do cabo passa por um extremo. O comprimento máximo da mola, 108,446 mm, é inferior ao comprimento útil do alojamento, 131,37 mm (valor a confirmar), com margem de 22,9 mm. A razão de 1,0095 entre a extensão máxima e o comprimento livre significa que a mola precisaria ser estendida a aproximadamente o dobro de seu comprimento livre; a viabilidade desse requisito depende da deflexão admissível da mola a especificar e deve ser confrontada com dados de fabricante.
 
 O braço de momento confirma a distinção da seção~\ref{sec:3.1.5}. A linha de ação do cabo passa pela ancoragem A, de modo que m não pode exceder |OA| = 22,919 mm em configuração alguma. Ao longo da faixa, m cresce monotonicamente de 12,451 mm em θ* = 42,917° até tocar esse teto em θ* = 97,894°, posição em que o cabo fica perpendicular a OA, e decresce a partir daí, anulando-se no ponto morto; o valor de −0,180 mm no extremo da faixa corresponde ao trecho além desse ponto.
 
@@ -281,7 +281,7 @@ A Figura~\ref{fig:rmse-contra-pontos-extraidos} apresenta o RMSE em função de 
 \fonte{elaborada pelo autor.}
 \end{figure}
 
-O menor RMSE, 1,8270 u.p. (R\textsuperscript{2} = 0,99840), ocorre em h = 22,735 mm, a 0,034 mm de H\textsubscript{CAL}, que ocupa a 14ª posição entre os 10.403 valores, com RMSE 0,19\% maior. Os platôs constam da Tabela~\ref{tab:platos-rmse-k-congelado}. O RMSE ultrapassa 2 vezes o mínimo em h = 21,825 e 23,640 mm e 10 vezes o mínimo em h = 17,570 e 27,900 mm.
+O menor RMSE, 1,8270 u.p. (R\textsuperscript{2} = 0,99840), ocorre em h = 22,735 mm, a 0,034 mm de H\textsubscript{CAL}, que ocupa a 14ª posição entre os 10.402 valores, com RMSE 0,19\% maior. Os platôs constam da Tabela~\ref{tab:platos-rmse-k-congelado}. O RMSE ultrapassa 2 vezes o mínimo em h = 21,825 e 23,640 mm e 10 vezes o mínimo em h = 17,570 e 27,900 mm.
 
 \begin{table}[!htbp]
 \estilotabela{\small}
@@ -301,7 +301,7 @@ RMSE ≤ 2 × mínimo & 21,830 & 23,635 & 1,805 \\
 
 Com K e X\textsubscript{pose} congelados, a curva extraída determina h dentro de 0,145 mm a 1\% do RMSE mínimo. Essa precisão, porém, não deve ser lida como identificação independente de h: K e X\textsubscript{pose} foram identificados no próprio H\textsubscript{CAL}, de modo que a proximidade entre o mínimo da varredura e H\textsubscript{CAL} é esperada por construção. O resultado mostra que o trio (K, X\textsubscript{pose}, H\textsubscript{CAL}) é internamente consistente e que o ajuste é muito sensível a h — o RMSE dobra a cerca de 0,9 mm do mínimo e decuplica a cerca de 5,2 mm —, mas não substitui a medição da ancoragem no dispositivo real.
 
-A validade física independe da curva extraída. O critério de fechamento foi atendido em todos os 10.403 valores de h, e o de trabalho virtual também, com resíduo máximo de 7,4 × 10\textsuperscript{−8} mm/rad na grade inteira. O critério decisivo é a tração: com X\textsubscript{pose} congelada, o aumento de h aumenta o curso do cabo — de 28,942 mm em h = 15 mm para 42,435 mm em h = 22,701 mm e 106,573 mm em h = 60 mm — e rebaixa a extensão mínima, que ocorre sempre em θ* = 42,917°, onde a demanda gravitacional é mínima, de apenas 1,2\% do pico. A extensão mínima se anula na fronteira de tração, h = 32,886 mm. Os valores viáveis formam o intervalo contíguo de 8,000 mm, borda inferior da grade, a 32,885 mm, com 4.979 valores. O valor documental H\textsubscript{CAD} = 34,785 mm fica fora desse intervalo: com X\textsubscript{pose} congelada, o cabo afrouxaria no início da faixa, com extensão mínima de −2,257 mm, e o RMSE seria de 43,48 u.p. (R\textsuperscript{2} = 0,093). A Tabela~\ref{tab:valores-notaveis-h-varredura} reúne os valores notáveis de h.
+A validade física independe da curva extraída. O critério de fechamento foi atendido em todos os 10.402 valores de h, e o de trabalho virtual também, com resíduo máximo de 7,4 × 10\textsuperscript{−8} mm/rad na grade inteira. O critério decisivo é a tração: com X\textsubscript{pose} congelada, o aumento de h aumenta o curso do cabo — de 28,942 mm em h = 15 mm para 42,435 mm em h = 22,701 mm e 106,573 mm em h = 60 mm — e rebaixa a extensão mínima, que ocorre sempre em θ* = 42,917°, onde a demanda gravitacional é mínima, de apenas 1,2\% do pico. A extensão mínima se anula na fronteira de tração, h = 32,886 mm. Os valores viáveis formam o intervalo contíguo de 8,000 mm, borda inferior da grade, a 32,885 mm, com 4.979 valores. O valor documental H\textsubscript{CAD} = 34,785 mm fica fora desse intervalo: com X\textsubscript{pose} congelada, o cabo afrouxaria no início da faixa, com extensão mínima de −2,257 mm, e o RMSE seria de 43,48 u.p. (R\textsuperscript{2} = 0,093). A Tabela~\ref{tab:valores-notaveis-h-varredura} reúne os valores notáveis de h.
 
 \begin{table}[!htbp]
 \estilotabela{\footnotesize}
@@ -340,11 +340,11 @@ A comparação entre as duas curvas exige cautela metodológica. Como a ordenada
 \nota{a linha pontilhada marca o cruzamento das curvas normalizadas.}
 \end{figure}
 
-Três características emergem do confronto. O pico do torque do cabo ocorre na elevação de 97,48°, e o do torque gravitacional, em 89,44°, com defasagem de 8,05°. O mecanismo entrega sua assistência máxima acima da posição de maior demanda gravitacional, configuração compatível com dispositivo projetado para trabalho acima da cabeça.
+Três características emergem do confronto. O pico do torque do cabo ocorre na elevação de 97,484°, e o do torque gravitacional, em 89,438°, com defasagem de 8,046°. O mecanismo entrega sua assistência máxima acima da posição de maior demanda gravitacional, configuração compatível com dispositivo projetado para trabalho acima da cabeça.
 
 As curvas normalizadas cruzam-se na elevação de 93,96°. Entre 94° e 160°, as diferenças normalizadas (cabo menos peso) são positivas e pequenas, de 0,000 a +0,055; acima de 160°, crescem até +0,184 em 179,44°. Entre 105° e 150°, as duas curvas diferem em no máximo 0,027, o que indica que o perfil elástico reproduz a forma da demanda gravitacional na faixa de maior interesse para o trabalho acima da cabeça.
 
-Abaixo de 94°, as diferenças tornam-se negativas e crescentes em módulo, até −0,520 na elevação de 30°. No ponto morto, na elevação de 30,485°, o torque gravitacional ainda vale 5,757 N·m, 51,6\% de seu pico, enquanto o torque do cabo se anula; em 30°, o torque gravitacional é de 5,675 N·m, 50,8\% do pico. Trata-se de característica da arquitetura, e não de deficiência do ajuste: conforme a seção~\ref{sec:2.3}, a patente prevê que o dispositivo libere o braço nas posturas de não trabalho, em que o usuário precisa de mobilidade para alcançar ferramentas ou repousar o membro.
+Abaixo de 94°, as diferenças tornam-se negativas e crescentes em módulo, até −0,520 na elevação de 30°. No ponto morto, na elevação de 30,485°, o torque gravitacional ainda vale 5,757 N·m, 51,6\% de seu pico, enquanto o torque do cabo se anula; em 30°, o torque gravitacional é de 5,675 N·m, 50,8\% do pico. Trata-se de característica da arquitetura, e não de deficiência do ajuste: conforme a seção~\ref{sec:2.3}, abaixo do ângulo de transição o torque cai a um valor residual e o braço recupera a liberdade de movimento.
 
 O confronto ilustra, em termos quantitativos, a limitação apontada por \textcite{nasr2022} e discutida na seção~\ref{sec:2.4}: um mecanismo passivo entrega torque determinado para cada ângulo, de modo que o ajuste favorável em uma faixa implica desvio em outra. No caso analisado, o compromisso privilegia a faixa acima da horizontal, onde a exposição postural concentra o risco documentado por \textcite{vandermolen2017} e \textcite{seidler2020}, à custa de subcompensação na faixa inferior. É também a limitação que motiva as soluções semipassivas de assistência regulável referidas na seção~\ref{sec:2.4}.
 
@@ -505,7 +505,7 @@ Foram extraídos 48 pontos da curva tracejada, 47 da pontilhada e 51 da contínu
 50 &  &  &  &  & (170,17) & (4,5851) \\
 51 &  &  &  &  & (170,28) & (4,6319) \\
 \end{xltabular}
-\fonte{elaborada pelo autor, a partir da EP 3 504 033 B1 \cite{ottobock2023}.}
+\fonte{elaborada pelo autor, a partir da EP 3 504 033 B1 \cite{mizera2023}.}
 \nota{valores entre parênteses ficam fora da faixa 20° < θ\textsubscript{el} < 165° usada na identificação (seção~\ref{sec:3.2.9}).}
 \end{tabelaabnt}
 
@@ -580,7 +580,7 @@ O ângulo em que as curvas começam, perto de 14°, não identifica s\textsubscr
 \centering
 \caption{Identificação de s\textsubscript{0} pelo espaçamento entre as curvas, com (a) o fator G\textsubscript{i} de cada curva e (b) o fator G lido na Figura 16 da patente e a forma prevista pelo modelo, normalizados em 90°}\label{fig:identificacao-s0-espacamento-curvas}
 \includegraphics[width=1.00\textwidth]{identificacao-s0-espacamento-curvas.png}
-\fonte{elaborada pelo autor, a partir da EP 3 504 033 B1 \cite{ottobock2023}.}
+\fonte{elaborada pelo autor, a partir da EP 3 504 033 B1 \cite{mizera2023}.}
 \nota{s\textsubscript{0} da Tabela~\ref{tab:comprimento-referencia-s0-identificado}, faixa adotada; em (b), média das curvas tracejada e contínua.}
 \end{figure}
 
@@ -648,7 +648,7 @@ A pré-tensão da curva pontilhada, descrita como quase nula, também diverge do
 \centering
 \caption{Pontos extraídos da Figura 16 da patente e razão calculada pelo ajuste de forma, com (a) escala c por curva e (b) escala c comum às três curvas}\label{fig:pontos-extraidos-figura-patente}
 \includegraphics[width=1.00\textwidth]{pontos-extraidos-figura-patente.png}
-\fonte{elaborada pelo autor, a partir da EP 3 504 033 B1 \cite{ottobock2023}.}
+\fonte{elaborada pelo autor, a partir da EP 3 504 033 B1 \cite{mizera2023}.}
 \nota{faixa sombreada: 20° < θ\textsubscript{el} < 165°, usada no ajuste; pontos cinza: fora dessa faixa.}
 \end{figure}
 
@@ -665,7 +665,7 @@ A Tabela~\ref{tab:parametros-nao-publicados-origem-identificabilidade} resume a 
 \midrule
 Rigidez do elástico & K & 1,46670 N/mm & Hipótese de projeto (K\textsubscript{40}) & Não identificável pela Figura 16 da patente, cuja ordenada não tem escala \\
 Referência da extensão & s\textsubscript{0} & 287,190 mm & Identificado pelo espaçamento entre as curvas (tracejada) & De 286,01 a 288,74 mm entre as faixas de θ\textsubscript{el}; 297,55 mm com o sinal de θ\textsubscript{b,pose} trocado \\
-Trecho da alavanca, que fixa a excentricidade |OP| do ponto de aplicação & e\textsubscript{\{c}\} & 34,785 mm & Medida em CAD & Não identificado; varrido na seção~\ref{sec:4.2.8} \\
+Trecho da alavanca, que fixa a excentricidade |OP| do ponto de aplicação & e\textsubscript{c} & 34,785 mm & Medida em CAD & Não identificado; varrido na seção~\ref{sec:4.2.8} \\
 Posição do elemento 78 & p; φ & 7,754 mm; 131,790° & Medida em CAD e derivada & Não identificada; a patente prefere p = 0 \\
 Defasagem angular & q\textsubscript{0} & −25,891° & Derivada do CAD & Depende do sinal de θ\textsubscript{b,pose}, a confirmar \\
 Massa e centro de massa do braço do exoesqueleto &  & 163,951 g; 47,362 mm & Medida em CAD & Incluídos no peso e na inércia; eixos do Fusion admitidos paralelos aos do modelo \\
@@ -750,7 +750,7 @@ Com o s\textsubscript{0} do ajuste de forma, 167,098 mm, o pico normalizado fica
 \nota{faixa sombreada: s\textsubscript{0} de 286,01 a 288,74 mm, valores da curva tracejada nas faixas de θ\textsubscript{el} da Tabela~\ref{tab:comprimento-referencia-s0-identificado}.}
 \end{figure}
 
-Em N·m, a comparação só é possível sob a hipótese K = K\textsubscript{40}, e por isso a Figura~\ref{fig:torque-elastico-k-k40} e a Tabela~\ref{tab:cenario-projeto-s0-mm} descrevem um cenário de projeto, e não o dispositivo comercial. Nesse cenário, o torque do elástico atinge 4,376 N·m em θ\textsubscript{el} = 78,8°, e a razão τ/τ\textsubscript{g} vai de 0,34 em 30° a 0,43 em 60°, 0,40 em 90° e 0,21 em 150°, com 0,20 em 170°. A força e a extensão do elástico nesse cenário estão na seção~\ref{sec:4.2.7}.
+Em N·m, a comparação só é possível sob a hipótese K = K\textsubscript{40}, e por isso a Figura~\ref{fig:torque-elastico-k-k40} e a Tabela~\ref{tab:cenario-projeto-s0-mm} descrevem um cenário de projeto, e não o dispositivo comercial. Nesse cenário, o torque do elástico atinge 4,376 N·m em θ\textsubscript{el} = 78,8°, e a razão τ/τ\textsubscript{g} vai de 0,34 em 30° a 0,43 em 60°, 0,40 em 90° e 0,21 em 150°, com 0,20 em 170° e mínimo de 0,18 em 163,4°. A força e a extensão do elástico nesse cenário estão na seção~\ref{sec:4.2.7}.
 
 \begin{table}[!htbp]
 \estilotabela{\footnotesize}
