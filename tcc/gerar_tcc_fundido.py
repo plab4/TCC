@@ -349,6 +349,25 @@ REGRA_TITULO = [(r"^([34])\.(\d+) ", lambda m: f"{m.group(1)}.1.{m.group(2)} ")]
 
 # Edições do texto original, além da renumeração (antes, depois); cada trecho
 # "antes" tem de ocorrer exatamente uma vez no documento.
+# vale do RMSE com K e X_pose reidentificados para cada h (análise complementar
+# da seção 4.1.4): faixas em torno do mínimo, na malha de 0,25 mm
+N1 = json.loads((RES/"tcc_numeros.json").read_text(encoding="utf-8"))
+
+
+def _vale(fator):
+    perfil = N1["alternativo_x_pose_livre"]["perfil"]
+    r = [x["rmse"] for x in perfil]
+    i0 = r.index(min(r))
+    a = b = i0
+    while a > 0 and r[a - 1] <= fator*r[i0]:
+        a -= 1
+    while b < len(r) - 1 and r[b + 1] <= fator*r[i0]:
+        b += 1
+    return perfil[a], perfil[b]
+
+
+V1, V2 = _vale(1.01), _vale(2.0)
+
 EDICOES = [
     ("foi executado apenas para o gerador de torque da US 9.889.554 B2, ao qual se "
      "referem todas as equações deste capítulo e todos os resultados do capítulo 4.",
@@ -366,9 +385,11 @@ EDICOES = [
     ("e a aplicação do procedimento à US 9.737.374 B2 e à EP 3 504 033 B1 não foram "
      "executadas.",
      "e a aplicação do procedimento à US 9.737.374 B2 não foram executadas."),
-    ("e para um dos três dispositivos previstos.",
-     "e para o primeiro dos três dispositivos previstos; o segundo é tratado na "
-     "seção 5.2."),
+    ("O objetivo geral foi atingido em sua parte estática e para um dos três "
+     "dispositivos previstos.",
+     "O objetivo geral foi atingido para o primeiro dispositivo, e a extensão à "
+     "dinâmica multicorpos ficou preparada, com o procedimento da seção 3.1.12, mas "
+     "não foi executada; o segundo dispositivo é tratado na seção 5.2."),
     ("e estender o procedimento à US 9.737.374 B2 e à EP 3 504 033 B1.",
      "e estender o procedimento à US 9.737.374 B2. A extensão à EP 3 504 033 B1 é "
      "apresentada nas seções 3.2, 4.2 e 5.2."),
@@ -459,15 +480,143 @@ EDICOES = [
     ("Embora fora constatado que o efeito do arco é pequeno em valor absoluto.",
      "Constatou-se, contudo, que o efeito do arco é pequeno em valor absoluto."),
     ("o que assegura a condição é que o cabo", "o que assegura que o cabo"),
-    ("tomando como caso de referência o gerador de torque de mola da US 9.889.554 "
-     "B2, US 9.737.374 B2 e da EP 3 504 033 B1 e comparar o torque entregue pelo "
-     "mecanismo",
-     "tomando como casos de referência os mecanismos da US 9.889.554 B2, da US "
-     "9.737.374 B2 e da EP 3 504 033 B1, e comparar o torque entregue por cada "
-     "mecanismo"),
+    # objetivo geral e introdução do tamanho do trabalho executado (estático; a
+    # dinâmica e a US 9.737.374 B2 ficam como extensão preparada)
+    ("Modelar e simular o comportamento estático e dinâmico de mecanismos passivos "
+     "de apoio ao braço descritos em patentes, tomando como caso de referência o "
+     "gerador de torque de mola da US 9.889.554 B2, US 9.737.374 B2 e da EP 3 504 "
+     "033 B1 e comparar o torque entregue pelo mecanismo ao torque gravitacional do "
+     "conjunto braço–exoesqueleto ao longo da faixa de elevação.",
+     "Modelar o comportamento estático de mecanismos passivos de apoio ao braço "
+     "descritos em patentes, tomando como casos de referência os mecanismos da US "
+     "9.889.554 B2 e da EP 3 504 033 B1, comparar o torque entregue por cada "
+     "mecanismo ao torque gravitacional do conjunto braço–exoesqueleto ao longo da "
+     "faixa de elevação e preparar a extensão do procedimento à dinâmica multicorpos "
+     "e à US 9.737.374 B2."),
+    ("Este trabalho trata dessa lacuna: modelar e simular, de forma integrada, o "
+     "comportamento estático e dinâmico de mecanismos passivos de apoio ao braço "
+     "reconstruídos a partir de suas patentes, usando formulações amplamente "
+     "conhecidas como a formulação de Lagrange e parâmetros antropométricos de "
+     "referência.",
+     "Este trabalho trata dessa lacuna: modelar o comportamento estático de "
+     "mecanismos passivos de apoio ao braço reconstruídos a partir de suas patentes, "
+     "com parâmetros antropométricos de referência, e preparar a extensão do modelo "
+     "à dinâmica multicorpos pela formulação de Lagrange."),
     ("Por essa razão, o torque de um mecanismo passivo resulta do produto",
      "Nesse exercício de projeto, o torque de um mecanismo passivo resulta do produto"),
+    # parâmetros de origem não reproduzida e ajuste na própria amostra (itens 1 e 21)
+    ("Identificado em etapa anterior", "Congelado; origem não reproduzida"),
+    ("Com os parâmetros congelados, o modelo reproduz a forma da curva publicada com "
+     "coeficiente de determinação de 0,99839",
+     "Com os parâmetros congelados, dois deles de origem não reproduzida, o modelo "
+     "reproduz a forma da curva publicada, nos mesmos 29 pontos usados para fixá-los, "
+     "com coeficiente de determinação de 0,99839"),
+    ("Eles foram identificados por mínimos quadrados contra os 29 pontos extraídos em "
+     "etapa anterior do trabalho e estão congelados no modelo vigente, que não "
+     "executa ajuste algum. O script dessa etapa e a restrição de projeto então "
+     "considerada para h não estão registrados no repositório; por isso, a "
+     "identificação foi reproduzida nesta revisão apenas na parte verificável, "
+     "descrita a seguir",
+     "Eles foram identificados por mínimos quadrados contra os 29 pontos extraídos, "
+     "por um procedimento que não foi registrado, e estão congelados no modelo, que "
+     "não executa ajuste algum. Como esse procedimento e a restrição de projeto "
+     "considerada para h não estão disponíveis, a identificação só pôde ser "
+     "reproduzida na parte descrita a seguir"),
+    ("com seus valores congelados e a situação de cada um nesta revisão.",
+     "com seus valores congelados e a situação de cada um."),
+    ("Para auditar essa afirmação, foi executada",
+     "Para verificar se esse valor é um ótimo da curva extraída, foi executada"),
+    ("e serve apenas para conferir a afirmação anterior.",
+     "e serve apenas para essa verificação."),
+    (", como na formulação inicialmente pensada,", ","),
+    ("a formulação anterior alcança RMSE de 1,152 ",
+     "a formulação sem o arco alcança RMSE de 1,152 "),
+    ("A formulação anterior ajusta melhor a curva publicada, mas viola a conservação "
+     "de energia",
+     "A formulação sem o arco ajusta melhor a curva publicada, mas viola a "
+     "conservação de energia"),
+    ("e, por isso, foi abandonada:", "e, por isso, não foi adotada:"),
+    ("e a formulação anterior, fisicamente inconsistente, ajustava melhor a curva.",
+     "e a formulação sem o arco, fisicamente inconsistente, ajusta melhor a curva."),
+    # verificações internas, e não independentes (item 8)
+    ("foi conferida por verificações independentes",
+     "foi conferida por verificações internas de consistência"),
+    # o critério de tração depende de X_pose, identificado contra a curva (item 9)
+    ("e três critérios de validade física independentes da curva extraída:",
+     "e três critérios de validade física que não usam os pontos extraídos, embora o "
+     "primeiro dependa da extensão na pose, identificada contra eles:"),
+    ("A validade física independe da curva extraída.",
+     "Os critérios de validade física não usam os pontos extraídos, embora o de "
+     "tração dependa da extensão na pose, identificada contra eles."),
+    ("A geometria, independentemente da curva extraída, admite h ≤ 32,886 mm e exclui "
+     "o valor documental;",
+     "A geometria, com a extensão na pose identificada, admite h ≤ 32,886 mm e exclui "
+     "a cota do CAD;"),
+    ("A varredura de h com K congelado separou o que a geometria impõe do que a curva "
+     "extraída sugere. O cabo permanece tracionado em toda a faixa de operação "
+     "somente para h ≤ 32,886 mm, o que exclui a cota de 34,785 mm lida no CAD.",
+     "A varredura de h com K congelado separou o que os critérios físicos impõem do "
+     "que a curva extraída sugere. Com a extensão na pose identificada, o cabo "
+     "permanece tracionado em toda a faixa de operação somente para h ≤ 32,886 mm, o "
+     "que exclui a cota de 34,785 mm medida no CAD."),
+    # largura do vale com K e X_pose livres (item 10) e limites sem critério (item 11)
+    ("e cresce para valores maiores de h. A razão entre a extensão máxima e o "
+     "comprimento livre vale 1,0095 em h = 22,701 mm, iguala 1 em h ≈ 22,52 mm e só "
+     "ultrapassa 10 próximo do extremo superior da varredura, em h = 60 mm.",
+     "e cresce para valores maiores de h. O vale é largo: na malha de 0,25 mm, o "
+     f"RMSE fica abaixo de 1,01 vez o mínimo de h = {f(V1[0]['h'], 2)} a "
+     f"{f(V1[1]['h'], 2)} mm e abaixo de 2 vezes o mínimo de h = {f(V2[0]['h'], 2)} a "
+     f"{f(V2[1]['h'], 2)} mm, faixa em que K vai de {f(V2[0]['k'], 1)} a "
+     f"{f(V2[1]['k'], 1)}; com K e a extensão na pose livres, a curva extraída não "
+     "determina h."),
+    ("o critério que levou a h = 22,701 mm não pôde ser reproduzido, e a afirmação "
+     "anterior de decrescimento monotônico do erro com h foi refutada pela auditoria.",
+     "com K e a extensão na pose livres, o RMSE fica abaixo de 2 vezes o mínimo de h "
+     f"= {f(V2[0]['h'], 2)} a {f(V2[1]['h'], 2)} mm, e o critério que levou a h = "
+     "22,701 mm não pôde ser reproduzido."),
+    ("O comprimento máximo da mola, 108,446 mm, é inferior ao comprimento útil do "
+     "alojamento, 131,37 mm (valor a confirmar), com margem de 22,9 mm. ", ""),
+    # comprimento livre não identificável e cotas do CAD em conflito (item 12)
+    ("mas a origem da posição da ancoragem e da calibração angular não.",
+     "mas a origem da posição da ancoragem e da calibração angular não, e o "
+     "comprimento livre não é identificável, porque a curva depende só da extensão "
+     "na pose."),
+    ("e duas cotas do modelo em CAD permanecem a confirmar.",
+     "e duas cotas do modelo em CAD permanecem a confirmar: o comprimento da mola na "
+     "pose, 91,35 mm, para o qual o mesmo modelo forneceu também 90,13 mm, e o "
+     "comprimento útil do alojamento, 131,37 mm, para o qual forneceu também "
+     "140,0 mm."),
+    # H_CAD é medida em CAD (item 13)
+    ("é tratada como valor documental, e o valor adotado no modelo é H",
+     "é uma medida em CAD, distinta do valor adotado no modelo, H"),
+    ("com 4.979 valores. O valor documental H", "com 4.979 valores. A cota do CAD, H"),
+    ("não está documentada. O valor documental H", "não está documentada. A cota do CAD, H"),
+    # propriedades de massa do CAD dependem do material atribuído (item 14)
+    ("e não como dimensões do dispositivo comercial.",
+     "e não como dimensões do dispositivo comercial. As propriedades de massa "
+     "dependem, além disso, do material atribuído a cada peça no CAD e são "
+     "estimativas, e não propriedades do produto."),
+    # sinal e módulo na Figura 9 (item 16) e construção da Figura 1 (item 17)
+    ("Nota: a linha pontilhada marca o cruzamento das curvas normalizadas.",
+     "Nota: a linha pontilhada marca o cruzamento das curvas normalizadas. O torque "
+     "gravitacional está em módulo; o do cabo, com sinal (−τ), fica negativo além do "
+     "ponto morto."),
+    ("onde se distinguem o vetor B e o braço m.",
+     "onde se distinguem o vetor B e o braço m. As componentes h e p de B estão "
+     "tracejadas, e os arcos marcam os ângulos θ*, α, q e φ da Tabela 1, medidos no "
+     "sentido anti-horário."),
+    # o modelo não estima forças de interface (item 19)
+    (" Tais forças de contato constituem, precisamente, uma das grandezas de saída "
+     "que o modelo desenvolvido neste trabalho se propõe a estimar.", ""),
 ]
+
+# Imagens do original substituídas pelas que o código do repositório gera:
+# Figura 1, no estilo da Figura 2 (pernas h e p e ângulos da Tabela 1), e
+# Figura 8, que não saía de nenhum código do repositório
+SUBSTITUIDAS = {
+    "word/media/image1.png": RES/"tcc_fig1_geometria.png",
+    "word/media/image4.png": RES/"tcc_fig8_rmse_h.png",
+}
 
 # Edições por expressão regular, para trechos que o Word divide em runs de
 # formatação diferente: o padrão casa só no run a trocar. A mesma expressão
@@ -476,6 +625,8 @@ EDICOES = [
 EDICOES_RE = [
     # Tabela 7: resíduo do trabalho virtual em mm/rad; o "−8" é sobrescrito
     (r"(?<=4,7 × 10−8) mm(?=$|Par da mola)", " mm/rad"),
+    # Tabela 12: H_CAD é medida em CAD; o "CAD" anterior é subscrito
+    (r"(?<=CAD), documental", ", medida em CAD"),
 ]
 
 # Blocos do original retirados, pelo início do texto (cada um ocorre uma vez):
@@ -664,14 +815,15 @@ def cap3_sobreposicao_fig42():
     """Circuito da Figura 1 sobre a Figura 42 da patente, logo depois dela."""
     sob = json.loads((RES/"tcc_numeros.json").read_text(encoding="utf-8"))["sobreposicao_fig42"]
     return [
-        P("A Figura ⟦F:sobrep42⟧ sobrepõe esse circuito à Figura 42 da patente, na "
+        P("A Figura ⟦F:sobrep42⟧ sobrepõe esse circuito à Figura 42 da US 9.889.554 "
+          "B2, na "
           "mesma pose, alinhado pelo pivô 151, que faz o papel de O, e pelo centro do "
           "tambor 183, que faz o papel de D. O vetor B foi desenhado com a cota do CAD, "
           f"h = H_{{CAD}} = {f(sob['h'])} mm, medida de 151 ao longo do 150 até antes "
           f"do 176, e com p = {f(sob['p'])} mm, a 90°, até o 176, onde fica a "
           "ancoragem A."),
         LEG_F("sobrep42", "Circuito vetorial do gerador de torque sobreposto à Figura "
-                          "42 da patente, na pose de referência "
+                          "42 da US 9.889.554 B2, na pose de referência "
                           f"(θ* = {f(sob['theta'])}°, h = H_{{CAD}} = {f(sob['h'])} mm)"),
         FIGURA("tcc_fig1_sobreposicao.png", 6.5,
                "Figura 42 da US 9.889.554 B2 em cinza, vista em corte do gerador de "
@@ -679,12 +831,58 @@ def cap3_sobreposicao_fig42():
                "ampliação da região do pivô."),
         PEQUENO("Fonte: adaptada da Figura 42 da US 9.889.554 B2 (VAN ENGELHOVEN; "
                 "KAZEROONI, 2018), com o circuito do modelo sobreposto pelo autor.", True),
-        PEQUENO("Nota: desenho da patente em cinza; elementos do modelo como na Figura "
-                "⟦F:o1⟧, com as componentes h e p de B tracejadas. Com h = "
+        PEQUENO("Nota: desenho da patente em cinza; elementos e ângulos do modelo como "
+                "na Figura ⟦F:o1⟧. O desenho foi alinhado pelo pivô 151 (O) e pelo "
+                "centro do tambor 183 (D), que por isso coincidem por construção; a "
+                "posição de A no 176 é o que a sobreposição testa. Com h = "
                 f"H_{{CAL}} = {f(sob['h_cal'])} mm, valor adotado no modelo (Figura "
                 f"⟦F:o1⟧), A fica {f(sob['h'] - sob['h_cal'])} mm abaixo, sobre a perna h. "
                 "O painel da direita amplia a região do pivô."),
     ]
+
+
+def cap2_okabe():
+    """Confronto com Okabe, Brittes e Brito (2026), que usam as mesmas patentes."""
+    return [P(
+        "Okabe, Brittes e Brito (2026) usaram curvas de patente, entre elas as da US "
+        "9.889.554 B2 e da EP 3 504 033 B1, como leis de torque prescritas numa junta "
+        "do modelo multicorpos, sem representar a geometria dos mecanismos: as curvas "
+        "foram digitalizadas, e o máximo das curvas baseadas na US 9.737.374 B2, na US "
+        "9.889.554 B2 e na Figura 17 da EP 3 504 033 B1 foi fixado em 30 N·m. Este "
+        "trabalho segue outro caminho, o da reconstrução da geometria, e lê essas "
+        "ordenadas de outro modo: a da US 9.889.554 B2 como sem unidade declarada "
+        "(seção 4.1.6), e a da Figura 16 da EP 3 504 033 B1 como razão entre o torque "
+        "do dispositivo e o do peso (seção ⟦S:dados⟧). As curvas também diferem. A "
+        "daquele artigo baseada na US 9.889.554 B2 anula-se com o braço pendente e com "
+        "o braço vertical e tem máximo perto de 70° de elevação; a extraída aqui da "
+        "Figura 56 da US 9.889.554 B2 tem máximo em 99,8° de elevação (seção 4.1.2). Os "
+        "documentos disponíveis não permitem dizer se a diferença vem da figura usada "
+        "ou da leitura do eixo.")]
+
+
+def cap4_ancoragens():
+    """H_CAD e H_CAL são grandezas distintas (Figura 2 e Tabela 12)."""
+    sob = N1["sobreposicao_fig42"]
+    return [P(
+        "As duas posições da ancoragem são grandezas distintas. H_{CAD} é a cota do "
+        "desenho, e a Figura ⟦F:sobrep42⟧ mostra que ela leva A ao 176, o que se espera "
+        "de um modelo em CAD reconstruído sobre a vista em corte da patente. H_{CAL} é "
+        "o parâmetro que, com K e X_{pose}, reproduz a curva extraída, e põe A "
+        f"{f(sob['h'] - sob['h_cal'])} mm abaixo, sobre a mesma perna h. Nenhuma das "
+        "duas concordâncias é verificação independente: a de H_{CAD} vem do próprio "
+        "desenho, e a de H_{CAL}, dos pontos usados para identificar K e X_{pose}. Com "
+        "X_{pose} congelado, H_{CAD} viola a tração (Tabela ⟦T:o11⟧), e os dados "
+        "disponíveis não decidem qual das duas posições corresponde ao dispositivo.")]
+
+
+def nota_mola():
+    """Nota da Tabela 9: L_livre vem de uma cota do CAD em conflito."""
+    par1 = N1["parametros"]
+    return [PEQUENO(
+        "Nota: L_{livre} = L_{pose} − X_{pose}, com L_{pose} = "
+        f"{f(par1['L_POSE'], 2)} mm medido no CAD e a confirmar: o mesmo modelo "
+        "forneceu também 90,13 mm, que levaria L_{livre} a "
+        f"{f(90.13 - par1['X_POSE'])} mm. A curva de torque depende só de X_{{pose}}.")]
 
 
 def cap3_introducao():
@@ -1000,7 +1198,10 @@ def parte_3B():
               "B1, com os circuitos do modelo sobrepostos pelo autor.", True))
     a(PEQUENO("Nota: desenho da patente em cinza, girado para a orientação de "
               "leitura; vetores, pontos e linhas pontilhadas do modelo como na "
-              "Figura ⟦F:circ⟧. À direita, ampliação da região do pivô."))
+              "Figura ⟦F:circ⟧. À direita, ampliação da região do pivô. Em cada pose, "
+              "O e A coincidem por construção, porque o desenho foi alinhado por esses "
+              "dois pontos; só P e o elemento 78 testam o modelo, e suas posições não "
+              "foram medidas contra o desenho."))
 
     # ------------------------------------------------------------ força
     a(SEC("3.2", "forca", "Comprimento do elástico, lei da mola e torque"))
@@ -1109,7 +1310,7 @@ def parte_3B():
     a(PEQUENO("Nota: página do documento girada para a orientação de leitura. A "
               "patente não traz rótulo nem escala na ordenada."))
     a(P("Os pontos das três curvas foram extraídos pelo autor e estão no arquivo "
-        "fig16_curvas.csv (Tabela ⟦T:pontos⟧). A extração, a segunda realizada, "
+        "fig16_curvas.csv (Tabela ⟦T:pontos⟧). A extração "
         "dividiu a leitura vertical por 21,1311 para obter a razão em divisões da "
         "grade, manteve a abscissa sem correção e teve erro mediano de sobreposição "
         "inferior a 0,5 px; a imagem e a resolução usadas na leitura não foram "
@@ -1655,7 +1856,10 @@ def parte_4B():
         "com a das pré-tensões descritas na patente, porque menor s_{0} significa "
         "maior extensão do elástico em qualquer ângulo, e os passos entre curvas, "
         f"{f(rz['passos']['pontilhada_tracejada'], 2)} e "
-        f"{f(rz['passos']['tracejada_continua'], 2)} mm, são da mesma ordem."))
+        f"{f(rz['passos']['tracejada_continua'], 2)} mm, são da mesma ordem. O "
+        "modelo adota o s_{0} da curva tracejada, de pré-tensão intermediária entre "
+        "as três, como configuração de referência; a seção ⟦S:r_conf⟧ mostra o "
+        "efeito de adotar o das outras duas."))
     a(LEG_T("s0r", "Comprimento de referência s_{0} identificado pelo espaçamento "
                    "entre as curvas da Figura 16 da patente"))
 
@@ -1924,7 +2128,7 @@ def parte_4B():
           "Derivada do CAD", "Depende do sinal de θ_{b,pose}, a confirmar"],
          ["Massa e centro de massa do braço do exoesqueleto", "",
           f"{f(mas['braco_exo']['massa_g'])} g; {f(corpos['braço do exo']['d'])} mm",
-          "Medida em CAD", "Incluídos no peso e na inércia; eixos do Fusion "
+          "Estimada no CAD, com material assumido", "Incluídos no peso e na inércia; eixos do Fusion "
           "admitidos paralelos aos do modelo"]],
         [2300, 1060, 1500, 2000, 2500], ["left", "center", "center", "left", "left"]))
     a(FONTE)
@@ -2086,7 +2290,7 @@ def parte_4B():
     a(FONTE)
     a(PEQUENO(f"Nota: faixa sombreada: s_{{0}} de {f(min(rob_t), 2)} a "
               f"{f(max(rob_t), 2)} mm, valores da curva tracejada nas faixas de "
-              "θ_{el} da Tabela ⟦T:s0r⟧."))
+              "θ_{el} da Tabela ⟦T:s0r⟧. O torque do peso está em módulo."))
     a(P("Em N·m, a comparação só é possível sob a hipótese K = K_{40}, e por isso "
         "a Figura ⟦F:proj⟧ e a Tabela ⟦T:proj⟧ descrevem um cenário de projeto, e "
         "não o dispositivo comercial. Nesse cenário, o torque do elástico atinge "
@@ -2133,6 +2337,19 @@ def parte_4B():
         "60°, 120° e 150° mudam no máximo "
         f"{f(max(abs(s1['razao'][k] - s2['razao'][k]) for k in s1['razao']), 3)}. "
         "A escolha final de K, que a figura não determina, é decisão de projeto."))
+    sc_ = {c["caso"]: c for c in N["sensibilidade_curvas"]}
+    sp_, sct_ = sc_["pontilhada"], sc_["continua"]
+    mud = max(((abs(c["razao"][k] - sens["s0"]["razao"][k]), k) for c in (sp_, sct_)
+               for k in c["razao"]))
+    a(P("Com o s_{0} das outras duas curvas, "
+        f"{f(sp_['s0'])} mm (pontilhada) e {f(sct_['s0'])} mm (contínua), K_{{40}} "
+        f"vai a {f(sp_['K'], 5)} e {f(sct_['K'], 5)} N/mm, e o pico de τ, a "
+        f"{f(sp_['tau_pico'])} N·m em {f(sp_['theta_pico'], 1)}° e "
+        f"{f(sct_['tau_pico'])} N·m em {f(sct_['theta_pico'], 1)}°; as razões "
+        "τ/τ_{g} em 30°, 60°, 120° e 150° mudam até "
+        f"{f(mud[0], 3)} em relação às da curva tracejada, com a maior mudança em "
+        f"{mud[1]}°. A distribuição angular da assistência depende, assim, da curva "
+        "tomada como referência."))
     a(P("Como na seção 4.1.8, o resultado ilustra a limitação discutida na seção 2.4 "
         "(NASR; FERGUSON; McPHEE, 2022), mas com o compromisso invertido: com o "
         f"s_{{0}} adotado, a forma do elástico fica abaixo da do peso entre "
@@ -2160,10 +2377,6 @@ def parte_4B():
          ["Sinal de θ_{b,pose}",
           "Altera q_{0}, o contato, s_{0} e K_{40} (seções ⟦S:conv⟧ e ⟦S:r_s0⟧)",
           "Medir no CAD o ângulo do braço na pose, com o sentido positivo declarado"],
-         ["Posição do eixo da articulação 20 no referencial do Fusion",
-          "Braço do exoesqueleto fora de τ_{g} e de I_{O}",
-          "Medir o centro do eixo no Fusion e confirmar que os eixos do Fusion são "
-          "paralelos aos do modelo"],
          ["Forma do fator G: braço de momento ou torque do peso usado na Figura 16 "
           "da patente",
           "Modelo completo não reproduz a figura com os s_{0} identificados (R^{2} "
@@ -2235,7 +2448,8 @@ def parte_4B():
           "Três curvas de razão de torques sem escala na ordenada, com pré-tensões "
           f"diferentes; {n_pts} pontos extraídos"],
          ["Parâmetros identificados",
-          "θ_{off}, h, X_{pose} e K, este em unidade da patente",
+          "X_{pose} e K, este em unidade da patente; θ_{off} e h congelados, de "
+          "origem não reproduzida",
           "s_{0} das três curvas, pelo espaçamento; K não identificável"],
          ["Reprodução da curva publicada", "R^{2} = 0,99839",
           "R^{2} negativo com os s_{0} identificados; de "
@@ -2366,7 +2580,7 @@ def parte_5B():
         "braço do exoesqueleto, mas não a alavanca, o elemento 78 e a braçadeira, "
         "previstos nos itens a e e. O item i foi "
         "cumprido pelo espaçamento entre as curvas. Para esse dispositivo, o "
-        "objetivo geral foi atingido na parte estática, com o confronto com o torque "
+        "objetivo geral foi atingido, com o confronto com o torque "
         "gravitacional feito pela forma normalizada e, em N·m, apenas no cenário de "
         "projeto. As etapas dinâmicas não foram executadas, pelas razões da seção "
         "⟦S:din⟧."))
@@ -2589,6 +2803,7 @@ def montar(corpo_original):
         _unico(info, "g) acoplar o modelo ao MBDyn"): cap1_objetivos(),
         _unico(info, "A escolha de ferramentas livres"): cap1_justificativa(),
         _unico(info, "A patente US 9.889.554 B2 (VAN ENGELHOVEN"): cap2_compensacao(),
+        _unico(info, "O mapeamento da curva torque"): cap2_okabe(),
         _unico(info, "O ajuste, entretanto, encontra limite"): cap2_curva(),
         _unico(info, "Näf et al. (2018)"): cap2_compatibilidade(),
         _unico(info, "O Airframe, da Levitate"): cap2_arquiteturas(),
@@ -2597,6 +2812,7 @@ def montar(corpo_original):
         _unico(info, "Nota: O é o pivô"): cap3_sobreposicao_fig42(),
         _unico(info, "A cadeia de cálculo descrita nas seções"):
             cap3_introducao() + [H("3.1 Exoesqueleto 1")],
+        _unico(info, "Em síntese, a varredura separa duas perguntas"): cap4_ancoragens(),
         _unico(info, "4 RESULTADOS E DISCUSSÃO"): cap4_introducao(),
         _unico(info, "5 CONCLUSÃO"): cap5_titulo(),
         _unico(info, "BOUTERAA, Y.; BEN ABDALLAH"): [ref_brent()],
@@ -2607,6 +2823,7 @@ def montar(corpo_original):
         _unico(info, "YOON, J. et al."): [ref_zeiaee()],
     }
     antes = {
+        _unico(info, "A extensão da mola permanece positiva"): nota_mola(),
         _unico(info, "4 RESULTADOS E DISCUSSÃO"): parte_3B() + parte_3C(),
         _unico(info, "5 CONCLUSÃO"): parte_4B(),
         _unico(info, "REFERÊNCIAS"): parte_5B(),
@@ -2628,6 +2845,9 @@ def citacoes(txt):
     'Figuras 1, 16 e 17 da patente'."""
     fig = {int(n) for m in re.finditer(r"Figuras? (\d+(?:(?:, | e )\d+)*) da (?:patente|EP)", txt)
            for n in re.findall(r"\d+", m.group(1))}
+    # a EP 3 504 033 B1 tem 29 figuras; número maior é figura da US citada como
+    # "da patente" no texto novo
+    assert max(fig) <= 29, sorted(fig)
     itens = [str(x) for x in sorted(fig)]
     lista = itens[0] if len(itens) == 1 else ", ".join(itens[:-1]) + " e " + itens[-1]
     return f"Figura{'s' if len(itens) > 1 else ''} {lista} da patente"
@@ -2713,6 +2933,14 @@ def main(origem, destino):
             f'officeDocument/2006/relationships/hyperlink" Target="{url}" '
             'TargetMode="External"/></Relationships>')
     partes["word/_rels/document.xml.rels"] = rels.encode("utf-8")
+
+    # imagens do original refeitas pelo código, no mesmo tamanho em pixels, para
+    # que a extensão gravada no documento continue valendo
+    from PIL import Image
+    for parte, caminho in SUBSTITUIDAS.items():
+        with zipfile.ZipFile(origem) as zin, zin.open(parte) as f:
+            assert Image.open(f).size == Image.open(caminho).size, parte
+        partes[parte] = caminho.read_bytes()
 
     destino.parent.mkdir(parents=True, exist_ok=True)
     tmp = destino.with_suffix(".tmp")

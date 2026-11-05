@@ -13,7 +13,7 @@ Em um dispositivo passivo o auxílio é consequência da geometria do mecanismo 
 
 Os modelos que chegaram ao mercado estão descritos em patentes, que detalham o mecanismo, mas não permitem quantificá-lo: apesar de conter as curvas de torque nos eixos, nenhuma delas informa massa, inércia ou rigidez. Avaliar um mecanismo desses exige reconstruir sua geometria e resolver o problema em duas etapas, o equilíbrio estático, que dimensiona a compensação de gravidade, e a dinâmica multicorpos, que expõe inércia, forças de Coriolis e atrito durante o movimento real.
 
-Este trabalho trata dessa lacuna: modelar e simular, de forma integrada, o comportamento estático e dinâmico de mecanismos passivos de apoio ao braço reconstruídos a partir de suas patentes, usando formulações amplamente conhecidas como a formulação de Lagrange e parâmetros antropométricos de referência.
+Este trabalho trata dessa lacuna: modelar o comportamento estático de mecanismos passivos de apoio ao braço reconstruídos a partir de suas patentes, com parâmetros antropométricos de referência, e preparar a extensão do modelo à dinâmica multicorpos pela formulação de Lagrange.
 
 Nesta etapa, o procedimento foi aplicado a dois mecanismos de arquitetura distinta. O primeiro é o gerador de torque de mola, cabo e polia da US 9.889.554 B2 \cite{vanengelhoven2018}. O segundo é o dispositivo da EP 3 504 033 B1 \cite{mizera2023}, em que um elemento elástico atua diretamente sobre uma alavanca solidária ao braço e um elemento de encosto junto à articulação reduz o torque com o braço baixado e o anula quando situado sobre o eixo de rotação. Os dois são tratados em seções separadas dos capítulos 3, 4 e 5, a primeira dedicada ao exoesqueleto 1 e a segunda ao exoesqueleto 2.
 
@@ -21,7 +21,7 @@ Nesta etapa, o procedimento foi aplicado a dois mecanismos de arquitetura distin
 
 \subsection{Objetivo geral}\label{sec:1.1.1}
 
-Modelar e simular o comportamento estático e dinâmico de mecanismos passivos de apoio ao braço descritos em patentes, tomando como casos de referência os mecanismos da US 9.889.554 B2, da US 9.737.374 B2 e da EP 3 504 033 B1, e comparar o torque entregue por cada mecanismo ao torque gravitacional do conjunto braço–exoesqueleto ao longo da faixa de elevação.
+Modelar o comportamento estático de mecanismos passivos de apoio ao braço descritos em patentes, tomando como casos de referência os mecanismos da US 9.889.554 B2 e da EP 3 504 033 B1, comparar o torque entregue por cada mecanismo ao torque gravitacional do conjunto braço–exoesqueleto ao longo da faixa de elevação e preparar a extensão do procedimento à dinâmica multicorpos e à US 9.737.374 B2.
 
 \subsection{Objetivos específicos}\label{sec:1.1.2}
 

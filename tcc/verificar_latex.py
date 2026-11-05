@@ -60,10 +60,12 @@ def texto_pdf(pdf, primeira, ultima):
         t = subprocess.run(["pdftotext", "-f", str(p), "-l", str(p), str(pdf), "-"],
                            capture_output=True, text=True, check=True).stdout
         linhas = [x for x in t.split("\n") if x.strip()]
-        # cabeçalho corrente e número da página, no topo; só a primeira e a
-        # última linha podem ser o número, porque colunas de tabela também
-        # saem como linhas só com números
-        for k in range(min(4, len(linhas))):
+        # cabeçalho corrente e número da página, no topo; só as primeiras linhas
+        # podem ser o número, porque colunas de tabela também saem como linhas
+        # só com números. Um título justificado no topo da página sai palavra
+        # por palavra, e o número da página pode cair no meio dele: por isso a
+        # busca vai até a décima linha
+        for k in range(min(10, len(linhas))):
             if linhas[k].strip() == str(p):
                 linhas.pop(k)
                 break

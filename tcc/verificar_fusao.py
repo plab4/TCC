@@ -28,7 +28,8 @@ from xml.sax.saxutils import unescape
 
 PASTA = Path(__file__).resolve().parent
 sys.path.insert(0, str(PASTA))
-from gerar_tcc_fundido import EDICOES, EDICOES_RE, REMOVIDOS, parenteses_fixos  # noqa: E402
+from gerar_tcc_fundido import (EDICOES, EDICOES_RE, REMOVIDOS, SUBSTITUIDAS,  # noqa: E402
+                               parenteses_fixos)
 
 ORIG = PASTA/"TCC_apenas_exo1.docx"
 NOVO = PASTA/"TCC_exo1_exo2.docx"
@@ -271,20 +272,28 @@ def main():
     zo, zn = zipfile.ZipFile(ORIG), zipfile.ZipFile(NOVO)
     dif = [p for p in zo.namelist()
            if p not in ("word/document.xml", "word/_rels/document.xml.rels")
-           and zo.read(p) != zn.read(p)]
+           and p not in SUBSTITUIDAS and zo.read(p) != zn.read(p)]
+    # substituições declaradas: o conteúdo é o do arquivo indicado e o tamanho em
+    # pixels é o do original, para que a extensão gravada no documento valha
+    from PIL import Image
+    subst_ok = all(zn.read(p) == c.read_bytes()
+                   and Image.open(zo.open(p)).size == Image.open(zn.open(p)).size
+                   for p, c in SUBSTITUIDAS.items())
     ro = zo.read("word/_rels/document.xml.rels").decode()
     rn = zn.read("word/_rels/document.xml.rels").decode()
     rel_ok = rn.startswith(ro[:ro.rindex("</Relationships>")])
     sect_ok = xo[xo.rindex("<w:sectPr"):] == xn[xn.rindex("<w:sectPr"):]
     diga("## 6. Pacote")
     diga()
+    diga(f"Imagens substituídas por declaração: {sorted(SUBSTITUIDAS)}, conferidas "
+         f"(conteúdo do arquivo declarado e mesmo tamanho em pixels): {subst_ok}.")
     diga(f"Partes alteradas além do documento e das relações: {dif or 'nenhuma'}. "
          f"Partes novas: {sorted(set(zn.namelist()) - set(zo.namelist()))}. Relações "
          f"originais mantidas: {rel_ok}. sectPr final idêntico: {sect_ok}.")
 
     (PASTA/"verificacao_fusao.md").write_text("\n".join(SAIDA) + "\n", encoding="utf-8")
     falhas = (j != len(Om) or diverge or presentes or citados or not ok2 or erros or travessoes or restos
-              or dif or not rel_ok or not sect_ok)
+              or dif or not subst_ok or not rel_ok or not sect_ok)
     if falhas:
         raise SystemExit("verificação falhou")
 

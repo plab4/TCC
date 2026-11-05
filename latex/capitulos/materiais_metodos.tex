@@ -17,7 +17,7 @@ A cadeia de cálculo do dispositivo da EP 3 504 033 B1, descrita nas seções~\r
 
 A geometria do mecanismo foi reconstruída no Autodesk Fusion sobre os desenhos da patente, em especial a vista em corte do gerador de torque e o esquema simplificado que define o ângulo entre os elos e as distâncias características. Como as figuras de patente não são cotadas, o modelo foi escalado por um fator único, fixado pela razão entre o comprimento do elo distal reconstruído e o comprimento de segmento do indivíduo de referência.
 
-Da reconstrução saem as grandezas geométricas do mecanismo — distância do pivô ao centro do tambor, raio do tambor, componentes do vetor que liga o pivô à ancoragem do cabo e defasagem angular do desenho —, a pose de referência, com o respectivo comprimento da mola, e o comprimento útil do alojamento da mola. O mesmo modelo fornece massa, posição do centro de massa e momento de inércia de cada peça do exoesqueleto. Por dependerem do fator de escala e da interpretação de desenhos não cotados, essas grandezas são classificadas como medidas em CAD, e não como dimensões do dispositivo comercial.
+Da reconstrução saem as grandezas geométricas do mecanismo — distância do pivô ao centro do tambor, raio do tambor, componentes do vetor que liga o pivô à ancoragem do cabo e defasagem angular do desenho —, a pose de referência, com o respectivo comprimento da mola, e o comprimento útil do alojamento da mola. O mesmo modelo fornece massa, posição do centro de massa e momento de inércia de cada peça do exoesqueleto. Por dependerem do fator de escala e da interpretação de desenhos não cotados, essas grandezas são classificadas como medidas em CAD, e não como dimensões do dispositivo comercial. As propriedades de massa dependem, além disso, do material atribuído a cada peça no CAD e são estimativas, e não propriedades do produto.
 
 \subsection{Parâmetros inerciais do membro e transporte ao eixo da junta}\label{sec:3.1.2}
 
@@ -79,7 +79,7 @@ A cinemática do gerador de torque é descrita por um circuito vetorial fechado 
   \label{eq:05}
 \end{equation}
 
-em que h e p são as componentes desse vetor no referencial do elo proximal. A posição da ancoragem h é o parâmetro geométrico mais incerto do mecanismo e permanece explícita em todas as equações; a cota lida no CAD, H\textsubscript{CAD} = 34,785 mm, é tratada como valor documental, e o valor adotado no modelo é H\textsubscript{CAL} = 22,701 mm (seção~\ref{sec:3.1.9}). Com u(x) = (cos x, sen x) e u\textsubscript{⊥}(x) = (−sen x, cos x), o fechamento do circuito se escreve
+em que h e p são as componentes desse vetor no referencial do elo proximal. A posição da ancoragem h é o parâmetro geométrico mais incerto do mecanismo e permanece explícita em todas as equações; a cota lida no CAD, H\textsubscript{CAD} = 34,785 mm, é uma medida em CAD, distinta do valor adotado no modelo, H\textsubscript{CAL} = 22,701 mm (seção~\ref{sec:3.1.9}). Com u(x) = (cos x, sen x) e u\textsubscript{⊥}(x) = (−sen x, cos x), o fechamento do circuito se escreve
 
 \begin{equation}
   \mathbf{B} + s\mathbf{u}(\varphi) + R\mathbf{u}^{\bot}(\varphi) + C\mathbf{u}(q) = \mathbf{0}
@@ -107,17 +107,17 @@ foi preservada no código como referência. Ela difere da Equação~\eqref{eq:07
 \caption{Circuito vetorial do gerador de torque na pose de referência (θ* = 115,017°, h = 22,701 mm)}\label{fig:circuito-vetorial-gerador-torque}
 \includegraphics[width=1.00\textwidth]{circuito-vetorial-gerador-torque.png}
 \fonte{elaborada pelo autor.}
-\nota{O é o pivô, A a ancoragem do cabo, D o centro do tambor e T o ponto de tangência. O painel da direita amplia a região do pivô, onde se distinguem o vetor B e o braço m.}
+\nota{O é o pivô, A a ancoragem do cabo, D o centro do tambor e T o ponto de tangência. O painel da direita amplia a região do pivô, onde se distinguem o vetor B e o braço m. As componentes h e p de B estão tracejadas, e os arcos marcam os ângulos θ*, α, q e φ da Tabela~\ref{tab:convencoes-angulares-sinal}, medidos no sentido anti-horário.}
 \end{figure}
 
-A Figura~\ref{fig:circuito-vetorial-gerador-torque-sobreposto} sobrepõe esse circuito à Figura 42 da patente, na mesma pose, alinhado pelo pivô 151, que faz o papel de O, e pelo centro do tambor 183, que faz o papel de D. O vetor B foi desenhado com a cota do CAD, h = H\textsubscript{CAD} = 34,785 mm, medida de 151 ao longo do 150 até antes do 176, e com p = 3,155 mm, a 90°, até o 176, onde fica a ancoragem A.
+A Figura~\ref{fig:circuito-vetorial-gerador-torque-sobreposto} sobrepõe esse circuito à Figura 42 da US 9.889.554 B2, na mesma pose, alinhado pelo pivô 151, que faz o papel de O, e pelo centro do tambor 183, que faz o papel de D. O vetor B foi desenhado com a cota do CAD, h = H\textsubscript{CAD} = 34,785 mm, medida de 151 ao longo do 150 até antes do 176, e com p = 3,155 mm, a 90°, até o 176, onde fica a ancoragem A.
 
 \begin{figure}[!htbp]
 \centering
-\caption{Circuito vetorial do gerador de torque sobreposto à Figura 42 da patente, na pose de referência (θ* = 115,017°, h = H\textsubscript{CAD} = 34,785 mm)}\label{fig:circuito-vetorial-gerador-torque-sobreposto}
+\caption{Circuito vetorial do gerador de torque sobreposto à Figura 42 da US 9.889.554 B2, na pose de referência (θ* = 115,017°, h = H\textsubscript{CAD} = 34,785 mm)}\label{fig:circuito-vetorial-gerador-torque-sobreposto}
 \includegraphics[width=1.00\textwidth]{circuito-vetorial-gerador-torque-sobreposto.png}
 \fonte{adaptada da Figura 42 da US 9.889.554 B2 \cite{vanengelhoven2018}, com o circuito do modelo sobreposto pelo autor.}
-\nota{desenho da patente em cinza; elementos do modelo como na Figura~\ref{fig:circuito-vetorial-gerador-torque}, com as componentes h e p de B tracejadas. Com h = H\textsubscript{CAL} = 22,701 mm, valor adotado no modelo (Figura~\ref{fig:circuito-vetorial-gerador-torque}), A fica 12,084 mm abaixo, sobre a perna h. O painel da direita amplia a região do pivô.}
+\nota{desenho da patente em cinza; elementos e ângulos do modelo como na Figura~\ref{fig:circuito-vetorial-gerador-torque}. O desenho foi alinhado pelo pivô 151 (O) e pelo centro do tambor 183 (D), que por isso coincidem por construção; a posição de A no 176 é o que a sobreposição testa. Com h = H\textsubscript{CAL} = 22,701 mm, valor adotado no modelo (Figura~\ref{fig:circuito-vetorial-gerador-torque}), A fica 12,084 mm abaixo, sobre a perna h. O painel da direita amplia a região do pivô.}
 \end{figure}
 
 \subsection{Ponto de tangência, distância b, ângulo β e braço de momento}\label{sec:3.1.5}
@@ -222,7 +222,7 @@ em que M é a massa do conjunto, g = 9,80665 m/s\textsuperscript{2} e x\textsubs
 
 A referência de comparação é a curva torque × ângulo, Figura 56 do gerador de torque publicada na US 9.889.554 B2, da qual foram extraídos 29 pontos, registrados em θ* e listados na Tabela~\ref{tab:pontos-extraidos-curva-patente} na ordem da extração.
 
-A patente não informa rigidez, pré-carga, comprimento livre nem posição exata da ancoragem. Os parâmetros não publicados do modelo são a calibração angular θ\textsubscript{off}, a posição da ancoragem h, a extensão da mola na pose X\textsubscript{pose} e a rigidez K. Eles foram identificados por mínimos quadrados contra os 29 pontos extraídos em etapa anterior do trabalho e estão congelados no modelo vigente, que não executa ajuste algum. O script dessa etapa e a restrição de projeto então considerada para h não estão registrados no repositório; por isso, a identificação foi reproduzida nesta revisão apenas na parte verificável, descrita a seguir (resultados na seção~\ref{sec:4.1.4}).
+A patente não informa rigidez, pré-carga, comprimento livre nem posição exata da ancoragem. Os parâmetros não publicados do modelo são a calibração angular θ\textsubscript{off}, a posição da ancoragem h, a extensão da mola na pose X\textsubscript{pose} e a rigidez K. Eles foram identificados por mínimos quadrados contra os 29 pontos extraídos, por um procedimento que não foi registrado, e estão congelados no modelo, que não executa ajuste algum. Como esse procedimento e a restrição de projeto considerada para h não estão disponíveis, a identificação só pôde ser reproduzida na parte descrita a seguir (resultados na seção~\ref{sec:4.1.4}).
 
 A rigidez tem forma fechada. Como a extensão δ não depende de K, o torque é exatamente linear em K, τ(θ*; h, K) = K τ(θ*; h, 1). Sendo y\textsubscript{i} os N = 29 valores extraídos e g\textsubscript{i} = −τ(θ*\textsubscript{i}; h, 1), o valor de K que minimiza a soma dos quadrados dos resíduos é
 
@@ -246,7 +246,7 @@ Para separar o que a curva extraída informa sobre h do que a geometria impõe, 
 
 Ao variar h, a referência s\textsubscript{0}(h) da Equação~\eqref{eq:18} é recalculada de modo que a extensão da mola na pose permaneça X\textsubscript{pose} = 37,383 mm, preservando a pré-tensão de montagem. Essa ancoragem é uma escolha de modelagem, que isola o efeito de h do efeito da montagem.
 
-Para cada h são calculados o RMSE contra os 29 pontos extraídos, que representam exclusivamente o torque do cabo, e três critérios de validade física independentes da curva extraída: (i) tração, isto é, extensão da mola não negativa em toda a faixa de operação, calculada sem a limitação da Equação~\eqref{eq:19}, para que o afrouxamento do cabo apareça como extensão negativa; (ii) fechamento, isto é, existência de tangente ao tambor (ρ > R) em toda a faixa; e (iii) trabalho virtual, isto é, resíduo da Equação~\eqref{eq:17} inferior a 10\textsuperscript{−6} mm/rad. O torque gravitacional não entra em nenhum critério da varredura.
+Para cada h são calculados o RMSE contra os 29 pontos extraídos, que representam exclusivamente o torque do cabo, e três critérios de validade física que não usam os pontos extraídos, embora o primeiro dependa da extensão na pose, identificada contra eles: (i) tração, isto é, extensão da mola não negativa em toda a faixa de operação, calculada sem a limitação da Equação~\eqref{eq:19}, para que o afrouxamento do cabo apareça como extensão negativa; (ii) fechamento, isto é, existência de tangente ao tambor (ρ > R) em toda a faixa; e (iii) trabalho virtual, isto é, resíduo da Equação~\eqref{eq:17} inferior a 10\textsuperscript{−6} mm/rad. O torque gravitacional não entra em nenhum critério da varredura.
 
 O ângulo de enrolamento ψ não é critério de validade. Um valor nulo de ψ significa arco de enrolamento nulo, e não cabo fora do tambor; a permanência do cabo no tambor é garantida pela tangência, critério (ii).
 
@@ -294,7 +294,7 @@ A análise usou os documentos e arquivos da Tabela~\ref{tab:fontes-arquivos-util
 \toprule
 \centering\textbf{Fonte} & \centering\textbf{Conteúdo utilizado} & \centering\textbf{Classificação} & \centering\textbf{Verificação nesta análise} \tabularnewline
 \midrule
-EP 3 504 033 B1, documento B1 em PDF \cite{mizera2023} & Arquitetura e numeração dos elementos; Figuras 1, 16, 17, 18, 22, 24 e 42 da patente & Documental & Lida integralmente; trechos citados conferidos no original em alemão \\
+EP 3 504 033 B1, documento B1 em PDF \cite{mizera2023} & Arquitetura e numeração dos elementos; Figuras 1, 16, 17, 18, 22 e 24 da patente & Documental & Lida integralmente; trechos citados conferidos no original em alemão \\
 Modelo em CAD do autor (Autodesk Fusion) & Grandezas da Tabela~\ref{tab:grandezas-medidas-modelo-cad}; massa, centro de massa e momento de inércia do braço do exoesqueleto (elemento 8) & Medida em CAD & Arquivo do modelo ausente do repositório; valores usados como informados, sem conferência independente \\
 Planilha inercia\_steiner\_junta20\_ottobock.xlsx, do autor & Composição inercial do membro humano e do braço do exoesqueleto & Literatura (de Leva) e medida em CAD & Fórmulas lidas; valores do membro humano reproduzidos pelo modelo (seção~\ref{sec:4.2.1}) \\
 Arquivo fig16\_curvas.csv, digitalização do autor & 146 pontos das três curvas da Figura 16 da patente & Documental (extração) & Arquivo lido; procedimento registrado apenas no cabeçalho do arquivo \\
@@ -445,7 +445,7 @@ A Figura~\ref{fig:circuitos-modelo-sobrepostos-figura} sobrepõe esses circuitos
 \caption{Circuitos do modelo sobrepostos à Figura 22 da patente, com o braço elevado (regime I, θ\textsubscript{el} = 96,5°) e baixado (regime II, θ\textsubscript{el} = −2,2°)}\label{fig:circuitos-modelo-sobrepostos-figura}
 \includegraphics[width=1.00\textwidth]{circuitos-modelo-sobrepostos-figura.png}
 \fonte{adaptada de \textcite{mizera2023}, Figura 22, p. 37 do documento B1, com os circuitos do modelo sobrepostos pelo autor.}
-\nota{desenho da patente em cinza, girado para a orientação de leitura; vetores, pontos e linhas pontilhadas do modelo como na Figura~\ref{fig:circuitos-mecanismo-regime-i}. À direita, ampliação da região do pivô.}
+\nota{desenho da patente em cinza, girado para a orientação de leitura; vetores, pontos e linhas pontilhadas do modelo como na Figura~\ref{fig:circuitos-mecanismo-regime-i}. À direita, ampliação da região do pivô. Em cada pose, O e A coincidem por construção, porque o desenho foi alinhado por esses dois pontos; só P e o elemento 78 testam o modelo, e suas posições não foram medidas contra o desenho.}
 \end{figure}
 
 \subsection{Comprimento do elástico, lei da mola e torque}\label{sec:3.2.6}
@@ -520,7 +520,7 @@ Segundo a patente, as três curvas da Figura 16 da patente foram geradas com um 
 \nota{página do documento girada para a orientação de leitura. A patente não traz rótulo nem escala na ordenada.}
 \end{figure}
 
-Os pontos das três curvas foram extraídos pelo autor e estão no arquivo fig16\_curvas.csv (Tabela~\ref{tab:pontos-extraidos-figura-patente}). A extração, a segunda realizada, dividiu a leitura vertical por 21,1311 para obter a razão em divisões da grade, manteve a abscissa sem correção e teve erro mediano de sobreposição inferior a 0,5 px; a imagem e a resolução usadas na leitura não foram registradas. No documento B1, a figura está gravada a 300 ppp, com cerca de 215,7 px por divisão vertical e 266,2 px para 20° da abscissa. Se o erro de 0,5 px se refere à unidade da leitura vertical, ele corresponde a 0,024 divisão na ordenada e, na mesma unidade, a 0,38° na abscissa. A incerteza da extração não foi avaliada de forma independente; a identificação, adiante, propaga esse erro mediano à identificação por sorteio.
+Os pontos das três curvas foram extraídos pelo autor e estão no arquivo fig16\_curvas.csv (Tabela~\ref{tab:pontos-extraidos-figura-patente}). A extração dividiu a leitura vertical por 21,1311 para obter a razão em divisões da grade, manteve a abscissa sem correção e teve erro mediano de sobreposição inferior a 0,5 px; a imagem e a resolução usadas na leitura não foram registradas. No documento B1, a figura está gravada a 300 ppp, com cerca de 215,7 px por divisão vertical e 266,2 px para 20° da abscissa. Se o erro de 0,5 px se refere à unidade da leitura vertical, ele corresponde a 0,024 divisão na ordenada e, na mesma unidade, a 0,38° na abscissa. A incerteza da extração não foi avaliada de forma independente; a identificação, adiante, propaga esse erro mediano à identificação por sorteio.
 
 A Figura 17 da patente não foi digitalizada. A seção~\ref{sec:4.2.8} faz apenas uma comparação visual com ela.
 

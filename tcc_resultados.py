@@ -278,71 +278,145 @@ def tabela_patente(patente, calc, res):
 
 # ---------------------------------------------------------------- figuras
 
-def figura_geometria():
-    th = tm.THETA_POSE
+def geometria_circuito(h, th=None):
+    """Pontos do laço vetorial na pose th (graus), para o h dado."""
+    th = tm.THETA_POSE if th is None else th
     q = tm.calculate_q(th)
-    s = tm.calculate_tangent_span(tm.calculate_rho(q, H))
-    phi = tm.calculate_phi(q, s, H)
-    A = np.array(tm.calculate_base_vector(H))
+    s = tm.calculate_tangent_span(tm.calculate_rho(q, h))
+    phi = tm.calculate_phi(q, s, h)
+    a = np.radians(tm.ALPHA)
+    A = np.array(tm.calculate_base_vector(h))
+    E = h*np.array([np.sin(a), np.cos(a)])       # fim da perna h, no eixo do elo proximal
+    assert np.allclose(E + tm.P*np.array([-np.cos(a), np.sin(a)]), A)
     Pc = -tm.C*np.array([np.cos(q), np.sin(q)])
     T = tm.ponto_tangencia(q, phi)
     u = np.array([np.cos(phi), np.sin(phi)])
-    m = tm.braco_perpendicular(phi, H)
-    pe = A + (-A @ u)*u                       # pé da perpendicular de O à linha do cabo
+    return {"th": th, "h": h, "q": q, "s": s, "phi": phi, "A": A, "E": E, "Pc": Pc,
+            "T": T, "pe": A + (-A @ u)*u, "m": tm.braco_perpendicular(phi, h)}
 
+
+def desenhar_circuito(eixos_, g, rotulo_hp):
+    """Elo, vão do cabo, vetor B com as pernas h e p, braço m e distância b."""
+    A, E, Pc, T, pe = g["A"], g["E"], g["Pc"], g["T"], g["pe"]
+    alcas = []
+    for ax in eixos_:
+        ax.add_patch(plt.Circle(Pc, tm.R, fill=False, color=TINTA_2, lw=1.2, zorder=3))
+        alcas = [
+            ax.plot([0, Pc[0]], [0, Pc[1]], color=TINTA, lw=2.2, zorder=3,
+                    label="elo O → D (comprimento C)")[0],
+            ax.plot([A[0], T[0]], [A[1], T[1]], color=AZUL, lw=1.8, zorder=3,
+                    label="vão reto s (A → T), linha de ação do cabo")[0],
+            ax.plot([0, A[0]], [0, A[1]], color=LARANJA, lw=1.8, zorder=3,
+                    label="vetor fixo B (O → A)")[0],
+            ax.plot([0, E[0], A[0]], [0, E[1], A[1]], color=LARANJA, lw=1.0,
+                    ls=(0, (4, 2)), zorder=3, label=rotulo_hp)[0],
+            ax.plot([0, pe[0]], [0, pe[1]], color=VERDE, lw=1.6, ls="--", zorder=3,
+                    label=f"braço perpendicular m = {g['m']:.2f} mm".replace(".", ","))[0],
+            ax.plot([0, T[0]], [0, T[1]], color=TINTA_2, lw=1.0, ls=":", zorder=3,
+                    label="distância b (O → T), não é braço de momento")[0],
+        ]
+    return alcas
+
+
+def _arco(ax, centro, raio, de, ate, rotulo, desloc=1.18, angulo_rotulo=None):
+    """Arco anti-horário de 'de' a 'ate' (graus, a partir de +x), com rótulo."""
+    from matplotlib.patches import Arc
+    ax.add_patch(Arc(centro, 2*raio, 2*raio, theta1=de, theta2=ate, color=TINTA_2,
+                     lw=0.9, zorder=4))
+    meio = np.radians((de + ate)/2 if angulo_rotulo is None else angulo_rotulo)
+    ax.annotate(rotulo, np.asarray(centro) + desloc*raio*np.array([np.cos(meio), np.sin(meio)]),
+                ha="center", va="center", fontsize=8, color=TINTA_2, zorder=6)
+
+
+def desenhar_angulos(ax1, ax2, g, r_theta, r_q, r_alpha, r_phi):
+    """θ*, q (vista geral) e α, φ (ampliação), como na Tabela 1: anti-horários.
+
+    θ* vai do eixo do elo proximal (direção de h) ao elo O → D; α, do eixo do
+    elo proximal à vertical; q, de +x à direção D → O; φ, de +x à linha do cabo.
+    """
+    eixo = 90.0 - tm.ALPHA
+    elo = np.degrees(g["q"]) + 180.0
+    q = np.degrees(g["q"])
+    phi = np.degrees(g["phi"]) % 360.0
+    Pc, A = g["Pc"], g["A"]
+    u = lambda t: np.array([np.cos(np.radians(t)), np.sin(np.radians(t))])
+    guia = dict(color=TINTA_2, lw=0.7, ls=(0, (1, 2)), zorder=2)
+    for ax, r in ((ax1, 1.25*r_theta), (ax2, 1.6*r_alpha)):
+        ax.plot(*np.array([[0, 0], r*u(eixo)]).T, **guia)          # eixo do elo proximal
+    _arco(ax1, (0, 0), r_theta, eixo, elo, "θ*")
+    ax1.plot(*np.array([Pc, Pc + 1.35*r_q*u(0)]).T, **guia)         # +x em D
+    _arco(ax1, Pc, r_q, 0.0, q, "q", angulo_rotulo=q + 6.0)
+    ax2.plot([0, 0], [0, 1.6*r_alpha], **guia)                     # vertical em O
+    _arco(ax2, (0, 0), r_alpha, eixo, 90.0, "α", desloc=1.35)
+    ax2.plot(*np.array([A, A + 1.8*r_phi*u(0)]).T, **guia)          # +x em A
+    _arco(ax2, A, r_phi, 0.0, phi, "φ", desloc=1.45, angulo_rotulo=90.0)
+
+
+def angulo_reto(ax, g, k):
+    """Marca do ângulo reto entre as pernas h e p."""
+    E, A = g["E"], g["A"]
+    ua, up = E/np.hypot(*E), (A - E)/np.hypot(*(A - E))
+    ax.plot(*np.array([E - k*ua, E - k*ua + k*up, E + k*up]).T, color=LARANJA,
+            lw=0.8, zorder=4)
+
+
+def rotular_pontos(ax1, ax2, g, desloc_a1, desloc_a2):
+    pontos = {"O": (np.zeros(2), (6, -12)), "A": (g["A"], desloc_a1),
+              "D": (g["Pc"], (6, -12)), "T": (g["T"], (-4, 6))}
+    for nome, (pt, desloc) in pontos.items():
+        for ax in (ax1, ax2):
+            ax.plot(*pt, "o", color=TINTA, ms=4, zorder=5)
+        ax1.annotate(nome, pt, xytext=desloc, textcoords="offset points",
+                     fontsize=8, color=TINTA, zorder=6)
+    for nome, desloc in (("O", (6, -12)), ("A", desloc_a2)):
+        ax2.annotate(nome, pontos[nome][0], xytext=desloc, textcoords="offset points",
+                     fontsize=8, color=TINTA, zorder=6)
+    E, A = g["E"], g["A"]
+    ax2.annotate("h", E/2, xytext=(5, -4), textcoords="offset points", fontsize=8,
+                 color=LARANJA, zorder=6)
+    ax2.annotate("p", (E + A)/2, xytext=(1, 6), textcoords="offset points",
+                 fontsize=8, color=LARANJA, zorder=6)
+
+
+def figura_geometria():
+    """Laço vetorial do modelo na pose de referência, com o h adotado, na mesma
+    construção da Figura 2: pernas h e p de B e os ângulos da Tabela 1."""
+    g = geometria_circuito(H)
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 3.9), dpi=200,
                                    facecolor=SUPERFICIE,
                                    gridspec_kw={"width_ratios": [1.9, 1]})
-    alcas = []
     for ax in (ax1, ax2):
         eixos(ax)
         ax.set_aspect("equal")
-        ax.add_patch(plt.Circle(Pc, tm.R, fill=False, color=TINTA_2, lw=1.2))
-        alcas = [
-            ax.plot([0, Pc[0]], [0, Pc[1]], color=TINTA, lw=2.2,
-                    label="elo O → D (comprimento C)")[0],
-            ax.plot([A[0], T[0]], [A[1], T[1]], color=AZUL, lw=1.8,
-                    label="vão reto s (A → T), linha de ação do cabo")[0],
-            ax.plot([0, A[0]], [0, A[1]], color=LARANJA, lw=1.8,
-                    label="vetor fixo B (O → A)")[0],
-            ax.plot([0, pe[0]], [0, pe[1]], color=VERDE, lw=1.6, ls="--",
-                    label=f"braço perpendicular m = {m:.2f} mm".replace(".", ","))[0],
-            ax.plot([0, T[0]], [0, T[1]], color=TINTA_2, lw=1.0, ls=":",
-                    label="distância b (O → T), não é braço de momento")[0],
-        ]
         ax.xaxis.set_major_formatter(virgula(0))
         ax.yaxis.set_major_formatter(virgula(0))
         ax.set_xlabel("x (mm)", color=TINTA_2)
-    pontos = {"O": (np.zeros(2), (6, -12)), "A": (A, (6, 2)),
-              "D": (Pc, (6, -12)), "T": (T, (-4, 6))}
-    for nome, (p, desloc) in pontos.items():
-        for ax in (ax1, ax2):
-            ax.plot(*p, "o", color=TINTA, ms=4, zorder=5)
-        ax1.annotate(nome, p, xytext=desloc, textcoords="offset points",
-                     fontsize=8, color=TINTA)
-    for nome in ("O", "A"):
-        p, desloc = pontos[nome]
-        ax2.annotate(nome, p, xytext=desloc, textcoords="offset points",
-                     fontsize=8, color=TINTA)
+    alcas = desenhar_circuito((ax1, ax2), g,
+                              "componentes h e p de B, no referencial do elo proximal")
+    desenhar_angulos(ax1, ax2, g, r_theta=38.0, r_q=48.0, r_alpha=9.0, r_phi=4.5)
+    angulo_reto(ax2, g, 1.3)
+    rotular_pontos(ax1, ax2, g, (6, 2), (-13, -9))
     ax1.set_ylabel("y (mm)", color=TINTA_2)
-    ax1.set_ylim(-50, 35)
+    ax1.set_xlim(-320, 45)
+    ax1.set_ylim(-55, 55)
     ax2.set_xlim(-40, 30)
-    ax2.set_ylim(-15, 35)
+    ax2.set_ylim(-15, 38)
     fig.legend(handles=alcas, loc="lower center", ncol=3, frameon=False,
                fontsize=7.5)
-    fig.subplots_adjust(left=0.07, right=0.98, top=0.98, bottom=0.30, wspace=0.15)
+    fig.subplots_adjust(left=0.07, right=0.98, top=0.98, bottom=0.27, wspace=0.15)
     fig.savefig(PASTA/"tcc_fig1_geometria.png", facecolor=SUPERFICIE)
     plt.close(fig)
-    return {"A": A.tolist(), "Pc": Pc.tolist(), "T": T.tolist(), "m": float(m),
+    A, Pc, T, phi, q = g["A"], g["Pc"], g["T"], g["phi"], g["q"]
+    return {"A": A.tolist(), "Pc": Pc.tolist(), "T": T.tolist(), "m": float(g["m"]),
             "phi_grau": float(np.degrees(phi)), "q_grau": float(np.degrees(q)),
-            "s": float(s)}
+            "s": float(g["s"])}
 
 
 # Figura 42 da US 9.889.554 B2 (VAN ENGELHOVEN; KAZEROONI, 2018), vista em
 # corte do gerador de torque 108, enviada pelo autor (patentes/
 # US9889554B2_fig42.png). Coordenadas em pixels da imagem: centro dos anéis
 # do pivô 151 e do tambor 183. O laço do modelo é alinhado por esses dois
-# pontos (O e D), na pose de referência e com o h adotado, como na Figura 1.
+# pontos (O e D), na pose de referência, com a cota do CAD.
 FIG42 = Path(__file__).parent/"patentes"/"US9889554B2_fig42.png"
 REGISTRO_FIG42 = {"O": (584.5, 194.8), "D": (140.5, 218.5)}
 
@@ -351,19 +425,8 @@ def figura_sobreposicao_fig42():
     """Laço vetorial sobre a Figura 42 da patente, com h = H_CAD: a perna h vai
     de 151 ao longo do 150 até antes do 176 e a perna p fecha a 90° no 176."""
     from matplotlib.transforms import Affine2D
-    th, h = tm.THETA_POSE, tm.H_CAD
-    q = tm.calculate_q(th)
-    s = tm.calculate_tangent_span(tm.calculate_rho(q, h))
-    phi = tm.calculate_phi(q, s, h)
-    A = np.array(tm.calculate_base_vector(h))
-    a = np.radians(tm.ALPHA)
-    E = h*np.array([np.sin(a), np.cos(a)])       # fim da perna h, ao longo do 150
-    assert np.allclose(E + tm.P*np.array([-np.cos(a), np.sin(a)]), A)
-    Pc = -tm.C*np.array([np.cos(q), np.sin(q)])
-    T = tm.ponto_tangencia(q, phi)
-    u = np.array([np.cos(phi), np.sin(phi)])
-    m = tm.braco_perpendicular(phi, h)
-    pe = A + (-A @ u)*u
+    g = geometria_circuito(tm.H_CAD)
+    Pc = g["Pc"]
     O_d, D_d = np.array(REGISTRO_FIG42["O"]), np.array(REGISTRO_FIG42["D"])
     vd = np.array([D_d[0] - O_d[0], -(D_d[1] - O_d[1])])
     escala = float(np.hypot(*vd)/np.hypot(*Pc))
@@ -374,7 +437,6 @@ def figura_sobreposicao_fig42():
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4.6), dpi=200,
                                    facecolor=SUPERFICIE,
                                    gridspec_kw={"width_ratios": [2.0, 1]})
-    alcas = []
     for ax in (ax1, ax2):
         eixos(ax)
         ax.grid(False)                             # a grade cortaria o desenho
@@ -384,45 +446,13 @@ def figura_sobreposicao_fig42():
               .rotate_deg(-giro) + ax.transData)
         ax.imshow(fundo, cmap="gray", vmin=0, vmax=1, interpolation="bilinear",
                   extent=(0, fundo.shape[1], fundo.shape[0], 0), transform=tr, zorder=1)
-        ax.add_patch(plt.Circle(Pc, tm.R, fill=False, color=TINTA_2, lw=1.2, zorder=3))
-        alcas = [
-            ax.plot([0, Pc[0]], [0, Pc[1]], color=TINTA, lw=2.2, zorder=3,
-                    label="elo O → D (comprimento C)")[0],
-            ax.plot([A[0], T[0]], [A[1], T[1]], color=AZUL, lw=1.8, zorder=3,
-                    label="vão reto s (A → T), linha de ação do cabo")[0],
-            ax.plot([0, A[0]], [0, A[1]], color=LARANJA, lw=1.8, zorder=3,
-                    label="vetor fixo B (O → A)")[0],
-            ax.plot([0, E[0], A[0]], [0, E[1], A[1]], color=LARANJA, lw=1.0,
-                    ls=(0, (4, 2)), zorder=3,
-                    label="componentes h (ao longo do 150) e p (a 90°)")[0],
-            ax.plot([0, pe[0]], [0, pe[1]], color=VERDE, lw=1.6, ls="--", zorder=3,
-                    label=f"braço perpendicular m = {m:.2f} mm".replace(".", ","))[0],
-            ax.plot([0, T[0]], [0, T[1]], color=TINTA_2, lw=1.0, ls=":", zorder=3,
-                    label="distância b (O → T), não é braço de momento")[0],
-        ]
         ax.xaxis.set_major_formatter(virgula(0))
         ax.yaxis.set_major_formatter(virgula(0))
         ax.set_xlabel("x (mm)", color=TINTA_2)
-    # marca do ângulo reto entre as pernas h e p
-    ua, up = E/np.hypot(*E), A - E
-    up = up/np.hypot(*up)
-    k = 1.6
-    ax2.plot(*np.array([E - k*ua, E - k*ua + k*up, E + k*up]).T, color=LARANJA,
-             lw=0.8, zorder=4)
-    pontos = {"O": (np.zeros(2), (6, -12)), "A": (A, (5, 3)),
-              "D": (Pc, (6, -12)), "T": (T, (-4, 6))}
-    for nome, (pt, desloc) in pontos.items():
-        for ax in (ax1, ax2):
-            ax.plot(*pt, "o", color=TINTA, ms=4, zorder=5)
-        ax1.annotate(nome, pt, xytext=desloc, textcoords="offset points",
-                     fontsize=8, color=TINTA, zorder=6)
-    for nome, desloc in (("O", (6, -12)), ("A", (-11, 5))):
-        ax2.annotate(nome, pontos[nome][0], xytext=desloc, textcoords="offset points",
-                     fontsize=8, color=TINTA, zorder=6)
-    ax2.annotate("h", E/2, xytext=(5, -4), textcoords="offset points", fontsize=8,
-                 color=LARANJA, zorder=6)
-    ax2.annotate("p", (E + A)/2, xytext=(1, 6), textcoords="offset points",
-                 fontsize=8, color=LARANJA, zorder=6)
+    alcas = desenhar_circuito((ax1, ax2), g, "componentes h (ao longo do 150) e p (a 90°)")
+    desenhar_angulos(ax1, ax2, g, r_theta=45.0, r_q=55.0, r_alpha=12.0, r_phi=5.0)
+    angulo_reto(ax2, g, 1.6)
+    rotular_pontos(ax1, ax2, g, (6, 2), (-13, -9))
     ax1.set_ylabel("y (mm)", color=TINTA_2)
     ax1.set_xlim(-345, 85)
     ax1.set_ylim(-75, 125)
@@ -433,8 +463,61 @@ def figura_sobreposicao_fig42():
     fig.subplots_adjust(left=0.07, right=0.98, top=0.98, bottom=0.24, wspace=0.15)
     fig.savefig(PASTA/"tcc_fig1_sobreposicao.png", facecolor=SUPERFICIE)
     plt.close(fig)
-    return {"escala": escala, "giro": giro, "theta": float(th), "h": float(h),
-            "h_cal": float(H), "p": float(tm.P), "m": float(m)}
+    return {"escala": escala, "giro": giro, "theta": float(g["th"]), "h": float(g["h"]),
+            "h_cal": float(H), "p": float(tm.P), "m": float(g["m"])}
+
+
+def figura_rmse_h():
+    """Figura 8: RMSE contra os pontos extraídos em função de h, com K congelado,
+    a partir da varredura de torque_model.varredura_h (results/vh_varredura_h.csv).
+    À esquerda, a faixa inteira em escala log, com os h viáveis; à direita, a
+    ampliação em torno do mínimo, com os platôs de RMSE."""
+    import csv
+    linhas = list(csv.DictReader(open(PASTA/"vh_varredura_h.csv", encoding="utf-8"),
+                                 delimiter=";"))
+    num = lambda x: float(x.replace(",", "."))
+    hh = np.array([num(l["h"]) for l in linhas])
+    rr = np.array([num(l["rmse"]) for l in linhas])
+    viavel = np.array([l["viavel"] == "sim" for l in linhas])
+    hh, idx = np.unique(np.round(hh, 6), return_index=True)   # H_CAD aparece duas vezes
+    rr, viavel = rr[idx], viavel[idx]
+    i0 = int(np.argmin(rr))
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4.2), dpi=200, facecolor=SUPERFICIE,
+                                   gridspec_kw={"width_ratios": [1.35, 1]})
+    for ax in (ax1, ax2):
+        eixos(ax)
+        ax.set_xlabel("h (mm)", color=TINTA_2)
+    ax1.axvspan(hh[viavel].min(), hh[viavel].max(), color=VERDE, alpha=0.12, lw=0,
+                label="h fisicamente viáveis")
+    ax1.semilogy(hh, rr, color=AZUL, lw=2, label="RMSE(h), K congelado")
+    ax1.axvline(H, color=LARANJA, lw=1.6, label=r"$H_{\mathrm{CAL}}$")
+    ax1.axvline(tm.H_CAD, color=TINTA_2, lw=1.2, ls="--", label=r"$H_{\mathrm{CAD}}$")
+    ax1.set_ylabel("RMSE (u.p.), escala log", color=TINTA_2)
+    ax1.xaxis.set_major_formatter(virgula(0))
+    ax1.legend(loc="lower right", frameon=False, fontsize=7.5)
+    # platôs: maior intervalo contíguo em torno do mínimo com RMSE ≤ f·mín
+    tons = {2.0: 0.16, 1.10: 0.24, 1.05: 0.32, 1.01: 0.40}
+    janela = (hh >= 21.6) & (hh <= 23.9)
+    for f_, alfa in tons.items():
+        ok = rr <= f_*rr[i0]
+        a_, b_ = i0, i0
+        while a_ > 0 and ok[a_ - 1]:
+            a_ -= 1
+        while b_ < len(hh) - 1 and ok[b_ + 1]:
+            b_ += 1
+        ax2.axvspan(hh[a_], hh[b_], color=AZUL, alpha=alfa, lw=0,
+                    label=f"RMSE ≤ {f_:.2f}·mín".replace(".", ","))
+    ax2.plot(hh[janela], rr[janela], color=AZUL, lw=2)
+    ax2.axvline(H, color=LARANJA, lw=1.6)
+    ax2.set_ylabel("RMSE (u.p.)", color=TINTA_2)
+    ax2.xaxis.set_major_formatter(virgula(1))
+    ax2.yaxis.set_major_formatter(virgula(1))
+    ax2.legend(loc="upper center", ncol=2, frameon=False, fontsize=7.5)
+    ax2.set_ylim(rr[janela].min() - 0.15, rr[janela].max() + 0.45)
+    fig.tight_layout()
+    fig.savefig(PASTA/"tcc_fig8_rmse_h.png", facecolor=SUPERFICIE)
+    plt.close(fig)
+    return {"h_min": float(hh[i0]), "rmse_min": float(rr[i0])}
 
 
 def figura_ajuste(patente, met):
@@ -920,6 +1003,7 @@ def main():
     h_restricao = h_restricao_extensao(patente)
     geo = figura_geometria()
     sob42 = figura_sobreposicao_fig42()
+    figura_rmse_h()
     figura_ajuste(patente, met)
     figura_familia(patente)
     efeito = efeito_h()

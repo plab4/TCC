@@ -616,6 +616,10 @@ def main():
                                  ("faixa_max", aj["faixa_s0"][1]))), geo, tp)
     N["sensibilidade_s0"] = sens
     N["sensibilidade_s0_forma"] = sens_forma
+    # sensibilidade à curva de referência: s0 das outras duas curvas da Fig. 16
+    N["sensibilidade_curvas"] = sensibilidade(
+        [(c, N["razoes"]["s0"][c]) for c in N["razoes"]["s0"] if c != tmo.CURVA_PROJETO],
+        geo, tp)
 
     # formas normalizadas (independem de K)
     N["normalizado"] = normalizado(sens, geo, tp)

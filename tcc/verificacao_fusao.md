@@ -1,10 +1,10 @@
 # Verificação do TCC fundido
 
-Original: TCC_apenas_exo1.docx, 305 blocos. Fundido: TCC_exo1_exo2.docx, 592 blocos.
+Original: TCC_apenas_exo1.docx, 305 blocos. Fundido: TCC_exo1_exo2.docx, 596 blocos.
 
 ## 1. Conteúdo do original
 
-Blocos do original encontrados em ordem, com XML idêntico fora do texto (nas equações, os delimitadores simples passam a ter tamanho fixo): 300 de 300 (5 retirados de propósito, REMOVIDOS). Texto diferente do esperado (renumeração e as 34 edições declaradas): 0. Retirados ainda presentes: 0. Autores dos retirados ainda citados: nenhum.
+Blocos do original encontrados em ordem, com XML idêntico fora do texto (nas equações, os delimitadores simples passam a ter tamanho fixo): 300 de 300 (5 retirados de propósito, REMOVIDOS). Texto diferente do esperado (renumeração e as 63 edições declaradas): 0. Retirados ainda presentes: 0. Autores dos retirados ainda citados: nenhum.
 Renumeração das tabelas do original: {1: 1, 2: 4, 3: 5, 4: 6, 5: 7, 6: 8, 7: 9, 8: 10, 9: 11, 10: 12, 11: 13}.
 Renumeração das figuras do original: {1: 1, 2: 6, 3: 7, 4: 8, 5: 9}.
 
@@ -20,7 +20,7 @@ Referências sem alvo: 0.
 
 ## 4. Texto novo
 
-Blocos novos: 292. Travessões: 0. Restos da numeração do apêndice: 0.
+Blocos novos: 296. Travessões: 0. Restos da numeração do apêndice: 0.
 
 ## 5. Parágrafos do apêndice da versão anterior
 
@@ -118,10 +118,10 @@ Idênticos: 5. Iguais a menos de números e referências: 25. Modificados: 40. S
   - mais próximo no fundido: O peso do conjunto que gira com o braço é conservativo, com potencial Vg = M g yG/1000, em que yG é a altura d
 - Sem correspondente (0.08): Este apêndice aplica à EP 3 504 033 B1 (OTTOBOCK, 2023) o procedimento dos capítulos 3 e 4, que no corpo do tr
   - mais próximo no fundido: O segundo dispositivo acrescenta ao trabalho um caso de teste do procedimento de identificação. A EP 3 504 033
+- Sem correspondente (0.08): Foram executadas, para a EP 3 504 033 B1, a leitura da arquitetura na patente, a organização das grandezas do 
+  - mais próximo no fundido: Okabe, Brittes e Brito (2026) usaram curvas de patente, entre elas as da US 9.889.554 B2 e da EP 3 504 033 B1,
 - Sem correspondente (0.09): O sinal de θb,pose = −7,962° está registrado no código como a confirmar. Com o sinal trocado, λ0 passa a −27,4
   - mais próximo no fundido: As relações de circuito dos dois regimes e o princípio dos trabalhos virtuais foram verificados com resíduos d
-- Sem correspondente (0.09): Foram executadas, para a EP 3 504 033 B1, a leitura da arquitetura na patente, a organização das grandezas do 
-  - mais próximo no fundido: Dos objetivos acrescentados para esse dispositivo, o item h foi cumprido na parte estática, com três ressalvas
 - Sem correspondente (0.09): A forma do torque do elástico pode ser comparada à do peso sem depender de K, normalizando cada curva pelo pró
   - mais próximo no fundido: O espaçamento entre as três curvas da Figura 16 da patente determina os comprimentos de referência do elástico
 - Sem correspondente (0.10): Os três critérios de validade física da seção 3.10, adaptados ao mecanismo, foram atendidos em todos os valore
@@ -140,10 +140,10 @@ Idênticos: 5. Iguais a menos de números e referências: 25. Modificados: 40. S
   - mais próximo no fundido: O elemento 78, chamado na patente de Anlageelement e aqui de elemento de encosto, fica junto à articulação 20 
 - Sem correspondente (0.33): com λ em radianos, relação análoga à Equação (17), verificada numericamente nos dois regimes (seção A.12). O s
   - mais próximo no fundido: O torque τ é positivo no sentido anti-horário, que é o de θel crescente; τ > 0 assiste a subida do braço. O to
+- Sem correspondente (0.35): A ancoragem A do elástico fica na barra 18, e o ponto P, no fim do cotovelo da alavanca solidária ao braço (Fi
+  - mais próximo no fundido: O torque τ é positivo no sentido anti-horário, que é o de θel crescente; τ > 0 assiste a subida do braço. O to
 - Sem correspondente (0.35): No modelo em CAD, o braço do exoesqueleto (elemento 8) tem massa de 163,951 g, centro de massa em (69,249; 151
   - mais próximo no fundido: No modelo em CAD, o braço do exoesqueleto (elemento 8) tem massa de 163,951 g, centro de massa em (69,249; 151
-- Sem correspondente (0.38): A ancoragem A do elástico fica na barra 18, e o ponto P, no fim do cotovelo da alavanca solidária ao braço (Fi
-  - mais próximo no fundido: Nota: desenho da patente em cinza, girado para a orientação de leitura; vetores, pontos e linhas pontilhadas d
 - Sem correspondente (0.43): A Tabela A.13 reúne o que falta para concluir cada etapa, a consequência da ausência e a forma de obter o dado
   - mais próximo no fundido: A Tabela 21 resume a situação dos parâmetros que a patente não publica, no formato da Tabela 8.
 - Sem correspondente (0.43): Com o elemento 78 sobre o eixo (p78 = 0), configuração preferida pela patente [0099], a transição tem forma fe
@@ -159,4 +159,5 @@ Idênticos: 5. Iguais a menos de números e referências: 25. Modificados: 40. S
 
 ## 6. Pacote
 
+Imagens substituídas por declaração: ['word/media/image1.png', 'word/media/image4.png'], conferidas (conteúdo do arquivo declarado e mesmo tamanho em pixels): True.
 Partes alteradas além do documento e das relações: nenhuma. Partes novas: ['word/media/exo2_1.png', 'word/media/exo2_2.png', 'word/media/exo2_3.png', 'word/media/exo2_4.png', 'word/media/exo2_5.png', 'word/media/exo2_6.png', 'word/media/exo2_7.png', 'word/media/exo2_8.png', 'word/media/exo2_9.png']. Relações originais mantidas: True. sectPr final idêntico: True.
