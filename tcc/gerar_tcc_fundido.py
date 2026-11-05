@@ -2617,6 +2617,8 @@ URL_SUITX = "https://www.suitx.com/en/products/ix-shoulder-air-exoskeleton"
 RID_SUITX = "rIdExo2Url1"
 DOI_ZEIAEE = "https://doi.org/10.1109/ICORR.2017.8009339"
 RID_ZEIAEE = "rIdExo2Doi2"
+DOI_OKABE = "https://doi.org/10.1115/1.4071946"
+RID_OKABE = "rIdExo2Doi3"
 
 
 def ref_brent():
@@ -2662,7 +2664,10 @@ def ref_okabe():
             'Modeling and simulation of an upper limb exoskeleton. </w:t></w:r>'
             '<w:r><w:rPr><w:b/></w:rPr><w:t>Journal of Computational and Nonlinear Dynamics</w:t></w:r>'
             '<w:r><w:t xml:space="preserve">, [S.l.], v. 21, n. 7, art. 071006, '
-            'jul. 2026.</w:t></w:r></w:p>')
+            'jul. 2026. DOI: </w:t></w:r>'
+            f'<w:hyperlink r:id="{RID_OKABE}" w:history="1"><w:r><w:rPr>'
+            '<w:rStyle w:val="Hyperlink"/></w:rPr><w:t>10.1115/1.4071946</w:t>'
+            '</w:r></w:hyperlink><w:r><w:t>.</w:t></w:r></w:p>')
 
 
 def ref_zeiaee():
@@ -2925,7 +2930,7 @@ def main(origem, destino):
             f'<Relationship Id="{rid}" Type="http://schemas.openxmlformats.org/'
             f'officeDocument/2006/relationships/image" Target="{alvo}"/></Relationships>')
     for rid, url in ((RID_DOI, DOI_VIRTANEN), (RID_SUITX, URL_SUITX),
-                     (RID_ZEIAEE, DOI_ZEIAEE)):
+                     (RID_ZEIAEE, DOI_ZEIAEE), (RID_OKABE, DOI_OKABE)):
         assert rid not in rels
         rels = rels.replace(
             "</Relationships>",
