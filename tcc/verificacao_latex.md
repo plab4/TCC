@@ -5,7 +5,7 @@ DOCX: TCC_exo1_exo2.docx. PDF: tese.pdf, 99 páginas; capítulos nas páginas 11
 ## 1. Texto corrido, títulos, legendas, fontes e notas
 
 Elementos conferidos: 461. Encontrados no PDF: 461.
-Encontrados com interrupção do lado do PDF (cabeçalho, figura ou tabela no meio do parágrafo): 7.
+Encontrados com interrupção do lado do PDF (cabeçalho, figura ou tabela no meio do parágrafo): 9.
 Diferenças esperadas, impostas pelo estilo ABNT do modelo: 'SHEN et al., 2020' passa a 'SHEN; FERGUSON; ROSEN, 2020'.
 
 ## 2. Células de tabela

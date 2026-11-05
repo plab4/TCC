@@ -4,7 +4,7 @@ Original: TCC_apenas_exo1.docx, 305 blocos. Fundido: TCC_exo1_exo2.docx, 596 blo
 
 ## 1. Conteúdo do original
 
-Blocos do original encontrados em ordem, com XML idêntico fora do texto (nas equações, os delimitadores simples passam a ter tamanho fixo): 300 de 300 (5 retirados de propósito, REMOVIDOS). Texto diferente do esperado (renumeração e as 63 edições declaradas): 0. Retirados ainda presentes: 0. Autores dos retirados ainda citados: nenhum.
+Blocos do original encontrados em ordem, com XML idêntico fora do texto (nas equações, os delimitadores simples passam a ter tamanho fixo): 300 de 300 (5 retirados de propósito, REMOVIDOS). Texto diferente do esperado (renumeração e as 66 edições declaradas): 0. Retirados ainda presentes: 0. Autores dos retirados ainda citados: nenhum.
 Renumeração das tabelas do original: {1: 1, 2: 4, 3: 5, 4: 6, 5: 7, 6: 8, 7: 9, 8: 10, 9: 11, 10: 12, 11: 13}.
 Renumeração das figuras do original: {1: 1, 2: 6, 3: 7, 4: 8, 5: 9}.
 
@@ -24,7 +24,7 @@ Blocos novos: 296. Travessões: 0. Restos da numeração do apêndice: 0.
 
 ## 5. Parágrafos do apêndice da versão anterior
 
-Idênticos: 5. Iguais a menos de números e referências: 25. Modificados: 40. Sem correspondente próximo: 25. Os últimos foram reescritos pelos novos resultados de s0 ou eram próprios do apêndice (título, apresentação e nota da lista de referências separada).
+Idênticos: 5. Iguais a menos de números e referências: 25. Modificados: 39. Sem correspondente próximo: 26. Os últimos foram reescritos pelos novos resultados de s0 ou eram próprios do apêndice (título, apresentação e nota da lista de referências separada).
 
 - Modificado (0.51): em que θb,pose é o ângulo do braço com a horizontal na pose do CAD, positivo acima. A Tabela A.4 resume as con
   - mais próximo no fundido: em que qpose é a direção de OP na pose do CAD e θb,pose o ângulo do braço com a horizontal nessa pose, positiv
@@ -40,8 +40,6 @@ Idênticos: 5. Iguais a menos de números e referências: 25. Modificados: 40. S
   - mais próximo no fundido: em que s é o comprimento total do elástico entre A e P, ψ a direção do trecho ligado a A e x o comprimento do 
 - Modificado (0.64): O atuador passivo (26) é uma mola de tração na Figura 1 [0080] e um cabo ou fio elástico na Figura 18 [0095]. 
   - mais próximo no fundido: O atuador passivo (26) é uma mola de tração na Figura 1 da patente e um cabo ou fio elástico na Figura 18 da p
-- Modificado (0.65): O circuito do mecanismo foi fechado pelo autor no modelo em CAD do Autodesk Fusion, e as grandezas medidas nes
-  - mais próximo no fundido: O circuito do mecanismo foi fechado no modelo em CAD do Autodesk Fusion, e as grandezas medidas nesse modelo, 
 - Modificado (0.66): Com o aumento de e, o torque cresce em quase toda a faixa, o pico se desloca de 100,5° para 92,0° e a transiçã
   - mais próximo no fundido: Nos ângulos abaixo de cerca de 134°, onde as curvas dos valores extremos de ec se cruzam, o torque aumenta com
 - Modificado (0.69): Figura A.6: Cenário de projeto: torque do elástico com K = K40, torque do peso do membro humano e alvo de 40%
@@ -152,6 +150,8 @@ Idênticos: 5. Iguais a menos de números e referências: 25. Modificados: 40. S
   - mais próximo no fundido: Para q ≤ q*, o elástico encosta no elemento 78 e fica dividido nos trechos de A ao elemento 78 e do elemento 7
 - Sem correspondente (0.45): A.3 Reconstrução geométrica e grandezas do modelo (seções 3.1 e 4.1)
   - mais próximo no fundido: 4.2.1 Geometria reconstruída e propriedades de massa
+- Sem correspondente (0.48): O circuito do mecanismo foi fechado pelo autor no modelo em CAD do Autodesk Fusion, e as grandezas medidas nes
+  - mais próximo no fundido: O circuito do mecanismo foi fechado no modelo em CAD do Autodesk Fusion, e as grandezas medidas nesse modelo, 
 - Sem correspondente (0.48): A.6 Cinemática: equações de circuito e troca de regime (seções 3.4, 3.5 e 3.7)
   - mais próximo no fundido: Tabela 22: Grandezas do circuito em ângulos representativos (ec = 34,785 mm)
 - Sem correspondente (0.48): A.10 Identificação dos parâmetros a partir da Figura 16 (seções 3.9, 4.4 e 4.5)

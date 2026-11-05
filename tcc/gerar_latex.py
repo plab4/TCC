@@ -444,6 +444,10 @@ def altura_estimada(larg, linhas, tamanho):
 
 
 ALTURA_LONGA = 420  # pt; acima disso a tabela usa xltabular e pode quebrar
+# tabelas que não devem ocupar sozinhas uma página de flutuantes: sem o "p",
+# vão para o alto da página seguinte e o texto continua abaixo delas
+SEM_PAGINA_PROPRIA = {"tab:comparacao-dois-dispositivos-analisados",
+                      "tab:cenario-projeto-s0-mm"}
 
 
 def tabela_dados(b, legenda, rotulo, rot, cit, notas_lx):
@@ -485,7 +489,8 @@ def tabela_dados(b, legenda, rotulo, rot, cit, notas_lx):
              "\\bottomrule", "\\endfoot", "\\bottomrule", "\\endlastfoot"]
         s += corpo + ["\\end{xltabular}"] + notas_lx + ["\\end{tabelaabnt}"]
         return s, True
-    s = ["\\begin{table}[!htbp]", "\\estilotabela{" + tamanho + "}", legenda_lx,
+    pos = "!htb" if rotulo in SEM_PAGINA_PROPRIA else "!htbp"
+    s = ["\\begin{table}[" + pos + "]", "\\estilotabela{" + tamanho + "}", legenda_lx,
          "\\begin{tabularx}{\\textwidth}" + espec,
          "\\toprule", cab, "\\midrule"]
     s += corpo + ["\\bottomrule", "\\end{tabularx}"] + notas_lx + ["\\end{table}"]

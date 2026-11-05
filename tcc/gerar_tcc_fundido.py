@@ -586,6 +586,17 @@ EDICOES = [
      "pose, 91,35 mm, para o qual o mesmo modelo forneceu também 90,13 mm, e o "
      "comprimento útil do alojamento, 131,37 mm, para o qual forneceu também "
      "140,0 mm."),
+    # escala da reconstrução: só a origem, uma estimativa de medida antropométrica,
+    # sem o detalhamento do fator (pedido do autor)
+    ("por um fator único, fixado pela razão entre o comprimento do elo distal "
+     "reconstruído e o comprimento de segmento do indivíduo de referência.",
+     "por um fator único, fixado a partir de uma estimativa de medida antropométrica."),
+    (" O fator de escala único, fixado pela razão entre o comprimento do elo distal "
+     "reconstruído e o comprimento de segmento do indivíduo de referência, resultou "
+     "em 0,870.", ""),
+    ("O fator de escala de 0,870, fixado pela comparação entre o comprimento do elo "
+     "distal e o comprimento de segmento do indivíduo de referência, propaga-se",
+     "O fator de escala propaga-se"),
     # H_CAD é medida em CAD (item 13)
     ("é tratada como valor documental, e o valor adotado no modelo é H",
      "é uma medida em CAD, distinta do valor adotado no modelo, H"),
@@ -1011,10 +1022,9 @@ def parte_3B():
     # ------------------------------------------------------------ CAD
     a(P("O circuito do mecanismo foi fechado no modelo em CAD do Autodesk Fusion, e "
         "as grandezas medidas nesse modelo, com as derivadas delas, estão na Tabela "
-        "⟦T:cad⟧ (seção ⟦S:r_geo⟧). Para o gerador da US 9.889.554 B2, a seção 4.1.1 "
-        "registra o fator de escala de 0,870 e o critério que o fixou. Para a "
-        "Ottobock, o arquivo do modelo e o critério de escala não constam do "
-        "repositório, e as medições não têm, por isso, conferência independente. A "
+        "⟦T:cad⟧ (seção ⟦S:r_geo⟧). O arquivo do modelo e o critério de escala não "
+        "constam do repositório, e as medições não têm, por isso, conferência "
+        "independente. A "
         "planilha de composição inercial identifica o modelo como Ottobock iX "
         "Shoulder Air; como a patente não nomeia o produto, a "
         "correspondência entre esse produto, o modelo em CAD e os desenhos da "
@@ -2372,8 +2382,7 @@ def parte_4B():
         ["Pendência", "Consequência", "Como obter"],
         [["Arquivo do modelo em CAD e critério de escala da reconstrução",
           "Grandezas da Tabela ⟦T:cad⟧ sem conferência independente",
-          "Incluir o modelo no repositório e registrar o critério de escala, como "
-          "na seção 4.1.1"],
+          "Incluir o modelo no repositório e registrar o critério de escala"],
          ["Sinal de θ_{b,pose}",
           "Altera q_{0}, o contato, s_{0} e K_{40} (seções ⟦S:conv⟧ e ⟦S:r_s0⟧)",
           "Medir no CAD o ângulo do braço na pose, com o sentido positivo declarado"],
