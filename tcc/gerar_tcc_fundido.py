@@ -321,10 +321,20 @@ def editar(bloco, regras):
     return PARAGRAFO.sub(lambda m: _editar_paragrafo(m.group(0), regras), bloco)
 
 
+# a seção 3.1.9 (trabalhos virtuais) é nova; as do original a partir da 3.9
+# descem uma posição, e a seção 3.2.k continua a corresponder à 3.1.k
+NOVA_31 = 9
+
+
 def secao_nova(numero):
-    """Seções do original: 3.k → 3.1.k e 4.k → 4.1.k; as demais não mudam."""
+    """Seções do original: 3.k → 3.1.k até 3.8 e 3.1.(k + 1) a partir de 3.9;
+    4.k → 4.1.k; as demais não mudam."""
     cap, _, resto = numero.partition(".")
-    return f"{cap}.1.{resto}" if cap in ("3", "4") and resto else numero
+    if cap not in ("3", "4") or not resto:
+        return numero
+    k, _, sub = resto.partition(".")
+    k = int(k) + (1 if cap == "3" and int(k) >= NOVA_31 else 0)
+    return f"{cap}.1.{k}" + (f".{sub}" if sub else "")
 
 
 def _regra_secoes(m):
@@ -345,7 +355,25 @@ REGRAS_ORIGINAL = [
     (r"(seç(?:ão|ões)\s+)(\d+(?:\.\d+)+(?:(?:\s+a\s+|\s+e\s+|,\s*)\d+(?:\.\d+)+)*)",
      _regra_secoes),
 ]
-REGRA_TITULO = [(r"^([34])\.(\d+) ", lambda m: f"{m.group(1)}.1.{m.group(2)} ")]
+REGRA_TITULO = [(r"^([34])\.(\d+) ", lambda m: secao_nova(f"{m.group(1)}.{m.group(2)}") + " ")]
+
+# equações do original: o rótulo "(n)" e as referências "Equação (n)" viram
+# marcas, numeradas com as equações novas por ordem de aparição. No texto novo,
+# número literal de equação só pode ser do original (as novas usam marcas).
+N_EQ_ORIGINAL = 27
+
+
+def _ref_eq(m):
+    n = int(m.group(2))
+    assert 1 <= n <= N_EQ_ORIGINAL, m.group(0)
+    return f"{m.group(1)}(⟦E:o{n}⟧)"
+
+
+ROTULO_EQ = [(r"^\((\d+)\)$", lambda m: f"(⟦E#o{m.group(1)}⟧)")]
+REFS_EQ = [
+    (r"(Equaç(?:ão|ões) )\((\d+)\)", _ref_eq),
+    (r"(Equações \(⟦E:o\d+⟧\) (?:e|a) )\((\d+)\)", _ref_eq),
+]
 
 # Edições do texto original, além da renumeração (antes, depois); cada trecho
 # "antes" tem de ocorrer exatamente uma vez no documento.
@@ -373,11 +401,11 @@ EDICOES = [
      "referem todas as equações deste capítulo e todos os resultados do capítulo 4.",
      "foi executado para o gerador de torque da US 9.889.554 B2, ao qual se referem "
      "as seções 3.1, 4.1 e 5.1, e para o dispositivo da EP 3 504 033 B1, ao qual se "
-     "referem as seções 3.2, 4.2 e 5.2. A seção 3.3 formula os dois modelos estáticos "
-     "pelo princípio dos trabalhos virtuais."),
+     "referem as seções 3.2, 4.2 e 5.2. As seções 3.1.9 e 3.2.9 formulam os dois "
+     "modelos estáticos pelo princípio dos trabalhos virtuais."),
     ("O sinal do termo do arco foi fixado pelo princípio dos trabalhos virtuais.",
      "O sinal do termo do arco foi fixado pelo princípio dos trabalhos virtuais, "
-     "formulado na seção 3.3."),
+     "formulado na seção 3.1.9."),
     ("Os números e as figuras do capítulo 4 são produzidos",
      "Os números e as figuras da seção 4.1 são produzidos"),
     ("Este capítulo apresenta os resultados das etapas",
@@ -388,7 +416,7 @@ EDICOES = [
     ("O objetivo geral foi atingido em sua parte estática e para um dos três "
      "dispositivos previstos.",
      "O objetivo geral foi atingido para o primeiro dispositivo, e a extensão à "
-     "dinâmica multicorpos ficou preparada, com o procedimento da seção 3.1.12, mas "
+     "dinâmica multicorpos ficou preparada, com o procedimento da seção 3.1.13, mas "
      "não foi executada; o segundo dispositivo é tratado na seção 5.2."),
     ("e estender o procedimento à US 9.737.374 B2 e à EP 3 504 033 B1.",
      "e estender o procedimento à US 9.737.374 B2. A extensão à EP 3 504 033 B1 é "
@@ -446,7 +474,7 @@ EDICOES = [
      "defasagem de 8,046°."),
     ("O pico do torque do cabo, a 97,5°, fica 8,05° acima do pico gravitacional",
      "O pico do torque do cabo, a 97,5°, fica cerca de 8° acima do pico gravitacional"),
-    # resíduo do trabalho virtual em mm/rad, como na seção 3.1.10 e na Tabela 17
+    # resíduo do trabalho virtual em mm/rad, como na seção 3.1.11 e na Tabela 17
     ("é de 1,7129 mm;", "é de 1,7129 mm/rad;"),
     ("é de 3,4258 mm;", "é de 3,4258 mm/rad;"),
     (" mm. Um resíduo da ordem do milímetro significa",
@@ -886,6 +914,60 @@ def cap4_ancoragens():
         "disponíveis não decidem qual das duas posições corresponde ao dispositivo.")]
 
 
+def cap3_trabalho_virtual_exo1():
+    """Seção 3.1.9: o modelo do exoesqueleto 1 pelo princípio dos trabalhos
+    virtuais, com o torque do cabo como b × f, b e β das Equações (11) a (13)."""
+    mec = N1["mecanismo"]
+    razao = N1["complementares"]["razao_b_min_m_max"]
+    SECOES["vt1"] = "3.1.9"
+    B = []
+    a = B.append
+    a(H("3.1.9 Formulação pelo princípio dos trabalhos virtuais"))
+    a(P("O equilíbrio estático do braço pode ser escrito diretamente pelo princípio "
+        "dos trabalhos virtuais. Com a junta e o tambor sem atrito e o cabo "
+        "inextensível e sem massa, os vínculos são ideais, e suas reações não "
+        "realizam trabalho. Num giro virtual δθ* do conjunto em torno de O, em "
+        "radianos, com δq = δθ* pela Equação (2), realizam trabalho a força do cabo "
+        "sobre o tambor, o peso do conjunto e o torque τ_{u} que o usuário aplica ao "
+        "braço."))
+    a(P("A força do cabo atua no ponto de tangência T. Na formulação do autor, T é o "
+        "vetor b, de módulo b = |OT| e a um ângulo β da linha do elo, dados pelas "
+        "Equações (11) a (13), e a força é o vetor f = −F u(φ), o V da Equação (20). "
+        "Como o elo é rígido e gira em torno de O, o trabalho virtual dessa força é o "
+        "do seu momento em relação a O, a componente z de b × f:"))
+    a(EQ(("vt1_bf", r"\delta W_{c} = \tau\,\delta\theta^{*},\quad \tau = \frac{(\mathbf{b}\times\mathbf{f})_{z}}{1000},\quad (\mathbf{b}\times\mathbf{f})_{z} = b_{x}f_{y} - b_{y}f_{x} = bF\operatorname{sen}(\varphi + \beta - q)")))
+    a(P("O seno vem do ângulo entre os dois vetores: pela Equação (13), b aponta na "
+        "direção q + π − β, e f, na direção φ + π. O produto vetorial retém só a "
+        "componente de f perpendicular a b, que é a que gira o elo. Na faixa de "
+        f"operação, b vai de {f(mec['b_min'])} a {f(mec['b_max'])} mm e β de "
+        f"{f(mec['beta_min_grau'])}° a {f(mec['beta_max_grau'])}°, mas f aponta quase "
+        "para o pivô: φ + β − q difere de 180° em no máximo "
+        f"{f(mec['desvio_b_f_max_grau'])}°. Por isso, −b sen(φ + β − q), que coincide "
+        "com o braço m da Equação (14), não passa de "
+        f"|B| = {f(mec['oa'])} mm, e tomar F b como torque, sem o seno, "
+        f"superestimaria o resultado em mais de {int(razao)} vezes."))
+    a(P("O mesmo trabalho virtual pode ser calculado do lado da mola. Com o cabo "
+        "inextensível, o giro δθ* estende a mola de δℓ = (dℓ/dθ*) δθ*, com ℓ da "
+        "Equação (16), e a força F = K δ, que se opõe à extensão, realiza o trabalho "
+        "−F δℓ/1000. Como as duas expressões valem para todo δθ*,"))
+    a(EQ(("vt1_tv", r"(\mathbf{b}\times\mathbf{f})_{z} = -F\frac{d\ell}{d\theta^{*}}\quad\Leftrightarrow\quad\frac{d\ell}{d\theta^{*}} = m")))
+    a(P("que é a Equação (17). A força se cancela, e a igualdade depende só da "
+        "geometria, não de K, X_{pose} nem s_{0}. É ela que fixa como o arco enrolado "
+        "entra no caminho do cabo: das formulações ℓ = s, ℓ = s + Rψ e ℓ = s − Rψ, só "
+        "a última a satisfaz (seção 4.1.3)."))
+    a(P("O peso deriva do potencial V_{g} = M g y_{G}/1000: num giro δθ*, o centro de "
+        "massa sobe x_{g} δθ*, com x_{g} da Equação (23), e o trabalho do peso é "
+        "τ_{g,s} δθ*, com τ_{g,s} = −M g x_{g}/1000, o torque gravitacional com sinal, "
+        "cujo módulo é o τ_{g} da Equação (24). Somados os três trabalhos,"))
+    a(EQ(("vt1_eq", r"\delta W = (\tau + \tau_{g,s} + \tau_{u})\,\delta\theta^{*} = 0\quad\Rightarrow\quad\tau_{u} = -(\tau + \tau_{g,s})")))
+    a(P("em que τ_{u} é o torque que o usuário precisa exercer para manter o braço "
+        "parado. Como τ está em u.p. e τ_{g,s} em N·m, essa soma só tem valor físico "
+        "se u.p. corresponder a N·m (seção 3.1.13), e a seção 4.1 compara apenas a "
+        "forma e os ângulos de τ e τ_{g}. Com aceleração nula e Q_{nc} = τ_{u}, a "
+        "Equação (27) reduz-se a essa condição."))
+    return B
+
+
 def nota_mola():
     """Nota da Tabela 9: L_livre vem de uma cota do CAD em conflito."""
     par1 = N1["parametros"]
@@ -913,7 +995,7 @@ def parte_3B():
     a = B.append
     a(H("3.2 Exoesqueleto 2"))
     a(P("As seções ⟦S:cad⟧ a ⟦S:ferr⟧ aplicam à EP 3 504 033 B1 (MIZERA et al., 2023) "
-        "o procedimento das seções 3.1.1 a 3.1.13, que foi executado para o gerador de "
+        "o procedimento das seções 3.1.1 a 3.1.14, que foi executado para o gerador de "
         "torque da US 9.889.554 B2, com a mesma numeração: a seção 3.2.k corresponde "
         "à seção 3.1.k. Quando uma etapa não se aplica ao mecanismo da "
         "Ottobock ou não pôde ser concluída com os dados disponíveis, a própria "
@@ -1104,6 +1186,12 @@ def parte_3B():
           "Seção ⟦S:forca⟧", "s0", "Mesmo papel de s_{0}, Equação (18)"],
          ["δ", "Extensão elástica", "Equação (⟦E:lei⟧)", "x",
           "Mesmo papel de δ, Equação (19)"],
+         ["b", "Vetor de O ao ponto de aplicação da força do trecho ligado a A; "
+          "b também denota seu módulo", "Equações (⟦E:tau⟧) e (⟦E:vt2_bf⟧)", "b_vector",
+          "Mesmo papel de T e b, Equações (11) a (13), com o ponto fixo na alavanca"],
+         ["β", "Ângulo de OP a b: 0 no regime I e φ no regime II",
+          "Equação (⟦E:vt2_bf⟧)", "ponto_aplicacao",
+          "Papel de β, Equação (12), constante em cada regime"],
          ["m", "Braço de momento, positivo quando assiste a subida",
           "Equação (⟦E:m⟧)", "braco", "Mesmo significado de m, Equação (14); a "
           "relação com τ muda de sinal porque τ segue a convenção de −τ"],
@@ -1230,9 +1318,9 @@ def parte_3B():
         "obtido pelo espaçamento entre as três curvas."))
     a(P("A força do trecho ligado a A atua em P, no regime I, ou no centro do "
         "elemento 78, no regime II, com direção oposta a u(ψ):"))
-    a(EQ(("tau", r"\tau = \frac{\left\lbrack \mathbf{r}_{F} \times \mathbf{V} \right\rbrack_{z}}{1000},\quad \mathbf{V} = - F\,\mathbf{u}(\psi),\quad \mathbf{r}_{F,\mathrm{I}} = \mathbf{P},\quad \mathbf{r}_{F,\mathrm{II}} = \mathbf{C}_{78}")))
-    a(P("em que r_{F} é o ponto de aplicação da força: r_{F} = r_{F,I} no regime I "
-        "e r_{F} = r_{F,II} no regime II."))
+    a(EQ(("tau", r"\tau = \frac{\left\lbrack \mathbf{b} \times \mathbf{f} \right\rbrack_{z}}{1000},\quad \mathbf{f} = - F\,\mathbf{u}(\psi),\quad \mathbf{b}_{\mathrm{I}} = \mathbf{P},\quad \mathbf{b}_{\mathrm{II}} = \mathbf{C}_{78}")))
+    a(P("em que b é o vetor de O ao ponto de aplicação da força: b = b_{I} no "
+        "regime I e b = b_{II} no regime II."))
     a(P("No regime II, o trecho x liga dois pontos do mesmo corpo; as forças que "
         "exerce sobre P e sobre o elemento 78 são iguais, opostas e colineares e não "
         "contribuem para o torque, o que corresponde à descrição da patente. O braço "
@@ -1243,7 +1331,7 @@ def parte_3B():
         "converte N·mm em N·m; "
         "aqui o torque resulta em N·m sempre que K estiver em N/mm. Admitido o "
         "elemento 78 pontual e sem atrito, hipótese que a patente não discute, a "
-        "tração é igual nos dois trechos, e o princípio dos trabalhos virtuais (seção 3.3) exige"))
+        "tração é igual nos dois trechos, e o princípio dos trabalhos virtuais (seção ⟦S:vt2⟧) exige"))
     a(EQ(("tv", r"\frac{ds}{dq} = - m")))
     a(P("com q em radianos, relação análoga à Equação (17), verificada "
         "numericamente nos dois regimes (seção ⟦S:r_verif⟧). O sinal negativo, "
@@ -1283,6 +1371,44 @@ def parte_3B():
         f"a_{{CG}} = {f(mas['total']['cg_angulo_braco_grau'])}°, e o máximo de "
         f"τ_{{g}}, {f(mas['tau_g_pico'])} N·m, ocorre em "
         f"θ_{{el}} = {f(mas['theta_tau_g_pico'], 1)}°."))
+
+    # ------------------------------------------------------------ trabalho virtual
+    a(SEC("3.2", "vt2", "Formulação pelo princípio dos trabalhos virtuais"))
+    assert SECOES["vt2"] == "3.2.9", SECOES["vt2"]
+    a(P("Como na seção ⟦S:vt1⟧, o equilíbrio é escrito pelo trabalho virtual num "
+        "giro δθ_{el} do conjunto, em radianos; pela Equação (⟦E:lam⟧), "
+        "δq = δθ_{el}. Com o elemento 78 pontual e sem atrito e o elástico sem massa, "
+        "o contato é um vínculo ideal e não realiza trabalho; realizam trabalho a "
+        "força do elástico sobre a alavanca, o peso do conjunto e o torque τ_{u} do "
+        "usuário."))
+    a(P("Na nomenclatura da seção ⟦S:vt1⟧, b é o vetor de O ao ponto de aplicação da "
+        "força do trecho ligado a A, de módulo b e a um ângulo β de OP, e f = −F u(ψ) "
+        "é o vetor dessa força, ambos da Equação (⟦E:tau⟧). No exoesqueleto 1, o "
+        "ponto de aplicação percorre o tambor, e b e β variam com o ângulo; aqui, ele "
+        "é fixo na alavanca em cada regime, e b e β são constantes:"))
+    a(EQ(("vt2_bf", r"\mathbf{b} = b\,\mathbf{u}(q + \beta),\quad \delta W_{e} = \tau\,\delta q = \frac{(\mathbf{b}\times\mathbf{f})_{z}}{1000}\,\delta q,\quad (\mathbf{b}\times\mathbf{f})_{z} = bF\sin(q + \beta - \psi)")))
+    a(P("com (b, β) = (‹e›, 0) no regime I, em que b = P, e (b, β) = (p, φ) no regime "
+        "II, em que b = C_{78} (Equação (⟦E:P⟧)). Com esses valores, b sen(q + β − ψ) "
+        "é o braço m da Equação (⟦E:m⟧). O produto vetorial explica as duas "
+        "particularidades do regime II. O trecho x liga P ao elemento 78, dois pontos "
+        "da alavanca, e suas forças sobre eles são iguais, opostas e colineares, com "
+        "momento resultante nulo; por isso b vai ao elemento 78, e não a P. E, embora "
+        "b salte de P para C_{78} na troca de regime, o torque é contínuo: no "
+        "contato, A, o elemento 78 e P estão alinhados, f é paralelo a P − C_{78}, e "
+        "(P − C_{78}) × f = 0."))
+    a(P("Do lado do elástico, o giro δq muda s de (ds/dq) δq, e a força F = K δ "
+        "realiza o trabalho −F δs/1000; como o contato não realiza trabalho, o "
+        "potencial elástico depende só de s, nos dois regimes. Igualando as duas "
+        "expressões,"))
+    a(EQ(("vt2_tv", r"(\mathbf{b}\times\mathbf{f})_{z} = -F\frac{ds}{dq}\quad\Leftrightarrow\quad\frac{ds}{dq} = -m")))
+    a(P("que é a Equação (⟦E:tv⟧), com o sinal discutido na seção ⟦S:forca⟧. O peso "
+        "entra como no exoesqueleto 1, com τ_{g,s} = −M g x_{G}/1000 e "
+        "x_{G} = d cos(θ_{el} − 90° + a_{CG}), cujo módulo é o τ_{g} da Equação "
+        "(⟦E:tg⟧), e o equilíbrio é o da Equação (⟦E:vt1_eq⟧) com δθ_{el} no lugar de "
+        "δθ*: τ_{u} = −(τ + τ_{g,s}). Aqui, τ está em N·m sob a hipótese K = K_{40} "
+        "(seção ⟦S:dados⟧), e τ_{u} tem valor físico nesse cenário de projeto. Com "
+        "aceleração nula e Q_{nc} = τ_{u}, a Equação (⟦E:mov⟧) reduz-se a essa "
+        "condição."))
 
     # ------------------------------------------------------------ dados
     a(SEC("3.2", "dados", "Dados da patente e identificação dos parâmetros"))
@@ -1445,7 +1571,7 @@ def parte_3B():
         f"K = {f(pr['K'], 5)} N/mm, isto é, o mesmo elástico, e variou apenas "
         "e_{c}, de 20 a 50 mm em passo de 0,05 mm, com o acréscimo do valor do CAD, num "
         f"total de {var['n']} valores. As demais grandezas ficaram congeladas nos "
-        "valores da Tabela ⟦T:cad⟧. Como na seção 3.1.10, trata-se de diagnóstico, e "
+        "valores da Tabela ⟦T:cad⟧. Como na seção 3.1.11, trata-se de diagnóstico, e "
         "nenhum parâmetro é substituído pelo resultado."))
 
     # ------------------------------------------------------------ verificações
@@ -1453,7 +1579,7 @@ def parte_3B():
     a(P("O modelo executa as verificações da Tabela ⟦T:verif⟧ a cada execução, com "
         "tolerância declarada, e interrompe o cálculo se alguma for violada; a "
         "exceção é o teste sintético da última linha, calculado pelo script de "
-        "resultados. As verificações próprias do cabo e do tambor da seção 3.1.11, "
+        "resultados. As verificações próprias do cabo e do tambor da seção 3.1.12, "
         "ponto de tangência pelas Equações (10) e (13), ponto morto pela Equação "
         "(21) e identidade X_{pose} = L_{pose} − L_{livre}, não se aplicam a este "
         "mecanismo e foram substituídas pela continuidade na troca de regime e pelo "
@@ -1463,7 +1589,7 @@ def parte_3B():
         "na malha, que o elemento 78 fica entre A e P na transição, que e_{c} é "
         "argumento obrigatório de toda a cadeia e que dois valores diferentes de e_{c} "
         "produzem curvas diferentes. Não há, para este modelo, um conjunto de "
-        "testes automatizados executado com o pytest como o da seção 3.1.11; as "
+        "testes automatizados executado com o pytest como o da seção 3.1.12; as "
         "verificações são asserções executadas a cada cálculo, e a identificação "
         "pelo espaçamento entre as curvas é conferida pelo teste sintético da seção "
         "⟦S:ident⟧."))
@@ -1480,7 +1606,7 @@ def parte_3B():
         "pré-requisito estático está verificado (Tabela ⟦T:verif⟧)."))
     a(P("A integração não foi executada, pelas razões seguintes. O torque do "
         "elástico só está em N·m sob a hipótese K = K_{40}: a unidade deixou de ser "
-        "o impedimento da seção 3.1.12, mas a escala resulta de uma hipótese de "
+        "o impedimento da seção 3.1.13, mas a escala resulta de uma hipótese de "
         "projeto, e não de dado do dispositivo. O momento de inércia disponível, "
         f"I_{{O}} = {f(mas['total']['izz_o_kgm2'], 6)} kg·m^{{2}}, reúne o membro "
         "humano e o braço do exoesqueleto; a alavanca e a braçadeira não estão "
@@ -1501,7 +1627,7 @@ def parte_3B():
         "2007) para as figuras. A identificação pelo espaçamento entre as curvas é "
         "um problema de mínimos quadrados lineares, resolvido em forma fechada. O "
         "MBDyn não foi empregado."))
-    a(P("Valem as exclusões de escopo da seção 3.1.13. O modelo é plano, restrito ao "
+    a(P("Valem as exclusões de escopo da seção 3.1.14. O modelo é plano, restrito ao "
         "plano sagital, e admite elástico linear e sem massa, F = K δ, elemento 78 "
         "pontual e sem atrito e eixo da articulação 20 no centro do ombro, com a "
         "barra 18 fixa em relação ao tronco, hipótese discutida na seção "
@@ -1509,112 +1635,6 @@ def parte_3B():
         "gravitacional considera o membro humano estendido, sem ferramenta na mão, e "
         "o braço do exoesqueleto; a alavanca, o elemento 78 e a braçadeira não "
         "entram nele."))
-    return B
-
-
-def parte_3C():
-    """Seção 3.3: os dois modelos estáticos pelo princípio dos trabalhos virtuais."""
-    B = []
-    a = B.append
-    a(H("3.3 Formulação pelo princípio dos trabalhos virtuais"))
-    a(P("Nas seções 3.1.6 e ⟦S:forca⟧, o torque do dispositivo é obtido pelo produto "
-        "vetorial entre o ponto de aplicação e a força do cabo ou do elástico, "
-        "Equações (20) e (⟦E:tau⟧), e o princípio dos trabalhos virtuais aparece "
-        "apenas como verificação, nas Equações (17) e (⟦E:tv⟧). Esta seção formula os "
-        "dois modelos estáticos diretamente por esse princípio, com as hipóteses das "
-        "seções 3.1.13 e ⟦S:ferr⟧: mecanismo plano, de um grau de liberdade, cabo "
-        "inextensível, elemento elástico linear e sem massa e vínculos sem atrito na "
-        "junta, no tambor e no elemento 78."))
-
-    a(SEC("3.3", "vt_princ", "Princípio e força generalizada"))
-    a(P("Em um sistema com vínculos ideais, uma configuração é de equilíbrio estático "
-        "quando o trabalho virtual das forças ativas se anula para todo deslocamento "
-        "virtual compatível com os vínculos. As reações nos vínculos ideais não "
-        "realizam trabalho virtual e não entram na equação. Com uma única coordenada "
-        "generalizada ξ, cada ponto de aplicação r_{i} é função de ξ, e o trabalho "
-        "virtual se escreve"))
-    a(EQ(("vt_dw", r"\delta W = \sum_{i}\mathbf{F}_{i}\cdot\delta\mathbf{r}_{i} = Q\,\delta\xi,\quad Q = \sum_{i}\mathbf{F}_{i}\cdot\frac{d\mathbf{r}_{i}}{d\xi}")))
-    a(P("em que Q é a força generalizada associada a ξ, com dimensão de torque quando "
-        "ξ é um ângulo. Uma força que deriva de um potencial V(ξ) contribui com "
-        "Q = −dV/dξ. Três esforços realizam trabalho nos dois mecanismos: a força do "
-        "elemento elástico, o peso do conjunto que gira com o braço e o torque τ_{u} "
-        "que o usuário aplica ao braço em torno do eixo da junta. Os dois primeiros "
-        "são conservativos e são escritos a seguir como forças generalizadas, sem "
-        "recorrer ao braço de momento."))
-
-    a(SEC("3.3", "vt_exo1", "Exoesqueleto 1"))
-    a(P("A coordenada generalizada é θ*, em radianos; pela Equação (2), δq = δθ*. Com "
-        "o cabo inextensível e sem massa, a extensão da mola acompanha a variação do "
-        "caminho do cabo, ℓ da Equação (16), e o potencial elástico é"))
-    a(EQ(("vt_ve1", r"V_{e}(\theta^{*}) = \frac{K\delta^{2}}{2},\quad \delta = \max(\ell(\theta^{*}) - s_{0},\ 0)")))
-    a(P("com s_{0} da Equação (18). Num deslocamento virtual δθ*, a mola se estende "
-        "de δℓ = (dℓ/dθ*) δθ*, e a força F = K δ, que se opõe à extensão, realiza o "
-        "trabalho virtual −F δℓ. A força generalizada da mola e o torque "
-        "correspondente são"))
-    a(EQ(("vt_q1", r"Q_{e} = -\frac{dV_{e}}{d\theta^{*}} = -F\frac{d\ell}{d\theta^{*}},\quad \tau = \frac{Q_{e}}{1000} = -\frac{F}{1000}\frac{d\ell}{d\theta^{*}}")))
-    a(P("válidos também com o cabo frouxo, em que δ = 0 e Q_{e} = 0. O fator 1/1000 "
-        "tem o mesmo papel da Equação (20). A expressão depende apenas do comprimento "
-        "do caminho em função de θ*: não usa o ponto de tangência, a direção do cabo "
-        "nem o braço de momento. A Equação (20) obtém o mesmo torque pelo produto "
-        "vetorial, τ = −F m/1000, e as duas formulações coincidem em toda a faixa "
-        "somente se dℓ/dθ* = m, que é a Equação (17). Essa igualdade envolve apenas a "
-        "geometria do mecanismo e não depende de K, X_{pose} nem s_{0}. É ela que "
-        "fixa como o arco enrolado entra no caminho do cabo: das formulações ℓ = s, "
-        "ℓ = s + Rψ e ℓ = s − Rψ, só a última satisfaz a Equação (17) (seção 4.1.3), "
-        "e por isso o modelo adota a Equação (16)."))
-
-    a(SEC("3.3", "vt_exo2", "Exoesqueleto 2"))
-    a(P("A coordenada generalizada é θ_{el}, em radianos; pela Equação (⟦E:lam⟧), q "
-        "difere de θ_{el} por uma constante, e δq = δθ_{el}. O elástico vai de A a P "
-        "em linha reta no regime I e passa pelo elemento 78 no regime II; nos dois "
-        "casos, s é seu comprimento total, igual a (s − x) + x no regime II "
-        "(Equação (⟦E:circII⟧)). Com o elemento 78 pontual e sem atrito, o elástico "
-        "desliza sobre ele com a mesma tração nos dois trechos, o contato é um vínculo "
-        "ideal, cujas reações não realizam trabalho virtual, e o potencial elástico "
-        "depende apenas de s:"))
-    a(EQ(("vt_ve2", r"V_{e}(\theta_{\mathrm{el}}) = \frac{K\delta^{2}}{2},\quad \delta = \max(s(\theta_{\mathrm{el}}) - s_{0},\ 0)"),
-         ("vt_q2", r"Q_{e} = -\frac{dV_{e}}{dq} = -F\frac{ds}{dq},\quad \tau = \frac{Q_{e}}{1000} = -\frac{F}{1000}\frac{ds}{dq}")))
-    a(P("A Equação (⟦E:m⟧) dá o mesmo torque pelo produto vetorial, τ = F m/1000, e "
-        "as duas formulações coincidem se ds/dq = −m, que é a Equação (⟦E:tv⟧). O "
-        "sinal oposto ao do exoesqueleto 1 vem das convenções da seção ⟦S:forca⟧: "
-        "aqui, τ e q crescem com a elevação do braço. Na formulação vetorial, o regime "
-        "II exige o argumento de que as forças do trecho x se anulam por ligarem dois "
-        "pontos do mesmo corpo (seção ⟦S:forca⟧); na formulação pelo trabalho "
-        "virtual, esse resultado decorre de V_{e} depender só de s. A troca de regime "
-        "aparece apenas na função s(q), contínua no contato (seção ⟦S:verif⟧), e não "
-        "exige identificar o ponto de aplicação da força."))
-
-    a(SEC("3.3", "vt_eq", "Peso do conjunto e equilíbrio estático"))
-    a(P("O peso do conjunto que gira com o braço é conservativo, com potencial "
-        "V_{g} = M g y_{G}/1000, em que y_{G} é a altura do centro de massa em "
-        "relação a O, em milímetros. Num giro δξ em torno de O, no sentido "
-        "anti-horário, o centro de massa sobe x_{G} δξ, sendo x_{G} sua coordenada "
-        "horizontal, e a força generalizada do peso é o torque gravitacional com "
-        "sinal:"))
-    a(EQ(("vt_g", r"\tau_{g,s} = -\frac{dV_{g}}{d\xi} = -\frac{Mg\,x_{G}}{1000}")))
-    a(P("com ξ = θ* e x_{G} = x_{g} da Equação (23) no exoesqueleto 1, e ξ = θ_{el} e "
-        "x_{G} = d cos(θ_{el} − 90° + a_{CG}) no exoesqueleto 2. O módulo de τ_{g,s} é "
-        "o τ_{g} das Equações (24) e (⟦E:tg⟧). Com o torque τ_{u} do usuário, o "
-        "trabalho virtual total se anula no equilíbrio:"))
-    a(EQ(("vt_eq", r"\delta W = (\tau + \tau_{g,s} + \tau_{u})\,\delta\xi = 0\quad\Rightarrow\quad \tau_{u} = -(\tau + \tau_{g,s})")))
-    a(P("em que τ_{u} é o torque que o usuário precisa exercer para manter o braço "
-        "parado no ângulo ξ. Sem o dispositivo, τ_{u} = −τ_{g,s}, e o usuário sustenta "
-        "todo o torque do peso. O dispositivo reduz |τ_{u}| onde τ tem sinal oposto ao "
-        "de τ_{g,s} e módulo menor que 2τ_{g}; o balanceamento estático exato, τ_{u} = 0 "
-        "em toda a faixa, corresponde a uma energia potencial total V_{e} + V_{g} "
-        "constante (HERDER, 2001). As seções 4.1 e 4.2 confrontam τ com τ_{g}, isto é, "
-        "os dois primeiros termos da Equação (⟦E:vt_eq⟧). No exoesqueleto 1, τ está "
-        "na unidade da patente e τ_{g,s} em N·m, de modo que τ_{u} só tem valor físico "
-        "se u.p. corresponder a N·m (seção 3.1.12); a comparação fica restrita à forma "
-        "e aos ângulos. No exoesqueleto 2, τ está em N·m sob a hipótese K = K_{40} "
-        "(seção ⟦S:dados⟧)."))
-    a(P("Com aceleração nula e o torque do usuário como único esforço não "
-        "conservativo, Q_{nc} = τ_{u}, as Equações (27) e (⟦E:mov⟧) reduzem-se à "
-        "Equação (⟦E:vt_eq⟧). A formulação desta seção é, portanto, o caso estático "
-        "das etapas dinâmicas previstas nas seções 3.1.12 e ⟦S:din⟧, e Q_{e} e "
-        "τ_{g,s} entram nelas sem alteração. As igualdades das Equações (17) e "
-        "(⟦E:tv⟧), que ligam esta formulação à vetorial, são verificadas "
-        "numericamente a cada execução dos modelos (Tabelas ⟦T:o5⟧ e ⟦T:verif⟧)."))
     return B
 
 
@@ -2186,7 +2206,7 @@ def parte_4B():
     a(SEC("4.2", "r_varr", "Varredura paramétrica do trecho e_{c} da alavanca"))
     ftr = var["faixas"]["tracao"]
     l45 = fam["linhas"][-1]
-    a(P("Dos três critérios de validade física da seção 3.1.10, adaptados ao "
+    a(P("Dos três critérios de validade física da seção 3.1.11, adaptados ao "
         "mecanismo, o fechamento dos dois regimes (s > 0 e s − x > 0) e o "
         "trabalho virtual foram atendidos em todos os valores de e_{c}, com resíduo "
         f"máximo de {sci(var['tv_max'])} mm/rad. A extensão não negativa do elástico "
@@ -2697,7 +2717,7 @@ def ref_zeiaee():
 # ======================================================================
 
 FUNCAO = re.compile(r'<m:r><m:rPr><m:sty m:val="p" /></m:rPr>'
-                    r'<m:t>(atan2|max|sin|cos)</m:t></m:r>(?=<m:d>)')
+                    r'<m:t>(atan2|max|sin|cos|sen)</m:t></m:r>(?=<m:d>)')
 
 
 def _como_funcao(inner):
@@ -2805,6 +2825,7 @@ def montar(corpo_original):
         # novos ("seções 3.1, 4.1 e 5.1"), que não podem ser renumerados
         b2 = editar(b, (REGRA_TITULO if titulo else []) + REGRAS_ORIGINAL)
         b2 = editar(b2, regras) if regras else b2
+        b2 = editar(b2, REFS_EQ + (ROTULO_EQ if "<m:oMath" in b else []))
         editados.append(b2)
     for antes, _ in EDICOES:
         assert sum(antes in t for _, t, _ in info) == 1, antes
@@ -2838,7 +2859,8 @@ def montar(corpo_original):
     }
     antes = {
         _unico(info, "A extensão da mola permanece positiva"): nota_mola(),
-        _unico(info, "4 RESULTADOS E DISCUSSÃO"): parte_3B() + parte_3C(),
+        _unico(info, "3.9 Dados da patente"): cap3_trabalho_virtual_exo1(),
+        _unico(info, "4 RESULTADOS E DISCUSSÃO"): parte_3B(),
         _unico(info, "5 CONCLUSÃO"): parte_4B(),
         _unico(info, "REFERÊNCIAS"): parte_5B(),
     }
@@ -2847,10 +2869,10 @@ def montar(corpo_original):
     assert not set(removidos) & (set(depois) | set(antes))
     final = []
     for i, b in enumerate(editados):
-        final += [("n", x) for x in antes.get(i, [])]
+        final += [("n", editar(x, REFS_EQ)) for x in antes.get(i, [])]
         if i not in removidos:
             final.append(("o", b))
-        final += [("n", x) for x in depois.get(i, [])]
+        final += [("n", editar(x, REFS_EQ)) for x in depois.get(i, [])]
     return orig, final, removidos
 
 
@@ -2871,7 +2893,9 @@ MARCA = re.compile(r"⟦([TFES])([#:])([^⟧]+)⟧")
 
 
 def numerar(final, n_eq_original):
-    """Resolve as marcas em ordem de aparição; devolve o XML e os mapas."""
+    """Resolve as marcas em ordem de aparição; devolve o XML e os mapas.
+    n_eq_original: equações já numeradas antes da primeira marca (0 quando as
+    do original também são marcas)."""
     num = {"T": {}, "F": {}, "E": {}}
     prox = {"T": 1, "F": 1, "E": n_eq_original + 1}
     for _, xml in final:
@@ -2908,14 +2932,13 @@ def main(origem, destino):
                             if o == "n" and "⟦CITADOS⟧" not in x))
     final = [(o, x.replace("⟦CITADOS⟧", escape(cit))) for o, x in final]
 
-    # equações do original: números (1) a (n), antes de toda equação nova
+    # equações do original e novas numeradas juntas, por ordem de aparição; as
+    # do original não podem trocar de ordem entre si
     n_eq = len(re.findall(r"<w:t>\((\d+)\)</w:t>", doc[b0:b1]))
-    assert n_eq == 27, n_eq
-    ultimo_orig = max(i for i, (o, x) in enumerate(final)
-                      if o == "o" and "<m:oMath" in x)
-    primeiro_novo = min(i for i, (o, x) in enumerate(final) if "⟦E#" in x)
-    assert ultimo_orig < primeiro_novo, "equação nova antes de uma original"
-    final, num, sem_ref = numerar(final, n_eq)
+    assert n_eq == N_EQ_ORIGINAL, n_eq
+    final, num, sem_ref = numerar(final, 0)
+    ordem = [num["E"][f"o{k}"] for k in range(1, n_eq + 1)]
+    assert ordem == sorted(ordem), "equações do original fora de ordem"
 
     xml = "".join(x for _, x in final)
     for k, m in enumerate(omml(EQUACOES), start=1):
@@ -2988,7 +3011,7 @@ def relatorio(orig, final, num, sem_ref, removidos, destino):
     def mapa(tipo):
         return ", ".join(f"{k[1:]} → {v}" for k, v in
                          sorted(num[tipo].items(), key=lambda kv: kv[1])
-                         if k.startswith("o"))
+                         if re.fullmatch(r"o\d+", k))
     linhas = ["# Relatório da fusão dos exoesqueletos 1 e 2", "",
               f"Documento gerado: `{destino.name}`, a partir de `TCC_apenas_exo1.docx`.",
               "", f"Blocos do original: {len(orig)}; {len(removidos)} retirados "
@@ -2999,7 +3022,7 @@ def relatorio(orig, final, num, sem_ref, removidos, destino):
               "## Numeração", "",
               f"Tabelas do original (antes → depois): {mapa('T')}.", "",
               f"Figuras do original (antes → depois): {mapa('F')}.", "",
-              "As equações do original mantêm os números (1) a (27).", "",
+              f"Equações do original (antes → depois): {mapa('E')}.", "",
               "## Blocos do original retirados", ""]
     linhas += [f"- {texto(orig[i])}" for i in removidos]
     linhas += ["", "## Blocos do original com texto alterado", ""]

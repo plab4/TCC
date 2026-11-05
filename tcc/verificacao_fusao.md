@@ -1,17 +1,18 @@
 # Verificação do TCC fundido
 
-Original: TCC_apenas_exo1.docx, 305 blocos. Fundido: TCC_exo1_exo2.docx, 596 blocos.
+Original: TCC_apenas_exo1.docx, 305 blocos. Fundido: TCC_exo1_exo2.docx, 592 blocos.
 
 ## 1. Conteúdo do original
 
 Blocos do original encontrados em ordem, com XML idêntico fora do texto (nas equações, os delimitadores simples passam a ter tamanho fixo): 300 de 300 (5 retirados de propósito, REMOVIDOS). Texto diferente do esperado (renumeração e as 66 edições declaradas): 0. Retirados ainda presentes: 0. Autores dos retirados ainda citados: nenhum.
 Renumeração das tabelas do original: {1: 1, 2: 4, 3: 5, 4: 6, 5: 7, 6: 8, 7: 9, 8: 10, 9: 11, 10: 12, 11: 13}.
 Renumeração das figuras do original: {1: 1, 2: 6, 3: 7, 4: 8, 5: 9}.
+Renumeração das equações do original: {1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 16: 16, 17: 17, 18: 18, 19: 19, 20: 20, 21: 21, 22: 22, 23: 23, 24: 24, 25: 28, 26: 29, 27: 30}.
 
 ## 2. Numeração
 
-Tabelas 1 a 26 em sequência: True. Figuras 1 a 14: True. Equações (1) a (61): True.
-Seções por parte: 1.1 a 1.2 (ok); 1.1.1 a 1.1.2 (ok); 2.1 a 2.11 (ok); 3.1 a 3.3 (ok); 3.1.1 a 3.1.13 (ok); 3.2.1 a 3.2.13 (ok); 3.3.1 a 3.3.4 (ok); 4.1 a 4.2 (ok); 4.1.1 a 4.1.9 (ok); 4.2.1 a 4.2.11 (ok); 5.1 a 5.2 (ok).
+Tabelas 1 a 26 em sequência: True. Figuras 1 a 14: True. Equações (1) a (59): True.
+Seções por parte: 1.1 a 1.2 (ok); 1.1.1 a 1.1.2 (ok); 2.1 a 2.11 (ok); 3.1 a 3.2 (ok); 3.1.1 a 3.1.14 (ok); 3.2.1 a 3.2.14 (ok); 4.1 a 4.2 (ok); 4.1.1 a 4.1.9 (ok); 4.2.1 a 4.2.11 (ok); 5.1 a 5.2 (ok).
 Títulos de capítulo e de parte: 1 INTRODUÇÃO; 2 FUNDAMENTAÇÃO TEÓRICA; 3 MATERIAIS E MÉTODOS; 3.1 Exoesqueleto 1; 3.2 Exoesqueleto 2; 4 RESULTADOS E DISCUSSÃO; 4.1 Exoesqueleto 1; 4.2 Exoesqueleto 2; 5 CONCLUSÃO; 5.1 Exoesqueleto 1; 5.2 Exoesqueleto 2; REFERÊNCIAS.
 
 ## 3. Referências
@@ -20,11 +21,11 @@ Referências sem alvo: 0.
 
 ## 4. Texto novo
 
-Blocos novos: 296. Travessões: 0. Restos da numeração do apêndice: 0.
+Blocos novos: 292. Travessões: 0. Restos da numeração do apêndice: 0.
 
 ## 5. Parágrafos do apêndice da versão anterior
 
-Idênticos: 5. Iguais a menos de números e referências: 25. Modificados: 39. Sem correspondente próximo: 26. Os últimos foram reescritos pelos novos resultados de s0 ou eram próprios do apêndice (título, apresentação e nota da lista de referências separada).
+Idênticos: 4. Iguais a menos de números e referências: 26. Modificados: 39. Sem correspondente próximo: 26. Os últimos foram reescritos pelos novos resultados de s0 ou eram próprios do apêndice (título, apresentação e nota da lista de referências separada).
 
 - Modificado (0.51): em que θb,pose é o ângulo do braço com a horizontal na pose do CAD, positivo acima. A Tabela A.4 resume as con
   - mais próximo no fundido: em que qpose é a direção de OP na pose do CAD e θb,pose o ângulo do braço com a horizontal nessa pose, positiv
@@ -88,7 +89,7 @@ Idênticos: 5. Iguais a menos de números e referências: 25. Modificados: 39. S
   - mais próximo no fundido: Como preferência, a patente indica que nenhuma força seja aplicada até que o braço ultrapasse um ângulo em rel
 - Modificado (0.90): Cada regime tem solução fechada, sem procedimento iterativo, porque o lado direito das relações abaixo, a prim
   - mais próximo no fundido: Com as grandezas do CAD, x = 51,360 mm. Cada regime tem solução fechada, sem procedimento iterativo, porque o 
-- Modificado (0.91): com m = mI no regime I, m = mII no regime II e m > 0 quando o torque assiste a subida. Como no capítulo 3, o f
+- Modificado (0.90): com m = mI no regime I, m = mII no regime II e m > 0 quando o torque assiste a subida. Como no capítulo 3, o f
   - mais próximo no fundido: com m = mI no regime I, m = mII no regime II e m > 0 quando o torque assiste a subida. O fator 1/1000, herdado
 - Modificado (0.91): Com a curva tracejada, K40 = 0,50185 N/mm e F(90°) = 97,34 N. O valor de F(90°) é o mesmo nas três curvas por 
   - mais próximo no fundido: No ajuste de forma, a curva tracejada dá K40 = 0,52377 N/mm e F(90°) = 97,84 N. O valor de F(90°) é o mesmo na
@@ -106,14 +107,14 @@ Idênticos: 5. Iguais a menos de números e referências: 25. Modificados: 39. S
   - mais próximo no fundido: A análise usou os documentos e arquivos da Tabela 2. A patente foi lida no documento B1 completo, de 44 página
 - Sem correspondente (0.06): A classificação de origem é a da seção 3: medida no modelo em CAD, obtida da literatura, documental, identific
   - mais próximo no fundido: A Figura 16 da patente informa s0 de duas maneiras que não dependem da escala da ordenada: pelo espaçamento en
+- Sem correspondente (0.06): A pré-tensão da curva pontilhada, descrita como quase nula [0093], também diverge do modelo. Essa curva exige 
+  - mais próximo no fundido: O fim da curva pontilhada confirma o resultado de forma independente. A razão dessa curva, extrapolada, chega 
 - Sem correspondente (0.06): As Figuras 16 e 17 da patente mostram curvas obtidas com o dispositivo [0092]. A abscissa é o ângulo de anteve
   - mais próximo no fundido: Como preferência, a patente indica que nenhuma força seja aplicada até que o braço ultrapasse um ângulo em rel
+- Sem correspondente (0.07): Para expressar o torque em N·m, K foi fixado por hipótese de projeto, e não identificado. O alvo é 40% do torq
+  - mais próximo no fundido: Nesse caso, a direção de OP no contato coincide com a de rAO, a reta do elástico passa pelo pivô e o torque no
 - Sem correspondente (0.07): A variável independente é a anteversão do braço, θel, com 0° para o braço pendente e 90° para o braço horizont
   - mais próximo no fundido: Para expressar o torque em N·m, K foi fixado por hipótese de projeto, e não identificado. O alvo é 40% do torq
-- Sem correspondente (0.07): A pré-tensão da curva pontilhada, descrita como quase nula [0093], também diverge do modelo. Essa curva exige 
-  - mais próximo no fundido: A coordenada generalizada é θel, em radianos; pela Equação (28), q difere de θel por uma constante, e δq = δθe
-- Sem correspondente (0.08): Para expressar o torque em N·m, K foi fixado por hipótese de projeto, e não identificado. O alvo é 40% do torq
-  - mais próximo no fundido: O peso do conjunto que gira com o braço é conservativo, com potencial Vg = M g yG/1000, em que yG é a altura d
 - Sem correspondente (0.08): Este apêndice aplica à EP 3 504 033 B1 (OTTOBOCK, 2023) o procedimento dos capítulos 3 e 4, que no corpo do tr
   - mais próximo no fundido: O segundo dispositivo acrescenta ao trabalho um caso de teste do procedimento de identificação. A EP 3 504 033
 - Sem correspondente (0.08): Foram executadas, para a EP 3 504 033 B1, a leitura da arquitetura na patente, a organização das grandezas do 
@@ -155,7 +156,7 @@ Idênticos: 5. Iguais a menos de números e referências: 25. Modificados: 39. S
 - Sem correspondente (0.48): A.6 Cinemática: equações de circuito e troca de regime (seções 3.4, 3.5 e 3.7)
   - mais próximo no fundido: Tabela 22: Grandezas do circuito em ângulos representativos (ec = 34,785 mm)
 - Sem correspondente (0.48): A.10 Identificação dos parâmetros a partir da Figura 16 (seções 3.9, 4.4 e 4.5)
-  - mais próximo no fundido: 3.2.9 Dados da patente e identificação dos parâmetros
+  - mais próximo no fundido: 3.2.10 Dados da patente e identificação dos parâmetros
 
 ## 6. Pacote
 

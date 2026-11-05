@@ -145,6 +145,10 @@ def grandezas_mecanismo():
         "b_min": float(r["b"].min()), "b_max": float(r["b"].max()),
         "beta_min_grau": float(np.degrees(r["beta"].min())),
         "beta_max_grau": float(np.degrees(r["beta"].max())),
+        # ângulo de −b (de T para O) a f, φ + β − q − π: o cabo puxa T quase para
+        # o pivô, e m = b·sen desse ângulo (seção 3.1.9)
+        "desvio_b_f_max_grau": float(np.degrees(np.max(np.abs(np.angle(np.exp(
+            1j*(r["phi"] + r["beta"] - r["q"] - np.pi))))))),
         "pico": float(torque[i_t]), "theta_pico": float(th[i_t]),
         "elev_pico": float(elevacao(th[i_t])),
         "pico_grade_05": float(cabo(tm.THETA)[i_pico_grade]),

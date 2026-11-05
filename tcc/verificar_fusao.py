@@ -106,6 +106,15 @@ def main():
         assert len(cand) == 1, (tipo, num, tit, cand)
         mapa[tipo][num] = cand[0]
 
+    # seções do original: 3.k → 3.1.k até 3.8 e 3.1.(k + 1) a partir de 3.9, porque
+    # a seção 3.1.9 (trabalhos virtuais) é nova; 4.k → 4.1.k
+    def sec(m):
+        cap, k = m.group(1), int(m.group(2))
+        return f"{cap}.1.{k + (1 if cap == '3' and k >= 9 else 0)}"
+
+    def eq(m):
+        return f"{m.group(1)}({mapa_eq[int(m.group(2))]})"
+
     def esperado(t):
         # renumeração do original e, depois, as EDICOES, na ordem do gerador
         t = re.sub(r"^(Tabela|Figura) (\d+)(?= —)",
@@ -116,12 +125,17 @@ def main():
                    lambda m: (f"Figura {mapa['Figura'][int(m.group(1))]}"
                               if int(m.group(1)) in mapa["Figura"] else m.group(0)), t)
         t = re.sub(r"(seç(?:ão|ões)\s+)([\d.]+(?:(?:\s+a\s+|\s+e\s+|,\s*)[\d.]+)*)",
-                   lambda m: m.group(1) + re.sub(r"\b([34])\.(\d+)\b", r"\1.1.\2",
+                   lambda m: m.group(1) + re.sub(r"\b([34])\.(\d+)\b", sec,
                                                  m.group(2)), t)
         for a, b in EDICOES:
             t = t.replace(a, b)
         for padrao, b in EDICOES_RE:
             t = re.sub(padrao, b, t)
+        # equações do original, depois das edições, como no gerador
+        if re.fullmatch(r"(?:\(\d+\))+", t):
+            t = re.sub(r"\((\d+)\)", lambda m: f"({mapa_eq[int(m.group(1))]})", t)
+        t = re.sub(r"(Equaç(?:ão|ões) )\((\d+)\)", eq, t)
+        t = re.sub(r"(Equações \(\d+\) (?:e|a) )\((\d+)\)", eq, t)
         return t
 
     # 1. blocos do original
@@ -129,12 +143,27 @@ def main():
         assert sum(txt(x).startswith(prefixo) for x in O) == 1, prefixo
     retirados = [txt(x) for x in O if txt(x).startswith(REMOVIDOS)]
     Om = [x for x in O if not txt(x).startswith(REMOVIDOS)]
+    # equações do original: o número novo de cada uma vem do bloco casado no
+    # fundido (mesmo esqueleto XML, na ordem), e a ordem tem de ser preservada
+    mapa_eq, j = {}, 0
+    for b in Nn:
+        if j < len(Om) and esqueleto(b) == esqueleto(parenteses_fixos(Om[j])):
+            # bloco de equações: só os rótulos, "(3)(4)", um por linha da tabela
+            if "<m:oMath" in Om[j] and re.fullmatch(r"(?:\(\d+\))+", txt(Om[j])):
+                antes_ = [int(n) for n in re.findall(r"\d+", txt(Om[j]))]
+                depois_ = [int(n) for n in re.findall(r"\d+", txt(b))]
+                assert len(antes_) == len(depois_), (txt(Om[j]), txt(b))
+                mapa_eq.update(zip(antes_, depois_))
+            j += 1
+    assert sorted(mapa_eq) == list(range(1, len(mapa_eq) + 1)), sorted(mapa_eq)
+    assert list(mapa_eq.values()) == sorted(mapa_eq.values()), mapa_eq
+
     j, diverge, casados = 0, [], set()
     for i, b in enumerate(Nn):
         if j < len(Om) and esqueleto(b) == esqueleto(parenteses_fixos(Om[j])):
             t_esp = esperado(txt(Om[j]))
             if titulo(Om[j]):
-                t_esp = re.sub(r"^([34])\.(\d+) ", r"\1.1.\2 ", txt(Om[j]))
+                t_esp = re.sub(r"^([34])\.(\d+)(?= )", sec, txt(Om[j]))
             if txt(b) != t_esp:
                 diverge.append((j, txt(b)[:100], t_esp[:100]))
             casados.add(i)
@@ -161,6 +190,7 @@ def main():
          f"Autores dos retirados ainda citados: {citados or 'nenhum'}.")
     diga(f"Renumeração das tabelas do original: {mapa['Tabela']}.")
     diga(f"Renumeração das figuras do original: {mapa['Figura']}.")
+    diga(f"Renumeração das equações do original: {mapa_eq}.")
     for d in diverge:
         diga(f"- DIVERGE: {d}")
     diga()

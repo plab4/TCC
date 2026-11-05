@@ -7,7 +7,7 @@ Os resultados estão organizados por dispositivo. A seção~\ref{sec:4.1} aprese
 
 \section{Exoesqueleto 1}\label{sec:4.1}
 
-Esta seção apresenta os resultados das etapas descritas nas seções~\ref{sec:3.1.1} a \ref{sec:3.1.11}, aplicadas ao gerador de torque da US 9.889.554 B2. Salvo indicação em contrário, os números foram obtidos com o modelo vigente e os parâmetros congelados K = 174,68, H\textsubscript{CAL} = 22,701 mm e X\textsubscript{pose} = 37,383 mm. As etapas dinâmicas da seção~\ref{sec:3.1.12} e a aplicação do procedimento à US 9.737.374 B2 não foram executadas.
+Esta seção apresenta os resultados das etapas descritas nas seções~\ref{sec:3.1.1} a \ref{sec:3.1.12}, aplicadas ao gerador de torque da US 9.889.554 B2. Salvo indicação em contrário, os números foram obtidos com o modelo vigente e os parâmetros congelados K = 174,68, H\textsubscript{CAL} = 22,701 mm e X\textsubscript{pose} = 37,383 mm. As etapas dinâmicas da seção~\ref{sec:3.1.13} e a aplicação do procedimento à US 9.737.374 B2 não foram executadas.
 
 \subsection{Geometria reconstruída e propriedades de massa}\label{sec:4.1.1}
 
@@ -110,7 +110,7 @@ A Tabela~\ref{tab:pontos-extraidos-curva-patente} reúne os 29 pontos extraídos
 
 \subsection{Verificação da cadeia de cálculo}\label{sec:4.1.3}
 
-As verificações automáticas da seção~\ref{sec:3.1.11} resultaram nos resíduos da Tabela~\ref{tab:verificacoes-cadeia-calculo-h}, todos da ordem do erro de arredondamento da aritmética de ponto flutuante, exceto o do trabalho virtual, limitado pelo truncamento da diferença finita.
+As verificações automáticas da seção~\ref{sec:3.1.12} resultaram nos resíduos da Tabela~\ref{tab:verificacoes-cadeia-calculo-h}, todos da ordem do erro de arredondamento da aritmética de ponto flutuante, exceto o do trabalho virtual, limitado pelo truncamento da diferença finita.
 
 \begin{table}[!htbp]
 \estilotabela{\small}
@@ -155,13 +155,13 @@ Rigidez da mola & K & 174,68 & Identificado \\
 \nota{K tem a unidade que faz K δ m/1000 resultar em u.p. (seção~\ref{sec:3.1.6}).}
 \end{table}
 
-Com h = 22,701 mm e θ\textsubscript{off} congelados, a varredura de X\textsubscript{pose} com K dado pela Equação~\eqref{eq:25} reproduz o par identificado: X\textsubscript{pose} = 37,383 mm, K = 174,676 e RMSE de 1,8305 u.p., coincidentes com os valores congelados até a resolução da varredura. O valor 174,68 é, portanto, o arredondamento do K de mínimos quadrados no h adotado, e o par (K, h) é consistente.
+Com h = 22,701 mm e θ\textsubscript{off} congelados, a varredura de X\textsubscript{pose} com K dado pela Equação~\eqref{eq:28} reproduz o par identificado: X\textsubscript{pose} = 37,383 mm, K = 174,676 e RMSE de 1,8305 u.p., coincidentes com os valores congelados até a resolução da varredura. O valor 174,68 é, portanto, o arredondamento do K de mínimos quadrados no h adotado, e o par (K, h) é consistente.
 
-A origem de H\textsubscript{CAL} = 22,701 mm, ao contrário, não pôde ser reproduzida. Para verificar se esse valor é um ótimo da curva extraída, foi executada uma análise complementar em que X\textsubscript{pose} e K são reidentificados para cada h, de 8 a 60 mm em passo de 0,25 mm. Essa análise não é o procedimento principal deste trabalho, que mantém K congelado (seção~\ref{sec:3.1.10}), e serve apenas para essa verificação. O RMSE resultante apresenta mínimo interior em h ≈ 24,0 mm, com RMSE de 1,682 u.p., X\textsubscript{pose} = 38,83 mm e K = 160,46, e cresce para valores maiores de h. O vale é largo: na malha de 0,25 mm, o RMSE fica abaixo de 1,01 vez o mínimo de h = 23,75 a 24,50 mm e abaixo de 2 vezes o mínimo de h = 19,25 a 31,00 mm, faixa em que K vai de 222,1 a 106,6; com K e a extensão na pose livres, a curva extraída não determina h. 
+A origem de H\textsubscript{CAL} = 22,701 mm, ao contrário, não pôde ser reproduzida. Para verificar se esse valor é um ótimo da curva extraída, foi executada uma análise complementar em que X\textsubscript{pose} e K são reidentificados para cada h, de 8 a 60 mm em passo de 0,25 mm. Essa análise não é o procedimento principal deste trabalho, que mantém K congelado (seção~\ref{sec:3.1.11}), e serve apenas para essa verificação. O RMSE resultante apresenta mínimo interior em h ≈ 24,0 mm, com RMSE de 1,682 u.p., X\textsubscript{pose} = 38,83 mm e K = 160,46, e cresce para valores maiores de h. O vale é largo: na malha de 0,25 mm, o RMSE fica abaixo de 1,01 vez o mínimo de h = 23,75 a 24,50 mm e abaixo de 2 vezes o mínimo de h = 19,25 a 31,00 mm, faixa em que K vai de 222,1 a 106,6; com K e a extensão na pose livres, a curva extraída não determina h. 
 
 Em consequência, H\textsubscript{CAL} é tratado neste trabalho como parâmetro congelado de origem não reproduzida, e não como ótimo identificado. Ele é mantido porque o par (K, X\textsubscript{pose}) foi identificado nesse valor e porque o ponto morto correspondente, na elevação de 30,485°, fica a 0,485° do início da zona neutra indicado na patente, ao passo que h = 24,0 mm o deslocaria para 30,909°. A consistência de H\textsubscript{CAL} com a curva extraída e com as restrições físicas é examinada na seção~\ref{sec:4.1.7}.
 
-A comparação entre formulações obedece à regra da seção~\ref{sec:3.1.9}. Com o caminho do cabo igual ao vão livre, a formulação sem o arco alcança RMSE de 1,152 u.p. no mesmo h, com X\textsubscript{pose} = 37,44 mm e K = 175,50 reidentificados; com o caminho completo, o RMSE é de 1,830 u.p. A formulação sem o arco ajusta melhor a curva publicada, mas viola a conservação de energia (seção~\ref{sec:4.1.3}) e, por isso, não foi adotada: o menor RMSE não é critério de validade física.
+A comparação entre formulações obedece à regra da seção~\ref{sec:3.1.10}. Com o caminho do cabo igual ao vão livre, a formulação sem o arco alcança RMSE de 1,152 u.p. no mesmo h, com X\textsubscript{pose} = 37,44 mm e K = 175,50 reidentificados; com o caminho completo, o RMSE é de 1,830 u.p. A formulação sem o arco ajusta melhor a curva publicada, mas viola a conservação de energia (seção~\ref{sec:4.1.3}) e, por isso, não foi adotada: o menor RMSE não é critério de validade física.
 
 \subsection{Qualidade do ajuste à curva da patente}\label{sec:4.1.5}
 
@@ -353,7 +353,7 @@ O confronto ilustra, em termos quantitativos, a limitação apontada por \textci
 
 \subsection{Limitações dos resultados}\label{sec:4.1.9}
 
-Além das limitações de escopo da seção~\ref{sec:3.1.13}, os resultados comportam as ressalvas a seguir.
+Além das limitações de escopo da seção~\ref{sec:3.1.14}, os resultados comportam as ressalvas a seguir.
 
 O ponto morto do mecanismo situa-se em θ* = 192,5317°, equivalente à elevação de 30,485°, e a patente indica a zona neutra a partir de 30°, diferença de 0,485°. A protuberância que, no dispositivo real, restringe o gerador de força além desse ângulo não integra o modelo; em consequência, o modelo prevê inversão de sinal do torque após o ponto morto, ao passo que o dispositivo mantém torque residual aproximadamente nulo. A ressalva restringe-se aos 0,485° finais da faixa e ao último ponto extraído.
 
@@ -367,7 +367,7 @@ Por fim, os resultados desta seção referem-se a um único dispositivo, ao indi
 
 \section{Exoesqueleto 2}\label{sec:4.2}
 
-Esta seção apresenta os resultados das etapas das seções~\ref{sec:3.2.1} a \ref{sec:3.2.11}, aplicadas ao dispositivo da EP 3 504 033 B1. Salvo indicação em contrário, os números foram obtidos com a geometria do CAD, e\textsubscript{c} = 34,785 mm, s\textsubscript{0} = 287,190 mm, identificado pelo espaçamento entre as curvas da Figura 16 da patente, e K = K\textsubscript{40} = 1,46670 N/mm, hipótese de projeto. As etapas dinâmicas da seção~\ref{sec:3.2.12} não foram executadas.
+Esta seção apresenta os resultados das etapas das seções~\ref{sec:3.2.1} a \ref{sec:3.2.12}, aplicadas ao dispositivo da EP 3 504 033 B1. Salvo indicação em contrário, os números foram obtidos com a geometria do CAD, e\textsubscript{c} = 34,785 mm, s\textsubscript{0} = 287,190 mm, identificado pelo espaçamento entre as curvas da Figura 16 da patente, e K = K\textsubscript{40} = 1,46670 N/mm, hipótese de projeto. As etapas dinâmicas da seção~\ref{sec:3.2.13} não foram executadas.
 
 \subsection{Geometria reconstruída e propriedades de massa}\label{sec:4.2.1}
 
@@ -400,14 +400,14 @@ Distância do pivô ao centro do elemento 78 & p & 7,754 & mm & CAD \\
 Comprimento do elástico na pose do CAD & s\textsubscript{pose} & 359,768 & mm & CAD \\
 Direção do centro do elemento 78 na pose do CAD & q\textsubscript{78,pose} & 277,937 & graus & CAD \\
 Ângulo do braço com a horizontal na pose do CAD, positivo acima & θ\textsubscript{b,pose} & −7,962 & graus & CAD; sinal a confirmar \\
-Comprimento do segmento OP & \textit{e} & 45,866 & mm & Derivada, Equação~\eqref{eq:30} \\
-Ângulo de OP em relação ao trecho e\textsubscript{c} & ε & −14,340 & graus & Derivada, Equação~\eqref{eq:30} \\
+Comprimento do segmento OP & \textit{e} & 45,866 & mm & Derivada, Equação~\eqref{eq:33} \\
+Ângulo de OP em relação ao trecho e\textsubscript{c} & ε & −14,340 & graus & Derivada, Equação~\eqref{eq:33} \\
 Direção de OP na pose do CAD & q\textsubscript{pose} & 146,147 & graus & Derivada, q\textsubscript{c,pose} + ε \\
-Defasagem entre a direção de p e q & φ & 131,790 & graus & Derivada, Equação~\eqref{eq:33} \\
-Defasagem entre q e θ\textsubscript{el} + 90° & q\textsubscript{0} & −25,891 & graus & Derivada, Equação~\eqref{eq:29} \\
-Anteversão na pose do CAD & θ\textsubscript{el,pose} & 82,038 & graus & Derivada, Equação~\eqref{eq:29} \\
-Distância de A a O & |r\textsubscript{AO}| & 341,686 & mm & Derivada, Equação~\eqref{eq:31} \\
-Comprimento do trecho entre o elemento 78 e P & x & 51,360 & mm & Derivada, Equação~\eqref{eq:37} \\
+Defasagem entre a direção de p e q & φ & 131,790 & graus & Derivada, Equação~\eqref{eq:36} \\
+Defasagem entre q e θ\textsubscript{el} + 90° & q\textsubscript{0} & −25,891 & graus & Derivada, Equação~\eqref{eq:32} \\
+Anteversão na pose do CAD & θ\textsubscript{el,pose} & 82,038 & graus & Derivada, Equação~\eqref{eq:32} \\
+Distância de A a O & |r\textsubscript{AO}| & 341,686 & mm & Derivada, Equação~\eqref{eq:34} \\
+Comprimento do trecho entre o elemento 78 e P & x & 51,360 & mm & Derivada, Equação~\eqref{eq:40} \\
 \end{xltabular}
 \fonte{elaborada pelo autor.}
 \nota{ângulos medidos a partir de +x, no sentido anti-horário (seção~\ref{sec:3.2.3}). O valor de e\textsubscript{c} coincide, até a terceira casa decimal, com a cota H\textsubscript{CAD} do outro mecanismo (seção~\ref{sec:3.1.4}); a coincidência deve ser conferida no modelo em CAD.}
@@ -509,12 +509,12 @@ Foram extraídos 48 pontos da curva tracejada, 47 da pontilhada e 51 da contínu
 51 &  &  &  &  & (170,28) & (4,6319) \\
 \end{xltabular}
 \fonte{elaborada pelo autor, a partir da EP 3 504 033 B1 \cite{mizera2023}.}
-\nota{valores entre parênteses ficam fora da faixa 20° < θ\textsubscript{el} < 165° usada na identificação (seção~\ref{sec:3.2.9}).}
+\nota{valores entre parênteses ficam fora da faixa 20° < θ\textsubscript{el} < 165° usada na identificação (seção~\ref{sec:3.2.10}).}
 \end{tabelaabnt}
 
 \subsection{Verificação da cadeia de cálculo}\label{sec:4.2.3}
 
-As verificações automáticas da seção~\ref{sec:3.2.11} resultaram nos resíduos da Tabela~\ref{tab:verificacoes-cadeia-calculo-modelo}, todos da ordem do erro de arredondamento da aritmética de ponto flutuante, exceto os do trabalho virtual, limitados pelo truncamento da diferença finita, e o do fechamento com o CAD, limitado pela resolução da medida. No teste sintético, a identificação pelo espaçamento entre as curvas recupera os valores de s\textsubscript{0} com erro máximo de 0,063 mm, limitado pela interpolação linear entre os pontos de cada curva.
+As verificações automáticas da seção~\ref{sec:3.2.12} resultaram nos resíduos da Tabela~\ref{tab:verificacoes-cadeia-calculo-modelo}, todos da ordem do erro de arredondamento da aritmética de ponto flutuante, exceto os do trabalho virtual, limitados pelo truncamento da diferença finita, e o do fechamento com o CAD, limitado pela resolução da medida. No teste sintético, a identificação pelo espaçamento entre as curvas recupera os valores de s\textsubscript{0} com erro máximo de 0,063 mm, limitado pela interpolação linear entre os pontos de cada curva.
 
 \begin{table}[!htbp]
 \estilotabela{\small}
@@ -523,15 +523,15 @@ As verificações automáticas da seção~\ref{sec:3.2.11} resultaram nos resíd
 \toprule
 \centering\textbf{Verificação} & \centering\textbf{Resíduo máximo} \tabularnewline
 \midrule
-Equações de circuito do regime I, Equação~\eqref{eq:34} & 1,1 × 10\textsuperscript{−13} mm \\
-Equações de circuito do regime II, Equação~\eqref{eq:35} & 1,1 × 10\textsuperscript{−13} mm \\
-x constante em q, Equação~\eqref{eq:37} & 1,4 × 10\textsuperscript{−14} mm \\
+Equações de circuito do regime I, Equação~\eqref{eq:37} & 1,1 × 10\textsuperscript{−13} mm \\
+Equações de circuito do regime II, Equação~\eqref{eq:38} & 1,1 × 10\textsuperscript{−13} mm \\
+x constante em q, Equação~\eqref{eq:40} & 1,4 × 10\textsuperscript{−14} mm \\
 Fechamento com o comprimento medido na pose do CAD & 1,4 × 10\textsuperscript{−4} mm \\
-Trabalho virtual no regime I, Equação~\eqref{eq:44} & 5,0 × 10\textsuperscript{−8} mm/rad \\
-Trabalho virtual no regime II, Equação~\eqref{eq:44} & 7,6 × 10\textsuperscript{−8} mm/rad \\
+Trabalho virtual no regime I, Equação~\eqref{eq:47} & 5,0 × 10\textsuperscript{−8} mm/rad \\
+Trabalho virtual no regime II, Equação~\eqref{eq:47} & 7,6 × 10\textsuperscript{−8} mm/rad \\
 Continuidade de s no contato & 5,7 × 10\textsuperscript{−14} mm \\
 Continuidade de τ/F na transição & 8,6 × 10\textsuperscript{−13} mm \\
-Caso p = 0: q* numérico contra a Equação~\eqref{eq:45} & 4,6 × 10\textsuperscript{−14} rad \\
+Caso p = 0: q* numérico contra a Equação~\eqref{eq:48} & 4,6 × 10\textsuperscript{−14} rad \\
 Caso p = 0: s = |r\textsubscript{AO}| + \textit{e} no regime II & 0 mm \\
 Caso p = 0: τ no regime II, força unitária & 0 N·mm \\
 τ pelo produto vetorial contra τ = F m/1000 & 1,8 × 10\textsuperscript{−15} N·m \\
@@ -546,7 +546,7 @@ Espaçamento entre curvas: s\textsubscript{0} conhecidos recuperados em curvas s
 
 \subsection{\texorpdfstring{Identificação de s\textsubscript{0} pelo espaçamento entre as curvas}{Identificação de s0 pelo espaçamento entre as curvas}}\label{sec:4.2.4}
 
-A Tabela~\ref{tab:comprimento-referencia-s0-identificado} reúne os comprimentos de referência identificados pela Equação~\eqref{eq:49}. Na faixa adotada, s\textsubscript{0} vale 300,908 mm na curva pontilhada, 287,190 mm na tracejada e 275,589 mm na contínua, com RMSE de 0,255 mm nas 234 equações. A ordem coincide com a das pré-tensões descritas na patente, porque menor s\textsubscript{0} significa maior extensão do elástico em qualquer ângulo, e os passos entre curvas, 13,72 e 11,60 mm, são da mesma ordem. O modelo adota o s\textsubscript{0} da curva tracejada, de pré-tensão intermediária entre as três, como configuração de referência; a seção~\ref{sec:4.2.9} mostra o efeito de adotar o das outras duas.
+A Tabela~\ref{tab:comprimento-referencia-s0-identificado} reúne os comprimentos de referência identificados pela Equação~\eqref{eq:54}. Na faixa adotada, s\textsubscript{0} vale 300,908 mm na curva pontilhada, 287,190 mm na tracejada e 275,589 mm na contínua, com RMSE de 0,255 mm nas 234 equações. A ordem coincide com a das pré-tensões descritas na patente, porque menor s\textsubscript{0} significa maior extensão do elástico em qualquer ângulo, e os passos entre curvas, 13,72 e 11,60 mm, são da mesma ordem. O modelo adota o s\textsubscript{0} da curva tracejada, de pré-tensão intermediária entre as três, como configuração de referência; a seção~\ref{sec:4.2.9} mostra o efeito de adotar o das outras duas.
 
 \begin{table}[!htbp]
 \estilotabela{\small}
@@ -573,7 +573,7 @@ Abscissa espelhada, θ\textsubscript{el} → 180° − θ\textsubscript{el} & 39
 
 Entre as quatro faixas de θ\textsubscript{el}, o s\textsubscript{0} da curva tracejada varia de 286,01 a 288,74 mm. O ruído de extração dá desvio padrão de 1,019 mm nessa curva, e o deslocamento da abscissa de −2,47° e de +2,47° o leva a 287,76 e 286,01 mm, respectivamente, com RMSE maior que o da abscissa original, 0,337 e 0,347 mm. A maior sensibilidade é ao sinal de θ\textsubscript{b,pose}: com ele trocado, o s\textsubscript{0} da tracejada vai a 297,55 mm, com RMSE de 0,620 mm, e K\textsubscript{40}, a 1,65068 N/mm, com pico de τ de 4,252 N·m em 92,1°; no ajuste de forma, o s\textsubscript{0} da tracejada vai de 167,098 mm para 280,059 mm, com 4 dos 40 pontos ajustados no regime II, e K\textsubscript{40}, de 0,52377 para 1,31188 N/mm. Com a abscissa espelhada, o RMSE sobe para 1,31 mm e os três valores de s\textsubscript{0} ficam acima de s(0°) = 389,23 mm, maior comprimento do elástico na faixa, o que o deixaria frouxo em todos os ângulos; essa leitura da figura é rejeitada.
 
-Os fatores G\textsubscript{i} da Equação~\eqref{eq:50} coincidem nas três curvas (Figura~\ref{fig:identificacao-s0-espacamento-curvas}(a)), com dispersão mediana de 0,87\% entre 20° e 165° e de no máximo 4,69\% até 150°. Acima de 150°, a dispersão cresce, até 104,6\% em 165°, porque a extensão da curva pontilhada tende a zero e o quociente da Equação~\eqref{eq:50} fica mal condicionado. O comprimento do elástico lido no espaçamento entre as curvas pontilhada e contínua, s = (r\textsubscript{c} s\textsubscript{0,p} − r\textsubscript{p} s\textsubscript{0,c})/(r\textsubscript{c} − r\textsubscript{p}), difere do s do CAD em 1,12 mm RMS e no máximo 2,31 mm entre 35° e 155°: a variação de s com o ângulo implícita na figura é a do modelo.
+Os fatores G\textsubscript{i} da Equação~\eqref{eq:55} coincidem nas três curvas (Figura~\ref{fig:identificacao-s0-espacamento-curvas}(a)), com dispersão mediana de 0,87\% entre 20° e 165° e de no máximo 4,69\% até 150°. Acima de 150°, a dispersão cresce, até 104,6\% em 165°, porque a extensão da curva pontilhada tende a zero e o quociente da Equação~\eqref{eq:55} fica mal condicionado. O comprimento do elástico lido no espaçamento entre as curvas pontilhada e contínua, s = (r\textsubscript{c} s\textsubscript{0,p} − r\textsubscript{p} s\textsubscript{0,c})/(r\textsubscript{c} − r\textsubscript{p}), difere do s do CAD em 1,12 mm RMS e no máximo 2,31 mm entre 35° e 155°: a variação de s com o ângulo implícita na figura é a do modelo.
 
 O fim da curva pontilhada confirma o resultado de forma independente. A razão dessa curva, extrapolada, chega a zero em 171,19° com os dois últimos pontos e em 171,45° com os três últimos, onde s = 299,18 e 299,10 mm, a 1,73 e 1,81 mm do s\textsubscript{0} identificado pelo espaçamento; com esse s\textsubscript{0}, o modelo afrouxa a partir de 166,4°. A patente não diz em que posição a pré-tensão é medida. Interpretando a pré-tensão quase nula como extensão próxima de zero na posição de menor comprimento do elástico, perto de 180°, o s\textsubscript{0} identificado é compatível com essa descrição: a curva pontilhada fica frouxa perto de 180°, com s(180°) − s\textsubscript{0} = −3,98 mm, e as curvas tracejada e contínua têm extensão de 9,74 e 21,34 mm em 180°.
 
@@ -589,9 +589,9 @@ O ângulo em que as curvas começam, perto de 14°, não identifica s\textsubscr
 
 \subsection{Forma das curvas e ajuste de forma}\label{sec:4.2.5}
 
-Com os valores de s\textsubscript{0} da Tabela~\ref{tab:comprimento-referencia-s0-identificado}, o fator G lido na Figura 16 da patente e a forma m/(1000 τ\textsubscript{g}) do modelo diferem (Figura~\ref{fig:identificacao-s0-espacamento-curvas}(b)). Normalizada em 90°, a razão entre os dois vale 0,39 em 20°, 0,79 em 60°, 1,33 em 120°, 2,02 em 150° e 2,97 em 165°. Com esses valores de s\textsubscript{0} e com o m do CAD e o τ\textsubscript{g} do conjunto, a razão calculada não reproduz a Figura 16 da patente: com escala comum às três curvas, o coeficiente de determinação é −0,521 (pontilhada), −1,565 (tracejada) e −0,635 (contínua). Como o s implícito na figura concorda com o do CAD (seção~\ref{sec:4.2.4}), a diferença não se explica por s. Restam o braço de momento, que depende da derivada de s, e o torque do peso que a patente usou para formar a razão, que o texto não define de forma consistente (seção~\ref{sec:3.2.9}). Entre 35° e 155°, a concordância de s limita a primeira causa: pela Equação~\eqref{eq:44}, atribuir ao braço de momento toda a diferença afastaria o s implícito do s do CAD em até 7,68 mm (3,20 mm RMS), contra os 2,31 mm observados. Nessa faixa, a causa mais compatível com os dados é o torque do peso ou a definição da ordenada; o braço de momento permanece possível perto dos extremos. A patente não traz dado que permita confirmar a causa.
+Com os valores de s\textsubscript{0} da Tabela~\ref{tab:comprimento-referencia-s0-identificado}, o fator G lido na Figura 16 da patente e a forma m/(1000 τ\textsubscript{g}) do modelo diferem (Figura~\ref{fig:identificacao-s0-espacamento-curvas}(b)). Normalizada em 90°, a razão entre os dois vale 0,39 em 20°, 0,79 em 60°, 1,33 em 120°, 2,02 em 150° e 2,97 em 165°. Com esses valores de s\textsubscript{0} e com o m do CAD e o τ\textsubscript{g} do conjunto, a razão calculada não reproduz a Figura 16 da patente: com escala comum às três curvas, o coeficiente de determinação é −0,521 (pontilhada), −1,565 (tracejada) e −0,635 (contínua). Como o s implícito na figura concorda com o do CAD (seção~\ref{sec:4.2.4}), a diferença não se explica por s. Restam o braço de momento, que depende da derivada de s, e o torque do peso que a patente usou para formar a razão, que o texto não define de forma consistente (seção~\ref{sec:3.2.10}). Entre 35° e 155°, a concordância de s limita a primeira causa: pela Equação~\eqref{eq:47}, atribuir ao braço de momento toda a diferença afastaria o s implícito do s do CAD em até 7,68 mm (3,20 mm RMS), contra os 2,31 mm observados. Nessa faixa, a causa mais compatível com os dados é o torque do peso ou a definição da ordenada; o braço de momento permanece possível perto dos extremos. A patente não traz dado que permita confirmar a causa.
 
-O ajuste de forma da seção~\ref{sec:3.2.9} deixa s\textsubscript{0} e a escala livres em cada curva e, por isso, absorve essa diferença em s\textsubscript{0}. Os valores que ele encontra (Tabela~\ref{tab:ajuste-s0-forma-curva}), 277,43 mm na pontilhada, 167,10 mm na tracejada e o limite s\textsubscript{0} = 0 na contínua, ficam longe dos do espaçamento, e as escalas por curva contrariam o atuador único descrito na patente. São mantidos como resultado secundário: descrevem a melhor forma que o modelo consegue produzir com a geometria do CAD, e não a pré-tensão do dispositivo.
+O ajuste de forma da seção~\ref{sec:3.2.10} deixa s\textsubscript{0} e a escala livres em cada curva e, por isso, absorve essa diferença em s\textsubscript{0}. Os valores que ele encontra (Tabela~\ref{tab:ajuste-s0-forma-curva}), 277,43 mm na pontilhada, 167,10 mm na tracejada e o limite s\textsubscript{0} = 0 na contínua, ficam longe dos do espaçamento, e as escalas por curva contrariam o atuador único descrito na patente. São mantidos como resultado secundário: descrevem a melhor forma que o modelo consegue produzir com a geometria do CAD, e não a pré-tensão do dispositivo.
 
 \begin{table}[!htbp]
 \estilotabela{\small}
@@ -708,7 +708,7 @@ Com s\textsubscript{0} = 287,190 mm, a extensão do elástico vai de 102,04 mm c
 
 \subsection{\texorpdfstring{Varredura paramétrica do trecho e\textsubscript{c} da alavanca}{Varredura paramétrica do trecho ec da alavanca}}\label{sec:4.2.8}
 
-Dos três critérios de validade física da seção~\ref{sec:3.1.10}, adaptados ao mecanismo, o fechamento dos dois regimes (s > 0 e s − x > 0) e o trabalho virtual foram atendidos em todos os valores de e\textsubscript{c}, com resíduo máximo de 7,6 × 10\textsuperscript{−8} mm/rad. A extensão não negativa do elástico em toda a faixa só é atendida para e\textsubscript{c} ≤ 44,50 mm, em 492 dos 602 valores: acima desse valor, com o s\textsubscript{0} adotado, o elástico afrouxa perto de 180°, como mostra a curva de e\textsubscript{c} = 45 mm, frouxa de 177,72° a 180°. A transição de regime desloca-se de θ\textsubscript{el} = 26,91° (e\textsubscript{c} = 20 mm) para 14,46° (e\textsubscript{c} = 50 mm). A Tabela~\ref{tab:familia-curvas-ec-s0} e a Figura~\ref{fig:familia-curvas-ec-s0} mostram a família de curvas para cinco valores de e\textsubscript{c}.
+Dos três critérios de validade física da seção~\ref{sec:3.1.11}, adaptados ao mecanismo, o fechamento dos dois regimes (s > 0 e s − x > 0) e o trabalho virtual foram atendidos em todos os valores de e\textsubscript{c}, com resíduo máximo de 7,6 × 10\textsuperscript{−8} mm/rad. A extensão não negativa do elástico em toda a faixa só é atendida para e\textsubscript{c} ≤ 44,50 mm, em 492 dos 602 valores: acima desse valor, com o s\textsubscript{0} adotado, o elástico afrouxa perto de 180°, como mostra a curva de e\textsubscript{c} = 45 mm, frouxa de 177,72° a 180°. A transição de regime desloca-se de θ\textsubscript{el} = 26,91° (e\textsubscript{c} = 20 mm) para 14,46° (e\textsubscript{c} = 50 mm). A Tabela~\ref{tab:familia-curvas-ec-s0} e a Figura~\ref{fig:familia-curvas-ec-s0} mostram a família de curvas para cinco valores de e\textsubscript{c}.
 
 \begin{table}[!htbp]
 \estilotabela{\footnotesize}
@@ -772,7 +772,7 @@ Em N·m, a comparação só é possível sob a hipótese K = K\textsubscript{40}
 \bottomrule
 \end{tabularx}
 \fonte{elaborada pelo autor.}
-\nota{K\textsubscript{40} é hipótese de projeto (seção~\ref{sec:3.2.9}); τ\textsubscript{g} considera o membro humano e o braço do exoesqueleto.}
+\nota{K\textsubscript{40} é hipótese de projeto (seção~\ref{sec:3.2.10}); τ\textsubscript{g} considera o membro humano e o braço do exoesqueleto.}
 \end{table}
 
 \begin{figure}[!htbp]
@@ -793,7 +793,7 @@ Como na seção~\ref{sec:4.1.8}, o resultado ilustra a limitação discutida na 
 
 \subsection{Limitações dos resultados}\label{sec:4.2.10}
 
-Além das limitações de escopo da seção~\ref{sec:3.2.13}, os resultados comportam as ressalvas da Tabela~\ref{tab:pendencias-analise-ep-b1}, que reúne o que falta para concluir cada etapa, a consequência da ausência e a forma de obter o dado. A principal é a diferença de forma entre o modelo e a Figura 16 da patente (seção~\ref{sec:4.2.5}): o s\textsubscript{0} identificado pelo espaçamento entre as curvas não depende dela, mas a distribuição angular do torque calculado, sim.
+Além das limitações de escopo da seção~\ref{sec:3.2.14}, os resultados comportam as ressalvas da Tabela~\ref{tab:pendencias-analise-ep-b1}, que reúne o que falta para concluir cada etapa, a consequência da ausência e a forma de obter o dado. A principal é a diferença de forma entre o modelo e a Figura 16 da patente (seção~\ref{sec:4.2.5}): o s\textsubscript{0} identificado pelo espaçamento entre as curvas não depende dela, mas a distribuição angular do torque calculado, sim.
 
 \begin{tabelaabnt}{\small}
 \begin{xltabular}{\textwidth}{@{}>{\hsize=0.897\hsize\raggedright\arraybackslash}X>{\hsize=0.987\hsize\raggedright\arraybackslash}X>{\hsize=1.115\hsize\raggedright\arraybackslash}X@{}}
