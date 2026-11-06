@@ -1,6 +1,6 @@
 # Verificação do DOCX no formato do modelo
 
-DOCX: TCC_modelo_FT.docx. Referência de formato e texto: tese.pdf (98 páginas). Conteúdo de origem: TCC_exo1_exo2.docx.
+DOCX: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco_modelo_FT.docx. Referência de formato e texto: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.pdf (98 páginas). Conteúdo de origem: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.docx.
 
 ## 1. Capa, folha de rosto, folha de aprovação e resumo
 

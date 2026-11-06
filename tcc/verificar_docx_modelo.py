@@ -57,9 +57,10 @@ CIT_NOVA = re.compile(r"\((?:[A-Za-zÀ-ÿ][^()]*?, (?:\d{4}[a-z]?|\[202-\]))\)")
 
 
 def main():
-    novo = Path(sys.argv[1]) if len(sys.argv) > 1 else RAIZ / "tcc" / "TCC_modelo_FT.docx"
-    pdf = Path(sys.argv[2]) if len(sys.argv) > 2 else RAIZ / "latex" / "tese.pdf"
-    fundido = Path(sys.argv[3]) if len(sys.argv) > 3 else RAIZ / "tcc" / "TCC_exo1_exo2.docx"
+    from nomes import FUNDIDO, MODELO_FT, PDF
+    novo = Path(sys.argv[1]) if len(sys.argv) > 1 else RAIZ / "tcc" / MODELO_FT
+    pdf = Path(sys.argv[2]) if len(sys.argv) > 2 else RAIZ / "latex" / PDF
+    fundido = Path(sys.argv[3]) if len(sys.argv) > 3 else RAIZ / "tcc" / FUNDIDO
     zn, zf = zipfile.ZipFile(novo), zipfile.ZipFile(fundido)
     bn = blocos(zn.read("word/document.xml").decode("utf-8"))
     bf = blocos(zf.read("word/document.xml").decode("utf-8"))

@@ -1,11 +1,11 @@
 # TCC em LaTeX no modelo FT/UNICAMP
 
-Versão LaTeX do `tcc/TCC_exo1_exo2.docx`. Ela usa o modelo de teses e dissertações da FT/UNICAMP (André Leon Sampaio Gradvohl, versão de 14 de abril de 2026). O arquivo `tese-FT.cls` não foi alterado.
+Versão LaTeX do `tcc/TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.docx`. Ela usa o modelo de teses e dissertações da FT/UNICAMP (André Leon Sampaio Gradvohl, versão de 14 de abril de 2026). O arquivo `tese-FT.cls` não foi alterado.
 
 ## Compilar
 
 - **Overleaf:** em Novo projeto → Enviar projeto, envie o `.zip` desta pasta e use o compilador pdfLaTeX. O Overleaf roda o biber sozinho.
-- **Local:** `latexmk -pdf tese.tex`, que roda pdflatex e biber. Pede o TeX Live com os pacotes `biblatex-abnt`, `libertine`, `libertinust1math`, `xltabular`, `enumitem` e `caption`.
+- **Local:** `latexmk -pdf -jobname=TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco tese.tex`, que roda pdflatex e biber e grava o PDF com o nome do TCC (sem `-jobname`, ele sai como `tese.pdf`). Pede o TeX Live com os pacotes `biblatex-abnt`, `libertine`, `libertinust1math`, `xltabular`, `enumitem` e `caption`.
 
 ## Arquivos
 
@@ -19,7 +19,7 @@ Versão LaTeX do `tcc/TCC_exo1_exo2.docx`. Ela usa o modelo de teses e disserta�
 | `figuras/` | As 14 figuras, extraídas do DOCX |
 | `logotipos/logo-fca.png` | Recorte do logotipo enviado com o modelo |
 | `tese-FT.cls`, `README.md`, `CHANGELOG.md` | Arquivos do modelo, sem alteração |
-| `tese.pdf` | PDF compilado |
+| `TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.pdf` | PDF compilado |
 
 Rótulos usados nas remissões:
 - `sec:3.2.10`: seção 3.2.10; `sec:4`: capítulo 4;
@@ -47,13 +47,13 @@ O texto dos parágrafos, tabelas, legendas, fontes e notas é o do DOCX. Mudou s
 
 ## Versão em Word no mesmo formato
 
-`tcc/TCC_modelo_FT.docx` reproduz em Word a formatação deste PDF: capa, folha de rosto, títulos "Capítulo N", cabeçalho corrente, tabelas com filetes, legendas acima, citações e referências como o biblatex as imprime e a fonte Linux Libertine O, embutida no arquivo. Ele é gerado por `tcc/gerar_docx_modelo.py`, que lê o DOCX fundido e os dados de `tese.tex`, `resumo.tex`, `agradecimentos.tex` e `bibliografia.bib`. Por isso, depois de mudar a capa, a banca, os agradecimentos ou o resumo aqui, basta rodar o gerador de novo. `tcc/verificar_docx_modelo.py` confere o resultado contra este PDF.
+`tcc/TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco_modelo_FT.docx` reproduz em Word a formatação deste PDF: capa, folha de rosto, títulos "Capítulo N", cabeçalho corrente, tabelas com filetes, legendas acima, citações e referências como o biblatex as imprime e a fonte Linux Libertine O, embutida no arquivo. Ele é gerado por `tcc/gerar_docx_modelo.py`, que lê o DOCX fundido e os dados de `tese.tex`, `resumo.tex`, `agradecimentos.tex` e `bibliografia.bib`. Por isso, depois de mudar a capa, a banca, os agradecimentos ou o resumo aqui, basta rodar o gerador de novo. `tcc/verificar_docx_modelo.py` confere o resultado contra este PDF.
 
 ## Regenerar e verificar
 
 ```
-python3 tcc/gerar_latex.py tcc/TCC_exo1_exo2.docx latex/
-cd latex && latexmk -pdf tese.tex && cd ..
+python3 tcc/gerar_latex.py
+cd latex && latexmk -pdf -jobname=TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco tese.tex && cd ..
 python3 tcc/verificar_latex.py
 ```
 

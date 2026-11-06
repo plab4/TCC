@@ -1,6 +1,6 @@
 # Relatório da fusão dos exoesqueletos 1 e 2
 
-Documento gerado: `TCC_exo1_exo2.docx`, a partir de `TCC_apenas_exo1.docx`.
+Documento gerado: `TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.docx`, a partir de `TCC_apenas_exo1.docx`.
 
 Blocos do original: 305; 5 retirados (REMOVIDOS em gerar_tcc_fundido.py), os demais mantidos e na mesma ordem. Blocos novos: 292. Blocos do original com texto alterado: 119 (renumeração e as edições de EDICOES em gerar_tcc_fundido.py).
 

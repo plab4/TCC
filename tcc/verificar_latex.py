@@ -186,8 +186,9 @@ def celulas_tex(pasta):
 
 
 def main():
-    docx = Path(sys.argv[1]) if len(sys.argv) > 1 else RAIZ / "tcc" / "TCC_exo1_exo2.docx"
-    pdf = Path(sys.argv[2]) if len(sys.argv) > 2 else RAIZ / "latex" / "tese.pdf"
+    from nomes import FUNDIDO, PDF
+    docx = Path(sys.argv[1]) if len(sys.argv) > 1 else RAIZ / "tcc" / FUNDIDO
+    pdf = Path(sys.argv[2]) if len(sys.argv) > 2 else RAIZ / "latex" / PDF
     log = pdf.with_suffix(".log").read_text(encoding="latin-1")
     doc = zipfile.ZipFile(docx).read("word/document.xml").decode("utf-8")
     corpo = doc[doc.index("<w:body>") + 8:]

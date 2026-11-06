@@ -1,6 +1,6 @@
 # Verificação do TCC em LaTeX
 
-DOCX: TCC_exo1_exo2.docx. PDF: tese.pdf, 98 páginas; capítulos nas páginas 11 a 94, referências a partir da página 95.
+DOCX: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.docx. PDF: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.pdf, 98 páginas; capítulos nas páginas 11 a 94, referências a partir da página 95.
 
 ## 1. Texto corrido, títulos, legendas, fontes e notas
 

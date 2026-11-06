@@ -1,6 +1,6 @@
 # Verificação do TCC fundido
 
-Original: TCC_apenas_exo1.docx, 305 blocos. Fundido: TCC_exo1_exo2.docx, 592 blocos.
+Original: TCC_apenas_exo1.docx, 305 blocos. Fundido: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.docx, 592 blocos.
 
 ## 1. Conteúdo do original
 

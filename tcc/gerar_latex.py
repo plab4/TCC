@@ -1,6 +1,6 @@
 """Converte o TCC fundido (DOCX) para os capítulos LaTeX do modelo FT/FCA.
 
-Uso: python3 tcc/gerar_latex.py tcc/TCC_exo1_exo2.docx latex/
+Uso: python3 tcc/gerar_latex.py [tcc/<nomes.FUNDIDO> latex/]
 
 Gera latex/capitulos/*.tex e latex/figuras/*.png. Não toca em tese.tex,
 preambulo.tex, resumo.tex, agradecimentos.tex nem bibliografia.bib, que são
@@ -654,7 +654,8 @@ def converter(docx, destino):
 
 
 def main():
-    docx = Path(sys.argv[1]) if len(sys.argv) > 1 else RAIZ / "tcc" / "TCC_exo1_exo2.docx"
+    from nomes import FUNDIDO
+    docx = Path(sys.argv[1]) if len(sys.argv) > 1 else RAIZ / "tcc" / FUNDIDO
     destino = Path(sys.argv[2]) if len(sys.argv) > 2 else RAIZ / "latex"
     r = converter(docx, destino)
     print(f"{r['tabelas']} tabelas, {r['figuras']} figuras, {r['equacoes']} equações, "

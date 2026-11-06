@@ -2,7 +2,7 @@
 
 Uso: python3 tcc/gerar_docx_modelo.py [saida.docx]
 
-O conteúdo vem do TCC fundido (tcc/TCC_exo1_exo2.docx); os dados da capa,
+O conteúdo vem do TCC fundido (tcc/<nomes.FUNDIDO>); os dados da capa,
 da folha de rosto e da banca vêm de latex/tese.tex, o resumo de
 latex/resumo.tex e as referências de latex/bibliografia.bib. As citações
 são impressas exatamente como o biblatex as imprime: o script compila um
@@ -1172,8 +1172,9 @@ def paginas_renderizadas(docx, doc):
 
 
 def main():
-    destino = Path(sys.argv[1]) if len(sys.argv) > 1 else RAIZ / "tcc" / "TCC_modelo_FT.docx"
-    origem = RAIZ / "tcc" / "TCC_exo1_exo2.docx"
+    from nomes import FUNDIDO, MODELO_FT
+    destino = Path(sys.argv[1]) if len(sys.argv) > 1 else RAIZ / "tcc" / MODELO_FT
+    origem = RAIZ / "tcc" / FUNDIDO
     d = dados_tese()
     # citações: comandos usados no texto e no que o biblatex imprime para cada um
     cit = gl.Citacoes((LATEX / "bibliografia.bib").read_text(encoding="utf-8"))

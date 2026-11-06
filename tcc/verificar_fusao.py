@@ -1,5 +1,6 @@
 """
-Verificação independente de TCC_exo1_exo2.docx, gerado por gerar_tcc_fundido.py.
+Verificação independente do DOCX fundido (nomes.FUNDIDO), gerado por
+gerar_tcc_fundido.py.
 
 Não usa as funções do gerador, só as listas EDICOES e REMOVIDOS, conferidas à
 parte. Deduz a renumeração das legendas do próprio documento e confere:
@@ -30,9 +31,10 @@ PASTA = Path(__file__).resolve().parent
 sys.path.insert(0, str(PASTA))
 from gerar_tcc_fundido import (EDICOES, EDICOES_RE, REMOVIDOS, SUBSTITUIDAS,  # noqa: E402
                                parenteses_fixos, seno_sin)
+from nomes import FUNDIDO  # noqa: E402
 
 ORIG = PASTA/"TCC_apenas_exo1.docx"
-NOVO = PASTA/"TCC_exo1_exo2.docx"
+NOVO = PASTA/FUNDIDO
 APEN = PASTA/"TCC_apenas_exo1_complemento_Ottobock.docx"
 ENT = {"&quot;": '"', "&apos;": "'"}
 SAIDA = []

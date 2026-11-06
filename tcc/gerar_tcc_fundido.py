@@ -28,7 +28,9 @@ LaTeX e convertidas em OMML pelo pandoc.
 
 Rodar (na raiz do repositório):
     python tcc_resultados_ottobock.py
-    python tcc/gerar_tcc_fundido.py tcc/TCC_apenas_exo1.docx tcc/TCC_exo1_exo2.docx
+    python tcc/gerar_tcc_fundido.py
+com origem tcc/TCC_apenas_exo1.docx e destino tcc/<nomes.FUNDIDO>, que podem
+ser dados como argumentos.
 """
 import json
 import re
@@ -3046,4 +3048,6 @@ def relatorio(orig, final, num, sem_ref, removidos, destino):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2])
+    from nomes import FUNDIDO, ORIGINAL
+    main(sys.argv[1] if len(sys.argv) > 1 else RAIZ/"tcc"/ORIGINAL,
+         sys.argv[2] if len(sys.argv) > 2 else RAIZ/"tcc"/FUNDIDO)
