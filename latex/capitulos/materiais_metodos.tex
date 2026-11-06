@@ -222,14 +222,14 @@ em que M é a massa do conjunto, g = 9,80665 m/s\textsuperscript{2} e x\textsubs
 
 O equilíbrio estático do braço pode ser escrito diretamente pelo princípio dos trabalhos virtuais. Com a junta e o tambor sem atrito e o cabo inextensível e sem massa, os vínculos são ideais, e suas reações não realizam trabalho. Num giro virtual δθ* do conjunto em torno de O, em radianos, com δq = δθ* pela Equação~\eqref{eq:02}, realizam trabalho a força do cabo sobre o tambor, o peso do conjunto e o torque τ\textsubscript{u} que o usuário aplica ao braço.
 
-A força do cabo atua no ponto de tangência T. Na formulação do autor, T é o vetor b, de módulo b = |OT| e a um ângulo β da linha do elo, dados pelas Equações~\eqref{eq:11} a \eqref{eq:13}, e a força é o vetor f = −F u(φ), o V da Equação~\eqref{eq:20}. Como o elo é rígido e gira em torno de O, o trabalho virtual dessa força é o do seu momento em relação a O, a componente z de b × f:
+A força do cabo atua no ponto de tangência T. Na formulação, T é o vetor b, de módulo b = |OT| e a um ângulo β da linha do elo, dados pelas Equações~\eqref{eq:11} a \eqref{eq:13}, e a força é o vetor f = −F u(φ), o V da Equação~\eqref{eq:20}. Como o elo é rígido e gira em torno de O, o trabalho virtual dessa força é o do seu momento em relação a O, a componente z de b × f:
 
 \begin{equation}
   \delta W_{c} = \tau\,\delta\theta^{*},\quad\tau = \frac{{(\mathbf{b} \times \mathbf{f})}_{z}}{1000},\quad{(\mathbf{b} \times \mathbf{f})}_{z} = b_{x}f_{y} - b_{y}f_{x} = bF\sin{(\varphi + \beta - q)}
   \label{eq:25}
 \end{equation}
 
-O seno vem do ângulo entre os dois vetores: pela Equação~\eqref{eq:13}, b aponta na direção q + π − β, e f, na direção φ + π. O produto vetorial retém só a componente de f perpendicular a b, que é a que gira o elo. Na faixa de operação, b vai de 282,503 a 284,363 mm e β de 4,604° a 4,619°, mas f aponta quase para o pivô: φ + β − q difere de 180° em no máximo 4,623°. Por isso, −b sin(φ + β − q), que coincide com o braço m da Equação~\eqref{eq:14}, não passa de |B| = 22,919 mm, e tomar F b como torque, sem o seno, superestimaria o resultado em mais de 12 vezes.
+O seno vem do ângulo entre os dois vetores: pela Equação~\eqref{eq:13}, b aponta na direção q + π − β, e f, na direção φ + π. O produto vetorial retém só a componente de f perpendicular a b, que é a que gira o elo. Na faixa de operação, b vai de 282,503 a 284,363 mm e β de 4,604° a 4,619°, mas f aponta quase para o pivô: φ + β − q difere de 180° em no máximo 4,623°. Por isso, −b sin(φ + β − q), que coincide com o braço m da Equação~\eqref{eq:14}, não passa de |B| = 22,919 mm, e tomar F b como torque, sem a projeção, superestimaria o resultado em mais de 12 vezes.
 
 O mesmo trabalho virtual pode ser calculado do lado da mola. Com o cabo inextensível, o giro δθ* estende a mola de δℓ = (dℓ/dθ*) δθ*, com ℓ da Equação~\eqref{eq:16}, e a força F = K δ, que se opõe à extensão, realiza o trabalho −F δℓ/1000. Como as duas expressões valem para todo δθ*,
 
@@ -541,7 +541,7 @@ O conjunto reúne o membro humano e o braço do exoesqueleto (elemento 8), cujo 
 
 \subsection{Formulação pelo princípio dos trabalhos virtuais}\label{sec:3.2.9}
 
-Como na seção~\ref{sec:3.1.9}, o equilíbrio é escrito pelo trabalho virtual num giro δθ\textsubscript{el} do conjunto, em radianos; pela Equação~\eqref{eq:31}, δq = δθ\textsubscript{el}. Com o elemento 78 pontual e sem atrito e o elástico sem massa, o contato é um vínculo ideal e não realiza trabalho; realizam trabalho a força do elástico sobre a alavanca, o peso do conjunto e o torque τ\textsubscript{u} do usuário.
+Como na seção~\ref{sec:3.1.9}, o equilíbrio é escrito pelo trabalho virtual num giro δθ\textsubscript{el} do conjunto, em radianos; pela Equação~\eqref{eq:31}, δq = δθ\textsubscript{el}. Com o elemento 78 pontual e sem atrito e o elástico sem massa, o contato é um vínculo. Realizam trabalho a força do elástico sobre a alavanca, o peso do conjunto e o torque τ\textsubscript{u} do usuário.
 
 Na nomenclatura da seção~\ref{sec:3.1.9}, b é o vetor de O ao ponto de aplicação da força do trecho ligado a A, de módulo b e a um ângulo β de OP, e f = −F u(ψ) é o vetor dessa força, ambos da Equação~\eqref{eq:45}. No exoesqueleto 1, o ponto de aplicação percorre o tambor, e b e β variam com o ângulo; aqui, ele é fixo na alavanca em cada regime, e b e β são constantes:
 

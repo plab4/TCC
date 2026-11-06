@@ -942,7 +942,7 @@ def cap3_trabalho_virtual_exo1():
         "radianos, com δq = δθ* pela Equação (2), realizam trabalho a força do cabo "
         "sobre o tambor, o peso do conjunto e o torque τ_{u} que o usuário aplica ao "
         "braço."))
-    a(P("A força do cabo atua no ponto de tangência T. Na formulação do autor, T é o "
+    a(P("A força do cabo atua no ponto de tangência T. Na formulação, T é o "
         "vetor b, de módulo b = |OT| e a um ângulo β da linha do elo, dados pelas "
         "Equações (11) a (13), e a força é o vetor f = −F u(φ), o V da Equação (20). "
         "Como o elo é rígido e gira em torno de O, o trabalho virtual dessa força é o "
@@ -956,7 +956,7 @@ def cap3_trabalho_virtual_exo1():
         "para o pivô: φ + β − q difere de 180° em no máximo "
         f"{f(mec['desvio_b_f_max_grau'])}°. Por isso, −b sin(φ + β − q), que coincide "
         "com o braço m da Equação (14), não passa de "
-        f"|B| = {f(mec['oa'])} mm, e tomar F b como torque, sem o seno, "
+        f"|B| = {f(mec['oa'])} mm, e tomar F b como torque, sem a projeção, "
         f"superestimaria o resultado em mais de {int(razao)} vezes."))
     a(P("O mesmo trabalho virtual pode ser calculado do lado da mola. Com o cabo "
         "inextensível, o giro δθ* estende a mola de δℓ = (dℓ/dθ*) δθ*, com ℓ da "
@@ -1390,9 +1390,8 @@ def parte_3B():
     a(P("Como na seção ⟦S:vt1⟧, o equilíbrio é escrito pelo trabalho virtual num "
         "giro δθ_{el} do conjunto, em radianos; pela Equação (⟦E:lam⟧), "
         "δq = δθ_{el}. Com o elemento 78 pontual e sem atrito e o elástico sem massa, "
-        "o contato é um vínculo ideal e não realiza trabalho; realizam trabalho a "
-        "força do elástico sobre a alavanca, o peso do conjunto e o torque τ_{u} do "
-        "usuário."))
+        "o contato é um vínculo. Realizam trabalho a força do elástico sobre a "
+        "alavanca, o peso do conjunto e o torque τ_{u} do usuário."))
     a(P("Na nomenclatura da seção ⟦S:vt1⟧, b é o vetor de O ao ponto de aplicação da "
         "força do trecho ligado a A, de módulo b e a um ângulo β de OP, e f = −F u(ψ) "
         "é o vetor dessa força, ambos da Equação (⟦E:tau⟧). No exoesqueleto 1, o "

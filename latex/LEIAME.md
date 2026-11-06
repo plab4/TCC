@@ -30,7 +30,7 @@ Rótulos usados nas remissões:
 
 Nada. Os agradecimentos estão em `agradecimentos.tex`; dedicatória e epígrafe, se houver, ficam no mesmo arquivo. Não há ficha catalográfica.
 
-Dados já preenchidos: unidade (FCA), banca (os três da FCA/UNICAMP) e data da defesa (18/11/2026, em `\datadadefesa`). O resumo e o abstract (`resumo.tex`) não existem no DOCX e foram redigidos a partir das conclusões, com os números do texto.
+Dados já preenchidos: unidade (FCA), banca (os três da FCA/UNICAMP) e data da defesa (XX/11/2026, com o dia a definir, em `\datadadefesa`). O resumo e o abstract (`resumo.tex`) não existem no DOCX e foram redigidos a partir das conclusões, com os números do texto.
 
 A folha de aprovação, com a banca e a data, já aparece nesta versão por causa do `\folhadeaprovacaoantecipada` no `tese.tex` (definido em `preambulo.tex`); sem ele, o modelo só a mostra na versão final. Depois da defesa, apague a linha `\finalversionfalse` do `tese.tex`: ela mantém na folha de rosto o texto da versão entregue à banca.
 
