@@ -152,7 +152,7 @@ Depois: 3.1.4 Equação de fechamento do circuito vetorial
 
 Antes: em que h e p são as componentes desse vetor no referencial do elo proximal. A posição da ancoragem h é o parâmetro geométrico mais incerto do mecanismo e permanece explícita em todas as equações; a cota lida no CAD, HCAD = 34,785 mm, é tratada como valor documental, e o valor adotado no modelo é HCAL = 22,701 mm (seção 3.9). Com u(x) = (cos x, sen x) e u⊥(x) = (−sen x, cos x), o fechamento do circuito se escreve
 
-Depois: em que h e p são as componentes desse vetor no referencial do elo proximal. A posição da ancoragem h é o parâmetro geométrico mais incerto do mecanismo e permanece explícita em todas as equações; a cota lida no CAD, HCAD = 34,785 mm, é uma medida em CAD, distinta do valor adotado no modelo, HCAL = 22,701 mm (seção 3.1.10). Com u(x) = (cos x, sen x) e u⊥(x) = (−sen x, cos x), o fechamento do circuito se escreve
+Depois: em que h e p são as componentes desse vetor no referencial do elo proximal. A posição da ancoragem h é o parâmetro geométrico mais incerto do mecanismo e permanece explícita em todas as equações; a cota lida no CAD, HCAD = 34,785 mm, é uma medida em CAD, distinta do valor adotado no modelo, HCAL = 22,701 mm (seção 3.1.10). Com u(x) = (cos x, sin x) e u⊥(x) = (−sin x, cos x), o fechamento do circuito se escreve
 
 ### 23
 

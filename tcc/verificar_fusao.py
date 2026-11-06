@@ -29,7 +29,7 @@ from xml.sax.saxutils import unescape
 PASTA = Path(__file__).resolve().parent
 sys.path.insert(0, str(PASTA))
 from gerar_tcc_fundido import (EDICOES, EDICOES_RE, REMOVIDOS, SUBSTITUIDAS,  # noqa: E402
-                               parenteses_fixos)
+                               parenteses_fixos, seno_sin)
 
 ORIG = PASTA/"TCC_apenas_exo1.docx"
 NOVO = PASTA/"TCC_exo1_exo2.docx"
@@ -136,6 +136,8 @@ def main():
             t = re.sub(r"\((\d+)\)", lambda m: f"({mapa_eq[int(m.group(1))]})", t)
         t = re.sub(r"(Equaç(?:ão|ões) )\((\d+)\)", eq, t)
         t = re.sub(r"(Equações \(\d+\) (?:e|a) )\((\d+)\)", eq, t)
+        # seno escrito sin em todo o documento
+        t = re.sub(r"\b(arc)?sen\b", lambda m: f"{m.group(1) or ''}sin", t)
         return t
 
     # 1. blocos do original
@@ -147,7 +149,7 @@ def main():
     # fundido (mesmo esqueleto XML, na ordem), e a ordem tem de ser preservada
     mapa_eq, j = {}, 0
     for b in Nn:
-        if j < len(Om) and esqueleto(b) == esqueleto(parenteses_fixos(Om[j])):
+        if j < len(Om) and esqueleto(b) == esqueleto(seno_sin(parenteses_fixos(Om[j]))):
             # bloco de equações: só os rótulos, "(3)(4)", um por linha da tabela
             if "<m:oMath" in Om[j] and re.fullmatch(r"(?:\(\d+\))+", txt(Om[j])):
                 antes_ = [int(n) for n in re.findall(r"\d+", txt(Om[j]))]
@@ -160,7 +162,7 @@ def main():
 
     j, diverge, casados = 0, [], set()
     for i, b in enumerate(Nn):
-        if j < len(Om) and esqueleto(b) == esqueleto(parenteses_fixos(Om[j])):
+        if j < len(Om) and esqueleto(b) == esqueleto(seno_sin(parenteses_fixos(Om[j]))):
             t_esp = esperado(txt(Om[j]))
             if titulo(Om[j]):
                 t_esp = re.sub(r"^([34])\.(\d+)(?= )", sec, txt(Om[j]))
@@ -183,7 +185,7 @@ def main():
     diga("## 1. Conteúdo do original")
     diga()
     diga(f"Blocos do original encontrados em ordem, com XML idêntico fora do texto "
-         f"(nas equações, os delimitadores simples passam a ter tamanho fixo): "
+         f"(nas equações, os delimitadores simples passam a ter tamanho fixo, e sen e arcsen passam a sin e arcsin): "
          f"{j} de {len(Om)} ({len(retirados)} retirados de propósito, REMOVIDOS). "
          f"Texto diferente do esperado (renumeração e as {len(EDICOES)} edições "
          f"declaradas): {len(diverge)}. Retirados ainda presentes: {len(presentes)}. "

@@ -79,7 +79,7 @@ A cinemática do gerador de torque é descrita por um circuito vetorial fechado 
   \label{eq:05}
 \end{equation}
 
-em que h e p são as componentes desse vetor no referencial do elo proximal. A posição da ancoragem h é o parâmetro geométrico mais incerto do mecanismo e permanece explícita em todas as equações; a cota lida no CAD, H\textsubscript{CAD} = 34,785 mm, é uma medida em CAD, distinta do valor adotado no modelo, H\textsubscript{CAL} = 22,701 mm (seção~\ref{sec:3.1.10}). Com u(x) = (cos x, sen x) e u\textsubscript{⊥}(x) = (−sen x, cos x), o fechamento do circuito se escreve
+em que h e p são as componentes desse vetor no referencial do elo proximal. A posição da ancoragem h é o parâmetro geométrico mais incerto do mecanismo e permanece explícita em todas as equações; a cota lida no CAD, H\textsubscript{CAD} = 34,785 mm, é uma medida em CAD, distinta do valor adotado no modelo, H\textsubscript{CAL} = 22,701 mm (seção~\ref{sec:3.1.10}). Com u(x) = (cos x, sin x) e u\textsubscript{⊥}(x) = (−sin x, cos x), o fechamento do circuito se escreve
 
 \begin{equation}
   \mathbf{B} + s\mathbf{u}(\varphi) + R\mathbf{u}^{\bot}(\varphi) + C\mathbf{u}(q) = \mathbf{0}
@@ -125,7 +125,7 @@ A Figura~\ref{fig:circuito-vetorial-gerador-torque-sobreposto} sobrepõe esse ci
 O ponto em que o cabo deixa o tambor é
 
 \begin{equation}
-  \mathbf{T} = \mathbf{D} + R(\operatorname{sen}\varphi,\quad - \cos\varphi),\quad\mathbf{D} = - C\mathbf{u}(q)
+  \mathbf{T} = \mathbf{D} + R(\sin\varphi,\quad - \cos\varphi),\quad\mathbf{D} = - C\mathbf{u}(q)
   \label{eq:10}
 \end{equation}
 
@@ -134,13 +134,13 @@ Na formulação original do autor, o mesmo ponto é obtido a partir da distânci
 \begin{gather}
   b^{2} = s^{2} + \left| \mathbf{B} \right|^{2} + 2s\left| \mathbf{B} \right|\cos{(\varphi - \varphi_{B})} \label{eq:11} \\
   \cos\beta = \frac{b^{2} + C^{2} - R^{2}}{2bC} \label{eq:12} \\
-  \mathbf{T} = b( - \cos{(\beta - q)},\quad\operatorname{sen}{(\beta - q)}) \label{eq:13}
+  \mathbf{T} = b( - \cos{(\beta - q)},\quad\sin{(\beta - q)}) \label{eq:13}
 \end{gather}
 
 em que φ\textsubscript{B} = atan2(B\textsubscript{y}, B\textsubscript{x}) é a direção do vetor B. As duas vias são comparadas numericamente (seção~\ref{sec:3.1.12}), e a Equação~\eqref{eq:10} é a usada na cadeia por não depender do sinal de β. A distância b, entretanto, não é o braço de momento do cabo: como T pertence a uma circunferência de raio R centrada a C do pivô, b fica necessariamente entre C − R e C + R. O braço de momento é a distância perpendicular do pivô à linha de ação do cabo, que passa por A com direção u(φ):
 
 \begin{equation}
-  m = B_{x}\operatorname{sen}\varphi - B_{y}\cos\varphi,\quad|m| \leq \left| \mathbf{B} \right| = \sqrt{h^{2} + p^{2}}
+  m = B_{x}\sin\varphi - B_{y}\cos\varphi,\quad|m| \leq \left| \mathbf{B} \right| = \sqrt{h^{2} + p^{2}}
   \label{eq:14}
 \end{equation}
 
@@ -194,14 +194,14 @@ A identidade τ = −F m/1000 decorre de T e A estarem sobre a mesma linha de a�
 O torque do cabo se anula quando a linha de ação passa pelo pivô (m = 0). Da geometria do circuito, esse ponto morto tem forma fechada em função de h, formulação original do autor aqui escrita com a notação desta seção:
 
 \begin{equation}
-  \theta_{pm}^{*}(h) = 180{^\circ} + \operatorname{atan2}{(p,h)} + \operatorname{arcsen}\left( \frac{R}{C} \right)
+  \theta_{pm}^{*}(h) = 180{^\circ} + \operatorname{atan2}{(p,h)} + \arcsin\left( \frac{R}{C} \right)
   \label{eq:21}
 \end{equation}
 
 Como θ*\textsubscript{pm} é monótono em h, a Equação~\eqref{eq:21} admite inversão analítica:
 
 \begin{equation}
-  h = \frac{p}{\tan\left( \theta_{pm}^{*} - 180{^\circ} - \operatorname{arcsen}\left( \frac{R}{C} \right) \right)}
+  h = \frac{p}{\tan\left( \theta_{pm}^{*} - 180{^\circ} - \arcsin\left( \frac{R}{C} \right) \right)}
   \label{eq:22}
 \end{equation}
 
@@ -212,7 +212,7 @@ Para h > 0, o termo atan2(p, h) fica entre 0° e 90°, de modo que a inversão s
 O torque estático do peso do conjunto braço–exoesqueleto em relação ao pivô é calculado de forma independente da cadeia do cabo: não usa K, X\textsubscript{pose} nem h. O centro de massa (x\textsubscript{cm}, y\textsubscript{cm}), dado na pose de referência no referencial do desenho (Tabela~\ref{tab:propriedades-massa-conjunto-braco}), gira com o elo, e o desenho gira ainda α + 90° − θ\textsubscript{off} = −22,589° para alinhar sua vertical com a da configuração calibrada:
 
 \begin{gather}
-  \gamma = \theta^{*} - \theta_{pose}^{*} + \alpha + 90{^\circ} - \theta_{off},\quad x_{g} = x_{cm}\cos\gamma - y_{cm}\operatorname{sen}\gamma \label{eq:23} \\
+  \gamma = \theta^{*} - \theta_{pose}^{*} + \alpha + 90{^\circ} - \theta_{off},\quad x_{g} = x_{cm}\cos\gamma - y_{cm}\sin\gamma \label{eq:23} \\
   \tau_{g} = \frac{Mg\left| x_{g} \right|}{1000} \label{eq:24}
 \end{gather}
 
@@ -225,11 +225,11 @@ O equilíbrio estático do braço pode ser escrito diretamente pelo princípio d
 A força do cabo atua no ponto de tangência T. Na formulação do autor, T é o vetor b, de módulo b = |OT| e a um ângulo β da linha do elo, dados pelas Equações~\eqref{eq:11} a \eqref{eq:13}, e a força é o vetor f = −F u(φ), o V da Equação~\eqref{eq:20}. Como o elo é rígido e gira em torno de O, o trabalho virtual dessa força é o do seu momento em relação a O, a componente z de b × f:
 
 \begin{equation}
-  \delta W_{c} = \tau\,\delta\theta^{*},\quad\tau = \frac{{(\mathbf{b} \times \mathbf{f})}_{z}}{1000},\quad{(\mathbf{b} \times \mathbf{f})}_{z} = b_{x}f_{y} - b_{y}f_{x} = bF\operatorname{sen}{(\varphi + \beta - q)}
+  \delta W_{c} = \tau\,\delta\theta^{*},\quad\tau = \frac{{(\mathbf{b} \times \mathbf{f})}_{z}}{1000},\quad{(\mathbf{b} \times \mathbf{f})}_{z} = b_{x}f_{y} - b_{y}f_{x} = bF\sin{(\varphi + \beta - q)}
   \label{eq:25}
 \end{equation}
 
-O seno vem do ângulo entre os dois vetores: pela Equação~\eqref{eq:13}, b aponta na direção q + π − β, e f, na direção φ + π. O produto vetorial retém só a componente de f perpendicular a b, que é a que gira o elo. Na faixa de operação, b vai de 282,503 a 284,363 mm e β de 4,604° a 4,619°, mas f aponta quase para o pivô: φ + β − q difere de 180° em no máximo 4,623°. Por isso, −b sen(φ + β − q), que coincide com o braço m da Equação~\eqref{eq:14}, não passa de |B| = 22,919 mm, e tomar F b como torque, sem o seno, superestimaria o resultado em mais de 12 vezes.
+O seno vem do ângulo entre os dois vetores: pela Equação~\eqref{eq:13}, b aponta na direção q + π − β, e f, na direção φ + π. O produto vetorial retém só a componente de f perpendicular a b, que é a que gira o elo. Na faixa de operação, b vai de 282,503 a 284,363 mm e β de 4,604° a 4,619°, mas f aponta quase para o pivô: φ + β − q difere de 180° em no máximo 4,623°. Por isso, −b sin(φ + β − q), que coincide com o braço m da Equação~\eqref{eq:14}, não passa de |B| = 22,919 mm, e tomar F b como torque, sem o seno, superestimaria o resultado em mais de 12 vezes.
 
 O mesmo trabalho virtual pode ser calculado do lado da mola. Com o cabo inextensível, o giro δθ* estende a mola de δℓ = (dℓ/dθ*) δθ*, com ℓ da Equação~\eqref{eq:16}, e a força F = K δ, que se opõe à extensão, realiza o trabalho −F δℓ/1000. Como as duas expressões valem para todo δθ*,
 
@@ -358,7 +358,7 @@ O membro humano segue \textcite{deleva1996}, com o mesmo indivíduo de referênc
 
 \subsection{Referenciais e convenções angulares e de sinal}\label{sec:3.2.3}
 
-O mecanismo é tratado como plano, com origem O no eixo da articulação 20, admitido coincidente com o centro do ombro, eixo x anterior e eixo y para cima. Os ângulos são medidos a partir de +x, no sentido anti-horário, com u(x) = (cos x, sen x), como na seção~\ref{sec:3.1.4}. Comprimentos estão em milímetros, e os ângulos entram em graus e são convertidos para radianos uma única vez.
+O mecanismo é tratado como plano, com origem O no eixo da articulação 20, admitido coincidente com o centro do ombro, eixo x anterior e eixo y para cima. Os ângulos são medidos a partir de +x, no sentido anti-horário, com u(x) = (cos x, sin x), como na seção~\ref{sec:3.1.4}. Comprimentos estão em milímetros, e os ângulos entram em graus e são convertidos para radianos uma única vez.
 
 A variável independente é a anteversão do braço, θ\textsubscript{el}, com 0° para o braço pendente e 90° para o braço horizontal à frente. É a grandeza da abscissa das Figuras 16 e 17 da patente, definida nesses termos pela própria patente. Por isso, ao contrário da seção~\ref{sec:3.1.3}, o ângulo da patente não precisa ser convertido em elevação anatômica. O modelo admite, porém, que o giro do elemento de apoio do braço em relação à barra 18 seja igual à anteversão, o que supõe o eixo da articulação 20 no centro do ombro e a barra 18 fixa em relação ao tronco. A patente situa a articulação na altura do ombro, na região da escápula e afastada para trás do corpo com o braço pendente, com eixo que não coincide com o de abdução do ombro, e admite que a orientação da barra 18 mude com o movimento do braço. O documento não informa a relação entre o giro da articulação e a anteversão, e as comparações angulares com as Figuras 16 e 17 da patente dependem dessa hipótese. O eixo do braço aponta na direção θ\textsubscript{el} − 90°. A alavanca é representada pelo segmento OP, de comprimento \textit{e} e direção q (seção~\ref{sec:3.2.4}); o ângulo q, variável interna da cinemática, relaciona-se com θ\textsubscript{el} por
 
@@ -537,7 +537,7 @@ O torque do peso é calculado de forma independente da cadeia do elástico. O co
   \label{eq:49}
 \end{equation}
 
-O conjunto reúne o membro humano e o braço do exoesqueleto (elemento 8), cujo centro de massa é referido ao eixo da articulação 20 pela posição desse eixo no modelo em CAD (seção~\ref{sec:4.2.1}). Com o membro humano, alinhado ao eixo do braço, a\textsubscript{CG} seria nulo e τ\textsubscript{g} = M g d sen θ\textsubscript{el}/1000; o braço do exoesqueleto desloca o centro de massa do conjunto em a\textsubscript{CG} = 0,287°, e o máximo de τ\textsubscript{g}, 10,604 N·m, ocorre em θ\textsubscript{el} = 89,7°.
+O conjunto reúne o membro humano e o braço do exoesqueleto (elemento 8), cujo centro de massa é referido ao eixo da articulação 20 pela posição desse eixo no modelo em CAD (seção~\ref{sec:4.2.1}). Com o membro humano, alinhado ao eixo do braço, a\textsubscript{CG} seria nulo e τ\textsubscript{g} = M g d sin θ\textsubscript{el}/1000; o braço do exoesqueleto desloca o centro de massa do conjunto em a\textsubscript{CG} = 0,287°, e o máximo de τ\textsubscript{g}, 10,604 N·m, ocorre em θ\textsubscript{el} = 89,7°.
 
 \subsection{Formulação pelo princípio dos trabalhos virtuais}\label{sec:3.2.9}
 
@@ -550,7 +550,7 @@ Na nomenclatura da seção~\ref{sec:3.1.9}, b é o vetor de O ao ponto de aplica
   \label{eq:50}
 \end{equation}
 
-com (b, β) = (\textit{e}, 0) no regime I, em que b = P, e (b, β) = (p, φ) no regime II, em que b = C\textsubscript{78} (Equação~\eqref{eq:35}). Com esses valores, b sen(q + β − ψ) é o braço m da Equação~\eqref{eq:46}. O produto vetorial explica as duas particularidades do regime II. O trecho x liga P ao elemento 78, dois pontos da alavanca, e suas forças sobre eles são iguais, opostas e colineares, com momento resultante nulo; por isso b vai ao elemento 78, e não a P. E, embora b salte de P para C\textsubscript{78} na troca de regime, o torque é contínuo: no contato, A, o elemento 78 e P estão alinhados, f é paralelo a P − C\textsubscript{78}, e (P − C\textsubscript{78}) × f = 0.
+com (b, β) = (\textit{e}, 0) no regime I, em que b = P, e (b, β) = (p, φ) no regime II, em que b = C\textsubscript{78} (Equação~\eqref{eq:35}). Com esses valores, b sin(q + β − ψ) é o braço m da Equação~\eqref{eq:46}. O produto vetorial explica as duas particularidades do regime II. O trecho x liga P ao elemento 78, dois pontos da alavanca, e suas forças sobre eles são iguais, opostas e colineares, com momento resultante nulo; por isso b vai ao elemento 78, e não a P. E, embora b salte de P para C\textsubscript{78} na troca de regime, o torque é contínuo: no contato, A, o elemento 78 e P estão alinhados, f é paralelo a P − C\textsubscript{78}, e (P − C\textsubscript{78}) × f = 0.
 
 Do lado do elástico, o giro δq muda s de (ds/dq) δq, e a força F = K δ realiza o trabalho −F δs/1000; como o contato não realiza trabalho, o potencial elástico depende só de s, nos dois regimes. Igualando as duas expressões,
 

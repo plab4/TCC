@@ -4,7 +4,7 @@ Original: TCC_apenas_exo1.docx, 305 blocos. Fundido: TCC_exo1_exo2.docx, 592 blo
 
 ## 1. Conteúdo do original
 
-Blocos do original encontrados em ordem, com XML idêntico fora do texto (nas equações, os delimitadores simples passam a ter tamanho fixo): 300 de 300 (5 retirados de propósito, REMOVIDOS). Texto diferente do esperado (renumeração e as 66 edições declaradas): 0. Retirados ainda presentes: 0. Autores dos retirados ainda citados: nenhum.
+Blocos do original encontrados em ordem, com XML idêntico fora do texto (nas equações, os delimitadores simples passam a ter tamanho fixo, e sen e arcsen passam a sin e arcsin): 300 de 300 (5 retirados de propósito, REMOVIDOS). Texto diferente do esperado (renumeração e as 66 edições declaradas): 0. Retirados ainda presentes: 0. Autores dos retirados ainda citados: nenhum.
 Renumeração das tabelas do original: {1: 1, 2: 4, 3: 5, 4: 6, 5: 7, 6: 8, 7: 9, 8: 10, 9: 11, 10: 12, 11: 13}.
 Renumeração das figuras do original: {1: 1, 2: 6, 3: 7, 4: 8, 5: 9}.
 Renumeração das equações do original: {1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 16: 16, 17: 17, 18: 18, 19: 19, 20: 20, 21: 21, 22: 22, 23: 23, 24: 24, 25: 28, 26: 29, 27: 30}.
@@ -129,7 +129,7 @@ Idênticos: 4. Iguais a menos de números e referências: 26. Modificados: 39. S
   - mais próximo no fundido: Como preferência, a patente indica que nenhuma força seja aplicada até que o braço ultrapasse um ângulo em rel
 - Sem correspondente (0.14): Os pontos das três curvas foram extraídos pelo autor e estão no arquivo fig16_curvas.csv (Tabela A.6). Segundo
   - mais próximo no fundido: Os pontos das três curvas foram extraídos pelo autor e estão no arquivo fig16_curvas.csv (Tabela 16). A extraç
-- Sem correspondente (0.23): Com apenas o membro humano, aCG = 0 e τg = M g D sen θel/1000, com máximo de 10,550 N·m em θel = 90°. A Equaçã
+- Sem correspondente (0.22): Com apenas o membro humano, aCG = 0 e τg = M g D sen θel/1000, com máximo de 10,550 N·m em θel = 90°. A Equaçã
   - mais próximo no fundido: O conjunto reúne o membro humano e o braço do exoesqueleto (elemento 8), cujo centro de massa é referido ao ei
 - Sem correspondente (0.33): APÊNDICE A: ANÁLISE COMPLEMENTAR DO EXOESQUELETO DA EP 3 504 033 B1
   - mais próximo no fundido: Tabela 25: Pendências da análise da EP 3 504 033 B1

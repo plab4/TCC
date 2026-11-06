@@ -370,6 +370,16 @@ def _ref_eq(m):
 
 
 ROTULO_EQ = [(r"^\((\d+)\)$", lambda m: f"(⟦E#o{m.group(1)}⟧)")]
+
+# seno escrito "sin" em todo o documento, nas equações e no texto, a pedido do
+# autor; o original escrevia "sen" e "arcsen"
+SENO_TEXTO = [(r"\b(arc)?sen\b", lambda m: f"{m.group(1) or ''}sin")]
+SENO_OMML = re.compile(r"(<m:t(?: [^>]*)?>)(arc)?sen(</m:t>)")
+
+
+def seno_sin(xml):
+    """sen → sin e arcsen → arcsin nos nomes de função da OMML."""
+    return SENO_OMML.sub(lambda m: f"{m.group(1)}{m.group(2) or ''}sin{m.group(3)}", xml)
 REFS_EQ = [
     (r"(Equaç(?:ão|ões) )\((\d+)\)", _ref_eq),
     (r"(Equações \(⟦E:o\d+⟧\) (?:e|a) )\((\d+)\)", _ref_eq),
@@ -935,14 +945,14 @@ def cap3_trabalho_virtual_exo1():
         "Equações (11) a (13), e a força é o vetor f = −F u(φ), o V da Equação (20). "
         "Como o elo é rígido e gira em torno de O, o trabalho virtual dessa força é o "
         "do seu momento em relação a O, a componente z de b × f:"))
-    a(EQ(("vt1_bf", r"\delta W_{c} = \tau\,\delta\theta^{*},\quad \tau = \frac{(\mathbf{b}\times\mathbf{f})_{z}}{1000},\quad (\mathbf{b}\times\mathbf{f})_{z} = b_{x}f_{y} - b_{y}f_{x} = bF\operatorname{sen}(\varphi + \beta - q)")))
+    a(EQ(("vt1_bf", r"\delta W_{c} = \tau\,\delta\theta^{*},\quad \tau = \frac{(\mathbf{b}\times\mathbf{f})_{z}}{1000},\quad (\mathbf{b}\times\mathbf{f})_{z} = b_{x}f_{y} - b_{y}f_{x} = bF\sin(\varphi + \beta - q)")))
     a(P("O seno vem do ângulo entre os dois vetores: pela Equação (13), b aponta na "
         "direção q + π − β, e f, na direção φ + π. O produto vetorial retém só a "
         "componente de f perpendicular a b, que é a que gira o elo. Na faixa de "
         f"operação, b vai de {f(mec['b_min'])} a {f(mec['b_max'])} mm e β de "
         f"{f(mec['beta_min_grau'])}° a {f(mec['beta_max_grau'])}°, mas f aponta quase "
         "para o pivô: φ + β − q difere de 180° em no máximo "
-        f"{f(mec['desvio_b_f_max_grau'])}°. Por isso, −b sen(φ + β − q), que coincide "
+        f"{f(mec['desvio_b_f_max_grau'])}°. Por isso, −b sin(φ + β − q), que coincide "
         "com o braço m da Equação (14), não passa de "
         f"|B| = {f(mec['oa'])} mm, e tomar F b como torque, sem o seno, "
         f"superestimaria o resultado em mais de {int(razao)} vezes."))
@@ -1133,7 +1143,7 @@ def parte_3B():
     a(P("O mecanismo é tratado como plano, com origem O no eixo da articulação 20, "
         "admitido coincidente com o centro do ombro, eixo x anterior e eixo y para "
         "cima. Os ângulos são medidos a partir de +x, no sentido anti-horário, com "
-        "u(x) = (cos x, sen x), como na seção 3.1.4. Comprimentos estão em "
+        "u(x) = (cos x, sin x), como na seção 3.1.4. Comprimentos estão em "
         "milímetros, e os ângulos entram em graus e são convertidos para radianos "
         "uma única vez."))
     a(P("A variável independente é a anteversão do braço, θ_{el}, com 0° para o "
@@ -1366,7 +1376,7 @@ def parte_3B():
     a(P("O conjunto reúne o membro humano e o braço do exoesqueleto (elemento 8), "
         "cujo centro de massa é referido ao eixo da articulação 20 pela posição "
         "desse eixo no modelo em CAD (seção ⟦S:r_geo⟧). Com o membro humano, "
-        "alinhado ao eixo do braço, a_{CG} seria nulo e τ_{g} = M g d sen θ_{el}/1000; "
+        "alinhado ao eixo do braço, a_{CG} seria nulo e τ_{g} = M g d sin θ_{el}/1000; "
         f"o braço do exoesqueleto desloca o centro de massa do conjunto em "
         f"a_{{CG}} = {f(mas['total']['cg_angulo_braco_grau'])}°, e o máximo de "
         f"τ_{{g}}, {f(mas['tau_g_pico'])} N·m, ocorre em "
@@ -1388,7 +1398,7 @@ def parte_3B():
         "é fixo na alavanca em cada regime, e b e β são constantes:"))
     a(EQ(("vt2_bf", r"\mathbf{b} = b\,\mathbf{u}(q + \beta),\quad \delta W_{e} = \tau\,\delta q = \frac{(\mathbf{b}\times\mathbf{f})_{z}}{1000}\,\delta q,\quad (\mathbf{b}\times\mathbf{f})_{z} = bF\sin(q + \beta - \psi)")))
     a(P("com (b, β) = (‹e›, 0) no regime I, em que b = P, e (b, β) = (p, φ) no regime "
-        "II, em que b = C_{78} (Equação (⟦E:P⟧)). Com esses valores, b sen(q + β − ψ) "
+        "II, em que b = C_{78} (Equação (⟦E:P⟧)). Com esses valores, b sin(q + β − ψ) "
         "é o braço m da Equação (⟦E:m⟧). O produto vetorial explica as duas "
         "particularidades do regime II. O trecho x liga P ao elemento 78, dois pontos "
         "da alavanca, e suas forças sobre eles são iguais, opostas e colineares, com "
@@ -2825,7 +2835,7 @@ def montar(corpo_original):
         # novos ("seções 3.1, 4.1 e 5.1"), que não podem ser renumerados
         b2 = editar(b, (REGRA_TITULO if titulo else []) + REGRAS_ORIGINAL)
         b2 = editar(b2, regras) if regras else b2
-        b2 = editar(b2, REFS_EQ + (ROTULO_EQ if "<m:oMath" in b else []))
+        b2 = editar(b2, REFS_EQ + SENO_TEXTO + (ROTULO_EQ if "<m:oMath" in b else []))
         editados.append(b2)
     for antes, _ in EDICOES:
         assert sum(antes in t for _, t, _ in info) == 1, antes
@@ -2869,10 +2879,10 @@ def montar(corpo_original):
     assert not set(removidos) & (set(depois) | set(antes))
     final = []
     for i, b in enumerate(editados):
-        final += [("n", editar(x, REFS_EQ)) for x in antes.get(i, [])]
+        final += [("n", editar(x, REFS_EQ + SENO_TEXTO)) for x in antes.get(i, [])]
         if i not in removidos:
             final.append(("o", b))
-        final += [("n", editar(x, REFS_EQ)) for x in depois.get(i, [])]
+        final += [("n", editar(x, REFS_EQ + SENO_TEXTO)) for x in depois.get(i, [])]
     return orig, final, removidos
 
 
@@ -2944,7 +2954,8 @@ def main(origem, destino):
     for k, m in enumerate(omml(EQUACOES), start=1):
         xml = xml.replace(f"@@OMML{k}@@", m)
     assert "@@OMML" not in xml and "⟦" not in xml and "‹" not in xml
-    xml = parenteses_fixos(xml)
+    xml = seno_sin(parenteses_fixos(xml))
+    assert not re.search(r"<m:t(?: [^>]*)?>(?:arc)?sen</m:t>", xml)
     novo_txt = "".join(texto(x) for o, x in final if o == "n")
     proibidos = [c for c in ("—", "–") if c in novo_txt]
     assert not proibidos, f"travessão no texto novo: {proibidos}"
