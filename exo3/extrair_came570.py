@@ -12,11 +12,12 @@ canal, onde o cabo 634 assenta. O contorno sai em quatro passos:
    Ficam só as faixas com a inclinação, a largura e a forma retangular da
    hachura; o canal, mais largo e curvo, sai.
 2. Região hachurada: as faixas, mais as linhas de hachura entre elas.
-3. Lascas, cunhas e entalhes. Dentro da envoltória convexa da região, cada
-   pedaço branco é preenchido se nenhum ponto dele fica a mais de 26 px da
-   região (largura de uma faixa mais a linha), repetindo até estabilizar. O
-   bolsão do 573, os chifres dele e o canal têm partes bem mais longe e ficam
-   de fora. O furo 654 é preenchido.
+3. Lascas, cunhas e entalhes. Cada pedaço branco fora da região é preenchido
+   se nenhum ponto dele fica a mais de 26 px dela (largura de uma faixa mais a
+   linha), repetindo até estabilizar. Entram as lascas entre a última linha de
+   hachura e o contorno, as cunhas entre as linhas de raio e os entalhes onde
+   as chamadas encostam na borda. O bolsão do 573, os chifres dele e o canal
+   têm partes bem mais longe e ficam de fora. O furo 654 é preenchido.
 4. Contorno fechado da região (contourpy), centrado no furo 654.
 
 O raio efetivo é o que entra na relação F_cabo_560 = F_mola * r_e / R: a
@@ -40,7 +41,6 @@ import contourpy
 import matplotlib
 import numpy as np
 import scipy.ndimage as nd
-from matplotlib.path import Path as Caminho
 from PIL import Image, ImageDraw
 from scipy.spatial import ConvexHull
 
@@ -114,32 +114,30 @@ def regiao_hachurada(Bc, xc, yc):
     M = nd.binary_fill_holes(nd.binary_closing(M, structure=np.ones((9, 9))))
     lb, nb = nd.label(M)
     M = lb == (np.argmax(nd.sum(M, lb, range(1, nb + 1))) + 1)
-    # 3. lascas, cunhas e entalhes dentro da envoltória convexa
-    ys, xs = np.nonzero(M ^ nd.binary_erosion(M))
-    casco = Caminho(np.c_[xs, ys][ConvexHull(np.c_[xs, ys]).vertices])
-    y0, y1, x0, x1 = ys.min(), ys.max() + 1, xs.min(), xs.max() + 1
-    gy, gx = np.mgrid[y0:y1, x0:x1]
-    dentro = np.zeros_like(M)
-    dentro[y0:y1, x0:x1] = casco.contains_points(np.c_[gx.ravel(), gy.ravel()]).reshape(gy.shape)
-    D = dentro & ~M & W
+    # 3. lascas, cunhas e entalhes: brancos que não se afastam da região
+    D = W & ~M
     ld, nd_ = nd.label(D)
-    tam = nd.sum(D, ld, range(1, nd_ + 1))
+    idx = np.arange(1, nd_ + 1)
+    tam = nd.sum(D, ld, idx)
     Mi = M.copy()
     for _ in range(8):
-        dmax = nd.maximum(nd.distance_transform_edt(~Mi), ld, range(1, nd_ + 1))
+        dmax = nd.maximum(nd.distance_transform_edt(~Mi), ld, idx)
         sel = (tam < 6000) & (dmax <= DIST_MAX)
-        novo = M | np.isin(ld, np.where(sel)[0] + 1)
+        novo = M | np.isin(ld, idx[sel])
         novo = nd.binary_closing(novo, structure=np.ones((5, 5))) & (novo | ~W)
         if (novo == Mi).all():
             break
         Mi = novo
-    M = nd.binary_closing(M | np.isin(ld, np.where(sel)[0] + 1), structure=np.ones((7, 7)))
+    M = nd.binary_closing(M | np.isin(ld, idx[sel]), structure=np.ones((7, 7)))
     yy, xx = np.indices(M.shape)
     M |= (xx - xc)**2 + (yy - yc)**2 <= 63.0**2          # furo 654
     M = nd.binary_fill_holes(M)
     lb, nb = nd.label(M)
     M = lb == (np.argmax(nd.sum(M, lb, range(1, nb + 1))) + 1)
-    return M, int(faixa.sum()), int(sel.sum()), sorted(int(t) for t in tam[~sel])[-3:]
+    # folga do critério: dos brancos que ficaram fora, o que menos se afasta da região
+    fora = ~sel & (nd.minimum(M, ld, idx) == 0)
+    dfin = nd.maximum(nd.distance_transform_edt(~M), ld, idx)
+    return M, int(faixa.sum()), int(sel.sum()), float(dfin[fora].min())
 
 
 def zona(a):
@@ -155,7 +153,7 @@ def main():
     X573, Y573, r573 = circunferencia(B, FURO_573, 25, 55)
     Bc = B[:, CORTE_X:]
     xc, yc = X654 - CORTE_X, Y654
-    M, n_faixas, n_lascas, mantidos = regiao_hachurada(Bc, xc, yc)
+    M, n_faixas, n_lascas, folga = regiao_hachurada(Bc, xc, yc)
     cont = max(contourpy.contour_generator(z=M.astype(float)).lines(0.5), key=len)
 
     # coordenadas centradas no furo 654, com y para cima
@@ -214,8 +212,8 @@ def main():
     grafico(P/R20, ang, rad/R20, grade, env/R20, h, saida, casco/R20,
             (X573 - X654)/R20, -(Y573 - Y654)/R20, r573/R20, r654/R20)
 
-    print(f"faixas da hachura: {n_faixas}; lascas e entalhes preenchidos: {n_lascas}; "
-          f"maiores brancos mantidos (px²): {mantidos}")
+    print(f"faixas da hachura: {n_faixas}; pedaços brancos preenchidos: {n_lascas}; dos que ficaram "
+          f"fora, o que menos se afasta da região vai a {folga:.1f} px dela (limite {DIST_MAX:.0f} px)")
     print(f"furo 654: centro ({X654:.1f}, {Y654:.1f}) px, raio {r654:.1f} px = {r654/R20:.4f} R20")
     print(f"R20 = {R20:.1f} px; zona Z10: raio de {rad[z10].min()/R20:.4f} a {rad[z10].max()/R20:.4f} R20")
     for z, (a0, a1) in ZONAS.items():

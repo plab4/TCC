@@ -135,32 +135,32 @@ A Figura 15B é um corte pelo plano do canal, e a área hachurada é o fundo do 
 Como o contorno sai, em resumo:
 1. Os vãos brancos da hachura são faixas retas, a −45° na imagem e com 21 px de largura. O script fica só com elas, o que deixa de fora o canal (mais largo e curvo), as cotas e as chamadas.
 2. A região hachurada é a união dessas faixas.
-3. Os pedaços brancos dentro da envoltória convexa são preenchidos se nenhum ponto deles fica a mais de 26 px da região. São as lascas junto ao bolsão, as cunhas entre as linhas de raio e os entalhes onde as chamadas encostam na borda. O bolsão do 573, os chifres dele e o canal ficam de fora.
+3. Cada pedaço branco fora da região é preenchido se nenhum ponto dele fica a mais de 26 px dela. São as lascas entre a última linha de hachura e o contorno, as cunhas entre as linhas de raio e os entalhes onde as chamadas encostam na borda. O bolsão do 573, os chifres dele e o canal ficam de fora com folga: dos brancos que sobram, o que menos se afasta da região chega a 45,7 px dela.
 4. O contorno fechado inclui o lado côncavo do bolsão.
 
 Ângulos anti-horários a partir da horizontal à direita, na figura girada para a leitura, com centro no furo 654 (pino 572). As linhas de chamada das cotas, localizadas na imagem, dão as zonas: Z10 de 89,6° a 140,4°, Z11 de 152,4° a 218,8° e Z12 de 242,6° a 292,6°.
 
 Conferência com a patente:
-- **Z10:** o raio fica entre 0,984 e 1,010 R20, constante como pede R20 = R21.
-- **Z11:** o raio cai continuamente de 0,967 para 0,664 R20, com R23 < R22.
-- **Z12:** o trecho é reto, com desvio máximo de 0,005 R20 (2,6 px) de uma reta.
+- **Z10:** o raio fica entre 0,994 e 1,004 R20, constante como pede R20 = R21.
+- **Z11:** o raio cai continuamente de 0,961 para 0,663 R20, com R23 < R22.
+- **Z12:** o trecho é reto, com desvio máximo de 0,003 R20 (1,7 px) de uma reta.
 
-Resultados, divididos por R20 = 479,7 px:
+Resultados, divididos por R20 = 482,7 px:
 
 | Grandeza | Valor |
 |---|---|
-| Raio nas pontas da Z10 (R20, R21) | 1,008 e 0,990 |
-| Raio nas pontas da Z11 (R22, R23) | 0,967 e 0,664 |
-| Raio nas pontas da Z12 | 0,507 e 0,325 |
-| Furo 654 (raio) | 0,123 |
-| Furo 573 | raio 0,098, a 0,376 do centro, a 72,1° |
-| Raio efetivo com o cabo saindo na Z10 | 0,986 a 1,010 |
-| Raio efetivo com o cabo saindo na Z11 | 0,627 a 0,866 |
-| Raio efetivo com o cabo saindo na Z12 | 0,327 a 0,349 |
+| Raio nas pontas da Z10 (R20, R21) | 1,004 e 1,003 |
+| Raio nas pontas da Z11 (R22, R23) | 0,961 e 0,663 |
+| Raio nas pontas da Z12 | 0,513 e 0,329 |
+| Furo 654 (raio) | 0,122 |
+| Furo 573 | raio 0,098, a 0,374 do centro, a 72,1° |
+| Raio efetivo com o cabo saindo na Z10 | 1,000 a 1,004 |
+| Raio efetivo com o cabo saindo na Z11 | 0,639 a 0,875 |
+| Raio efetivo com o cabo saindo na Z12 | 0,329 a 0,333 |
 
 O raio efetivo é a distância do pino 572 à linha do cabo onde ele deixa o canal, para cada direção do cabo no referencial do came. Como o cabo tracionado passa reto sobre concavidades, ele é a função suporte da envoltória convexa do canal. É o r_e da relação F_a = F_s r_e/R. Falta só a razão R20/R, entre o came e a polia primária, que sai do CAD.
 
-Escala: o furo 654 tem raio de 0,123 R20. Com o diâmetro do eixo 572 no CAD, tudo passa a milímetro.
+Escala: o furo 654 tem raio de 0,122 R20. Com o diâmetro do eixo 572 no CAD, tudo passa a milímetro.
 
 Zonas no gráfico de momentos: na Figura 16, a zona Z12 vai de Θ = −56,4° a −40,3°, e a Z11 de −23,8° a +4,0°. A Z11 coincide com o trecho de sustentação quase constante do AASM.
 
