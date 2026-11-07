@@ -123,7 +123,46 @@ Arquivos: `fig16_curvas.csv` (um ponto por grau), `digitalizar_fig16.py` e `figu
   - Em N·m, o momento do peso seria 78 N·m, cerca de sete vezes o do membro humano de referência do TCC (cerca de 10,5 N·m).
   - Em lbf·in daria 8,8 N·m, e em kgf·cm, 7,7 N·m. São valores plausíveis, mas a patente não permite decidir entre eles.
 
-O perfil do came 570 não foi extraído. A borda da área hachurada da Figura 15B se mistura com o bolsão do 573 e com as linhas de cota. O caminho mais seguro é inserir a figura como canvas no CAD e traçar a spline sobre ela.
+## Came 570 (polia secundária)
+
+A Figura 15B é um corte pelo plano do canal, e a área hachurada é o fundo do canal, onde o cabo 634 assenta. Arquivos:
+- `came570_contorno.csv`: contorno fechado, com x, y, ângulo e raio divididos por R20;
+- `came570_raio_efetivo.csv`: raio efetivo em função da direção do cabo;
+- `extrair_came570.py`: o script que gera tudo;
+- `figuras/came570_conferencia.png` e `figuras/came570_conferencia_detalhes.png`: o contorno sobre a figura;
+- `figuras/came570_raios.png`: o gráfico do contorno, do raio e do raio efetivo.
+
+Como o contorno sai, em resumo:
+1. Os vãos brancos da hachura são faixas retas, a −45° na imagem e com 21 px de largura. O script fica só com elas, o que deixa de fora o canal (mais largo e curvo), as cotas e as chamadas.
+2. A região hachurada é a união dessas faixas.
+3. Os pedaços brancos dentro da envoltória convexa são preenchidos se nenhum ponto deles fica a mais de 26 px da região. São as lascas junto ao bolsão, as cunhas entre as linhas de raio e os entalhes onde as chamadas encostam na borda. O bolsão do 573, os chifres dele e o canal ficam de fora.
+4. O contorno fechado inclui o lado côncavo do bolsão.
+
+Ângulos anti-horários a partir da horizontal à direita, na figura girada para a leitura, com centro no furo 654 (pino 572). As linhas de chamada das cotas, localizadas na imagem, dão as zonas: Z10 de 89,6° a 140,4°, Z11 de 152,4° a 218,8° e Z12 de 242,6° a 292,6°.
+
+Conferência com a patente:
+- **Z10:** o raio fica entre 0,984 e 1,010 R20, constante como pede R20 = R21.
+- **Z11:** o raio cai continuamente de 0,967 para 0,664 R20, com R23 < R22.
+- **Z12:** o trecho é reto, com desvio máximo de 0,005 R20 (2,6 px) de uma reta.
+
+Resultados, divididos por R20 = 479,7 px:
+
+| Grandeza | Valor |
+|---|---|
+| Raio nas pontas da Z10 (R20, R21) | 1,008 e 0,990 |
+| Raio nas pontas da Z11 (R22, R23) | 0,967 e 0,664 |
+| Raio nas pontas da Z12 | 0,507 e 0,325 |
+| Furo 654 (raio) | 0,123 |
+| Furo 573 | raio 0,098, a 0,376 do centro, a 72,1° |
+| Raio efetivo com o cabo saindo na Z10 | 0,986 a 1,010 |
+| Raio efetivo com o cabo saindo na Z11 | 0,627 a 0,866 |
+| Raio efetivo com o cabo saindo na Z12 | 0,327 a 0,349 |
+
+O raio efetivo é a distância do pino 572 à linha do cabo onde ele deixa o canal, para cada direção do cabo no referencial do came. Como o cabo tracionado passa reto sobre concavidades, ele é a função suporte da envoltória convexa do canal. É o r_e da relação F_a = F_s r_e/R. Falta só a razão R20/R, entre o came e a polia primária, que sai do CAD.
+
+Escala: o furo 654 tem raio de 0,123 R20. Com o diâmetro do eixo 572 no CAD, tudo passa a milímetro.
+
+Zonas no gráfico de momentos: na Figura 16, a zona Z12 vai de Θ = −56,4° a −40,3°, e a Z11 de −23,8° a +4,0°. A Z11 coincide com o trecho de sustentação quase constante do AASM.
 
 ## O que falta do CAD
 
@@ -131,7 +170,7 @@ O perfil do came 570 não foi extraído. A borda da área hachurada da Figura 15
 2. Posições de O (584), A (562) e D (572) nessa pose. Delas saem C1, γ, C2 e α0.
 3. Raio R da polia primária 564, na linha de centro do cabo.
 4. Ponto 561 na primária e comprimento do cabo 560, ou o arco enrolado na pose.
-5. Perfil do canal da secundária 570, em torno do 572, com o ponto 573 e o ângulo entre a secundária e a primária.
+5. Escala e posição do came 570: diâmetro do eixo 572 (ou outra cota) e o ângulo entre a secundária e a primária. O perfil normalizado já saiu da Figura 15B (seção "Came 570").
 6. Polia de reversão 630 (centro 632 e raio), ponto 640 e gancho 638.
 7. Mola 636: rigidez, comprimento livre e comprimento na pose, que a patente não informa.
 8. Centro de massa do apoio de braço em relação a 584.
