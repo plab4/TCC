@@ -170,16 +170,19 @@ def main():
     def r_em(a):
         return float(np.interp(a % 360, grade, env, period=360))
 
-    # raio efetivo: função suporte da envoltória convexa
+    # raio efetivo r: função suporte da envoltória convexa; ρ: raio do came no ponto de saída;
+    # β: ângulo entre o raio do ponto de saída e o cabo (r = ρ sin β)
     casco = P[ConvexHull(P).vertices]
-    h, saida = [], []
+    h, saida, rho = [], [], []
     for fi in grade:
         n_ = np.array([np.cos(np.radians(fi)), np.sin(np.radians(fi))])
         proj = casco @ n_
         k = int(np.argmax(proj))
         h.append(proj[k]/R20)
         saida.append(np.degrees(np.arctan2(casco[k, 1], casco[k, 0])) % 360)
-    h, saida = np.array(h), np.array(saida)
+        rho.append(np.hypot(casco[k, 0], casco[k, 1])/R20)
+    h, saida, rho = np.array(h), np.array(saida), np.array(rho)
+    beta = np.degrees(np.arcsin(np.clip(h/rho, 0.0, 1.0)))
 
     # reta da zona Z12: desvio dos pontos do contorno em relação à reta ajustada
     z12 = (ang >= ZONAS["Z12"][0] + 2) & (ang <= ZONAS["Z12"][1] - 2)
@@ -201,15 +204,19 @@ def main():
     with open(SAIDA / "came570_raio_efetivo.csv", "w", newline="", encoding="utf-8") as fh:
         fh.write("# Raio efetivo do came 570 para o cabo da mola: distancia do pino 572 a linha do cabo,\n"
                  "# dividida por R20, em funcao da direcao normal ao cabo (no referencial do came).\n"
+                 "# raio_saida_R20: raio do came no ponto em que o cabo deixa o canal (rho).\n"
+                 "# angulo_raio_cabo_grau: angulo beta entre esse raio e o cabo; r = rho sin(beta).\n"
                  "# saida_grau: direcao, a partir do centro, do ponto em que o cabo deixa o canal.\n")
         w = csv.writer(fh, delimiter=";")
-        w.writerow(["normal_grau", "raio_efetivo_R20", "saida_grau", "zona_da_saida"])
-        for fi, hh, s in zip(grade, h, saida):
+        w.writerow(["normal_grau", "raio_efetivo_R20", "raio_saida_R20", "angulo_raio_cabo_grau",
+                    "saida_grau", "zona_da_saida"])
+        for fi, hh, rr, bb, s in zip(grade, h, rho, beta, saida):
             w.writerow([f"{fi:.1f}".replace(".", ","), f"{hh:.4f}".replace(".", ","),
+                        f"{rr:.4f}".replace(".", ","), f"{bb:.1f}".replace(".", ","),
                         f"{s:.1f}".replace(".", ","), zona(s)])
 
     conferencia(Bc, M, cont, xc, yc)
-    grafico(P/R20, ang, rad/R20, grade, env/R20, h, saida, casco/R20,
+    grafico(P/R20, ang, rad/R20, grade, env/R20, h, rho, saida, casco/R20,
             (X573 - X654)/R20, -(Y573 - Y654)/R20, r573/R20, r654/R20)
 
     print(f"faixas da hachura: {n_faixas}; pedaços brancos preenchidos: {n_lascas}; dos que ficaram "
@@ -226,7 +233,8 @@ def main():
     for z in ZONAS:
         s = np.array([zona(a) == z for a in saida])
         print(f"  cabo saindo na {z}: {h[s].min():.4f} a {h[s].max():.4f} R20, "
-              f"em {s.sum()*0.5:.1f}° de direção do cabo")
+              f"em {s.sum()*0.5:.1f}° de direção do cabo; r/ρ de {(h/rho)[s].min():.4f} a "
+              f"{(h/rho)[s].max():.4f}, β de {beta[s].min():.1f}° a {beta[s].max():.1f}°")
 
 
 def conferencia(Bc, M, cont, xc, yc):
@@ -246,7 +254,7 @@ def conferencia(Bc, M, cont, xc, yc):
     det.save(SAIDA / "figuras" / "came570_conferencia_detalhes.png")
 
 
-def grafico(Pn, ang, radn, grade, envn, h, saida, cascon, x573, y573, r573, r654):
+def grafico(Pn, ang, radn, grade, envn, h, rho, saida, cascon, x573, y573, r573, r654):
     cores = {"Z10": "#2a78d6", "Z11": "#eb6834", "Z12": "#1baf7a"}   # paleta categórica validada
     tinta, tinta2, neutro, grade_cor = "#0b0b0b", "#5f5e5a", "#9a9a94", "#e6e5e0"
     plt.rcParams.update({"font.size": 10, "axes.edgecolor": tinta2, "axes.labelcolor": tinta,
@@ -298,19 +306,20 @@ def grafico(Pn, ang, radn, grade, envn, h, saida, cascon, x573, y573, r573, r654
     a.grid(color=grade_cor, lw=0.6)
 
     a = ax[2]
-    a.plot(grade, h, lw=1.4, color=tinta2, label="saída fora das zonas")
+    a.plot(grade, rho, lw=1.0, ls="--", color=tinta2, label="ρ: raio do came no ponto de saída")
+    a.plot(grade, h, lw=1.4, color=tinta2, label="r, com saída fora das zonas")
     for z, cor in cores.items():
         s = np.array([zona(v) == z for v in saida])
         a.plot(np.where(s, grade, np.nan), np.where(s, h, np.nan), lw=3.0, color=cor,
-               solid_capstyle="round", label=f"saída na zona {z}")
+               solid_capstyle="round", label=f"r, com saída na zona {z}")
     a.set_xlim(0, 360)
     a.set_xticks(range(0, 361, 45))
     a.set_ylim(0, 1.15)
     a.set_xlabel("direção normal ao cabo, no referencial do came (°)")
-    a.set_ylabel("raio efetivo / R20")
-    a.set_title("(c) Raio efetivo para o cabo da mola", loc="left", fontsize=10, color=tinta)
+    a.set_ylabel("raio / R20")
+    a.set_title("(c) Raio efetivo r e raio no ponto de saída ρ", loc="left", fontsize=10, color=tinta)
     a.grid(color=grade_cor, lw=0.6)
-    a.legend(loc="lower right", fontsize=7.5, frameon=False)
+    a.legend(loc="upper right", fontsize=7.5, frameon=False)
 
     for a in ax:
         a.set_facecolor("#fcfcfb")

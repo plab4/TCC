@@ -64,8 +64,32 @@ O par de polias gira sem atrito em torno de D, e o equilíbrio dá:
 
     F_a R = F_s r_e(θ_p)   →   F_a = F_s r_e(θ_p) / R
 
+São três raios diferentes:
 - **R:** raio padrão, o da polia primária, que é circular.
+- **ρ:** raio do came no ponto em que o cabo 634 deixa o canal. São os R20 a R25 da patente.
 - **r_e:** raio efetivo da secundária 570, igual à distância de D à linha do cabo 634 no ponto em que ele deixa o canal rumo à polia de reversão 630. Ele muda com a rotação θ_p do par de polias em relação ao chassi, e é por aí que entra o raio anisotrópico.
+
+A patente trata o cabo como uma força tangencial aplicada no raio, isto é, r_e = ρ. Isso só vale onde o cabo sai perpendicular ao raio. Com β o ângulo entre o raio do ponto de saída e o cabo, e φ a direção normal ao cabo no referencial do came:
+
+    r_e = ρ sin β,        ρ² = r_e² + (dr_e/dφ)²
+
+Pelo perfil da Figura 15B (`came570_raio_efetivo.csv`, colunas `raio_saida_R20` e `angulo_raio_cabo_grau`):
+
+| Saída do cabo | r_e/ρ | β |
+|---|---|---|
+| Zona Z10 | 0,999 a 1,000 | 87° a 90° |
+| Zona Z11 | 0,894 a 0,974 | 63° a 77° |
+| Zona Z12 | 0,670 a 1,000 | 42° a 89° |
+
+Com ρ no lugar de r_e, o momento da mola sobre o par de polias sairia até 12% maior na Z11 e até 49% maior na Z12.
+
+**Ângulo do cabo da mola.** O cabo 634 sai do came tangente a ele e chega tangente à polia 630. No referencial do chassi, com D na origem, o centro 632 à distância L, na direção λ, e a polia de raio r630, a normal ao cabo é φc = λ − 90° + δ, e a tangência dá:
+
+    r_e(φc − θ_p) − L cos(φc − λ) = r630   →   δ = asin((r_e − r630)/L)
+
+δ é o ângulo entre o cabo e a linha que vai de 572 a 632. O ângulo do cabo depende de θ_p por meio de r_e, e r_e depende do ângulo do cabo, que decide o ponto de saída. A equação é implícita; `relacoes_came570.py` a resolve por ponto fixo.
+
+Numa geometria de teste (L = 4,5 R20 e r630 = 0,5 R20; nas Figuras 14C e 14D a 630 fica a umas quatro a cinco vezes o raio do came), δ varia de −2,3° a 6,4° ao longo do curso, e r_e muda até 0,031 R20 em relação à polia no infinito, no mesmo θ_p. Os valores certos de L, λ e r630 saem do CAD.
 
 Rotação das polias. O cabo 560 é inextensível e preso em A e em 561, então S + R·w = L_a, com w o arco enrolado na primária entre T e 561. Para cada Θ:
 1. S e φ saem do fechamento;
@@ -74,7 +98,7 @@ Rotação das polias. O cabo 560 é inextensível e preso em A e em 561, então 
 
 L_a, ou w numa pose de referência, vem do CAD.
 
-Mola. A extensão acompanha o comprimento do cabo 634 entre 573 e 640, cuja derivada em relação a θ_p é r_e. A força é F_s = k (x_pose + Δx).
+Mola. A extensão acompanha o comprimento do cabo 634 entre 573 e 640, cuja derivada em relação a θ_p é r_e, em módulo: dx/dθ_p = −r_e na convenção do script (θ_p anti-horário desenrola o cabo). Então x(θ_p) = x(θ_p0) − ∫ r_e dθ_p, e a força é F_s = k (x_pose + Δx). O script confere essa taxa contra o comprimento calculado pela geometria (arco enrolado no came, vão livre e arco na 630): a diferença máxima é de 3·10⁻⁵ R20.
 
 Verificação, como nos exoesqueletos 1 e 2: o trabalho virtual do cabo 560 sobre o apoio de braço, (b × f)_z δΘ, tem de ser igual ao da mola, que vale −F_s δx a menos do sinal das convenções. Os sinais ficam fixados no código.
 
@@ -128,7 +152,8 @@ Arquivos: `fig16_curvas.csv` (um ponto por grau), `digitalizar_fig16.py` e `figu
 A Figura 15B é um corte pelo plano do canal, e a área hachurada é o fundo do canal, onde o cabo 634 assenta. Arquivos:
 - `came570_contorno.csv`: contorno fechado, com x, y, ângulo e raio divididos por R20;
 - `came570_raio_efetivo.csv`: raio efetivo em função da direção do cabo;
-- `extrair_came570.py`: o script que gera tudo;
+- `extrair_came570.py`: o script que gera o contorno, os raios e as figuras;
+- `relacoes_came570.py`: a tangência do cabo da mola com a polia 630 (ângulo do cabo e raio efetivo em função da rotação) e a conferência do alongamento da mola;
 - `figuras/came570_conferencia.png` e `figuras/came570_conferencia_detalhes.png`: o contorno sobre a figura;
 - `figuras/came570_raios.png`: o gráfico do contorno, do raio e do raio efetivo.
 
