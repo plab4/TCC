@@ -40,7 +40,7 @@ Fechamento, como no caderno:
     f1 = S cos q + R cos φ + C2 cos α + C1 cos γ = 0
     f2 = S sin q + R sin φ + C2 sin α + C1 sin γ = 0
 
-**Ponto a confirmar.** No caderno, q aparece como entrada, e S e φ como incógnitas. Como o cabo é tangente à polia, q não é livre: q = φ + σ·90°, com σ = +1 ou −1 conforme o lado em que o cabo deixa a polia. A entrada é o ângulo do apoio de braço, Θ, que entra por α. As incógnitas continuam sendo S e φ, e a solução é fechada, como no exoesqueleto 1:
+No caderno, q aparece como entrada, e S e φ como incógnitas. Como o cabo é tangente à polia, q não é livre: q = φ + σ·90°, com σ = +1 ou −1 conforme o lado em que o cabo deixa a polia. Na pose do CAD, q = φ − 90°, então σ = −1. A entrada é o ângulo do apoio de braço, Θ, que entra por α. As incógnitas continuam sendo S e φ, e a solução é fechada, como no exoesqueleto 1:
 
     d = A − D = −(C1 u(γ) + C2 u(α))
     S = √(|d|² − R²)
@@ -56,7 +56,36 @@ O vetor b vai do encontro de C1 e C2 ao encontro de S e R, isto é, de O a T:
 
 em que F_a é a tração no cabo 560, que puxa T para A.
 
+β é o ângulo em O entre C2 e b, no triângulo O, D, T. A direção de b é ang(b) = α − β (102,297° na pose do CAD), e:
+
+    (b × f)_z = b F_a sin(q − α + β)
+
+Com o triângulo, b e β também saem de C2, R e do ângulo φ − α:
+
+    b² = C2² + R² + 2 C2 R cos(φ − α)
+    R² = C2² + b² − 2 C2 b cos β
+
 Esse é o b certo porque o apoio de braço (chassi, polias, mola e cabo 634) gira em torno de 584 como um corpo só. A mola e o cabo 634 exercem forças internas a ele. O único esforço do mecanismo vindo de fora é o do cabo 560, que atua em T. É o mesmo arranjo do exoesqueleto 1, com b = OT e T no tambor. Como a linha do cabo passa por A, o braço de momento não passa de |OA| = C1, assim como |m| ≤ |B| no exoesqueleto 1.
+
+## Pose do CAD
+
+Valores do CAD do autor (comprimentos em mm, ângulos em graus):
+
+| C1 | C2 | R | S | b | γ | α | φ | q | β |
+|---|---|---|---|---|---|---|---|---|---|
+| 70,711 | 90,587 | 26,443 | 139,575 | 78,292 | 61,26 | 118,276 | 360 − 7,131 | 360 − 97,131 | 15,979 |
+
+Conferência:
+- o fechamento dá resíduo de 0,0006 mm;
+- q − φ = −90°, isto é, σ = −1;
+- a solução fechada, com C1, γ, C2, α e R, devolve S = 139,575 e φ = 352,869;
+- |C2 u(α) + R u(φ)| = 78,291, que é o b;
+- o ângulo entre b e C2 é 15,979°, que é o β; entre b e C1, seria 41,037°;
+- o braço de momento do cabo 560 em torno de O é b sin(q − α + β) = 26,042 mm, igual a C1 |sin(q − γ)|, a distância de O à linha do cabo, que passa por A.
+
+Com O na origem: A = (−34,000; −62,000), D = (−42,913; 79,778) e T = (−16,674; 76,495).
+
+Falta o Θ desta pose, para fixar α0 em α = Θ + α0.
 
 ## Relação dos raios
 
