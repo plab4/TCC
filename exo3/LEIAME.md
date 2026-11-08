@@ -95,21 +95,37 @@ Ele zera quando θ = γ + 180°, com o cabo alinhado a C1 e passando por O.
 
 Grau de liberdade: o mecanismo tem um. A primária é q, e as secundárias são S e φ; θ vem de φ pela tangência, que tira uma incógnita, não uma equação. O caminho inverso também fecha: com θ dado, φ = θ + 90°, w = −(R u(φ) + C1 u(γ)), q = 180° − φ ∓ acos(w·u(φ)/C2) e S = (w − C2 u(180° − q))·u(θ). Dos dois ramos, o do sinal de cima devolve a pose do CAD, e o outro dá S negativo.
 
-Varredura (`circuito_cabo560.py`):
+q cresce quando o apoio de braço desce: S aumenta, e o cabo 560 se desenrola da primária, como a patente descreve para o braço baixado (Figura 14D).
 
-| q (°) | S (mm) | θ (°) | b (mm) | β (°) | C1 sin(γ − θ) (mm) |
-|---|---|---|---|---|---|
-| −30 | 39,442 | 305,563 | 64,320 | 2,284 | 63,717 |
-| 0 | 79,667 | 294,024 | 67,301 | 9,205 | 56,297 |
-| 30 | 113,086 | 279,343 | 72,112 | 13,442 | 43,614 |
-| 61,724 (pose) | 139,575 | 262,869 | 78,292 | 15,979 | 26,041 |
-| 90 | 154,077 | 247,700 | 84,186 | 16,894 | 7,931 |
-| 101,768 | 157,353 | 241,260 | 86,642 | 16,972 | 0 |
-| 120 | 159,106 | 231,116 | 90,363 | 16,805 | −12,454 |
+**Ângulo da Figura 16.** No CAD, o eixo maior do apoio de braço fica 26,741° além de C2, para baixo. Como Θ cresce quando o braço sobe:
 
-q cresce quando o apoio de braço desce: S aumenta, e o cabo 560 se desenrola da primária, como a patente descreve para o braço baixado (Figura 14D). O braço de momento zera em q = 101,77° (θ = 241,26°), 40,04° além da pose do CAD; com q maior que isso, o cabo puxaria o braço para baixo. Na Figura 16, o AASM é positivo até Θ = −75°. Se este CAD reproduz o mecanismo da figura, a pose do CAD está abaixo de Θ = −35°.
+    Θ = −(q + 26,741°)
 
-Falta o Θ desta pose, o ângulo do eixo maior do apoio de braço com a horizontal, que é a abscissa da Figura 16. Como q cresce quando o braço desce e Θ cresce quando ele sobe, Θ = q0 − q, com q0 = Θ_pose + 61,724°. Se C2 for paralelo ao eixo maior do apoio de braço, q0 = 0 e Θ = −q.
+e a pose do CAD está em Θ = −88,47°.
+
+Pontos da Figura 16 levados a q (`circuito_cabo560.py`):
+
+| Θ (°) | q (°) | S (mm) | θ (°) | b (mm) | β (°) | C1 sin(γ − θ) (mm) | |
+|---|---|---|---|---|---|---|---|
+| 22,01 | −48,750 | 0 | 283,352 | 70,711 | −12,510 | 47,399 | limite de subida |
+| 4,00 | −30,741 | 38,349 | 305,721 | 64,285 | 2,046 | 63,802 | topo da marca Z11 |
+| 0 | −26,741 | 44,174 | 304,730 | 64,505 | 3,266 | 63,265 | |
+| −23,80 | −2,941 | 76,017 | 295,374 | 66,910 | 8,674 | 57,289 | base da marca Z11 |
+| −40,30 | 13,559 | 95,666 | 287,552 | 69,307 | 11,370 | 51,115 | topo da marca Z12 |
+| −56,40 | 29,659 | 112,749 | 279,516 | 72,051 | 13,405 | 43,782 | base da marca Z12 |
+| −75,00 | 48,259 | 129,566 | 269,941 | 75,578 | 15,119 | 33,936 | início da Figura 16 |
+| −88,47 | 61,724 | 139,575 | 262,869 | 78,292 | 15,979 | 26,041 | pose do CAD |
+
+O braço de momento do cabo 560 fica positivo em toda a faixa: ele só zeraria em q = 101,77° (θ = 241,26°), isto é, Θ = −128,5°.
+
+**Comparação com a patente** (`poses_fig14.py` e `circuito_cabo560.py`):
+- Na Figura 14D, q = 60,89°, contra 61,724° no CAD: a pose do CAD é a da Figura 14D.
+- Na Figura 14C, q = −35,73° (Θ = 9,0°), com S = 31 mm.
+- Nas duas figuras, a reta de 572 a 632, ao longo do chassi, fica 20,8° (14C) e 22,1° (14D) além de C2, no mesmo sentido da defasagem do CAD.
+- Com a escala do desenho tirada de C2, o ponto A do CAD cai a 2,4 mm (14C) e a 4,1 mm (14D) do 562 desenhado.
+- S zera em q = −48,75°, isto é, Θ = 22,0°: com esta ancoragem, o braço não sobe além disso. A Figura 16 vai até Θ = 30°.
+- Na marca Z11 da Figura 16 (Θ de −23,8° a 4,0°), as polias giram 64,2°; no came, o cabo sai na Z11 ao longo de 58,0° de giro, com a polia 630 no infinito. Entre as marcas Z12 e Z11, e na marca Z12, os giros (33,9° e 29,0°) não batem com o came, o que sugere que essas marcas da patente são só indicativas.
+- A rotação das polias tirada do enrolamento do cabo 560 (θp = φ + q − S/R + constante) confirma dθp/dΘ = braço/R, com diferença de 2·10⁻⁷.
 
 ## Relação dos raios
 
@@ -206,7 +222,8 @@ A Figura 15B é um corte pelo plano do canal, e a área hachurada é o fundo do 
 - `came570_contorno.csv`: contorno fechado, com x, y, ângulo e raio divididos por R20;
 - `came570_raio_efetivo.csv`: raio efetivo em função da direção do cabo;
 - `extrair_came570.py`: o script que gera o contorno, os raios e as figuras;
-- `circuito_cabo560.py`: o circuito do cabo 560 na geometria do CAD, com a varredura em q e o inverso com θ como entrada;
+- `circuito_cabo560.py`: o circuito do cabo 560 na geometria do CAD, com a varredura em q, o inverso com θ como entrada, o Θ da Figura 16 e a rotação das polias;
+- `poses_fig14.py`: q, a direção do chassi e o ponto 562 medidos nas Figuras 14C e 14D, contra o CAD;
 - `relacoes_came570.py`: a tangência do cabo da mola com a polia 630 (ângulo do cabo e raio efetivo em função da rotação) e a conferência do alongamento da mola;
 - `figuras/came570_conferencia.png` e `figuras/came570_conferencia_detalhes.png`: o contorno sobre a figura;
 - `figuras/came570_raios.png`: o gráfico do contorno, do raio e do raio efetivo.
@@ -245,14 +262,13 @@ Zonas no gráfico de momentos: na Figura 16, a zona Z12 vai de Θ = −56,4° a 
 
 ## O que falta do CAD
 
-1. Pose de referência, com o ângulo Θ do eixo maior do apoio de braço.
-2. Posições de O (584), A (562) e D (572) nessa pose. Delas saem C1, γ, C2 e q0.
-3. Raio R da polia primária 564, na linha de centro do cabo.
-4. Ponto 561 na primária e comprimento do cabo 560, ou o arco enrolado na pose.
-5. Escala e posição do came 570: diâmetro do eixo 572 (ou outra cota) e o ângulo entre a secundária e a primária. O perfil normalizado já saiu da Figura 15B (seção "Came 570").
-6. Polia de reversão 630 (centro 632 e raio), ponto 640 e gancho 638.
-7. Mola 636: rigidez, comprimento livre e comprimento na pose, que a patente não informa.
-8. Centro de massa do apoio de braço em relação a 584.
+Já vieram do CAD: C1, γ, C2, R, a pose (q = 61,724°, a da Figura 14D) e a defasagem de 26,741° entre C2 e o eixo maior (seção "Pose do CAD"). Faltam:
+
+1. Ponto 561 na primária e comprimento do cabo 560, ou o arco enrolado na pose.
+2. Escala e posição do came 570: diâmetro do eixo 572 (ou outra cota) e o ângulo entre a secundária e a primária. O perfil normalizado já saiu da Figura 15B (seção "Came 570").
+3. Polia de reversão 630 (centro 632 e raio), ponto 640 e gancho 638.
+4. Mola 636: rigidez, comprimento livre e comprimento na pose, que a patente não informa.
+5. Centro de massa do apoio de braço em relação a 584.
 
 ## Perguntas em aberto
 

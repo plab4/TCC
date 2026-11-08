@@ -29,14 +29,28 @@ A segunda forma sai do fechamento (b = −S u(θ) − C1 u(γ)): como a linha do
 por A, o braço em torno de O só depende de θ. Ele zera em θ = γ + 180°, com o cabo
 alinhado a C1 e passando por O.
 
+Ângulo da Figura 16: o eixo maior do apoio de braço fica 26,741° além de C2, para baixo
+(defasagem do CAD; nas Figuras 14C e 14D, a reta de 572 a 632 fica de 21° a 22° além),
+e q cresce quando o braço desce, então Θ = −(q + 26,741°).
+
+Rotação das polias. O cabo 560 se enrola na primária a partir de T no sentido anti-horário
+(σ = −1) e é inextensível, S + R w = constante; daí θp = φ + q − S/R + constante, e
+dθp/dΘ = braço/R, a mesma relação que o trabalho virtual dá. O script confere as duas.
+
 Rodar (na raiz do repositório):
     python exo3/circuito_cabo560.py
 """
+import csv
+from pathlib import Path
+
 import numpy as np
+from scipy.optimize import brentq
 
 C1, C2, R = 70.711, 90.587, 26.443        # mm, CAD do autor
 GAMA = 61.26                              # graus, referencial do CAD
 Q_CAD = 61.724                            # graus, ângulo entre C2 e a horizontal na pose
+DEFASAGEM = 26.741                        # graus entre C2 e o eixo maior do apoio de braço
+RAIO_EFETIVO = Path(__file__).resolve().parent / "came570_raio_efetivo.csv"
 
 
 def u(a):
@@ -78,19 +92,62 @@ def circuito_por_teta(teta):
     return ramos
 
 
+def theta_fig16(q):
+    """Ângulo do eixo maior do apoio de braço com a horizontal, como na Figura 16."""
+    return -(q + DEFASAGEM)
+
+
+def q_de_theta(theta):
+    return -theta - DEFASAGEM
+
+
+def limite_subida():
+    """q em que S zera (|AD| = R): a ancoragem não deixa o braço subir além disso."""
+    return brentq(lambda q: np.sum((C1*u(GAMA) + C2*u(180 - q))**2) - R**2, -60, -40)
+
+
+def giro(theta0, theta1, n=4001):
+    """Rotação das polias, em graus, quando Θ vai de theta0 a theta1: ∫ braço/R dΘ."""
+    th = np.linspace(theta0, theta1, n)
+    return float(np.trapezoid([circuito(q_de_theta(x))[5]/R for x in th], th))
+
+
 def main():
     q_zero = circuito_por_teta(GAMA + 180)[0][0]
-    print("q como primária (mm e graus):")
-    print("       q        S        φ        θ        b       β   C1 sin(γ−θ)")
+    print("q como primária (mm e graus); Θ = −(q + 26,741°):")
+    print("       q        Θ        S        φ        θ        b       β   C1 sin(γ−θ)")
     for q in sorted(set(range(-30, 121, 15)) | {Q_CAD, round(q_zero, 3)}):
         S, fi, teta, b, beta, braco = circuito(q)
-        print(f"{q:8.3f} {S:8.3f} {fi:8.3f} {teta:8.3f} {b:8.3f} {beta:7.3f} {braco:10.3f}")
+        print(f"{q:8.3f} {theta_fig16(q):8.3f} {S:8.3f} {fi:8.3f} {teta:8.3f} {b:8.3f} {beta:7.3f} "
+              f"{braco:10.3f}")
     S, fi, teta, b, beta, braco = circuito(Q_CAD)
     print(f"\nPose do CAD: S = {S:.3f}, φ = {fi:.3f}, θ = {teta:.3f}, b = {b:.3f}, β = {beta:.3f}, "
           f"braço = {braco:.3f}")
     print("Inverso com θ = " + f"{teta:.3f}: " +
           "; ".join(f"q = {qq:.3f}, S = {s:.3f}" for qq, s in circuito_por_teta(teta)))
-    print(f"O braço zera em θ = γ + 180° = {GAMA + 180:.2f}°, isto é, em q = {q_zero:.3f}°.")
+    print(f"O braço zera em θ = γ + 180° = {GAMA + 180:.2f}°, isto é, em q = {q_zero:.3f}° "
+          f"(Θ = {theta_fig16(q_zero):.2f}°).")
+    q_lim = limite_subida()
+    print(f"S zera em q = {q_lim:.2f}° (Θ = {theta_fig16(q_lim):.2f}°): é o limite de subida com esta "
+          f"ancoragem. A Figura 16 vai de Θ = −75° (q = {q_de_theta(-75):.3f}°) a Θ = 30° "
+          f"(q = {q_de_theta(30):.3f}°).")
+
+    # rotação das polias pelo enrolamento do cabo 560, contra braço/R
+    qs = np.linspace(-40, 75, 4601)
+    tp = np.degrees(np.unwrap(np.radians([circuito(q)[1] + q - np.degrees(circuito(q)[0]/R)
+                                          for q in qs])))
+    br = np.array([circuito(q)[5] for q in qs])
+    dif = np.abs(-np.gradient(tp, qs) - br/R)[2:-2].max()
+    print(f"dθp/dΘ pelo enrolamento contra braço/R, de q = −40° a 75°: maior diferença {dif:.1e}")
+
+    with open(RAIO_EFETIVO, encoding="utf-8") as fh:
+        linhas = list(csv.DictReader([x for x in fh if not x.startswith("#")], delimiter=";"))
+    n11 = [float(x["normal_grau"].replace(",", ".")) for x in linhas if x["zona_da_saida"] == "Z11"]
+    print(f"Giro das polias na marca Z11 da Figura 16 (Θ de −23,8° a 4,0°): {giro(-23.8, 4.0):.1f}°; "
+          f"no came, o cabo sai na Z11 ao longo de {max(n11) - min(n11) + 0.5:.1f}° de giro "
+          f"(polia 630 no infinito).")
+    print(f"Giro entre as marcas Z12 e Z11 (Θ de −40,3° a −23,8°): {giro(-40.3, -23.8):.1f}°; "
+          f"na marca Z12 (Θ de −56,4° a −40,3°): {giro(-56.4, -40.3):.1f}°.")
 
 
 if __name__ == "__main__":
