@@ -119,10 +119,14 @@ Pontos da Figura 16 levados a q (`circuito_cabo560.py`):
 O braço de momento do cabo 560 fica positivo em toda a faixa: ele só zeraria em q = 101,77° (θ = 241,26°), isto é, Θ = −128,5°.
 
 **Comparação com a patente** (`poses_fig14.py` e `circuito_cabo560.py`):
-- Na Figura 14D, q = 60,89°, contra 61,724° no CAD: a pose do CAD é a da Figura 14D.
-- Na Figura 14C, q = −35,73° (Θ = 9,0°), com S = 31 mm.
-- Nas duas figuras, a reta de 572 a 632, ao longo do chassi, fica 20,8° (14C) e 22,1° (14D) além de C2, no mesmo sentido da defasagem do CAD.
-- Com a escala do desenho tirada de C2, o ponto A do CAD cai a 2,4 mm (14C) e a 4,1 mm (14D) do 562 desenhado.
+- O centro do 584 sai do furo branco no meio do pivô; com ele, |584 572| dá 152,6 px na 14C e 152,3 px na 14D, e a escala do desenho é de 1,68 px/mm.
+- Na Figura 14D, q = 61,19°, contra 61,724° no CAD: a pose do CAD é a da Figura 14D.
+- Na Figura 14C, q = −36,99° (Θ = 10,3°), com S = 29 mm.
+- Nas duas figuras, a reta de 572 a 632, ao longo do chassi, fica 22,1° (14C) e 21,8° (14D) além de C2, no mesmo sentido da defasagem do CAD.
+- O ponto A do CAD cai a 0,6 mm (14C) e a 0,3 mm (14D) do 562 desenhado.
+- O came desenhado nas duas figuras é o contorno externo da Figura 15A (a 15B espelhada): o ajuste fica a 0,05 px do desenho. Dá R20 = 32,0 mm (31,96 mm na 14C e 32,11 mm na 14D), isto é, R20/R = 1,21. Na 14D, o referencial da 15B está girado de 254,0°, e na 14C, de 192,7°, sem espelhamento.
+- Do came da 14C para o da 14D, o giro absoluto medido é de 61,3°. A cinemática do cabo 560, com A e D desenhados, prevê 76,8°: a diferença, 15,5°, equivale a 7 mm de cabo na primária, e os dois desenhos não são exatamente coerentes entre si.
+- Partindo do came da 14D e girando pela cinemática do cabo 560, com o cabo da mola na direção de 572 para 632, o cabo sai na Z12 na pose (Θ = −88,5°), no canto entre Z12 e Z11 de Θ = −75° a cerca de −45°, na Z11 de cerca de −45° a −20° e na Z10 a partir de cerca de −5°. A marca Z11 da Figura 16 vai de −23,8° a 4,0°: a Z11 do modelo cai uns 20° abaixo, com largura parecida (25° contra 28°).
 - S zera em q = −48,75°, isto é, Θ = 22,0°: com esta ancoragem, o braço não sobe além disso. A Figura 16 vai até Θ = 30°.
 - Na marca Z11 da Figura 16 (Θ de −23,8° a 4,0°), as polias giram 64,2°; no came, o cabo sai na Z11 ao longo de 58,0° de giro, com a polia 630 no infinito. Entre as marcas Z12 e Z11, e na marca Z12, os giros (33,9° e 29,0°) não batem com o came, o que sugere que essas marcas da patente são só indicativas.
 - A rotação das polias tirada do enrolamento do cabo 560 (θp = φ + q − S/R + constante) confirma dθp/dΘ = braço/R, com diferença de 2·10⁻⁷.
@@ -167,6 +171,8 @@ Rotação das polias. O cabo 560 é inextensível e preso em A e em 561, então 
 
 L_a, ou w numa pose de referência, vem do CAD.
 
+O ponto 561 e o comprimento total do cabo 560 (S mais o arco enrolado na primária, R·w) só fixam o ângulo absoluto das polias em cada pose. Com o giro do came medido na Figura 14D, que é a pose do CAD, eles deixam de ser necessários: o giro em qualquer outra pose sai de θ_p = φ + q − S/R + constante.
+
 Mola. A extensão acompanha o comprimento do cabo 634 entre 573 e 640, cuja derivada em relação a θ_p é r_e, em módulo: dx/dθ_p = −r_e na convenção do script (θ_p anti-horário desenrola o cabo). Então x(θ_p) = x(θ_p0) − ∫ r_e dθ_p, e a força é F_s = k (x_pose + Δx). O script confere essa taxa contra o comprimento calculado pela geometria (arco enrolado no came, vão livre e arco na 630): a diferença máxima é de 3·10⁻⁵ R20.
 
 Verificação, como nos exoesqueletos 1 e 2: o trabalho virtual do cabo 560 sobre o apoio de braço, (b × f)_z δΘ, tem de ser igual ao da mola, que vale −F_s δx a menos do sinal das convenções. Os sinais ficam fixados no código.
@@ -200,6 +206,18 @@ Tabela 2, membro superior (de Leva, para um homem brasileiro médio). Tensores e
 Observações:
 - As massas da Tabela 2 correspondem a de Leva com massa corporal de 82,8 kg (2,244/0,0271). O braço (281,7 mm) e a mão (68,1 mm = 0,79 × 86,2 mm) têm os comprimentos de referência dele; o antebraço aparece com 269,8 mm, contra 268,9 mm em de Leva. O TCC usa 73,0 kg e 1,741 m.
 - A Tabela 1 não dá a posição dos centros de massa, nem os eixos e o ponto de referência dos tensores. Isso precisa vir do CAD.
+
+## Centros de massa
+
+O artigo dá massas, comprimentos e tensores, mas não a posição dos centros de massa. Para o membro superior, ele usa o método de Zatsiorsky e Seluyanov ajustado por de Leva (1996), e as frações de de Leva para homens dão os centros a partir da articulação proximal:
+
+| Segmento | Massa (kg) | Comprimento (mm) | Fração | Centro de massa (mm) |
+|---|---|---|---|---|
+| Braço | 2,244 | 281,7 | 0,5772 | 162,6 do ombro |
+| Antebraço | 1,341 | 269,8 | 0,4574 | 123,4 do cotovelo |
+| Mão | 0,505 | 86,2 (até o 3.º metacarpo) | 0,7900 | 68,1 do punho, como no artigo |
+
+Com o braço estendido, o momento do peso no ombro vale 11,98 N·m na horizontal. As peças do exoesqueleto (Tabela 1 do artigo) só têm massa e tensor; a posição do centro de massa do apoio de braço não está no artigo.
 
 ## Figura 16 digitalizada
 
@@ -262,13 +280,12 @@ Zonas no gráfico de momentos: na Figura 16, a zona Z12 vai de Θ = −56,4° a 
 
 ## O que falta do CAD
 
-Já vieram do CAD: C1, γ, C2, R, a pose (q = 61,724°, a da Figura 14D) e a defasagem de 26,741° entre C2 e o eixo maior (seção "Pose do CAD"). Faltam:
+Já vieram do CAD: C1, γ, C2, R, a pose (q = 61,724°, a da Figura 14D) e a defasagem de 26,741° entre C2 e o eixo maior (seção "Pose do CAD").
 
-1. Ponto 561 na primária e comprimento do cabo 560, ou o arco enrolado na pose.
-2. Escala e posição do came 570: diâmetro do eixo 572 (ou outra cota) e o ângulo entre a secundária e a primária. O perfil normalizado já saiu da Figura 15B (seção "Came 570").
-3. Polia de reversão 630 (centro 632 e raio), ponto 640 e gancho 638.
-4. Mola 636: rigidez, comprimento livre e comprimento na pose, que a patente não informa.
-5. Centro de massa do apoio de braço em relação a 584.
+- O ponto 561 e o comprimento do cabo 560 não são necessários: o giro do came na pose sai da Figura 14D.
+- A escala e o giro do came saíram das Figuras 14C e 14D (R20 = 32,0 mm). Vale conferir R20 na peça real.
+- A polia 630 e a mola ficam fora da varredura, por decisão do autor; o cabo da mola é tomado na direção de 572 para 632.
+- Centros de massa: os do membro superior saem do artigo (seção "Centros de massa"); o do apoio de braço não está no artigo.
 
 ## Perguntas em aberto
 

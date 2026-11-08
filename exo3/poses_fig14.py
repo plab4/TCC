@@ -8,7 +8,10 @@ Na imagem da folha 21 (patentes/US9737374B2_fig14cd.png), mede:
 - q, o ângulo de C2 (de 584 a 572) com a horizontal, positivo para baixo, como no CAD;
 - o ângulo da reta de 572 a 632, ao longo do chassi, e a diferença para C2;
 - a escala do desenho, pela razão entre |584 572| e C2 = 90,587 mm;
-- onde o CAD põe o ponto de ancoragem A (562), para comparar com o desenhado.
+- onde o CAD põe o ponto de ancoragem A (562), para comparar com o desenhado;
+- a escala e o giro do came 570, ajustando a ele o contorno externo da Figura 15A, levado
+  ao referencial da 15B (a 15A é a 15B espelhada), por distância aos traços pretos;
+- o giro do came entre as duas figuras, contra o que a cinemática do cabo 560 prevê.
 
 O referencial do CAD é o da figura girado de 180°, então A − O na figura vale C1 u(γ).
 O ângulo do apoio de braço da Figura 16 sai de Θ = −(q + 26,741°), com a defasagem
@@ -25,6 +28,9 @@ from PIL import Image
 
 RAIZ = Path(__file__).resolve().parent.parent
 FIGURA = RAIZ / "patentes" / "US9737374B2_fig14cd.png"
+FIGURA15 = RAIZ / "patentes" / "US9737374B2_fig15.png"
+R20_15B = 482.667                         # px da 15B (extrair_came570.py)
+R_PRIMARIA = 26.443                       # mm, CAD do autor
 C1, C2, GAMA = 70.711, 90.587, 61.26          # mm e graus, CAD do autor
 DEFASAGEM = 26.741                            # graus entre C2 e o eixo maior, CAD do autor
 APROX = {"14C": ((461, 762), (582, 671), (850, 601)),
@@ -55,6 +61,54 @@ def disco(B, aprox, m=12):
     return np.array([c[1] + cx - m, c[0] + cy - m])
 
 
+def furo_branco(B, aprox, m=12):
+    """Centro do furo branco no meio do anel preto do pivô 584."""
+    cx, cy = aprox
+    lab, _ = nd.label(~B[cy - m:cy + m, cx - m:cx + m])
+    yy, xx = np.nonzero(lab == lab[m, m])
+    return np.array([xx.mean() + cx - m, yy.mean() + cy - m])
+
+
+def contorno_15a():
+    """Contorno externo do came na Figura 15A, em R20 e no referencial da 15B."""
+    import contourpy
+    B = np.array(Image.open(FIGURA15).convert("L")) < 128
+    x0, y0 = 150, 100
+    reg = nd.binary_fill_holes(B[y0:1180, x0:960])
+    lab, n = nd.label(reg)
+    reg = nd.binary_opening(lab == np.argmax(nd.sum(reg, lab, range(1, n + 1))) + 1,
+                            structure=np.ones((7, 7)))
+    c = max(contourpy.contour_generator(z=reg.astype(float)).lines(0.5), key=len) + [x0, y0]
+    o654, o573 = anel(B, (404, 850), 50, 75, m=80), anel(B, (350, 664), 12, 25)
+    p654, p573 = anel(B, (2098, 1257), 50, 70, m=80), anel(B, (2153, 1085), 40, 55, m=70)
+    da, db = o573 - o654, p573 - p654
+    P = np.c_[-(c[:, 0] - o654[0]), -(c[:, 1] - o654[1])]          # espelha e põe y para cima
+    eps = np.arctan2(-db[1], db[0]) - np.arctan2(-da[1], -da[0])
+    Rm = np.array([[np.cos(eps), -np.sin(eps)], [np.sin(eps), np.cos(eps)]])
+    return (P @ Rm.T)/(np.hypot(*da)/np.hypot(*db)*R20_15B)
+
+
+def ajusta_came(B, centro, T):
+    """Escala (px por R20) e giro (graus, anti-horário) do came desenhado em torno de centro."""
+    cx, cy = centro
+    m = 110
+    x0, y0 = int(cx) - m, int(cy) - m
+    D = nd.distance_transform_edt(~B[y0:y0 + 2*m, x0:x0 + 2*m])
+    T = T[::6]
+
+    def custo(psi, k):
+        c, s = np.cos(np.radians(psi)), np.sin(np.radians(psi))
+        Q = T @ np.array([[c, s], [-s, c]])
+        xs, ys = cx + k*Q[:, 0] - x0, cy - k*Q[:, 1] - y0
+        return np.minimum(nd.map_coordinates(D, [ys, xs], order=1, cval=50), 6).mean()
+
+    melhor = min((custo(psi, k), psi, k) for psi in np.arange(0, 360, 1.0) for k in np.arange(35, 75, 0.5))
+    _, p0, k0 = melhor
+    melhor = min((custo(psi, k), psi, k) for psi in np.arange(p0 - 1.5, p0 + 1.51, 0.1)
+                 for k in np.arange(k0 - 1, k0 + 1.01, 0.05))
+    return melhor
+
+
 def ang(p, q):
     v = q - p
     return np.degrees(np.arctan2(-v[1], v[0]))          # y da imagem para baixo
@@ -62,8 +116,10 @@ def ang(p, q):
 
 def main():
     B = np.array(Image.open(FIGURA).convert("L")) < 128
+    T = contorno_15a()
+    giro = {}
     for nome, (a584, a572, a632) in APROX.items():
-        O = disco(B, a584, m=8)
+        O = furo_branco(B, a584)
         D = anel(B, a572, 4, 12)
         P = anel(B, a632, 4, 12)
         q = -ang(O, D)
@@ -74,8 +130,21 @@ def main():
         A_fig = disco(B, A_cad)
         print(f"Fig. {nome}: q = {q:+.2f}°; reta 572-632 a {eixo:+.2f}° da horizontal (positivo para "
               f"baixo), {eixo - q:.2f}° além de C2; Θ = −(q + {DEFASAGEM}°) = {-(q + DEFASAGEM):+.2f}°")
-        print(f"   escala {esc:.3f} px/mm; A pelo CAD em ({A_cad[0]:.1f}, {A_cad[1]:.1f}), 562 desenhado "
+        print(f"   escala {esc:.4f} px/mm; A pelo CAD em ({A_cad[0]:.1f}, {A_cad[1]:.1f}), 562 desenhado "
               f"em ({A_fig[0]:.1f}, {A_fig[1]:.1f}): {np.hypot(*(A_fig - A_cad))/esc:.1f} mm de diferença")
+        dist, psi, k = ajusta_came(B, D, T)
+        print(f"   came: {k:.2f} px por R20, isto é, R20 = {k/esc:.2f} mm; o referencial da 15B está girado "
+              f"de {psi:.1f}° (sem espelhar); distância média ao desenho {dist:.2f} px; reta 572-632 a "
+              f"{eixo - q:.2f}° de C2")
+        # cinemática do cabo 560 pela geometria desenhada: φ e S a partir de A e D medidos
+        d = (A_fig - D)*[1, -1]/esc
+        S = np.sqrt(d @ d - R_PRIMARIA**2)
+        fi = np.degrees(np.arctan2(d[1], d[0]) + np.arctan2(S, R_PRIMARIA))
+        giro[nome] = (psi, fi, S)
+    (pc, fc, sc), (pd, fd, sd) = giro["14C"], giro["14D"]
+    previsto = (((fd - fc + 180) % 360) - 180) - np.degrees((sd - sc)/R_PRIMARIA)
+    print(f"Giro absoluto do came da 14C para a 14D: medido {(pd - pc) % 360:.1f}°; previsto pelo cabo 560 "
+          f"com A e D desenhados, {previsto % 360:.1f}° ({previsto:.1f}°)")
 
 
 if __name__ == "__main__":
