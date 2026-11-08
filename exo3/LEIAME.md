@@ -85,7 +85,28 @@ Conferência:
 
 Com O na origem: A = (−34,000; −62,000), D = (−42,913; 79,778) e T = (−16,674; 76,495).
 
-Falta o Θ desta pose, para fixar α0 em α = Θ + α0.
+Pelo fechamento, b = −S u(q) − C1 u(γ), e o braço de momento do cabo 560 em torno de O só depende de q:
+
+    (b × f)_z = b F_a sin(q − α + β) = F_a C1 sin(γ − q)
+
+Ele zera quando q = γ + 180°, com o cabo alinhado a C1 e passando por O.
+
+Grau de liberdade: o mecanismo tem um. Com Θ como variável primária, as secundárias são S e φ, e q vem de φ pela tangência; a tangência tira uma incógnita, não uma equação. Com q como primária, as secundárias passam a ser S e α: φ = q + 90°, w = −(R u(φ) + C1 u(γ)), α = φ ± acos(w·u(φ)/C2) e S = (w − C2 u(α))·u(q). Dos dois ramos, um devolve a pose do CAD e o outro dá S negativo.
+
+Varredura a partir desta pose (`circuito_cabo560.py`, em ΔΘ = Δα, já que α0 é constante):
+
+| ΔΘ (°) | S (mm) | q (°) | b (mm) | β (°) | C1 sin(γ − q) (mm) |
+|---|---|---|---|---|---|
+| −60 | 159,061 | 230,145 | 90,707 | 16,774 | −13,631 |
+| −30 | 154,661 | 246,761 | 84,547 | 16,916 | 6,779 |
+| 0 | 139,575 | 262,869 | 78,292 | 15,979 | 26,041 |
+| 30 | 114,777 | 278,466 | 72,426 | 13,628 | 42,757 |
+| 60 | 81,778 | 293,222 | 67,538 | 9,505 | 55,692 |
+| 90 | 41,960 | 305,147 | 64,412 | 2,815 | 63,493 |
+
+O braço zera em ΔΘ = −40,04° (q = 241,26°), e abaixo disso o cabo puxaria o braço para baixo. Na Figura 16, o AASM é positivo até Θ = −75°. Se este CAD reproduz o mecanismo da figura, a pose do CAD está abaixo de Θ = −35°.
+
+Falta o Θ desta pose, para fixar α0 em α = Θ + α0: é o ângulo do eixo maior do apoio de braço com a horizontal, medido no CAD.
 
 ## Relação dos raios
 
@@ -182,6 +203,7 @@ A Figura 15B é um corte pelo plano do canal, e a área hachurada é o fundo do 
 - `came570_contorno.csv`: contorno fechado, com x, y, ângulo e raio divididos por R20;
 - `came570_raio_efetivo.csv`: raio efetivo em função da direção do cabo;
 - `extrair_came570.py`: o script que gera o contorno, os raios e as figuras;
+- `circuito_cabo560.py`: o circuito do cabo 560 na geometria do CAD, com a varredura em Θ e o inverso com q como entrada;
 - `relacoes_came570.py`: a tangência do cabo da mola com a polia 630 (ângulo do cabo e raio efetivo em função da rotação) e a conferência do alongamento da mola;
 - `figuras/came570_conferencia.png` e `figuras/came570_conferencia_detalhes.png`: o contorno sobre a figura;
 - `figuras/came570_raios.png`: o gráfico do contorno, do raio e do raio efetivo.
