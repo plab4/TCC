@@ -1,40 +1,42 @@
 """
 Circuito do cabo de ancoragem 560 do exoesqueleto 3, na geometria do CAD do autor.
 
-    S u(q) + R u(φ) + C2 u(α) + C1 u(γ) = 0,        q = φ − 90° (σ = −1)
+Ângulos no referencial do CAD, anti-horários a partir da horizontal: γ (C1, de A a O),
+φ (R, de D a T) e θ (S, de T a A). A variável primária q é o ângulo entre C2 (de O a D)
+e a horizontal, 61,724° na pose do CAD; nesse referencial, a direção de C2 é 180° − q:
 
-O mecanismo tem um grau de liberdade: uma variável primária, o ângulo do apoio de braço,
-que entra por α = Θ + α0, e duas secundárias, S e φ. A tangência liga q a φ e tira uma
-incógnita, não uma equação; as duas equações do fechamento ficam para S e φ. A solução é
-fechada:
+    S u(θ) + R u(φ) + C2 u(180° − q) + C1 u(γ) = 0
+    f1 = S cos θ + R cos φ − C2 cos q + C1 cos γ = 0
+    f2 = S sin θ + R sin φ + C2 sin q + C1 sin γ = 0
 
-    d = A − D = −(C1 u(γ) + C2 u(α)),   S = √(|d|² − R²),   φ = ang(d) + atan2(S, R)
+O mecanismo tem um grau de liberdade: a primária q e duas secundárias, S e φ. O cabo é
+tangente à polia, então θ = φ − 90° (σ = −1, como na pose do CAD); a tangência tira uma
+incógnita, não uma equação. A solução é fechada:
 
-Com q como primária, as secundárias passam a ser S e α, e também fecha:
+    d = A − D = −(C1 u(γ) + C2 u(180° − q)),   S = √(|d|² − R²),
+    φ = ang(d) + atan2(S, R)
 
-    φ = q + 90°,   w = −(R u(φ) + C1 u(γ)),   α = φ ± acos(w·u(φ)/C2),
-    S = (w − C2 u(α))·u(q)
+O caminho inverso, com θ dado, também fecha: φ = θ + 90°, w = −(R u(φ) + C1 u(γ)),
+q = 180° − φ ∓ acos(w·u(φ)/C2) e S = (w − C2 u(180° − q))·u(θ). Dos dois ramos, o do
+sinal de cima devolve a pose do CAD; o outro dá S negativo.
 
-com dois ramos; o do mecanismo é o que devolve a pose do CAD.
+Braço: b = C2 u(180° − q) + R u(φ), de O a T; β é o ângulo em O entre C2 e b, e a
+direção de b é 180° − q − β. Então
 
-Braço: b = C2 u(α) + R u(φ), de O a T; β é o ângulo em O entre C2 e b, e
+    (b × f)_z = −b F_a sin(θ + q + β) = F_a C1 sin(γ − θ).
 
-    (b × f)_z = b F_a sin(q − α + β) = F_a b⊥,   b⊥ = C1 sin(γ − q).
-
-A segunda forma sai do fechamento (b = −S u(q) − C1 u(γ)): como a linha do cabo passa
-por A, o braço em torno de O só depende de q. Ele zera quando q = γ + 180°, com o cabo
+A segunda forma sai do fechamento (b = −S u(θ) − C1 u(γ)): como a linha do cabo passa
+por A, o braço em torno de O só depende de θ. Ele zera em θ = γ + 180°, com o cabo
 alinhado a C1 e passando por O.
-
-Sem o Θ da pose do CAD (e, com ele, α0), a varredura é feita em ΔΘ = Δα a partir dela.
 
 Rodar (na raiz do repositório):
     python exo3/circuito_cabo560.py
 """
 import numpy as np
-from scipy.optimize import brentq
 
 C1, C2, R = 70.711, 90.587, 26.443        # mm, CAD do autor
-GAMA, ALFA_CAD = 61.26, 118.276           # graus
+GAMA = 61.26                              # graus, referencial do CAD
+Q_CAD = 61.724                            # graus, ângulo entre C2 e a horizontal na pose
 
 
 def u(a):
@@ -46,47 +48,49 @@ def ang(v):
     return np.degrees(np.arctan2(v[1], v[0])) % 360
 
 
-def circuito(alfa):
-    """S, φ, q, b, β e b⊥ (mm e graus) para o ângulo α de C2."""
-    d = -(C1*u(GAMA) + C2*u(alfa))
-    S = np.sqrt(d @ d - R**2)
+def meia_volta(a):
+    return (a + 180) % 360 - 180
+
+
+def circuito(q):
+    """S, φ, θ, b, β e o braço do cabo em torno de O (mm e graus), para q dado."""
+    c2 = C2*u(180 - q)
+    d = -(C1*u(GAMA) + c2)
+    S = float(np.sqrt(d @ d - R**2))
     fi = (ang(d) + np.degrees(np.arctan2(S, R))) % 360
-    q = (fi - 90) % 360
-    bv = C2*u(alfa) + R*u(fi)
+    teta = (fi - 90) % 360
+    bv = c2 + R*u(fi)
     b = float(np.hypot(*bv))
-    beta = (alfa - ang(bv) + 180) % 360 - 180
-    b_perp = b*np.sin(np.radians(q - alfa + beta))
-    assert abs(b_perp - C1*np.sin(np.radians(GAMA - q))) < 1e-9
-    return S, fi, q, b, beta, b_perp
+    beta = meia_volta((180 - q) - ang(bv))
+    braco = -b*np.sin(np.radians(teta + q + beta))
+    assert abs(braco - C1*np.sin(np.radians(GAMA - teta))) < 1e-9
+    return S, fi, teta, b, beta, braco
 
 
-def circuito_por_q(q):
-    """Inverso: α e S para o ângulo q do cabo, nos dois ramos."""
-    fi = q + 90
+def circuito_por_teta(teta):
+    """Inverso: q e S para o ângulo θ do cabo, nos dois ramos."""
+    fi = teta + 90
     w = -(R*u(fi) + C1*u(GAMA))
     c = np.degrees(np.arccos(np.clip(w @ u(fi)/C2, -1, 1)))
     ramos = []
-    for alfa in ((fi + c) % 360, (fi - c) % 360):
-        ramos.append((alfa, float((w - C2*u(alfa)) @ u(q))))
+    for q in (meia_volta(180 - fi - c), meia_volta(180 - fi + c)):
+        ramos.append((q, float((w - C2*u(180 - q)) @ u(teta))))
     return ramos
 
 
 def main():
-    print("Varredura a partir da pose do CAD (ΔΘ = Δα), comprimentos em mm e ângulos em graus:")
-    print("   ΔΘ        α        S        φ        q        b       β       b⊥")
-    for dT in range(-90, 91, 15):
-        S, fi, q, b, beta, bp = circuito(ALFA_CAD + dT)
-        print(f"{dT:5d} {ALFA_CAD + dT:8.3f} {S:8.3f} {fi:8.3f} {q:8.3f} {b:8.3f} {beta:7.3f} {bp:8.3f}")
-
-    zero = brentq(lambda dT: circuito(ALFA_CAD + dT)[5], -60, -20)
-    print(f"\nb⊥ = 0 (a linha do cabo passa por O) em ΔΘ = {zero:.2f}°, com q = "
-          f"{circuito(ALFA_CAD + zero)[2]:.3f}°; abaixo disso o momento do cabo troca de sinal.")
-
-    S, fi, q, b, beta, bp = circuito(ALFA_CAD)
-    ramos = circuito_por_q(q)
-    print(f"Pose do CAD: S = {S:.3f}, φ = {fi:.3f}, q = {q:.3f}, b = {b:.3f}, β = {beta:.3f}, "
-          f"b⊥ = {bp:.3f}")
-    print("Inverso com q como primária: " + "; ".join(f"α = {a:.3f}, S = {s:.3f}" for a, s in ramos))
+    q_zero = circuito_por_teta(GAMA + 180)[0][0]
+    print("q como primária (mm e graus):")
+    print("       q        S        φ        θ        b       β   C1 sin(γ−θ)")
+    for q in sorted(set(range(-30, 121, 15)) | {Q_CAD, round(q_zero, 3)}):
+        S, fi, teta, b, beta, braco = circuito(q)
+        print(f"{q:8.3f} {S:8.3f} {fi:8.3f} {teta:8.3f} {b:8.3f} {beta:7.3f} {braco:10.3f}")
+    S, fi, teta, b, beta, braco = circuito(Q_CAD)
+    print(f"\nPose do CAD: S = {S:.3f}, φ = {fi:.3f}, θ = {teta:.3f}, b = {b:.3f}, β = {beta:.3f}, "
+          f"braço = {braco:.3f}")
+    print("Inverso com θ = " + f"{teta:.3f}: " +
+          "; ".join(f"q = {qq:.3f}, S = {s:.3f}" for qq, s in circuito_por_teta(teta)))
+    print(f"O braço zera em θ = γ + 180° = {GAMA + 180:.2f}°, isto é, em q = {q_zero:.3f}°.")
 
 
 if __name__ == "__main__":

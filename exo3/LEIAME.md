@@ -27,22 +27,22 @@ Pontos:
 - D: pino 572 das polias, encontro de C2 e R;
 - T: ponto em que o cabo 560 deixa a polia primária, encontro de S e R.
 
-Vetores, com as cores do Paint e u(x) = (cos x, sin x):
+Vetores, com as cores do Paint e u(x) = (cos x, sin x). Os ângulos γ, φ e θ são do referencial do CAD, anti-horários a partir da horizontal:
 
 - C1 (amarelo), de A a O, fixo no suporte: C1 u(γ);
-- C2 (azul), de O a D, solidário ao chassi: C2 u(α), com α = Θ + α0;
+- C2 (azul), de O a D, solidário ao chassi. q é o ângulo entre C2 e a horizontal (61,724° na pose do CAD); no referencial do CAD, a direção de C2 é 180° − q, e o vetor é C2 u(180° − q) = C2 (−cos q, sin q);
 - R (verde), de D a T, raio da polia primária: R u(φ);
-- S (vermelho), de T a A, vão livre do cabo 560: S u(q).
+- S (vermelho), de T a A, vão livre do cabo 560: S u(θ).
 
 Fechamento, como no caderno:
 
-    S u(q) + R u(φ) + C2 u(α) + C1 u(γ) = 0
-    f1 = S cos q + R cos φ + C2 cos α + C1 cos γ = 0
-    f2 = S sin q + R sin φ + C2 sin α + C1 sin γ = 0
+    S u(θ) + R u(φ) + C2 u(180° − q) + C1 u(γ) = 0
+    f1 = S cos θ + R cos φ − C2 cos q + C1 cos γ = 0
+    f2 = S sin θ + R sin φ + C2 sin q + C1 sin γ = 0
 
-No caderno, q aparece como entrada, e S e φ como incógnitas. Como o cabo é tangente à polia, q não é livre: q = φ + σ·90°, com σ = +1 ou −1 conforme o lado em que o cabo deixa a polia. Na pose do CAD, q = φ − 90°, então σ = −1. A entrada é o ângulo do apoio de braço, Θ, que entra por α. As incógnitas continuam sendo S e φ, e a solução é fechada, como no exoesqueleto 1:
+A variável primária é q, o ângulo entre C2 e a horizontal; C2 gira com o apoio de braço. As secundárias são S e φ. Como o cabo é tangente à polia, θ não é livre: θ = φ + σ·90°, com σ = +1 ou −1 conforme o lado em que o cabo deixa a polia. Na pose do CAD, θ = φ − 90°, então σ = −1. A solução é fechada, como no exoesqueleto 1:
 
-    d = A − D = −(C1 u(γ) + C2 u(α))
+    d = A − D = −(C1 u(γ) + C2 u(180° − q))
     S = √(|d|² − R²)
     φ = ang(d) − σ·atan2(S, R)
 
@@ -50,19 +50,19 @@ No caderno, q aparece como entrada, e S e φ como incógnitas. Como o cabo é ta
 
 O vetor b vai do encontro de C1 e C2 ao encontro de S e R, isto é, de O a T:
 
-    b = C2 u(α) + R u(φ)
-    f = F_a u(q)
+    b = C2 u(180° − q) + R u(φ)
+    f = F_a u(θ)
     τ = (b × f)_z / 1000        (comprimentos em mm, força em N)
 
 em que F_a é a tração no cabo 560, que puxa T para A.
 
-β é o ângulo em O entre C2 e b, no triângulo O, D, T. A direção de b é ang(b) = α − β (102,297° na pose do CAD), e:
+β é o ângulo em O entre C2 e b, no triângulo O, D, T. A direção de b, no referencial do CAD, é 180° − q − β (102,297° na pose), e:
 
-    (b × f)_z = b F_a sin(q − α + β)
+    (b × f)_z = −b F_a sin(θ + q + β)
 
-Com o triângulo, b e β também saem de C2, R e do ângulo φ − α:
+Com o triângulo, b e β também saem de C2, R e do ângulo φ + q:
 
-    b² = C2² + R² + 2 C2 R cos(φ − α)
+    b² = C2² + R² − 2 C2 R cos(φ + q)
     R² = C2² + b² − 2 C2 b cos β
 
 Esse é o b certo porque o apoio de braço (chassi, polias, mola e cabo 634) gira em torno de 584 como um corpo só. A mola e o cabo 634 exercem forças internas a ele. O único esforço do mecanismo vindo de fora é o do cabo 560, que atua em T. É o mesmo arranjo do exoesqueleto 1, com b = OT e T no tambor. Como a linha do cabo passa por A, o braço de momento não passa de |OA| = C1, assim como |m| ≤ |B| no exoesqueleto 1.
@@ -71,42 +71,45 @@ Esse é o b certo porque o apoio de braço (chassi, polias, mola e cabo 634) gir
 
 Valores do CAD do autor (comprimentos em mm, ângulos em graus):
 
-| C1 | C2 | R | S | b | γ | α | φ | q | β |
+| C1 | C2 | R | S | b | γ | q | φ | θ | β |
 |---|---|---|---|---|---|---|---|---|---|
-| 70,711 | 90,587 | 26,443 | 139,575 | 78,292 | 61,26 | 118,276 | 360 − 7,131 | 360 − 97,131 | 15,979 |
+| 70,711 | 90,587 | 26,443 | 139,575 | 78,292 | 61,26 | 61,724 | 360 − 7,131 | 360 − 97,131 | 15,979 |
+
+q é o ângulo entre C2 e a horizontal. No referencial do CAD, a direção de C2 é 180° − q = 118,276°.
 
 Conferência:
 - o fechamento dá resíduo de 0,0006 mm;
-- q − φ = −90°, isto é, σ = −1;
-- a solução fechada, com C1, γ, C2, α e R, devolve S = 139,575 e φ = 352,869;
-- |C2 u(α) + R u(φ)| = 78,291, que é o b;
+- θ − φ = −90°, isto é, σ = −1;
+- a solução fechada, com C1, γ, C2, q e R, devolve S = 139,575 e φ = 352,869;
+- |C2 u(180° − q) + R u(φ)| = 78,291, que é o b;
 - o ângulo entre b e C2 é 15,979°, que é o β; entre b e C1, seria 41,037°;
-- o braço de momento do cabo 560 em torno de O é b sin(q − α + β) = 26,042 mm, igual a C1 |sin(q − γ)|, a distância de O à linha do cabo, que passa por A.
+- o braço de momento do cabo 560 em torno de O é −b sin(θ + q + β) = 26,042 mm, igual a C1 |sin(θ − γ)|, a distância de O à linha do cabo, que passa por A.
 
 Com O na origem: A = (−34,000; −62,000), D = (−42,913; 79,778) e T = (−16,674; 76,495).
 
-Pelo fechamento, b = −S u(q) − C1 u(γ), e o braço de momento do cabo 560 em torno de O só depende de q:
+Pelo fechamento, b = −S u(θ) − C1 u(γ), e o braço de momento do cabo 560 em torno de O só depende de θ:
 
-    (b × f)_z = b F_a sin(q − α + β) = F_a C1 sin(γ − q)
+    (b × f)_z = −b F_a sin(θ + q + β) = F_a C1 sin(γ − θ)
 
-Ele zera quando q = γ + 180°, com o cabo alinhado a C1 e passando por O.
+Ele zera quando θ = γ + 180°, com o cabo alinhado a C1 e passando por O.
 
-Grau de liberdade: o mecanismo tem um. Com Θ como variável primária, as secundárias são S e φ, e q vem de φ pela tangência; a tangência tira uma incógnita, não uma equação. Com q como primária, as secundárias passam a ser S e α: φ = q + 90°, w = −(R u(φ) + C1 u(γ)), α = φ ± acos(w·u(φ)/C2) e S = (w − C2 u(α))·u(q). Dos dois ramos, um devolve a pose do CAD e o outro dá S negativo.
+Grau de liberdade: o mecanismo tem um. A primária é q, e as secundárias são S e φ; θ vem de φ pela tangência, que tira uma incógnita, não uma equação. O caminho inverso também fecha: com θ dado, φ = θ + 90°, w = −(R u(φ) + C1 u(γ)), q = 180° − φ ∓ acos(w·u(φ)/C2) e S = (w − C2 u(180° − q))·u(θ). Dos dois ramos, o do sinal de cima devolve a pose do CAD, e o outro dá S negativo.
 
-Varredura a partir desta pose (`circuito_cabo560.py`, em ΔΘ = Δα, já que α0 é constante):
+Varredura (`circuito_cabo560.py`):
 
-| ΔΘ (°) | S (mm) | q (°) | b (mm) | β (°) | C1 sin(γ − q) (mm) |
+| q (°) | S (mm) | θ (°) | b (mm) | β (°) | C1 sin(γ − θ) (mm) |
 |---|---|---|---|---|---|
-| −60 | 159,061 | 230,145 | 90,707 | 16,774 | −13,631 |
-| −30 | 154,661 | 246,761 | 84,547 | 16,916 | 6,779 |
-| 0 | 139,575 | 262,869 | 78,292 | 15,979 | 26,041 |
-| 30 | 114,777 | 278,466 | 72,426 | 13,628 | 42,757 |
-| 60 | 81,778 | 293,222 | 67,538 | 9,505 | 55,692 |
-| 90 | 41,960 | 305,147 | 64,412 | 2,815 | 63,493 |
+| −30 | 39,442 | 305,563 | 64,320 | 2,284 | 63,717 |
+| 0 | 79,667 | 294,024 | 67,301 | 9,205 | 56,297 |
+| 30 | 113,086 | 279,343 | 72,112 | 13,442 | 43,614 |
+| 61,724 (pose) | 139,575 | 262,869 | 78,292 | 15,979 | 26,041 |
+| 90 | 154,077 | 247,700 | 84,186 | 16,894 | 7,931 |
+| 101,768 | 157,353 | 241,260 | 86,642 | 16,972 | 0 |
+| 120 | 159,106 | 231,116 | 90,363 | 16,805 | −12,454 |
 
-O braço zera em ΔΘ = −40,04° (q = 241,26°), e abaixo disso o cabo puxaria o braço para baixo. Na Figura 16, o AASM é positivo até Θ = −75°. Se este CAD reproduz o mecanismo da figura, a pose do CAD está abaixo de Θ = −35°.
+q cresce quando o apoio de braço desce: S aumenta, e o cabo 560 se desenrola da primária, como a patente descreve para o braço baixado (Figura 14D). O braço de momento zera em q = 101,77° (θ = 241,26°), 40,04° além da pose do CAD; com q maior que isso, o cabo puxaria o braço para baixo. Na Figura 16, o AASM é positivo até Θ = −75°. Se este CAD reproduz o mecanismo da figura, a pose do CAD está abaixo de Θ = −35°.
 
-Falta o Θ desta pose, para fixar α0 em α = Θ + α0: é o ângulo do eixo maior do apoio de braço com a horizontal, medido no CAD.
+Falta o Θ desta pose, o ângulo do eixo maior do apoio de braço com a horizontal, que é a abscissa da Figura 16. Como q cresce quando o braço desce e Θ cresce quando ele sobe, Θ = q0 − q, com q0 = Θ_pose + 61,724°. Se C2 for paralelo ao eixo maior do apoio de braço, q0 = 0 e Θ = −q.
 
 ## Relação dos raios
 
@@ -203,7 +206,7 @@ A Figura 15B é um corte pelo plano do canal, e a área hachurada é o fundo do 
 - `came570_contorno.csv`: contorno fechado, com x, y, ângulo e raio divididos por R20;
 - `came570_raio_efetivo.csv`: raio efetivo em função da direção do cabo;
 - `extrair_came570.py`: o script que gera o contorno, os raios e as figuras;
-- `circuito_cabo560.py`: o circuito do cabo 560 na geometria do CAD, com a varredura em Θ e o inverso com q como entrada;
+- `circuito_cabo560.py`: o circuito do cabo 560 na geometria do CAD, com a varredura em q e o inverso com θ como entrada;
 - `relacoes_came570.py`: a tangência do cabo da mola com a polia 630 (ângulo do cabo e raio efetivo em função da rotação) e a conferência do alongamento da mola;
 - `figuras/came570_conferencia.png` e `figuras/came570_conferencia_detalhes.png`: o contorno sobre a figura;
 - `figuras/came570_raios.png`: o gráfico do contorno, do raio e do raio efetivo.
@@ -243,7 +246,7 @@ Zonas no gráfico de momentos: na Figura 16, a zona Z12 vai de Θ = −56,4° a 
 ## O que falta do CAD
 
 1. Pose de referência, com o ângulo Θ do eixo maior do apoio de braço.
-2. Posições de O (584), A (562) e D (572) nessa pose. Delas saem C1, γ, C2 e α0.
+2. Posições de O (584), A (562) e D (572) nessa pose. Delas saem C1, γ, C2 e q0.
 3. Raio R da polia primária 564, na linha de centro do cabo.
 4. Ponto 561 na primária e comprimento do cabo 560, ou o arco enrolado na pose.
 5. Escala e posição do came 570: diâmetro do eixo 572 (ou outra cota) e o ângulo entre a secundária e a primária. O perfil normalizado já saiu da Figura 15B (seção "Came 570").
