@@ -219,6 +219,23 @@ O artigo dá massas, comprimentos e tensores, mas não a posição dos centros d
 
 Com o braço estendido, o momento do peso no ombro vale 11,98 N·m na horizontal. As peças do exoesqueleto (Tabela 1 do artigo) só têm massa e tensor; a posição do centro de massa do apoio de braço não está no artigo.
 
+## Propriedades de massa do CAD (_EXOFLEX-V1)
+
+Relatório de massa do CAD do autor, no referencial da montagem _EXOFLEX-V1: massa total de 3,807 kg, densidade média de 2,68 g/cm³ e centro de gravidade em (−283,116; −23,502; 58,242) mm.
+
+| Componente | Massa (kg) | X (mm) | Y (mm) | Z (mm) |
+|---|---|---|---|---|
+| BARRA-COSTAL-1 | 0,104 | 0 | −0,094 | 52,535 |
+| EXO-MONTAGEM1 | 1,807 | −275,757 | −48,212 | 258,960 |
+| BARRA-LOMBAR | 0,089 | −24,836 | −445,614 | 63,184 |
+| EXO-MONTAGEM-D | 1,807 | −319,462 | 20,533 | −142,388 |
+
+As massas e os centros dos componentes somam o total do relatório. Pela posição das peças, Y é vertical (a barra lombar fica 445,5 mm abaixo da costal), Z é lateral (os dois módulos ficam a 401,3 mm um do outro, com o meio em Z = 58,3 mm, perto da barra costal) e X é anteroposterior.
+
+Tensor de inércia da montagem no centro de gravidade, em t·mm² (10⁻³ kg·m²): Ixx = 185,24, Iyy = 201,90, Izz = 86,29, Ixy = 10,46, Ixz = −14,30 e Iyz = 26,14. Momentos principais: 78,20, 185,39 e 209,84.
+
+Os dois módulos têm a mesma massa, mas os centros diferem 81,5 mm no plano X–Y: ou estão em poses diferentes, ou não são cópias espelhadas. Para o momento do peso do apoio de braço em torno de 584, faltam a posição do 584 neste referencial e a massa e o centro só da parte que gira com o braço.
+
 ## Figura 16 digitalizada
 
 Arquivos: `fig16_curvas.csv` (um ponto por grau), `digitalizar_fig16.py` e `figuras/fig16_conferencia.png`.
@@ -285,7 +302,7 @@ Já vieram do CAD: C1, γ, C2, R, a pose (q = 61,724°, a da Figura 14D) e a def
 - O ponto 561 e o comprimento do cabo 560 não são necessários: o giro do came na pose sai da Figura 14D.
 - A escala e o giro do came saíram das Figuras 14C e 14D (R20 = 32,0 mm). Vale conferir R20 na peça real.
 - A polia 630 e a mola ficam fora da varredura, por decisão do autor; o cabo da mola é tomado na direção de 572 para 632.
-- Centros de massa: os do membro superior saem do artigo (seção "Centros de massa"); o do apoio de braço não está no artigo.
+- Centros de massa: os do membro superior saem do artigo (seção "Centros de massa"). Do CAD veio o relatório de massa da montagem (seção "Propriedades de massa do CAD"); para o apoio de braço, falta a posição do 584 no mesmo referencial e a separação da parte que gira com o braço.
 
 ## Perguntas em aberto
 
