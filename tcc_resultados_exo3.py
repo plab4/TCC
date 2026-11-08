@@ -13,7 +13,10 @@ Cadeia de cálculo, para cada ângulo Θ do apoio de braço (Figura 16 da patent
 6. o ajuste de uma mola linear, τ = k (x0 + Δx)(r/R) C1 sin(γ − θ), à curva AASM da
    Figura 16, na escala do artigo de Okabe, Brittes e Brito (2026): 30 N·m no máximo;
 7. a sensibilidade ao giro do came: o mesmo ajuste com o came girado em relação ao
-   desenho da Figura 14D, para ver qual giro reproduz melhor a Figura 16.
+   desenho da Figura 14D, para ver qual giro reproduz melhor a Figura 16;
+8. o momento do peso do apoio de braço em torno de 584, com as massas do CAD
+   (exo3/massa_apoio.py) e o centro do came girando com as polias, contra o do membro
+   superior e o AWM da Figura 16, e o ajuste da mola com o peso do apoio somado à AASM.
 
 Grava results/exo3_tcc_numeros.json e as figuras results/exo3_tcc_fig_*.png.
 
@@ -36,6 +39,7 @@ from matplotlib.ticker import FuncFormatter  # noqa: E402
 RAIZ = Path(__file__).resolve().parent
 sys.path.insert(0, str(RAIZ/"exo3"))
 import circuito_cabo560 as cc  # noqa: E402
+import massa_apoio as ma  # noqa: E402
 import relacoes_came570 as rc  # noqa: E402
 from extrair_came570 import ZONAS, zona  # noqa: E402
 from poses_fig14 import contorno_15a  # noqa: E402
@@ -52,6 +56,9 @@ R20 = (31.96 + 32.11)/2             # mm, média das Figuras 14C e 14D
 O_14D, ESC_14D = np.array([1711.82, 965.50]), 1.6802      # px e px/mm
 ESCALA_AASM = 30.0                  # N·m no máximo da curva AASM (artigo)
 MARCAS_FIG16 = {"Z12": (-56.4, -40.3), "Z11": (-23.8, 4.0)}
+# membro superior do artigo, com os centros de massa de de Leva (1996): kg e mm do ombro
+MEMBRO = {"braço": (2.244, 162.6), "antebraço": (1.341, 281.7 + 123.4),
+          "mão": (0.505, 281.7 + 269.8 + 68.1)}
 
 SUPERFICIE, TINTA, TINTA_2, GRADE = "#fcfcfb", "#0b0b0b", "#52514e", "#e6e5e1"
 AZUL, LARANJA, VERDE = "#2a78d6", "#eb6834", "#1baf7a"
@@ -129,10 +136,23 @@ def fig16():
     return th, aasm
 
 
-def ajuste_mola(v, th16, aasm, theta_max):
+def amplitude_awm():
+    """A em AWM = −A cos Θ, por mínimos quadrados na curva digitalizada."""
+    with open(FIG16, encoding="utf-8") as fh:
+        linhas = list(csv.DictReader([x for x in fh if not x.startswith("#")], delimiter=";"))
+    th = np.radians([float(x["theta_grau"].replace(",", ".")) for x in linhas])
+    awm = np.array([float(x["AWM"].replace(",", ".")) for x in linhas])
+    return float(-np.sum(awm*np.cos(th))/np.sum(np.cos(th)**2))
+
+
+def ajuste_mola(v, th16, aasm, theta_max, peso=None):
+    """Mola linear contra a AASM na escala do artigo; com peso (N·m em v["theta"]), o
+    alvo é a AASM mais o que a mola gasta para sustentar o apoio de braço."""
     c = ESCALA_AASM/aasm.max()
     usar = th16 <= theta_max
     th, tau = th16[usar], c*aasm[usar]
+    if peso is not None:
+        tau = tau - np.interp(th, v["theta"], peso)
     g = np.interp(th, v["theta"], v["transm"])
     dx = np.interp(th, v["theta"], v["dx"])
     A = np.c_[g, dx*g]/1000.0
@@ -415,6 +435,34 @@ def main():
                         "forca_fim_N": float(aj_m["k"]*(aj_m["x0"] + aj_m["dx"][-1])),
                         "transm_max": float(v_m["transm"].max()),
                         "dx_total_ate_limite": float(v_m["dx"][-1])}
+    # peso do apoio de braço (massas do CAD), com o came girando com as polias
+    geo = ma.geometria()
+    dtp = np.degrees(v["tp"]) - np.interp(N["theta_pose"], v["theta"], np.degrees(v["tp"]))
+    peso = ma.momento(geo, v["theta"], dtp)
+    peso_fixo = ma.momento(geo, v["theta"])
+    membro = sum(m*d for m, d in MEMBRO.values())*ma.G/1000          # N·m na horizontal
+    awm = amplitude_awm()
+    aj_p = ajuste_mola(v, th16, aasm, cc.theta_fig16(q_lim) - 0.05, peso)
+    i_max = int(np.argmin(peso))
+    N["peso_apoio"] = {
+        **{k: geo[k] for k in ("O", "D", "P", "L", "L_14D", "chassi_grau", "c2_chassi_14D", "c2_grau",
+                               "eixo_grau", "giro_peca_grau", "corpos", "massa_g", "cg", "d", "a", "nailon",
+                               "came", "came_chassi_peca", "came_chassi_14D")},
+        "momento_max_N_m": float(-peso[i_max]), "theta_momento_max": float(v["theta"][i_max]),
+        "momento_max_fixo_N_m": ma.G*geo["massa_g"]*geo["d"]/1e6, "theta_max_fixo": -geo["a"],
+        "momento_pose_N_m": float(-np.interp(N["theta_pose"], v["theta"], peso)),
+        "momento_zero_N_m": float(-np.interp(0.0, v["theta"], peso)),
+        "came_variacao_max_N_m": float(np.max(np.abs(peso - peso_fixo))),
+        "came_amplitude_N_m": ma.G*geo["corpos"]["came"]["massa_g"]*geo["came"]["excentricidade_mm"]/1e6,
+        "mola_incerteza_N_m": ma.G*geo["corpos"]["mola"]["massa_g"]*abs(N["dx_total_ate_limite"])/2/1e6,
+        "membro_horizontal_N_m": membro, "awm_amplitude": awm, "awm_escala_N_m": aj["c"]*awm,
+        "carga_horizontal_N_m": membro + float(-np.interp(0.0, v["theta"], peso)),
+        "ajuste_com_peso": {"k_N_por_mm": aj_p["k"], "x0_mm": aj_p["x0"], "r2": aj_p["r2"],
+                            "rms_N_m": aj_p["rms"], "erro_max_N_m": aj_p["max"],
+                            "forca_pose_N": aj_p["k"]*aj_p["x0"],
+                            "forca_inicio_N": float(aj_p["k"]*(aj_p["x0"] + aj_p["dx"][0])),
+                            "forca_fim_N": float(aj_p["k"]*(aj_p["x0"] + aj_p["dx"][-1]))},
+    }
     PASTA.mkdir(exist_ok=True)
     with open(PASTA/"exo3_tcc_numeros.json", "w", encoding="utf-8") as fh:
         json.dump(N, fh, ensure_ascii=False, indent=1)
@@ -440,6 +488,17 @@ def main():
     print(f"melhor giro físico: {m['giro']:+.0f}°: R² = {m['r2']:.3f}, RMS {m['rms_N_m']:.2f} N·m, "
           f"k = {m['k']:.3f} N/mm, x0 = {m['x0']:.1f} mm; " +
           "; ".join(f"{z} de {a_:.1f}° a {c_:.1f}°" for z, fx in m["zonas"].items() for a_, c_ in fx))
+    pa = N["peso_apoio"]
+    print(f"apoio de braço: {pa['massa_g']:.1f} g, centro de massa a {pa['d']:.2f} mm de 584 e {pa['a']:.2f}° "
+          f"acima do eixo; momento do peso até {pa['momento_max_N_m']:.3f} N·m (Θ = {pa['theta_momento_max']:.1f}°), "
+          f"{pa['momento_zero_N_m']:.3f} N·m na horizontal e {pa['momento_pose_N_m']:.3f} N·m na pose; o came "
+          f"muda até {pa['came_variacao_max_N_m']:.3f} N·m")
+    print(f"membro superior na horizontal {pa['membro_horizontal_N_m']:.3f} N·m; carga total "
+          f"{pa['carga_horizontal_N_m']:.3f} N·m; AWM = −{pa['awm_amplitude']:.2f} cos Θ, "
+          f"{pa['awm_escala_N_m']:.2f} N·m na escala do artigo")
+    ap = pa["ajuste_com_peso"]
+    print(f"ajuste com o peso do apoio: k = {ap['k_N_por_mm']:.3f} N/mm, x0 = {ap['x0_mm']:.1f} mm, "
+          f"F na pose = {ap['forca_pose_N']:.0f} N, R² = {ap['r2']:.3f}, RMS {ap['rms_N_m']:.2f} N·m")
 
 
 if __name__ == "__main__":

@@ -236,6 +236,38 @@ Tensor de inércia da montagem no centro de gravidade, em t·mm² (10⁻³ kg·m
 
 Os dois módulos têm a mesma massa, mas os centros diferem 81,5 mm no plano XY: ou estão em poses diferentes, ou não são cópias espelhadas. Para o momento do peso do apoio de braço em torno de 584, faltam a posição do 584 neste referencial e a massa e o centro só da parte que gira com o braço.
 
+## Peso do apoio de braço (cinco corpos do CAD)
+
+`massa_apoio.py` usa as propriedades de massa de cinco corpos do CAD do autor, no referencial da peça (z normal ao plano do mecanismo). O tensor transportado do centro de massa à origem confere com o relatório, com Ixy = −∫xy dm.
+
+| Corpo | Material | Massa (g) | Centro de massa x; y (mm) | d até 584 (mm) | a, acima do eixo (°) |
+|---|---|---|---|---|---|
+| Capa | Náilon 6/6 | 563,556 | 8,38; 25,05 | 122,3 | 8,1 |
+| Mola | Aço | 104,593 | −11,58; 6,17 | 100,5 | −0,6 |
+| Polia interna (pino 632) | Náilon 6/6 | 15,975 | 129,75; 67,13 | 250,0 | 12,7 |
+| Polia externa (pino 572) | Aço | 373,005 | −32,68; 47,23 | 90,6 | 26,7 |
+| Came 570 | Aço | 405,330 | −39,51; 57,52 | 90,4 | 34,6 |
+| Conjunto | | 1462,459 | −15,47; 38,82 | 102,8 | 18,0 |
+
+Identificação e conferência:
+- As polias são cilindros cheios (volume igual ao do cilindro da caixa; Ixx = Iyy e Ixy = 0 no centro). A externa (55 mm) está no 572, junto do came, e a interna (30 mm), no 632. Elas ficam a 163,65 mm uma da outra, contra 165,00 mm na Figura 14D.
+- O came é a flange da Figura 15A extrudada em 30,00 mm. R20 sai com 31,65 mm pela área, 31,67 mm pela giração, 32,29 mm pela excentricidade (12,35 mm) e 32,01 mm pela caixa, contra 31,96 a 32,11 mm nas figuras.
+- Em relação à reta de 572 a 632, o referencial da 15B está a −21,5° no CAD e a −23,0° na Figura 14D: o CAD tem o came na pose desenhada.
+- O came aparece sem espelhamento no CAD e no desenho. Então o referencial da peça é o da Figura 14D girado de 89,98°.
+
+Pivô 584: não está no relatório. Foi posto a C2 = 90,587 mm do 572, com C2 a 21,8° da reta de 572 a 632 (Figura 14D), do lado da mola: O = (−112,07; 3,61) mm. O eixo maior fica a 2,05° no referencial da peça, 26,741° além de C2.
+
+Momento do peso em torno de 584, M = −g Σ m d cos(Θ + a)/10⁶ (N·m, m em g e d em mm), com o centro do came girando com as polias:
+- máximo de 1,46 N·m em Θ = −10,4°; 1,44 N·m com o eixo na horizontal; 0,49 N·m na pose do CAD;
+- o giro do came muda o momento em até 0,09 N·m;
+- a mola fica com o centro do CAD, porque o comprimento dela no CAD não vale para a pose. Metade do alongamento (93 mm até o limite de subida) moveria o momento em no máximo 0,05 N·m.
+
+Comparações:
+- O membro superior dá 11,98 N·m na horizontal; com o apoio, 13,42 N·m. O AWM da Figura 16 (−78,22 cos Θ), na escala do artigo, dá 31,06 N·m, 2,3 vezes isso.
+- Somando o peso do apoio à AASM no ajuste da mola, k = 1,683 N/mm, x0 = 299,2 mm, R² = 0,912. Sem o peso, k = 1,448 N/mm, x0 = 323,6 mm, R² = 0,901.
+
+No CAD, a polia externa e o came são de aço, com aparência de náilon. Em náilon 6/6 (1,130 g/cm³, a densidade da capa), o conjunto teria 796,2 g e momento máximo de 0,91 N·m.
+
 ## Figura 16 digitalizada
 
 Arquivos: `fig16_curvas.csv` (um ponto por grau), `digitalizar_fig16.py` e `figuras/fig16_conferencia.png`.
@@ -259,6 +291,7 @@ A Figura 15B é um corte pelo plano do canal, e a área hachurada é o fundo do 
 - `extrair_came570.py`: o script que gera o contorno, os raios e as figuras;
 - `circuito_cabo560.py`: o circuito do cabo 560 na geometria do CAD, com a varredura em q, o inverso com θ como entrada, o Θ da Figura 16 e a rotação das polias;
 - `poses_fig14.py`: q, a direção do chassi e o ponto 562 medidos nas Figuras 14C e 14D, contra o CAD;
+- `massa_apoio.py`: as propriedades de massa dos cinco corpos do apoio de braço, a conferência das polias e do came com as figuras, o pivô 584 no referencial da peça e o momento do peso;
 - `relacoes_came570.py`: a tangência do cabo da mola com a polia 630 (ângulo do cabo e raio efetivo em função da rotação) e a conferência do alongamento da mola;
 - `figuras/came570_conferencia.png` e `figuras/came570_conferencia_detalhes.png`: o contorno sobre a figura;
 - `figuras/came570_raios.png`: o gráfico do contorno, do raio e do raio efetivo.
@@ -302,7 +335,7 @@ Já vieram do CAD: C1, γ, C2, R, a pose (q = 61,724°, a da Figura 14D) e a def
 - O ponto 561 e o comprimento do cabo 560 não são necessários: o giro do came na pose sai da Figura 14D.
 - A escala e o giro do came saíram das Figuras 14C e 14D (R20 = 32,0 mm). Vale conferir R20 na peça real.
 - A polia 630 e a mola ficam fora da varredura, por decisão do autor; o cabo da mola é tomado na direção de 572 para 632.
-- Centros de massa: os do membro superior saem do artigo (seção "Centros de massa"). Do CAD veio o relatório de massa da montagem (seção "Propriedades de massa do CAD"); para o apoio de braço, falta a posição do 584 no mesmo referencial e a separação da parte que gira com o braço.
+- Centros de massa: os do membro superior saem do artigo (seção "Centros de massa"); os do apoio de braço, dos cinco corpos do CAD (seção "Peso do apoio de braço"). Falta confirmar no CAD a posição do 584 no referencial da peça e o material da polia externa e do came.
 
 ## Perguntas em aberto
 

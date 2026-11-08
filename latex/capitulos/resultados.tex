@@ -857,7 +857,7 @@ Os dois mecanismos também distribuem a assistência de modo distinto em relaç�
 
 \section{Exoesqueleto 3}\label{sec:4.3}
 
-Esta seção apresenta os resultados das etapas das seções~\ref{sec:3.3.2} a \ref{sec:3.3.6}, aplicadas ao mecanismo da US 9.737.374 B2. Salvo indicação em contrário, os números foram obtidos com a geometria do CAD, R20 = 32,035 mm e o giro do came medido na Figura 14D. Os números e as figuras são produzidos pelo script tcc\_resultados\_exo3.py.
+Esta seção apresenta os resultados das etapas das seções~\ref{sec:3.3.2} a \ref{sec:3.3.7}, aplicadas ao mecanismo da US 9.737.374 B2. Salvo indicação em contrário, os números foram obtidos com a geometria do CAD, R20 = 32,035 mm e o giro do came medido na Figura 14D. Os números e as figuras são produzidos pelo script tcc\_resultados\_exo3.py.
 
 \subsection{Cinemática do cabo de ancoragem}\label{sec:4.3.1}
 
@@ -925,3 +925,9 @@ Girado de −49° & 6,046 & 121,2 & 733 & 0,953 & 1,85 & 3,22 \\
 \end{figure}
 
 A escala de 30 N·m é a do artigo, não uma medida do dispositivo. Com as frações de \textcite{deleva1996} aplicadas às massas e aos comprimentos de \textcite{okabe2026}, o membro superior estendido produz 11,98 N·m no ombro com o braço na horizontal. Na mesma escala, o AWM da patente vale 31,06 N·m, 2,6 vezes esse valor, e a curva da patente não permite fixar a escala do momento.
+
+\subsection{Peso do apoio de braço}\label{sec:4.3.5}
+
+Os cinco corpos do CAD somam 1,462 kg, com centro de massa a 102,8 mm do pivô 584 e 18,0° acima do eixo maior (Tabela~\ref{tab:corpos-apoio-braco-cad}). Pela Equação~\eqref{eq:66}, o momento do peso do apoio de braço chega a 1,46 N·m em Θ = −10,4°, vale 1,44 N·m com o eixo na horizontal e 0,49 N·m na pose do CAD. O giro do came muda esse momento em até 0,09 N·m. Com o eixo na horizontal, o apoio acrescenta 12\% ao momento do membro superior, e o total chega a 13,42 N·m; o AWM da patente, na escala do artigo, é 2,3 vezes esse valor.
+
+Se a curva AASM for o momento entregue ao braço, a mola também sustenta o apoio, e o alvo do ajuste da seção~\ref{sec:4.3.4} passa a ser a AASM mais o peso do apoio. A mola linear ajustada fica com k = 1,683 N/mm e x\textsubscript{0} = 299,2 mm, com R² = 0,912 e RMS de 2,57 N·m, contra k = 1,448 N/mm, x\textsubscript{0} = 323,6 mm e R² = 0,901 sem o peso. O peso do apoio cresce de 0,49 N·m na pose para 1,44 N·m na horizontal, como a própria AASM, e o ajuste melhora um pouco.

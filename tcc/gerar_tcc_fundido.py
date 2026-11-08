@@ -2693,7 +2693,8 @@ def _e3_faixa(z):
 
 
 def parte_3C():
-    p, aj = N3["pontos"], N3["ajuste"]
+    p, aj, pa = N3["pontos"], N3["ajuste"], N3["peso_apoio"]
+    cm, co = pa["came"], pa["corpos"]
     B = []
     a = B.append
     a(H("3.3 Exoesqueleto 3"))
@@ -2715,17 +2716,18 @@ def parte_3C():
           "(came) e 16 (momentos)", "Documental",
           "Desenhos lidos na imagem das folhas; texto lido por reconhecimento óptico"],
          ["Modelo em CAD do autor",
-          "Grandezas da Tabela ⟦T:e3_cad⟧ e defasagem entre C_{2} e o eixo maior do "
-          "apoio de braço", "Medida em CAD",
+          "Grandezas da Tabela ⟦T:e3_cad⟧, defasagem entre C_{2} e o eixo maior do "
+          "apoio de braço e propriedades de massa da Tabela ⟦T:e3_massa⟧", "Medida em CAD",
           "Fechamento do circuito conferido; pose e ponto de ancoragem conferidos nas "
-          "Figuras 14C e 14D (seção ⟦S:e3_conf⟧)"],
+          "Figuras 14C e 14D (seção ⟦S:e3_conf⟧); polias e came conferidos na 14D "
+          "(seção ⟦S:e3_peso⟧)"],
          ["Artigo de simulação multicorpos (OKABE; BRITTES; BRITO, 2026)",
           "Escala de 30 N·m para a curva de momento da patente; massas e comprimentos "
           "do membro superior", "Literatura",
           "Artigo lido; frações de centro de massa (DE LEVA, 1996)"],
          ["Scripts da pasta exo3 e tcc_resultados_exo3.py",
-          "Extração do came, circuito, relações do came, poses das figuras, números e "
-          "figuras da seção 4.3", "Derivada pelo modelo", "Executados nesta análise"]],
+          "Extração do came, circuito, relações do came, poses das figuras, massa do "
+          "apoio de braço, números e figuras da seção 4.3", "Derivada pelo modelo", "Executados nesta análise"]],
         [2000, 3160, 1500, 2700]))
     a(FONTE)
 
@@ -2902,6 +2904,54 @@ def parte_3C():
         "desenhados prevê 76,8°: a diferença, 15,5°, equivale a 7 mm de cabo na "
         "primária, e os dois desenhos não são exatamente coerentes entre si."))
 
+    # ------------------------------------------------------------ peso do apoio
+    a(SEC("3.3", "e3_peso", "Peso do apoio de braço"))
+    a(P("O apoio de braço gira com o braço em torno do pivô 584, e o peso dele se soma ao "
+        "do membro superior. As propriedades de massa vêm do CAD do autor, para cinco "
+        "corpos: a capa, a mola, as polias interna e externa e o came (Tabela "
+        "⟦T:e3_massa⟧). Elas estão no referencial da peça, com z normal ao plano do "
+        "mecanismo, e o tensor de inércia transportado do centro de massa à origem "
+        "confere com o relatório."))
+    a(P("As duas polias são cilindros cheios, com o centro de massa no eixo. A externa, "
+        "de 55 mm de diâmetro, fica no pino 572, junto do came, e a interna, de 30 mm, no "
+        f"pino 632: a distância entre elas, {f(pa['L'], 1)} mm, difere "
+        f"{f(100*(1 - pa['L']/pa['L_14D']), 1)}% dos {f(pa['L_14D'], 1)} mm medidos na "
+        "Figura 14D. O came é a flange da Figura 15A extrudada em 30 mm. A área da seção, "
+        f"o raio de giração e a caixa envolvente dão R20 = {f(cm['R20_area'], 2)}, "
+        f"{f(cm['R20_giracao'], 2)} e {f(cm['R20_caixa'], 2)} mm, contra "
+        f"{f(N3['R20_mm'], 2)} mm nas figuras (seção ⟦S:e3_conf⟧). O referencial da "
+        f"Figura 15B fica a {f(pa['came_chassi_peca'], 1)}° da reta de 572 a 632 no CAD e "
+        f"a {f(pa['came_chassi_14D'], 1)}° na Figura 14D: o CAD reproduz também o giro do "
+        "came na pose desenhada."))
+    a(P("O relatório não traz o pivô 584. O came aparece sem espelhamento no CAD e no "
+        "desenho, então o referencial da peça é o da Figura 14D girado, e o pivô foi "
+        f"posto a C_{{2}} do pino 572, com o ângulo de {f(pa['c2_chassi_14D'], 1)}° entre "
+        "C_{2} e a reta de 572 a 632 medido na Figura 14D, do mesmo lado da mola, como no "
+        "desenho. O eixo maior fica 26,741° além de C_{2}. Com d_{i} a distância do centro "
+        "de massa do corpo i a O, em mm, e a_{i} o ângulo dele com o eixo maior, positivo "
+        "acima do eixo, o momento do peso do apoio de braço em torno de O, positivo quando "
+        "ergue o braço, é"))
+    a(EQ(("e3_peso", r"\tau_{a} = -\frac{g}{10^{6}}\sum_{i}m_{i}d_{i}\cos\left( \Theta + a_{i} \right)")))
+    a(P("com as massas m_{i} em g. O centro do came, a "
+        f"{f(cm['excentricidade_mm'], 2)} mm do pino 572, gira com as polias, e o termo "
+        "dele usa o giro θ_{p} da Equação (⟦E:e3_vt⟧). A mola entra com o centro de massa "
+        "do CAD, porque o comprimento dela no CAD não corresponde à pose; o deslocamento "
+        "do centro com o alongamento, metade de Δx, muda o momento em no máximo "
+        f"{f(pa['mola_incerteza_N_m'], 2)} N·m."))
+    a(LEG_T("e3_massa", "Corpos do apoio de braço no CAD, com o centro de massa no "
+            "referencial da peça e em relação ao pivô 584 e ao eixo maior"))
+    nomes = [("capa", "Capa"), ("mola", "Mola"), ("polia interna", "Polia interna (pino 632)"),
+             ("polia externa", "Polia externa (pino 572)"), ("came", "Came 570")]
+    linhas = [[rot, co[k]["material"], f(co[k]["massa_g"], 3),
+               f"{f(co[k]['cg'][0], 2)}; {f(co[k]['cg'][1], 2)}", f(co[k]["d"], 1),
+               f(co[k]["a"], 1)] for k, rot in nomes]
+    linhas.append(["Conjunto", "", f(pa["massa_g"], 3),
+                   f"{f(pa['cg'][0], 2)}; {f(pa['cg'][1], 2)}", f(pa["d"], 1), f(pa["a"], 1)])
+    a(TABELA(["Corpo", "Material", "Massa (g)", "Centro de massa x; y (mm)", "d (mm)",
+              "a (graus)"], linhas, [2300, 1300, 1300, 2060, 1200, 1200],
+             ["left", "left", "right", "center", "right", "right"]))
+    a(FONTE)
+
     # ------------------------------------------------------------ hipóteses
     a(SEC("3.3", "e3_hip", "Hipóteses e limitações"))
     a(P("O modelo supõe vínculos ideais, sem atrito no pivô e nas polias, e cabos "
@@ -2909,10 +2959,11 @@ def parte_3C():
         "modelada: a patente não informa rigidez nem comprimento livre, e a mola linear "
         "da seção 4.3 é identificada pela própria curva da patente, na escala do artigo de "
         "Okabe, Brittes e Brito (2026). O giro do came vem do desenho da Figura 14D, que "
-        "discorda da 14C em 15,5°. O peso do apoio de braço não entrou na "
-        "comparação: o relatório de massa do CAD dá 1,807 kg para cada módulo do "
-        "exoesqueleto, mas não separa a parte que gira com o braço nem dá o pivô 584 no "
-        "mesmo referencial."))
+        "discorda da 14C em 15,5°. O peso do apoio de braço considera só os cinco "
+        "corpos da Tabela ⟦T:e3_massa⟧, e o pivô 584 foi posto pela geometria da "
+        "Figura 14D. No CAD, a polia externa e o came são de aço, com aparência de "
+        f"náilon; em náilon 6/6, o conjunto teria {f(pa['nailon']['massa_g']/1000, 3)} kg "
+        f"e momento máximo de {f(pa['nailon']['momento_max_N_m'], 2)} N·m."))
     return B
 
 
@@ -2925,7 +2976,7 @@ def parte_4C():
     a = B.append
     a(H("4.3 Exoesqueleto 3"))
     a(P("Esta seção apresenta os resultados das etapas das seções ⟦S:e3_circ⟧ a "
-        "⟦S:e3_conf⟧, aplicadas ao mecanismo da US 9.737.374 B2. Salvo indicação em "
+        "⟦S:e3_peso⟧, aplicadas ao mecanismo da US 9.737.374 B2. Salvo indicação em "
         f"contrário, os números foram obtidos com a geometria do CAD, R20 = "
         f"{f(N3['R20_mm'], 3)} mm e o giro do came medido na Figura 14D. Os números e as "
         "figuras são produzidos pelo script tcc_resultados_exo3.py."))
@@ -3045,6 +3096,32 @@ def parte_4C():
         "Brito (2026), o membro superior estendido produz 11,98 N·m no ombro com o braço "
         "na horizontal. Na mesma escala, o AWM da patente vale 31,06 N·m, 2,6 vezes "
         "esse valor, e a curva da patente não permite fixar a escala do momento."))
+
+    # ------------------------------------------------------------ peso do apoio
+    pa = N3["peso_apoio"]
+    apj = pa["ajuste_com_peso"]
+    frac = 100*pa["momento_zero_N_m"]/pa["membro_horizontal_N_m"]
+    a(SEC("4.3", "e3_r_peso", "Peso do apoio de braço"))
+    a(P(f"Os cinco corpos do CAD somam {f(pa['massa_g']/1000, 3)} kg, com centro de massa a "
+        f"{f(pa['d'], 1)} mm do pivô 584 e {f(pa['a'], 1)}° acima do eixo maior (Tabela "
+        "⟦T:e3_massa⟧). Pela Equação (⟦E:e3_peso⟧), o momento do peso do apoio de braço "
+        f"chega a {f(pa['momento_max_N_m'], 2)} N·m em Θ = {f(pa['theta_momento_max'], 1)}°, "
+        f"vale {f(pa['momento_zero_N_m'], 2)} N·m com o eixo na horizontal e "
+        f"{f(pa['momento_pose_N_m'], 2)} N·m na pose do CAD. O giro do came muda esse "
+        f"momento em até {f(pa['came_variacao_max_N_m'], 2)} N·m. Com o eixo na "
+        f"horizontal, o apoio acrescenta {f(frac, 0)}% ao momento do membro superior, e o "
+        f"total chega a {f(pa['carga_horizontal_N_m'], 2)} N·m; o AWM da patente, na "
+        f"escala do artigo, é {f(pa['awm_escala_N_m']/pa['carga_horizontal_N_m'], 1)} "
+        "vezes esse valor."))
+    a(P("Se a curva AASM for o momento entregue ao braço, a mola também sustenta o "
+        "apoio, e o alvo do ajuste da seção ⟦S:e3_r_fig16⟧ passa a ser a AASM mais o peso "
+        f"do apoio. A mola linear ajustada fica com k = {f(apj['k_N_por_mm'], 3)} N/mm e "
+        f"x_{{0}} = {f(apj['x0_mm'], 1)} mm, com R² = {f(apj['r2'], 3)} e RMS de "
+        f"{f(apj['rms_N_m'], 2)} N·m, contra k = {f(aj['k_N_por_mm'], 3)} N/mm, "
+        f"x_{{0}} = {f(aj['x0_mm'], 1)} mm e R² = {f(aj['r2'], 3)} sem o peso. O peso do "
+        f"apoio cresce de {f(pa['momento_pose_N_m'], 2)} N·m na pose para "
+        f"{f(pa['momento_zero_N_m'], 2)} N·m na horizontal, como a própria AASM, e o "
+        "ajuste melhora um pouco."))
     return B
 
 
@@ -3074,9 +3151,23 @@ def parte_5C():
         "da Figura 16 da US 9.737.374 B2. A curva da patente parece corresponder a "
         "outra montagem do came ou a outra posição da âncora, e a ancoragem desenhada "
         f"limita a subida a Θ = {f(N3['theta_limite'], 1)}°, contra 30° na curva."))
+    pa = N3["peso_apoio"]
+    cm = pa["came"]
+    r20s = [cm[k] for k in ("R20_area", "R20_giracao", "R20_caixa")]
+    a(P(f"Com as massas do CAD, o apoio de braço tem {f(pa['massa_g']/1000, 2)} kg e "
+        f"acrescenta até {f(pa['momento_max_N_m'], 2)} N·m ao momento do peso em torno do "
+        f"pivô 584, {f(100*pa['momento_zero_N_m']/pa['membro_horizontal_N_m'], 0)}% do "
+        "momento do membro superior com o braço na horizontal. Somado à curva AASM, esse "
+        "peso leva a rigidez ajustada da mola a "
+        f"{f(pa['ajuste_com_peso']['k_N_por_mm'], 3)} N/mm. O CAD também confirma as "
+        "medidas tiradas das figuras: a distância entre os pinos 572 e 632 difere "
+        f"{f(100*(1 - pa['L']/pa['L_14D']), 1)}% da desenhada, R20 fica entre "
+        f"{f(min(r20s), 2)} e {f(max(r20s), 2)} mm, e o giro do came difere "
+        f"{f(abs(pa['came_chassi_peca'] - pa['came_chassi_14D']), 1)}° do da Figura 14D."))
     a(P("Como continuidade, recomenda-se medir a rigidez e o comprimento livre da mola e "
-        "o giro do came na peça real, representar a polia 630, incluir o peso do apoio "
-        "de braço com o pivô 584 no referencial do CAD e executar as etapas dinâmicas."))
+        "o giro do came na peça real, representar a polia 630, confirmar no CAD a "
+        "posição do pivô 584 e o material da polia externa e do came e executar as "
+        "etapas dinâmicas."))
     return B
 
 
