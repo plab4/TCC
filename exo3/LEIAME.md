@@ -93,7 +93,7 @@ Pelo fechamento, b = −S u(θ) − C1 u(γ), e o braço de momento do cabo 560 
 
 Ele zera quando θ = γ + 180°, com o cabo alinhado a C1 e passando por O.
 
-Grau de liberdade: o mecanismo tem um. A primária é q, e as secundárias são S e φ; θ vem de φ pela tangência, que tira uma incógnita, não uma equação. O caminho inverso também fecha: com θ dado, φ = θ + 90°, w = −(R u(φ) + C1 u(γ)), q = 180° − φ ∓ acos(w·u(φ)/C2) e S = (w − C2 u(180° − q))·u(θ). Dos dois ramos, o do sinal de cima devolve a pose do CAD, e o outro dá S negativo.
+Grau de liberdade: o mecanismo tem um. A primária é q, e as secundárias são S e φ; θ vem de φ pela tangência, que tira uma incógnita, não uma equação. O caminho inverso também fecha: com θ dado, φ = θ + 90°, w = −(R u(φ) + C1 u(γ)), q = 180° − φ ∓ acos(w·u(φ)/C2) e S = (w − C2 u(180° − q))·u(θ). Na pose do CAD, o ramo do sinal de cima é o certo, e o outro dá S negativo. Acima de Θ = −48,8°, porém, os dois ramos têm S positivo, e acima de Θ = 9,6° o certo passa a ser o de baixo: o ramo se escolhe por continuidade a partir da pose.
 
 q cresce quando o apoio de braço desce: S aumenta, e o cabo 560 se desenrola da primária, como a patente descreve para o braço baixado (Figura 14D).
 
@@ -217,7 +217,7 @@ O artigo dá massas, comprimentos e tensores, mas não a posição dos centros d
 | Antebraço | 1,341 | 269,8 | 0,4574 | 123,4 do cotovelo |
 | Mão | 0,505 | 86,2 (até o 3.º metacarpo) | 0,7900 | 68,1 do punho, como no artigo |
 
-Com o braço estendido, o momento do peso no ombro vale 11,98 N·m na horizontal. As peças do exoesqueleto (Tabela 1 do artigo) só têm massa e tensor; a posição do centro de massa do apoio de braço não está no artigo.
+Com o braço estendido, o momento do peso no ombro vale 11,97 N·m na horizontal (g = 9,80665 m/s², como nos exoesqueletos 1 e 2). As peças do exoesqueleto (Tabela 1 do artigo) só têm massa e tensor; a posição do centro de massa do apoio de braço não está no artigo.
 
 ## Propriedades de massa do CAD (_EXOFLEX-V1)
 
@@ -234,7 +234,7 @@ As massas e os centros dos componentes somam o total do relatório. Pela posiç�
 
 Tensor de inércia da montagem no centro de gravidade, em t·mm² (10⁻³ kg·m²): Ixx = 185,24, Iyy = 201,90, Izz = 86,29, Ixy = 10,46, Ixz = −14,30 e Iyz = 26,14. Momentos principais: 78,20, 185,39 e 209,84.
 
-Os dois módulos têm a mesma massa, mas os centros diferem 81,5 mm no plano XY: ou estão em poses diferentes, ou não são cópias espelhadas. Para o momento do peso do apoio de braço em torno de 584, faltam a posição do 584 neste referencial e a massa e o centro só da parte que gira com o braço.
+Os dois módulos têm a mesma massa, mas os centros diferem 81,5 mm no plano XY: ou estão em poses diferentes, ou não são cópias espelhadas. Para o momento do peso do apoio de braço em torno de 584, valem os cinco corpos da seção "Peso do apoio de braço", que só têm a parte que gira com o braço.
 
 ## Peso do apoio de braço (cinco corpos do CAD)
 
@@ -263,10 +263,16 @@ Momento do peso em torno de 584, M = −g Σ m d cos(Θ + a)/10⁶ (N·m, m em g
 - a mola fica com o centro do CAD, porque o comprimento dela no CAD não vale para a pose. Metade do alongamento (93 mm até o limite de subida) moveria o momento em no máximo 0,05 N·m.
 
 Comparações:
-- O membro superior dá 11,98 N·m na horizontal; com o apoio, 13,42 N·m. O AWM da Figura 16 (−78,22 cos Θ), na escala do artigo, dá 31,06 N·m, 2,3 vezes isso.
-- Somando o peso do apoio à AASM no ajuste da mola, k = 1,683 N/mm, x0 = 299,2 mm, R² = 0,912. Sem o peso, k = 1,448 N/mm, x0 = 323,6 mm, R² = 0,901.
+- O membro superior dá 11,97 N·m na horizontal; com o apoio, 13,41 N·m. O AWM da Figura 16 (−78,22 cos Θ), na escala do artigo, dá 31,06 N·m, 2,3 vezes isso.
+- Somando o peso do apoio à AASM no ajuste da mola, k = 1,682 N/mm, x0 = 299,2 mm, R² = 0,912. Sem o peso, k = 1,448 N/mm, x0 = 323,6 mm, R² = 0,901.
+- Inércia em torno de 584 (eixos paralelos com o Izz do CAD): 0,0213 kg·m² do apoio; com o membro (de Leva, raios transversais), 0,5153 kg·m².
 
 No CAD, a polia externa e o came são de aço, com aparência de náilon. Em náilon 6/6 (1,130 g/cm³, a densidade da capa), o conjunto teria 796,2 g e momento máximo de 0,91 N·m.
+
+Conferências independentes do referencial (`massa_apoio.py`):
+- came espelhado: o giro pelo centróide e o giro pelos eixos principais diferem 72,1°, contra 7,7° sem espelhar;
+- a mola, que não entrou na construção do referencial, cai sobre a mola 636 da Figura 14D: o eixo do CAD difere 1,7° dos traços e passa a 3,3 mm do centro deles;
+- com o q do CAD no lugar do ângulo da 14D, o pivô se desloca 0,81 mm; com o eixo x da peça como eixo maior, 3,23 mm. O momento máximo muda menos de 0,01 N·m nos dois casos.
 
 ## Figura 16 digitalizada
 

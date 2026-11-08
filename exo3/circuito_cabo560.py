@@ -17,8 +17,10 @@ incógnita, não uma equação. A solução é fechada:
     φ = ang(d) + atan2(S, R)
 
 O caminho inverso, com θ dado, também fecha: φ = θ + 90°, w = −(R u(φ) + C1 u(γ)),
-q = 180° − φ ∓ acos(w·u(φ)/C2) e S = (w − C2 u(180° − q))·u(θ). Dos dois ramos, o do
-sinal de cima devolve a pose do CAD; o outro dá S negativo.
+q = 180° − φ ∓ acos(w·u(φ)/C2) e S = (w − C2 u(180° − q))·u(θ). Na pose do CAD, o ramo
+do sinal de cima é o certo, e o outro dá S negativo. Acima de Θ ≈ −48,8°, os dois ramos
+têm S positivo, e acima de Θ ≈ 9,6° o certo passa a ser o de baixo: o ramo se escolhe
+por continuidade a partir da pose.
 
 Braço: b = C2 u(180° − q) + R u(φ), de O a T; β é o ângulo em O entre C2 e b, e a
 direção de b é 180° − q − β. Então

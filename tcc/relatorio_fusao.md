@@ -2,11 +2,11 @@
 
 Documento gerado: `TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.docx`, a partir de `TCC_apenas_exo1.docx`.
 
-Blocos do original: 305; 5 retirados (REMOVIDOS em gerar_tcc_fundido.py), os demais mantidos e na mesma ordem. Blocos novos: 386. Blocos do original com texto alterado: 119 (renumeração e as edições de EDICOES em gerar_tcc_fundido.py).
+Blocos do original: 305; 5 retirados (REMOVIDOS em gerar_tcc_fundido.py), os demais mantidos e na mesma ordem. Blocos novos: 465. Blocos do original com texto alterado: 119 (renumeração e as edições de EDICOES em gerar_tcc_fundido.py).
 
 ## Numeração
 
-Tabelas do original (antes → depois): 1 → 1, 2 → 7, 3 → 8, 4 → 9, 5 → 10, 6 → 11, 7 → 12, 8 → 13, 9 → 14, 10 → 15, 11 → 16.
+Tabelas do original (antes → depois): 1 → 1, 2 → 6, 3 → 7, 4 → 8, 5 → 9, 6 → 10, 7 → 11, 8 → 12, 9 → 13, 10 → 14, 11 → 15.
 
 Figuras do original (antes → depois): 1 → 1, 2 → 8, 3 → 9, 4 → 10, 5 → 11.
 
@@ -86,7 +86,7 @@ Depois: Wu, Wang e Du (2016) aplicam o princípio a um exoesqueleto de membro su
 
 Antes: O trabalho é teórico-computacional. O procedimento parte da reconstrução geométrica do mecanismo e chega ao torque estático que ele entrega em função do ângulo, passando pela identificação dos parâmetros que a patente não publica. Ele foi concebido para os geradores de torque da US 9.889.554 B2, da US 9.737.374 B2 e da EP 3 504 033 B1, mas, nesta etapa do trabalho, foi executado apenas para o gerador de torque da US 9.889.554 B2, ao qual se referem todas as equações deste capítulo e todos os resultados do capítulo 4.
 
-Depois: O trabalho é teórico-computacional. O procedimento parte da reconstrução geométrica do mecanismo e chega ao torque estático que ele entrega em função do ângulo, passando pela identificação dos parâmetros que a patente não publica. Ele foi concebido para os geradores de torque da US 9.889.554 B2, da US 9.737.374 B2 e da EP 3 504 033 B1, mas, nesta etapa do trabalho, foi executado na parte estática: para o gerador de torque da US 9.889.554 B2, ao qual se referem as seções 3.1, 4.1 e 5.1, para o dispositivo da EP 3 504 033 B1, ao qual se referem as seções 3.2, 4.2 e 5.2, e para o mecanismo de came da US 9.737.374 B2, ao qual se referem as seções 3.3, 4.3 e 5.3. As seções 3.1.9, 3.2.9 e 3.3.3 formulam os três modelos estáticos pelo princípio dos trabalhos virtuais.
+Depois: O trabalho é teórico-computacional. O procedimento parte da reconstrução geométrica do mecanismo e chega ao torque estático que ele entrega em função do ângulo, passando pela identificação dos parâmetros que a patente não publica. Ele foi concebido para os geradores de torque da US 9.889.554 B2, da US 9.737.374 B2 e da EP 3 504 033 B1, mas, nesta etapa do trabalho, foi executado na parte estática: para o gerador de torque da US 9.889.554 B2, ao qual se referem as seções 3.1, 4.1 e 5.1, para o dispositivo da EP 3 504 033 B1, ao qual se referem as seções 3.2, 4.2 e 5.2, e para o mecanismo de came da US 9.737.374 B2, ao qual se referem as seções 3.3, 4.3 e 5.3. As seções 3.1.9, 3.2.9 e 3.3.9 formulam os três modelos estáticos pelo princípio dos trabalhos virtuais.
 
 ### 12
 
@@ -218,7 +218,7 @@ Depois: 3.1.8 Torque gravitacional
 
 Antes: O torque estático do peso do conjunto braço–exoesqueleto em relação ao pivô é calculado de forma independente da cadeia do cabo: não usa K, Xpose nem h. O centro de massa (xcm, ycm), dado na pose de referência no referencial do desenho (Tabela 3), gira com o elo, e o desenho gira ainda α + 90° − θoff = −22,589° para alinhar sua vertical com a da configuração calibrada:
 
-Depois: O torque estático do peso do conjunto braço–exoesqueleto em relação ao pivô é calculado de forma independente da cadeia do cabo: não usa K, Xpose nem h. O centro de massa (xcm, ycm), dado na pose de referência no referencial do desenho (Tabela 8), gira com o elo, e o desenho gira ainda α + 90° − θoff = −22,589° para alinhar sua vertical com a da configuração calibrada:
+Depois: O torque estático do peso do conjunto braço–exoesqueleto em relação ao pivô é calculado de forma independente da cadeia do cabo: não usa K, Xpose nem h. O centro de massa (xcm, ycm), dado na pose de referência no referencial do desenho (Tabela 7), gira com o elo, e o desenho gira ainda α + 90° − θoff = −22,589° para alinhar sua vertical com a da configuração calibrada:
 
 ### 34
 
@@ -236,7 +236,7 @@ Depois: 3.1.10 Dados da patente e identificação dos parâmetros
 
 Antes: A referência de comparação é a curva torque × ângulo, Figura 56 do gerador de torque publicada na US 9.889.554 B2, da qual foram extraídos 29 pontos, registrados em θ* e listados na Tabela 4 na ordem da extração.
 
-Depois: A referência de comparação é a curva torque × ângulo, Figura 56 do gerador de torque publicada na US 9.889.554 B2, da qual foram extraídos 29 pontos, registrados em θ* e listados na Tabela 9 na ordem da extração.
+Depois: A referência de comparação é a curva torque × ângulo, Figura 56 do gerador de torque publicada na US 9.889.554 B2, da qual foram extraídos 29 pontos, registrados em θ* e listados na Tabela 8 na ordem da extração.
 
 ### 37
 
@@ -344,31 +344,31 @@ Depois: 4.1.1 Geometria reconstruída e propriedades de massa
 
 Antes: A reconstrução da vista em corte do gerador de torque forneceu as grandezas da Tabela 2. O fator de escala único, fixado pela razão entre o comprimento do elo distal reconstruído e o comprimento de segmento do indivíduo de referência, resultou em 0,870.
 
-Depois: A reconstrução da vista em corte do gerador de torque forneceu as grandezas da Tabela 7.
+Depois: A reconstrução da vista em corte do gerador de torque forneceu as grandezas da Tabela 6.
 
 ### 55
 
 Antes: Tabela 2 — Grandezas medidas na reconstrução em CAD
 
-Depois: Tabela 7 — Grandezas medidas na reconstrução em CAD
+Depois: Tabela 6 — Grandezas medidas na reconstrução em CAD
 
 ### 56
 
 Antes: A composição inercial do conjunto braço–exoesqueleto, obtida pelo transporte dos momentos ao eixo da junta, consta da Tabela 3. Os segmentos do membro seguem de Leva (1996) para o indivíduo masculino de referência, de 73,0 kg e 1,741 m, com o cotovelo estendido; as peças do exoesqueleto provêm do modelo em CAD.
 
-Depois: A composição inercial do conjunto braço–exoesqueleto, obtida pelo transporte dos momentos ao eixo da junta, consta da Tabela 8. Os segmentos do membro seguem de Leva (1996) para o indivíduo masculino de referência, de 73,0 kg e 1,741 m, com o cotovelo estendido; as peças do exoesqueleto provêm do modelo em CAD.
+Depois: A composição inercial do conjunto braço–exoesqueleto, obtida pelo transporte dos momentos ao eixo da junta, consta da Tabela 7. Os segmentos do membro seguem de Leva (1996) para o indivíduo masculino de referência, de 73,0 kg e 1,741 m, com o cotovelo estendido; as peças do exoesqueleto provêm do modelo em CAD.
 
 ### 57
 
 Antes: Tabela 3 — Propriedades de massa do conjunto braço–exoesqueleto
 
-Depois: Tabela 8 — Propriedades de massa do conjunto braço–exoesqueleto
+Depois: Tabela 7 — Propriedades de massa do conjunto braço–exoesqueleto
 
 ### 58
 
 Antes: A consistência interna da Tabela 3 foi conferida: Icm + M d2 = 0,127111 + 0,321116 = 0,448227 kg·m2, igual ao momento de inércia no eixo da junta, conforme a Equação (1); e M g d = 11,1619 N·m coincide com o pico do torque gravitacional calculado pela Equação (24) (seção 4.8). O momento de inércia destina-se à etapa dinâmica, não executada, e não participa do cálculo do torque estático.
 
-Depois: A consistência interna da Tabela 8 foi conferida: Icm + M d2 = 0,127111 + 0,321116 = 0,448227 kg·m2, igual ao momento de inércia no eixo da junta, conforme a Equação (1); e M g d = 11,1619 N·m coincide com o pico do torque gravitacional calculado pela Equação (24) (seção 4.1.8). O momento de inércia destina-se à etapa dinâmica, não executada, e não participa do cálculo do torque estático.
+Depois: A consistência interna da Tabela 7 foi conferida: Icm + M d2 = 0,127111 + 0,321116 = 0,448227 kg·m2, igual ao momento de inércia no eixo da junta, conforme a Equação (1); e M g d = 11,1619 N·m coincide com o pico do torque gravitacional calculado pela Equação (24) (seção 4.1.8). O momento de inércia destina-se à etapa dinâmica, não executada, e não participa do cálculo do torque estático.
 
 ### 59
 
@@ -380,13 +380,13 @@ Depois: 4.1.2 Dados extraídos da patente
 
 Antes: A Tabela 4 reúne os 29 pontos extraídos da curva da patente, na ordem da extração, com os ângulos correspondentes nas convenções da seção 3.3, o torque calculado pelo modelo com os parâmetros congelados e o resíduo. Os pontos cobrem θ* de 42,909° a 193,017°, isto é, elevação de 180,1° a 30,0°, com espaçamento irregular, de 2,87° a 8,03° em θ*. O maior valor extraído, 147,310 u.p., ocorre em θ* = 123,196° (elevação de 99,8°), e a média dos 29 valores é 81,840 u.p. Os valores são expressos em u.p. porque a figura de origem não declara unidade (seção 2.10).
 
-Depois: A Tabela 9 reúne os 29 pontos extraídos da curva da patente, na ordem da extração, com os ângulos correspondentes nas convenções da seção 3.1.3, o torque calculado pelo modelo com os parâmetros congelados e o resíduo. Os pontos cobrem θ* de 42,909° a 193,017°, isto é, elevação de 180,1° a 30,0°, com espaçamento irregular, de 2,87° a 8,03° em θ*; o ponto 29, em θ* = 42,909°, fica 0,008° abaixo do limite inferior da faixa de operação, θ* = 42,917° (seção 3.1.3). O maior valor extraído, 147,310 u.p., ocorre em θ* = 123,196° (elevação de 99,8°), e a média dos 29 valores é 81,840 u.p. Os valores são expressos em u.p. porque a figura de origem não declara unidade (seção 2.10).
+Depois: A Tabela 8 reúne os 29 pontos extraídos da curva da patente, na ordem da extração, com os ângulos correspondentes nas convenções da seção 3.1.3, o torque calculado pelo modelo com os parâmetros congelados e o resíduo. Os pontos cobrem θ* de 42,909° a 193,017°, isto é, elevação de 180,1° a 30,0°, com espaçamento irregular, de 2,87° a 8,03° em θ*; o ponto 29, em θ* = 42,909°, fica 0,008° abaixo do limite inferior da faixa de operação, θ* = 42,917° (seção 3.1.3). O maior valor extraído, 147,310 u.p., ocorre em θ* = 123,196° (elevação de 99,8°), e a média dos 29 valores é 81,840 u.p. Os valores são expressos em u.p. porque a figura de origem não declara unidade (seção 2.10).
 
 ### 61
 
 Antes: Tabela 4 — Pontos extraídos da curva da patente e torque calculado pelo modelo
 
-Depois: Tabela 9 — Pontos extraídos da curva da patente e torque calculado pelo modelo
+Depois: Tabela 8 — Pontos extraídos da curva da patente e torque calculado pelo modelo
 
 ### 62
 
@@ -398,13 +398,13 @@ Depois: 4.1.3 Verificação da cadeia de cálculo
 
 Antes: As verificações automáticas da seção 3.11 resultaram nos resíduos da Tabela 5, todos da ordem do erro de arredondamento da aritmética de ponto flutuante, exceto o do trabalho virtual, limitado pelo truncamento da diferença finita.
 
-Depois: As verificações automáticas da seção 3.1.12 resultaram nos resíduos da Tabela 10, todos da ordem do erro de arredondamento da aritmética de ponto flutuante, exceto o do trabalho virtual, limitado pelo truncamento da diferença finita.
+Depois: As verificações automáticas da seção 3.1.12 resultaram nos resíduos da Tabela 9, todos da ordem do erro de arredondamento da aritmética de ponto flutuante, exceto o do trabalho virtual, limitado pelo truncamento da diferença finita.
 
 ### 64
 
 Antes: Tabela 5 — Verificações da cadeia de cálculo (h = 22,701 mm)
 
-Depois: Tabela 10 — Verificações da cadeia de cálculo (h = 22,701 mm)
+Depois: Tabela 9 — Verificações da cadeia de cálculo (h = 22,701 mm)
 
 ### 65
 
@@ -434,13 +434,13 @@ Depois: 4.1.4 Parâmetros do modelo e reprodução da identificação
 
 Antes: A Tabela 6 reúne os parâmetros não publicados pela patente, com seus valores congelados e a situação de cada um nesta revisão.
 
-Depois: A Tabela 11 reúne os parâmetros não publicados pela patente, com seus valores congelados e a situação de cada um.
+Depois: A Tabela 10 reúne os parâmetros não publicados pela patente, com seus valores congelados e a situação de cada um.
 
 ### 70
 
 Antes: Tabela 6 — Parâmetros não publicados, origem e verificação
 
-Depois: Tabela 11 — Parâmetros não publicados, origem e verificação
+Depois: Tabela 10 — Parâmetros não publicados, origem e verificação
 
 ### 71
 
@@ -488,7 +488,7 @@ Depois: 4.1.5 Qualidade do ajuste à curva da patente
 
 Antes: A Figura 2 sobrepõe o torque calculado com os parâmetros congelados aos 29 pontos extraídos, e a Tabela 7 reúne os indicadores do ajuste. 
 
-Depois: A Figura 8 sobrepõe o torque calculado com os parâmetros congelados aos 29 pontos extraídos, e a Tabela 12 reúne os indicadores do ajuste. 
+Depois: A Figura 8 sobrepõe o torque calculado com os parâmetros congelados aos 29 pontos extraídos, e a Tabela 11 reúne os indicadores do ajuste. 
 
 ### 79
 
@@ -500,19 +500,19 @@ Depois: Figura 8 — Torque do cabo calculado (−τ) e pontos extraídos da pat
 
 Antes: Tabela 7 — Indicadores de qualidade do ajuste à curva da patente
 
-Depois: Tabela 12 — Indicadores de qualidade do ajuste à curva da patente
+Depois: Tabela 11 — Indicadores de qualidade do ajuste à curva da patente
 
 ### 81
 
 Antes: Os resíduos não se distribuem aleatoriamente (Tabela 8). Ordenados por θ*, eles formam três zonas extensas de sinal alternado, que reúnem 25 dos 29 pontos, seguidas de quatro pontos próximos ao ponto morto.
 
-Depois: Os resíduos não se distribuem aleatoriamente (Tabela 13). Ordenados por θ*, eles formam três zonas extensas de sinal alternado, que reúnem 25 dos 29 pontos, seguidas de quatro pontos próximos ao ponto morto.
+Depois: Os resíduos não se distribuem aleatoriamente (Tabela 12). Ordenados por θ*, eles formam três zonas extensas de sinal alternado, que reúnem 25 dos 29 pontos, seguidas de quatro pontos próximos ao ponto morto.
 
 ### 82
 
 Antes: Tabela 8 — Zonas de sinal dos resíduos (modelo − extraído), em ordem de θ*
 
-Depois: Tabela 13 — Zonas de sinal dos resíduos (modelo − extraído), em ordem de θ*
+Depois: Tabela 12 — Zonas de sinal dos resíduos (modelo − extraído), em ordem de θ*
 
 ### 83
 
@@ -530,13 +530,13 @@ Depois: 4.1.6 Comportamento da mola e do mecanismo
 
 Antes: A Tabela 9 caracteriza o funcionamento do mecanismo na faixa de operação, de θ* = 42,917° a 193,017°, que corresponde a 150,1° de elevação anatômica, de 30° a 180,1°. As grandezas foram calculadas em malha de 0,001° com os parâmetros congelados.
 
-Depois: A Tabela 14 caracteriza o funcionamento do mecanismo na faixa de operação, de θ* = 42,917° a 193,017°, que corresponde a 150,1° de elevação anatômica, de 30° a 180,1°. As grandezas foram calculadas em malha de 0,001° com os parâmetros congelados.
+Depois: A Tabela 13 caracteriza o funcionamento do mecanismo na faixa de operação, de θ* = 42,917° a 193,017°, que corresponde a 150,1° de elevação anatômica, de 30° a 180,1°. As grandezas foram calculadas em malha de 0,001° com os parâmetros congelados.
 
 ### 86
 
 Antes: Tabela 9 — Grandezas do mecanismo na faixa de operação
 
-Depois: Tabela 14 — Grandezas do mecanismo na faixa de operação
+Depois: Tabela 13 — Grandezas do mecanismo na faixa de operação
 
 ### 87
 
@@ -590,25 +590,25 @@ Depois: Figura 10 — RMSE contra os pontos extraídos em função de h, com K c
 
 Antes: O menor RMSE, 1,8270 u.p. (R2 = 0,99840), ocorre em h = 22,735 mm, a 0,034 mm de HCAL, que ocupa a 14ª posição entre os 10.403 valores, com RMSE 0,19% maior. Os platôs constam da Tabela 10. O RMSE ultrapassa 2 vezes o mínimo em h = 21,825 e 23,640 mm e 10 vezes o mínimo em h = 17,570 e 27,900 mm.
 
-Depois: O menor RMSE, 1,8270 u.p. (R2 = 0,99840), ocorre em h = 22,735 mm, a 0,034 mm de HCAL, que ocupa a 14ª posição entre os 10.402 valores, com RMSE 0,19% maior. Os platôs constam da Tabela 15. O RMSE ultrapassa 2 vezes o mínimo em h = 21,825 e 23,640 mm e 10 vezes o mínimo em h = 17,570 e 27,900 mm.
+Depois: O menor RMSE, 1,8270 u.p. (R2 = 0,99840), ocorre em h = 22,735 mm, a 0,034 mm de HCAL, que ocupa a 14ª posição entre os 10.402 valores, com RMSE 0,19% maior. Os platôs constam da Tabela 14. O RMSE ultrapassa 2 vezes o mínimo em h = 21,825 e 23,640 mm e 10 vezes o mínimo em h = 17,570 e 27,900 mm.
 
 ### 96
 
 Antes: Tabela 10 — Platôs de RMSE com K congelado
 
-Depois: Tabela 15 — Platôs de RMSE com K congelado
+Depois: Tabela 14 — Platôs de RMSE com K congelado
 
 ### 97
 
 Antes: A validade física independe da curva extraída. O critério de fechamento foi atendido em todos os 10.403 valores de h, e o de trabalho virtual também, com resíduo máximo de 7,4 × 10−8 mm/rad na grade inteira. O critério decisivo é a tração: com Xpose congelada, o aumento de h aumenta o curso do cabo — de 28,942 mm em h = 15 mm para 42,435 mm em h = 22,701 mm e 106,573 mm em h = 60 mm — e rebaixa a extensão mínima, que ocorre sempre em θ* = 42,917°, onde a demanda gravitacional é mínima, de apenas 1,2% do pico. A extensão mínima se anula na fronteira de tração, h = 32,886 mm. Os valores viáveis formam o intervalo contíguo de 8,000 mm, borda inferior da grade, a 32,885 mm, com 4.979 valores. O valor documental HCAD = 34,785 mm fica fora desse intervalo: com Xpose congelada, o cabo afrouxaria no início da faixa, com extensão mínima de −2,257 mm, e o RMSE seria de 43,48 u.p. (R2 = 0,093). A Tabela 11 reúne os valores notáveis de h.
 
-Depois: Os critérios de validade física não usam os pontos extraídos, embora o de tração dependa da extensão na pose, identificada contra eles. O critério de fechamento foi atendido em todos os 10.402 valores de h, e o de trabalho virtual também, com resíduo máximo de 7,4 × 10−8 mm/rad na grade inteira. O critério decisivo é a tração: com Xpose congelada, o aumento de h aumenta o curso do cabo — de 28,942 mm em h = 15 mm para 42,435 mm em h = 22,701 mm e 106,573 mm em h = 60 mm — e rebaixa a extensão mínima, que ocorre sempre em θ* = 42,917°, onde a demanda gravitacional é mínima, de apenas 1,2% do pico. A extensão mínima se anula na fronteira de tração, h = 32,886 mm. Os valores viáveis formam o intervalo contíguo de 8,000 mm, borda inferior da grade, a 32,885 mm, com 4.979 valores. A cota do CAD, HCAD = 34,785 mm fica fora desse intervalo: com Xpose congelada, o cabo afrouxaria no início da faixa, com extensão mínima de −2,257 mm, e o RMSE seria de 43,48 u.p. (R2 = 0,093). A Tabela 16 reúne os valores notáveis de h.
+Depois: Os critérios de validade física não usam os pontos extraídos, embora o de tração dependa da extensão na pose, identificada contra eles. O critério de fechamento foi atendido em todos os 10.402 valores de h, e o de trabalho virtual também, com resíduo máximo de 7,4 × 10−8 mm/rad na grade inteira. O critério decisivo é a tração: com Xpose congelada, o aumento de h aumenta o curso do cabo — de 28,942 mm em h = 15 mm para 42,435 mm em h = 22,701 mm e 106,573 mm em h = 60 mm — e rebaixa a extensão mínima, que ocorre sempre em θ* = 42,917°, onde a demanda gravitacional é mínima, de apenas 1,2% do pico. A extensão mínima se anula na fronteira de tração, h = 32,886 mm. Os valores viáveis formam o intervalo contíguo de 8,000 mm, borda inferior da grade, a 32,885 mm, com 4.979 valores. A cota do CAD, HCAD = 34,785 mm fica fora desse intervalo: com Xpose congelada, o cabo afrouxaria no início da faixa, com extensão mínima de −2,257 mm, e o RMSE seria de 43,48 u.p. (R2 = 0,093). A Tabela 15 reúne os valores notáveis de h.
 
 ### 98
 
 Antes: Tabela 11 — Valores notáveis de h na varredura com K congelado
 
-Depois: Tabela 16 — Valores notáveis de h na varredura com K congelado
+Depois: Tabela 15 — Valores notáveis de h na varredura com K congelado
 
 ### 99
 
@@ -632,7 +632,7 @@ Depois: 4.1.8 Confronto entre o torque do cabo e o torque gravitacional
 
 Antes: O torque gravitacional do conjunto, calculado pela Equação (24) de forma independente da cadeia do cabo, atinge o máximo de 11,1619 N·m na elevação de 89,44°, o que corrobora a previsão da seção 2.1, de momento gravitacional máximo com o segmento perpendicular à gravidade. O desvio de 0,56° em relação a 90° indica que a linha que une o pivô ao centro de massa do conjunto forma esse ângulo com a direção do braço adotada na convenção da patente. O valor do pico coincide com M g d da Tabela 3. O módulo da Equação (24) oculta a troca de sentido do torque em θ* = 43,579° (elevação de 179,44°), que afeta apenas os 0,66° iniciais da faixa, com torque inferior a 0,13 N·m.
 
-Depois: O torque gravitacional do conjunto, calculado pela Equação (24) de forma independente da cadeia do cabo, atinge o máximo de 11,1619 N·m na elevação de 89,44°, o que corrobora a previsão da seção 2.1, de momento gravitacional máximo com o segmento perpendicular à gravidade. O desvio de 0,56° em relação a 90° indica que a linha que une o pivô ao centro de massa do conjunto forma esse ângulo com a direção do braço adotada na convenção da patente. O valor do pico coincide com M g d da Tabela 8. O módulo da Equação (24) oculta a troca de sentido do torque em θ* = 43,579° (elevação de 179,44°), que afeta apenas os 0,66° iniciais da faixa, com torque inferior a 0,13 N·m.
+Depois: O torque gravitacional do conjunto, calculado pela Equação (24) de forma independente da cadeia do cabo, atinge o máximo de 11,1619 N·m na elevação de 89,44°, o que corrobora a previsão da seção 2.1, de momento gravitacional máximo com o segmento perpendicular à gravidade. O desvio de 0,56° em relação a 90° indica que a linha que une o pivô ao centro de massa do conjunto forma esse ângulo com a direção do braço adotada na convenção da patente. O valor do pico coincide com M g d da Tabela 7. O módulo da Equação (24) oculta a troca de sentido do torque em θ* = 43,579° (elevação de 179,44°), que afeta apenas os 0,66° iniciais da faixa, com torque inferior a 0,13 N·m.
 
 ### 103
 

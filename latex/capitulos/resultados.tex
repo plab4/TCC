@@ -857,18 +857,197 @@ Os dois mecanismos também distribuem a assistência de modo distinto em relaç�
 
 \section{Exoesqueleto 3}\label{sec:4.3}
 
-Esta seção apresenta os resultados das etapas das seções~\ref{sec:3.3.2} a \ref{sec:3.3.7}, aplicadas ao mecanismo da US 9.737.374 B2. Salvo indicação em contrário, os números foram obtidos com a geometria do CAD, R20 = 32,035 mm e o giro do came medido na Figura 14D. Os números e as figuras são produzidos pelo script tcc\_resultados\_exo3.py.
+Esta seção apresenta os resultados das etapas das seções~\ref{sec:3.3.1} a \ref{sec:3.3.12}, aplicadas ao mecanismo da US 9.737.374 B2. Salvo indicação em contrário, os números foram obtidos com a geometria do CAD, R20 = 32,035 mm, o giro do came medido na Figura 14D e a escala de 30 N·m do artigo de \textcite{okabe2026}. As etapas dinâmicas da seção~\ref{sec:3.3.13} não foram executadas. Os números e as figuras são produzidos pelo script tcc\_resultados\_exo3.py.
 
-\subsection{Cinemática do cabo de ancoragem}\label{sec:4.3.1}
+\subsection{Geometria reconstruída e propriedades de massa}\label{sec:4.3.1}
 
-A Figura~\ref{fig:vao-s-braco-momento}a mostra o vão S e o braço de momento do cabo 560 ao longo de Θ, da pose do CAD (Θ = −88,47°) até o limite de subida. O vão diminui à medida que o braço sobe e se anula em Θ = 22,01° (q = −48,75°), quando |AD| = R: com esta ancoragem, o braço não sobe além disso, embora a Figura 16 da US 9.737.374 B2 vá até 30°. O braço de momento cresce de 26,04 mm na pose para 63,26 mm em Θ = 0 e fica positivo em toda a faixa; ele só se anularia em Θ = −128,5°, com o cabo alinhado a C\textsubscript{1}. A Tabela~\ref{tab:circuito-came-transmissao-angulos} traz os valores nos ângulos marcados na Figura 16 da US 9.737.374 B2. A rotação das polias tirada do enrolamento do cabo 560 confere com dθ\textsubscript{p}/dΘ da Equação~\eqref{eq:64}, com diferença de 2,2 × 10\textsuperscript{−7}.
+A Tabela~\ref{tab:grandezas-circuito-cabo-ancoragem} reúne as grandezas medidas no CAD na pose de referência e as que delas derivam, com a origem de cada uma (seção~\ref{sec:3.3.1}).
+
+\begin{table}[!htbp]
+\estilotabela{\small}
+\caption{Grandezas do circuito do cabo de ancoragem na pose do CAD}\label{tab:grandezas-circuito-cabo-ancoragem}
+\begin{tabularx}{\textwidth}{@{}>{\hsize=1.709\hsize\raggedright\arraybackslash}X>{\hsize=0.534\hsize\centering\arraybackslash}X>{\hsize=0.641\hsize\raggedright\arraybackslash}X>{\hsize=0.534\hsize\centering\arraybackslash}X>{\hsize=1.581\hsize\raggedright\arraybackslash}X@{}}
+\toprule
+\centering\textbf{Grandeza} & \centering\textbf{Símbolo} & \centering\textbf{Valor} & \centering\textbf{Unidade} & \centering\textbf{Origem} \tabularnewline
+\midrule
+Vetor de A a O, fixo no suporte & C\textsubscript{1} & 70,711 & mm & CAD \\
+Vetor de O a D, solidário ao chassi & C\textsubscript{2} & 90,587 & mm & CAD \\
+Raio da polia primária & R & 26,443 & mm & CAD \\
+Vão livre do cabo 560 & S & 139,575 & mm & CAD \\
+Distância de O a T & b & 78,292 & mm & CAD \\
+Direção de C\textsubscript{1} & γ & 61,26 & graus & CAD \\
+Ângulo entre C\textsubscript{2} e a horizontal & q & 61,724 & graus & CAD \\
+Direção de R & φ & 352,869 & graus & CAD \\
+Direção de S & θ & 262,869 & graus & CAD \\
+Ângulo em O entre C\textsubscript{2} e b & β & 15,979 & graus & CAD \\
+Defasagem entre C\textsubscript{2} e o eixo maior &  & 26,741 & graus & CAD \\
+Ângulo do apoio de braço na pose & Θ & −88,465 & graus & Derivada, Equação~\eqref{eq:60} \\
+Raio de referência do came & R20 & 32,035 & mm & Documental, Figuras 14C e 14D \\
+\bottomrule
+\end{tabularx}
+\fonte{elaborada pelo autor.}
+\end{table}
+
+Com esses valores, o fechamento tem resíduo de 0,0006 mm, a solução fechada devolve S e φ da tabela, e |C\textsubscript{2} u(180° − q) + R u(φ)| = 78,291 mm, que é o b medido. Com O na origem, A = (−34,000; −62,000) mm, D = (−42,913; 79,778) mm e T = (−16,674; 76,495) mm.
+
+Na imagem da folha 21, a distância de 584 a 572 dá 152,6 px na Figura 14C e 152,3 px na 14D, e, com C\textsubscript{2} = 90,587 mm, a escala do desenho é de 1,68 px/mm. Na Figura 14D, q = 61,19°, contra 61,724° no CAD: a pose do CAD é a da Figura 14D. Na 14C, q = −36,99°, isto é, Θ = 10,25°. Nas duas, a reta de 572 a 632, ao longo do chassi, fica 22,1° e 21,8° além de C\textsubscript{2}, no mesmo sentido da defasagem do CAD, e o ponto A do CAD cai a 0,6 mm e a 0,3 mm do 562 desenhado.
+
+O came desenhado nas duas figuras é o contorno externo da Figura 15A. Levado ao referencial da 15B e ajustado ao desenho por escala e giro, ele fica a 0,05 px do traço nas duas figuras, com R20 = 31,96 mm na Figura 14C e 32,11 mm na 14D; adotou-se R20 = 32,035 mm, isto é, R20/R = 1,21. Do came da 14C para o da 14D, o giro absoluto medido é de 61,3°, e a cinemática do cabo 560 com A e D desenhados prevê 76,8°: a diferença, 15,5°, equivale a 7 mm de cabo na primária, e os dois desenhos não são exatamente coerentes entre si.
+
+\begin{table}[!htbp]
+\estilotabela{\small}
+\caption{Propriedades de massa do conjunto que gira com o braço em relação ao pivô 584}\label{tab:propriedades-massa-conjunto-que-gira}
+\begin{tabularx}{\textwidth}{@{}>{\hsize=1.474\hsize\raggedright\arraybackslash}X>{\hsize=0.833\hsize\centering\arraybackslash}X>{\hsize=0.769\hsize\centering\arraybackslash}X>{\hsize=0.769\hsize\centering\arraybackslash}X>{\hsize=1.077\hsize\centering\arraybackslash}X>{\hsize=1.077\hsize\centering\arraybackslash}X@{}}
+\toprule
+\centering\textbf{Corpo} & \centering\textbf{Massa (kg)} & \centering\textbf{d (mm)} & \centering\textbf{a (graus)} & \centering\textbf{I\textsubscript{cm} (kg·m\textsuperscript{2})} & \centering\textbf{I\textsubscript{O} (kg·m\textsuperscript{2})} \tabularnewline
+\midrule
+Braço & 2,2440 & 162,6 & 0,0 & 0,012885 & 0,072212 \\
+Antebraço & 1,3410 & 405,1 & 0,0 & 0,006855 & 0,226928 \\
+Mão & 0,5050 & 619,6 & 0,0 & 0,000988 & 0,194858 \\
+Membro superior & 4,0900 & 298,5 & 0,0 & 0,129482 & 0,493998 \\
+Capa & 0,5636 & 122,3 & 8,1 & 0,003771 & 0,012207 \\
+Mola & 0,1046 & 100,5 & −0,6 & 0,000425 & 0,001482 \\
+Polia interna (630) & 0,0160 & 250,0 & 12,7 & 0,000002 & 0,001000 \\
+Polia externa (564) & 0,3730 & 90,6 & 26,7 & 0,000141 & 0,003202 \\
+Came 570 & 0,4053 & 90,4 & 34,6 & 0,000117 & 0,003429 \\
+Apoio de braço & 1,4625 & 102,8 & 18,0 & 0,005859 & 0,021320 \\
+Conjunto & 5,5525 & 245,8 & 1,9 & 0,179833 & 0,515318 \\
+\bottomrule
+\end{tabularx}
+\fonte{elaborada pelo autor, com dados de \textcite{okabe2026}, de \textcite{deleva1996} e do modelo em CAD.}
+\nota{d é a distância do centro de massa ao pivô 584 e a, o ângulo dele com o eixo maior, positivo acima. O centro do came está na pose do CAD.}
+\end{table}
+
+A consistência foi conferida pela Equação~\eqref{eq:01}: para o conjunto, I\textsubscript{cm} + M d\textsuperscript{2} = 0,179833 + 0,335485 = 0,515318 kg·m\textsuperscript{2}. A amplitude do torque gravitacional é M g d = 11,97 N·m para o membro e 13,38 N·m para o conjunto; com o indivíduo das seções~\ref{sec:3.1.2} e \ref{sec:3.2.2}, o membro daria 10,55 N·m.
+
+No CAD, o apoio de braço tem 1,462 kg. A capa, de náilon 6/6, tem 0,564 kg, e a polia externa e o came, de aço, 0,778 kg juntos. O pivô ficou em (−112,07; 3,61) mm no referencial da peça, e o centro de massa do apoio, a 102,8 mm de O e 18,0° acima do eixo maior, desloca o do conjunto em 1,95° em relação ao eixo. As peças caem sobre os desenhos: a distância entre os pinos 572 e 632 é de 163,6 mm no CAD, contra 165,0 mm na Figura 14D; o R20 do came do CAD sai de 31,65 a 32,01 mm pela área, pela giração e pela caixa envolvente; e o referencial da Figura 15B fica a −21,5° da reta de 572 a 632 no CAD e a −23,0° na Figura 14D.
+
+\subsection{Dados extraídos da patente}\label{sec:4.3.2}
+
+Da Figura 16 da US 9.737.374 B2 foram extraídos 106 pontos de cada curva, um por grau de Θ = −75° a 30°; a RM foi mantida em 101 deles, onde fecha com AASM + AWM com diferença de no máximo 0,94 unidade. A AASM tem máximo de 75,55 em Θ = 1° e fica acima de 95\% dele de −20° a 9°, o trecho de sustentação quase constante que a patente atribui à Z11; ela vale 16,25 em −75° e 20,78 em 30°. A AWM é um cosseno puro, −78,22 cos Θ, e AASM/|AWM| vale 0,96 na horizontal. A Tabela~\ref{tab:pontos-extraidos-figura-us} traz os valores em ângulos de 15 em 15 graus e no máximo da AASM.
+
+\begin{table}[!htbp]
+\estilotabela{\small}
+\caption{Pontos extraídos da Figura 16 da US 9.737.374 B2}\label{tab:pontos-extraidos-figura-us}
+\begin{tabularx}{\textwidth}{@{}>{\hsize=0.748\hsize\centering\arraybackslash}X>{\hsize=0.962\hsize\centering\arraybackslash}X>{\hsize=0.962\hsize\centering\arraybackslash}X>{\hsize=0.962\hsize\centering\arraybackslash}X>{\hsize=1.368\hsize\centering\arraybackslash}X@{}}
+\toprule
+\centering\textbf{Θ (graus)} & \centering\textbf{AASM} & \centering\textbf{AWM} & \centering\textbf{RM} & \centering\textbf{AASM na escala do artigo (N·m)} \tabularnewline
+\midrule
+−75 & 16,25 & −21,41 & sem leitura & 6,45 \\
+−60 & 23,28 & −39,06 & −15,78 & 9,24 \\
+−45 & 34,92 & −55,47 & −19,84 & 13,87 \\
+−30 & 61,25 & −67,66 & −6,25 & 24,32 \\
+−15 & 73,91 & −75,78 & −1,72 & 29,35 \\
+0 & 75,47 & −78,28 & −2,97 & 29,97 \\
+1 & 75,55 & −78,36 & −2,97 & 30,00 \\
+15 & 61,41 & −75,78 & −14,22 & 24,39 \\
+30 & 20,78 & −67,66 & sem leitura & 8,25 \\
+\bottomrule
+\end{tabularx}
+\fonte{elaborada pelo autor.}
+\nota{AASM, AWM e RM sem unidade, como na figura; RM sem leitura onde não fecha com AASM + AWM.}
+\end{table}
+
+Do came, a Figura 15B dá o perfil do fundo do canal (Figura~\ref{fig:fundo-canal-came-extraido}a). Na Z10, o raio fica entre 0,994 e 1,004 R20, constante como pede R20 = R21; na Z11, cai continuamente de 0,961 para 0,663 R20, com R23 < R22; e a Z12 é reta, com desvio máximo de 0,003 R20. Na Z10, r/ρ fica entre 0,999 e 1,000; na Z11, entre 0,894 e 0,974; e na Z12, entre 0,670 e 1,000 (Figura~\ref{fig:fundo-canal-came-extraido}b): usar ρ no lugar de r superestimaria o momento da mola em até 12\% na Z11 e em até 49\% na Z12. Das Figuras 14C e 14D saíram as poses, a escala do desenho e o giro do came (seção~\ref{sec:4.3.1}).
+
+\subsection{Verificação da cadeia de cálculo}\label{sec:4.3.3}
+
+As verificações da seção~\ref{sec:3.3.12} resultaram nos valores da Tabela~\ref{tab:verificacoes-cadeia-calculo-modelo-levitate}. Os resíduos da cadeia de cálculo são da ordem do erro de arredondamento, exceto os do trabalho virtual e do cabo 634, limitados pelo truncamento da diferença finita, e os do fechamento com o CAD, limitados pela resolução da medida. O caminho inverso devolve q por um dos dois ramos: acima de Θ = −48,8°, os dois têm S positivo, e o certo se escolhe por continuidade. Nas peças do apoio de braço, as distâncias entre eixos diferem do desenho em até 1,36 mm, os ângulos em menos de 2°, e o eixo da mola passa a 3,3 mm do centro dos traços da mola 636; o came espelhado não fecha.
+
+\begin{table}[!htbp]
+\estilotabela{\small}
+\caption{Verificações da cadeia de cálculo do modelo da Levitate}\label{tab:verificacoes-cadeia-calculo-modelo-levitate}
+\begin{tabularx}{\textwidth}{@{}>{\hsize=1.359\hsize\raggedright\arraybackslash}X>{\hsize=0.641\hsize\centering\arraybackslash}X@{}}
+\toprule
+\centering\textbf{Verificação} & \centering\textbf{Resultado} \tabularnewline
+\midrule
+Fechamento com as grandezas do CAD, Equação~\eqref{eq:61} & 5,9 × 10\textsuperscript{−4} mm \\
+S e φ da solução fechada contra o CAD, Equação~\eqref{eq:62} & 1,6 × 10\textsuperscript{−5} mm; 2,4 × 10\textsuperscript{−4}° \\
+b e β do triângulo O, D, T contra o CAD, Equação~\eqref{eq:63} & 4,6 × 10\textsuperscript{−4} mm; 9,8 × 10\textsuperscript{−5}° \\
+Duas formas do braço de momento, Equação~\eqref{eq:64} & 2,1 × 10\textsuperscript{−13} mm \\
+Caminho inverso: q recuperado de θ & 5,8 × 10\textsuperscript{−11}° \\
+Trabalho virtual: τ/F\textsubscript{s} contra −dx/dΘ, Equação~\eqref{eq:69} & 1,8 × 10\textsuperscript{−5}, relativo \\
+Rotação das polias pelo enrolamento contra dθ\textsubscript{p}/dΘ, Equação~\eqref{eq:69} & 2,2 × 10\textsuperscript{−7} \\
+Cabo 634 na geometria de teste: dℓ/dθ\textsubscript{p} contra −r & 3,2 × 10\textsuperscript{−5} R20 \\
+Tensor de inércia: transporte do centro de massa à origem & 5,5 × 10\textsuperscript{−4}, relativo \\
+Polias como cilindros cheios: volume & 4,2 × 10\textsuperscript{−9}, relativo \\
+Ponto A do CAD contra o 562 desenhado, Figuras 14C e 14D & 0,63 e 0,33 mm \\
+Distância entre os pinos 572 e 632, CAD contra Figura 14D & 163,65 e 165,00 mm \\
+R20 do came do CAD por área, giração e caixa, contra as figuras & 31,65, 31,67 e 32,01 mm; 32,035 mm \\
+Giro do came em relação à reta de 572 a 632, CAD contra Figura 14D & −21,5° e −23,0° \\
+Came: giro pelo centróide contra giro pelos eixos principais & 7,7°; espelhado, 72,1° \\
+Eixo da mola do CAD sobre a mola 636 da Figura 14D & 1,7° e 3,3 mm \\
+Figura 16 da US 9.737.374 B2: RM contra AASM + AWM & 0,94 unidade \\
+\bottomrule
+\end{tabularx}
+\fonte{elaborada pelo autor.}
+\nota{o fechamento com o CAD é limitado pela resolução de três casas decimais da medida; o trabalho virtual e o cabo 634, pelo truncamento da diferença finita.}
+\end{table}
+
+\subsection{Parâmetros do modelo e identificação da mola}\label{sec:4.3.4}
+
+A Tabela~\ref{tab:parametros-nao-publicados-mecanismo} resume a situação dos parâmetros que a patente não publica, no formato das Tabelas~\ref{tab:parametros-nao-publicados-origem} e \ref{tab:parametros-nao-publicados-origem-identificabilidade}.
+
+\begin{table}[!htbp]
+\estilotabela{\small}
+\caption{Parâmetros não publicados do mecanismo da Levitate, origem e identificabilidade}\label{tab:parametros-nao-publicados-mecanismo}
+\begin{tabularx}{\textwidth}{@{}>{\hsize=1.229\hsize\raggedright\arraybackslash}X>{\hsize=0.566\hsize\centering\arraybackslash}X>{\hsize=0.801\hsize\centering\arraybackslash}X>{\hsize=1.068\hsize\raggedright\arraybackslash}X>{\hsize=1.335\hsize\raggedright\arraybackslash}X@{}}
+\toprule
+\centering\textbf{Parâmetro} & \centering\textbf{Símbolo} & \centering\textbf{Valor adotado} & \centering\textbf{Origem} & \centering\textbf{Situação} \tabularnewline
+\midrule
+Rigidez da mola & k & 1,448 N/mm & Identificada por ajuste, na escala do artigo & Sem valor físico, porque a ordenada da patente não tem unidade; 1,682 N/mm com o peso do apoio \\
+Alongamento da mola na pose do CAD & x\textsubscript{0} & 323,6 mm & Identificado por ajuste & 299,2 mm com o peso do apoio; o comprimento da mola no CAD não corresponde à pose \\
+Escala da ordenada da curva da patente & c & 30 N·m no máximo da AASM & Literatura \cite{okabe2026} & Hipótese, não medida do dispositivo \\
+Raio de referência do came & R20 & 32,035 mm & Medido nas Figuras 14C e 14D & CAD de 31,65 a 32,01 mm; a conferir na peça \\
+Giro do came em relação à primária &  & Como na Figura 14D & Documental (desenho) & As Figuras 14C e 14D discordam em 15,5°; varrido na seção~\ref{sec:4.3.7} \\
+Posição e raio da polia 630 & L; λ; r\textsubscript{630} & L infinito, de 572 para 632 & Hipótese, por decisão do autor & Não representada; numa geometria de teste, muda r em até 0,031 R20 \\
+Posição do pivô 584 no referencial da peça & O & (−112,07; 3,61) mm & Derivada da Figura 14D e de C\textsubscript{2} & Com outras escolhas, desloca até 3,2 mm e muda o momento máximo do peso em menos de 0,01 N·m \\
+Material da polia externa e do came &  & Aço & CAD & Aparência de náilon no CAD; em náilon, o apoio teria 0,796 kg \\
+\bottomrule
+\end{tabularx}
+\fonte{elaborada pelo autor.}
+\end{table}
+
+Com o giro do came da Figura 14D, o ajuste da Equação~\eqref{eq:70} nos 97 pontos de Θ = −75° a 21°, abaixo do limite de subida, dá k = 1,448 N/mm e x\textsubscript{0} = 323,6 mm; a mola trabalha de 464 N em −75° a 335 N em 21°. Com o peso do apoio de braço somado ao alvo, k = 1,682 N/mm e x\textsubscript{0} = 299,2 mm. A Tabela~\ref{tab:mola-linear-ajustada-curva} resume esses ajustes e o do melhor giro da seção~\ref{sec:4.3.7}.
+
+\begin{table}[!htbp]
+\estilotabela{\footnotesize}
+\caption{Mola linear ajustada à curva AASM da Figura 16 da US 9.737.374 B2, na escala de 30 N·m}\label{tab:mola-linear-ajustada-curva}
+\begin{tabularx}{\textwidth}{@{}>{\hsize=1.421\hsize\raggedright\arraybackslash}X>{\hsize=0.748\hsize\raggedright\arraybackslash}X>{\hsize=0.748\hsize\raggedright\arraybackslash}X>{\hsize=0.972\hsize\raggedright\arraybackslash}X>{\hsize=0.598\hsize\raggedright\arraybackslash}X>{\hsize=1.271\hsize\raggedright\arraybackslash}X>{\hsize=1.241\hsize\raggedright\arraybackslash}X@{}}
+\toprule
+\centering\textbf{Ajuste} & \centering\textbf{k (N/mm)} & \centering\textbf{x\textsubscript{0} (mm)} & \centering\textbf{F\textsubscript{s} na pose (N)} & \centering\textbf{R²} & \centering\textbf{Erro quadrático médio (N·m)} & \centering\textbf{Erro máximo (N·m)} \tabularnewline
+\midrule
+Came como na Figura 14D & 1,448 & 323,6 & 468 & 0,901 & 2,68 & 4,99 \\
+Came como na Figura 14D, com o peso do apoio & 1,682 & 299,2 & 503 & 0,912 & 2,57 & 4,73 \\
+Came girado de −49° & 6,046 & 121,2 & 733 & 0,953 & 1,85 & 3,22 \\
+\bottomrule
+\end{tabularx}
+\fonte{elaborada pelo autor.}
+\end{table}
+
+\subsection{Qualidade do ajuste à curva da patente}\label{sec:4.3.5}
+
+Com o giro do came da Figura 14D, o ajuste tem R² = 0,901, erro quadrático médio de 2,68 N·m e erro máximo de 4,99 N·m (Figura~\ref{fig:curva-aasm-figura-us}a); com o peso do apoio somado ao alvo, R² = 0,912. A força que reproduziria a curva AASM não é linear no alongamento (Figura~\ref{fig:curva-aasm-figura-us}b): com esse giro, uma mola linear acompanha a forma geral da curva, mas não o início da subida nem o patamar. Como na seção~\ref{sec:4.1.5}, o ajuste contra a mesma curva reproduz a forma sem constituir validação independente.
+
+\begin{figure}[!htbp]
+\centering
+\caption{Curva AASM da Figura 16 da US 9.737.374 B2 contra o modelo com mola linear e giro do came como na Figura 14D (a) e força de mola que reproduziria a curva (b)}\label{fig:curva-aasm-figura-us}
+\includegraphics[width=0.97\textwidth]{curva-aasm-figura-us.png}
+\fonte{elaborada pelo autor.}
+\end{figure}
+
+As marcas das zonas não entram no ajuste e servem de conferência. Com esse giro, a Z11 do modelo tem largura parecida com a da marca da patente, 28,4° contra 27,8°, mas cai 22,9° abaixo dela (seção~\ref{sec:4.3.6}): a mola ajustada compensa no conjunto a posição das zonas, que o modelo não reproduz com o came desenhado.
+
+\subsection{Comportamento da mola e do mecanismo}\label{sec:4.3.6}
+
+A Figura~\ref{fig:vao-s-braco-momento}a mostra o vão S e o braço de momento do cabo 560 ao longo de Θ, da pose do CAD (Θ = −88,47°) até o limite de subida. O vão diminui à medida que o braço sobe e se anula em Θ = 22,01° (seção~\ref{sec:3.3.7}). O braço de momento cresce de 26,04 mm na pose para 63,26 mm em Θ = 0 e fica positivo em toda a faixa. A Tabela~\ref{tab:circuito-came-transmissao-angulos} traz os valores nos ângulos marcados na Figura 16 da US 9.737.374 B2.
 
 \begin{table}[!htbp]
 \estilotabela{\footnotesize}
 \caption{Circuito, came e transmissão nos ângulos marcados na Figura 16 da US 9.737.374 B2}\label{tab:circuito-came-transmissao-angulos}
 \begin{tabularx}{\textwidth}{@{}>{\hsize=0.769\hsize\raggedright\arraybackslash}X>{\hsize=1.624\hsize\raggedright\arraybackslash}X>{\hsize=0.769\hsize\raggedright\arraybackslash}X>{\hsize=1.282\hsize\raggedright\arraybackslash}X>{\hsize=0.769\hsize\centering\arraybackslash}X>{\hsize=0.769\hsize\raggedright\arraybackslash}X>{\hsize=1.026\hsize\raggedright\arraybackslash}X>{\hsize=0.991\hsize\raggedright\arraybackslash}X@{}}
 \toprule
-\centering\textbf{Θ (graus)} & \centering\textbf{Ponto} & \centering\textbf{S (mm)} & \centering\textbf{C\textsubscript{1} sin(γ − θ) (mm)} & \centering\textbf{Saída} & \centering\textbf{r (mm)} & \centering\textbf{τ/F\textsubscript{s} (mm)} & \centering\textbf{Δx (mm)} \tabularnewline
+\centering\textbf{Θ (graus)} & \centering\textbf{Ponto} & \centering\textbf{S (mm)} & \centering\textbf{m\textsubscript{a} (mm)} & \centering\textbf{Saída} & \centering\textbf{r (mm)} & \centering\textbf{τ/F\textsubscript{s} (mm)} & \centering\textbf{Δx (mm)} \tabularnewline
 \midrule
 −88,47 & pose do CAD & 139,58 & 26,04 & Z12 & 10,55 & 10,39 & 0,00 \\
 −75,00 & início da curva AASM & 129,57 & 33,94 & canto & 13,57 & 17,42 & −3,20 \\
@@ -882,9 +1061,7 @@ A Figura~\ref{fig:vao-s-braco-momento}a mostra o vão S e o braço de momento do
 \fonte{elaborada pelo autor.}
 \end{table}
 
-\subsection{Raio efetivo e zonas ao longo do movimento}\label{sec:4.3.2}
-
-Com o giro do came da Figura 14D, o cabo da mola sai na Z12 na pose, no canto entre Z12 e Z11 de Θ = −85,9° a −47,0°, na Z11 de −47,0° a −18,6° e na Z10 de −2,4° a 18,0° (Figura~\ref{fig:vao-s-braco-momento}b). Na Figura 16 da US 9.737.374 B2, a marca Z11 vai de −23,8° a 4,0°, e a Z12, de −56,4° a −40,3°. A Z11 do modelo tem largura parecida, 28,4° contra 27,8°, mas cai 22,9° abaixo da marca. O raio efetivo vai de 10,55 mm na pose a 32,08 mm na horizontal e coincide com ρ na Z10. No canto antes da Z11, os dois se afastam: em Θ = −75°, r = 13,57 mm e ρ = 17,60 mm.
+Com o giro do came da Figura 14D, o cabo da mola sai na Z12 na pose, no canto entre Z12 e Z11 de Θ = −85,9° a −47,0°, na Z11 de −47,0° a −18,6° e na Z10 de −2,4° a 18,0° (Figura~\ref{fig:vao-s-braco-momento}b). O raio efetivo vai de 10,55 mm na pose a 32,08 mm na horizontal e coincide com ρ na Z10. No canto antes da Z11, os dois se afastam: em Θ = −75°, r = 13,57 mm e ρ = 17,60 mm.
 
 \begin{figure}[!htbp]
 \centering
@@ -893,41 +1070,102 @@ Com o giro do came da Figura 14D, o cabo da mola sai na Z12 na pose, no canto en
 \fonte{elaborada pelo autor.}
 \end{figure}
 
-\subsection{Transmissão e alongamento da mola}\label{sec:4.3.3}
+A transmissão τ/F\textsubscript{s} = (r/R) C\textsubscript{1} sin(γ − θ), em N·mm por N, cresce de 10,39 mm na pose a 77,79 mm em Θ = 9,6° e cai perto do limite de subida (Figura~\ref{fig:vao-s-braco-momento}c). Entre Θ = −75°, onde começa a curva da patente, e a horizontal, ela passa de 17,42 mm a 76,75 mm, isto é, é multiplicada por 4,4. O came responde por parte disso, com r de 13,57 para 32,08 mm, e o cabo de ancoragem pelo resto, com o braço de 33,94 para 63,26 mm. Da pose até o limite de subida, a mola encurta 93,1 mm.
 
-A transmissão τ/F\textsubscript{s} = (r/R) C\textsubscript{1} sin(γ − θ), em N·mm por N, cresce de 10,39 mm na pose a 77,79 mm em Θ = 9,6° e cai perto do limite de subida (Figura~\ref{fig:vao-s-braco-momento}c). Entre Θ = −75°, onde começa a curva da patente, e a horizontal, ela passa de 17,42 mm a 76,75 mm, isto é, é multiplicada por 4,4. O came responde por parte disso, com r de 13,57 para 32,08 mm, e o cabo de ancoragem pelo resto, com o braço de 33,94 para 63,26 mm. Da pose até o limite de subida, a mola encurta 93,1 mm. A transmissão confere com −dx/dΘ, com diferença relativa de 1,8 × 10\textsuperscript{−5}, o que verifica a Equação~\eqref{eq:64} com a geometria do came.
+\subsection{Varredura paramétrica do giro do came}\label{sec:4.3.7}
 
-\subsection{Comparação com a curva de momento publicada}\label{sec:4.3.4}
+Repetido o ajuste com o came girado de −120° a +40° em relação ao desenho, de grau em grau (Figura~\ref{fig:sensibilidade-ajuste-mola-giro}a), o melhor resultado com k e x\textsubscript{0} positivos ocorre com o came girado de −49°: R² = 0,953, erro quadrático médio de 1,85 N·m, k = 6,046 N/mm e x\textsubscript{0} = 121,2 mm (Figura~\ref{fig:sensibilidade-ajuste-mola-giro}b). Com esse giro, a Z11 do modelo vai de −22,7° a 2,4°, e a saída na Z12 ocorre de −53,2° a −51,2°: as duas caem dentro das marcas da patente, que não entram no ajuste. O ajuste da mola e as marcas das zonas indicam o mesmo giro, o que sugere que a curva da patente corresponde a uma montagem diferente da desenhada nas Figuras 14C e 14D, com o came girado em relação à primária ou com a âncora em outra posição.
 
-A curva AASM da Figura 16 da US 9.737.374 B2, digitalizada neste trabalho (exo3/fig16\_curvas.csv), foi posta na escala do artigo de \textcite{okabe2026}, com o máximo em 30 N·m. A mola linear da seção~\ref{sec:3.3.5} dá τ = k (x\textsubscript{0} + Δx)(r/R) C\textsubscript{1} sin(γ − θ)/1000, linear em k x\textsubscript{0} e em k, e esses dois foram ajustados por mínimos quadrados nos 97 pontos de Θ = −75° a 21°, abaixo do limite de subida. Com o giro do came da Figura 14D, o ajuste dá k = 1,448 N/mm e x\textsubscript{0} = 323,6 mm, com R² = 0,901 e erro quadrático médio de 2,68 N·m (Figura~\ref{fig:curva-aasm-figura-us}a). A força que reproduziria a curva AASM não é linear no alongamento (Figura~\ref{fig:curva-aasm-figura-us}b): com esse giro, uma mola linear acompanha a forma geral da curva, mas não o início da subida nem o patamar.
+\begin{figure}[!htbp]
+\centering
+\caption{Sensibilidade do ajuste da mola ao giro do came: R² em função do giro em relação ao desenho da Figura 14D (a) e curva AASM da Figura 16 da US 9.737.374 B2 contra o modelo com o melhor giro (b)}\label{fig:sensibilidade-ajuste-mola-giro}
+\includegraphics[width=0.97\textwidth]{sensibilidade-ajuste-mola-giro.png}
+\fonte{elaborada pelo autor.}
+\end{figure}
 
-O giro do came é a grandeza menos certa da cadeia, porque os dois desenhos discordam em 15,5° (seção~\ref{sec:3.3.6}). Repetido o ajuste com o came girado de −120° a +40° em relação ao desenho, de grau em grau (Figura~\ref{fig:curva-aasm-figura-us}c), o melhor resultado com k e x\textsubscript{0} positivos ocorre com o came girado de −49°: R² = 0,953, erro quadrático médio de 1,85 N·m, k = 6,046 N/mm e x\textsubscript{0} = 121,2 mm (Figura~\ref{fig:curva-aasm-figura-us}d). Com esse giro, a Z11 do modelo vai de −22,7° a 2,4°, e a saída na Z12 ocorre de −53,2° a −51,2°: as duas caem dentro das marcas da patente, que não entram no ajuste. O ajuste da mola e as marcas das zonas indicam o mesmo giro, o que sugere que a curva da patente corresponde a uma montagem diferente da desenhada nas Figuras 14C e 14D, com o came girado em relação à primária ou com a âncora em outra posição. A Tabela~\ref{tab:mola-linear-ajustada-curva} resume os dois ajustes.
+\subsection{Confronto entre o torque do cabo e o torque gravitacional}\label{sec:4.3.8}
+
+Pela Equação~\eqref{eq:68}, o torque gravitacional do conjunto chega a 13,41 N·m em Θ = −1,1°, quase com o eixo na horizontal. Na horizontal, o membro responde por 11,97 N·m, e o apoio de braço, por 1,44 N·m, 12\% do membro. Sozinho, o peso do apoio chega a 1,46 N·m em Θ = −10,4° e vale 0,49 N·m na pose do CAD; o giro do came muda esse valor em até 0,09 N·m.
+
+A Tabela~\ref{tab:curva-aasm-modelo-ajustado} compara, nos ângulos marcados na Figura 16 da US 9.737.374 B2, a curva AASM na escala do artigo e o torque do modelo ajustado com o torque gravitacional do conjunto. Nessa escala, a AASM fica entre 1,3 e 2,2 vezes τ\textsubscript{g}, e o modelo, entre 1,8 e 2,2 vezes. Os picos quase coincidem em ângulo: a AASM tem máximo em Θ = 1°, τ\textsubscript{g} em −1,1° e o modelo ajustado em −4,6°.
 
 \begin{table}[!htbp]
 \estilotabela{\footnotesize}
-\caption{Mola linear ajustada à curva AASM da Figura 16 da US 9.737.374 B2, na escala de 30 N·m}\label{tab:mola-linear-ajustada-curva}
-\begin{tabularx}{\textwidth}{@{}>{\hsize=1.421\hsize\raggedright\arraybackslash}X>{\hsize=0.748\hsize\raggedright\arraybackslash}X>{\hsize=0.748\hsize\raggedright\arraybackslash}X>{\hsize=0.972\hsize\raggedright\arraybackslash}X>{\hsize=0.598\hsize\raggedright\arraybackslash}X>{\hsize=1.271\hsize\raggedright\arraybackslash}X>{\hsize=1.241\hsize\raggedright\arraybackslash}X@{}}
+\caption{Curva AASM, modelo ajustado e torque gravitacional nos ângulos marcados na Figura 16 da US 9.737.374 B2}\label{tab:curva-aasm-modelo-ajustado}
+\begin{tabularx}{\textwidth}{@{}>{\hsize=0.748\hsize\raggedright\arraybackslash}X>{\hsize=1.645\hsize\raggedright\arraybackslash}X>{\hsize=0.897\hsize\raggedright\arraybackslash}X>{\hsize=0.897\hsize\raggedright\arraybackslash}X>{\hsize=0.897\hsize\raggedright\arraybackslash}X>{\hsize=0.957\hsize\raggedright\arraybackslash}X>{\hsize=0.957\hsize\raggedright\arraybackslash}X@{}}
 \toprule
-\centering\textbf{Giro do came} & \centering\textbf{k (N/mm)} & \centering\textbf{x\textsubscript{0} (mm)} & \centering\textbf{F\textsubscript{s} na pose (N)} & \centering\textbf{R²} & \centering\textbf{Erro quadrático médio (N·m)} & \centering\textbf{Erro máximo (N·m)} \tabularnewline
+\centering\textbf{Θ (graus)} & \centering\textbf{Ponto} & \centering\textbf{AASM (N·m)} & \centering\textbf{Modelo (N·m)} & \centering\textbf{τ\textsubscript{g} (N·m)} & \centering\textbf{AASM/τ\textsubscript{g}} & \centering\textbf{Modelo/τ\textsubscript{g}} \tabularnewline
 \midrule
-Como na Figura 14D & 1,448 & 323,6 & 468 & 0,901 & 2,68 & 4,99 \\
-Girado de −49° & 6,046 & 121,2 & 733 & 0,953 & 1,85 & 3,22 \\
+−75,0 & início da curva AASM & 6,45 & 8,08 & 3,89 & 1,66 & 2,08 \\
+−56,4 & base da marca Z12 & 10,03 & 13,85 & 7,75 & 1,29 & 1,79 \\
+−40,3 & topo da marca Z12 & 17,16 & 18,35 & 10,45 & 1,64 & 1,76 \\
+−23,8 & base da marca Z11 & 27,31 & 23,35 & 12,38 & 2,21 & 1,89 \\
+0,0 & horizontal & 29,97 & 28,87 & 13,41 & 2,23 & 2,15 \\
+4,0 & topo da marca Z11 & 29,85 & 28,46 & 13,36 & 2,23 & 2,13 \\
+21,0 & último ponto do ajuste & 18,43 & 23,35 & 12,41 & 1,48 & 1,88 \\
 \bottomrule
 \end{tabularx}
 \fonte{elaborada pelo autor.}
 \end{table}
 
-\begin{figure}[!htbp]
-\centering
-\caption{Curva AASM da Figura 16 da US 9.737.374 B2 contra o modelo com mola linear: giro do came como na Figura 14D (a), força de mola que reproduziria a curva (b), sensibilidade ao giro do came (c) e melhor giro (d)}\label{fig:curva-aasm-figura-us}
-\includegraphics[width=0.97\textwidth]{curva-aasm-figura-us.png}
+A escala de 30 N·m é a do artigo, não uma medida do dispositivo. Nela, o AWM da patente vale 31,06 N·m na horizontal, 2,3 vezes o torque gravitacional do conjunto: ou a escala, ou a carga da curva da patente, não corresponde ao membro do artigo. Com a escala que iguala o AWM ao torque gravitacional do conjunto na horizontal, o máximo da AASM seria de 12,95 N·m e a rigidez ajustada, proporcional à escala, 0,625 N/mm, com o mesmo x\textsubscript{0}.
+
+\subsection{Limitações dos resultados}\label{sec:4.3.9}
+
+Além das limitações de escopo da seção~\ref{sec:3.3.14}, os resultados comportam as ressalvas da Tabela~\ref{tab:pendencias-analise-us-b2}, que reúne o que falta para concluir cada etapa, a consequência da ausência e a forma de obter o dado. A principal é a escala: a ordenada da Figura 16 da US 9.737.374 B2 não tem unidade, e a rigidez da mola só existe na escala do artigo.
+
+\begin{tabelaabnt}{\small}
+\begin{xltabular}{\textwidth}{@{}>{\hsize=0.897\hsize\raggedright\arraybackslash}X>{\hsize=0.987\hsize\raggedright\arraybackslash}X>{\hsize=1.115\hsize\raggedright\arraybackslash}X@{}}
+\caption{Pendências da análise da US 9.737.374 B2}\label{tab:pendencias-analise-us-b2}\\
+\toprule
+\centering\textbf{Pendência} & \centering\textbf{Consequência} & \centering\textbf{Como obter} \tabularnewline
+\midrule
+\endfirsthead
+\toprule
+\centering\textbf{Pendência} & \centering\textbf{Consequência} & \centering\textbf{Como obter} \tabularnewline
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\bottomrule
+\endlastfoot
+Rigidez e comprimento livre da mola & Torque em N·m só na escala do artigo; k e x\textsubscript{0} identificados pela forma da curva & Especificação ou ensaio de força e alongamento da mola \\
+Escala da ordenada da Figura 16 da US 9.737.374 B2 & Na escala do artigo, o AWM é 2,3 vezes o torque gravitacional do conjunto & Documento com a escala da figura ou medição do torque do dispositivo \\
+Giro do came em relação à primária & As Figuras 14C e 14D discordam em 15,5°; com o came girado de −49°, o ajuste melhora e as zonas caem nas marcas da patente & Medir o giro na peça real \\
+Posição do ponto de ancoragem 562 & Limite de subida em Θ = 22,0°, contra 30° na curva da patente & Conferir a ancoragem na peça real \\
+Polia 630 e geometria do cabo da mola & Cabo tomado no infinito; numa geometria de teste, r muda até 0,031 R20 & Medir L, λ e r\textsubscript{630} no CAD \\
+Pivô 584 no referencial da peça & Posição derivada da Figura 14D; o momento máximo do peso muda menos de 0,01 N·m & Marcar o eixo do pivô no CAD \\
+Material da polia externa e do came & Aço no CAD, com aparência de náilon; em náilon, o apoio teria 0,796 kg & Confirmar o material no CAD \\
+Comprimento da mola no CAD & Centro de massa da mola incerto ao longo do eixo; 0,01 N·m a cada 10 mm & Modelar a mola na pose \\
+Incerteza da extração do perfil do came e da curva de momento da patente & Leitura sem incerteza estimada & Repetir a leitura por outro método e comparar \\
+Alinhamento do membro e posição do ombro & Torque do peso supõe o braço alinhado ao eixo maior e o ombro no pivô 584 & Representar o afastamento entre o ombro e o pivô \\
+Etapas dinâmicas e MBDyn & Nenhum resultado dinâmico & Resolver as pendências da mola e da escala e montar o modelo no MBDyn \\
+\end{xltabular}
 \fonte{elaborada pelo autor.}
-\end{figure}
+\end{tabelaabnt}
 
-A escala de 30 N·m é a do artigo, não uma medida do dispositivo. Com as frações de \textcite{deleva1996} aplicadas às massas e aos comprimentos de \textcite{okabe2026}, o membro superior estendido produz 11,98 N·m no ombro com o braço na horizontal. Na mesma escala, o AWM da patente vale 31,06 N·m, 2,6 vezes esse valor, e a curva da patente não permite fixar a escala do momento.
+\subsection{Comparação com os exoesqueletos 1 e 2}\label{sec:4.3.10}
 
-\subsection{Peso do apoio de braço}\label{sec:4.3.5}
+A Tabela~\ref{tab:exoesqueleto-aspectos-comparacao-exoesqueletos} completa a Tabela~\ref{tab:comparacao-exoesqueletos} com o exoesqueleto 3, nos mesmos aspectos. Os ângulos são comparáveis pela elevação a partir do braço pendente, que é Θ + 90° (seção~\ref{sec:3.3.3}).
 
-Os cinco corpos do CAD somam 1,462 kg, com centro de massa a 102,8 mm do pivô 584 e 18,0° acima do eixo maior (Tabela~\ref{tab:corpos-apoio-braco-cad}). Pela Equação~\eqref{eq:66}, o momento do peso do apoio de braço chega a 1,46 N·m em Θ = −10,4°, vale 1,44 N·m com o eixo na horizontal e 0,49 N·m na pose do CAD. O giro do came muda esse momento em até 0,09 N·m. Com o eixo na horizontal, o apoio acrescenta 12\% ao momento do membro superior, e o total chega a 13,42 N·m; o AWM da patente, na escala do artigo, é 2,3 vezes esse valor.
+\begin{table}[!htbp]
+\estilotabela{\small}
+\caption{Exoesqueleto 3 nos aspectos da comparação entre os exoesqueletos 1 e 2}\label{tab:exoesqueleto-aspectos-comparacao-exoesqueletos}
+\begin{tabularx}{\textwidth}{@{}>{\hsize=0.491\hsize\raggedright\arraybackslash}X>{\hsize=1.509\hsize\raggedright\arraybackslash}X@{}}
+\toprule
+\centering\textbf{Aspecto} & \centering\textbf{US 9.737.374 B2 (seção~\ref{sec:4.3})} \tabularnewline
+\midrule
+Arquitetura & Cabo de ancoragem preso ao suporte do tronco, par de polias com came de raio variável e mola no apoio de braço \\
+Faixa sem torque com o braço baixado & Não há no curso analisado; o braço do cabo de ancoragem só se anularia em Θ = −128,5° \\
+Dado da patente & Três curvas na mesma figura (AASM, AWM e RM), sem unidade na ordenada; 106 pontos extraídos de cada \\
+Parâmetros identificados & k e x\textsubscript{0} da mola linear, na escala do artigo; R20 e giro do came medidos nas figuras \\
+Reprodução da curva publicada & R\textsuperscript{2} = 0,901 com o came como na Figura 14D; 0,953 com o came girado de −49° \\
+Escala do torque & N·m na escala do artigo \cite{okabe2026}, com força de mola de 335 a 464 N \\
+Pico do torque de assistência & Θ = 1° na curva da patente, isto é, 91° de elevação; 85,4° no modelo ajustado \\
+Torque gravitacional de referência & Membro do artigo e apoio de braço, pico de 13,41 N·m em 88,9° de elevação \\
+\bottomrule
+\end{tabularx}
+\fonte{elaborada pelo autor, com os resultados da seção~\ref{sec:4.3}.}
+\end{table}
 
-Se a curva AASM for o momento entregue ao braço, a mola também sustenta o apoio, e o alvo do ajuste da seção~\ref{sec:4.3.4} passa a ser a AASM mais o peso do apoio. A mola linear ajustada fica com k = 1,683 N/mm e x\textsubscript{0} = 299,2 mm, com R² = 0,912 e RMS de 2,57 N·m, contra k = 1,448 N/mm, x\textsubscript{0} = 323,6 mm e R² = 0,901 sem o peso. O peso do apoio cresce de 0,49 N·m na pose para 1,44 N·m na horizontal, como a própria AASM, e o ajuste melhora um pouco.
+O contraste mais útil para o procedimento está no came. Nos exoesqueletos 1 e 2, a forma do torque depende só do circuito; aqui, ela depende também do perfil do came, que a patente publica só como desenho, e de um giro que os desenhos não fixam com precisão. A varredura desse giro mostrou que as marcas das zonas, que não entram no ajuste, apontam o mesmo giro que melhora o ajuste da mola, o que dá à curva publicada uma redundância parecida com a das três curvas da EP 3 504 033 B1. Quanto à magnitude, os três casos dependem de hipótese: o torque do primeiro está em unidade da patente, o do segundo chega a N·m pela hipótese K = K\textsubscript{40}, e o do terceiro, pela escala do artigo.

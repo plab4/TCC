@@ -18,7 +18,12 @@ comprimentos em mm e inércias em g·mm², com Ixy = −∫xy dm). O script:
 5. dá o centro de massa de cada corpo em relação a O e ao eixo maior do apoio de braço
    (26,741° além de C2) e o momento do peso em torno de O,
        M(Θ) = −g Σ m d cos(Θ + a) / 10⁶     (N·m, positivo quando ergue o braço),
-   com a positivo acima do eixo e o centro do came girando junto com as polias.
+   com a positivo acima do eixo e o centro do came girando junto com as polias;
+6. confere o referencial de forma independente: o came espelhado não fecha (centróide
+   e eixos principais discordam), e o eixo da mola do CAD, levado ao desenho, cai sobre
+   a mola 636 da Figura 14D, que não entrou em nenhuma das etapas anteriores;
+7. mede a sensibilidade à posição do pivô: com o q do CAD no lugar do ângulo da 14D, ou
+   com o eixo x da peça tomado como eixo maior.
 
 Rodar (na raiz do repositório):
     python exo3/massa_apoio.py
@@ -29,7 +34,7 @@ from scipy.optimize import least_squares
 
 import poses_fig14 as pf
 
-G = 9.81                                  # m/s²
+G = 9.80665                               # m/s², como em torque_model_ottobock.py
 C2, DEFASAGEM = 90.587, 26.741            # mm e graus, CAD do autor
 GIRO_CAME_14D = 254.0                     # giro do referencial da 15B na Figura 14D (poses_fig14.py)
 # material, massa (g), volume (mm³), caixa (mm), centro de massa (mm) e (Ixx, Iyy, Izz, Ixy)
@@ -109,12 +114,62 @@ def compara_came():
                            [-np.sin(np.radians(psi)), np.cos(np.radians(psi))]]))*R20
         return np.ptp(Q, axis=0) - CORPOS["came"][3][:2]
     R20_cx, psi_cx = least_squares(caixa, [32.0, ang(e) - ang(c)]).x
-    eixo = lambda S: 0.5*np.degrees(np.arctan2(2*S[0, 1], S[0, 0] - S[1, 1]))
+    eixo = eixo_principal
     return {"R20_area": float(np.sqrt(A_cad/A)), "R20_giracao": float(np.sqrt(np.trace(M_cad)/np.trace(M))),
             "R20_excentricidade": float(np.hypot(*e)/np.hypot(*c)), "R20_caixa": float(R20_cx),
             "giro_caixa": float(meia_volta(psi_cx)), "giro_centroide": meia_volta(ang(e) - ang(c)),
             "giro_eixos": float(meia_volta(eixo(M_cad) - eixo(M))), "espessura": float(h),
             "excentricidade_mm": float(np.hypot(*e))}
+
+
+def eixo_principal(S):
+    """Direção do maior momento de segunda ordem, em graus (período de 180°)."""
+    return 0.5*np.degrees(np.arctan2(2*S[0, 1], S[0, 0] - S[1, 1]))
+
+
+def espelhamento():
+    """Diferença entre o giro do came pelo centróide e pelos eixos principais, com a flange
+    como está e espelhada: só a hipótese certa dá giros parecidos."""
+    T = pf.contorno_15a()
+    _, e, M_cad, _ = came_cad()
+    saida = {}
+    for nome, TT in (("sem_espelhar", T), ("espelhado", T*[1.0, -1.0])):
+        _, c, M = secao(TT)
+        pc = meia_volta(ang(e) - ang(c))
+        pe = meia_volta(eixo_principal(M_cad) - eixo_principal(M))
+        saida[nome] = min(abs(meia_volta(pc - pe)), abs(meia_volta(pc - pe - 180.0)))
+    return saida
+
+
+def mola_no_desenho(geo, B=None):
+    """Eixo da mola do CAD levado à Figura 14D, contra os traços da mola 636 desenhada:
+    diferença de direção (graus) e afastamento do centro dos traços (mm)."""
+    O14, D14, P14, esc = pontos_14d()
+    D = np.array(geo["D"])
+    g = -np.radians(geo["giro_peca_grau"])
+    Rm = np.array([[np.cos(g), -np.sin(g)], [np.sin(g), np.cos(g)]])
+
+    def px(p):                                         # mm na peça -> px, y para baixo
+        q = D14 + esc*(Rm @ (np.asarray(p) - D))
+        return np.array([q[0], -q[1]])
+    _, m, _, _, cg, (ixx, iyy, izz, ixy), _ = CORPOS["mola"]
+    eixo_m = eixo_principal(np.array([[(iyy + izz - ixx)/2, -ixy], [-ixy, (ixx + izz - iyy)/2]]))
+    p0, p1 = px(np.array(cg) - 75*u(eixo_m)), px(np.array(cg) + 75*u(eixo_m))
+    if B is None:
+        B = np.array(Image.open(pf.FIGURA).convert("L")) < 128
+    ys, xs = np.nonzero(B)
+    v = (p1 - p0)/np.hypot(*(p1 - p0))
+    n = np.array([-v[1], v[0]])
+    rel = np.c_[xs - p0[0], ys - p0[1]]
+    t, s = rel @ v, rel @ n
+    sel = (t > 0) & (t < np.hypot(*(p1 - p0))) & (np.abs(s) < 22)   # faixa de ±13 mm
+    P = np.c_[xs[sel], ys[sel]].astype(float)
+    c = P.mean(axis=0)
+    _, _, Vt = np.linalg.svd(P - c, full_matrices=False)
+    dif = meia_volta(np.degrees(np.arctan2(-Vt[0, 1], Vt[0, 0]) - np.arctan2(-v[1], v[0])))
+    dif = min(abs(dif), abs(meia_volta(dif - 180.0)))
+    return {"eixo_peca_grau": float(eixo_m), "dif_direcao_grau": float(dif),
+            "afastamento_mm": float(abs((c - p0) @ n)/esc), "pixels": int(sel.sum())}
 
 
 def pontos_14d():
@@ -154,7 +209,8 @@ def geometria():
             "corpos": corpos, "massa_g": mt, "cg": cg, "d": d, "a": a, "came": came,
             "nailon": variante_nailon(corpos, O, eixo),
             "came_chassi_peca": meia_volta(came["giro_caixa"] - chassi),
-            "came_chassi_14D": meia_volta(GIRO_CAME_14D - chassi14)}
+            "came_chassi_14D": meia_volta(GIRO_CAME_14D - chassi14),
+            "espelhamento": espelhamento()}
 
 
 def conjunto(corpos, O, eixo):
@@ -172,19 +228,44 @@ def variante_nailon(corpos, O, eixo):
     for nome in ("polia externa", "came"):
         outro[nome]["massa_g"] = CORPOS[nome][2]*dens
     mt, cg, d, a = conjunto(outro, O, eixo)
-    return {"densidade_g_mm3": dens, "massa_g": mt, "d": d, "a": a, "momento_max_N_m": G*mt*d/1e6}
+    return {"densidade_g_mm3": dens, "massa_g": mt, "d": d, "a": a, "momento_max_N_m": G*mt*d/1e6,
+            "corpos": outro}
 
 
-def momento(geo, theta, dtp=0.0):
+def sensibilidade_pivo(geo):
+    """O e o conjunto com outras direções de C2 na peça: a do q do CAD com a peça girada de
+    90° em relação ao desenho, e a do eixo x da peça tomado como eixo maior."""
+    D = np.array(geo["D"])
+    saida = {}
+    for nome, c2 in (("q_do_CAD", -61.724 + 90.0), ("eixo_x", DEFASAGEM)):
+        O = D - C2*u(c2)
+        mt, cg, d, a = conjunto(geo["corpos"], O, c2 - DEFASAGEM)
+        saida[nome] = {"c2_grau": c2, "desvio_O_mm": float(np.hypot(*(O - np.array(geo["O"])))),
+                       "d": d, "a": a, "momento_max_N_m": G*mt*d/1e6}
+    return saida
+
+
+def inercia_o(geo):
+    """Momento de inércia de cada corpo em torno do eixo de 584 (kg·m²), pelo teorema dos
+    eixos paralelos com o Izz do centro de massa do CAD, e o do apoio inteiro."""
+    saida = {}
+    for nome, c in geo["corpos"].items():
+        izz_cg = CORPOS[nome][5][2]
+        saida[nome] = {"izz_cg": izz_cg*1e-9, "izz_o": (izz_cg + c["massa_g"]*c["d"]**2)*1e-9}
+    return saida, sum(x["izz_o"] for x in saida.values())
+
+
+def momento(geo, theta, dtp=0.0, corpos=None):
     """Momento do peso do apoio de braço em torno de O (N·m), para Θ em graus.
 
     dtp é o giro das polias em relação ao chassi desde a pose do CAD, em graus; ele só
-    move o centro do came, que é excêntrico (as polias são discos centrados nos pinos)."""
+    move o centro do came, que é excêntrico (as polias são discos centrados nos pinos).
+    corpos substitui as massas (por exemplo, as da variante em náilon)."""
     theta = np.atleast_1d(np.asarray(theta, float))
     dtp = np.broadcast_to(np.radians(dtp), theta.shape)
     O, D, eixo = np.array(geo["O"]), np.array(geo["D"]), geo["eixo_grau"]
     soma = np.zeros_like(theta)
-    for nome, c in geo["corpos"].items():
+    for nome, c in (corpos or geo["corpos"]).items():
         r = np.array(c["cg"]) - O
         if nome == "came":
             e = np.array(c["cg"]) - D
@@ -227,6 +308,15 @@ def main():
     mmax = G*geo["massa_g"]*geo["d"]/1e6
     print(f"Momento máximo do peso: {mmax:.3f} N·m, em Θ = {-geo['a']:.1f}°; com o eixo na horizontal, "
           f"{momento(geo, 0.0)[0]:.3f} N·m; na pose do CAD (Θ = −88,465°), {momento(geo, -88.465)[0]:.3f} N·m")
+    esp = geo["espelhamento"]
+    print(f"Espelhamento: giro do came pelo centróide e pelos eixos principais difere {esp['sem_espelhar']:.1f}° "
+          f"sem espelhar e {esp['espelhado']:.1f}° espelhado")
+    mo = mola_no_desenho(geo)
+    print(f"Mola do CAD na Figura 14D: eixo a {mo['eixo_peca_grau']:.2f}° na peça; difere {mo['dif_direcao_grau']:.1f}° "
+          f"dos traços da mola 636 e passa a {mo['afastamento_mm']:.1f} mm do centro deles ({mo['pixels']} px)")
+    for nome, x in sensibilidade_pivo(geo).items():
+        print(f"Pivô com {nome}: C2 a {x['c2_grau']:.2f}°, O desloca {x['desvio_O_mm']:.2f} mm, d = {x['d']:.2f} mm, "
+              f"a = {x['a']:.2f}°, momento máximo {x['momento_max_N_m']:.3f} N·m")
     n = geo["nailon"]
     print(f"Com a polia externa e o came em náilon ({n['densidade_g_mm3']*1000:.3f} g/cm³): {n['massa_g']:.1f} g, "
           f"centro a {n['d']:.2f} mm e {n['a']:.2f}°, momento máximo {n['momento_max_N_m']:.3f} N·m")
