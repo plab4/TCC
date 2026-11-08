@@ -626,10 +626,9 @@ EDICOES = [
      "comprimento livre não é identificável, porque a curva depende só da extensão "
      "na pose."),
     ("e duas cotas do modelo em CAD permanecem a confirmar.",
-     "e duas cotas do modelo em CAD permanecem a confirmar: o comprimento da mola na "
-     "pose, 91,35 mm, para o qual o mesmo modelo forneceu também 90,13 mm, e o "
-     "comprimento útil do alojamento, 131,37 mm, para o qual forneceu também "
-     "140,0 mm."),
+     "e o modelo em CAD confirma o comprimento da mola na pose, 91,35 mm; o "
+     "comprimento útil do alojamento, que não entra na cadeia de cálculo, é de "
+     "140,0 mm no CAD."),
     # escala da reconstrução: só a origem, uma estimativa de medida antropométrica,
     # sem o detalhamento do fator (pedido do autor)
     ("por um fator único, fixado pela razão entre o comprimento do elo distal "
@@ -996,13 +995,12 @@ def cap3_trabalho_virtual_exo1():
 
 
 def nota_mola():
-    """Nota da Tabela 9: L_livre vem de uma cota do CAD em conflito."""
+    """Nota da Tabela 9: L_livre vem do L_pose confirmado no CAD."""
     par1 = N1["parametros"]
     return [PEQUENO(
         "Nota: L_{livre} = L_{pose} − X_{pose}, com L_{pose} = "
-        f"{f(par1['L_POSE'], 2)} mm medido no CAD e a confirmar: o mesmo modelo "
-        "forneceu também 90,13 mm, que levaria L_{livre} a "
-        f"{f(90.13 - par1['X_POSE'])} mm. A curva de torque depende só de X_{{pose}}.")]
+        f"{f(par1['L_POSE'], 2)} mm, confirmado no CAD. A curva de torque depende só "
+        "de X_{pose}.")]
 
 
 def cap3_introducao():
@@ -1745,8 +1743,8 @@ def parte_4B():
     a(FONTE)
     a(PEQUENO("Nota: ângulos medidos a partir de +x, no sentido anti-horário (seção "
               "⟦S:conv⟧). O valor de e_{c} coincide, até a terceira casa decimal, com "
-              "a cota H_{CAD} do outro mecanismo (seção 3.1.4); a coincidência deve ser "
-              "conferida no modelo em CAD."))
+              "a cota H_{CAD} do outro mecanismo (seção 3.1.4); o valor foi conferido no "
+              "modelo em CAD."))
     a(P(f"Na pose do CAD, o modelo situa P em ({f(g['P_pose'][0])}; "
         f"{f(g['P_pose'][1])}) mm e o centro do elemento 78 em "
         f"({f(g['C78_pose'][0])}; {f(g['C78_pose'][1])}) mm, e calcula "
@@ -2217,7 +2215,7 @@ def parte_4B():
                        f(l["phi"]), "" if l["l_menos_d"] is None else f(l["l_menos_d"]),
                        f(l["m"])])
     a(TABELA(["θ_{el} (°)", "q (°)", "Regime", "s (mm)", "ψ (°)", "s − x (mm)",
-              "m (mm)"], linhas, [1300, 1300, 1000, 1400, 1300, 1700, 1360],
+              "m (mm)"], linhas, [1250, 1250, 1400, 1350, 1250, 1500, 1360],
              ["center"]*7))
     a(FONTE)
     a(PEQUENO(f"Nota: a linha θ_{{el}} = {f(g['theta_t'])}° é a transição; a linha "
@@ -2451,9 +2449,6 @@ def parte_4B():
           "fixa no tronco (seção ⟦S:conv⟧)",
           "Representar o afastamento entre o eixo da articulação e o ombro e o giro "
           "da barra 18 em torno da articulação esférica 22"],
-         ["Valor de e_{c} igual à cota H_{CAD} do outro mecanismo",
-          "Possível erro de transcrição; todos os resultados dependem de e_{c}",
-          "Conferir e_{c} no modelo em CAD"],
          ["Rigidez K e escala da ordenada da Figura 16 da patente",
           "K só por hipótese (K_{40}); torque em N·m apenas como cenário",
           "Especificação ou ensaio de força e extensão do elemento elástico, ou "
@@ -2660,9 +2655,8 @@ def parte_5B():
         "seção 2.11 fica, assim, respondida na parte estática quanto aos ângulos e à "
         "forma dos perfis, mas não quanto à magnitude."))
     a(P("Como continuidade para esse dispositivo, recomenda-se incluir o modelo em "
-        "CAD no repositório e confirmar nele o sinal do ângulo do braço na pose e o "
-        "valor de e_{c}, que coincide com a cota "
-        "H_{CAD} do outro mecanismo; esclarecer a definição da ordenada da Figura 16 "
+        "CAD no repositório e confirmar nele o sinal do ângulo do braço na pose; "
+        "esclarecer a definição da ordenada da Figura 16 "
         "da patente e a configuração do dispositivo que a gerou, que a patente não "
         "informa; conferir a posição e o raio de contato do elemento de encosto, "
         "comparando com a posição sobre o eixo preferida pela patente; registrar o "
@@ -2798,7 +2792,8 @@ def parte_3C():
         "duas polias são cilindros cheios, com o centro de massa no eixo: a externa, de "
         "55 mm de diâmetro, é a primária 564, no pino 572, e a interna, de 30 mm, é a "
         "polia de reversão 630, no pino 632. O came é a flange da Figura 15A extrudada em "
-        "30 mm, também no pino 572."))
+        "30 mm, também no pino 572. A capa, as polias e o came são de náilon 6/6, e a "
+        "mola, de aço."))
     a(P("O relatório não traz o pivô 584. O came aparece sem espelhamento no CAD e no "
         "desenho, de modo que o referencial da peça é o da Figura 14D girado, e o pivô foi "
         "posto a C_{2} do pino 572, com o ângulo entre C_{2} e a reta de 572 a 632 medido "
@@ -2907,7 +2902,8 @@ def parte_3C():
     a(FIGURA("exo3_tcc_fig_1_circuito.png", 6.3,
              "Circuito vetorial do cabo de ancoragem sobre a Figura 14D, com ampliação "
              "da região das polias"))
-    a(FONTE)
+    a(PEQUENO("Fonte: adaptada da Figura 14D da US 9.737.374 B2 (DOYLE, 2017), com o "
+              "circuito do modelo e o contorno do came sobrepostos pelo autor.", True))
 
     # ------------------------------------------------------------ tangência
     a(SEC("3.3", "e3_tang", "Ponto de tangência, distância b, ângulo β e braço de momento"))
@@ -2956,7 +2952,8 @@ def parte_3C():
     a(FIGURA("exo3_tcc_fig_2_came.png", 6.3,
              "Perfil do came 570 com as zonas Z10, Z11 e Z12 e raios efetivo e no ponto "
              "de saída"))
-    a(FONTE)
+    a(PEQUENO("Fonte: elaborada pelo autor, a partir da Figura 15B da US 9.737.374 B2 "
+              "(DOYLE, 2017).", True))
     a(P("O cabo 634 sai do came tangente a ele e segue até a polia de reversão 630. Com "
         "a polia a uma distância L de D, na direção λ, e de raio r_{630}, a tangência "
         "fixa a direção normal ao cabo em λ − 90° + δ, com δ = asin[(r − r_{630})/L]: o "
@@ -3221,10 +3218,9 @@ def parte_4C():
         f"amplitude do torque gravitacional é M g d = {f(mb['momento_horizontal_N_m'], 2)} "
         "N·m para o membro, a mesma das seções 3.1.2 e 3.2.2, e "
         f"{f(cj['amplitude_N_m'], 2)} N·m para o conjunto."))
-    a(P(f"No CAD, o apoio de braço tem {f(ma_kg, 3)} kg. A capa, de náilon 6/6, tem "
-        f"{f(pa['corpos']['capa']['massa_g']/1000, 3)} kg, e a polia externa e o came, de "
-        f"aço, {f((pa['corpos']['polia externa']['massa_g'] + pa['corpos']['came']['massa_g'])/1000, 3)} "
-        f"kg juntos. O pivô ficou em ({f(pa['O'][0], 2)}; {f(pa['O'][1], 2)}) mm no "
+    a(P(f"No CAD, o apoio de braço tem {f(ma_kg, 3)} kg: a capa, de náilon 6/6, responde "
+        f"por {f(pa['corpos']['capa']['massa_g']/1000, 3)} kg, e a mola, de aço, por "
+        f"{f(pa['corpos']['mola']['massa_g']/1000, 3)} kg. O pivô ficou em ({f(pa['O'][0], 2)}; {f(pa['O'][1], 2)}) mm no "
         f"referencial da peça, e o centro de massa do apoio, a {f(pa['d'], 1)} mm de O e "
         f"{f(pa['a'], 1)}° acima do eixo maior, desloca o do conjunto em "
         f"{f(cj['a'], 2)}° em relação ao eixo. As peças caem sobre os desenhos: a "
@@ -3362,10 +3358,7 @@ def parte_4C():
          ["Posição do pivô 584 no referencial da peça", "O",
           f"({f(pa['O'][0], 2)}; {f(pa['O'][1], 2)}) mm", "Derivada da Figura 14D e de C_{2}",
           f"Com outras escolhas, desloca até {f(max(x['desvio_O_mm'] for x in pv.values()), 1)} "
-          "mm e muda o momento máximo do peso em menos de 0,01 N·m"],
-         ["Material da polia externa e do came", "", "Aço", "CAD",
-          "Aparência de náilon no CAD; em náilon, o apoio teria "
-          f"{f(pa['nailon']['massa_g']/1000, 3)} kg"]],
+          "mm e muda o momento máximo do peso em menos de 0,01 N·m"]],
         [2300, 1060, 1500, 2000, 2500], ["left", "center", "center", "left", "left"]))
     a(FONTE)
     a(P(f"Com o giro do came da Figura 14D, o ajuste da Equação (⟦E:e3_aj⟧) nos "
@@ -3412,7 +3405,8 @@ def parte_4C():
             "reproduziria a curva (b)"))
     a(FIGURA("exo3_tcc_fig_4_fig16.png", 6.3,
              "Ajuste da mola linear à curva de momento publicada, com o came desenhado"))
-    a(FONTE)
+    a(PEQUENO("Fonte: elaborada pelo autor, a partir da Figura 16 da US 9.737.374 B2 "
+              "(DOYLE, 2017).", True))
     a(P("As marcas das zonas não entram no ajuste e servem de conferência. Com esse giro, "
         "a Z11 do modelo tem largura parecida com a da marca da patente, "
         f"{f(z11[1] - z11[0], 1)}° contra 27,8°, mas cai "
@@ -3457,7 +3451,8 @@ def parte_4C():
             "US 9.737.374 B2"))
     a(FIGURA("exo3_tcc_fig_3_varredura.png", 6.0,
              "Varredura em Θ do mecanismo da US 9.737.374 B2"))
-    a(FONTE)
+    a(PEQUENO("Fonte: elaborada pelo autor, com as marcas das zonas da Figura 16 da "
+              "US 9.737.374 B2 (DOYLE, 2017).", True))
     a(P("A transmissão τ/F_{s} = (r/R) C_{1} sin(γ − θ), em N·mm por N, cresce de "
         f"{f(p['pose']['transm'], 2)} mm na pose a {f(N3['transm_max'], 2)} mm em "
         f"Θ = {f(N3['theta_transm_max'], 1)}° e cai perto do limite de subida "
@@ -3488,7 +3483,8 @@ def parte_4C():
             "US 9.737.374 B2 contra o modelo com o melhor giro (b)"))
     a(FIGURA("exo3_tcc_fig_5_giro.png", 6.3,
              "Sensibilidade do ajuste ao giro do came e ajuste com o melhor giro"))
-    a(FONTE)
+    a(PEQUENO("Fonte: elaborada pelo autor, a partir da Figura 16 da US 9.737.374 B2 "
+              "(DOYLE, 2017).", True))
 
     # ------------------------------------------------------------ confronto
     co, ea, fg = N3["confronto"], N3["escala_artigo"], N3["fig16"]
@@ -3571,9 +3567,6 @@ def parte_4C():
          ["Pivô 584 no referencial da peça",
           "Posição derivada da Figura 14D; o momento máximo do peso muda menos de "
           "0,01 N·m", "Marcar o eixo do pivô no CAD"],
-         ["Material da polia externa e do came",
-          "Aço no CAD, com aparência de náilon; em náilon, o apoio teria "
-          f"{f(pa['nailon']['massa_g']/1000, 3)} kg", "Confirmar o material no CAD"],
          ["Comprimento da mola no CAD",
           f"Centro de massa da mola incerto ao longo do eixo; "
           f"{f(pa['mola_10mm_N_m'], 2)} N·m a cada 10 mm", "Modelar a mola na pose"],
@@ -3704,8 +3697,7 @@ def parte_5C():
         "proposta na seção 2.11 fica respondida quanto aos ângulos e à forma dos perfis."))
     a(P("Como continuidade para esse dispositivo, recomenda-se medir a rigidez e o "
         "comprimento livre da mola e o giro do came na peça real; confirmar no CAD a "
-        "posição do pivô 584 no referencial da peça e o material da polia externa e do "
-        "came; representar a polia 630; conferir a posição do ponto de ancoragem, que "
+        "posição do pivô 584 no referencial da peça; representar a polia 630; conferir a posição do ponto de ancoragem, que "
         "limita a subida; e, com a escala resolvida, executar as etapas dinâmicas pela "
         "formulação de Lagrange e no MBDyn."))
     return B

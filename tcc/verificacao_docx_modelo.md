@@ -12,7 +12,7 @@ Parágrafos, títulos, legendas, itens, fontes e notas conferidos: 602; ausentes
 
 ## 3. Tabelas
 
-Tabelas: 38 no DOCX novo e 38 no DOCX fundido. Células: 2186; diferentes do DOCX fundido: 0; ausentes do PDF do LaTeX: 0.
+Tabelas: 38 no DOCX novo e 38 no DOCX fundido. Células: 2175; diferentes do DOCX fundido: 0; ausentes do PDF do LaTeX: 0.
 
 ## 4. Equações
 

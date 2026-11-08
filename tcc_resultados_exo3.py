@@ -559,7 +559,6 @@ def main():
     dtp = np.degrees(v["tp"]) - np.interp(N["theta_pose"], v["theta"], np.degrees(v["tp"]))
     peso = ma.momento(geo, v["theta"], dtp)
     peso_fixo = ma.momento(geo, v["theta"])
-    peso_n = ma.momento(geo, v["theta"], dtp, corpos=geo["nailon"]["corpos"])
     _, hum_art = membro_superior(MEMBRO_ARTIGO)
     iner, izz_apoio = ma.inercia_o(geo)
     tot = conjunto_total(hum, geo, izz_apoio)
@@ -567,13 +566,11 @@ def main():
     tau_g = -(tau_hum + peso)                                       # módulo, N·m
     aj_p = ajuste_mola(v, th16, aasm, cc.theta_fig16(q_lim) - 0.05, c, peso)
     i_max = int(np.argmin(peso))
-    nai = {k: x for k, x in geo["nailon"].items() if k != "corpos"}
-    nai["momento_max_giro_N_m"] = float(-peso_n.min())
     N["peso_apoio"] = {
         **{k: geo[k] for k in ("O", "D", "P", "L", "L_14D", "chassi_grau", "c2_chassi_14D", "c2_grau",
                                "eixo_grau", "giro_peca_grau", "corpos", "massa_g", "cg", "d", "a",
                                "came", "came_chassi_peca", "came_chassi_14D", "espelhamento")},
-        "nailon": nai, "inercia": iner, "izz_o_kgm2": izz_apoio,
+        "inercia": iner, "izz_o_kgm2": izz_apoio,
         "mola_desenho": ma.mola_no_desenho(geo), "pivo": ma.sensibilidade_pivo(geo),
         "momento_max_N_m": float(-peso[i_max]), "theta_momento_max": float(v["theta"][i_max]),
         "momento_max_fixo_N_m": ma.G*geo["massa_g"]*geo["d"]/1e6, "theta_max_fixo": -geo["a"],
@@ -676,8 +673,7 @@ def main():
           f"{mb['momento_horizontal_N_m']:.3f} N·m na horizontal (membro do artigo: {mb['artigo_momento_horizontal_N_m']:.3f})")
     print(f"apoio: {pa['massa_g']:.1f} g a {pa['d']:.2f} mm e {pa['a']:.2f}°, I_O = {pa['izz_o_kgm2']:.6f} kg·m²; "
           f"momento até {pa['momento_max_N_m']:.3f} N·m (Θ = {pa['theta_momento_max']:.1f}°), {pa['momento_zero_N_m']:.3f} "
-          f"na horizontal, {pa['momento_pose_N_m']:.3f} na pose; came até {pa['came_variacao_max_N_m']:.3f}; "
-          f"náilon {pa['nailon']['massa_g']:.1f} g, {pa['nailon']['momento_max_giro_N_m']:.3f} N·m")
+          f"na horizontal, {pa['momento_pose_N_m']:.3f} na pose; came até {pa['came_variacao_max_N_m']:.3f}")
     print(f"conjunto: {cj['massa']:.3f} kg a {cj['d']:.2f} mm e {cj['a']:.2f}°, I_O = {cj['izz_o']:.6f} kg·m², "
           f"M g d = {cj['amplitude_N_m']:.3f} N·m; τ_g máximo {cj['tau_g_max_N_m']:.3f} em Θ = {cj['theta_tau_g_max']:.1f}°, "
           f"{cj['tau_g_zero_N_m']:.3f} na horizontal; AWM {cj['awm_escala_N_m']:.2f} N·m na escala adotada")

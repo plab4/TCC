@@ -105,6 +105,8 @@ Idênticos: 4. Iguais a menos de números e referências: 26. Modificados: 39. S
   - mais próximo no fundido: Figura 14: Família de curvas em ec, com s0 = 287,190 mm, com (a) o torque por unidade de rigidez e (b) a razão
 - Modificado (0.96): A análise usou os documentos e arquivos da Tabela A.1. A patente foi lida no documento B1 completo, de 44 pági
   - mais próximo no fundido: A análise usou os documentos e arquivos da Tabela 2. A patente foi lida no documento B1 completo, de 44 página
+- Sem correspondente (0.06): Foram executadas, para a EP 3 504 033 B1, a leitura da arquitetura na patente, a organização das grandezas do 
+  - mais próximo no fundido: A Figura 17 da patente não foi digitalizada, e a comparação com ela é visual. Nela, as três curvas partem de p
 - Sem correspondente (0.06): A classificação de origem é a da seção 3: medida no modelo em CAD, obtida da literatura, documental, identific
   - mais próximo no fundido: A Figura 16 da patente informa s0 de duas maneiras que não dependem da escala da ordenada: pelo espaçamento en
 - Sem correspondente (0.06): A pré-tensão da curva pontilhada, descrita como quase nula [0093], também diverge do modelo. Essa curva exige 
@@ -113,8 +115,6 @@ Idênticos: 4. Iguais a menos de números e referências: 26. Modificados: 39. S
   - mais próximo no fundido: Como preferência, a patente indica que nenhuma força seja aplicada até que o braço ultrapasse um ângulo em rel
 - Sem correspondente (0.08): Para expressar o torque em N·m, K foi fixado por hipótese de projeto, e não identificado. O alvo é 40% do torq
   - mais próximo no fundido: Duas conferências independentes sustentam esse referencial. Com o came espelhado, o giro dado pelo centróide e
-- Sem correspondente (0.08): Foram executadas, para a EP 3 504 033 B1, a leitura da arquitetura na patente, a organização das grandezas do 
-  - mais próximo no fundido: Como continuidade para esse dispositivo, recomenda-se incluir o modelo em CAD no repositório e confirmar nele 
 - Sem correspondente (0.08): A variável independente é a anteversão do braço, θel, com 0° para o braço pendente e 90° para o braço horizont
   - mais próximo no fundido: O cabo tracionado passa reto sobre concavidades. O raio efetivo é, por isso, a função suporte da envoltória co
 - Sem correspondente (0.09): O sinal de θb,pose = −7,962° está registrado no código como a confirmar. Com o sinal trocado, λ0 passa a −27,4
@@ -155,8 +155,8 @@ Idênticos: 4. Iguais a menos de números e referências: 26. Modificados: 39. S
   - mais próximo no fundido: O circuito do mecanismo foi fechado no modelo em CAD do Autodesk Fusion, e as grandezas medidas nesse modelo, 
 - Sem correspondente (0.48): A.6 Cinemática: equações de circuito e troca de regime (seções 3.4, 3.5 e 3.7)
   - mais próximo no fundido: Tabela 24: Grandezas do circuito em ângulos representativos (ec = 34,785 mm)
-- Sem correspondente (0.48): A.10 Identificação dos parâmetros a partir da Figura 16 (seções 3.9, 4.4 e 4.5)
-  - mais próximo no fundido: 3.3.10 Dados da patente e identificação dos parâmetros
+- Sem correspondente (0.49): A.10 Identificação dos parâmetros a partir da Figura 16 (seções 3.9, 4.4 e 4.5)
+  - mais próximo no fundido: Fonte: elaborada pelo autor, a partir da Figura 16 da US 9.737.374 B2 (DOYLE, 2017).
 
 ## 6. Pacote
 

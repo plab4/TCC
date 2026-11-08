@@ -107,6 +107,12 @@
 \DeclareFieldFormat[inproceedings,incollection]{pages}{p\adddot\addnbspace#1}
 % "(ed.)" minúsculo: o estilo abnt põe o papel em maiúscula (\bibsentence)
 \DeclareFieldFormat{editortype}{\printtext[parens]{#1}}
+% Sobrenomes em maiúsculas na lista de referências (ABNT NBR 6023:2018). O
+% modelo deixa os nomes em caixa normal por causa das citações (NBR
+% 10520:2023), que continuam assim: elas usam \UpperOrSCCite, não \UpperOrSC.
+\renewcommand*{\UpperOrSC}[1]{\MakeUppercase{#1}}
+% links sem as caixas coloridas na tela (citações, remissões e DOI)
+\hypersetup{hidelinks}
 % nas patentes, a data só alimenta a citação; depósito e concessão
 % estão no campo note
 \AtEveryBibitem{\ifentrytype{patent}{\clearfield{year}\clearfield{month}\clearfield{day}}{}}

@@ -942,9 +942,14 @@ def tabela_dados(b, tx):
 # referências
 # ----------------------------------------------------------------------
 
+# sobrenomes da lista de referências em maiúsculas, como no DOCX fundido e no
+# LaTeX (ABNT NBR 6023); False volta à caixa normal do modelo da FT
+MAIUSCULAS = True
+
+
 def referencias(doc, refs, rels_orig):
-    """Lista do DOCX fundido com os nomes na forma do biblatex (caixa
-    normal), aspas tipográficas e DOI e URL em fonte mono, como no LaTeX."""
+    """Lista do DOCX fundido com os sobrenomes em maiúsculas (ABNT NBR 6023,
+    como no LaTeX), aspas tipográficas e DOI e URL em fonte mono."""
     entradas = entradas_bib()
     assert len(entradas) == len([r for r in refs if gl.texto(r).strip()]), "bib e DOCX diferem"
     c = doc.corpo
@@ -956,7 +961,9 @@ def referencias(doc, refs, rels_orig):
     doc.sumario.append((1, "", run("Referências"), marca, "Referências"))
     for (chave, tipo, campos), b in zip(entradas, [r for r in refs if gl.texto(r).strip()]):
         troca = []
-        if "holder" in campos:
+        if MAIUSCULAS:
+            pass
+        elif "holder" in campos:
             org = campos["holder"].strip("{}").replace("\\&", "&")
             mista, _ = nomes_ref(campos["author"], inicio_de_frase=False)
             fam, giv = nomes(campos["author"])[0][0]
@@ -966,7 +973,7 @@ def referencias(doc, refs, rels_orig):
         else:
             mista, maiusc = nomes_ref(campos["author"])
             troca.append((maiusc, mista))
-        if "editor" in campos:
+        if "editor" in campos and not MAIUSCULAS:
             mista_e, maiusc_e = nomes_ref(campos["editor"], inicio_de_frase=False)
             troca.append(("In: " + maiusc_e, "In: " + mista_e))
         partes = []

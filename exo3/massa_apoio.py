@@ -47,10 +47,11 @@ CORPOS = {
     "polia interna": ("Náilon 6/6", 15.975, 14137.167, (30.0, 30.0, 20.0), (129.754, 67.131),
                       (1431.093, 1431.094, 1797.187, 0.0),
                       (73423.961, 2.704e5, 3.427e5, -1.392e5)),
-    "polia externa": ("Aço", 373.005, 47516.589, (55.0, 55.0, 20.0), (-32.681, 47.229),
-                      (82954.794, 82954.812, 1.410e5, 0.0), (9.150e5, 4.813e5, 1.371e6, 5.757e5)),
-    "came": ("Aço", 405.33, 51634.402, (44.585, 49.897, 30.0), (-39.51, 57.522),
-             (98400.164, 79197.999, 1.168e5, -10821.072), (1.440e6, 7.119e5, 2.091e6, 9.104e5)),
+    "polia externa": ("Náilon 6/6", 53.694, 47516.589, (55.0, 55.0, 20.0), (-32.681, 47.229),
+                      (11941.263, 11941.266, 20302.946, 0.0),
+                      (1.317e5, 69288.57, 1.974e5, 82876.103)),
+    "came": ("Náilon 6/6", 58.347, 51634.402, (44.585, 49.897, 30.0), (-39.51, 57.522),
+             (14164.61, 11400.476, 16813.055, -1557.683), (2.072e5, 1.025e5, 3.010e5, 1.310e5)),
 }
 
 
@@ -207,7 +208,6 @@ def geometria():
             "giro_peca_grau": meia_volta(chassi - chassi14),
             "lado_mola": lado(np.array(CORPOS["mola"][4])), "lado_O": lado(O),
             "corpos": corpos, "massa_g": mt, "cg": cg, "d": d, "a": a, "came": came,
-            "nailon": variante_nailon(corpos, O, eixo),
             "came_chassi_peca": meia_volta(came["giro_caixa"] - chassi),
             "came_chassi_14D": meia_volta(GIRO_CAME_14D - chassi14),
             "espelhamento": espelhamento()}
@@ -219,17 +219,6 @@ def conjunto(corpos, O, eixo):
     cg = sum(x["massa_g"]*np.array(x["cg"]) for x in corpos.values())/mt
     r = cg - O
     return float(mt), cg.tolist(), float(np.hypot(*r)), meia_volta(ang(r) - eixo)
-
-
-def variante_nailon(corpos, O, eixo):
-    """O conjunto com a polia externa e o came em náilon 6/6, a aparência deles no CAD."""
-    dens = CORPOS["capa"][1]/CORPOS["capa"][2]
-    outro = {k: dict(v) for k, v in corpos.items()}
-    for nome in ("polia externa", "came"):
-        outro[nome]["massa_g"] = CORPOS[nome][2]*dens
-    mt, cg, d, a = conjunto(outro, O, eixo)
-    return {"densidade_g_mm3": dens, "massa_g": mt, "d": d, "a": a, "momento_max_N_m": G*mt*d/1e6,
-            "corpos": outro}
 
 
 def sensibilidade_pivo(geo):
@@ -317,9 +306,6 @@ def main():
     for nome, x in sensibilidade_pivo(geo).items():
         print(f"Pivô com {nome}: C2 a {x['c2_grau']:.2f}°, O desloca {x['desvio_O_mm']:.2f} mm, d = {x['d']:.2f} mm, "
               f"a = {x['a']:.2f}°, momento máximo {x['momento_max_N_m']:.3f} N·m")
-    n = geo["nailon"]
-    print(f"Com a polia externa e o came em náilon ({n['densidade_g_mm3']*1000:.3f} g/cm³): {n['massa_g']:.1f} g, "
-          f"centro a {n['d']:.2f} mm e {n['a']:.2f}°, momento máximo {n['momento_max_N_m']:.3f} N·m")
 
 
 if __name__ == "__main__":

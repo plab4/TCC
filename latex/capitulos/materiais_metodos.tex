@@ -717,7 +717,7 @@ Para conferir o CAD, as poses das Figuras 14C, com o braço erguido, e 14D, com 
 
 O membro superior é o das seções~\ref{sec:3.1.2} e \ref{sec:3.2.2}: o indivíduo de referência de \textcite{deleva1996}, homem de 73,0 kg e 1,741 m, com o cotovelo estendido. Braço, antebraço e mão estão em série a partir de O, alinhados ao eixo maior do apoio de braço, com as frações de centro de massa e os raios de giração transversais de \textcite{deleva1996}, e o transporte ao eixo usa a Equação~\eqref{eq:01}. O modelo admite o centro do ombro no eixo do pivô 584. O artigo de \textcite{okabe2026}, que usa a curva desta patente numa simulação multicorpos, adota massas que correspondem às frações de \textcite{deleva1996} para 82,8 kg de massa corporal; esse membro entra só na comparação da seção~\ref{sec:4.3.8}.
 
-O apoio de braço entra com as propriedades de massa de cinco corpos do CAD: a capa, a mola, as polias interna e externa e o came, com massa, centro de massa e tensor de inércia no referencial da peça, de eixo z normal ao plano do mecanismo. O tensor transportado do centro de massa à origem confere com o relatório. As duas polias são cilindros cheios, com o centro de massa no eixo: a externa, de 55 mm de diâmetro, é a primária 564, no pino 572, e a interna, de 30 mm, é a polia de reversão 630, no pino 632. O came é a flange da Figura 15A extrudada em 30 mm, também no pino 572.
+O apoio de braço entra com as propriedades de massa de cinco corpos do CAD: a capa, a mola, as polias interna e externa e o came, com massa, centro de massa e tensor de inércia no referencial da peça, de eixo z normal ao plano do mecanismo. O tensor transportado do centro de massa à origem confere com o relatório. As duas polias são cilindros cheios, com o centro de massa no eixo: a externa, de 55 mm de diâmetro, é a primária 564, no pino 572, e a interna, de 30 mm, é a polia de reversão 630, no pino 632. O came é a flange da Figura 15A extrudada em 30 mm, também no pino 572. A capa, as polias e o came são de náilon 6/6, e a mola, de aço.
 
 O relatório não traz o pivô 584. O came aparece sem espelhamento no CAD e no desenho, de modo que o referencial da peça é o da Figura 14D girado, e o pivô foi posto a C\textsubscript{2} do pino 572, com o ângulo entre C\textsubscript{2} e a reta de 572 a 632 medido na Figura 14D, do mesmo lado da mola, como no desenho. O eixo maior fica 26,741° além de C\textsubscript{2} (seção~\ref{sec:3.3.3}). Para cada corpo, d\textsubscript{i} é a distância do centro de massa a O e a\textsubscript{i} o ângulo dele com o eixo maior, positivo acima do eixo, e o momento de inércia em O sai da Equação~\eqref{eq:01}. O centro do came, excêntrico, gira com as polias em relação ao chassi; os demais corpos são fixos no chassi.
 
@@ -793,7 +793,7 @@ A tangente existe enquanto |d| > R; o limite |d| = R é tratado na seção~\ref{
 \centering
 \caption{Circuito do cabo de ancoragem sobre a Figura 14D da US 9.737.374 B2, na pose do desenho, e contorno do came da Figura 15A ajustado ao desenho}\label{fig:circuito-cabo-ancoragem-sobre}
 \includegraphics[width=0.97\textwidth]{circuito-cabo-ancoragem-sobre.png}
-\fonte{elaborada pelo autor.}
+\fonte{adaptada da Figura 14D da US 9.737.374 B2 \cite{doyle2017}, com o circuito do modelo e o contorno do came sobrepostos pelo autor.}
 \end{figure}
 
 \subsection{Ponto de tangência, distância b, ângulo β e braço de momento}\label{sec:3.3.5}
@@ -831,7 +831,7 @@ O cabo tracionado passa reto sobre concavidades. O raio efetivo é, por isso, a 
 \centering
 \caption{Fundo do canal do came 570 extraído da Figura 15B da US 9.737.374 B2 (a) e raio efetivo r e raio no ponto de saída ρ em função da direção do cabo (b)}\label{fig:fundo-canal-came-extraido}
 \includegraphics[width=0.97\textwidth]{fundo-canal-came-extraido.png}
-\fonte{elaborada pelo autor.}
+\fonte{elaborada pelo autor, a partir da Figura 15B da US 9.737.374 B2 \cite{doyle2017}.}
 \end{figure}
 
 O cabo 634 sai do came tangente a ele e segue até a polia de reversão 630. Com a polia a uma distância L de D, na direção λ, e de raio r\textsubscript{630}, a tangência fixa a direção normal ao cabo em λ − 90° + δ, com δ = asin[(r − r\textsubscript{630})/L]: o ângulo do cabo depende do giro das polias por meio do próprio r, e a equação é implícita. Numa geometria de teste com L = 4,5 R20 e r\textsubscript{630} = 0,5 R20, δ varia de −2,3° a 6,4° ao longo do curso e muda r em até 0,031 R20.
@@ -912,7 +912,7 @@ A equação de movimento teria a forma da Equação~\eqref{eq:30}, com Θ como c
   \label{eq:71}
 \end{equation}
 
-em que τ\textsubscript{g,s} é o torque do peso com sinal e Q\textsubscript{nc} reúne os esforços não conservativos. Pela Equação~\eqref{eq:69}, a energia elástica da mola satisfaz dV\textsubscript{e}/dΘ = F\textsubscript{s} dx/dΘ = −1000 τ, de modo que a força generalizada elástica coincide, a menos do fator 1/1000, com o torque da Equação~\eqref{eq:66}; esse pré-requisito estático está verificado (Tabela~\ref{tab:verificacoes-cadeia-calculo-modelo-levitate}). O momento de inércia do conjunto em torno de 584 é de 0,4560 kg·m\textsuperscript{2}, com o membro e o apoio de braço (Tabela~\ref{tab:propriedades-massa-conjunto-que-gira}); como o par de polias gira em relação ao chassi, a energia cinética teria ainda o termo desse giro relativo, que depende de dθ\textsubscript{p}/dΘ e, portanto, de Θ.
+em que τ\textsubscript{g,s} é o torque do peso com sinal e Q\textsubscript{nc} reúne os esforços não conservativos. Pela Equação~\eqref{eq:69}, a energia elástica da mola satisfaz dV\textsubscript{e}/dΘ = F\textsubscript{s} dx/dΘ = −1000 τ, de modo que a força generalizada elástica coincide, a menos do fator 1/1000, com o torque da Equação~\eqref{eq:66}; esse pré-requisito estático está verificado (Tabela~\ref{tab:verificacoes-cadeia-calculo-modelo-levitate}). O momento de inércia do conjunto em torno de 584 é de 0,4503 kg·m\textsuperscript{2}, com o membro e o apoio de braço (Tabela~\ref{tab:propriedades-massa-conjunto-que-gira}); como o par de polias gira em relação ao chassi, a energia cinética teria ainda o termo desse giro relativo, que depende de dθ\textsubscript{p}/dΘ e, portanto, de Θ.
 
 A integração não foi executada. A escala do torque vem da AWM igualada ao peso do membro de referência, e não de dado do dispositivo, e a rigidez e o comprimento livre da mola só existem como ajuste nessa escala. Atrito no pivô, nos pinos e nos cabos e amortecimento são desconhecidos, de modo que Q\textsubscript{nc} não pode ser escrito. O MBDyn não foi empregado nesta etapa. Nenhum resultado dinâmico é apresentado, e as condições para executar a etapa estão na seção~\ref{sec:4.3.9}.
 

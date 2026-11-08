@@ -686,7 +686,7 @@ Depois: A identificação foi reproduzida apenas em parte. K e Xpose foram repro
 
 Antes: O fator de escala de 0,870, fixado pela comparação entre o comprimento do elo distal e o comprimento de segmento do indivíduo de referência, propaga-se a todas as grandezas dimensionais e de massa, e duas cotas do modelo em CAD permanecem a confirmar. Alterações nessas grandezas exigem a reexecução integral da identificação.
 
-Depois: O fator de escala propaga-se a todas as grandezas dimensionais e de massa, e duas cotas do modelo em CAD permanecem a confirmar: o comprimento da mola na pose, 91,35 mm, para o qual o mesmo modelo forneceu também 90,13 mm, e o comprimento útil do alojamento, 131,37 mm, para o qual forneceu também 140,0 mm. Alterações nessas grandezas exigem a reexecução integral da identificação.
+Depois: O fator de escala propaga-se a todas as grandezas dimensionais e de massa, e o modelo em CAD confirma o comprimento da mola na pose, 91,35 mm; o comprimento útil do alojamento, que não entra na cadeia de cálculo, é de 140,0 mm no CAD. Alterações nessas grandezas exigem a reexecução integral da identificação.
 
 ### 112
 

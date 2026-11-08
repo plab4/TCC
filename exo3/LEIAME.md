@@ -245,9 +245,9 @@ Os dois módulos têm a mesma massa, mas os centros diferem 81,5 mm no plano XY:
 | Capa | Náilon 6/6 | 563,556 | 8,38; 25,05 | 122,3 | 8,1 |
 | Mola | Aço | 104,593 | −11,58; 6,17 | 100,5 | −0,6 |
 | Polia interna (pino 632) | Náilon 6/6 | 15,975 | 129,75; 67,13 | 250,0 | 12,7 |
-| Polia externa (pino 572) | Aço | 373,005 | −32,68; 47,23 | 90,6 | 26,7 |
-| Came 570 | Aço | 405,330 | −39,51; 57,52 | 90,4 | 34,6 |
-| Conjunto | | 1462,459 | −15,47; 38,82 | 102,8 | 18,0 |
+| Polia externa (pino 572) | Náilon 6/6 | 53,694 | −32,68; 47,23 | 90,6 | 26,7 |
+| Came 570 | Náilon 6/6 | 58,347 | −39,51; 57,52 | 90,4 | 34,6 |
+| Conjunto | | 796,165 | 1,91; 27,29 | 116,4 | 9,7 |
 
 Identificação e conferência:
 - As polias são cilindros cheios (volume igual ao do cilindro da caixa; Ixx = Iyy e Ixy = 0 no centro). A externa (55 mm) está no 572, junto do came, e a interna (30 mm), no 632. Elas ficam a 163,65 mm uma da outra, contra 165,00 mm na Figura 14D.
@@ -258,18 +258,18 @@ Identificação e conferência:
 Pivô 584: não está no relatório. Foi posto a C2 = 90,587 mm do 572, com C2 a 21,8° da reta de 572 a 632 (Figura 14D), do lado da mola: O = (−112,07; 3,61) mm. O eixo maior fica a 2,05° no referencial da peça, 26,741° além de C2.
 
 Momento do peso em torno de 584, M = −g Σ m d cos(Θ + a)/10⁶ (N·m, m em g e d em mm), com o centro do came girando com as polias:
-- máximo de 1,46 N·m em Θ = −10,4°; 1,44 N·m com o eixo na horizontal; 0,49 N·m na pose do CAD;
-- o giro do came muda o momento em até 0,09 N·m;
+- máximo de 0,91 N·m em Θ = −7,9°; 0,90 N·m com o eixo na horizontal; 0,18 N·m na pose do CAD;
+- o giro do came muda o momento em até 0,01 N·m;
 - a mola fica com o centro do CAD, porque o comprimento dela no CAD não vale para a pose. Metade do alongamento (93 mm até o limite de subida) moveria o momento em no máximo 0,05 N·m.
 
 Comparações:
-- Membro de referência (73,0 kg): 10,55 N·m na horizontal; com o apoio, 11,99 N·m. O apoio acrescenta 14% ao membro.
-- Escala adotada: a AWM da Figura 16 (−78,22 cos Θ) é o momento do peso do braço, e a amplitude dela é igualada aos 10,55 N·m do membro: c = 0,1349 N·m por unidade, e o máximo da AASM vale 10,19 N·m. Na horizontal, a AASM sustenta 96% do peso do membro e 85% do conjunto.
-- Ajuste da mola nessa escala: k = 0,492 N/mm, x0 = 323,6 mm, R² = 0,901; com o peso do apoio somado à AASM, k = 0,726 N/mm, x0 = 267,1 mm, R² = 0,931. Com o came girado de −49°, R² = 0,953 e k = 2,053 N/mm.
+- Membro de referência (73,0 kg): 10,55 N·m na horizontal; com o apoio, 11,45 N·m. O apoio acrescenta 9% ao membro.
+- Escala adotada: a AWM da Figura 16 (−78,22 cos Θ) é o momento do peso do braço, e a amplitude dela é igualada aos 10,55 N·m do membro: c = 0,1349 N·m por unidade, e o máximo da AASM vale 10,19 N·m. Na horizontal, a AASM sustenta 96% do peso do membro e 89% do conjunto.
+- Ajuste da mola nessa escala: k = 0,492 N/mm, x0 = 323,6 mm, R² = 0,901; com o peso do apoio somado à AASM, k = 0,610 N/mm, x0 = 293,6 mm, R² = 0,918. Com o came girado de −49°, R² = 0,953 e k = 2,053 N/mm.
 - Escala do artigo (30 N·m no máximo da AASM), só como comparação: 2,94 vezes a adotada. Nela, a AWM valeria 31,06 N·m, 2,9 vezes o membro de referência e 2,6 vezes o membro do artigo; k = 1,448 N/mm, com o mesmo x0 e o mesmo R².
-- Inércia em torno de 584 (eixos paralelos com o Izz do CAD): 0,0213 kg·m² do apoio; com o membro de referência (de Leva, raios transversais), 0,4560 kg·m².
+- Inércia em torno de 584 (eixos paralelos com o Izz do CAD): 0,0156 kg·m² do apoio; com o membro de referência (de Leva, raios transversais), 0,4503 kg·m².
 
-No CAD, a polia externa e o came são de aço, com aparência de náilon. Em náilon 6/6 (1,130 g/cm³, a densidade da capa), o conjunto teria 796,2 g e momento máximo de 0,91 N·m.
+Material: o primeiro relatório trazia a polia externa e o came em aço (373,005 g e 405,330 g), com aparência de náilon. O autor confirmou o náilon 6/6 e mandou o relatório dessas duas peças em náilon (53,694 g e 58,347 g), que é o usado.
 
 Conferências independentes do referencial (`massa_apoio.py`):
 - came espelhado: o giro pelo centróide e o giro pelos eixos principais diferem 72,1°, contra 7,7° sem espelhar;
