@@ -36,7 +36,7 @@ TITULOS_CAPITULO = {
 
 # caracteres fora do Latin-1 usados no texto corrido; o preâmbulo declara
 # cada um com \DeclareUnicodeCharacter (ver preambulo.tex)
-UNICODE_TEXTO = set("θτℓλδφψσαβργηπκεμξ−≤≥≈⊥√∂→ŷ—–")
+UNICODE_TEXTO = set("θτℓλδφψσαβργηπκεμξΔΘ−≤≥≈⊥√∂→ŷ—–")
 
 ESCAPE = {"\\": r"\textbackslash{}", "{": r"\{", "}": r"\}", "$": r"\$",
           "&": r"\&", "%": r"\%", "#": r"\#", "_": r"\_",
@@ -256,7 +256,9 @@ def substituicoes(t, rot, cit):
     # figuras do documento (as da patente ficam como texto)
     for m in re.finditer(r"\b(Figuras?) (\d+)((?:, \d+)*)((?: e \d+)?)(?=(.{0,14}))", t):
         n, resto = int(m.group(2)), m.group(5)
+        # número seguido de letra (14C, 15B) é figura da patente: as do TCC não têm letra
         patente = (resto.startswith((" da patente", " da EP", " da US")) or re.match(r", p\. \d", resto)
+                   or re.match(r"[A-Z]\b", resto)
                    or n == 56
                    or m.group(3).startswith(", 16"))
         if patente:

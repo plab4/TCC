@@ -222,7 +222,7 @@ def main():
     diga("Seções por parte: " + "; ".join(f"{k}.1 a {k}.{max(v)} ({'ok' if seq(v) else 'falha'})"
                                           for k, v in grupos.items()) + ".")
     diga("Títulos de capítulo e de parte: " + "; ".join(
-        t for t in tits if re.match(r"^(\d|[345]\.[12]) ", t) or t.isupper()) + ".")
+        t for t in tits if re.match(r"^(\d|[345]\.[123]) ", t) or t.isupper()) + ".")
     diga()
 
     # 3. referências

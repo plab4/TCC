@@ -1,5 +1,5 @@
 """
-Gera o TCC com os dois exoesqueletos a partir de tcc/TCC_apenas_exo1.docx,
+Gera o TCC com os três exoesqueletos a partir de tcc/TCC_apenas_exo1.docx,
 que não é alterado. A cópia gravada:
 
 - mantém todos os parágrafos, tabelas, equações e figuras do original;
@@ -392,6 +392,7 @@ REFS_EQ = [
 # vale do RMSE com K e X_pose reidentificados para cada h (análise complementar
 # da seção 4.1.4): faixas em torno do mínimo, na malha de 0,25 mm
 N1 = json.loads((RES/"tcc_numeros.json").read_text(encoding="utf-8"))
+N3 = json.loads((RES/"exo3_tcc_numeros.json").read_text(encoding="utf-8"))
 
 
 def _vale(fator):
@@ -411,10 +412,12 @@ V1, V2 = _vale(1.01), _vale(2.0)
 EDICOES = [
     ("foi executado apenas para o gerador de torque da US 9.889.554 B2, ao qual se "
      "referem todas as equações deste capítulo e todos os resultados do capítulo 4.",
-     "foi executado para o gerador de torque da US 9.889.554 B2, ao qual se referem "
-     "as seções 3.1, 4.1 e 5.1, e para o dispositivo da EP 3 504 033 B1, ao qual se "
-     "referem as seções 3.2, 4.2 e 5.2. As seções 3.1.9 e 3.2.9 formulam os dois "
-     "modelos estáticos pelo princípio dos trabalhos virtuais."),
+     "foi executado na parte estática: para o gerador de torque da US 9.889.554 B2, "
+     "ao qual se referem as seções 3.1, 4.1 e 5.1, para o dispositivo da "
+     "EP 3 504 033 B1, ao qual se referem as seções 3.2, 4.2 e 5.2, e para o "
+     "mecanismo de came da US 9.737.374 B2, ao qual se referem as seções 3.3, 4.3 e "
+     "5.3. As seções 3.1.9, 3.2.9 e 3.3.3 formulam os três modelos estáticos pelo "
+     "princípio dos trabalhos virtuais."),
     ("O sinal do termo do arco foi fixado pelo princípio dos trabalhos virtuais.",
      "O sinal do termo do arco foi fixado pelo princípio dos trabalhos virtuais, "
      "formulado na seção 3.1.9."),
@@ -424,15 +427,16 @@ EDICOES = [
      "Esta seção apresenta os resultados das etapas"),
     ("e a aplicação do procedimento à US 9.737.374 B2 e à EP 3 504 033 B1 não foram "
      "executadas.",
-     "e a aplicação do procedimento à US 9.737.374 B2 não foram executadas."),
+     "não foram executadas."),
     ("O objetivo geral foi atingido em sua parte estática e para um dos três "
      "dispositivos previstos.",
      "O objetivo geral foi atingido para o primeiro dispositivo, e a extensão à "
      "dinâmica multicorpos ficou preparada, com o procedimento da seção 3.1.13, mas "
-     "não foi executada; o segundo dispositivo é tratado na seção 5.2."),
-    ("e estender o procedimento à US 9.737.374 B2 e à EP 3 504 033 B1.",
-     "e estender o procedimento à US 9.737.374 B2. A extensão à EP 3 504 033 B1 é "
-     "apresentada nas seções 3.2, 4.2 e 5.2."),
+     "não foi executada; o segundo e o terceiro dispositivos são tratados nas "
+     "seções 5.2 e 5.3."),
+    ("e no MBDyn e estender o procedimento à US 9.737.374 B2 e à EP 3 504 033 B1.",
+     "e no MBDyn. A extensão à EP 3 504 033 B1 e à US 9.737.374 B2 é apresentada nas "
+     "seções 3.2, 4.2 e 5.2 e nas seções 3.3, 4.3 e 5.3."),
     ("Por fim, os resultados referem-se a um único dispositivo",
      "Por fim, os resultados desta seção referem-se a um único dispositivo"),
     # Okabe: três autores, citados todos (NBR 10520), com a referência
@@ -529,10 +533,10 @@ EDICOES = [
      "conjunto braço–exoesqueleto ao longo da faixa de elevação.",
      "Modelar o comportamento estático de mecanismos passivos de apoio ao braço "
      "descritos em patentes, tomando como casos de referência os mecanismos da US "
-     "9.889.554 B2 e da EP 3 504 033 B1, comparar o torque entregue por cada "
-     "mecanismo ao torque gravitacional do conjunto braço–exoesqueleto ao longo da "
-     "faixa de elevação e preparar a extensão do procedimento à dinâmica multicorpos "
-     "e à US 9.737.374 B2."),
+     "9.889.554 B2, da EP 3 504 033 B1 e da US 9.737.374 B2, comparar o torque "
+     "entregue por cada mecanismo ao torque gravitacional do conjunto "
+     "braço–exoesqueleto ou à curva publicada na patente ao longo da faixa de "
+     "elevação e preparar a extensão do procedimento à dinâmica multicorpos."),
     ("Este trabalho trata dessa lacuna: modelar e simular, de forma integrada, o "
      "comportamento estático e dinâmico de mecanismos passivos de apoio ao braço "
      "reconstruídos a partir de suas patentes, usando formulações amplamente "
@@ -750,15 +754,17 @@ def faixa(x):
 
 def cap1_introducao():
     return [P(
-        "Nesta etapa, o procedimento foi aplicado a dois mecanismos de arquitetura "
+        "Nesta etapa, o procedimento foi aplicado a três mecanismos de arquitetura "
         "distinta. O primeiro é o gerador de torque de mola, cabo e polia da "
         "US 9.889.554 B2 (VAN ENGELHOVEN; KAZEROONI, 2018). O segundo é o "
         "dispositivo da EP 3 504 033 B1 (MIZERA et al., 2023), em que um elemento "
         "elástico atua diretamente sobre uma alavanca solidária ao braço e um "
         "elemento de encosto junto à articulação reduz o torque com o braço baixado "
-        "e o anula quando situado sobre o eixo de rotação. Os dois são tratados em "
-        "seções separadas dos capítulos 3, 4 e 5, a primeira dedicada ao "
-        "exoesqueleto 1 e a segunda ao exoesqueleto 2.")]
+        "e o anula quando situado sobre o eixo de rotação. O terceiro é o mecanismo "
+        "da US 9.737.374 B2 (DOYLE, 2017), em que um cabo de ancoragem se enrola numa "
+        "polia solidária a um came de raio variável, que converte a força de uma mola "
+        "em torque no ombro. Os três são tratados em seções separadas dos capítulos 3, "
+        "4 e 5, dedicadas aos exoesqueletos 1, 2 e 3.")]
 
 
 def cap1_objetivos():
@@ -770,7 +776,13 @@ def cap1_objetivos():
               "junto à articulação;"),
             P("i) identificar o comprimento de referência do elástico a partir das três "
               "curvas de pré-tensão publicadas na patente, por um procedimento que não "
-              "dependa da escala da ordenada nem da rigidez.")]
+              "dependa da escala da ordenada nem da rigidez."),
+            P("Para o dispositivo da US 9.737.374 B2, acrescentam-se os objetivos:"),
+            P("j) reconstruir o circuito do cabo de ancoragem e o perfil do came de raio "
+              "variável a partir das figuras da patente e do modelo em CAD;"),
+            P("k) obter a transmissão entre a força da mola e o torque no ombro ao longo "
+              "da faixa de elevação e confrontá-la com a curva de momento publicada na "
+              "patente.")]
 
 
 def cap1_justificativa():
@@ -780,7 +792,10 @@ def cap1_justificativa():
         "três curvas obtidas com o mesmo atuador e pré-tensões diferentes "
         "(MIZERA et al., 2023). Essa redundância permite obter grandezas que uma única "
         "curva sem escala não determina e confrontar, sobre a mesma base de "
-        "cálculo, duas arquiteturas que a seção 2.7 associa a produtos comerciais.")]
+        "cálculo, duas arquiteturas que a seção 2.7 associa a produtos comerciais. O "
+        "terceiro dispositivo acrescenta um came de raio variável, cujo perfil a "
+        "patente publica só como desenho, e testa o procedimento num mecanismo em que "
+        "a geometria do came molda a curva de torque.")]
 
 
 def cap2_compensacao():
@@ -999,7 +1014,14 @@ def cap3_introducao():
         "results/ottobock_tcc_numeros.json e as figuras em results/, na mesma "
         "organização usada por torque_model.py e tcc_resultados.py na seção 4.1. O "
         "script de resultados não altera parâmetro algum do modelo; as únicas "
-        "identificações são as descritas na seção ⟦S:ident⟧.")]
+        "identificações são as descritas na seção ⟦S:ident⟧."),
+            P("A cadeia de cálculo do mecanismo da US 9.737.374 B2, descrita nas seções "
+              "⟦S:e3_mec⟧ a ⟦S:e3_hip⟧, está nos scripts da pasta exo3, que extraem o "
+              "perfil do came, "
+              "resolvem o circuito do cabo de ancoragem, tratam as relações entre o came "
+              "e o cabo da mola e medem as poses das figuras da patente. Os números e as "
+              "figuras da seção 4.3 são produzidos por tcc_resultados_exo3.py, que grava "
+              "os valores em results/exo3_tcc_numeros.json.")]
 
 
 def parte_3B():
@@ -1657,8 +1679,7 @@ def cap4_introducao():
     return [P("Os resultados estão organizados por dispositivo. A seção 4.1 apresenta "
               "os do gerador de torque da US 9.889.554 B2, e a seção 4.2, os do "
               "dispositivo da EP 3 504 033 B1, encerrada por uma comparação entre os "
-              "dois. O terceiro dispositivo previsto, a US 9.737.374 B2, não foi "
-              "analisado nesta etapa."),
+              "dois; e a seção 4.3, os do mecanismo de came da US 9.737.374 B2."),
             H("4.1 Exoesqueleto 1")]
 
 
@@ -2468,11 +2489,11 @@ def parte_4B():
 
     # ------------------------------------------------------------ comparação
     a(SEC("4.2", "r_comp", "Comparação com o exoesqueleto 1"))
-    a(P("A Tabela ⟦T:comp⟧ compara os dois dispositivos com os números das seções "
+    a(P("A Tabela ⟦T:comp⟧ compara os exoesqueletos 1 e 2 com os números das seções "
         "4.1 e 4.2. Os ângulos são comparáveis porque as duas convenções medem o braço "
         "a partir da posição pendente: a elevação anatômica da seção 3.1.3 e a "
         "anteversão da seção ⟦S:conv⟧."))
-    a(LEG_T("comp", "Comparação entre os dois dispositivos analisados"))
+    a(LEG_T("comp", "Comparação entre os exoesqueletos 1 e 2"))
     a(TABELA(
         ["Aspecto", "US 9.889.554 B2 (seção 4.1)", "EP 3 504 033 B1 (seção 4.2)"],
         [["Arquitetura", "Mola, cabo e polia entre elo proximal e elo distal",
@@ -2539,8 +2560,8 @@ def parte_4B():
 
 def cap5_titulo():
     return [P("As conclusões estão organizadas por dispositivo: a seção 5.1 trata do "
-              "gerador de torque da US 9.889.554 B2, e a seção 5.2, do dispositivo da "
-              "EP 3 504 033 B1."),
+              "gerador de torque da US 9.889.554 B2; a seção 5.2, do dispositivo da "
+              "EP 3 504 033 B1; e a seção 5.3, do mecanismo de came da US 9.737.374 B2."),
             H("5.1 Exoesqueleto 1")]
 
 
@@ -2659,6 +2680,404 @@ DOI_ZEIAEE = "https://doi.org/10.1109/ICORR.2017.8009339"
 RID_ZEIAEE = "rIdExo2Doi2"
 DOI_OKABE = "https://doi.org/10.1115/1.4071946"
 RID_OKABE = "rIdExo2Doi3"
+
+
+# ======================================================================
+# exoesqueleto 3: US 9.737.374 B2 (Doyle, 2017), cabo, polia e came
+# ======================================================================
+
+def _e3_faixa(z):
+    """Faixa de Θ, em graus, em que o cabo da mola sai na zona z (giro do desenho)."""
+    (a0, a1), = N3["zonas"][z]
+    return a0, a1
+
+
+def parte_3C():
+    p, aj = N3["pontos"], N3["ajuste"]
+    B = []
+    a = B.append
+    a(H("3.3 Exoesqueleto 3"))
+    a(P("As seções ⟦S:e3_mec⟧ a ⟦S:e3_hip⟧ aplicam o procedimento à US 9.737.374 B2 "
+        "(DOYLE, 2017), da Levitate. O mecanismo tem cabo e polia, como o do "
+        "exoesqueleto 1, mas a força da mola chega ao ombro por um par de polias, uma "
+        "delas um came de raio variável, e não por um tambor de raio fixo. Por isso a "
+        "numeração destas seções não segue a das seções 3.1 e 3.2. A análise ficou na "
+        "estática, e a mola, cuja rigidez a patente não informa, não foi modelada: a "
+        "seção ⟦S:e3_mola⟧ explica como ela entra nos resultados."))
+    a(P("A classificação de origem é a da introdução deste capítulo. A análise usou os "
+        "documentos e arquivos da Tabela ⟦T:e3_fontes⟧."))
+    a(LEG_T("e3_fontes", "Fontes e arquivos utilizados na análise da US 9.737.374 B2"))
+    a(TABELA(
+        ["Fonte", "Conteúdo utilizado", "Classificação", "Verificação nesta análise"],
+        [["US 9.737.374 B2, PDF do escritório de patentes dos Estados Unidos "
+          "(DOYLE, 2017)",
+          "Arquitetura e numeração dos elementos; Figuras 14C e 14D (poses), 15A e 15B "
+          "(came) e 16 (momentos)", "Documental",
+          "Desenhos lidos na imagem das folhas; texto lido por reconhecimento óptico"],
+         ["Modelo em CAD do autor",
+          "Grandezas da Tabela ⟦T:e3_cad⟧ e defasagem entre C_{2} e o eixo maior do "
+          "apoio de braço", "Medida em CAD",
+          "Fechamento do circuito conferido; pose e ponto de ancoragem conferidos nas "
+          "Figuras 14C e 14D (seção ⟦S:e3_conf⟧)"],
+         ["Artigo de simulação multicorpos (OKABE; BRITTES; BRITO, 2026)",
+          "Escala de 30 N·m para a curva de momento da patente; massas e comprimentos "
+          "do membro superior", "Literatura",
+          "Artigo lido; frações de centro de massa (DE LEVA, 1996)"],
+         ["Scripts da pasta exo3 e tcc_resultados_exo3.py",
+          "Extração do came, circuito, relações do came, poses das figuras, números e "
+          "figuras da seção 4.3", "Derivada pelo modelo", "Executados nesta análise"]],
+        [2000, 3160, 1500, 2700]))
+    a(FONTE)
+
+    # ------------------------------------------------------------ mecanismo
+    a(SEC("3.3", "e3_mec", "Mecanismo"))
+    a(P("Nas Figuras 14C e 14D da US 9.737.374 B2, o chassi 580 do apoio de braço gira "
+        "em torno do pivô horizontal do ombro, 584. O cabo de ancoragem 560 sai do ponto "
+        "562, na âncora 558, presa ao suporte do tronco, enrola-se na polia primária 564 "
+        "e prende-se a ela no ponto 561. A polia secundária 570 é solidária à primária, "
+        "e as duas giram em torno do pino 572, no chassi. O cabo da mola 634 prende-se à "
+        "secundária no ponto 573, corre no canal 652, passa pela polia de reversão 630, "
+        "também no chassi, e chega à mola 636, cuja outra ponta fica presa ao chassi "
+        "(DOYLE, 2017). Ao baixar o braço, o cabo 560 desenrola-se da primária, o par de "
+        "polias gira, e o cabo 634 enrola-se na secundária, estendendo a mola; ao "
+        "erguê-lo, acontece o inverso."))
+    a(P("A secundária 570 é o came. A patente divide o canal em três zonas: na Z10, o "
+        "raio é constante (R20 = R21); na Z11, ele diminui continuamente, de R22 a R23; e "
+        "na Z12, o canal forma um trecho reto (DOYLE, 2017). A Figura 16 da "
+        "US 9.737.374 B2 traz o momento do dispositivo (AASM), o do peso do braço (AWM) e "
+        "o resultante (RM) em função do ângulo Θ do eixo maior do apoio de braço com a "
+        "horizontal, positivo acima dela, com as faixas de Θ atribuídas às zonas Z11 e "
+        "Z12. A ordenada não tem unidade."))
+
+    # ------------------------------------------------------------ circuito
+    a(SEC("3.3", "e3_circ", "Circuito do cabo de ancoragem"))
+    a(P("O cabo 560 fecha um circuito vetorial com o suporte e o chassi "
+        "(Figura ⟦F:e3_circ⟧). Os pontos são O, o pivô 584; A, o ponto de ancoragem "
+        "562; D, o pino 572; e T, o ponto em que o cabo deixa a polia primária. Os "
+        "vetores são C_{1}, de A a O, fixo no suporte; C_{2}, de O a D, solidário ao "
+        "chassi; R, de D a T, o raio da polia primária; e S, de T a A, o vão livre do "
+        "cabo. Os ângulos γ, φ e θ são medidos no referencial do CAD, a partir da "
+        "horizontal, e q é o ângulo entre C_{2} e a horizontal; nesse referencial, a "
+        "direção de C_{2} é 180° − q. Com u(x) = (cos x, sin x), o fechamento é"))
+    a(EQ(("e3_fech", r"S\,\mathbf{u}\left( \theta \right) + R\,\mathbf{u}\left( \varphi \right) + C_{2}\,\mathbf{u}\left( 180^{\circ} - q \right) + C_{1}\,\mathbf{u}\left( \gamma \right) = \mathbf{0}")))
+    a(P("O mecanismo tem um grau de liberdade. A variável primária é q, e as secundárias "
+        "são S e φ: como o cabo é tangente à polia, θ = φ − 90°, sinal confirmado na pose "
+        "do CAD, e a tangência elimina uma incógnita, não uma equação. Com d = A − D, a "
+        "solução é fechada:"))
+    a(EQ(("e3_sol", r"\mathbf{d} = -\left[ C_{1}\,\mathbf{u}\left( \gamma \right) + C_{2}\,\mathbf{u}\left( 180^{\circ} - q \right) \right],\quad S = \sqrt{\left| \mathbf{d} \right|^{2} - R^{2}},\quad \varphi = \operatorname{atan2}\left( d_{y},\ d_{x} \right) + \operatorname{atan2}\left( S,\ R \right)")))
+    a(P("No CAD, o eixo maior do apoio de braço fica 26,741° além de C_{2}, no sentido "
+        "em que q cresce, e q cresce quando o braço desce. O ângulo da Figura 16 da "
+        "US 9.737.374 B2 é, portanto,"))
+    a(EQ(("e3_Theta", r"\Theta = -\left( q + 26{,}741^{\circ} \right)")))
+    a(P("A Tabela ⟦T:e3_cad⟧ reúne as grandezas medidas no CAD do autor na pose de "
+        "referência, que é a da Figura 14D (seção ⟦S:e3_conf⟧)."))
+    a(LEG_T("e3_cad", "Grandezas do circuito do cabo de ancoragem na pose do CAD"))
+    a(TABELA(
+        ["Grandeza", "Símbolo", "Valor", "Unidade", "Origem"],
+        [["Vetor de A a O, fixo no suporte", "C_{1}", f(70.711), "mm", "CAD"],
+         ["Vetor de O a D, solidário ao chassi", "C_{2}", f(90.587), "mm", "CAD"],
+         ["Raio da polia primária", "R", f(26.443), "mm", "CAD"],
+         ["Vão livre do cabo 560", "S", f(139.575), "mm", "CAD"],
+         ["Distância de O a T", "b", f(78.292), "mm", "CAD"],
+         ["Direção de C_{1}", "γ", f(61.26, 2), "graus", "CAD"],
+         ["Ângulo entre C_{2} e a horizontal", "q", f(61.724), "graus", "CAD"],
+         ["Direção de R", "φ", f(352.869), "graus", "CAD"],
+         ["Direção de S", "θ", f(262.869), "graus", "CAD"],
+         ["Ângulo em O entre C_{2} e b", "β", f(15.979), "graus", "CAD"],
+         ["Defasagem entre C_{2} e o eixo maior", "", f(26.741), "graus", "CAD"],
+         ["Ângulo do apoio de braço na pose", "Θ", f(N3["theta_pose"]), "graus",
+          "Derivada, Equação (⟦E:e3_Theta⟧)"],
+         ["Raio de referência do came", "R20", f(N3["R20_mm"], 3), "mm",
+          "Documental (seção ⟦S:e3_conf⟧)"]],
+        [3200, 1000, 1200, 1000, 2960],
+        ["left", "center", "right", "center", "left"]))
+    a(FONTE)
+    a(P("Com esses valores, o fechamento tem resíduo de 0,0006 mm, a solução fechada "
+        "devolve S e φ da tabela, e |C_{2} u(180° − q) + R u(φ)| = 78,291 mm, que é o b "
+        "medido."))
+    a(LEG_F("e3_circ", "Circuito do cabo de ancoragem sobre a Figura 14D da "
+            "US 9.737.374 B2, na pose do desenho, e contorno do came da Figura 15A "
+            "ajustado ao desenho"))
+    a(FIGURA("exo3_tcc_fig_1_circuito.png", 6.3,
+             "Circuito vetorial do cabo de ancoragem sobre a Figura 14D, com ampliação "
+             "da região das polias"))
+    a(FONTE)
+
+    # ------------------------------------------------------------ trabalho virtual
+    a(SEC("3.3", "e3_vt", "Torque pelo princípio dos trabalhos virtuais"))
+    assert SECOES["e3_vt"] == "3.3.3", SECOES["e3_vt"]
+    a(P("O apoio de braço, com o chassi, as polias, a mola e o cabo 634, gira em torno "
+        "de O como um corpo só, e a mola e o cabo 634 exercem forças internas a ele. O "
+        "único esforço externo do mecanismo é a tração F_{a} do cabo 560, que atua em T. "
+        "Como nos exoesqueletos 1 e 2, o torque é a componente z de b × f, com b o vetor "
+        "de O a T e f = F_{a} u(θ):"))
+    a(EQ(("e3_tau", r"\tau = \frac{\left( \mathbf{b}\times\mathbf{f} \right)_{z}}{1000},\quad \mathbf{b} = C_{2}\,\mathbf{u}\left( 180^{\circ} - q \right) + R\,\mathbf{u}\left( \varphi \right),\quad \left( \mathbf{b}\times\mathbf{f} \right)_{z} = -bF_{a}\sin\left( \theta + q + \beta \right) = F_{a}C_{1}\sin\left( \gamma - \theta \right)")))
+    a(P("em que β é o ângulo em O entre C_{2} e b, no triângulo O, D, T, e a direção de "
+        "b é 180° − q − β. A segunda forma vem do fechamento, b = −S u(θ) − C_{1} u(γ): "
+        "como a linha do cabo passa por A, o braço de momento C_{1} sin(γ − θ) só "
+        "depende de θ, não passa de C_{1} e se anula quando o cabo se alinha a C_{1} e "
+        "passa por O."))
+    a(P("O par de polias gira sem atrito em torno de D. Com F_{s} a tração no cabo da "
+        "mola e r o raio efetivo da secundária, isto é, a distância de D à linha do cabo "
+        "634, o equilíbrio do par dá F_{a} R = F_{s} r. Num giro virtual δΘ do apoio de "
+        "braço, em radianos, o vão S varia de C_{1} sin(γ − θ) δΘ, a primária gira δθ_{p} "
+        "= C_{1} sin(γ − θ) δΘ/R em relação ao chassi, e a mola estende-se de "
+        "δx = −r δθ_{p}. Os trabalhos virtuais da força do cabo 560 e da força da mola "
+        "são iguais, e"))
+    a(EQ(("e3_vt", r"\tau = \frac{F_{s}}{1000}\,\frac{r}{R}\,C_{1}\sin\left( \gamma - \theta \right) = -\frac{F_{s}}{1000}\,\frac{dx}{d\Theta},\quad \frac{d\theta_{p}}{d\Theta} = \frac{C_{1}\sin\left( \gamma - \theta \right)}{R},\quad \frac{dx}{d\theta_{p}} = -r")))
+    a(P("A rotação das polias também sai do enrolamento. Com o cabo 560 inextensível, "
+        "S + R w é constante, em que w é o arco enrolado de T a 561, e o giro absoluto "
+        "das polias é φ − S/R, mais uma constante. O ponto 561 e o comprimento total do "
+        "cabo só fixam essa constante, que a seção ⟦S:e3_conf⟧ obtém do desenho."))
+
+    # ------------------------------------------------------------ came
+    a(SEC("3.3", "e3_came", "Perfil do came e raio efetivo"))
+    a(P("O perfil do canal saiu da Figura 15B da US 9.737.374 B2, um corte pelo plano do "
+        "canal em que a área hachurada é o fundo do canal. Na imagem da folha 22, a "
+        "região hachurada foi isolada pelos vãos brancos da hachura, faixas retas "
+        "inclinadas de 45° e com 21 px de largura, e completada pelos pedaços brancos a "
+        "menos de 26 px dela, que são as lascas junto ao contorno e os entalhes onde as "
+        "cotas cruzam a borda. O contorno fechado, centrado no furo 654 (pino 572), foi "
+        "dividido pelo raio médio da zona Z10, R20, tomado como raio de referência "
+        "(Figura ⟦F:e3_came⟧a)."))
+    a(P("As zonas foram localizadas pelas linhas de chamada das cotas: Z10 de 89,6° a "
+        "140,4°, Z11 de 152,4° a 218,8° e Z12 de 242,6° a 292,6°, no referencial da "
+        "Figura 15B. O perfil extraído confirma a descrição da patente: na Z10, o raio "
+        "fica entre 0,994 e 1,004 R20; na Z11, cai continuamente de 0,961 para 0,663 "
+        "R20; e a Z12 é reta, com desvio máximo de 0,003 R20."))
+    a(P("O cabo tracionado passa reto sobre concavidades. O raio efetivo é, por isso, a "
+        "função suporte da envoltória convexa do canal: para cada direção φ_{c} normal "
+        "ao cabo, no referencial do came, r(φ_{c}) é a maior projeção dos pontos do "
+        "canal nessa direção. Ele difere do raio ρ do came no ponto de saída, que é o "
+        "que a patente cota (R20 a R25). A patente trata a força do cabo como tangencial "
+        "ao raio (DOYLE, 2017), o que só vale onde o cabo sai perpendicular a ele. Com "
+        "β_{c} o ângulo entre o raio do ponto de saída e o cabo,"))
+    a(EQ(("e3_rho", r"r = \rho\sin\beta_{c},\quad \rho^{2} = r^{2} + \left( \frac{dr}{d\varphi_{c}} \right)^{2}")))
+    a(P("Na Z10, r/ρ fica entre 0,999 e 1,000; na Z11, entre 0,894 e 0,974; e na Z12, "
+        "entre 0,670 e 1,000 (Figura ⟦F:e3_came⟧b). Usar ρ no lugar de r superestimaria "
+        "o momento da mola em até 12% na Z11 e em até 49% na Z12."))
+    a(LEG_F("e3_came", "Fundo do canal do came 570 extraído da Figura 15B da "
+            "US 9.737.374 B2 (a) e raio efetivo r e raio no ponto de saída ρ em função "
+            "da direção do cabo (b)"))
+    a(FIGURA("exo3_tcc_fig_2_came.png", 6.3,
+             "Perfil do came 570 com as zonas Z10, Z11 e Z12 e raios efetivo e no ponto "
+             "de saída"))
+    a(FONTE)
+
+    # ------------------------------------------------------------ cabo da mola
+    a(SEC("3.3", "e3_mola", "Cabo da mola"))
+    a(P("O cabo 634 sai do came tangente a ele e segue até a polia de reversão 630. Com "
+        "a polia a uma distância L de D, na direção λ, e de raio r_{630}, a tangência "
+        "fixa a direção normal ao cabo em λ − 90° + δ, com δ = asin[(r − r_{630})/L]: o "
+        "ângulo do cabo depende do giro das polias por meio do próprio r, e a equação é "
+        "implícita. Numa geometria de teste com L = 4,5 R20 e r_{630} = 0,5 R20, δ varia "
+        "de −2,3° a 6,4° ao longo do curso e muda r em até 0,031 R20."))
+    a(P("Por decisão do autor, a polia 630 e a mola ficam fora da varredura. O cabo é "
+        "tomado na direção de 572 para 632, medida na Figura 14D, o que equivale a "
+        "L infinito, e o resultado da varredura é o torque por unidade de força da mola, "
+        "τ/F_{s}, com o alongamento x da Equação (⟦E:e3_vt⟧). Para a comparação com a "
+        "Figura 16 da US 9.737.374 B2, a força entra como a de uma mola linear, "
+        "F_{s} = k (x_{0} + Δx), em que x_{0} é o alongamento na pose do CAD e Δx o "
+        "alongamento desde ela; k e x_{0} são identificados por ajuste (seção "
+        "⟦S:e3_r_fig16⟧)."))
+
+    # ------------------------------------------------------------ conferência
+    a(SEC("3.3", "e3_conf", "Conferência com as figuras da patente"))
+    a(P("As poses das Figuras 14C, com o braço erguido, e 14D, com o braço baixado, "
+        "foram medidas na imagem da folha 21. O centro do pivô 584 é o do furo branco no "
+        "meio do anel do pivô, e os dos pinos 572 e 632 saem de ajustes de "
+        "circunferência. A distância de 584 a 572 dá 152,6 px na Figura 14C e 152,3 px "
+        "na 14D, e, com C_{2} = 90,587 mm, a escala do desenho é de 1,68 px/mm. Na "
+        "Figura 14D, q = 61,19°, contra 61,724° no CAD: a pose do CAD é a da Figura 14D. "
+        "Na 14C, q = −36,99°, isto é, Θ = 10,25°. Nas duas, a reta de 572 a 632, ao longo "
+        "do chassi, fica 22,1° e 21,8° além de C_{2}, no mesmo sentido da defasagem do "
+        "CAD, e o ponto A do CAD cai a 0,6 mm e a 0,3 mm do 562 desenhado."))
+    a(P("O came desenhado nas duas figuras é o contorno externo da Figura 15A, que é a "
+        "15B espelhada. Levado ao referencial da 15B e ajustado ao desenho por escala e "
+        "giro, ele fica a 0,05 px do traço nas duas figuras, com R20 = 31,96 mm na "
+        f"Figura 14C e 32,11 mm na 14D; adotou-se R20 = {f(N3['R20_mm'], 3)} mm, isto é, "
+        f"R20/R = {f(N3['R20_sobre_R'], 2)}. O giro do came medido na Figura 14D fixa a "
+        "constante da rotação das polias (seção ⟦S:e3_vt⟧). Do came da 14C para o da "
+        "14D, o giro absoluto medido é de 61,3°, e a cinemática do cabo 560 com A e D "
+        "desenhados prevê 76,8°: a diferença, 15,5°, equivale a 7 mm de cabo na "
+        "primária, e os dois desenhos não são exatamente coerentes entre si."))
+
+    # ------------------------------------------------------------ hipóteses
+    a(SEC("3.3", "e3_hip", "Hipóteses e limitações"))
+    a(P("O modelo supõe vínculos ideais, sem atrito no pivô e nas polias, e cabos "
+        "inextensíveis e sem massa. A polia 630 é tomada no infinito, e a mola não foi "
+        "modelada: a patente não informa rigidez nem comprimento livre, e a mola linear "
+        "da seção 4.3 é identificada pela própria curva da patente, na escala do artigo de "
+        "Okabe, Brittes e Brito (2026). O giro do came vem do desenho da Figura 14D, que "
+        "discorda da 14C em 15,5°. O peso do apoio de braço não entrou na "
+        "comparação: o relatório de massa do CAD dá 1,807 kg para cada módulo do "
+        "exoesqueleto, mas não separa a parte que gira com o braço nem dá o pivô 584 no "
+        "mesmo referencial."))
+    return B
+
+
+def parte_4C():
+    p, aj, mg = N3["pontos"], N3["ajuste"], N3["melhor_giro"]
+    z10, z11, z12 = (_e3_faixa(z) for z in ("Z10", "Z11", "Z12"))
+    (m11a, m11b), = mg["zonas"]["Z11"]
+    (m12a, m12b), = mg["zonas"]["Z12"]
+    B = []
+    a = B.append
+    a(H("4.3 Exoesqueleto 3"))
+    a(P("Esta seção apresenta os resultados das etapas das seções ⟦S:e3_circ⟧ a "
+        "⟦S:e3_conf⟧, aplicadas ao mecanismo da US 9.737.374 B2. Salvo indicação em "
+        f"contrário, os números foram obtidos com a geometria do CAD, R20 = "
+        f"{f(N3['R20_mm'], 3)} mm e o giro do came medido na Figura 14D. Os números e as "
+        "figuras são produzidos pelo script tcc_resultados_exo3.py."))
+
+    a(SEC("4.3", "e3_r_cin", "Cinemática do cabo de ancoragem"))
+    a(P("A Figura ⟦F:e3_varr⟧a mostra o vão S e o braço de momento do cabo 560 ao longo "
+        f"de Θ, da pose do CAD (Θ = {f(N3['theta_pose'], 2)}°) até o limite de subida. O "
+        "vão diminui à medida que o braço sobe e se anula em "
+        f"Θ = {f(N3['theta_limite'], 2)}° (q = {f(N3['q_limite'], 2)}°), quando |AD| = R: "
+        "com esta ancoragem, o braço não sobe além disso, embora a Figura 16 da "
+        "US 9.737.374 B2 vá até 30°. O braço de momento cresce de "
+        f"{f(p['pose']['braco'], 2)} mm na pose para {f(p['zero']['braco'], 2)} mm em "
+        "Θ = 0 e fica positivo em toda a faixa; ele só se anularia em Θ = −128,5°, com o "
+        "cabo alinhado a C_{1}. A Tabela ⟦T:e3_pts⟧ traz os valores nos ângulos marcados "
+        "na Figura 16 da US 9.737.374 B2. A rotação das polias tirada do enrolamento do cabo 560 confere "
+        "com dθ_{p}/dΘ da Equação (⟦E:e3_vt⟧), com diferença de 2,2 × 10^{−7}."))
+    a(LEG_T("e3_pts", "Circuito, came e transmissão nos ângulos marcados na Figura 16 "
+            "da US 9.737.374 B2"))
+    linhas = []
+    for nome, rot in (("pose", "pose do CAD"), ("inicio_fig16", "início da curva AASM"),
+                      ("base_Z12", "base da marca Z12"), ("topo_Z12", "topo da marca Z12"),
+                      ("base_Z11", "base da marca Z11"), ("zero", "horizontal"),
+                      ("topo_Z11", "topo da marca Z11")):
+        x = p[nome]
+        linhas.append([f(x["theta"], 2), rot, f(x["S"], 2), f(x["braco"], 2),
+                       x["zona"] or "canto", f(x["r"], 2), f(x["transm"], 2), f(x["dx"], 2)])
+    a(TABELA(["Θ (graus)", "Ponto", "S (mm)", "C_{1} sin(γ − θ) (mm)", "Saída",
+              "r (mm)", "τ/F_{s} (mm)", "Δx (mm)"],
+             linhas, [900, 1900, 900, 1500, 900, 900, 1200, 1160],
+             ["right", "left", "right", "right", "center", "right", "right", "right"]))
+    a(FONTE)
+
+    a(SEC("4.3", "e3_r_zonas", "Raio efetivo e zonas ao longo do movimento"))
+    a(P("Com o giro do came da Figura 14D, o cabo da mola sai na Z12 na pose, no canto "
+        f"entre Z12 e Z11 de Θ = {f(z12[1], 1)}° a {f(z11[0], 1)}°, na Z11 de "
+        f"{f(z11[0], 1)}° a {f(z11[1], 1)}° e na Z10 de {f(z10[0], 1)}° a "
+        f"{f(z10[1], 1)}° (Figura ⟦F:e3_varr⟧b). Na Figura 16 da US 9.737.374 B2, a marca "
+        "Z11 vai de −23,8° a 4,0°, e a Z12, de −56,4° a −40,3°. A Z11 do modelo tem "
+        f"largura parecida, {f(z11[1] - z11[0], 1)}° contra 27,8°, mas cai "
+        f"{f((4.0 - 23.8)/2 - (z11[0] + z11[1])/2, 1)}° abaixo da marca. O raio "
+        f"efetivo vai de {f(p['pose']['r'], 2)} mm na pose a {f(p['zero']['r'], 2)} mm "
+        "na horizontal e coincide com ρ na Z10. No canto antes da Z11, os dois se "
+        f"afastam: em Θ = −75°, r = {f(p['inicio_fig16']['r'], 2)} mm e "
+        f"ρ = {f(p['inicio_fig16']['rho'], 2)} mm."))
+    a(LEG_F("e3_varr", "Vão S e braço de momento do cabo de ancoragem (a), raio efetivo "
+            "e zona de saída do cabo da mola (b) e transmissão e alongamento da mola (c) "
+            "ao longo de Θ; as faixas sombreadas são as marcas Z12 e Z11 da Figura 16 da "
+            "US 9.737.374 B2"))
+    a(FIGURA("exo3_tcc_fig_3_varredura.png", 6.0,
+             "Varredura em Θ do mecanismo da US 9.737.374 B2"))
+    a(FONTE)
+
+    a(SEC("4.3", "e3_r_transm", "Transmissão e alongamento da mola"))
+    a(P("A transmissão τ/F_{s} = (r/R) C_{1} sin(γ − θ), em N·mm por N, cresce de "
+        f"{f(p['pose']['transm'], 2)} mm na pose a {f(N3['transm_max'], 2)} mm em "
+        f"Θ = {f(N3['theta_transm_max'], 1)}° e cai perto do limite de subida "
+        f"(Figura ⟦F:e3_varr⟧c). Entre Θ = −75°, onde começa a curva da patente, e a "
+        f"horizontal, ela passa de {f(p['inicio_fig16']['transm'], 2)} mm a "
+        f"{f(p['zero']['transm'], 2)} mm, isto é, é multiplicada por "
+        f"{f(p['zero']['transm']/p['inicio_fig16']['transm'], 1)}. O came responde por "
+        f"parte disso, com r de {f(p['inicio_fig16']['r'], 2)} para "
+        f"{f(p['zero']['r'], 2)} mm, e o cabo de ancoragem pelo resto, com o braço de "
+        f"{f(p['inicio_fig16']['braco'], 2)} para {f(p['zero']['braco'], 2)} mm. Da pose "
+        f"até o limite de subida, a mola encurta {f(-N3['dx_total_ate_limite'], 1)} mm. A "
+        "transmissão confere com −dx/dΘ, com diferença relativa de "
+        f"{sci(N3['conferencia_trabalho_virtual'])}, o que verifica a Equação "
+        "(⟦E:e3_vt⟧) com a geometria do came."))
+
+    a(SEC("4.3", "e3_r_fig16", "Comparação com a curva de momento publicada"))
+    a(P("A curva AASM da Figura 16 da US 9.737.374 B2, digitalizada neste trabalho "
+        "(exo3/fig16_curvas.csv), foi posta na escala do artigo de Okabe, Brittes e Brito "
+        "(2026), com o máximo em 30 N·m. A mola linear da seção ⟦S:e3_mola⟧ dá "
+        "τ = k (x_{0} + Δx)(r/R) C_{1} sin(γ − θ)/1000, linear em k x_{0} e em k, e esses "
+        f"dois foram ajustados por mínimos quadrados nos {aj['n_pontos']} pontos de "
+        f"Θ = −75° a {f(aj['theta_max_ajuste'], 0)}°, abaixo do limite de subida. Com o "
+        f"giro do came da Figura 14D, o ajuste dá k = {f(aj['k_N_por_mm'], 3)} N/mm e "
+        f"x_{{0}} = {f(aj['x0_mm'], 1)} mm, com R² = {f(aj['r2'], 3)} e erro quadrático "
+        f"médio de {f(aj['rms_N_m'], 2)} N·m (Figura ⟦F:e3_fig16⟧a). A força que "
+        "reproduziria a curva AASM não é linear no alongamento (Figura ⟦F:e3_fig16⟧b): "
+        "com esse giro, uma mola linear acompanha a forma geral da curva, mas não o "
+        "início da subida nem o patamar."))
+    a(P("O giro do came é a grandeza menos certa da cadeia, porque os dois desenhos "
+        "discordam em 15,5° (seção ⟦S:e3_conf⟧). Repetido o ajuste com o came girado de "
+        "−120° a +40° em relação ao desenho, de grau em grau (Figura ⟦F:e3_fig16⟧c), o "
+        f"melhor resultado com k e x_{{0}} positivos ocorre com o came girado de "
+        f"{f(mg['giro'], 0)}°: R² = {f(mg['r2'], 3)}, erro quadrático médio de "
+        f"{f(mg['rms_N_m'], 2)} N·m, k = {f(mg['k'], 3)} N/mm e x_{{0}} = "
+        f"{f(mg['x0'], 1)} mm (Figura ⟦F:e3_fig16⟧d). Com esse giro, a Z11 do modelo vai "
+        f"de {f(m11a, 1)}° a {f(m11b, 1)}°, e a saída na Z12 ocorre de {f(m12a, 1)}° a "
+        f"{f(m12b, 1)}°: as duas caem dentro das marcas da patente, que não entram no "
+        "ajuste. O ajuste da mola e as marcas das zonas indicam o mesmo giro, o que "
+        "sugere que a curva da patente corresponde a uma montagem diferente da desenhada nas "
+        "Figuras 14C e 14D, com o came girado em relação à primária ou com a âncora em "
+        "outra posição. A Tabela ⟦T:e3_aj⟧ resume os dois ajustes."))
+    a(LEG_T("e3_aj", "Mola linear ajustada à curva AASM da Figura 16 da "
+            "US 9.737.374 B2, na escala de 30 N·m"))
+    a(TABELA(["Giro do came", "k (N/mm)", "x_{0} (mm)", "F_{s} na pose (N)", "R²",
+              "Erro quadrático médio (N·m)", "Erro máximo (N·m)"],
+             [["Como na Figura 14D", f(aj["k_N_por_mm"], 3), f(aj["x0_mm"], 1),
+               f(aj["forca_pose_N"], 0), f(aj["r2"], 3), f(aj["rms_N_m"], 2),
+               f(aj["erro_max_N_m"], 2)],
+              [f"Girado de {f(mg['giro'], 0)}°", f(mg["k"], 3), f(mg["x0"], 1),
+               f(mg["forca_pose_N"], 0), f(mg["r2"], 3), f(mg["rms_N_m"], 2),
+               f(mg["erro_max_N_m"], 2)]],
+             [1900, 1000, 1000, 1300, 800, 1700, 1660],
+             ["left", "right", "right", "right", "right", "right", "right"]))
+    a(FONTE)
+    a(LEG_F("e3_fig16", "Curva AASM da Figura 16 da US 9.737.374 B2 contra o modelo "
+            "com mola linear: giro do came como na Figura 14D (a), força de mola que "
+            "reproduziria a curva (b), sensibilidade ao giro do came (c) e melhor giro "
+            "(d)"))
+    a(FIGURA("exo3_tcc_fig_4_fig16.png", 6.3,
+             "Comparação do modelo do exoesqueleto 3 com a curva de momento publicada"))
+    a(FONTE)
+    a(P("A escala de 30 N·m é a do artigo, não uma medida do dispositivo. Com as frações "
+        "de de Leva (1996) aplicadas às massas e aos comprimentos de Okabe, Brittes e "
+        "Brito (2026), o membro superior estendido produz 11,98 N·m no ombro com o braço "
+        "na horizontal. Na mesma escala, o AWM da patente vale 31,06 N·m, 2,6 vezes "
+        "esse valor, e a curva da patente não permite fixar a escala do momento."))
+    return B
+
+
+def parte_5C():
+    p, aj, mg = N3["pontos"], N3["ajuste"], N3["melhor_giro"]
+    B = []
+    a = B.append
+    a(H("5.3 Exoesqueleto 3"))
+    a(P("Para a US 9.737.374 B2, foram executadas a reconstrução do circuito do cabo de "
+        "ancoragem com a geometria do CAD, a extração do perfil do came da Figura 15B, a "
+        "formulação do torque pelo princípio dos trabalhos virtuais, a conferência com "
+        "as Figuras 14C e 14D e a varredura em Θ. A pose do CAD é a da Figura 14D, e o "
+        "ponto de ancoragem do CAD cai a menos de 1 mm do desenhado. As duas expressões "
+        "do torque, pelo cabo de ancoragem e pela mola, coincidem com diferença relativa "
+        f"de {sci(N3['conferencia_trabalho_virtual'])}."))
+    a(P("O mecanismo molda o torque por dois caminhos: o raio efetivo do came, de "
+        f"{f(p['pose']['r'], 1)} a {f(p['zero']['r'], 1)} mm, e o braço do cabo de "
+        f"ancoragem, de {f(p['pose']['braco'], 1)} a {f(p['zero']['braco'], 1)} mm. A "
+        "transmissão entre a força da mola e o torque no ombro é multiplicada por "
+        f"{f(p['zero']['transm']/p['inicio_fig16']['transm'], 1)} entre Θ = −75° e a "
+        "horizontal. O raio efetivo não é o raio cotado na patente: tomar o raio cotado "
+        "como braço superestimaria o momento da mola em até 12% na Z11 e em até 49% "
+        "na Z12."))
+    a(P("Com o giro do came desenhado, uma mola linear reproduz a forma da curva AASM "
+        f"com R² = {f(aj['r2'], 3)}; com o came girado de {f(mg['giro'], 0)}°, "
+        f"R² = {f(mg['r2'], 3)}, e as zonas Z11 e Z12 do modelo caem dentro das marcas "
+        "da Figura 16 da US 9.737.374 B2. A curva da patente parece corresponder a "
+        "outra montagem do came ou a outra posição da âncora, e a ancoragem desenhada "
+        f"limita a subida a Θ = {f(N3['theta_limite'], 1)}°, contra 30° na curva."))
+    a(P("Como continuidade, recomenda-se medir a rigidez e o comprimento livre da mola e "
+        "o giro do came na peça real, representar a polia 630, incluir o peso do apoio "
+        "de braço com o pivô 584 no referencial do CAD e executar as etapas dinâmicas."))
+    return B
 
 
 def ref_brent():
@@ -2871,9 +3290,9 @@ def montar(corpo_original):
     antes = {
         _unico(info, "A extensão da mola permanece positiva"): nota_mola(),
         _unico(info, "3.9 Dados da patente"): cap3_trabalho_virtual_exo1(),
-        _unico(info, "4 RESULTADOS E DISCUSSÃO"): parte_3B(),
-        _unico(info, "5 CONCLUSÃO"): parte_4B(),
-        _unico(info, "REFERÊNCIAS"): parte_5B(),
+        _unico(info, "4 RESULTADOS E DISCUSSÃO"): parte_3B() + parte_3C(),
+        _unico(info, "5 CONCLUSÃO"): parte_4B() + parte_4C(),
+        _unico(info, "REFERÊNCIAS"): parte_5B() + parte_5C(),
     }
     removidos = [i for i, (_, t, _) in enumerate(info) if t.startswith(REMOVIDOS)]
     assert len(removidos) == len(REMOVIDOS), removidos

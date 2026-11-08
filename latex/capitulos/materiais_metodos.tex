@@ -3,13 +3,15 @@
 
 \chapter{Materiais e métodos}\label{sec:3}
 
-O trabalho é teórico-computacional. O procedimento parte da reconstrução geométrica do mecanismo e chega ao torque estático que ele entrega em função do ângulo, passando pela identificação dos parâmetros que a patente não publica. Ele foi concebido para os geradores de torque da US 9.889.554 B2, da US 9.737.374 B2 e da EP 3 504 033 B1, mas, nesta etapa do trabalho, foi executado para o gerador de torque da US 9.889.554 B2, ao qual se referem as seções~\ref{sec:3.1}, \ref{sec:4.1} e \ref{sec:5.1}, e para o dispositivo da EP 3 504 033 B1, ao qual se referem as seções~\ref{sec:3.2}, \ref{sec:4.2} e \ref{sec:5.2}. As seções~\ref{sec:3.1.9} e \ref{sec:3.2.9} formulam os dois modelos estáticos pelo princípio dos trabalhos virtuais.
+O trabalho é teórico-computacional. O procedimento parte da reconstrução geométrica do mecanismo e chega ao torque estático que ele entrega em função do ângulo, passando pela identificação dos parâmetros que a patente não publica. Ele foi concebido para os geradores de torque da US 9.889.554 B2, da US 9.737.374 B2 e da EP 3 504 033 B1, mas, nesta etapa do trabalho, foi executado na parte estática: para o gerador de torque da US 9.889.554 B2, ao qual se referem as seções~\ref{sec:3.1}, \ref{sec:4.1} e \ref{sec:5.1}, para o dispositivo da EP 3 504 033 B1, ao qual se referem as seções~\ref{sec:3.2}, \ref{sec:4.2} e \ref{sec:5.2}, e para o mecanismo de came da US 9.737.374 B2, ao qual se referem as seções~\ref{sec:3.3}, \ref{sec:4.3} e \ref{sec:5.3}. As seções~\ref{sec:3.1.9}, \ref{sec:3.2.9} e \ref{sec:3.3.3} formulam os três modelos estáticos pelo princípio dos trabalhos virtuais.
 
 Cada grandeza empregada é classificada quanto à origem: medida no modelo em CAD, obtida da literatura, documental (lida em desenho ou documento, sem verificação independente), identificada por ajuste à curva da patente, derivada pelo modelo ou assumida como hipótese. A classificação impede que um parâmetro ajustado seja apresentado como medida e que uma hipótese de projeto seja apresentada como lei física.
 
 A cadeia de cálculo descrita nas seções~\ref{sec:3.1.3} a \ref{sec:3.1.8} está implementada no arquivo torque\_model.py, que contém os parâmetros congelados e não executa ajuste algum. Os números e as figuras da seção~\ref{sec:4.1} são produzidos pelo script tcc\_resultados.py, que importa esse modelo e chama suas funções com a posição da ancoragem sempre explícita, sem alterar nenhum parâmetro.
 
 A cadeia de cálculo do dispositivo da EP 3 504 033 B1, descrita nas seções~\ref{sec:3.2.3} a \ref{sec:3.2.8}, está implementada no arquivo torque\_model\_ottobock.py, e os números e as figuras da seção~\ref{sec:4.2} são produzidos pelo script tcc\_resultados\_ottobock.py, que grava os valores citados em results/ottobock\_tcc\_numeros.json e as figuras em results/, na mesma organização usada por torque\_model.py e tcc\_resultados.py na seção~\ref{sec:4.1}. O script de resultados não altera parâmetro algum do modelo; as únicas identificações são as descritas na seção~\ref{sec:3.2.10}.
+
+A cadeia de cálculo do mecanismo da US 9.737.374 B2, descrita nas seções~\ref{sec:3.3.1} a \ref{sec:3.3.7}, está nos scripts da pasta exo3, que extraem o perfil do came, resolvem o circuito do cabo de ancoragem, tratam as relações entre o came e o cabo da mola e medem as poses das figuras da patente. Os números e as figuras da seção~\ref{sec:4.3} são produzidos por tcc\_resultados\_exo3.py, que grava os valores em results/exo3\_tcc\_numeros.json.
 
 \section{Exoesqueleto 1}\label{sec:3.1}
 
@@ -676,3 +678,148 @@ A integração não foi executada, pelas razões seguintes. O torque do elástic
 Foram empregados o Autodesk Fusion, para fechar o circuito do mecanismo e extrair as propriedades de massa do braço do exoesqueleto; uma planilha eletrônica, para a composição inercial; e a linguagem Python, com a biblioteca NumPy \cite{harris2020} para o cálculo vetorizado, a biblioteca SciPy \cite{virtanen2020} para o refinamento pelo método de Brent \cite{brent1973} no ajuste de forma e a biblioteca Matplotlib \cite{hunter2007} para as figuras. A identificação pelo espaçamento entre as curvas é um problema de mínimos quadrados lineares, resolvido em forma fechada. O MBDyn não foi empregado.
 
 Valem as exclusões de escopo da seção~\ref{sec:3.1.14}. O modelo é plano, restrito ao plano sagital, e admite elástico linear e sem massa, F = K δ, elemento 78 pontual e sem atrito e eixo da articulação 20 no centro do ombro, com a barra 18 fixa em relação ao tronco, hipótese discutida na seção~\ref{sec:3.2.3}. O torque gravitacional considera o membro humano estendido, sem ferramenta na mão, e o braço do exoesqueleto; a alavanca, o elemento 78 e a braçadeira não entram nele.
+
+\section{Exoesqueleto 3}\label{sec:3.3}
+
+As seções~\ref{sec:3.3.1} a \ref{sec:3.3.7} aplicam o procedimento à US 9.737.374 B2 \cite{doyle2017}, da Levitate. O mecanismo tem cabo e polia, como o do exoesqueleto 1, mas a força da mola chega ao ombro por um par de polias, uma delas um came de raio variável, e não por um tambor de raio fixo. Por isso a numeração destas seções não segue a das seções~\ref{sec:3.1} e \ref{sec:3.2}. A análise ficou na estática, e a mola, cuja rigidez a patente não informa, não foi modelada: a seção~\ref{sec:3.3.5} explica como ela entra nos resultados.
+
+A classificação de origem é a da introdução deste capítulo. A análise usou os documentos e arquivos da Tabela~\ref{tab:fontes-arquivos-utilizados-analise-us}.
+
+\begin{table}[!htbp]
+\estilotabela{\small}
+\caption{Fontes e arquivos utilizados na análise da US 9.737.374 B2}\label{tab:fontes-arquivos-utilizados-analise-us}
+\begin{tabularx}{\textwidth}{@{}>{\hsize=0.855\hsize\raggedright\arraybackslash}X>{\hsize=1.350\hsize\raggedright\arraybackslash}X>{\hsize=0.641\hsize\raggedright\arraybackslash}X>{\hsize=1.154\hsize\raggedright\arraybackslash}X@{}}
+\toprule
+\centering\textbf{Fonte} & \centering\textbf{Conteúdo utilizado} & \centering\textbf{Classificação} & \centering\textbf{Verificação nesta análise} \tabularnewline
+\midrule
+US 9.737.374 B2, PDF do escritório de patentes dos Estados Unidos \cite{doyle2017} & Arquitetura e numeração dos elementos; Figuras 14C e 14D (poses), 15A e 15B (came) e 16 (momentos) & Documental & Desenhos lidos na imagem das folhas; texto lido por reconhecimento óptico \\
+Modelo em CAD do autor & Grandezas da Tabela~\ref{tab:grandezas-circuito-cabo-ancoragem} e defasagem entre C\textsubscript{2} e o eixo maior do apoio de braço & Medida em CAD & Fechamento do circuito conferido; pose e ponto de ancoragem conferidos nas Figuras 14C e 14D (seção~\ref{sec:3.3.6}) \\
+Artigo de simulação multicorpos \cite{okabe2026} & Escala de 30 N·m para a curva de momento da patente; massas e comprimentos do membro superior & Literatura & Artigo lido; frações de centro de massa \cite{deleva1996} \\
+Scripts da pasta exo3 e tcc\_resultados\_exo3.py & Extração do came, circuito, relações do came, poses das figuras, números e figuras da seção~\ref{sec:4.3} & Derivada pelo modelo & Executados nesta análise \\
+\bottomrule
+\end{tabularx}
+\fonte{elaborada pelo autor.}
+\end{table}
+
+\subsection{Mecanismo}\label{sec:3.3.1}
+
+Nas Figuras 14C e 14D da US 9.737.374 B2, o chassi 580 do apoio de braço gira em torno do pivô horizontal do ombro, 584. O cabo de ancoragem 560 sai do ponto 562, na âncora 558, presa ao suporte do tronco, enrola-se na polia primária 564 e prende-se a ela no ponto 561. A polia secundária 570 é solidária à primária, e as duas giram em torno do pino 572, no chassi. O cabo da mola 634 prende-se à secundária no ponto 573, corre no canal 652, passa pela polia de reversão 630, também no chassi, e chega à mola 636, cuja outra ponta fica presa ao chassi \cite{doyle2017}. Ao baixar o braço, o cabo 560 desenrola-se da primária, o par de polias gira, e o cabo 634 enrola-se na secundária, estendendo a mola; ao erguê-lo, acontece o inverso.
+
+A secundária 570 é o came. A patente divide o canal em três zonas: na Z10, o raio é constante (R20 = R21); na Z11, ele diminui continuamente, de R22 a R23; e na Z12, o canal forma um trecho reto \cite{doyle2017}. A Figura 16 da US 9.737.374 B2 traz o momento do dispositivo (AASM), o do peso do braço (AWM) e o resultante (RM) em função do ângulo Θ do eixo maior do apoio de braço com a horizontal, positivo acima dela, com as faixas de Θ atribuídas às zonas Z11 e Z12. A ordenada não tem unidade.
+
+\subsection{Circuito do cabo de ancoragem}\label{sec:3.3.2}
+
+O cabo 560 fecha um circuito vetorial com o suporte e o chassi (Figura~\ref{fig:circuito-cabo-ancoragem-sobre}). Os pontos são O, o pivô 584; A, o ponto de ancoragem 562; D, o pino 572; e T, o ponto em que o cabo deixa a polia primária. Os vetores são C\textsubscript{1}, de A a O, fixo no suporte; C\textsubscript{2}, de O a D, solidário ao chassi; R, de D a T, o raio da polia primária; e S, de T a A, o vão livre do cabo. Os ângulos γ, φ e θ são medidos no referencial do CAD, a partir da horizontal, e q é o ângulo entre C\textsubscript{2} e a horizontal; nesse referencial, a direção de C\textsubscript{2} é 180° − q. Com u(x) = (cos x, sin x), o fechamento é
+
+\begin{equation}
+  S\,\mathbf{u}(\theta) + R\,\mathbf{u}(\varphi) + C_{2}\,\mathbf{u}(180^{\circ} - q) + C_{1}\,\mathbf{u}(\gamma) = \mathbf{0}
+  \label{eq:60}
+\end{equation}
+
+O mecanismo tem um grau de liberdade. A variável primária é q, e as secundárias são S e φ: como o cabo é tangente à polia, θ = φ − 90°, sinal confirmado na pose do CAD, e a tangência elimina uma incógnita, não uma equação. Com d = A − D, a solução é fechada:
+
+\begin{equation}
+  \mathbf{d} = - \lbrack C_{1}\,\mathbf{u}(\gamma) + C_{2}\,\mathbf{u}(180^{\circ} - q)\rbrack,\quad S = \sqrt{\left| \mathbf{d} \right|^{2} - R^{2}},\quad\varphi = \operatorname{atan2}{(d_{y},\ d_{x})} + \operatorname{atan2}{(S,\ R)}
+  \label{eq:61}
+\end{equation}
+
+No CAD, o eixo maior do apoio de braço fica 26,741° além de C\textsubscript{2}, no sentido em que q cresce, e q cresce quando o braço desce. O ângulo da Figura 16 da US 9.737.374 B2 é, portanto,
+
+\begin{equation}
+  \Theta = - (q + 26{,}741^{\circ})
+  \label{eq:62}
+\end{equation}
+
+A Tabela~\ref{tab:grandezas-circuito-cabo-ancoragem} reúne as grandezas medidas no CAD do autor na pose de referência, que é a da Figura 14D (seção~\ref{sec:3.3.6}).
+
+\begin{table}[!htbp]
+\estilotabela{\small}
+\caption{Grandezas do circuito do cabo de ancoragem na pose do CAD}\label{tab:grandezas-circuito-cabo-ancoragem}
+\begin{tabularx}{\textwidth}{@{}>{\hsize=1.709\hsize\raggedright\arraybackslash}X>{\hsize=0.534\hsize\centering\arraybackslash}X>{\hsize=0.641\hsize\raggedright\arraybackslash}X>{\hsize=0.534\hsize\centering\arraybackslash}X>{\hsize=1.581\hsize\raggedright\arraybackslash}X@{}}
+\toprule
+\centering\textbf{Grandeza} & \centering\textbf{Símbolo} & \centering\textbf{Valor} & \centering\textbf{Unidade} & \centering\textbf{Origem} \tabularnewline
+\midrule
+Vetor de A a O, fixo no suporte & C\textsubscript{1} & 70,711 & mm & CAD \\
+Vetor de O a D, solidário ao chassi & C\textsubscript{2} & 90,587 & mm & CAD \\
+Raio da polia primária & R & 26,443 & mm & CAD \\
+Vão livre do cabo 560 & S & 139,575 & mm & CAD \\
+Distância de O a T & b & 78,292 & mm & CAD \\
+Direção de C\textsubscript{1} & γ & 61,26 & graus & CAD \\
+Ângulo entre C\textsubscript{2} e a horizontal & q & 61,724 & graus & CAD \\
+Direção de R & φ & 352,869 & graus & CAD \\
+Direção de S & θ & 262,869 & graus & CAD \\
+Ângulo em O entre C\textsubscript{2} e b & β & 15,979 & graus & CAD \\
+Defasagem entre C\textsubscript{2} e o eixo maior &  & 26,741 & graus & CAD \\
+Ângulo do apoio de braço na pose & Θ & −88,465 & graus & Derivada, Equação~\eqref{eq:62} \\
+Raio de referência do came & R20 & 32,035 & mm & Documental (seção~\ref{sec:3.3.6}) \\
+\bottomrule
+\end{tabularx}
+\fonte{elaborada pelo autor.}
+\end{table}
+
+Com esses valores, o fechamento tem resíduo de 0,0006 mm, a solução fechada devolve S e φ da tabela, e |C\textsubscript{2} u(180° − q) + R u(φ)| = 78,291 mm, que é o b medido.
+
+\begin{figure}[!htbp]
+\centering
+\caption{Circuito do cabo de ancoragem sobre a Figura 14D da US 9.737.374 B2, na pose do desenho, e contorno do came da Figura 15A ajustado ao desenho}\label{fig:circuito-cabo-ancoragem-sobre}
+\includegraphics[width=0.97\textwidth]{circuito-cabo-ancoragem-sobre.png}
+\fonte{elaborada pelo autor.}
+\end{figure}
+
+\subsection{Torque pelo princípio dos trabalhos virtuais}\label{sec:3.3.3}
+
+O apoio de braço, com o chassi, as polias, a mola e o cabo 634, gira em torno de O como um corpo só, e a mola e o cabo 634 exercem forças internas a ele. O único esforço externo do mecanismo é a tração F\textsubscript{a} do cabo 560, que atua em T. Como nos exoesqueletos 1 e 2, o torque é a componente z de b × f, com b o vetor de O a T e f = F\textsubscript{a} u(θ):
+
+\begin{equation}
+  \tau = \frac{{(\mathbf{b} \times \mathbf{f})}_{z}}{1000},\quad\mathbf{b} = C_{2}\,\mathbf{u}(180^{\circ} - q) + R\,\mathbf{u}(\varphi),\quad{(\mathbf{b} \times \mathbf{f})}_{z} = - bF_{a}\sin{(\theta + q + \beta)} = F_{a}C_{1}\sin{(\gamma - \theta)}
+  \label{eq:63}
+\end{equation}
+
+em que β é o ângulo em O entre C\textsubscript{2} e b, no triângulo O, D, T, e a direção de b é 180° − q − β. A segunda forma vem do fechamento, b = −S u(θ) − C\textsubscript{1} u(γ): como a linha do cabo passa por A, o braço de momento C\textsubscript{1} sin(γ − θ) só depende de θ, não passa de C\textsubscript{1} e se anula quando o cabo se alinha a C\textsubscript{1} e passa por O.
+
+O par de polias gira sem atrito em torno de D. Com F\textsubscript{s} a tração no cabo da mola e r o raio efetivo da secundária, isto é, a distância de D à linha do cabo 634, o equilíbrio do par dá F\textsubscript{a} R = F\textsubscript{s} r. Num giro virtual δΘ do apoio de braço, em radianos, o vão S varia de C\textsubscript{1} sin(γ − θ) δΘ, a primária gira δθ\textsubscript{p} = C\textsubscript{1} sin(γ − θ) δΘ/R em relação ao chassi, e a mola estende-se de δx = −r δθ\textsubscript{p}. Os trabalhos virtuais da força do cabo 560 e da força da mola são iguais, e
+
+\begin{equation}
+  \tau = \frac{F_{s}}{1000}\,\frac{r}{R}\, C_{1}\sin{(\gamma - \theta)} = - \frac{F_{s}}{1000}\,\frac{dx}{d\Theta},\quad\frac{d\theta_{p}}{d\Theta} = \frac{C_{1}\sin{(\gamma - \theta)}}{R},\quad\frac{dx}{d\theta_{p}} = - r
+  \label{eq:64}
+\end{equation}
+
+A rotação das polias também sai do enrolamento. Com o cabo 560 inextensível, S + R w é constante, em que w é o arco enrolado de T a 561, e o giro absoluto das polias é φ − S/R, mais uma constante. O ponto 561 e o comprimento total do cabo só fixam essa constante, que a seção~\ref{sec:3.3.6} obtém do desenho.
+
+\subsection{Perfil do came e raio efetivo}\label{sec:3.3.4}
+
+O perfil do canal saiu da Figura 15B da US 9.737.374 B2, um corte pelo plano do canal em que a área hachurada é o fundo do canal. Na imagem da folha 22, a região hachurada foi isolada pelos vãos brancos da hachura, faixas retas inclinadas de 45° e com 21 px de largura, e completada pelos pedaços brancos a menos de 26 px dela, que são as lascas junto ao contorno e os entalhes onde as cotas cruzam a borda. O contorno fechado, centrado no furo 654 (pino 572), foi dividido pelo raio médio da zona Z10, R20, tomado como raio de referência (Figura~\ref{fig:fundo-canal-came-extraido}a).
+
+As zonas foram localizadas pelas linhas de chamada das cotas: Z10 de 89,6° a 140,4°, Z11 de 152,4° a 218,8° e Z12 de 242,6° a 292,6°, no referencial da Figura 15B. O perfil extraído confirma a descrição da patente: na Z10, o raio fica entre 0,994 e 1,004 R20; na Z11, cai continuamente de 0,961 para 0,663 R20; e a Z12 é reta, com desvio máximo de 0,003 R20.
+
+O cabo tracionado passa reto sobre concavidades. O raio efetivo é, por isso, a função suporte da envoltória convexa do canal: para cada direção φ\textsubscript{c} normal ao cabo, no referencial do came, r(φ\textsubscript{c}) é a maior projeção dos pontos do canal nessa direção. Ele difere do raio ρ do came no ponto de saída, que é o que a patente cota (R20 a R25). A patente trata a força do cabo como tangencial ao raio \cite{doyle2017}, o que só vale onde o cabo sai perpendicular a ele. Com β\textsubscript{c} o ângulo entre o raio do ponto de saída e o cabo,
+
+\begin{equation}
+  r = \rho\sin\beta_{c},\quad\rho^{2} = r^{2} + \left( \frac{dr}{d\varphi_{c}} \right)^{2}
+  \label{eq:65}
+\end{equation}
+
+Na Z10, r/ρ fica entre 0,999 e 1,000; na Z11, entre 0,894 e 0,974; e na Z12, entre 0,670 e 1,000 (Figura~\ref{fig:fundo-canal-came-extraido}b). Usar ρ no lugar de r superestimaria o momento da mola em até 12\% na Z11 e em até 49\% na Z12.
+
+\begin{figure}[!htbp]
+\centering
+\caption{Fundo do canal do came 570 extraído da Figura 15B da US 9.737.374 B2 (a) e raio efetivo r e raio no ponto de saída ρ em função da direção do cabo (b)}\label{fig:fundo-canal-came-extraido}
+\includegraphics[width=0.97\textwidth]{fundo-canal-came-extraido.png}
+\fonte{elaborada pelo autor.}
+\end{figure}
+
+\subsection{Cabo da mola}\label{sec:3.3.5}
+
+O cabo 634 sai do came tangente a ele e segue até a polia de reversão 630. Com a polia a uma distância L de D, na direção λ, e de raio r\textsubscript{630}, a tangência fixa a direção normal ao cabo em λ − 90° + δ, com δ = asin[(r − r\textsubscript{630})/L]: o ângulo do cabo depende do giro das polias por meio do próprio r, e a equação é implícita. Numa geometria de teste com L = 4,5 R20 e r\textsubscript{630} = 0,5 R20, δ varia de −2,3° a 6,4° ao longo do curso e muda r em até 0,031 R20.
+
+Por decisão do autor, a polia 630 e a mola ficam fora da varredura. O cabo é tomado na direção de 572 para 632, medida na Figura 14D, o que equivale a L infinito, e o resultado da varredura é o torque por unidade de força da mola, τ/F\textsubscript{s}, com o alongamento x da Equação~\eqref{eq:64}. Para a comparação com a Figura 16 da US 9.737.374 B2, a força entra como a de uma mola linear, F\textsubscript{s} = k (x\textsubscript{0} + Δx), em que x\textsubscript{0} é o alongamento na pose do CAD e Δx o alongamento desde ela; k e x\textsubscript{0} são identificados por ajuste (seção~\ref{sec:4.3.4}).
+
+\subsection{Conferência com as figuras da patente}\label{sec:3.3.6}
+
+As poses das Figuras 14C, com o braço erguido, e 14D, com o braço baixado, foram medidas na imagem da folha 21. O centro do pivô 584 é o do furo branco no meio do anel do pivô, e os dos pinos 572 e 632 saem de ajustes de circunferência. A distância de 584 a 572 dá 152,6 px na Figura 14C e 152,3 px na 14D, e, com C\textsubscript{2} = 90,587 mm, a escala do desenho é de 1,68 px/mm. Na Figura 14D, q = 61,19°, contra 61,724° no CAD: a pose do CAD é a da Figura 14D. Na 14C, q = −36,99°, isto é, Θ = 10,25°. Nas duas, a reta de 572 a 632, ao longo do chassi, fica 22,1° e 21,8° além de C\textsubscript{2}, no mesmo sentido da defasagem do CAD, e o ponto A do CAD cai a 0,6 mm e a 0,3 mm do 562 desenhado.
+
+O came desenhado nas duas figuras é o contorno externo da Figura 15A, que é a 15B espelhada. Levado ao referencial da 15B e ajustado ao desenho por escala e giro, ele fica a 0,05 px do traço nas duas figuras, com R20 = 31,96 mm na Figura 14C e 32,11 mm na 14D; adotou-se R20 = 32,035 mm, isto é, R20/R = 1,21. O giro do came medido na Figura 14D fixa a constante da rotação das polias (seção~\ref{sec:3.3.3}). Do came da 14C para o da 14D, o giro absoluto medido é de 61,3°, e a cinemática do cabo 560 com A e D desenhados prevê 76,8°: a diferença, 15,5°, equivale a 7 mm de cabo na primária, e os dois desenhos não são exatamente coerentes entre si.
+
+\subsection{Hipóteses e limitações}\label{sec:3.3.7}
+
+O modelo supõe vínculos ideais, sem atrito no pivô e nas polias, e cabos inextensíveis e sem massa. A polia 630 é tomada no infinito, e a mola não foi modelada: a patente não informa rigidez nem comprimento livre, e a mola linear da seção~\ref{sec:4.3} é identificada pela própria curva da patente, na escala do artigo de \textcite{okabe2026}. O giro do came vem do desenho da Figura 14D, que discorda da 14C em 15,5°. O peso do apoio de braço não entrou na comparação: o relatório de massa do CAD dá 1,807 kg para cada módulo do exoesqueleto, mas não separa a parte que gira com o braço nem dá o pivô 584 no mesmo referencial.

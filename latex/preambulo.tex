@@ -13,8 +13,8 @@
 \captionsetup{position=top,skip=6pt}
 \setlength{\LTcapwidth}{\textwidth}
 
-% Numeração contínua de figuras, tabelas e equações (Figura 1 a 14,
-% Tabela 1 a 26, Equação 1 a 59), como no DOCX. Para numerar por
+% Numeração contínua de figuras, tabelas e equações (Figura 1 a 18,
+% Tabela 1 a 30, Equação 1 a 65), como no DOCX. Para numerar por
 % capítulo (Figura 3.1), basta remover as três linhas a seguir.
 \counterwithout{figure}{chapter}
 \counterwithout{table}{chapter}
@@ -43,6 +43,8 @@
 \frenchspacing
 
 % Caracteres do texto corrido que o pdflatex não conhece
+\DeclareUnicodeCharacter{0394}{\ensuremath{\Delta}}
+\DeclareUnicodeCharacter{0398}{\ensuremath{\Theta}}
 \DeclareUnicodeCharacter{03B1}{\ensuremath{\alpha}}
 \DeclareUnicodeCharacter{03B2}{\ensuremath{\beta}}
 \DeclareUnicodeCharacter{03B3}{\ensuremath{\gamma}}

@@ -24,7 +24,7 @@ Versão LaTeX do `tcc/TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_
 Rótulos usados nas remissões:
 - `sec:3.2.10`: seção 3.2.10; `sec:4`: capítulo 4;
 - `eq:47`: Equação (47);
-- `tab:...` e `fig:...`: tabelas e figuras, com o nome tirado da legenda (por exemplo, `tab:comparacao-dois-dispositivos-analisados`).
+- `tab:...` e `fig:...`: tabelas e figuras, com o nome tirado da legenda (por exemplo, `tab:comparacao-exoesqueletos`).
 
 ## O que falta completar
 
@@ -42,7 +42,7 @@ O texto dos parágrafos, tabelas, legendas, fontes e notas é o do DOCX. Mudou s
 - **Legendas.** Todas seguem o formato "Tabela 1: ...". No DOCX, as legendas do exoesqueleto 1 usavam travessão.
 - **Citações.** Saem em caixa normal, como "(Spada et al., 2017)", pela NBR 10520:2023 adotada no modelo. Na lista de referências, o sobrenome também sai em caixa normal.
 - **"(SHEN et al., 2020)"** passa a "(Shen; Ferguson; Rosen, 2020)": a obra tem três autores, e a norma cita os três.
-- **Posição de figuras e tabelas.** As figuras e as tabelas curtas são flutuantes e podem mudar de página em relação ao DOCX. As tabelas 6, 14, 16 e 25 podem atravessar páginas e repetem o cabeçalho na continuação. A numeração continua corrida, como no DOCX: Figura 1 a 14, Tabela 1 a 26, Equação (1) a (59). Para numerar por capítulo, veja o comentário em `preambulo.tex`.
+- **Posição de figuras e tabelas.** As figuras e as tabelas curtas são flutuantes e podem mudar de página em relação ao DOCX. As tabelas 3, 8, 16, 18 e 27 podem atravessar páginas e repetem o cabeçalho na continuação. A numeração continua corrida, como no DOCX: Figura 1 a 18, Tabela 1 a 30, Equação (1) a (65). Para numerar por capítulo, veja o comentário em `preambulo.tex`.
 - **Ligações.** As caixas em volta das ligações são o padrão do modelo e aparecem só na tela. Para escondê-las, acrescente `\hypersetup{hidelinks}` ao `preambulo.tex`.
 
 ## Versão em Word no mesmo formato
