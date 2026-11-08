@@ -11,7 +11,10 @@ Cadeia de cálculo, para cada ângulo Θ do apoio de braço (Figura 16 da patent
    envoltória do canal (exo3/relacoes_came570.py), e a zona de saída;
 5. a transmissão τ/F_s = (r/R)·C1 sin(γ − θ) e o alongamento da mola, dx/dθp = −r;
 6. o ajuste de uma mola linear, τ = k (x0 + Δx)(r/R) C1 sin(γ − θ), à curva AASM da
-   Figura 16, na escala do artigo de Okabe, Brittes e Brito (2026): 30 N·m no máximo;
+   Figura 16, na escala da própria patente: a AWM, momento do peso do braço, é igualada ao
+   torque do peso do membro de referência (de Leva, homem de 73,0 kg) na horizontal; a
+   escala do artigo de Okabe, Brittes e Brito (2026), 30 N·m no máximo da AASM, fica como
+   comparação;
 7. a sensibilidade ao giro do came: o mesmo ajuste com o came girado em relação ao
    desenho da Figura 14D, para ver qual giro reproduz melhor a Figura 16;
 8. o momento do peso do apoio de braço em torno de 584, com as massas do CAD
@@ -54,18 +57,18 @@ GIRO_CAME_14D = 254.0               # giro do referencial da Figura 15B na 14D (
 CABO_C2 = -21.80                    # direção de 572 para 632 em relação a C2, na 14D (graus)
 R20 = (31.96 + 32.11)/2             # mm, média das Figuras 14C e 14D
 O_14D, ESC_14D = np.array([1711.82, 965.50]), 1.6802      # px e px/mm
-ESCALA_AASM = 30.0                  # N·m no máximo da curva AASM (artigo)
+ESCALA_ARTIGO = 30.0                # N·m no máximo da curva AASM no artigo (comparação)
 MARCAS_FIG16 = {"Z12": (-56.4, -40.3), "Z11": (-23.8, 4.0)}
-# membro superior do artigo (Okabe, Brittes e Brito, 2026): massa (kg) e comprimento (mm);
-# centro de massa e raio de giração transversal em fração do comprimento, de de Leva (1996),
-# como nas seções 3.1.2 e 3.2.2. Segmentos em série a partir de 584, alinhados ao eixo maior.
-MEMBRO = (("braço", 2.244, 281.7, 0.5772, 0.269),
-          ("antebraço", 1.341, 269.8, 0.4574, 0.265),
-          ("mão", 0.505, 86.2, 0.7900, 0.513))
-# indivíduo de referência das seções 3.1.2 e 3.2.2 (de Leva, homem de 73,0 kg e 1,741 m)
-MEMBRO_TCC = (("braço", 0.0271*73.0, 281.7, 0.5772, 0.269),
-              ("antebraço", 0.0162*73.0, 268.9, 0.4574, 0.265),
-              ("mão", 0.0061*73.0, 86.2, 0.7900, 0.513))
+# membro superior de referência, o das seções 3.1.2 e 3.2.2 (de Leva, 1996, Tab. 4: homem de
+# 73,0 kg e 1,741 m, cotovelo estendido): massa (kg), comprimento (mm), centro de massa e raio
+# de giração transversal em fração do comprimento. Em série a partir de 584, no eixo maior.
+MEMBRO = (("braço", 0.0271*73.0, 281.7, 0.5772, 0.269),
+          ("antebraço", 0.0162*73.0, 268.9, 0.4574, 0.265),
+          ("mão", 0.0061*73.0, 86.2, 0.7900, 0.513))
+# membro do artigo de Okabe, Brittes e Brito (2026), só para comparação (82,8 kg em de Leva)
+MEMBRO_ARTIGO = (("braço", 2.244, 281.7, 0.5772, 0.269),
+                 ("antebraço", 1.341, 269.8, 0.4574, 0.265),
+                 ("mão", 0.505, 86.2, 0.7900, 0.513))
 
 SUPERFICIE, TINTA, TINTA_2, GRADE = "#fcfcfb", "#0b0b0b", "#52514e", "#e6e5e1"
 AZUL, LARANJA, VERDE = "#2a78d6", "#eb6834", "#1baf7a"
@@ -152,10 +155,9 @@ def amplitude_awm():
     return float(-np.sum(awm*np.cos(th))/np.sum(np.cos(th)**2))
 
 
-def ajuste_mola(v, th16, aasm, theta_max, peso=None):
-    """Mola linear contra a AASM na escala do artigo; com peso (N·m em v["theta"]), o
-    alvo é a AASM mais o que a mola gasta para sustentar o apoio de braço."""
-    c = ESCALA_AASM/aasm.max()
+def ajuste_mola(v, th16, aasm, theta_max, c, peso=None):
+    """Mola linear contra a AASM, com c em N·m por unidade da figura; com peso (N·m em
+    v["theta"]), o alvo é a AASM mais o que a mola gasta para sustentar o apoio de braço."""
     usar = th16 <= theta_max
     th, tau = th16[usar], c*aasm[usar]
     if peso is not None:
@@ -172,12 +174,12 @@ def ajuste_mola(v, th16, aasm, theta_max, peso=None):
                 f_req=1000*tau/g)
 
 
-def sensibilidade(th16, aasm, theta_max):
+def sensibilidade(th16, aasm, theta_max, c):
     """Ajuste da mola com o came girado de −120° a +40° em relação ao desenho da 14D."""
     linhas = []
     for d in np.arange(-120.0, 40.01, 1.0):
         v, _ = varredura(d)
-        aj = ajuste_mola(v, th16, aasm, theta_max)
+        aj = ajuste_mola(v, th16, aasm, theta_max, c)
         z11 = intervalos(v, "Z11")
         linhas.append({"giro": float(d), "r2": aj["r2"], "rms": aj["rms"], "k": float(aj["k"]),
                        "x0": float(aj["x0"]), "z11": [list(map(float, z)) for z in z11]})
@@ -440,7 +442,7 @@ def painel_ajuste(ax, aj, th16, aasm, v, titulo):
     sombrear_marcas(ax)
     fora = th16 > aj["theta"].max()
     ax.plot(th16[~fora], aj["c"]*aasm[~fora], "o", ms=3.0, color=TINTA_2,
-            label="AASM da Figura 16, na escala do artigo")
+            label="AASM da Figura 16, na escala da AWM")
     ax.plot(th16[fora], aj["c"]*aasm[fora], "o", ms=3.0, color="#bdbcb7",
             label="acima do limite de subida desta ancoragem")
     tg = v["theta"][(v["theta"] >= -75) & (v["theta"] <= aj["theta"].max())]
@@ -450,7 +452,8 @@ def painel_ajuste(ax, aj, th16, aasm, v, titulo):
             label="modelo com mola linear ajustada")
     ax.set_xlabel("Θ (graus)", color=TINTA_2)
     ax.set_ylabel("momento no pivô 584 (N·m)", color=TINTA_2)
-    ax.set_ylim(0, 33)
+    ax.yaxis.set_major_formatter(virgula(0 if aj["c"]*aasm.max() > 15 else 1))
+    ax.set_ylim(0, 1.1*aj["c"]*aasm.max())
     ax.text(0.0, 1.02, titulo, transform=ax.transAxes, fontsize=8.5, color=TINTA)
 
 
@@ -501,7 +504,12 @@ def figura_fig16(aj, th16, aasm, v, sens, melhor, aj_m, v_m):
 def main():
     v, q_lim = varredura()
     th16, aasm = fig16()
-    aj = ajuste_mola(v, th16, aasm, cc.theta_fig16(q_lim) - 0.05)
+    # escala da própria patente: a AWM, momento do peso do braço, igualada ao torque do peso
+    # do membro de referência na horizontal
+    segs, hum = membro_superior()
+    awm = amplitude_awm()
+    c = hum["momento_horizontal_N_m"]/awm
+    aj = ajuste_mola(v, th16, aasm, cc.theta_fig16(q_lim) - 0.05, c)
     # conferência: τ/F_s contra −dx/dΘ (por radiano)
     dxdth = -np.gradient(v["dx"], np.radians(v["theta"]))
     ok = (v["theta"] > -88) & (v["theta"] < cc.theta_fig16(q_lim) - 1)
@@ -535,9 +543,9 @@ def main():
                    "forca_inicio_N": float(aj["k"]*(aj["x0"] + aj["dx"][0])),
                    "forca_fim_N": float(aj["k"]*(aj["x0"] + aj["dx"][-1]))},
     }
-    sens, melhor = sensibilidade(th16, aasm, cc.theta_fig16(q_lim) - 0.05)
+    sens, melhor = sensibilidade(th16, aasm, cc.theta_fig16(q_lim) - 0.05, c)
     v_m, _ = varredura(melhor["giro"])
-    aj_m = ajuste_mola(v_m, th16, aasm, cc.theta_fig16(q_lim) - 0.05)
+    aj_m = ajuste_mola(v_m, th16, aasm, cc.theta_fig16(q_lim) - 0.05, c)
     N["sensibilidade_giro"] = sens
     N["melhor_giro"] = {**melhor, "zonas": {z: intervalos(v_m, z) for z in ZONAS},
                         "rms_N_m": aj_m["rms"], "erro_max_N_m": aj_m["max"],
@@ -552,14 +560,12 @@ def main():
     peso = ma.momento(geo, v["theta"], dtp)
     peso_fixo = ma.momento(geo, v["theta"])
     peso_n = ma.momento(geo, v["theta"], dtp, corpos=geo["nailon"]["corpos"])
-    segs, hum = membro_superior()
-    _, hum_tcc = membro_superior(MEMBRO_TCC)
+    _, hum_art = membro_superior(MEMBRO_ARTIGO)
     iner, izz_apoio = ma.inercia_o(geo)
     tot = conjunto_total(hum, geo, izz_apoio)
     tau_hum = -ma.G*sum(c["massa"]*c["d"] for c in segs)/1000*np.cos(np.radians(v["theta"]))
     tau_g = -(tau_hum + peso)                                       # módulo, N·m
-    awm = amplitude_awm()
-    aj_p = ajuste_mola(v, th16, aasm, cc.theta_fig16(q_lim) - 0.05, peso)
+    aj_p = ajuste_mola(v, th16, aasm, cc.theta_fig16(q_lim) - 0.05, c, peso)
     i_max = int(np.argmin(peso))
     nai = {k: x for k, x in geo["nailon"].items() if k != "corpos"}
     nai["momento_max_giro_N_m"] = float(-peso_n.min())
@@ -582,8 +588,9 @@ def main():
                             "forca_inicio_N": float(aj_p["k"]*(aj_p["x0"] + aj_p["dx"][0])),
                             "forca_fim_N": float(aj_p["k"]*(aj_p["x0"] + aj_p["dx"][-1]))},
     }
-    N["membro"] = {"segmentos": segs, **hum, "tcc_momento_horizontal_N_m": hum_tcc["momento_horizontal_N_m"],
-                   "tcc_massa": hum_tcc["massa"]}
+    N["membro"] = {"segmentos": segs, **hum,
+                   "artigo_momento_horizontal_N_m": hum_art["momento_horizontal_N_m"],
+                   "artigo_massa": hum_art["massa"]}
     N["conjunto"] = {**tot, "tau_g_max_N_m": float(tau_g.max()),
                      "theta_tau_g_max": float(v["theta"][np.argmax(tau_g)]),
                      "tau_g_zero_N_m": float(np.interp(0.0, v["theta"], tau_g)),
@@ -615,9 +622,22 @@ def main():
     N["fig16"].update({"faixa_95": [float(th16[lo]), float(th16[hi])],
                        "aasm_inicio": float(aasm[0]), "aasm_fim": float(aasm[-1]),
                        "aasm_awm_zero": float(np.interp(0.0, th16, aasm)/abs(awm_zero))})
-    c_alt = N["conjunto"]["tau_g_zero_N_m"]/awm
-    N["escala_alternativa"] = {"c": c_alt, "aasm_max_N_m": c_alt*float(aasm.max()),
-                               "k_N_por_mm": aj["k"]*c_alt/aj["c"]}
+    # escala do artigo, para comparação: k e as forças crescem na razão das escalas, e x0 e
+    # R² não mudam no ajuste sem o peso do apoio
+    c_art = ESCALA_ARTIGO/float(aasm.max())
+    f_art = c_art/c
+    N["escala"] = {"c": c, "aasm_max_N_m": c*float(aasm.max()), "awm_N_m": c*awm,
+                   "membro_N_m": hum["momento_horizontal_N_m"]}
+    N["escala_artigo"] = {"c": c_art, "razao": f_art, "aasm_max_N_m": ESCALA_ARTIGO,
+                          "awm_N_m": c_art*awm,
+                          "awm_sobre_membro": c_art*awm/hum["momento_horizontal_N_m"],
+                          "awm_sobre_membro_artigo": c_art*awm/hum_art["momento_horizontal_N_m"],
+                          "awm_sobre_conjunto": c_art*awm/N["conjunto"]["tau_g_zero_N_m"],
+                          "k_N_por_mm": aj["k"]*f_art, "x0_mm": aj["x0"],
+                          "forca_pose_N": aj["k"]*aj["x0"]*f_art, "r2": aj["r2"],
+                          "rms_N_m": aj["rms"]*f_art, "erro_max_N_m": aj["max"]*f_art,
+                          "forca_inicio_N": float(aj["k"]*(aj["x0"] + aj["dx"][0]))*f_art,
+                          "forca_fim_N": float(aj["k"]*(aj["x0"] + aj["dx"][-1]))*f_art}
     q0, s0_ = cc.circuito_por_teta(cc.GAMA + 180)[0]
     assert s0_ > 0
     N["ponto_morto"] = {"q": float(q0), "theta": cc.theta_fig16(q0)}
@@ -653,14 +673,14 @@ def main():
           "; ".join(f"{z} de {a_:.1f}° a {c_:.1f}°" for z, fx in m["zonas"].items() for a_, c_ in fx))
     pa, cj, mb = N["peso_apoio"], N["conjunto"], N["membro"]
     print(f"membro: {mb['massa']:.3f} kg a {mb['d']:.2f} mm, I_O = {mb['izz_o']:.6f} kg·m², "
-          f"{mb['momento_horizontal_N_m']:.3f} N·m na horizontal (indivíduo do TCC: {mb['tcc_momento_horizontal_N_m']:.3f})")
+          f"{mb['momento_horizontal_N_m']:.3f} N·m na horizontal (membro do artigo: {mb['artigo_momento_horizontal_N_m']:.3f})")
     print(f"apoio: {pa['massa_g']:.1f} g a {pa['d']:.2f} mm e {pa['a']:.2f}°, I_O = {pa['izz_o_kgm2']:.6f} kg·m²; "
           f"momento até {pa['momento_max_N_m']:.3f} N·m (Θ = {pa['theta_momento_max']:.1f}°), {pa['momento_zero_N_m']:.3f} "
           f"na horizontal, {pa['momento_pose_N_m']:.3f} na pose; came até {pa['came_variacao_max_N_m']:.3f}; "
           f"náilon {pa['nailon']['massa_g']:.1f} g, {pa['nailon']['momento_max_giro_N_m']:.3f} N·m")
     print(f"conjunto: {cj['massa']:.3f} kg a {cj['d']:.2f} mm e {cj['a']:.2f}°, I_O = {cj['izz_o']:.6f} kg·m², "
           f"M g d = {cj['amplitude_N_m']:.3f} N·m; τ_g máximo {cj['tau_g_max_N_m']:.3f} em Θ = {cj['theta_tau_g_max']:.1f}°, "
-          f"{cj['tau_g_zero_N_m']:.3f} na horizontal; AWM {cj['awm_escala_N_m']:.2f} N·m na escala do artigo")
+          f"{cj['tau_g_zero_N_m']:.3f} na horizontal; AWM {cj['awm_escala_N_m']:.2f} N·m na escala adotada")
     ap = pa["ajuste_com_peso"]
     print(f"ajuste com o peso do apoio: k = {ap['k_N_por_mm']:.3f} N/mm, x0 = {ap['x0_mm']:.1f} mm, "
           f"R² = {ap['r2']:.3f}, RMS {ap['rms_N_m']:.2f} N·m")

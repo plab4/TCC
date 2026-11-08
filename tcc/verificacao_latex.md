@@ -5,14 +5,14 @@ DOCX: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.docx. P
 ## 1. Texto corrido, títulos, legendas, fontes e notas
 
 Elementos conferidos: 602. Encontrados no PDF: 602.
-Encontrados com interrupção do lado do PDF (cabeçalho, figura ou tabela no meio do parágrafo): 10.
+Encontrados com interrupção do lado do PDF (cabeçalho, figura ou tabela no meio do parágrafo): 11.
 Diferenças esperadas, impostas pelo estilo ABNT do modelo: 'SHEN et al., 2020' passa a 'SHEN; FERGUSON; ROSEN, 2020'.
 
 ## 2. Células de tabela
 
 Tabelas: 38 no DOCX e 38 no código LaTeX.
-Células comparadas no código LaTeX: 2175; diferentes: 0.
-Células com texto procuradas no PDF: 2144; não encontradas: 0.
+Células comparadas no código LaTeX: 2186; diferentes: 0.
+Células com texto procuradas no PDF: 2155; não encontradas: 0.
 
 ## 3. Equações
 

@@ -857,7 +857,7 @@ Os dois mecanismos também distribuem a assistência de modo distinto em relaç�
 
 \section{Exoesqueleto 3}\label{sec:4.3}
 
-Esta seção apresenta os resultados das etapas das seções~\ref{sec:3.3.1} a \ref{sec:3.3.12}, aplicadas ao mecanismo da US 9.737.374 B2. Salvo indicação em contrário, os números foram obtidos com a geometria do CAD, R20 = 32,035 mm, o giro do came medido na Figura 14D e a escala de 30 N·m do artigo de \textcite{okabe2026}. As etapas dinâmicas da seção~\ref{sec:3.3.13} não foram executadas. Os números e as figuras são produzidos pelo script tcc\_resultados\_exo3.py.
+Esta seção apresenta os resultados das etapas das seções~\ref{sec:3.3.1} a \ref{sec:3.3.12}, aplicadas ao mecanismo da US 9.737.374 B2. Salvo indicação em contrário, os números foram obtidos com a geometria do CAD, R20 = 32,035 mm, o giro do came medido na Figura 14D e a escala que iguala a AWM ao torque do peso do membro de referência (seção~\ref{sec:3.3.10}), de 0,1349 N·m por unidade da figura. As etapas dinâmicas da seção~\ref{sec:3.3.13} não foram executadas. Os números e as figuras são produzidos pelo script tcc\_resultados\_exo3.py.
 
 \subsection{Geometria reconstruída e propriedades de massa}\label{sec:4.3.1}
 
@@ -901,26 +901,26 @@ O came desenhado nas duas figuras é o contorno externo da Figura 15A. Levado ao
 \toprule
 \centering\textbf{Corpo} & \centering\textbf{Massa (kg)} & \centering\textbf{d (mm)} & \centering\textbf{a (graus)} & \centering\textbf{I\textsubscript{cm} (kg·m\textsuperscript{2})} & \centering\textbf{I\textsubscript{O} (kg·m\textsuperscript{2})} \tabularnewline
 \midrule
-Braço & 2,2440 & 162,6 & 0,0 & 0,012885 & 0,072212 \\
-Antebraço & 1,3410 & 405,1 & 0,0 & 0,006855 & 0,226928 \\
-Mão & 0,5050 & 619,6 & 0,0 & 0,000988 & 0,194858 \\
-Membro superior & 4,0900 & 298,5 & 0,0 & 0,129482 & 0,493998 \\
+Braço & 1,9783 & 162,6 & 0,0 & 0,011360 & 0,063662 \\
+Antebraço & 1,1826 & 404,7 & 0,0 & 0,006005 & 0,199689 \\
+Mão & 0,4453 & 618,7 & 0,0 & 0,000871 & 0,171326 \\
+Membro superior & 3,6062 & 298,3 & 0,0 & 0,113765 & 0,434676 \\
 Capa & 0,5636 & 122,3 & 8,1 & 0,003771 & 0,012207 \\
 Mola & 0,1046 & 100,5 & −0,6 & 0,000425 & 0,001482 \\
 Polia interna (630) & 0,0160 & 250,0 & 12,7 & 0,000002 & 0,001000 \\
 Polia externa (564) & 0,3730 & 90,6 & 26,7 & 0,000141 & 0,003202 \\
 Came 570 & 0,4053 & 90,4 & 34,6 & 0,000117 & 0,003429 \\
 Apoio de braço & 1,4625 & 102,8 & 18,0 & 0,005859 & 0,021320 \\
-Conjunto & 5,5525 & 245,8 & 1,9 & 0,179833 & 0,515318 \\
+Conjunto & 5,0687 & 240,6 & 2,2 & 0,162504 & 0,455997 \\
 \bottomrule
 \end{tabularx}
-\fonte{elaborada pelo autor, com dados de \textcite{okabe2026}, de \textcite{deleva1996} e do modelo em CAD.}
+\fonte{elaborada pelo autor, com dados de \textcite{deleva1996} e do modelo em CAD.}
 \nota{d é a distância do centro de massa ao pivô 584 e a, o ângulo dele com o eixo maior, positivo acima. O centro do came está na pose do CAD.}
 \end{table}
 
-A consistência foi conferida pela Equação~\eqref{eq:01}: para o conjunto, I\textsubscript{cm} + M d\textsuperscript{2} = 0,179833 + 0,335485 = 0,515318 kg·m\textsuperscript{2}. A amplitude do torque gravitacional é M g d = 11,97 N·m para o membro e 13,38 N·m para o conjunto; com o indivíduo das seções~\ref{sec:3.1.2} e \ref{sec:3.2.2}, o membro daria 10,55 N·m.
+A consistência foi conferida pela Equação~\eqref{eq:01}: para o conjunto, I\textsubscript{cm} + M d\textsuperscript{2} = 0,162504 + 0,293493 = 0,455997 kg·m\textsuperscript{2}. A amplitude do torque gravitacional é M g d = 10,55 N·m para o membro, a mesma das seções~\ref{sec:3.1.2} e \ref{sec:3.2.2}, e 11,96 N·m para o conjunto.
 
-No CAD, o apoio de braço tem 1,462 kg. A capa, de náilon 6/6, tem 0,564 kg, e a polia externa e o came, de aço, 0,778 kg juntos. O pivô ficou em (−112,07; 3,61) mm no referencial da peça, e o centro de massa do apoio, a 102,8 mm de O e 18,0° acima do eixo maior, desloca o do conjunto em 1,95° em relação ao eixo. As peças caem sobre os desenhos: a distância entre os pinos 572 e 632 é de 163,6 mm no CAD, contra 165,0 mm na Figura 14D; o R20 do came do CAD sai de 31,65 a 32,01 mm pela área, pela giração e pela caixa envolvente; e o referencial da Figura 15B fica a −21,5° da reta de 572 a 632 no CAD e a −23,0° na Figura 14D.
+No CAD, o apoio de braço tem 1,462 kg. A capa, de náilon 6/6, tem 0,564 kg, e a polia externa e o came, de aço, 0,778 kg juntos. O pivô ficou em (−112,07; 3,61) mm no referencial da peça, e o centro de massa do apoio, a 102,8 mm de O e 18,0° acima do eixo maior, desloca o do conjunto em 2,18° em relação ao eixo. As peças caem sobre os desenhos: a distância entre os pinos 572 e 632 é de 163,6 mm no CAD, contra 165,0 mm na Figura 14D; o R20 do came do CAD sai de 31,65 a 32,01 mm pela área, pela giração e pela caixa envolvente; e o referencial da Figura 15B fica a −21,5° da reta de 572 a 632 no CAD e a −23,0° na Figura 14D.
 
 \subsection{Dados extraídos da patente}\label{sec:4.3.2}
 
@@ -931,17 +931,17 @@ Da Figura 16 da US 9.737.374 B2 foram extraídos 106 pontos de cada curva, um po
 \caption{Pontos extraídos da Figura 16 da US 9.737.374 B2}\label{tab:pontos-extraidos-figura-us}
 \begin{tabularx}{\textwidth}{@{}>{\hsize=0.748\hsize\centering\arraybackslash}X>{\hsize=0.962\hsize\centering\arraybackslash}X>{\hsize=0.962\hsize\centering\arraybackslash}X>{\hsize=0.962\hsize\centering\arraybackslash}X>{\hsize=1.368\hsize\centering\arraybackslash}X@{}}
 \toprule
-\centering\textbf{Θ (graus)} & \centering\textbf{AASM} & \centering\textbf{AWM} & \centering\textbf{RM} & \centering\textbf{AASM na escala do artigo (N·m)} \tabularnewline
+\centering\textbf{Θ (graus)} & \centering\textbf{AASM} & \centering\textbf{AWM} & \centering\textbf{RM} & \centering\textbf{AASM na escala da AWM (N·m)} \tabularnewline
 \midrule
-−75 & 16,25 & −21,41 & sem leitura & 6,45 \\
-−60 & 23,28 & −39,06 & −15,78 & 9,24 \\
-−45 & 34,92 & −55,47 & −19,84 & 13,87 \\
-−30 & 61,25 & −67,66 & −6,25 & 24,32 \\
-−15 & 73,91 & −75,78 & −1,72 & 29,35 \\
-0 & 75,47 & −78,28 & −2,97 & 29,97 \\
-1 & 75,55 & −78,36 & −2,97 & 30,00 \\
-15 & 61,41 & −75,78 & −14,22 & 24,39 \\
-30 & 20,78 & −67,66 & sem leitura & 8,25 \\
+−75 & 16,25 & −21,41 & sem leitura & 2,19 \\
+−60 & 23,28 & −39,06 & −15,78 & 3,14 \\
+−45 & 34,92 & −55,47 & −19,84 & 4,71 \\
+−30 & 61,25 & −67,66 & −6,25 & 8,26 \\
+−15 & 73,91 & −75,78 & −1,72 & 9,97 \\
+0 & 75,47 & −78,28 & −2,97 & 10,18 \\
+1 & 75,55 & −78,36 & −2,97 & 10,19 \\
+15 & 61,41 & −75,78 & −14,22 & 8,28 \\
+30 & 20,78 & −67,66 & sem leitura & 2,80 \\
 \bottomrule
 \end{tabularx}
 \fonte{elaborada pelo autor.}
@@ -995,9 +995,9 @@ A Tabela~\ref{tab:parametros-nao-publicados-mecanismo} resume a situação dos p
 \toprule
 \centering\textbf{Parâmetro} & \centering\textbf{Símbolo} & \centering\textbf{Valor adotado} & \centering\textbf{Origem} & \centering\textbf{Situação} \tabularnewline
 \midrule
-Rigidez da mola & k & 1,448 N/mm & Identificada por ajuste, na escala do artigo & Sem valor físico, porque a ordenada da patente não tem unidade; 1,682 N/mm com o peso do apoio \\
-Alongamento da mola na pose do CAD & x\textsubscript{0} & 323,6 mm & Identificado por ajuste & 299,2 mm com o peso do apoio; o comprimento da mola no CAD não corresponde à pose \\
-Escala da ordenada da curva da patente & c & 30 N·m no máximo da AASM & Literatura \cite{okabe2026} & Hipótese, não medida do dispositivo \\
+Rigidez da mola & k & 0,492 N/mm & Identificada por ajuste, na escala da AWM & Depende da escala; 0,726 N/mm com o peso do apoio e 1,448 N/mm na escala do artigo \\
+Alongamento da mola na pose do CAD & x\textsubscript{0} & 323,6 mm & Identificado por ajuste & 267,1 mm com o peso do apoio; o comprimento da mola no CAD não corresponde à pose \\
+Escala da ordenada da curva da patente & c & 0,1349 N·m por unidade & Derivada: AWM igualada ao torque do peso do membro de referência & Hipótese; a do artigo \cite{okabe2026} é 2,94 vezes maior \\
 Raio de referência do came & R20 & 32,035 mm & Medido nas Figuras 14C e 14D & CAD de 31,65 a 32,01 mm; a conferir na peça \\
 Giro do came em relação à primária &  & Como na Figura 14D & Documental (desenho) & As Figuras 14C e 14D discordam em 15,5°; varrido na seção~\ref{sec:4.3.7} \\
 Posição e raio da polia 630 & L; λ; r\textsubscript{630} & L infinito, de 572 para 632 & Hipótese, por decisão do autor & Não representada; numa geometria de teste, muda r em até 0,031 R20 \\
@@ -1008,18 +1008,19 @@ Material da polia externa e do came &  & Aço & CAD & Aparência de náilon no C
 \fonte{elaborada pelo autor.}
 \end{table}
 
-Com o giro do came da Figura 14D, o ajuste da Equação~\eqref{eq:70} nos 97 pontos de Θ = −75° a 21°, abaixo do limite de subida, dá k = 1,448 N/mm e x\textsubscript{0} = 323,6 mm; a mola trabalha de 464 N em −75° a 335 N em 21°. Com o peso do apoio de braço somado ao alvo, k = 1,682 N/mm e x\textsubscript{0} = 299,2 mm. A Tabela~\ref{tab:mola-linear-ajustada-curva} resume esses ajustes e o do melhor giro da seção~\ref{sec:4.3.7}.
+Com o giro do came da Figura 14D, o ajuste da Equação~\eqref{eq:70} nos 97 pontos de Θ = −75° a 21°, abaixo do limite de subida, dá k = 0,492 N/mm e x\textsubscript{0} = 323,6 mm; a mola trabalha de 158 N em −75° a 114 N em 21°. Com o peso do apoio de braço somado ao alvo, k = 0,726 N/mm e x\textsubscript{0} = 267,1 mm. A Tabela~\ref{tab:mola-linear-ajustada-curva} resume esses ajustes, o do melhor giro da seção~\ref{sec:4.3.7} e, para comparação, o da escala do artigo de \textcite{okabe2026}.
 
 \begin{table}[!htbp]
 \estilotabela{\footnotesize}
-\caption{Mola linear ajustada à curva AASM da Figura 16 da US 9.737.374 B2, na escala de 30 N·m}\label{tab:mola-linear-ajustada-curva}
+\caption{Mola linear ajustada à curva AASM da Figura 16 da US 9.737.374 B2, na escala da AWM}\label{tab:mola-linear-ajustada-curva}
 \begin{tabularx}{\textwidth}{@{}>{\hsize=1.421\hsize\raggedright\arraybackslash}X>{\hsize=0.748\hsize\raggedright\arraybackslash}X>{\hsize=0.748\hsize\raggedright\arraybackslash}X>{\hsize=0.972\hsize\raggedright\arraybackslash}X>{\hsize=0.598\hsize\raggedright\arraybackslash}X>{\hsize=1.271\hsize\raggedright\arraybackslash}X>{\hsize=1.241\hsize\raggedright\arraybackslash}X@{}}
 \toprule
 \centering\textbf{Ajuste} & \centering\textbf{k (N/mm)} & \centering\textbf{x\textsubscript{0} (mm)} & \centering\textbf{F\textsubscript{s} na pose (N)} & \centering\textbf{R²} & \centering\textbf{Erro quadrático médio (N·m)} & \centering\textbf{Erro máximo (N·m)} \tabularnewline
 \midrule
-Came como na Figura 14D & 1,448 & 323,6 & 468 & 0,901 & 2,68 & 4,99 \\
-Came como na Figura 14D, com o peso do apoio & 1,682 & 299,2 & 503 & 0,912 & 2,57 & 4,73 \\
-Came girado de −49° & 6,046 & 121,2 & 733 & 0,953 & 1,85 & 3,22 \\
+Came como na Figura 14D & 0,492 & 323,6 & 159 & 0,901 & 0,91 & 1,69 \\
+Came como na Figura 14D, com o peso do apoio & 0,726 & 267,1 & 194 & 0,931 & 0,81 & 1,44 \\
+Came girado de −49° & 2,053 & 121,2 & 249 & 0,953 & 0,63 & 1,09 \\
+Came como na Figura 14D, na escala do artigo & 1,448 & 323,6 & 468 & 0,901 & 2,68 & 4,99 \\
 \bottomrule
 \end{tabularx}
 \fonte{elaborada pelo autor.}
@@ -1027,7 +1028,7 @@ Came girado de −49° & 6,046 & 121,2 & 733 & 0,953 & 1,85 & 3,22 \\
 
 \subsection{Qualidade do ajuste à curva da patente}\label{sec:4.3.5}
 
-Com o giro do came da Figura 14D, o ajuste tem R² = 0,901, erro quadrático médio de 2,68 N·m e erro máximo de 4,99 N·m (Figura~\ref{fig:curva-aasm-figura-us}a); com o peso do apoio somado ao alvo, R² = 0,912. A força que reproduziria a curva AASM não é linear no alongamento (Figura~\ref{fig:curva-aasm-figura-us}b): com esse giro, uma mola linear acompanha a forma geral da curva, mas não o início da subida nem o patamar. Como na seção~\ref{sec:4.1.5}, o ajuste contra a mesma curva reproduz a forma sem constituir validação independente.
+Com o giro do came da Figura 14D, o ajuste tem R² = 0,901, erro quadrático médio de 0,91 N·m e erro máximo de 1,69 N·m (Figura~\ref{fig:curva-aasm-figura-us}a); com o peso do apoio somado ao alvo, R² = 0,931. A força que reproduziria a curva AASM não é linear no alongamento (Figura~\ref{fig:curva-aasm-figura-us}b): com esse giro, uma mola linear acompanha a forma geral da curva, mas não o início da subida nem o patamar. Como na seção~\ref{sec:4.1.5}, o ajuste contra a mesma curva reproduz a forma sem constituir validação independente.
 
 \begin{figure}[!htbp]
 \centering
@@ -1074,7 +1075,7 @@ A transmissão τ/F\textsubscript{s} = (r/R) C\textsubscript{1} sin(γ − θ), 
 
 \subsection{Varredura paramétrica do giro do came}\label{sec:4.3.7}
 
-Repetido o ajuste com o came girado de −120° a +40° em relação ao desenho, de grau em grau (Figura~\ref{fig:sensibilidade-ajuste-mola-giro}a), o melhor resultado com k e x\textsubscript{0} positivos ocorre com o came girado de −49°: R² = 0,953, erro quadrático médio de 1,85 N·m, k = 6,046 N/mm e x\textsubscript{0} = 121,2 mm (Figura~\ref{fig:sensibilidade-ajuste-mola-giro}b). Com esse giro, a Z11 do modelo vai de −22,7° a 2,4°, e a saída na Z12 ocorre de −53,2° a −51,2°: as duas caem dentro das marcas da patente, que não entram no ajuste. O ajuste da mola e as marcas das zonas indicam o mesmo giro, o que sugere que a curva da patente corresponde a uma montagem diferente da desenhada nas Figuras 14C e 14D, com o came girado em relação à primária ou com a âncora em outra posição.
+Repetido o ajuste com o came girado de −120° a +40° em relação ao desenho, de grau em grau (Figura~\ref{fig:sensibilidade-ajuste-mola-giro}a), o melhor resultado com k e x\textsubscript{0} positivos ocorre com o came girado de −49°: R² = 0,953, erro quadrático médio de 0,63 N·m, k = 2,053 N/mm e x\textsubscript{0} = 121,2 mm (Figura~\ref{fig:sensibilidade-ajuste-mola-giro}b). Com esse giro, a Z11 do modelo vai de −22,7° a 2,4°, e a saída na Z12 ocorre de −53,2° a −51,2°: as duas caem dentro das marcas da patente, que não entram no ajuste. O ajuste da mola e as marcas das zonas indicam o mesmo giro, o que sugere que a curva da patente corresponde a uma montagem diferente da desenhada nas Figuras 14C e 14D, com o came girado em relação à primária ou com a âncora em outra posição.
 
 \begin{figure}[!htbp]
 \centering
@@ -1085,9 +1086,9 @@ Repetido o ajuste com o came girado de −120° a +40° em relação ao desenho,
 
 \subsection{Confronto entre o torque do cabo e o torque gravitacional}\label{sec:4.3.8}
 
-Pela Equação~\eqref{eq:68}, o torque gravitacional do conjunto chega a 13,41 N·m em Θ = −1,1°, quase com o eixo na horizontal. Na horizontal, o membro responde por 11,97 N·m, e o apoio de braço, por 1,44 N·m, 12\% do membro. Sozinho, o peso do apoio chega a 1,46 N·m em Θ = −10,4° e vale 0,49 N·m na pose do CAD; o giro do came muda esse valor em até 0,09 N·m.
+Pela Equação~\eqref{eq:68}, o torque gravitacional do conjunto chega a 11,99 N·m em Θ = −1,2°, quase com o eixo na horizontal. Na horizontal, o membro responde por 10,55 N·m, e o apoio de braço, por 1,44 N·m, 14\% do membro. Sozinho, o peso do apoio chega a 1,46 N·m em Θ = −10,4° e vale 0,49 N·m na pose do CAD; o giro do came muda esse valor em até 0,09 N·m.
 
-A Tabela~\ref{tab:curva-aasm-modelo-ajustado} compara, nos ângulos marcados na Figura 16 da US 9.737.374 B2, a curva AASM na escala do artigo e o torque do modelo ajustado com o torque gravitacional do conjunto. Nessa escala, a AASM fica entre 1,3 e 2,2 vezes τ\textsubscript{g}, e o modelo, entre 1,8 e 2,2 vezes. Os picos quase coincidem em ângulo: a AASM tem máximo em Θ = 1°, τ\textsubscript{g} em −1,1° e o modelo ajustado em −4,6°.
+A Tabela~\ref{tab:curva-aasm-modelo-ajustado} compara, nos ângulos marcados na Figura 16 da US 9.737.374 B2, a curva AASM na escala da AWM e o torque do modelo ajustado com o torque gravitacional do conjunto. A AASM fica entre 0,49 e 0,85 vezes τ\textsubscript{g}, e o modelo, entre 0,67 e 0,82 vezes. Na horizontal, a AASM sustenta 96\% do peso do membro, a razão AASM/|AWM| da própria patente, e 85\% do peso do conjunto, com o apoio de braço. Os picos quase coincidem em ângulo: a AASM tem máximo em Θ = 1°, τ\textsubscript{g} em −1,2° e o modelo ajustado em −4,6°.
 
 \begin{table}[!htbp]
 \estilotabela{\footnotesize}
@@ -1096,23 +1097,23 @@ A Tabela~\ref{tab:curva-aasm-modelo-ajustado} compara, nos ângulos marcados na 
 \toprule
 \centering\textbf{Θ (graus)} & \centering\textbf{Ponto} & \centering\textbf{AASM (N·m)} & \centering\textbf{Modelo (N·m)} & \centering\textbf{τ\textsubscript{g} (N·m)} & \centering\textbf{AASM/τ\textsubscript{g}} & \centering\textbf{Modelo/τ\textsubscript{g}} \tabularnewline
 \midrule
-−75,0 & início da curva AASM & 6,45 & 8,08 & 3,89 & 1,66 & 2,08 \\
-−56,4 & base da marca Z12 & 10,03 & 13,85 & 7,75 & 1,29 & 1,79 \\
-−40,3 & topo da marca Z12 & 17,16 & 18,35 & 10,45 & 1,64 & 1,76 \\
-−23,8 & base da marca Z11 & 27,31 & 23,35 & 12,38 & 2,21 & 1,89 \\
-0,0 & horizontal & 29,97 & 28,87 & 13,41 & 2,23 & 2,15 \\
-4,0 & topo da marca Z11 & 29,85 & 28,46 & 13,36 & 2,23 & 2,13 \\
-21,0 & último ponto do ajuste & 18,43 & 23,35 & 12,41 & 1,48 & 1,88 \\
+−75,0 & início da curva AASM & 2,19 & 2,74 & 3,52 & 0,62 & 0,78 \\
+−56,4 & base da marca Z12 & 3,41 & 4,71 & 6,96 & 0,49 & 0,68 \\
+−40,3 & topo da marca Z12 & 5,83 & 6,23 & 9,36 & 0,62 & 0,67 \\
+−23,8 & base da marca Z11 & 9,28 & 7,93 & 11,08 & 0,84 & 0,72 \\
+0,0 & horizontal & 10,18 & 9,80 & 11,99 & 0,85 & 0,82 \\
+4,0 & topo da marca Z11 & 10,14 & 9,67 & 11,94 & 0,85 & 0,81 \\
+21,0 & último ponto do ajuste & 6,26 & 7,93 & 11,08 & 0,56 & 0,72 \\
 \bottomrule
 \end{tabularx}
 \fonte{elaborada pelo autor.}
 \end{table}
 
-A escala de 30 N·m é a do artigo, não uma medida do dispositivo. Nela, o AWM da patente vale 31,06 N·m na horizontal, 2,3 vezes o torque gravitacional do conjunto: ou a escala, ou a carga da curva da patente, não corresponde ao membro do artigo. Com a escala que iguala o AWM ao torque gravitacional do conjunto na horizontal, o máximo da AASM seria de 12,95 N·m e a rigidez ajustada, proporcional à escala, 0,625 N/mm, com o mesmo x\textsubscript{0}.
+O artigo de \textcite{okabe2026} adotou outra escala, com o máximo da AASM em 30 N·m, 2,94 vezes a adotada aqui. Nela, a AWM valeria 31,06 N·m na horizontal, 2,9 vezes o torque do peso do membro de referência e 2,6 vezes o do membro do próprio artigo, de 11,97 N·m: a escala do artigo corresponde a uma carga entre duas e meia e três vezes o peso do membro. O ajuste nessa escala tem o mesmo x\textsubscript{0} e o mesmo R², e a rigidez e as forças crescem na mesma razão, com k = 1,448 N/mm (Tabela~\ref{tab:mola-linear-ajustada-curva}).
 
 \subsection{Limitações dos resultados}\label{sec:4.3.9}
 
-Além das limitações de escopo da seção~\ref{sec:3.3.14}, os resultados comportam as ressalvas da Tabela~\ref{tab:pendencias-analise-us-b2}, que reúne o que falta para concluir cada etapa, a consequência da ausência e a forma de obter o dado. A principal é a escala: a ordenada da Figura 16 da US 9.737.374 B2 não tem unidade, e a rigidez da mola só existe na escala do artigo.
+Além das limitações de escopo da seção~\ref{sec:3.3.14}, os resultados comportam as ressalvas da Tabela~\ref{tab:pendencias-analise-us-b2}, que reúne o que falta para concluir cada etapa, a consequência da ausência e a forma de obter o dado. A principal é a escala: a ordenada da Figura 16 da US 9.737.374 B2 não tem unidade, e a escala adotada supõe que a AWM seja o momento do peso do membro de referência, sem ferramenta na mão e sem o apoio de braço.
 
 \begin{tabelaabnt}{\small}
 \begin{xltabular}{\textwidth}{@{}>{\hsize=0.897\hsize\raggedright\arraybackslash}X>{\hsize=0.987\hsize\raggedright\arraybackslash}X>{\hsize=1.115\hsize\raggedright\arraybackslash}X@{}}
@@ -1129,8 +1130,8 @@ Além das limitações de escopo da seção~\ref{sec:3.3.14}, os resultados comp
 \endfoot
 \bottomrule
 \endlastfoot
-Rigidez e comprimento livre da mola & Torque em N·m só na escala do artigo; k e x\textsubscript{0} identificados pela forma da curva & Especificação ou ensaio de força e alongamento da mola \\
-Escala da ordenada da Figura 16 da US 9.737.374 B2 & Na escala do artigo, o AWM é 2,3 vezes o torque gravitacional do conjunto & Documento com a escala da figura ou medição do torque do dispositivo \\
+Rigidez e comprimento livre da mola & Torque em N·m só pela escala da AWM; k e x\textsubscript{0} identificados pela forma da curva & Especificação ou ensaio de força e alongamento da mola \\
+Escala da ordenada da Figura 16 da US 9.737.374 B2 & Escala adotada pela AWM igualada ao peso do membro de referência; a do artigo é 2,94 vezes maior & Documento com a escala da figura ou medição do torque do dispositivo \\
 Giro do came em relação à primária & As Figuras 14C e 14D discordam em 15,5°; com o came girado de −49°, o ajuste melhora e as zonas caem nas marcas da patente & Medir o giro na peça real \\
 Posição do ponto de ancoragem 562 & Limite de subida em Θ = 22,0°, contra 30° na curva da patente & Conferir a ancoragem na peça real \\
 Polia 630 e geometria do cabo da mola & Cabo tomado no infinito; numa geometria de teste, r muda até 0,031 R20 & Medir L, λ e r\textsubscript{630} no CAD \\
@@ -1158,14 +1159,14 @@ A Tabela~\ref{tab:exoesqueleto-aspectos-comparacao-exoesqueletos} completa a Tab
 Arquitetura & Cabo de ancoragem preso ao suporte do tronco, par de polias com came de raio variável e mola no apoio de braço \\
 Faixa sem torque com o braço baixado & Não há no curso analisado; o braço do cabo de ancoragem só se anularia em Θ = −128,5° \\
 Dado da patente & Três curvas na mesma figura (AASM, AWM e RM), sem unidade na ordenada; 106 pontos extraídos de cada \\
-Parâmetros identificados & k e x\textsubscript{0} da mola linear, na escala do artigo; R20 e giro do came medidos nas figuras \\
+Parâmetros identificados & k e x\textsubscript{0} da mola linear, na escala da AWM; R20 e giro do came medidos nas figuras \\
 Reprodução da curva publicada & R\textsuperscript{2} = 0,901 com o came como na Figura 14D; 0,953 com o came girado de −49° \\
-Escala do torque & N·m na escala do artigo \cite{okabe2026}, com força de mola de 335 a 464 N \\
+Escala do torque & N·m pela AWM da própria patente, igualada ao peso do membro de referência, com força de mola de 114 a 158 N \\
 Pico do torque de assistência & Θ = 1° na curva da patente, isto é, 91° de elevação; 85,4° no modelo ajustado \\
-Torque gravitacional de referência & Membro do artigo e apoio de braço, pico de 13,41 N·m em 88,9° de elevação \\
+Torque gravitacional de referência & Membro de referência e apoio de braço, pico de 11,99 N·m em 88,8° de elevação \\
 \bottomrule
 \end{tabularx}
 \fonte{elaborada pelo autor, com os resultados da seção~\ref{sec:4.3}.}
 \end{table}
 
-O contraste mais útil para o procedimento está no came. Nos exoesqueletos 1 e 2, a forma do torque depende só do circuito; aqui, ela depende também do perfil do came, que a patente publica só como desenho, e de um giro que os desenhos não fixam com precisão. A varredura desse giro mostrou que as marcas das zonas, que não entram no ajuste, apontam o mesmo giro que melhora o ajuste da mola, o que dá à curva publicada uma redundância parecida com a das três curvas da EP 3 504 033 B1. Quanto à magnitude, os três casos dependem de hipótese: o torque do primeiro está em unidade da patente, o do segundo chega a N·m pela hipótese K = K\textsubscript{40}, e o do terceiro, pela escala do artigo.
+O contraste mais útil para o procedimento está no came. Nos exoesqueletos 1 e 2, a forma do torque depende só do circuito; aqui, ela depende também do perfil do came, que a patente publica só como desenho, e de um giro que os desenhos não fixam com precisão. A varredura desse giro mostrou que as marcas das zonas, que não entram no ajuste, apontam o mesmo giro que melhora o ajuste da mola, o que dá à curva publicada uma redundância parecida com a das três curvas da EP 3 504 033 B1. Quanto à magnitude, os três casos dependem de hipótese: o torque do primeiro está em unidade da patente, o do segundo chega a N·m pela hipótese K = K\textsubscript{40}, e o do terceiro, pela hipótese de que a AWM seja o peso do membro de referência.

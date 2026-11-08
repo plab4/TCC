@@ -2724,10 +2724,14 @@ def parte_3C():
           "Medida em CAD",
           "Circuito, pose e ponto de ancoragem conferidos nas Figuras 14C e 14D; corpos "
           "conferidos na 14D (seção ⟦S:e3_r_geo⟧)"],
+         ["Parâmetros inerciais do membro superior (DE LEVA, 1996)",
+          "Massas, comprimentos, centros de massa e raios de giração do indivíduo de "
+          "referência, homem de 73,0 kg e 1,741 m", "Literatura",
+          "Os mesmos das seções 3.1.2 e 3.2.2"],
          ["Artigo de simulação multicorpos (OKABE; BRITTES; BRITO, 2026)",
-          "Escala de 30 N·m para a curva de momento da patente; massas e comprimentos "
-          "do membro superior", "Literatura",
-          "Artigo lido; frações de centro de massa e raios de giração (DE LEVA, 1996)"],
+          "Escala de 30 N·m para a curva de momento da patente e membro superior de "
+          "82,8 kg, comentados como comparação", "Literatura",
+          "Artigo lido; escala e membro comparados aos adotados (seção ⟦S:e3_r_conf⟧)"],
          ["Arquivo exo3/fig16_curvas.csv, digitalização feita neste trabalho",
           f"{N3['fig16']['n_pontos']} pontos de cada curva da Figura 16 da US 9.737.374 B2",
           "Documental (extração)",
@@ -2778,13 +2782,15 @@ def parte_3C():
     # ------------------------------------------------------------ inércia
     a(SEC("3.3", "e3_inercia", "Parâmetros inerciais do membro e transporte ao eixo do "
                               "pivô 584"))
-    a(P("O membro superior segue o artigo de Okabe, Brittes e Brito (2026), cujas massas "
-        "correspondem às frações de de Leva (1996) para 82,8 kg de massa corporal, contra "
-        "73,0 kg nas seções 3.1.2 e 3.2.2. Braço, antebraço e mão estão em série a partir "
-        "de O, alinhados ao eixo maior do apoio de braço, com as frações de centro de massa "
-        "e os raios de giração transversais de de Leva (1996), como nas seções 3.1.2 e "
-        "3.2.2, e o transporte ao eixo usa a Equação (1). O modelo admite o centro do "
-        "ombro no eixo do pivô 584."))
+    a(P("O membro superior é o das seções 3.1.2 e 3.2.2: o indivíduo de referência de "
+        "de Leva (1996), homem de 73,0 kg e 1,741 m, com o cotovelo estendido. Braço, "
+        "antebraço e mão estão em série a partir de O, alinhados ao eixo maior do apoio "
+        "de braço, com as frações de centro de massa e os raios de giração transversais "
+        "de de Leva (1996), e o transporte ao eixo usa a Equação (1). O modelo admite o "
+        "centro do ombro no eixo do pivô 584. O artigo de Okabe, Brittes e Brito (2026), "
+        "que usa a curva desta patente numa simulação multicorpos, adota massas que "
+        "correspondem às frações de de Leva (1996) para 82,8 kg de massa corporal; esse "
+        "membro entra só na comparação da seção ⟦S:e3_r_conf⟧."))
     a(P("O apoio de braço entra com as propriedades de massa de cinco corpos do CAD: a "
         "capa, a mola, as polias interna e externa e o came, com massa, centro de massa e "
         "tensor de inércia no referencial da peça, de eixo z normal ao plano do mecanismo. "
@@ -3015,7 +3021,7 @@ def parte_3C():
         "numérica entre elas é conferida na seção ⟦S:e3_r_verif⟧. O peso entra com "
         "τ_{g,s}, de sinal oposto ao de τ e módulo τ_{g} da Equação (⟦E:e3_tg⟧), e o "
         "equilíbrio é o da Equação (⟦E:vt1_eq⟧) com δΘ no lugar de δθ*: "
-        "τ_{u} = −(τ + τ_{g,s}). Aqui, τ está em N·m na escala do artigo (seção "
+        "τ_{u} = −(τ + τ_{g,s}). Aqui, τ está em N·m na escala fixada pela AWM (seção "
         "⟦S:e3_dados⟧)."))
     a(P("A rotação das polias também sai do enrolamento. Com o cabo 560 inextensível, "
         "S + R w é constante, em que w é o arco enrolado de T a 561, e o giro absoluto "
@@ -3032,18 +3038,21 @@ def parte_3C():
         "um peso a distância fixa do pivô. As marcas da figura atribuem à zona Z12 a "
         "faixa de Θ = −56,4° a −40,3° e à Z11, de −23,8° a 4,0°."))
     a(P("Como na seção 3.1.10, a falta de unidade impede identificar a rigidez em valor "
-        "físico. A escala foi tomada do artigo de Okabe, Brittes e Brito (2026), que põe o "
-        "máximo da curva AASM em 30 N·m. Com ela, a mola linear da Equação "
-        "(⟦E:e3_forca⟧) tem dois parâmetros, k e x_{0}, e o torque é linear em k e em "
-        "k x_{0}; os dois foram ajustados por mínimos quadrados nos pontos de Θ = −75° até "
-        "o limite de subida:"))
-    a(EQ(("e3_aj", r"\min_{k,\,x_{0}}\sum_{i}\left[ c\,y_{i} - \frac{k\left( x_{0} + \Delta x_{i} \right)g_{i}}{1000} \right]^{2},\quad g_{i} = \frac{r_{i}}{R}\,C_{1}\sin\left( \gamma - \theta_{i} \right),\quad c = \frac{30}{\max_{i}y_{i}}")))
-    a(P("em que y_{i} é a AASM lida em Θ_{i}, e g_{i}, Δx_{i}, r_{i} e θ_{i} saem da "
+        "físico pela AASM sozinha. A própria figura, porém, traz uma referência: a AWM é o "
+        "momento do peso do braço, um cosseno de amplitude A. Igualando A ao torque do "
+        "peso do membro de referência na horizontal (seção ⟦S:e3_inercia⟧), a unidade da "
+        "figura passa a N·m. Com ela, a mola linear da Equação (⟦E:e3_forca⟧) tem dois "
+        "parâmetros, k e x_{0}, e o torque é linear em k e em k x_{0}; os dois foram "
+        "ajustados por mínimos quadrados nos pontos de Θ = −75° até o limite de subida:"))
+    a(EQ(("e3_aj", r"\min_{k,\,x_{0}}\sum_{i}\left[ c\,y_{i} - \frac{k\left( x_{0} + \Delta x_{i} \right)g_{i}}{1000} \right]^{2},\quad g_{i} = \frac{r_{i}}{R}\,C_{1}\sin\left( \gamma - \theta_{i} \right),\quad c = \frac{M_{m}\,g\,d_{m}}{1000\,A}")))
+    a(P("em que y_{i} é a AASM lida em Θ_{i}, M_{m} e d_{m} são a massa do membro e a "
+        "distância do centro de massa dele a O, e g_{i}, Δx_{i}, r_{i} e θ_{i} saem da "
         "cadeia de cálculo. Se a AASM for o momento entregue ao braço, a mola também "
         "sustenta o apoio de braço, e o alvo passa a c y_{i} mais o torque do peso do "
-        "apoio; os dois ajustes estão na seção ⟦S:e3_r_par⟧. O giro do came, que fixa a "
-        "constante da rotação das polias, foi medido na Figura 14D, e R20, nas Figuras 14C "
-        "e 14D (seção ⟦S:e3_r_geo⟧)."))
+        "apoio; os dois ajustes estão na seção ⟦S:e3_r_par⟧. O artigo de Okabe, Brittes e "
+        "Brito (2026) adotou outra escala, com o máximo da AASM em 30 N·m, comentada na "
+        "seção ⟦S:e3_r_conf⟧. O giro do came, que fixa a constante da rotação das polias, "
+        "foi medido na Figura 14D, e R20, nas Figuras 14C e 14D (seção ⟦S:e3_r_geo⟧)."))
 
     # ------------------------------------------------------------ varredura
     a(SEC("3.3", "e3_varr", "Varredura paramétrica do giro do came"))
@@ -3087,9 +3096,9 @@ def parte_3C():
         "membro e o apoio de braço (Tabela ⟦T:e3_massa⟧); como o par de polias gira em "
         "relação ao chassi, a energia cinética teria ainda o termo desse giro relativo, "
         "que depende de dθ_{p}/dΘ e, portanto, de Θ."))
-    a(P("A integração não foi executada. A escala do torque vem do artigo, e não de dado "
-        "do dispositivo, e a rigidez e o comprimento livre da mola só existem como ajuste "
-        "nessa escala. Atrito no pivô, nos pinos e nos cabos e amortecimento são "
+    a(P("A integração não foi executada. A escala do torque vem da AWM igualada ao peso "
+        "do membro de referência, e não de dado do dispositivo, e a rigidez e o comprimento "
+        "livre da mola só existem como ajuste nessa escala. Atrito no pivô, nos pinos e nos cabos e amortecimento são "
         "desconhecidos, de modo que Q_{nc} não pode ser escrito. O MBDyn não foi "
         "empregado nesta etapa. Nenhum resultado dinâmico é apresentado, e as condições "
         "para executar a etapa estão na seção ⟦S:e3_r_lim⟧."))
@@ -3107,7 +3116,7 @@ def parte_3C():
     a(P("Valem as exclusões de escopo da seção 3.1.14. O modelo é plano e admite vínculos "
         "ideais, sem atrito no pivô e nas polias, cabos inextensíveis e sem massa, polia "
         "630 no infinito e mola linear identificada pela própria curva da patente, na "
-        "escala do artigo. O giro do came vem do desenho da Figura 14D, que discorda do "
+        "escala fixada pela AWM. O giro do came vem do desenho da Figura 14D, que discorda do "
         "da 14C. O torque gravitacional considera o membro superior estendido, sem "
         "ferramenta na mão, alinhado ao eixo maior e com o ombro no pivô 584, e os cinco "
         "corpos do apoio de braço; outras peças que giram com o braço não entram nele."))
@@ -3127,8 +3136,9 @@ def parte_4C():
     a(P("Esta seção apresenta os resultados das etapas das seções ⟦S:e3_cad⟧ a "
         "⟦S:e3_verif⟧, aplicadas ao mecanismo da US 9.737.374 B2. Salvo indicação em "
         f"contrário, os números foram obtidos com a geometria do CAD, R20 = "
-        f"{f(N3['R20_mm'], 3)} mm, o giro do came medido na Figura 14D e a escala de "
-        "30 N·m do artigo de Okabe, Brittes e Brito (2026). As etapas dinâmicas da seção "
+        f"{f(N3['R20_mm'], 3)} mm, o giro do came medido na Figura 14D e a escala que "
+        "iguala a AWM ao torque do peso do membro de referência (seção ⟦S:e3_dados⟧), de "
+        f"{f(N3['escala']['c'], 4)} N·m por unidade da figura. As etapas dinâmicas da seção "
         "⟦S:e3_din⟧ não foram executadas. Os números e as figuras são produzidos pelo "
         "script tcc_resultados_exo3.py."))
 
@@ -3201,17 +3211,16 @@ def parte_4C():
     a(TABELA(["Corpo", "Massa (kg)", "d (mm)", "a (graus)", "I_{cm} (kg·m^{2})",
               "I_{O} (kg·m^{2})"], linhas, [2300, 1300, 1200, 1200, 1680, 1680],
              ["left", "center", "center", "center", "center", "center"]))
-    a(PEQUENO("Fonte: elaborada pelo autor, com dados de Okabe, Brittes e Brito (2026), "
-              "de de Leva (1996) e do modelo em CAD.", True))
+    a(PEQUENO("Fonte: elaborada pelo autor, com dados de de Leva (1996) e do modelo em "
+              "CAD.", True))
     a(PEQUENO("Nota: d é a distância do centro de massa ao pivô 584 e a, o ângulo dele com "
               "o eixo maior, positivo acima. O centro do came está na pose do CAD."))
     a(P("A consistência foi conferida pela Equação (1): para o conjunto, "
         f"I_{{cm}} + M d^{{2}} = {f(cj['izz_cg'], 6)} + "
         f"{f(cj['izz_o'] - cj['izz_cg'], 6)} = {f(cj['izz_o'], 6)} kg·m^{{2}}. A "
         f"amplitude do torque gravitacional é M g d = {f(mb['momento_horizontal_N_m'], 2)} "
-        f"N·m para o membro e {f(cj['amplitude_N_m'], 2)} N·m para o conjunto; com o "
-        f"indivíduo das seções 3.1.2 e 3.2.2, o membro daria "
-        f"{f(mb['tcc_momento_horizontal_N_m'], 2)} N·m."))
+        "N·m para o membro, a mesma das seções 3.1.2 e 3.2.2, e "
+        f"{f(cj['amplitude_N_m'], 2)} N·m para o conjunto."))
     a(P(f"No CAD, o apoio de braço tem {f(ma_kg, 3)} kg. A capa, de náilon 6/6, tem "
         f"{f(pa['corpos']['capa']['massa_g']/1000, 3)} kg, e a polia externa e o came, de "
         f"aço, {f((pa['corpos']['polia externa']['massa_g'] + pa['corpos']['came']['massa_g'])/1000, 3)} "
@@ -3242,7 +3251,7 @@ def parte_4C():
         "em ângulos de 15 em 15 graus e no máximo da AASM."))
     a(LEG_T("e3_pts16", "Pontos extraídos da Figura 16 da US 9.737.374 B2"))
     c16 = aj["escala_N_m_por_unidade"]
-    a(TABELA(["Θ (graus)", "AASM", "AWM", "RM", "AASM na escala do artigo (N·m)"],
+    a(TABELA(["Θ (graus)", "AASM", "AWM", "RM", "AASM na escala da AWM (N·m)"],
              [[f(x["theta"], 0), f(x["AASM"], 2), f(x["AWM"], 2),
                f(x["RM"], 2) if x["RM"] is not None else "sem leitura",
                f(c16*x["AASM"], 2)] for x in fg["pontos"]],
@@ -3321,22 +3330,24 @@ def parte_4C():
     a(SEC("4.3", "e3_r_par", "Parâmetros do modelo e identificação da mola"))
     a(P("A Tabela ⟦T:e3_par⟧ resume a situação dos parâmetros que a patente não publica, "
         "no formato das Tabelas ⟦T:o6⟧ e ⟦T:par⟧."))
-    pv = pa["pivo"]
+    pv, ea = pa["pivo"], N3["escala_artigo"]
     a(LEG_T("e3_par", "Parâmetros não publicados do mecanismo da Levitate, origem e "
                       "identificabilidade"))
     a(TABELA(
         ["Parâmetro", "Símbolo", "Valor adotado", "Origem", "Situação"],
         [["Rigidez da mola", "k", f"{f(aj['k_N_por_mm'], 3)} N/mm",
-          "Identificada por ajuste, na escala do artigo",
-          "Sem valor físico, porque a ordenada da patente não tem unidade; "
-          f"{f(apj['k_N_por_mm'], 3)} N/mm com o peso do apoio"],
+          "Identificada por ajuste, na escala da AWM",
+          f"Depende da escala; {f(apj['k_N_por_mm'], 3)} N/mm com o peso do apoio e "
+          f"{f(ea['k_N_por_mm'], 3)} N/mm na escala do artigo"],
          ["Alongamento da mola na pose do CAD", "x_{0}", f"{f(aj['x0_mm'], 1)} mm",
           "Identificado por ajuste",
           f"{f(apj['x0_mm'], 1)} mm com o peso do apoio; o comprimento da mola no CAD "
           "não corresponde à pose"],
          ["Escala da ordenada da curva da patente", "c",
-          "30 N·m no máximo da AASM", "Literatura (OKABE; BRITTES; BRITO, 2026)",
-          "Hipótese, não medida do dispositivo"],
+          f"{f(N3['escala']['c'], 4)} N·m por unidade",
+          "Derivada: AWM igualada ao torque do peso do membro de referência",
+          "Hipótese; a do artigo (OKABE; BRITTES; BRITO, 2026) é "
+          f"{f(ea['razao'], 2)} vezes maior"],
          ["Raio de referência do came", "R20", f"{f(N3['R20_mm'], 3)} mm",
           "Medido nas Figuras 14C e 14D",
           f"CAD de {f(min(cm['R20_area'], cm['R20_giracao'], cm['R20_caixa']), 2)} a "
@@ -3364,10 +3375,10 @@ def parte_4C():
         f"{f(aj['forca_inicio_N'], 0)} N em −75° a {f(aj['forca_fim_N'], 0)} N em "
         f"{f(aj['theta_max_ajuste'], 0)}°. Com o peso do apoio de braço somado ao alvo, "
         f"k = {f(apj['k_N_por_mm'], 3)} N/mm e x_{{0}} = {f(apj['x0_mm'], 1)} mm. A "
-        "Tabela ⟦T:e3_aj⟧ resume esses ajustes e o do melhor giro da seção "
-        "⟦S:e3_r_varr⟧."))
+        "Tabela ⟦T:e3_aj⟧ resume esses ajustes, o do melhor giro da seção ⟦S:e3_r_varr⟧ "
+        "e, para comparação, o da escala do artigo de Okabe, Brittes e Brito (2026)."))
     a(LEG_T("e3_aj", "Mola linear ajustada à curva AASM da Figura 16 da "
-            "US 9.737.374 B2, na escala de 30 N·m"))
+            "US 9.737.374 B2, na escala da AWM"))
     a(TABELA(["Ajuste", "k (N/mm)", "x_{0} (mm)", "F_{s} na pose (N)", "R²",
               "Erro quadrático médio (N·m)", "Erro máximo (N·m)"],
              [["Came como na Figura 14D", f(aj["k_N_por_mm"], 3), f(aj["x0_mm"], 1),
@@ -3378,7 +3389,10 @@ def parte_4C():
                f(apj["rms_N_m"], 2), f(apj["erro_max_N_m"], 2)],
               [f"Came girado de {f(mg['giro'], 0)}°", f(mg["k"], 3), f(mg["x0"], 1),
                f(mg["forca_pose_N"], 0), f(mg["r2"], 3), f(mg["rms_N_m"], 2),
-               f(mg["erro_max_N_m"], 2)]],
+               f(mg["erro_max_N_m"], 2)],
+              ["Came como na Figura 14D, na escala do artigo", f(ea["k_N_por_mm"], 3),
+               f(ea["x0_mm"], 1), f(ea["forca_pose_N"], 0), f(ea["r2"], 3),
+               f(ea["rms_N_m"], 2), f(ea["erro_max_N_m"], 2)]],
              [1900, 1000, 1000, 1300, 800, 1700, 1660],
              ["left", "right", "right", "right", "right", "right", "right"]))
     a(FONTE)
@@ -3477,7 +3491,8 @@ def parte_4C():
     a(FONTE)
 
     # ------------------------------------------------------------ confronto
-    co, ea = N3["confronto"], N3["escala_alternativa"]
+    co, ea, fg = N3["confronto"], N3["escala_artigo"], N3["fig16"]
+    c0 = next(x for x in co["linhas"] if x["theta"] == 0.0)
     ra = [x["razao_aasm"] for x in co["linhas"]]
     rm = [x["razao_modelo"] for x in co["linhas"]]
     a(SEC("4.3", "e3_r_conf", "Confronto entre o torque do cabo e o torque gravitacional"))
@@ -3492,10 +3507,13 @@ def parte_4C():
         "pose do CAD; o giro do came muda esse valor em até "
         f"{f(pa['came_variacao_max_N_m'], 2)} N·m."))
     a(P("A Tabela ⟦T:e3_conf⟧ compara, nos ângulos marcados na Figura 16 da "
-        "US 9.737.374 B2, a curva AASM na escala do artigo e o torque do modelo ajustado "
-        "com o torque gravitacional do conjunto. Nessa escala, a AASM fica entre "
-        f"{f(min(ra), 1)} e {f(max(ra), 1)} vezes τ_{{g}}, e o modelo, entre "
-        f"{f(min(rm), 1)} e {f(max(rm), 1)} vezes. Os picos quase coincidem em ângulo: "
+        "US 9.737.374 B2, a curva AASM na escala da AWM e o torque do modelo ajustado "
+        "com o torque gravitacional do conjunto. A AASM fica entre "
+        f"{f(min(ra), 2)} e {f(max(ra), 2)} vezes τ_{{g}}, e o modelo, entre "
+        f"{f(min(rm), 2)} e {f(max(rm), 2)} vezes. Na horizontal, a AASM sustenta "
+        f"{f(100*fg['aasm_awm_zero'], 0)}% do peso do membro, a razão AASM/|AWM| da "
+        f"própria patente, e {f(100*c0['razao_aasm'], 0)}% do peso do conjunto, com o "
+        "apoio de braço. Os picos quase coincidem em ângulo: "
         f"a AASM tem máximo em Θ = {f(co['theta_pico_aasm'], 0)}°, τ_{{g}} em "
         f"{f(co['theta_pico_tau_g'], 1)}° e o modelo ajustado em "
         f"{f(co['theta_pico_modelo'], 1)}°."))
@@ -3512,33 +3530,34 @@ def parte_4C():
              [1000, 2200, 1200, 1200, 1200, 1280, 1280],
              ["right", "left", "right", "right", "right", "right", "right"]))
     a(FONTE)
-    a(P("A escala de 30 N·m é a do artigo, não uma medida do dispositivo. Nela, o AWM da "
-        f"patente vale {f(cj['awm_escala_N_m'], 2)} N·m na horizontal, "
-        f"{f(cj['awm_escala_N_m']/cj['tau_g_zero_N_m'], 1)} vezes o torque gravitacional "
-        "do conjunto: ou a escala, ou a carga da curva da patente, não corresponde ao "
-        "membro do artigo. Com a escala que iguala o AWM ao torque gravitacional do "
-        f"conjunto na horizontal, o máximo da AASM seria de {f(ea['aasm_max_N_m'], 2)} N·m "
-        f"e a rigidez ajustada, proporcional à escala, {f(ea['k_N_por_mm'], 3)} N/mm, com "
-        "o mesmo x_{0}."))
+    a(P("O artigo de Okabe, Brittes e Brito (2026) adotou outra escala, com o máximo da "
+        f"AASM em 30 N·m, {f(ea['razao'], 2)} vezes a adotada aqui. Nela, a AWM valeria "
+        f"{f(ea['awm_N_m'], 2)} N·m na horizontal, {f(ea['awm_sobre_membro'], 1)} vezes o "
+        "torque do peso do membro de referência e "
+        f"{f(ea['awm_sobre_membro_artigo'], 1)} vezes o do membro do próprio artigo, de "
+        f"{f(mb['artigo_momento_horizontal_N_m'], 2)} N·m: a escala do artigo corresponde "
+        "a uma carga entre duas e meia e três vezes o peso do membro. O ajuste nessa "
+        "escala tem o mesmo x_{0} e o mesmo R², e a rigidez e as forças crescem na mesma "
+        f"razão, com k = {f(ea['k_N_por_mm'], 3)} N/mm (Tabela ⟦T:e3_aj⟧)."))
 
     # ------------------------------------------------------------ limitações
     a(SEC("4.3", "e3_r_lim", "Limitações dos resultados"))
     a(P("Além das limitações de escopo da seção ⟦S:e3_ferr⟧, os resultados comportam as "
         "ressalvas da Tabela ⟦T:e3_pend⟧, que reúne o que falta para concluir cada etapa, "
         "a consequência da ausência e a forma de obter o dado. A principal é a escala: a "
-        "ordenada da Figura 16 da US 9.737.374 B2 não tem unidade, e a rigidez da mola só "
-        "existe na escala do artigo."))
+        "ordenada da Figura 16 da US 9.737.374 B2 não tem unidade, e a escala adotada supõe "
+        "que a AWM seja o momento do peso do membro de referência, sem ferramenta na mão e "
+        "sem o apoio de braço."))
     a(LEG_T("e3_pend", "Pendências da análise da US 9.737.374 B2"))
     a(TABELA(
         ["Pendência", "Consequência", "Como obter"],
         [["Rigidez e comprimento livre da mola",
-          "Torque em N·m só na escala do artigo; k e x_{0} identificados pela forma da "
+          "Torque em N·m só pela escala da AWM; k e x_{0} identificados pela forma da "
           "curva", "Especificação ou ensaio de força e alongamento da mola"],
          ["Escala da ordenada da Figura 16 da US 9.737.374 B2",
-          f"Na escala do artigo, o AWM é "
-          f"{f(cj['awm_escala_N_m']/cj['tau_g_zero_N_m'], 1)} vezes o torque "
-          "gravitacional do conjunto", "Documento com a escala da figura ou medição do "
-          "torque do dispositivo"],
+          "Escala adotada pela AWM igualada ao peso do membro de referência; a do artigo "
+          f"é {f(N3['escala_artigo']['razao'], 2)} vezes maior",
+          "Documento com a escala da figura ou medição do torque do dispositivo"],
          ["Giro do came em relação à primária",
           "As Figuras 14C e 14D discordam em 15,5°; com o came girado de "
           f"{f(mg['giro'], 0)}°, o ajuste melhora e as zonas caem nas marcas da patente",
@@ -3585,18 +3604,19 @@ def parte_4C():
           f"Θ = {f(N3['ponto_morto']['theta'], 1)}°"],
          ["Dado da patente", "Três curvas na mesma figura (AASM, AWM e RM), sem unidade "
           f"na ordenada; {fg['n_pontos']} pontos extraídos de cada"],
-         ["Parâmetros identificados", "k e x_{0} da mola linear, na escala do artigo; "
+         ["Parâmetros identificados", "k e x_{0} da mola linear, na escala da AWM; "
           "R20 e giro do came medidos nas figuras"],
          ["Reprodução da curva publicada", f"R^{{2}} = {f(aj['r2'], 3)} com o came como na "
           f"Figura 14D; {f(mg['r2'], 3)} com o came girado de {f(mg['giro'], 0)}°"],
-         ["Escala do torque", "N·m na escala do artigo (OKABE; BRITTES; BRITO, 2026), "
+         ["Escala do torque", "N·m pela AWM da própria patente, igualada ao peso do "
+          "membro de referência, "
           f"com força de mola de {f(aj['forca_fim_N'], 0)} a {f(aj['forca_inicio_N'], 0)} N"],
          ["Pico do torque de assistência",
           f"Θ = {f(co['theta_pico_aasm'], 0)}° na curva da patente, isto é, "
           f"{f(co['theta_pico_aasm'] + 90, 0)}° de elevação; "
           f"{f(co['theta_pico_modelo'] + 90, 1)}° no modelo ajustado"],
          ["Torque gravitacional de referência",
-          f"Membro do artigo e apoio de braço, pico de {f(cj['tau_g_max_N_m'], 2)} N·m em "
+          f"Membro de referência e apoio de braço, pico de {f(cj['tau_g_max_N_m'], 2)} N·m em "
           f"{f(cj['theta_tau_g_max'] + 90, 1)}° de elevação"]],
         [2300, 7060]))
     a(PEQUENO("Fonte: elaborada pelo autor, com os resultados da seção 4.3.", True))
@@ -3608,7 +3628,8 @@ def parte_4C():
         "à curva publicada uma redundância parecida com a das três curvas da "
         "EP 3 504 033 B1. Quanto à magnitude, os três casos dependem de hipótese: o "
         "torque do primeiro está em unidade da patente, o do segundo chega a N·m pela "
-        "hipótese K = K_{40}, e o do terceiro, pela escala do artigo."))
+        "hipótese K = K_{40}, e o do terceiro, pela hipótese de que a AWM seja o peso do "
+        "membro de referência."))
     return B
 
 
@@ -3617,6 +3638,7 @@ def parte_5C():
     pa, cj, mb, ver = N3["peso_apoio"], N3["conjunto"], N3["membro"], N3["verificacoes"]
     apj, co = pa["ajuste_com_peso"], N3["confronto"]
     ra = [x["razao_aasm"] for x in co["linhas"]]
+    c0 = next(x for x in co["linhas"] if x["theta"] == 0.0)
     B = []
     a = B.append
     a(H("5.3 Exoesqueleto 3"))
@@ -3626,7 +3648,7 @@ def parte_5C():
         "angulares, o circuito do cabo de ancoragem em forma fechada, o torque pelo "
         "produto vetorial e pelo princípio dos trabalhos virtuais, a extração do perfil "
         "do came da Figura 15B, o torque gravitacional, o tratamento da Figura 16 da "
-        "US 9.737.374 B2, a identificação da mola na escala do artigo, a varredura do "
+        "US 9.737.374 B2, a identificação da mola na escala da AWM, a varredura do "
         "giro do came e as verificações numéricas."))
     a(P("A pose do CAD é a da Figura 14D, o ponto de ancoragem do CAD cai a menos de 1 mm "
         "do desenhado, e as peças do apoio de braço caem sobre o desenho: as polias nos "
@@ -3645,16 +3667,18 @@ def parte_5C():
         "da Figura 16 da US 9.737.374 B2. A curva da patente parece corresponder a outra "
         "montagem do came ou a outra posição da âncora, e a ancoragem desenhada limita a "
         f"subida a Θ = {f(N3['theta_limite'], 1)}°, contra 30° na curva."))
-    a(P("A rigidez não é identificável pela figura, que não tem unidade. Na escala do "
-        f"artigo, k = {f(aj['k_N_por_mm'], 3)} N/mm, e a mola trabalha de "
+    a(P("A rigidez não é identificável pela AASM sozinha, que não tem unidade, mas a AWM "
+        "da própria patente, igualada ao peso do membro de referência, fixa a escala. "
+        f"Nela, k = {f(aj['k_N_por_mm'], 3)} N/mm, e a mola trabalha de "
         f"{f(aj['forca_inicio_N'], 0)} a {f(aj['forca_fim_N'], 0)} N; com o peso do apoio "
         f"de braço somado ao alvo, k = {f(apj['k_N_por_mm'], 3)} N/mm. O apoio tem "
         f"{f(pa['massa_g']/1000, 3)} kg e acrescenta "
         f"{f(100*pa['momento_zero_N_m']/mb['momento_horizontal_N_m'], 0)}% ao torque do "
-        "peso do membro com o braço na horizontal. Nessa escala, a AASM fica entre "
-        f"{f(min(ra), 1)} e {f(max(ra), 1)} vezes o torque gravitacional do conjunto, e o "
-        f"AWM da patente é {f(cj['awm_escala_N_m']/cj['tau_g_zero_N_m'], 1)} vezes ele: "
-        "nessa escala, a carga da curva da patente não corresponde ao membro do artigo."))
+        "peso do membro com o braço na horizontal, onde a AASM sustenta "
+        f"{f(100*N3['fig16']['aasm_awm_zero'], 0)}% do peso do membro e "
+        f"{f(100*c0['razao_aasm'], 0)}% do peso do conjunto. A escala de 30 N·m do artigo "
+        f"de Okabe, Brittes e Brito (2026) é {f(N3['escala_artigo']['razao'], 1)} vezes "
+        "maior e corresponde a uma carga entre duas e meia e três vezes o peso do membro."))
     a(P("As relações do circuito foram verificadas com resíduos de até "
         f"{sci(max(ver['fechamento_cad_mm'], ver['S_cad_mm'], ver['b_cad_mm'], ver['braco_duas_formas_mm']))} mm "
         "contra o CAD e entre as duas formas do braço de momento, e o princípio dos "
@@ -3665,7 +3689,8 @@ def parte_5C():
     a(P("Dos objetivos acrescentados para esse dispositivo, o item j foi cumprido: o "
         "circuito do cabo de ancoragem e o perfil do came foram reconstruídos das figuras "
         "e do CAD e conferidos entre si. O item k foi cumprido na parte estática, com a "
-        "ressalva de que a comparação com a curva publicada depende da escala do artigo e "
+        "ressalva de que a comparação com a curva publicada depende da escala fixada pela "
+        "AWM e "
         "do giro do came. Para esse dispositivo, o objetivo geral foi atingido na parte "
         "estática; as etapas dinâmicas não foram executadas, pelas razões da seção "
         "⟦S:e3_din⟧."))
@@ -3674,8 +3699,8 @@ def parte_5C():
         "R^{2} de 0,99839, mas em unidade da patente; o dispositivo da EP 3 504 033 B1 tem "
         "s_{0} determinado pelo espaçamento entre três curvas e só chega a N·m por "
         "hipótese; e o mecanismo da US 9.737.374 B2 molda o torque pelo came, cujo giro em "
-        "relação à primária é o parâmetro mais sensível, e só chega a N·m pela escala do "
-        "artigo. Nos três, a magnitude do torque depende de hipótese, e a comparação "
+        "relação à primária é o parâmetro mais sensível, e chega a N·m pela AWM da própria "
+        "patente, sob a hipótese de que ela seja o peso do membro de referência. Nos três, a magnitude do torque depende de hipótese, e a comparação "
         "proposta na seção 2.11 fica respondida quanto aos ângulos e à forma dos perfis."))
     a(P("Como continuidade para esse dispositivo, recomenda-se medir a rigidez e o "
         "comprimento livre da mola e o giro do came na peça real; confirmar no CAD a "

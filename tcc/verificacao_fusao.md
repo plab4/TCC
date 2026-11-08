@@ -106,7 +106,7 @@ Idênticos: 4. Iguais a menos de números e referências: 26. Modificados: 39. S
 - Modificado (0.96): A análise usou os documentos e arquivos da Tabela A.1. A patente foi lida no documento B1 completo, de 44 pági
   - mais próximo no fundido: A análise usou os documentos e arquivos da Tabela 2. A patente foi lida no documento B1 completo, de 44 página
 - Sem correspondente (0.06): A classificação de origem é a da seção 3: medida no modelo em CAD, obtida da literatura, documental, identific
-  - mais próximo no fundido: Dos objetivos acrescentados para esse dispositivo, o item j foi cumprido: o circuito do cabo de ancoragem e o 
+  - mais próximo no fundido: A Figura 16 da patente informa s0 de duas maneiras que não dependem da escala da ordenada: pelo espaçamento en
 - Sem correspondente (0.06): A pré-tensão da curva pontilhada, descrita como quase nula [0093], também diverge do modelo. Essa curva exige 
   - mais próximo no fundido: O fim da curva pontilhada confirma o resultado de forma independente. A razão dessa curva, extrapolada, chega 
 - Sem correspondente (0.06): As Figuras 16 e 17 da patente mostram curvas obtidas com o dispositivo [0092]. A abscissa é o ângulo de anteve
@@ -121,12 +121,12 @@ Idênticos: 4. Iguais a menos de números e referências: 26. Modificados: 39. S
   - mais próximo no fundido: As relações de circuito dos dois regimes e o princípio dos trabalhos virtuais foram verificados com resíduos d
 - Sem correspondente (0.09): A forma do torque do elástico pode ser comparada à do peso sem depender de K, normalizando cada curva pelo pró
   - mais próximo no fundido: O espaçamento entre as três curvas da Figura 16 da patente determina os comprimentos de referência do elástico
+- Sem correspondente (0.10): Os três critérios de validade física da seção 3.10, adaptados ao mecanismo, foram atendidos em todos os valore
+  - mais próximo no fundido: Como na seção 4.1.8, o resultado ilustra a limitação discutida na seção 2.4 (NASR; FERGUSON; McPHEE, 2022), ma
 - Sem correspondente (0.10): A Figura 17 da patente não foi digitalizada, e a comparação com ela é visual. Nela, as três curvas partem de p
   - mais próximo no fundido: Como preferência, a patente indica que nenhuma força seja aplicada até que o braço ultrapasse um ângulo em rel
 - Sem correspondente (0.11): Com apenas o membro humano, aCG = 0 e τg = M g D sen θel/1000, com máximo de 10,550 N·m em θel = 90°. A Equaçã
   - mais próximo no fundido: Como na seção 3.1.9, o equilíbrio é escrito pelo trabalho virtual num giro δθel do conjunto, em radianos; pela
-- Sem correspondente (0.11): Os três critérios de validade física da seção 3.10, adaptados ao mecanismo, foram atendidos em todos os valore
-  - mais próximo no fundido: Como na seção 3.1.10, a falta de unidade impede identificar a rigidez em valor físico. A escala foi tomada do 
 - Sem correspondente (0.14): Os pontos das três curvas foram extraídos pelo autor e estão no arquivo fig16_curvas.csv (Tabela A.6). Segundo
   - mais próximo no fundido: Os pontos das três curvas foram extraídos pelo autor e estão no arquivo fig16_curvas.csv (Tabela 18). A extraç
 - Sem correspondente (0.24): com λ em radianos, relação análoga à Equação (17), verificada numericamente nos dois regimes (seção A.12). O s

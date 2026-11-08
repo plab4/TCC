@@ -217,7 +217,7 @@ O artigo dá massas, comprimentos e tensores, mas não a posição dos centros d
 | Antebraço | 1,341 | 269,8 | 0,4574 | 123,4 do cotovelo |
 | Mão | 0,505 | 86,2 (até o 3.º metacarpo) | 0,7900 | 68,1 do punho, como no artigo |
 
-Com o braço estendido, o momento do peso no ombro vale 11,97 N·m na horizontal (g = 9,80665 m/s², como nos exoesqueletos 1 e 2). As peças do exoesqueleto (Tabela 1 do artigo) só têm massa e tensor; a posição do centro de massa do apoio de braço não está no artigo.
+Com o braço estendido, o membro do artigo dá 11,97 N·m no ombro na horizontal (g = 9,80665 m/s², como nos exoesqueletos 1 e 2). O TCC usa o indivíduo de referência dos exoesqueletos 1 e 2 (de Leva, homem de 73,0 kg e 1,741 m), que dá 10,55 N·m; o membro do artigo fica só como comparação. As peças do exoesqueleto (Tabela 1 do artigo) só têm massa e tensor; a posição do centro de massa do apoio de braço não está no artigo.
 
 ## Propriedades de massa do CAD (_EXOFLEX-V1)
 
@@ -263,9 +263,11 @@ Momento do peso em torno de 584, M = −g Σ m d cos(Θ + a)/10⁶ (N·m, m em g
 - a mola fica com o centro do CAD, porque o comprimento dela no CAD não vale para a pose. Metade do alongamento (93 mm até o limite de subida) moveria o momento em no máximo 0,05 N·m.
 
 Comparações:
-- O membro superior dá 11,97 N·m na horizontal; com o apoio, 13,41 N·m. O AWM da Figura 16 (−78,22 cos Θ), na escala do artigo, dá 31,06 N·m, 2,3 vezes isso.
-- Somando o peso do apoio à AASM no ajuste da mola, k = 1,682 N/mm, x0 = 299,2 mm, R² = 0,912. Sem o peso, k = 1,448 N/mm, x0 = 323,6 mm, R² = 0,901.
-- Inércia em torno de 584 (eixos paralelos com o Izz do CAD): 0,0213 kg·m² do apoio; com o membro (de Leva, raios transversais), 0,5153 kg·m².
+- Membro de referência (73,0 kg): 10,55 N·m na horizontal; com o apoio, 11,99 N·m. O apoio acrescenta 14% ao membro.
+- Escala adotada: a AWM da Figura 16 (−78,22 cos Θ) é o momento do peso do braço, e a amplitude dela é igualada aos 10,55 N·m do membro: c = 0,1349 N·m por unidade, e o máximo da AASM vale 10,19 N·m. Na horizontal, a AASM sustenta 96% do peso do membro e 85% do conjunto.
+- Ajuste da mola nessa escala: k = 0,492 N/mm, x0 = 323,6 mm, R² = 0,901; com o peso do apoio somado à AASM, k = 0,726 N/mm, x0 = 267,1 mm, R² = 0,931. Com o came girado de −49°, R² = 0,953 e k = 2,053 N/mm.
+- Escala do artigo (30 N·m no máximo da AASM), só como comparação: 2,94 vezes a adotada. Nela, a AWM valeria 31,06 N·m, 2,9 vezes o membro de referência e 2,6 vezes o membro do artigo; k = 1,448 N/mm, com o mesmo x0 e o mesmo R².
+- Inércia em torno de 584 (eixos paralelos com o Izz do CAD): 0,0213 kg·m² do apoio; com o membro de referência (de Leva, raios transversais), 0,4560 kg·m².
 
 No CAD, a polia externa e o came são de aço, com aparência de náilon. Em náilon 6/6 (1,130 g/cm³, a densidade da capa), o conjunto teria 796,2 g e momento máximo de 0,91 N·m.
 
