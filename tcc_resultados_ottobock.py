@@ -81,7 +81,7 @@ def montar(braco_pose=None):
     delta = tmo.derivar_delta(par["Q_POSE"], par["BRACO_POSE"])
     theta_pose = tmo.derivar_theta_pose(par["BRACO_POSE"])
     geo = tmo.montar_geometria(par["C1"], par["C2"], alpha, par["GAMMA"],
-                               par["C3"], par["BETA"], par["P"], phi, delta)
+                               tmo.C3_MODELO, par["BETA"], par["P"], phi, delta)
     return par, geo, {"alpha": alpha, "phi": phi, "delta": delta,
                       "theta_pose": theta_pose}
 
@@ -535,6 +535,9 @@ def main():
     th_t0, q_t0 = theta_transicao(E, geo0)
     P_pose, C_pose = tmo.ponto_P(q_pose, E, geo), tmo.ponto_78(q_pose, geo)
     _, s_pose, _ = tmo.resolver_circuito(q_pose, E, geo)
+    # S_POSE foi medido até a ponta da peça de fixação C3, articulada no pino
+    geo_cad = geo._replace(c3=par["C3"])
+    _, s_pose_cad, _ = tmo.resolver_circuito(q_pose, E, geo_cad)
     N["geometria"] = {
         "parametros_cad": par, "E_CAD": E, "derivados": der,
         "B": [float(bx), float(by)], "modulo_B": float(np.hypot(bx, by)),
@@ -543,8 +546,9 @@ def main():
         "raio_OP": float(tmo.raio_OP(E, geo)),
         "angulo_OP": float(np.degrees(tmo.angulo_OP(E, geo))),
         "P_pose": P_pose.tolist(), "C78_pose": C_pose.tolist(),
-        "s_pose_modelo": float(s_pose),
-        "erro_s_pose": abs(float(s_pose) - par["S_POSE"]),
+        "s_pose_modelo": float(s_pose), "s_pose_cad": float(s_pose_cad),
+        "P_cad_pose": tmo.ponto_P(q_pose, E, geo_cad).tolist(),
+        "erro_s_pose": abs(float(s_pose_cad) - par["S_POSE"]),
         "lambda_t": float(np.degrees(q_t)), "theta_t": th_t,
         "s_t": float(s_I), "b_t": b_t,
         "lambda_t_p0": float(np.degrees(q_t0)), "theta_t_p0": th_t0,
@@ -720,7 +724,8 @@ def main():
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
         a = tmo.autotestes(E, geo, K, defs0, THETA, e_extra=(E + 10.0, 0.5*E, 2.0*E),
-                           theta_pose_cad=der["theta_pose"], s_pose_cad=par["S_POSE"])
+                           theta_pose_cad=der["theta_pose"], s_pose_cad=par["S_POSE"],
+                           geo_cad=geo._replace(c3=par["C3"]))
     N["verificacoes"] = {k: (v if not isinstance(v, (np.floating,)) else float(v))
                          for k, v in a.items() if k not in ("p_zero", "frouxo")}
     N["verificacoes"]["p_zero"] = {k: v for k, v in a["p_zero"].items()

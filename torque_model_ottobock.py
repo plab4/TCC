@@ -17,8 +17,9 @@ Cadeia de cálculo (cada etapa é uma função abaixo):
     Fig. 16 (exo/peso, sem escala)  →  s0 (forma c)  →  k_40 (alvo de 40 %)
 
 Mecanismo. O elástico vai da ancoragem A (bastão do tronco) ao ponto P da
-alavanca presa ao braço. A alavanca tem um cotovelo: um trecho e a partir do
-pivô O e, depois dele, um trecho rígido C3 girado de β. Perto do pivô há um
+alavanca presa ao braço. No modelo, P é o pino do rasgo da alavanca, no fim
+do trecho e a partir do pivô O (C3_MODELO = 0): no CAD, o elástico prende numa
+peça C3 articulada nesse pino, que se alinha a ele. Perto do pivô há um
 pino (elemento 78), preso ao braço. Acima de q* o elástico é reto (regime
 I); abaixo de q* ele encosta no 78 e se divide em A → 78 e 78 → P (regime
 II). Não há tambor nem tangência. HIPÓTESE: pino 78 pontual e sem atrito
@@ -86,8 +87,17 @@ PARAMETROS_CAD = {
                              # funciona com o oposto trocando só esta constante.
 }
 
+# ----------------------------------------------------- ponto de aplicação
+# No CAD, o elástico prende numa peça de C3 = 14,907 mm articulada no pino do
+# rasgo da alavanca (girada de β na pose do CAD). Articulada, ela se alinha ao
+# elástico, e a força age no pino, como na Figura 22 da patente (decisão do
+# autor, 9/11/2026). Na alavanca do modelo, C3_MODELO = 0, e P é o fim do
+# trecho e. C3 e BETA ficam só para conferir as grandezas do CAD: com eles, o
+# circuito fecha com S_POSE, medido até a ponta da peça.
+C3_MODELO = 0.0       # mm, decisão do autor (força no pino do rasgo)
+
 # ----------------------------------------------------- parâmetro varrido e
-E_CAD = 34.785        # mm, CAD: trecho O → cotovelo da alavanca. Varrido.
+E_CAD = 34.785        # mm, CAD: trecho O → pino do rasgo da alavanca. Varrido.
 
 # ----------------------------------------------------- faixa de operação
 THETA_MIN, THETA_MAX = 0.0, 180.0  # graus θ*, enunciado da tarefa
@@ -948,13 +958,15 @@ def autoteste_p_zero(e_valores, geo):
 
 
 def autotestes(e, geo, k, defs0, theta_star, e_extra, theta_pose_cad,
-               s_pose_cad):
+               s_pose_cad, geo_cad=None):
     """Confere a cadeia em e (força unitária e F = k·x) e devolve os números.
 
     e_extra: outros valores de e para a guarda de e, a ancoragem e o caso
     p = 0 (o autoteste não pode depender de um e só).
     theta_pose_cad, s_pose_cad: pose do CAD, para conferir o fechamento do
     circuito contra o s medido.
+    geo_cad: geometria com o C3 e o β do CAD (ponta da peça de fixação), em
+    que S_POSE foi medido; sem ela, o fechamento usa geo.
     """
     theta_star = np.asarray(theta_star, dtype=float)
     r1 = generate_graph_torque_theta_relation(1.0, e, geo, defs0, theta_star)
@@ -979,9 +991,12 @@ def autotestes(e, geo, k, defs0, theta_star, e_extra, theta_pose_cad,
         np.hypot(*(e*versor(q) - ponto_78(q, geo))) - calculate_x78(e, geo))))
     assert numeros["d_constante"] < 1e-9 and numeros["x78_duas_vias"] < 1e-9
 
-    # fechamento com o CAD: s na pose = s medido
-    _, s_pose, _ = resolver_circuito(calculate_q(theta_pose_cad, geo), e, geo)
+    # fechamento com o CAD: s na pose = s medido (até a ponta da peça C3)
+    g_cad = geo if geo_cad is None else geo_cad
+    _, s_pose, _ = resolver_circuito(calculate_q(theta_pose_cad, g_cad), e, g_cad)
     numeros["s_pose"] = float(s_pose)
+    numeros["s_pose_modelo"] = float(
+        resolver_circuito(calculate_q(theta_pose_cad, geo), e, geo)[1])
     numeros["erro_s_pose"] = abs(float(s_pose) - s_pose_cad)
     assert numeros["erro_s_pose"] < 1e-3, \
         f"s na pose difere do CAD em {numeros['erro_s_pose']:.1e} mm"
@@ -1037,8 +1052,10 @@ def autotestes(e, geo, k, defs0, theta_star, e_extra, theta_pose_cad,
     teste_b = definir_s0("b", theta_pre=theta_pose_cad, x_pre=0.0,
                          origem="TESTE")
     numeros["ancoragem_b"] = erro_ancoragem(e_teste, geo, teste_b)
-    numeros["b_igual_a"] = abs(s_zero(e, geo, teste_b) - s_pose_cad)
-    teste_a = definir_s0("a", s0_fixo=s_pose_cad, origem="TESTE")
+    # com a força no pino, o s do modelo na pose não é o S_POSE do CAD (medido
+    # até a ponta da peça C3): as formas (a) e (b) se comparam pelo s do modelo
+    numeros["b_igual_a"] = abs(s_zero(e, geo, teste_b) - numeros["s_pose_modelo"])
+    teste_a = definir_s0("a", s0_fixo=numeros["s_pose_modelo"], origem="TESTE")
     numeros["ancoragem_a"] = erro_ancoragem(e_teste, geo, teste_a)
     for nome in ("ancoragem", "ancoragem_a", "ancoragem_b"):
         assert numeros[nome] < 1e-9, f"{nome} violada: {numeros[nome]:.1e} mm"
@@ -1752,7 +1769,8 @@ if __name__ == "__main__":
     delta = derivar_delta(par["Q_POSE"], par["BRACO_POSE"])
     theta_pose = derivar_theta_pose(par["BRACO_POSE"])
     geo = montar_geometria(par["C1"], par["C2"], alpha, par["GAMMA"],
-                           par["C3"], par["BETA"], par["P"], phi, delta)
+                           C3_MODELO, par["BETA"], par["P"], phi, delta)
+    geo_cad = geo._replace(c3=par["C3"])     # só para o fechamento com S_POSE
     e = E_CAD
     theta = VE_THETA
     bx, by = calculate_base_vector(geo)
@@ -1923,7 +1941,8 @@ if __name__ == "__main__":
 
     # ------------------------------------------------------- autotestes
     a = autotestes(e, geo, k, defs0, theta, e_extra=(e + 10.0, 0.5*e, 2.0*e),
-                   theta_pose_cad=theta_pose, s_pose_cad=par["S_POSE"])
+                   theta_pose_cad=theta_pose, s_pose_cad=par["S_POSE"],
+                   geo_cad=geo_cad)
     print("\nAutotestes:")
     print(f"  1. resíduos regime I:    max|f1| = {a['residuo_f1']:.1e}, "
           f"max|f2| = {a['residuo_f2']:.1e} mm")

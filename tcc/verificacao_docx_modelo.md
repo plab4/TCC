@@ -1,6 +1,6 @@
 # Verificação do DOCX no formato do modelo
 
-DOCX: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco_modelo_FT.docx. Referência de formato e texto: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.pdf (127 páginas). Conteúdo de origem: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.docx.
+DOCX: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco_modelo_FT.docx. Referência de formato e texto: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.pdf (126 páginas). Conteúdo de origem: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.docx.
 
 ## 1. Capa, folha de rosto, folha de aprovação e resumo
 
@@ -8,15 +8,15 @@ Parágrafos conferidos: 32; ausentes do PDF do LaTeX: 0.
 
 ## 2. Corpo do texto
 
-Parágrafos, títulos, legendas, itens, fontes e notas conferidos: 609; ausentes do PDF do LaTeX: 0.
+Parágrafos, títulos, legendas, itens, fontes e notas conferidos: 608; ausentes do PDF do LaTeX: 0.
 
 ## 3. Tabelas
 
-Tabelas: 37 no DOCX novo e 37 no DOCX fundido. Células: 2198; diferentes do DOCX fundido: 0; ausentes do PDF do LaTeX: 0.
+Tabelas: 37 no DOCX novo e 37 no DOCX fundido. Células: 2193; diferentes do DOCX fundido: 0; ausentes do PDF do LaTeX: 0.
 
 ## 4. Equações
 
-Equações: 71 no DOCX novo e 71 no fundido; OMML idêntica: 71; numeração de (1) a (71).
+Equações: 70 no DOCX novo e 70 no fundido; OMML idêntica: 70; numeração de (1) a (70).
 
 ## 5. Figuras
 
