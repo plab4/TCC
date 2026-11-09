@@ -109,6 +109,45 @@ def ajusta_came(B, centro, T):
     return melhor
 
 
+def furos_came(B, centro, giro_came, janela=(95.0, 245.0)):
+    """Furos pequenos em torno do pino 572, no lado do came oposto ao bolsão do 573.
+
+    giro_came é o giro do referencial da Figura 15B na figura (graus), e janela, a faixa de
+    ângulos desse referencial em que os furos são procurados (exclui o 573, a 72°).
+    Raio: média das distâncias ao centro dos furos isolados (componentes pretos de 25 a 45 px,
+    com caixa menor que 8 px). Ângulos: centros dos trechos em que a fração de pixels pretos
+    num disco de 3,2 px, ao longo do círculo desse raio, passa de 0,8; assim entram também os
+    furos tocados por linhas de chamada. Devolve os ângulos na figura (graus, anti-horários,
+    y para cima) e o raio (px)."""
+    cx, cy = centro
+    m = 40
+    x0, y0 = int(cx) - m, int(cy) - m
+    lab, n = nd.label(B[y0:y0 + 2*m, x0:x0 + 2*m])
+    dist = []
+    for k in range(1, n + 1):
+        yy, xx = np.nonzero(lab == k)
+        if not (25 <= xx.size <= 45 and np.ptp(xx) < 8 and np.ptp(yy) < 8):
+            continue
+        gx, gy = xx.mean() + x0, yy.mean() + y0
+        a = np.degrees(np.arctan2(-(gy - cy), gx - cx))
+        if janela[0] <= (a - giro_came) % 360 <= janela[1]:
+            dist.append(np.hypot(gx - cx, gy - cy))
+    raio = float(np.mean(dist))
+    yy, xx = np.mgrid[-4:5, -4:5]
+    disco = (xx**2 + yy**2) <= 3.2**2
+    angs = np.arange(janela[0], janela[1] + 1e-9, 0.5) + giro_came
+    f = []
+    for a in angs:
+        xi = int(round(cx + raio*np.cos(np.radians(a))))
+        yi = int(round(cy - raio*np.sin(np.radians(a))))
+        f.append(B[yi - 4:yi + 5, xi - 4:xi + 5][disco].mean())
+    acima = np.r_[False, np.array(f) >= 0.8, False]
+    ini = np.flatnonzero(~acima[:-1] & acima[1:])
+    fim = np.flatnonzero(acima[:-1] & ~acima[1:])
+    centros = [float(np.mean(angs[a:b])) for a, b in zip(ini, fim)]
+    return [((c + 180.0) % 360.0) - 180.0 for c in centros], raio
+
+
 def ang(p, q):
     v = q - p
     return np.degrees(np.arctan2(-v[1], v[0]))          # y da imagem para baixo
@@ -140,6 +179,11 @@ def main():
         d = (A_fig - D)*[1, -1]/esc
         S = np.sqrt(d @ d - R_PRIMARIA**2)
         fi = np.degrees(np.arctan2(d[1], d[0]) + np.arctan2(S, R_PRIMARIA))
+        fu, rf = furos_came(B, D, psi)
+        print(f"   furos em torno do 572: {len(fu)}, a {rf/esc:.2f} mm do centro; na figura em "
+              + ", ".join(f"{x:.1f}°" for x in fu) + "; no referencial da 15B em "
+              + ", ".join(f"{(x - psi) % 360:.1f}°" for x in fu)
+              + f"; passo médio {(max(fu) - min(fu))/(len(fu) - 1):.2f}°")
         giro[nome] = (psi, fi, S)
     (pc, fc, sc), (pd, fd, sd) = giro["14C"], giro["14D"]
     previsto = (((fd - fc + 180) % 360) - 180) - np.degrees((sd - sc)/R_PRIMARIA)

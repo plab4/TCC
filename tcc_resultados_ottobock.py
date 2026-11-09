@@ -227,8 +227,6 @@ def cruzamentos(theta, y):
 
 
 FAIXAS_ROBUSTEZ = ((15.0, 170.0), (20.0, 165.0), (25.0, 160.0), (40.0, 150.0))
-DESLOC_ROBUSTEZ = 2.47      # graus: alinha a troca de regime com p78 = 0 ao início
-                            # das curvas da Fig. 16 (14,2° contra 11,8°)
 SIGMA_PX = 0.5              # erro mediano da extração, cabeçalho do CSV
 PX_POR_DIV = 21.1311        # pixels por divisão da grade (cabeçalho do CSV)
 PX_POR_DIV_300PPP = 215.7   # pixels por divisão da grade no PDF a 300 ppp
@@ -268,13 +266,49 @@ def razoes(fig16, geo, peso, par):
     proj_b, _, _, _ = cenario(inv["s0"][tmo.CURVA_PROJETO], geo_b, peso_b,
                               np.abs(tmo.torque_peso(THETA, *peso_b)),
                               "espaçamento entre curvas, BRACO_POSE trocado")
-    desl = {}
-    for d in (-DESLOC_ROBUSTEZ, DESLOC_ROBUSTEZ):
+    # deslocamento da abscissa que alinha a troca de regime com p78 = 0 ao início
+    # médio das curvas da Fig. 16 (calculado, não fixo: depende de BRACO_POSE)
+    th_t0 = theta_transicao(E, geo._replace(p=0.0))[0]
+    desloc = round(th_t0 - float(np.mean([inicio_curva(v["theta"], v["razao"])
+                                          for v in fig16.values()])), 2)
+    # A faixa de identificação seleciona pontos da figura (exclui o início e o fim
+    # das curvas, onde a razão tende a zero); por isso ela acompanha a abscissa
+    # deslocada ou espelhada, e os pontos usados são os mesmos em todos os casos.
+    # Com a faixa fixa na abscissa do modelo, o deslocamento positivo traria para
+    # dentro o início das curvas, onde as três razões são nulas e as equações do
+    # espaçamento não informam s0.
+    def deslocada(d):
         mov = {n: {"theta": v["theta"] + d, "razao": v["razao"]} for n, v in fig16.items()}
-        desl[f"{d:+.2f}"] = tmo.identificar_s0_razoes(mov, ORDEM, E, geo, FAIXA)
+        return tmo.identificar_s0_razoes(mov, ORDEM, E, geo, (FAIXA[0] + d, FAIXA[1] + d))
+
+    def r2_comum_deslocado(d, s0d):
+        """R² da razão calculada (m e τ_peso do CAD), com escala comum às três
+        curvas, com o mecanismo em θ + d e o peso no ângulo da figura."""
+        mus, rs = {}, {}
+        for n in ORDEM:
+            th, rr = fig16[n]["theta"], fig16[n]["razao"]
+            u = (th > FAIXA[0]) & (th < FAIXA[1])
+            _, _, s_, _, b_ = circuito(th[u] + d, E, geo)
+            mus[n] = tmo.modelo_fig16(s_, b_, np.abs(tmo.torque_peso(th[u], *peso)), s0d[n])
+            rs[n] = rr[u]
+        c = (sum(float(mus[n] @ rs[n]) for n in ORDEM)
+             / sum(float(mus[n] @ mus[n]) for n in ORDEM))
+        return {n: metricas(c, mus[n], rs[n])["r2"] for n in ORDEM}
+
+    desl = {"valor": desloc}
+    for nome_d, d in (("menos", -desloc), ("mais", desloc)):
+        desl[nome_d] = deslocada(d)
+        desl[nome_d]["r2_comum"] = r2_comum_deslocado(d, desl[nome_d]["s0"])
+    grade_d = np.round(np.arange(-20.0, 40.0 + 1e-9, 0.25), 2)
+    rms_d = np.array([deslocada(d)["rms"] for d in grade_d])
+    i_min = int(np.argmin(rms_d))
+    desl["varredura"] = {"de": float(grade_d[0]), "ate": float(grade_d[-1]), "passo": 0.25,
+                         "d_min": float(grade_d[i_min]), "rms_min": float(rms_d[i_min]),
+                         "s0_min": deslocada(float(grade_d[i_min]))["s0"]}
     esp = {n: {"theta": (180.0 - v["theta"])[::-1], "razao": v["razao"][::-1]}
            for n, v in fig16.items()}
-    espelhada = tmo.identificar_s0_razoes(esp, ORDEM, E, geo, FAIXA)
+    espelhada = tmo.identificar_s0_razoes(esp, ORDEM, E, geo,
+                                          (180.0 - FAIXA[1], 180.0 - FAIXA[0]))
 
     # ℓ lido no espaçamento entre as curvas pontilhada e contínua, contra o CAD:
     # ℓ = (r_c·s0_p − r_p·s0_c)/(r_c − r_p)

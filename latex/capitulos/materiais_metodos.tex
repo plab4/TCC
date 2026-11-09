@@ -318,25 +318,7 @@ As seções~\ref{sec:3.2.1} a \ref{sec:3.2.14} aplicam à EP 3 504 033 B1 \cite{
 
 A classificação de origem é a da introdução deste capítulo: medida no modelo em CAD, obtida da literatura, documental, identificada por ajuste, derivada pelo modelo ou assumida como hipótese.
 
-A análise usou os documentos e arquivos da Tabela~\ref{tab:fontes-arquivos-utilizados-analise}. A patente foi lida no documento B1 completo, de 44 páginas, com a descrição, as reivindicações em alemão, inglês e francês e as 29 figuras, que ocupam as páginas 22 a 43 como imagens bitonais de 300 ppp. Os dados bibliográficos conferem com a referência listada: pedido europeu 18729947.4, depositado em 6 jun. 2018 (PCT/EP2018/064910, publicado como WO 2018/224555), prioridade alemã DE 10 2017 112 436, de 6 jun. 2017, e menção da concessão publicada em 29 mar. 2023.
-
-\begin{table}[!htbp]
-\estilotabela{\small}
-\caption{Fontes e arquivos utilizados na análise da EP 3 504 033 B1}\label{tab:fontes-arquivos-utilizados-analise}
-\begin{tabularx}{\textwidth}{@{}>{\hsize=0.855\hsize\raggedright\arraybackslash}X>{\hsize=1.350\hsize\raggedright\arraybackslash}X>{\hsize=0.641\hsize\raggedright\arraybackslash}X>{\hsize=1.154\hsize\raggedright\arraybackslash}X@{}}
-\toprule
-\centering\textbf{Fonte} & \centering\textbf{Conteúdo utilizado} & \centering\textbf{Classificação} & \centering\textbf{Verificação nesta análise} \tabularnewline
-\midrule
-EP 3 504 033 B1, documento B1 em PDF \cite{mizera2023} & Arquitetura e numeração dos elementos; Figuras 1, 16, 17, 18, 22 e 24 da patente & Documental & Lida integralmente; trechos citados conferidos no original em alemão \\
-Modelo em CAD do autor (Autodesk Fusion) & Grandezas da Tabela~\ref{tab:grandezas-medidas-modelo-cad}; massa, centro de massa e momento de inércia do braço do exoesqueleto (elemento 8) & Medida em CAD & Arquivo do modelo ausente do repositório; valores usados como informados, sem conferência independente \\
-Planilha inercia\_steiner\_junta20\_ottobock.xlsx, do autor & Composição inercial do membro humano e do braço do exoesqueleto & Literatura (de Leva) e medida em CAD & Fórmulas lidas; valores do membro humano reproduzidos pelo modelo (seção~\ref{sec:4.2.1}) \\
-Arquivo fig16\_curvas.csv, digitalização do autor & 146 pontos das três curvas da Figura 16 da patente & Documental (extração) & Arquivo lido; procedimento registrado apenas no cabeçalho do arquivo \\
-torque\_model\_ottobock.py e tcc\_resultados\_ottobock.py & Cadeia de cálculo, identificações, verificações, números e figuras da seção~\ref{sec:4.2} & Derivada pelo modelo & Executados nesta análise \\
-torque\_model.py e tcc\_resultados.py & Organização do modelo e dos resultados da seção~\ref{sec:4.1} & Referência metodológica & Presentes no repositório; não alterados \\
-\bottomrule
-\end{tabularx}
-\fonte{elaborada pelo autor.}
-\end{table}
+A patente foi lida no documento B1 completo, de 44 páginas, com a descrição, as reivindicações em alemão, inglês e francês e as 29 figuras, que ocupam as páginas 22 a 43.
 
 \subsection{Reconstrução geométrica em CAD}\label{sec:3.2.1}
 
@@ -348,7 +330,7 @@ O elemento 78, chamado na patente de Anlageelement e aqui de elemento de encosto
 
 Como preferência, a patente indica que nenhuma força seja aplicada até que o braço ultrapasse um ângulo em relação à vertical, com 45°, 60° ou 90° como exemplos, e que a força máxima ocorra entre 70° e 120°, de preferência em 90°. O documento não traz cotas do mecanismo nem rigidez, pré-tensão ou dimensões do elemento elástico. Os dados numéricos que contém são a largura de 3,0 cm ± 1,0 cm, de preferência 3,5 cm ± 0,2 cm, da extremidade livre do cinto, o afastamento lateral mínimo de 5 cm entre o contra-apoio e a linha média da coluna, limites de 1,1 a 5,0 para a razão entre a distância da articulação ao contra-apoio e a distância da braçadeira à articulação e as escalas angulares das Figuras 16 e 17 da patente, nenhum deles utilizável como dimensão do gerador de torque.
 
-Essas informações confirmam o que as seções~\ref{sec:2.3} e \ref{sec:2.7} dizem do mecanismo: a força é transmitida por um elemento rígido apoiado na pelve, e o elemento elástico atua sobre um braço de alavanca ajustável. O nome comercial do produto não aparece na patente, de modo que a associação com o Paexo, feita na seção~\ref{sec:2.7}, não pode ser conferida no documento. A configuração analisada não tem cabo, polia nem tambor: o elástico liga diretamente a barra à alavanca, e a faixa sem torque resulta do contato com o elemento 78. Por isso, as relações de tangência, de caminho do cabo e de ponto morto das seções~\ref{sec:3.1.4} a \ref{sec:3.1.7} não se aplicam e são substituídas pelas das seções~\ref{sec:3.2.4} a \ref{sec:3.2.7}, de mesma numeração.
+Essas informações confirmam o que as seções~\ref{sec:2.3} e \ref{sec:2.7} dizem do mecanismo: a força é transmitida por um elemento rígido apoiado na pelve, e o elemento elástico atua sobre um braço de alavanca ajustável. O nome comercial do produto não aparece na patente, de modo que a associação com o Paexo, feita na seção~\ref{sec:2.7}, não pode ser conferida no documento. A configuração analisada não tem cabo, polia nem tambor: o elástico liga diretamente a barra à alavanca, e a faixa sem torque descrita na patente resulta do contato com o elemento 78. Por isso, as relações de tangência, de caminho do cabo e de ponto morto das seções~\ref{sec:3.1.4} a \ref{sec:3.1.7} não se aplicam e são substituídas pelas das seções~\ref{sec:3.2.4} a \ref{sec:3.2.7}, de mesma numeração.
 
 O dispositivo admite abdução, adução e movimentos do tronco. O modelo é plano, restrito ao plano sagital, e representa somente a anteversão, que é o movimento das Figuras 16 e 17 da patente.
 
@@ -407,7 +389,7 @@ m & Braço de momento, positivo quando assiste a subida & Equação~\eqref{eq:46
 
 O torque τ é positivo no sentido anti-horário, que é o de θ\textsubscript{el} crescente; τ > 0 assiste a subida do braço. O torque do peso tem sinal oposto na faixa de 0° a 180°, e as comparações usam seu módulo τ\textsubscript{g}.
 
-O sinal de θ\textsubscript{b,pose} = −7,962° ainda precisa ser confirmado no CAD. Com o sinal trocado, q\textsubscript{0} passa a −41,815° e θ\textsubscript{el,pose} a 97,962°, e o contato da seção~\ref{sec:3.2.5} vai de 19,09° para 35,02°. Os efeitos sobre s\textsubscript{0} e K\textsubscript{40} estão na seção~\ref{sec:4.2.4}, e os resultados da seção~\ref{sec:4.2} dependem da confirmação desse sinal.
+O sinal de θ\textsubscript{b,pose} = 7,962° foi conferido no CAD: na pose, o braço fica acima da horizontal. Com o sinal oposto, q\textsubscript{0} seria −25,891° e θ\textsubscript{el,pose}, 82,038°, e o contato da seção~\ref{sec:3.2.5} passaria de 35,02° para 19,09°; o efeito sobre s\textsubscript{0} está na seção~\ref{sec:4.2.4}.
 
 \subsection{Equação de fechamento do circuito vetorial}\label{sec:3.2.4}
 
@@ -463,11 +445,11 @@ O contato não é imposto por um ângulo. Ele é detectado pelo sinal do produto
   \label{eq:43}
 \end{equation}
 
-O regime II ocorre quando κ ≥ 0, isto é, quando o elemento 78 ficaria do outro lado da reta de A a P se o elástico não o contornasse. O ângulo de contato q* é a raiz de κ, obtida por bissecção, com a condição de que o elemento 78 fique entre A e P. Para a geometria do CAD, q* = 83,203°, isto é, θ\textsubscript{el} = 19,094°; nesse ponto, s = 387,222 mm e m = 5,163 mm nos dois regimes, porque A, o elemento 78 e P estão alinhados e o trecho x completa o comprimento.
+O regime II ocorre quando κ ≥ 0, isto é, quando o elemento 78 ficaria do outro lado da reta de A a P se o elástico não o contornasse. O ângulo de contato q* é a raiz de κ, obtida por bissecção, com a condição de que o elemento 78 fique entre A e P. Para a geometria do CAD, q* = 83,203°, isto é, θ\textsubscript{el} = 35,018°; nesse ponto, s = 387,222 mm e m = 5,163 mm nos dois regimes, porque A, o elemento 78 e P estão alinhados e o trecho x completa o comprimento.
 
 \begin{figure}[!htbp]
 \centering
-\caption{Circuitos do mecanismo: regime I na pose do CAD (θ\textsubscript{el} = 82,038°) e regime II em θ\textsubscript{el} = 10°}\label{fig:circuitos-mecanismo-regime-i}
+\caption{Circuitos do mecanismo: regime I na pose do CAD (θ\textsubscript{el} = 97,962°) e regime II em θ\textsubscript{el} = 10°}\label{fig:circuitos-mecanismo-regime-i}
 \includegraphics[width=1.00\textwidth]{circuitos-mecanismo-regime-i.png}
 \fonte{elaborada pelo autor.}
 \nota{à direita, ampliação da região do pivô. A alavanca está representada pelo segmento OP, de comprimento \textit{e}. Regime I: circuito fechado C\textsubscript{1}, C\textsubscript{2}, \textit{e} e s. Regime II: circuito fechado C\textsubscript{1}, C\textsubscript{2}, p e s − x, e triângulo \textit{e}, p e x (\textit{e} tracejado); o elemento 78, na ponta de p, só entra depois do contato. As linhas pontilhadas indicam o eixo do braço.}
@@ -528,7 +510,7 @@ Esta seção faz o papel da seção~\ref{sec:3.1.7}: indica onde o modelo libera
   \label{eq:48}
 \end{equation}
 
-Nesse caso, a direção de OP no contato coincide com a de r\textsubscript{AO}, a reta do elástico passa pelo pivô e o torque no regime II é nulo. Com as demais grandezas do CAD, a Equação~\eqref{eq:48} dá θ\textsubscript{el} = 11,765°. As curvas da Figura 16 da patente partem de razão nula entre 14,23° e 14,36° (seção~\ref{sec:4.2.2}), entre os dois valores do modelo; só no caso p = 0, porém, o modelo tem torque nulo antes do contato (seção~\ref{sec:4.2.9}).
+Nesse caso, a direção de OP no contato coincide com a de r\textsubscript{AO}, a reta do elástico passa pelo pivô e o torque no regime II é nulo. Com as demais grandezas do CAD, a Equação~\eqref{eq:48} dá θ\textsubscript{el} = 27,689°. As curvas da Figura 16 da patente partem de razão nula entre 14,23° e 14,36° (seção~\ref{sec:4.2.2}), abaixo dos dois valores do modelo, 27,69° com o elemento sobre o eixo e 35,02° com o do CAD. Só no caso p = 0, além disso, o modelo tem torque nulo antes do contato (seção~\ref{sec:4.2.9}).
 
 \subsection{Torque gravitacional}\label{sec:3.2.8}
 
@@ -539,7 +521,7 @@ O torque do peso é calculado de forma independente da cadeia do elástico. O co
   \label{eq:49}
 \end{equation}
 
-O conjunto reúne o membro humano e o braço do exoesqueleto (elemento 8), cujo centro de massa é referido ao eixo da articulação 20 pela posição desse eixo no modelo em CAD (seção~\ref{sec:4.2.1}). Com o membro humano, alinhado ao eixo do braço, a\textsubscript{CG} seria nulo e τ\textsubscript{g} = M g d sin θ\textsubscript{el}/1000; o braço do exoesqueleto desloca o centro de massa do conjunto em a\textsubscript{CG} = 0,287°, e o máximo de τ\textsubscript{g}, 10,604 N·m, ocorre em θ\textsubscript{el} = 89,7°.
+O conjunto reúne o membro humano e o braço do exoesqueleto (elemento 8), cujo centro de massa é referido ao eixo da articulação 20 pela posição desse eixo no modelo em CAD (seção~\ref{sec:4.2.1}). Com o membro humano, alinhado ao eixo do braço, a\textsubscript{CG} seria nulo e τ\textsubscript{g} = M g d sin θ\textsubscript{el}/1000; o braço do exoesqueleto desloca o centro de massa do conjunto em a\textsubscript{CG} = 0,194°, e o máximo de τ\textsubscript{g}, 10,617 N·m, ocorre em θ\textsubscript{el} = 89,8°.
 
 \subsection{Formulação pelo princípio dos trabalhos virtuais}\label{sec:3.2.9}
 
@@ -592,7 +574,7 @@ O modelo da razão de torques é
 
 em que r é a razão extraída, em divisões, e c um fator de escala. Como τ é linear em K, μ é o torque por unidade de rigidez dividido por τ\textsubscript{g}, e c reúne K e o valor desconhecido de uma divisão da ordenada: c = K/σ, com σ a razão de torques que corresponde a uma divisão. A curva da patente não separa K de σ, e por isso K não é identificável a partir dela. É a mesma limitação discutida na seção~\ref{sec:4.1.6} para o outro mecanismo, aqui explícita na ausência de escala da ordenada.
 
-Salvo indicação em contrário, os procedimentos desta seção usam apenas os pontos com 20° < θ\textsubscript{el} < 165°. Abaixo de 19,09°, o modelo está no regime II e depende da posição do elemento 78, e os pontos até 20° ficam perto dessa transição; perto de 180°, τ\textsubscript{g} tende a zero e a razão varia rapidamente com o ângulo.
+Salvo indicação em contrário, os procedimentos desta seção usam apenas os pontos com 20° < θ\textsubscript{el} < 165°. Abaixo de 35,02°, o modelo está no regime II e depende da posição do elemento 78; os pontos entre 20° e esse ângulo estão nesse regime, e a faixa de 40° a 150° da seção~\ref{sec:4.2.4} mostra o efeito de excluí-los. Perto de 180°, τ\textsubscript{g} tende a zero e a razão varia rapidamente com o ângulo.
 
 As três curvas foram geradas com o mesmo atuador e pré-tensões diferentes; admite-se que a geometria e a rigidez sejam as mesmas nas três, hipótese testada pela coincidência dos fatores G\textsubscript{i} (seção~\ref{sec:4.2.4}). Com o elástico tracionado, a razão de cada curva i escreve-se
 
@@ -610,7 +592,7 @@ em que G reúne o que as três curvas têm em comum: a rigidez, a escala da orde
 
 A Equação~\eqref{eq:54} foi escrita em cada ponto extraído de uma curva, com a razão da outra interpolada linearmente no mesmo ângulo, para os seis pares ordenados de curvas, e cada equação foi dividida por r\textsubscript{i} + r\textsubscript{j}, para que os pontos de razão maior não dominem o ajuste. O sistema, com 234 equações e três incógnitas, foi resolvido por mínimos quadrados lineares, sem procedimento iterativo nem ponto de partida. O método usa apenas s(θ\textsubscript{el}) do circuito da seção~\ref{sec:3.2.4}: não depende de K, de σ, de m nem de τ\textsubscript{g}.
 
-A identificação foi repetida nas faixas de θ\textsubscript{el} de 15° a 170°, de 25° a 160° e de 40° a 150°; em 500 sorteios com ruído gaussiano somado às duas coordenadas de cada ponto, com desvio padrão igual ao erro mediano declarado no arquivo, 0,5 px na unidade da leitura, isto é, 0,024 divisão na ordenada e 0,38° na abscissa; com o sinal de θ\textsubscript{b,pose} trocado; com a abscissa da figura deslocada de ±2,47°, diferença entre o início das curvas e o contato calculado com p = 0; e com a abscissa espelhada, θ\textsubscript{el} → 180° − θ\textsubscript{el}, como teste de discriminação. Um teste sintético, com curvas montadas pelo próprio modelo a partir de valores conhecidos de s\textsubscript{0} nos ângulos dos pontos extraídos, confere a implementação.
+A identificação foi repetida nas faixas de θ\textsubscript{el} de 15° a 170°, de 25° a 160° e de 40° a 150°; em 500 sorteios com ruído gaussiano somado às duas coordenadas de cada ponto, com desvio padrão igual ao erro mediano declarado no arquivo, 0,5 px na unidade da leitura, isto é, 0,024 divisão na ordenada e 0,38° na abscissa; com o sinal de θ\textsubscript{b,pose} oposto; com a abscissa da figura deslocada de ±13,41°, diferença entre o contato calculado com p = 0 e o início das curvas, e num deslocamento varrido de −20° a +40°; e com a abscissa espelhada, θ\textsubscript{el} → 180° − θ\textsubscript{el}, como teste de discriminação. Nos casos de abscissa deslocada ou espelhada, a faixa de identificação vale para os ângulos da figura, de modo que os pontos usados são os mesmos da faixa adotada. Um teste sintético, com curvas montadas pelo próprio modelo a partir de valores conhecidos de s\textsubscript{0} nos ângulos dos pontos extraídos, confere a implementação.
 
 Uma verificação independente vem do fim da curva pontilhada, de pré-tensão quase nula. Como s decresce com θ\textsubscript{el}, Equação~\eqref{eq:47}, o elástico afrouxa primeiro com o braço elevado, e a razão da curva menos tensionada deve chegar a zero onde s = s\textsubscript{0}. O ângulo desse zero foi obtido por extrapolação linear dos dois e dos três últimos pontos da curva.
 
@@ -630,7 +612,7 @@ No ajuste de forma, para cada s\textsubscript{0}, a escala e a soma dos quadrado
   \label{eq:56}
 \end{equation}
 
-O mínimo foi procurado em s\textsubscript{0} de 0 a 390 mm, em grade de 0,01 mm, e refinado pelo método de Brent limitado \cite{brent1973} entre os vizinhos do melhor ponto, com a biblioteca SciPy \cite{virtanen2020}. Valores negativos de s\textsubscript{0} não correspondem a um elástico ligado diretamente entre A e P e foram excluídos. A faixa de identificação é o intervalo de s\textsubscript{0}, na mesma grade, em que a raiz do erro quadrático médio não excede 1,01 vez o mínimo. Os 117 pontos ajustados ficaram todos no regime I. A Tabela~\ref{tab:ajuste-s0-forma-curva} reúne os resultados, e a Figura~\ref{fig:pontos-extraidos-figura-patente}(a) sobrepõe as curvas ajustadas aos pontos extraídos.
+O mínimo foi procurado em s\textsubscript{0} de 0 a 390 mm, em grade de 0,01 mm, e refinado pelo método de Brent limitado \cite{brent1973} entre os vizinhos do melhor ponto, com a biblioteca SciPy \cite{virtanen2020}. Valores negativos de s\textsubscript{0} não correspondem a um elástico ligado diretamente entre A e P e foram excluídos. A faixa de identificação é o intervalo de s\textsubscript{0}, na mesma grade, em que a raiz do erro quadrático médio não excede 1,01 vez o mínimo. Dos 117 pontos ajustados, 15 ficam no regime II, entre 20° e 35,02°. A Tabela~\ref{tab:ajuste-s0-forma-curva} reúne os resultados, e a Figura~\ref{fig:pontos-extraidos-figura-patente}(a) sobrepõe as curvas ajustadas aos pontos extraídos.
 
 A patente atribui as três curvas a um único atuador e as desenha no mesmo eixo, o que implica K e σ comuns e, portanto, um único c. Esse ajuste conjunto foi feito como verificação independente da hipótese do modelo, com c comum e um s\textsubscript{0} por curva:
 
@@ -652,7 +634,7 @@ calculado com o s\textsubscript{0} adotado. Como F(90°) = 0,4 τ\textsubscript{
 
 \subsection{\texorpdfstring{Varredura paramétrica do trecho e\textsubscript{c} da alavanca}{Varredura paramétrica do trecho ec da alavanca}}\label{sec:3.2.11}
 
-O comprimento e\textsubscript{c} do trecho do pivô ao cotovelo da alavanca define, com C\textsubscript{3} e β\textsubscript{c}, o comprimento \textit{e} e a direção do segmento OP, isto é, a excentricidade do ponto de aplicação, um dos parâmetros de ajuste previstos na patente e objeto da Figura 17 da patente. Por isso, o papel de h na seção~\ref{sec:4.1} é desempenhado aqui por e\textsubscript{c}. A varredura manteve s\textsubscript{0} = 287,190 mm e K = 1,46670 N/mm, isto é, o mesmo elástico, e variou apenas e\textsubscript{c}, de 20 a 50 mm em passo de 0,05 mm, com o acréscimo do valor do CAD, num total de 602 valores. As demais grandezas ficaram congeladas nos valores da Tabela~\ref{tab:grandezas-medidas-modelo-cad}. Como na seção~\ref{sec:3.1.11}, trata-se de diagnóstico, e nenhum parâmetro é substituído pelo resultado.
+O comprimento e\textsubscript{c} do trecho do pivô ao cotovelo da alavanca define, com C\textsubscript{3} e β\textsubscript{c}, o comprimento \textit{e} e a direção do segmento OP, isto é, a excentricidade do ponto de aplicação, um dos parâmetros de ajuste previstos na patente e objeto da Figura 17 da patente. Por isso, o papel de h na seção~\ref{sec:4.1} é desempenhado aqui por e\textsubscript{c}. A varredura manteve s\textsubscript{0} = 297,547 mm e K = 1,65068 N/mm, isto é, o mesmo elástico, e variou apenas e\textsubscript{c}, de 20 a 50 mm em passo de 0,05 mm, com o acréscimo do valor do CAD, num total de 602 valores. As demais grandezas ficaram congeladas nos valores da Tabela~\ref{tab:grandezas-medidas-modelo-cad}. Como na seção~\ref{sec:3.1.11}, trata-se de diagnóstico, e nenhum parâmetro é substituído pelo resultado.
 
 \subsection{Verificações numéricas}\label{sec:3.2.12}
 
@@ -683,25 +665,7 @@ Valem as exclusões de escopo da seção~\ref{sec:3.1.14}. O modelo é plano, re
 
 As seções~\ref{sec:3.3.1} a \ref{sec:3.3.14} aplicam à US 9.737.374 B2 \cite{doyle2017}, da Levitate, o procedimento das seções~\ref{sec:3.1.1} a \ref{sec:3.1.14}, com a mesma numeração: a seção~\ref{sec:3.3}.k corresponde às seções~\ref{sec:3.1}.k e 3.2.k. O mecanismo tem cabo e polia, como o do exoesqueleto 1, mas a força da mola chega ao ombro por um par de polias, uma delas um came de raio variável, e não por um tambor de raio fixo. Quando uma etapa não se aplica a esse mecanismo ou não pôde ser concluída com os dados disponíveis, a própria seção registra o motivo.
 
-A classificação de origem é a da introdução deste capítulo. A análise usou os documentos e arquivos da Tabela~\ref{tab:fontes-arquivos-utilizados-analise-us}. O documento da patente, do escritório de patentes dos Estados Unidos, está só em imagem, com 48 folhas de desenho, e o texto foi lido por reconhecimento óptico.
-
-\begin{table}[!htbp]
-\estilotabela{\small}
-\caption{Fontes e arquivos utilizados na análise da US 9.737.374 B2}\label{tab:fontes-arquivos-utilizados-analise-us}
-\begin{tabularx}{\textwidth}{@{}>{\hsize=0.855\hsize\raggedright\arraybackslash}X>{\hsize=1.350\hsize\raggedright\arraybackslash}X>{\hsize=0.641\hsize\raggedright\arraybackslash}X>{\hsize=1.154\hsize\raggedright\arraybackslash}X@{}}
-\toprule
-\centering\textbf{Fonte} & \centering\textbf{Conteúdo utilizado} & \centering\textbf{Classificação} & \centering\textbf{Verificação nesta análise} \tabularnewline
-\midrule
-US 9.737.374 B2, PDF do escritório de patentes dos Estados Unidos \cite{doyle2017} & Arquitetura e numeração dos elementos; Figuras 14C e 14D (poses), 15A e 15B (came) e 16 (momentos) & Documental & Desenhos lidos na imagem das folhas; texto lido por reconhecimento óptico \\
-Modelo em CAD do autor & Grandezas da Tabela~\ref{tab:grandezas-circuito-cabo-ancoragem}, defasagem entre C\textsubscript{2} e o eixo maior do apoio de braço e propriedades de massa de cinco corpos do apoio de braço & Medida em CAD & Circuito, pose e ponto de ancoragem conferidos nas Figuras 14C e 14D; corpos conferidos na 14D (seção~\ref{sec:4.3.1}) \\
-Parâmetros inerciais do membro superior \cite{deleva1996} & Massas, comprimentos, centros de massa e raios de giração do indivíduo de referência, homem de 73,0 kg e 1,741 m & Literatura & Os mesmos das seções~\ref{sec:3.1.2} e \ref{sec:3.2.2} \\
-Artigo de simulação multicorpos \cite{okabe2026} & Escala de 30 N·m para a curva de momento da patente e membro superior de 82,8 kg, comentados como comparação & Literatura & Artigo lido; escala e membro comparados aos adotados (seção~\ref{sec:4.3.8}) \\
-Arquivo exo3/fig16\_curvas.csv, digitalização feita neste trabalho & 106 pontos de cada curva da Figura 16 da US 9.737.374 B2 & Documental (extração) & Fechamento entre as três curvas conferido (seção~\ref{sec:4.3.2}) \\
-Scripts da pasta exo3 e tcc\_resultados\_exo3.py & Extração do came, circuito, relações do came, poses das figuras, massa do apoio de braço, números e figuras da seção~\ref{sec:4.3} & Derivada pelo modelo & Executados nesta análise \\
-\bottomrule
-\end{tabularx}
-\fonte{elaborada pelo autor.}
-\end{table}
+A classificação de origem é a da introdução deste capítulo. O documento da patente, do escritório de patentes dos Estados Unidos, está só em imagem, com 48 folhas de desenho, e o texto foi lido por reconhecimento óptico.
 
 \subsection{Reconstrução geométrica em CAD}\label{sec:3.3.1}
 
@@ -717,7 +681,7 @@ Para conferir o CAD, as poses das Figuras 14C, com o braço erguido, e 14D, com 
 
 O membro superior é o das seções~\ref{sec:3.1.2} e \ref{sec:3.2.2}: o indivíduo de referência de \textcite{deleva1996}, homem de 73,0 kg e 1,741 m, com o cotovelo estendido. Braço, antebraço e mão estão em série a partir de O, alinhados ao eixo maior do apoio de braço, com as frações de centro de massa e os raios de giração transversais de \textcite{deleva1996}, e o transporte ao eixo usa a Equação~\eqref{eq:01}. O modelo admite o centro do ombro no eixo do pivô 584. O artigo de \textcite{okabe2026}, que usa a curva desta patente numa simulação multicorpos, adota massas que correspondem às frações de \textcite{deleva1996} para 82,8 kg de massa corporal; esse membro entra só na comparação da seção~\ref{sec:4.3.8}.
 
-O apoio de braço entra com as propriedades de massa de cinco corpos do CAD: a capa, a mola, as polias interna e externa e o came, com massa, centro de massa e tensor de inércia no referencial da peça, de eixo z normal ao plano do mecanismo. O tensor transportado do centro de massa à origem confere com o relatório. As duas polias são cilindros cheios, com o centro de massa no eixo: a externa, de 55 mm de diâmetro, é a primária 564, no pino 572, e a interna, de 30 mm, é a polia de reversão 630, no pino 632. O came é a flange da Figura 15A extrudada em 30 mm, também no pino 572. A capa, as polias e o came são de náilon 6/6, e a mola, de aço.
+O apoio de braço entra com as propriedades de massa de cinco corpos do CAD: a capa, a mola, as polias interna e externa e o came, com massa, centro de massa e tensor de inércia no referencial da peça, de eixo z, normal ao plano do mecanismo. O tensor transportado do centro de massa à origem confere com o relatório. As duas polias são cilindros cheios, com o centro de massa no eixo: a externa, de 55 mm de diâmetro, é a primária 564, no pino 572, e a interna, de 30 mm, é a polia de reversão 630, no pino 632. O came é a flange da Figura 15A extrudada em 30 mm, também no pino 572. A capa, as polias e o came são de náilon 6/6, e a mola, de aço.
 
 O relatório não traz o pivô 584. O came aparece sem espelhamento no CAD e no desenho, de modo que o referencial da peça é o da Figura 14D girado, e o pivô foi posto a C\textsubscript{2} do pino 572, com o ângulo entre C\textsubscript{2} e a reta de 572 a 632 medido na Figura 14D, do mesmo lado da mola, como no desenho. O eixo maior fica 26,741° além de C\textsubscript{2} (seção~\ref{sec:3.3.3}). Para cada corpo, d\textsubscript{i} é a distância do centro de massa a O e a\textsubscript{i} o ângulo dele com o eixo maior, positivo acima do eixo, e o momento de inércia em O sai da Equação~\eqref{eq:01}. O centro do came, excêntrico, gira com as polias em relação ao chassi; os demais corpos são fixos no chassi.
 
@@ -895,11 +859,15 @@ em que y\textsubscript{i} é a AASM lida em Θ\textsubscript{i}, M\textsubscript
 
 \subsection{Varredura paramétrica do giro do came}\label{sec:3.3.11}
 
-O giro do came em relação à primária é a grandeza menos certa da cadeia, porque os dois desenhos discordam (seção~\ref{sec:4.3.1}), e é a que decide em que zona o cabo da mola sai em cada Θ. Por isso, o papel de h na seção~\ref{sec:3.1.11} e de e\textsubscript{c} na seção~\ref{sec:3.2.11} é desempenhado aqui por esse giro. A varredura repetiu o ajuste da seção~\ref{sec:3.3.10} com o came girado de −120° a +40° em relação ao desenho da Figura 14D, de grau em grau, com as demais grandezas nos valores da Tabela~\ref{tab:grandezas-circuito-cabo-ancoragem}. As marcas das zonas na Figura 16 da US 9.737.374 B2 não entram no ajuste e servem de conferência. Como nas seções~\ref{sec:3.1.11} e \ref{sec:3.2.11}, trata-se de diagnóstico, e nenhum parâmetro é substituído pelo resultado.
+O giro do came em relação à primária é a grandeza menos certa da cadeia, porque os dois desenhos discordam (seção~\ref{sec:4.3.1}), e é a que decide em que zona o cabo da mola sai em cada Θ. Por isso, o papel de h na seção~\ref{sec:3.1.11} e de e\textsubscript{c} na seção~\ref{sec:3.2.11} é desempenhado aqui por esse giro. A varredura repetiu o ajuste da seção~\ref{sec:3.3.10} com o came girado de −120° a +40° em relação ao desenho da Figura 14D, de grau em grau, com as demais grandezas nos valores da Tabela~\ref{tab:grandezas-circuito-cabo-ancoragem}. Só valem os giros em que o cabo da mola sai do canal em toda a faixa do ajuste: ele deixa o bolsão do 573 pelo chifre de cima e se enrola no canal até o chifre de baixo, e a ponte da envoltória sobre o bolsão não é canal. As marcas das zonas na Figura 16 da US 9.737.374 B2 não entram no ajuste e servem de conferência. Como nas seções~\ref{sec:3.1.11} e \ref{sec:3.2.11}, trata-se de diagnóstico, e nenhum parâmetro é substituído pelo resultado.
+
+Além do giro contínuo, foram testadas as montagens que os furos permitem. Nas Figuras 14C e 14D, há cinco furos pequenos num arco em torno do pino 572, no lado do came oposto ao bolsão, que acompanham o came de uma figura para a outra. Os centros foram localizados na imagem da folha 21: o raio do arco, pelos furos isolados, e os ângulos, pela fração de pixels pretos num disco de 3,2 px ao longo desse arco, o que alcança também os furos tocados por linhas de chamada. Admitido, como supõe o autor, que a polia externa tem furos correspondentes, o came pode ser fixado girado de j passos em relação ao desenho, com j de −4 a +4, e, com os mesmos cinco furos nas duas peças, 5 − |j| pares coincidem; j positivo é o giro anti-horário na vista das Figuras 14C e 14D.
+
+Cada montagem foi calculada de dois modos. No primeiro, a mola e o cabo são os da montagem desenhada, com k e x\textsubscript{0} do ajuste da seção~\ref{sec:3.3.10}, e o alongamento é a variação do comprimento do cabo da mola entre o chifre de cima e um plano fixo no chassi, normal ao cabo, com a polia 630 no infinito: o arco enrolado no canal menos a projeção do ponto de saída na direção do cabo. Como a âncora 573 gira com o came, esse comprimento vale para qualquer montagem, e o alongamento é contado do comprimento na pose do CAD com o came desenhado. No segundo modo, k e x\textsubscript{0} são ajustados de novo à Figura 16 da US 9.737.374 B2, como no giro contínuo.
 
 \subsection{Verificações numéricas}\label{sec:3.3.12}
 
-Os scripts executam as verificações da Tabela~\ref{tab:verificacoes-cadeia-calculo-modelo-levitate} (seção~\ref{sec:4.3.3}). Na cadeia de cálculo, são o fechamento com as grandezas do CAD, a solução fechada contra S, φ, b e β medidos, as duas formas do braço de momento, o caminho inverso, o trabalho virtual, a rotação das polias pelo enrolamento e o comprimento do cabo 634 numa geometria de teste. Nas conferências com a patente, são o ponto de ancoragem nas Figuras 14C e 14D e, para as massas, o transporte do tensor, a forma das polias, a distância entre os pinos, o raio e o giro do came, o espelhamento e a posição da mola.
+Os scripts executam as verificações da Tabela~\ref{tab:verificacoes-cadeia-calculo-modelo-levitate} (seção~\ref{sec:4.3.3}). Na cadeia de cálculo, são o fechamento com as grandezas do CAD, a solução fechada contra S, φ, b e β medidos, as duas formas do braço de momento, o caminho inverso, o trabalho virtual, a rotação das polias pelo enrolamento, o comprimento do cabo 634 numa geometria de teste e o comprimento do cabo da mola usado nas montagens do came. Nas conferências com a patente, são o ponto de ancoragem nas Figuras 14C e 14D e, para as massas, o transporte do tensor, a forma das polias, a distância entre os pinos, o raio e o giro do came, o espelhamento e a posição da mola.
 
 As verificações próprias do tambor da seção~\ref{sec:3.1.12} e do elemento de encosto da seção~\ref{sec:3.2.12} não se aplicam a este mecanismo. Como para o exoesqueleto 2, não há, para este modelo, um conjunto de testes automatizados executado com o pytest; as verificações são asserções e conferências executadas pelos scripts.
 

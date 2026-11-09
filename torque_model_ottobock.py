@@ -80,9 +80,10 @@ PARAMETROS_CAD = {
     "Q_POSE": 160.487,       # graus, CAD (q na pose)
     "S_POSE": 359.768,       # mm, CAD (s na pose; conferido no autoteste)
     "PHI_ABS_POSE": 277.937,  # graus, CAD (ângulo do 78 a partir de +x, na pose)
-    "BRACO_POSE": -7.962,    # graus, CAD: braço com a horizontal, positivo
-                             # acima. SINAL A CONFIRMAR: o código funciona com
-                             # o oposto trocando só esta constante.
+    "BRACO_POSE": 7.962,     # graus, CAD: braço com a horizontal, positivo
+                             # acima. Sinal conferido no CAD pelo autor (braço
+                             # 7,962° acima da horizontal na pose); o código
+                             # funciona com o oposto trocando só esta constante.
 }
 
 # ----------------------------------------------------- parâmetro varrido e
@@ -1771,7 +1772,7 @@ if __name__ == "__main__":
         print("AVISO: O_FUSION = None (centro da junta 20 no Fusion NÃO MEDIDO).")
         print("       O braço do exo está FORA do peso e da inércia; τ_peso,")
         print("       o ajuste à Fig. 16 e k_40 usam SÓ o membro humano.")
-    print(f"AVISO: BRACO_POSE = {par['BRACO_POSE']:g}° tem SINAL A CONFIRMAR.")
+    print(f"BRACO_POSE = {par['BRACO_POSE']:g}° (sinal conferido no CAD).")
     print("\nPARAMETROS_CAD (CAD):")
     for nome, valor in par.items():
         print(f"  {nome:13s} = {valor:g}")

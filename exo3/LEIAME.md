@@ -177,6 +177,38 @@ Mola. A extensão acompanha o comprimento do cabo 634 entre 573 e 640, cuja deri
 
 Verificação, como nos exoesqueletos 1 e 2: o trabalho virtual do cabo 560 sobre o apoio de braço, (b × f)_z δΘ, tem de ser igual ao da mola, que vale −F_s δx a menos do sinal das convenções. Os sinais ficam fixados no código.
 
+
+## Montagens do came pelos furos (`tcc_resultados_exo3.py`, `poses_fig14.py`)
+
+Nas Figuras 14C e 14D há cinco furos pequenos num arco em torno do pino 572, no lado do came oposto ao bolsão do 573. `poses_fig14.furos_came` acha o raio pelos furos isolados e os ângulos pela fração de pixels pretos num disco de 3,2 px ao longo do arco, o que pega também os furos tocados por linhas de chamada:
+
+- 14C: raio de 14,97 mm, passo médio de 25,19°, furos a 119,8°, 144,5°, 170,0°, 195,5°, 220,5° no referencial da 15B;
+- 14D: raio de 14,83 mm, passo médio de 25,44°, furos a 120,8°, 147,8°, 172,0°, 196,5°, 222,5°;
+- o arco gira com o came de uma figura para a outra (centro a 171,0° no referencial da 15B nas duas).
+
+O autor supõe que a polia externa tem os mesmos furos. Então o came pode ser fixado girado de j passos (25,31°), com j de −4 a +4, e 5 − |j| pares coincidem; j positivo é anti-horário na vista das figuras.
+
+Validade: o cabo da mola sai do bolsão pelo chifre de cima (vértice 0 do casco) e se enrola até o chifre de baixo (último vértice). O ângulo da saída a partir do chifre de cima, desdobrado ao longo de Θ, tem de ficar entre esses dois; a ponte do casco sobre o bolsão não é canal. No giro contínuo, isso vale em toda a faixa do ajuste de −86° a +40°.
+
+Mesma mola e mesmo cabo: o alongamento é a variação do comprimento do cabo da mola do chifre de cima até um plano fixo no chassi, normal ao cabo (polia 630 no infinito): arco enrolado no canal menos a projeção do ponto de saída na direção do cabo. A âncora gira com o came, então a fórmula vale para qualquer montagem; o zero é a pose do CAD com o came desenhado. Na montagem desenhada, ela reproduz o Δx integrado com diferença de 6,6·10⁻⁷ mm.
+
+| Furos | Giro (°) | Pares | Θ válido (°) | τ máximo, mesma mola (N·m) | R², mesma mola | k, outra mola (N/mm) | R², outra mola |
+|---|---|---|---|---|---|---|---|
+| −4 | −101,25 | 1 | −64,2 a 22,0 | 8,52 em 17,1° |  |  |  |
+| −3 | −75,94 | 2 | −75,0 a 22,0 | 9,66 em 17,4° | 0,356 | 3,109 | 0,887 |
+| −2 | −50,62 | 3 | −75,0 a 22,0 | 10,18 em 12,8° | 0,664 | 2,119 | 0,953 |
+| −1 | −25,31 | 4 | −75,0 a 22,0 | 10,16 em 4,7° | 0,852 | 1,172 | 0,926 |
+| 0 | 0,00 | 5 | −75,0 a 22,0 | 9,90 em −4,6° | 0,901 | 0,492 | 0,901 |
+| +1 | +25,31 | 4 | −75,0 a 22,0 | 9,50 em −14,1° | 0,851 | 0,008 | 0,916 |
+| +2 | +50,62 | 3 | −75,0 a 22,0 | 8,97 em −18,5° | 0,644 | −0,541 | 0,955 |
+| +3 | +75,94 | 2 | −75,0 a 20,5 | 8,49 em −15,8° |  |  |  |
+| +4 | +101,25 | 1 | −75,0 a 9,9 | 8,00 em −24,4° |  |  |  |
+
+- A montagem de −2 furos (−50,62°) fica a 1,6° do melhor giro contínuo (−49°) e dá R² = 0,953 com outra mola (k = 2,119 N/mm, x0 = 119,0 mm).
+- As montagens anti-horárias só melhoram o ajuste com k negativo (+2 a +4) ou quase nulo (+1, k = 0,008 N/mm, força quase constante).
+- Em +3 e +4, o cabo chega ao chifre de cima antes do limite de subida (20,5° e 9,9°); em −4, ao chifre de baixo abaixo de −64,2°. Nesses três casos os R² não foram calculados.
+- Figura: `results/exo3_tcc_fig_6_montagens.png`.
+
 ## Momento do peso
 
 A Figura 16 traz o momento do peso do braço, AWM, em torno de 584. Digitalizado, ele vale AWM = −78,21 cos Θ, com resíduo RMS de 0,19 e sem defasagem. É o momento de um peso W_a a distância fixa do pivô, com W_a·d_a = 78,2 na unidade da figura.

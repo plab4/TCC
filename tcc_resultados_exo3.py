@@ -45,6 +45,7 @@ import circuito_cabo560 as cc  # noqa: E402
 import massa_apoio as ma  # noqa: E402
 import relacoes_came570 as rc  # noqa: E402
 from extrair_came570 import ZONAS, zona  # noqa: E402
+import poses_fig14 as pf  # noqa: E402
 from poses_fig14 import contorno_15a  # noqa: E402
 
 PASTA = RAIZ/"results"
@@ -54,6 +55,9 @@ FIG16 = RAIZ/"exo3"/"fig16_curvas.csv"
 # medidos por exo3/poses_fig14.py
 Q_14D = 61.19                       # q desenhado na Figura 14D (graus)
 GIRO_CAME_14D = 254.0               # giro do referencial da Figura 15B na 14D (graus)
+GIRO_CAME_14C = 192.7               # idem, na 14C
+ESC_14C = 1.6850                    # px/mm na 14C (a da 14D está em ESC_14D)
+N_FUROS = 5                         # furos em torno do 572 nas Figuras 14C e 14D
 CABO_C2 = -21.80                    # direção de 572 para 632 em relação a C2, na 14D (graus)
 R20 = (31.96 + 32.11)/2             # mm, média das Figuras 14C e 14D
 O_14D, ESC_14D = np.array([1711.82, 965.50]), 1.6802      # px e px/mm
@@ -72,6 +76,10 @@ MEMBRO_ARTIGO = (("braço", 2.244, 281.7, 0.5772, 0.269),
 
 SUPERFICIE, TINTA, TINTA_2, GRADE = "#fcfcfb", "#0b0b0b", "#52514e", "#e6e5e1"
 AZUL, LARANJA, VERDE = "#2a78d6", "#eb6834", "#1baf7a"
+# rampas divergentes para as montagens do came (OKLab, L de 0,66 a 0,36 por passo de furo;
+# contraste de 3,0 a 11,2 com a superfície): giro horário em azul, anti-horário em laranja
+RAMPA_HORARIO = ("#4693f3", "#2573d1", "#0055af", "#003983")
+RAMPA_ANTI = ("#e76530", "#c44400", "#a22000", "#770900")
 COR_ZONA = {"Z10": AZUL, "Z11": LARANJA, "Z12": VERDE}
 
 
@@ -118,7 +126,7 @@ def varredura(giro_extra=0.0):
     theta_fig = cc.theta_fig16(q)
     o = np.argsort(theta_fig)
     v = dict(q=q, theta=theta_fig, S=S, fi=fi, teta=teta, b=b, beta=beta, braco=braco,
-             tp=tp, n_cam=n_cam, r=r_mm, rho=rho_mm, zona=zonas, transm=transm, dx=dx)
+             tp=tp, n_cam=n_cam, r=r_mm, rho=rho_mm, zona=zonas, transm=transm, dx=dx, vert=k)
     return {c: x[o] for c, x in v.items()}, q_lim
 
 
@@ -155,10 +163,13 @@ def amplitude_awm():
     return float(-np.sum(awm*np.cos(th))/np.sum(np.cos(th)**2))
 
 
-def ajuste_mola(v, th16, aasm, theta_max, c, peso=None):
+def ajuste_mola(v, th16, aasm, theta_max, c, peso=None, theta_min=None):
     """Mola linear contra a AASM, com c em N·m por unidade da figura; com peso (N·m em
-    v["theta"]), o alvo é a AASM mais o que a mola gasta para sustentar o apoio de braço."""
+    v["theta"]), o alvo é a AASM mais o que a mola gasta para sustentar o apoio de braço.
+    theta_min limita o ajuste por baixo (montagens em que o cabo sai do canal)."""
     usar = th16 <= theta_max
+    if theta_min is not None:
+        usar &= th16 >= theta_min
     th, tau = th16[usar], c*aasm[usar]
     if peso is not None:
         tau = tau - np.interp(th, v["theta"], peso)
@@ -181,11 +192,186 @@ def sensibilidade(th16, aasm, theta_max, c):
         v, _ = varredura(d)
         aj = ajuste_mola(v, th16, aasm, theta_max, c)
         z11 = intervalos(v, "Z11")
+        lo, hi = faixa_valida(v)
         linhas.append({"giro": float(d), "r2": aj["r2"], "rms": aj["rms"], "k": float(aj["k"]),
-                       "x0": float(aj["x0"]), "z11": [list(map(float, z)) for z in z11]})
-    fisicos = [x for x in linhas if x["k"] > 0 and x["x0"] > 0]
+                       "x0": float(aj["x0"]), "z11": [list(map(float, z)) for z in z11],
+                       "valido": bool(lo <= th16[0] and hi >= theta_max)})
+    fisicos = [x for x in linhas if x["k"] > 0 and x["x0"] > 0 and x["valido"]]
     melhor = max(fisicos, key=lambda x: x["r2"])
     return linhas, melhor
+
+
+def saida_valida(v, theta_ref=-30.0):
+    """Pontos em que o cabo da mola sai do canal, entre os chifres do bolsão do 573.
+
+    O cabo sai do bolsão pelo chifre de cima (vértice 0 do casco) e se enrola no canal, no
+    sentido anti-horário do came, até o chifre de baixo (último vértice); a ponte do casco
+    sobre o bolsão não é canal. w é o ângulo do ponto de saída a partir do chifre de cima,
+    desdobrado ao longo de Θ a partir de theta_ref, onde a saída está no canal em todas as
+    montagens; vale 0 < w < w_max, no trecho contínuo que contém theta_ref."""
+    V = rc.casco_came()
+    a = np.degrees(np.arctan2(V[:, 1], V[:, 0]))
+    w = np.radians((a[v["vert"]] - a[0]) % 360.0)
+    i0 = int(np.argmin(np.abs(v["theta"] - theta_ref)))
+    wd = np.unwrap(w)
+    wd += w[i0] - wd[i0]
+    ok = (wd > 0) & (wd < np.radians((a[-1] - a[0]) % 360.0))
+    assert ok[i0]
+    lo = i0
+    while lo > 0 and ok[lo - 1]:
+        lo -= 1
+    hi = i0
+    while hi < ok.size - 1 and ok[hi + 1]:
+        hi += 1
+    dentro = np.zeros_like(ok)
+    dentro[lo:hi + 1] = True
+    return dentro
+
+
+def faixa_valida(v):
+    """Menor e maior Θ (graus) em que o cabo da mola sai do canal."""
+    t = v["theta"][saida_valida(v)]
+    return float(t.min()), float(t.max())
+
+
+def furos():
+    """Furos em torno do pino 572 nas Figuras 14C e 14D (exo3/poses_fig14.py)."""
+    B = np.array(Image.open(FIG14).convert("L")) < 128
+    saida = {}
+    for nome, giro, esc in (("14C", GIRO_CAME_14C, ESC_14C), ("14D", GIRO_CAME_14D, ESC_14D)):
+        centro = pf.anel(B, pf.APROX[nome][1], 4, 12)
+        angs, raio = pf.furos_came(B, centro, giro)
+        assert len(angs) == N_FUROS, (nome, angs)
+        angs = sorted(angs)
+        saida[nome] = {"angulos_figura": angs,
+                       "angulos_came": [float((x - giro) % 360) for x in angs],
+                       "raio_mm": raio/esc,
+                       "passo": float((angs[-1] - angs[0])/(N_FUROS - 1)),
+                       "espacamentos": [float(b - a) for a, b in zip(angs, angs[1:])]}
+    passo = float(np.mean([x["passo"] for x in saida.values()]))
+    meio = float(np.mean([np.mean(x["angulos_came"]) for x in saida.values()]))
+    return {"figuras": saida, "passo": passo, "centro_came": meio,
+            "raio_mm": float(np.mean([x["raio_mm"] for x in saida.values()]))}
+
+
+def caminho_cabo(v):
+    """Comprimento do cabo da mola do chifre de cima até um plano fixo no chassi, normal ao
+    cabo (polia 630 no infinito), a menos de uma constante (mm): arco enrolado no canal
+    menos a projeção do ponto de saída na direção do cabo. Vale o mesmo para qualquer
+    montagem do came, porque a âncora 573 gira com ele."""
+    V = rc.casco_came()
+    lados = np.hypot(*(np.roll(V, -1, axis=0) - V).T)
+    arco = np.r_[0.0, np.cumsum(lados)[:-1]]
+    n = np.radians(v["n_cam"])
+    t = np.c_[np.cos(n + np.pi/2), np.sin(n + np.pi/2)]
+    return R20*(arco[v["vert"]] - np.sum(V[v["vert"]]*t, axis=1))
+
+
+def montagens(aj, th16, aasm, passo, theta_max, c):
+    """Came fixado na polia externa por furos de outro par: giro de j passos em relação ao
+    desenho, j de −(N_FUROS − 1) a N_FUROS − 1 (com os mesmos furos na polia, 5 − |j| pares
+    coincidem). Para cada montagem: trecho de Θ em que o cabo sai do canal; o torque com a
+    mesma mola e o mesmo cabo da montagem desenhada (k e x0 do ajuste principal, com o
+    alongamento contado do comprimento do cabo, que acompanha o came); e o ajuste de outra
+    mola linear à Figura 16 (k e x0 livres), como na sensibilidade ao giro."""
+    v0, _ = varredura(0.0)
+    th_pose = cc.theta_fig16(cc.Q_CAD)
+    L0 = caminho_cabo(v0)
+    L_pose = float(np.interp(th_pose, v0["theta"], L0))
+    conf = float(np.max(np.abs((L0 - L_pose) - v0["dx"])))
+    linhas, curvas = [], {}
+    for j in range(-(N_FUROS - 1), N_FUROS):
+        d = j*passo
+        v, _ = varredura(d)
+        ok = saida_valida(v)
+        lo, hi = faixa_valida(v)
+        dx = caminho_cabo(v) - L_pose
+        F = aj["k"]*(aj["x0"] + dx)
+        tau = F*v["transm"]/1000.0
+        fx = ok & (v["theta"] >= -75.0)
+        th, tt = v["theta"][fx], tau[fx]
+        i = int(np.argmax(tt))
+        usar = (th16 <= theta_max) & (th16 >= lo) & (th16 <= hi)
+        y = c*aasm[usar]
+        pred = np.interp(th16[usar], th, tt)
+        r2_m = float(1 - np.sum((y - pred)**2)/np.sum((y - y.mean())**2))
+        ajj = ajuste_mola(v, th16, aasm, min(theta_max, hi), c, theta_min=lo)
+        valores = {}
+        for T in (-75.0, -60.0, -30.0, 0.0, 20.0):
+            valores[f"{T:g}"] = (float(np.interp(T, th, tt)) if th[0] <= T <= th[-1] else None)
+        linhas.append({
+            "furos": j, "giro": d, "pares": N_FUROS - abs(j),
+            "theta_valido": [max(lo, -75.0), hi], "toda_faixa": bool(lo <= -75.0 and hi >= theta_max),
+            "forca_N": [float(F[fx].min()), float(F[fx].max())],
+            "tau_max_N_m": float(tt[i]), "theta_tau_max": float(th[i]),
+            "tau_N_m": valores, "r2_mesma_mola": r2_m,
+            "ajuste": {"k": float(ajj["k"]), "x0": float(ajj["x0"]), "r2": ajj["r2"],
+                       "rms_N_m": ajj["rms"], "n": int(len(ajj["theta"])),
+                       "fisico": bool(ajj["k"] > 0 and ajj["x0"] > 0)}})
+        curvas[j] = (th, tt)
+    return {"linhas": linhas, "conferencia_comprimento_mm": conf}, curvas
+
+
+def figura_montagens(mt, curvas, th16, aasm, c, sens, passo):
+    """Curvas de torque das montagens do came (a) e R² do ajuste de outra mola (b)."""
+    fig, (a, b) = plt.subplots(1, 2, figsize=(10, 5.0), dpi=200, facecolor=SUPERFICIE,
+                               gridspec_kw={"width_ratios": [1.25, 1.0]})
+    leg = {}
+    eixos(a, 0, 0)
+    sombrear_marcas(a)
+    leg["aasm"], = a.plot(th16, c*aasm, "o", ms=2.6, color="#bdbcb7", zorder=1,
+                          label="AASM da Figura 16, na escala da AWM")
+    for x in mt["linhas"]:
+        j = x["furos"]
+        th, tt = curvas[j]
+        if j == 0:
+            cor, lw, ls = TINTA, 2.2, "-"
+        else:
+            cor = (RAMPA_HORARIO if j < 0 else RAMPA_ANTI)[abs(j) - 1]
+            lw, ls = 1.5, ("-" if j < 0 else (0, (5, 2)))
+        rot = ("0, como desenhado" if j == 0 else
+               f"{j:+d} furo{'s' if abs(j) > 1 else ''}, {num(x['giro'], 1)}°")
+        leg[j], = a.plot(th, tt, color=cor, lw=lw, ls=ls, label=rot.replace("-", "−"), zorder=3)
+    a.set_xlim(-78, 24)
+    a.set_ylim(0, None)
+    a.set_xlabel("Θ, ângulo do apoio de braço com a horizontal (graus)", color=TINTA_2)
+    a.set_ylabel("momento no pivô 584 (N·m)", color=TINTA_2)
+    a.text(0.0, 1.02, "(a) mesma mola e mesmo cabo, came em cada par de furos",
+           transform=a.transAxes, fontsize=8.5, color=TINTA)
+    eixos(b, 0, 2)
+    gs = np.array([x["giro"] for x in sens])
+    r2 = np.array([x["r2"] for x in sens])
+    fis = np.array([x["k"] > 0 and x["x0"] > 0 and x["valido"] for x in sens])
+    val = np.array([x["valido"] for x in sens])
+    b.plot(gs, np.where(fis, r2, np.nan), color=TINTA_2, lw=1.4, zorder=2,
+           label="giro contínuo, mola com k > 0 e x0 > 0")
+    b.plot(gs, np.where(val & ~fis, r2, np.nan), color="#bdbcb7", lw=1.2, ls="--", zorder=2,
+           label="giro contínuo, sem mola física")
+    for x in mt["linhas"]:
+        j, aj_ = x["furos"], x["ajuste"]
+        if not x["toda_faixa"]:
+            continue
+        cor = TINTA if j == 0 else (RAMPA_HORARIO if j < 0 else RAMPA_ANTI)[abs(j) - 1]
+        b.plot(x["giro"], aj_["r2"], "o", ms=6.5, mew=1.2, zorder=4,
+               color=cor if aj_["fisico"] else SUPERFICIE,
+               mec=SUPERFICIE if aj_["fisico"] else cor)
+        b.annotate(f"{j:+d}".replace("-", "−") if j else "0", (x["giro"], aj_["r2"]),
+                   xytext=(0, 7), textcoords="offset points", ha="center", fontsize=7,
+                   color=TINTA_2)
+    b.set_xlabel("giro do came em relação ao desenho da Figura 14D (graus)", color=TINTA_2)
+    b.set_ylabel("R² do ajuste de outra mola", color=TINTA_2)
+    b.set_ylim(0.5, 1.02)
+    b.set_xlim(-108, 58)
+    b.legend(loc="lower left", frameon=False, fontsize=6.6, labelcolor=TINTA)
+    b.text(0.0, 1.02, f"(b) montagens em passos de {num(passo, 1)}° (círculo vazio: k ou x0 ≤ 0)",
+           transform=b.transAxes, fontsize=8.5, color=TINTA)
+    # legenda comum embaixo: 1.ª linha, giros horários e o desenho; 2.ª, anti-horários e a AASM
+    ordem = [-4, 1, -3, 2, -2, 3, -1, 4, 0, "aasm"]
+    fig.legend([leg[k] for k in ordem], [leg[k].get_label() for k in ordem], loc="lower center",
+               ncol=5, frameon=False, fontsize=7.2, labelcolor=TINTA, handlelength=2.6)
+    fig.tight_layout(rect=(0, 0.09, 1, 1))
+    fig.savefig(PASTA/"exo3_tcc_fig_6_montagens.png", facecolor=SUPERFICIE)
+    plt.close(fig)
 
 
 def membro_superior(segmentos=MEMBRO):
@@ -481,10 +667,14 @@ def figura_fig16(aj, th16, aasm, v, sens, melhor, aj_m, v_m):
     eixos(c, 0, 2)
     gs = np.array([x["giro"] for x in sens])
     r2 = np.array([x["r2"] for x in sens])
-    fis = np.array([x["k"] > 0 and x["x0"] > 0 for x in sens])
+    val = np.array([x["valido"] for x in sens])
+    fis = np.array([x["k"] > 0 and x["x0"] > 0 for x in sens]) & val
     c.plot(gs, np.where(fis, r2, np.nan), color=AZUL, lw=1.8, label="mola com k > 0 e x0 > 0")
-    c.plot(gs, np.where(fis, np.nan, r2), color="#bdbcb7", lw=1.4, ls="--",
+    c.plot(gs, np.where(val & ~fis, r2, np.nan), color="#bdbcb7", lw=1.4, ls="--",
            label="sem solução física (k ou x0 negativo)")
+    c.axvspan(gs[0], gs[val][0] - 0.5, color=GRADE, alpha=0.6, lw=0, zorder=0)
+    c.text(0.5*(gs[0] + gs[val][0]), 0.52, "cabo da mola\nfora do canal", ha="center",
+           va="bottom", fontsize=6.5, color=TINTA_2)
     c.axvline(0, color=TINTA_2, lw=0.8, ls=":")
     c.axvline(melhor["giro"], color=LARANJA, lw=1.0)
     c.set_xlabel("giro do came em relação ao desenho da Figura 14D (graus)", color=TINTA_2)
@@ -547,6 +737,14 @@ def main():
     v_m, _ = varredura(melhor["giro"])
     aj_m = ajuste_mola(v_m, th16, aasm, cc.theta_fig16(q_lim) - 0.05, c)
     N["sensibilidade_giro"] = sens
+    gv = [x["giro"] for x in sens if x["valido"]]
+    N["giro_valido"] = [min(gv), max(gv)]
+    assert all(x["valido"] for x in sens if min(gv) <= x["giro"] <= max(gv))
+    # montagens do came pelos furos em torno do 572 (Figuras 14C e 14D)
+    fu = furos()
+    mt, curvas_mt = montagens(aj, th16, aasm, fu["passo"], cc.theta_fig16(q_lim) - 0.05, c)
+    N["furos"] = fu
+    N["montagens"] = mt
     N["melhor_giro"] = {**melhor, "zonas": {z: intervalos(v_m, z) for z in ZONAS},
                         "rms_N_m": aj_m["rms"], "erro_max_N_m": aj_m["max"],
                         "forca_pose_N": aj_m["k"]*aj_m["x0"],
@@ -650,6 +848,7 @@ def main():
     figura_came()
     figura_varredura(v, q_lim)
     figura_fig16(aj, th16, aasm, v, sens, melhor, aj_m, v_m)
+    figura_montagens(mt, curvas_mt, th16, aasm, c, sens, fu["passo"])
 
     print(f"R20 = {R20:.2f} mm (R20/R = {R20/cc.R:.3f}); limite de subida Θ = {N['theta_limite']:.2f}°")
     for z, fx in N["zonas"].items():
@@ -668,6 +867,18 @@ def main():
     print(f"melhor giro físico: {m['giro']:+.0f}°: R² = {m['r2']:.3f}, RMS {m['rms_N_m']:.2f} N·m, "
           f"k = {m['k']:.3f} N/mm, x0 = {m['x0']:.1f} mm; " +
           "; ".join(f"{z} de {a_:.1f}° a {c_:.1f}°" for z, fx in m["zonas"].items() for a_, c_ in fx))
+    print(f"giros com o cabo da mola no canal em toda a faixa: de {N['giro_valido'][0]:+.0f}° a "
+          f"{N['giro_valido'][1]:+.0f}°")
+    print(f"furos em torno do 572: passo {fu['passo']:.2f}°, raio {fu['raio_mm']:.2f} mm, centro do arco a "
+          f"{fu['centro_came']:.1f}° no referencial da 15B; conferência do comprimento do cabo "
+          f"{mt['conferencia_comprimento_mm']:.1e} mm")
+    for x in mt["linhas"]:
+        aj_ = x["ajuste"]
+        print(f"  {x['furos']:+d} furos ({x['giro']:+7.2f}°, {x['pares']} pares): Θ válido de "
+              f"{x['theta_valido'][0]:6.1f}° a {x['theta_valido'][1]:5.1f}°; F de {x['forca_N'][0]:5.1f} a "
+              f"{x['forca_N'][1]:5.1f} N; τ máx {x['tau_max_N_m']:5.2f} N·m em {x['theta_tau_max']:6.1f}°; "
+              f"R² mesma mola {x['r2_mesma_mola']:6.3f}; outra mola k {aj_['k']:6.3f} x0 {aj_['x0']:8.1f} "
+              f"R² {aj_['r2']:.3f}{'' if aj_['fisico'] else ' (sem mola física)'}")
     pa, cj, mb = N["peso_apoio"], N["conjunto"], N["membro"]
     print(f"membro: {mb['massa']:.3f} kg a {mb['d']:.2f} mm, I_O = {mb['izz_o']:.6f} kg·m², "
           f"{mb['momento_horizontal_N_m']:.3f} N·m na horizontal (membro do artigo: {mb['artigo_momento_horizontal_N_m']:.3f})")
