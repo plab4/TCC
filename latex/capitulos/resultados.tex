@@ -53,7 +53,7 @@ Amplitude do momento gravitacional, M g d & 11,1619 & N·m \\
 \fonte{elaborada pelo autor.}
 \end{table}
 
-A consistência interna da Tabela~\ref{tab:propriedades-massa-conjunto-braco} foi conferida: I\textsubscript{cm} + M d\textsuperscript{2} = 0,127111 + 0,321116 = 0,448227 kg·m\textsuperscript{2}, igual ao momento de inércia no eixo da junta, conforme a Equação~\eqref{eq:01}; e M g d = 11,1619 N·m coincide com o pico do torque gravitacional calculado pela Equação~\eqref{eq:24} (seção~\ref{sec:4.1.8}). O momento de inércia destina-se à etapa dinâmica, não executada, e não participa do cálculo do torque estático.
+A consistência interna da Tabela~\ref{tab:propriedades-massa-conjunto-braco} foi conferida: I\textsubscript{cm} + M d\textsuperscript{2} = 0,127111 + 0,321116 = 0,448227 kg·m\textsuperscript{2}, igual ao momento de inércia no eixo da junta, conforme a Equação~\eqref{eq:01}; e M g d = 11,1619 N·m coincide com o pico do torque gravitacional calculado pela Equação~\eqref{eq:26} (seção~\ref{sec:4.1.8}). O momento de inércia destina-se à etapa dinâmica, não executada, e não participa do cálculo do torque estático.
 
 \subsection{Dados extraídos da patente}\label{sec:4.1.2}
 
@@ -119,18 +119,18 @@ As verificações automáticas da seção~\ref{sec:3.1.12} resultaram nos resíd
 \toprule
 \centering\textbf{Verificação} & \centering\textbf{Resíduo máximo} \tabularnewline
 \midrule
-Equações de fechamento f\textsubscript{1} e f\textsubscript{2}, Equação~\eqref{eq:06} & 1,4 × 10\textsuperscript{−13} mm \\
-Identidade τ = −F m/1000, Equação~\eqref{eq:20}, com força unitária & 1,6 × 10\textsuperscript{−13} mm \\
-Ponto de tangência pelas Equações~\eqref{eq:10} e \eqref{eq:13} & 8,0 × 10\textsuperscript{−13} mm \\
-Ponto morto, Equação~\eqref{eq:21} contra bissecção & 1,3 × 10\textsuperscript{−11} grau \\
-Trabalho virtual, Equação~\eqref{eq:17} & 4,7 × 10\textsuperscript{−8} mm/rad \\
+Equações de fechamento f\textsubscript{1} e f\textsubscript{2}, Equações~\eqref{eq:07} e \eqref{eq:08} & 1,4 × 10\textsuperscript{−13} mm \\
+Identidade τ = −F m/1000, Equação~\eqref{eq:22}, com força unitária & 1,6 × 10\textsuperscript{−13} mm \\
+Ponto de tangência pelas Equações~\eqref{eq:12} e \eqref{eq:15} & 8,0 × 10\textsuperscript{−13} mm \\
+Ponto morto, Equação~\eqref{eq:23} contra bissecção & 1,3 × 10\textsuperscript{−11} grau \\
+Trabalho virtual, Equação~\eqref{eq:19} & 4,7 × 10\textsuperscript{−8} mm/rad \\
 Par da mola, X\textsubscript{pose} = L\textsubscript{pose} − L\textsubscript{livre} & 7,1 × 10\textsuperscript{−15} mm \\
 \bottomrule
 \end{tabularx}
 \fonte{elaborada pelo autor.}
 \end{table}
 
-A verificação do trabalho virtual decidiu a formulação do caminho do cabo. Com a extensão da mola acompanhando apenas o vão livre s, o resíduo da Equação~\eqref{eq:17} é de 1,7129 mm/rad; com o arco somado ao vão, s + Rψ, é de 3,4258 mm/rad; somente com ℓ = s − Rψ, Equação~\eqref{eq:16}, ele cai a 4,7 × 10\textsuperscript{−8} mm/rad. Um resíduo da ordem de 1 mm/rad significa que o modelo entrega torque sem a correspondente variação da energia da mola, violando assim, a conservação de energia em um mecanismo sem atrito.
+A verificação do trabalho virtual decidiu a formulação do caminho do cabo. Com a extensão da mola acompanhando apenas o vão livre s, o resíduo da Equação~\eqref{eq:19} é de 1,7129 mm/rad; com o arco somado ao vão, s + Rψ, é de 3,4258 mm/rad; somente com ℓ = s − Rψ, Equação~\eqref{eq:18}, ele cai a 4,7 × 10\textsuperscript{−8} mm/rad. Um resíduo da ordem de 1 mm/rad significa que o modelo entrega torque sem a correspondente variação da energia da mola, violando assim, a conservação de energia em um mecanismo sem atrito.
 
 Constatou-se, contudo, que o efeito do arco é pequeno em valor absoluto. O arco varia 1,862 mm na faixa de operação, contra 42,435 mm de variação do caminho total (4,4\%). Com a mesma ancoragem na pose, sua incorporação altera a extensão da mola em até 1,782 mm, em θ* = 193,017° (elevação de 30°), onde a extensão está próxima do máximo e o desvio relativo é de 3,3\%. Em termos relativos, o efeito é maior no extremo oposto, em θ* = 42,917° (elevação de 180,1°), onde a extensão cai a 12,044 mm e o desvio chega a 6,3\%.
 
@@ -254,7 +254,7 @@ Ponto morto, θ*\textsubscript{pm} & 192,532° (elevação de 30,485°) \\
 \nota{L\textsubscript{livre} = L\textsubscript{pose} − X\textsubscript{pose}, com L\textsubscript{pose} = 91,35 mm, confirmado no CAD. A curva de torque depende só de X\textsubscript{pose}.}
 \end{table}
 
-A extensão da mola permanece positiva em toda a faixa, o que assegura que o cabo continua tracionado em todos os pontos avaliados. O máximo da extensão ocorre no ponto morto, como exige a Equação~\eqref{eq:17}: onde m se anula, dℓ/dθ* também se anula, e o caminho do cabo passa por um extremo. A razão de 1,0095 entre a extensão máxima e o comprimento livre significa que a mola precisaria ser estendida a aproximadamente o dobro de seu comprimento livre; a viabilidade desse requisito depende da deflexão admissível da mola a especificar e deve ser confrontada com dados de fabricante.
+A extensão da mola permanece positiva em toda a faixa, o que assegura que o cabo continua tracionado em todos os pontos avaliados. O máximo da extensão ocorre no ponto morto, como exige a Equação~\eqref{eq:19}: onde m se anula, dℓ/dθ* também se anula, e o caminho do cabo passa por um extremo. A razão de 1,0095 entre a extensão máxima e o comprimento livre significa que a mola precisaria ser estendida a aproximadamente o dobro de seu comprimento livre; a viabilidade desse requisito depende da deflexão admissível da mola a especificar e deve ser confrontada com dados de fabricante.
 
 O braço de momento confirma a distinção da seção~\ref{sec:3.1.5}. A linha de ação do cabo passa pela ancoragem A, de modo que m não pode exceder |OA| = 22,919 mm em configuração alguma. Ao longo da faixa, m cresce monotonicamente de 12,451 mm em θ* = 42,917° até tocar esse teto em θ* = 97,894°, posição em que o cabo fica perpendicular a OA, e decresce a partir daí, anulando-se no ponto morto; o valor de −0,180 mm no extremo da faixa corresponde ao trecho além desse ponto.
 
@@ -321,7 +321,7 @@ Os critérios de validade física não usam os pontos extraídos, embora o de tr
 \fonte{elaborada pelo autor.}
 \end{table}
 
-O ponto morto é monótono em h e entra na faixa de operação em h = 21,3718 mm, valor dado pela Equação~\eqref{eq:22} e reproduzido por bissecção com diferença de 4,6 × 10\textsuperscript{−14} mm. Abaixo desse valor, o ponto morto fica além de θ* = 193,017°, e o torque do cabo não se anula na faixa. Nenhum h positivo leva o ponto morto ao outro extremo: para h > 0, θ*\textsubscript{pm} fica confinado entre 184,619° e 274,619° e nunca alcança θ* = 42,917°. Para esse extremo, a Equação~\eqref{eq:22} devolve h = 3,9953 mm, que é ramo espúrio: nesse h, a Equação~\eqref{eq:21} situa o ponto morto em 222,917°.
+O ponto morto é monótono em h e entra na faixa de operação em h = 21,3718 mm, valor dado pela Equação~\eqref{eq:24} e reproduzido por bissecção com diferença de 4,6 × 10\textsuperscript{−14} mm. Abaixo desse valor, o ponto morto fica além de θ* = 193,017°, e o torque do cabo não se anula na faixa. Nenhum h positivo leva o ponto morto ao outro extremo: para h > 0, θ*\textsubscript{pm} fica confinado entre 184,619° e 274,619° e nunca alcança θ* = 42,917°. Para esse extremo, a Equação~\eqref{eq:24} devolve h = 3,9953 mm, que é ramo espúrio: nesse h, a Equação~\eqref{eq:23} situa o ponto morto em 222,917°.
 
 O torque é rigorosamente linear em K: a identidade τ(K) = K τ(K = 1) foi verificada em cada h da grade, com erro máximo de 7,7 × 10\textsuperscript{−13} u.p. Isso permitiria reidentificar K para cada h em forma fechada, mas esse procedimento define um modelo diferente para cada h e não é adotado na análise principal.
 
@@ -331,7 +331,7 @@ As duas posições da ancoragem são grandezas distintas. H\textsubscript{CAD} �
 
 \subsection{Confronto entre o torque do cabo e o torque gravitacional}\label{sec:4.1.8}
 
-O torque gravitacional do conjunto, calculado pela Equação~\eqref{eq:24} de forma independente da cadeia do cabo, atinge o máximo de 11,1619 N·m na elevação de 89,44°, o que corrobora a previsão da seção~\ref{sec:2.1}, de momento gravitacional máximo com o segmento perpendicular à gravidade. O desvio de 0,56° em relação a 90° indica que a linha que une o pivô ao centro de massa do conjunto forma esse ângulo com a direção do braço adotada na convenção da patente. O valor do pico coincide com M g d da Tabela~\ref{tab:propriedades-massa-conjunto-braco}. O módulo da Equação~\eqref{eq:24} oculta a troca de sentido do torque em θ* = 43,579° (elevação de 179,44°), que afeta apenas os 0,66° iniciais da faixa, com torque inferior a 0,13 N·m.
+O torque gravitacional do conjunto, calculado pela Equação~\eqref{eq:26} de forma independente da cadeia do cabo, atinge o máximo de 11,1619 N·m na elevação de 89,44°, o que corrobora a previsão da seção~\ref{sec:2.1}, de momento gravitacional máximo com o segmento perpendicular à gravidade. O desvio de 0,56° em relação a 90° indica que a linha que une o pivô ao centro de massa do conjunto forma esse ângulo com a direção do braço adotada na convenção da patente. O valor do pico coincide com M g d da Tabela~\ref{tab:propriedades-massa-conjunto-braco}. O módulo da Equação~\eqref{eq:26} oculta a troca de sentido do torque em θ* = 43,579° (elevação de 179,44°), que afeta apenas os 0,66° iniciais da faixa, com torque inferior a 0,13 N·m.
 
 A comparação entre as duas curvas exige cautela metodológica. Como a ordenada da curva publicada não tem unidade declarada e a seção~\ref{sec:4.1.6} mostrou que sua leitura em N·m é implausível, as magnitudes não são comparáveis. O que se pode confrontar é a forma dos perfis, apresentados na Figura~\ref{fig:torque-cabo-torque-gravitacional} normalizados pelos respectivos valores de pico, em função da elevação anatômica. Como a normalização elimina a escala, o confronto não informa que fração do torque gravitacional o mecanismo compensa.
 

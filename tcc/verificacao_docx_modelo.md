@@ -8,7 +8,7 @@ Parágrafos conferidos: 32; ausentes do PDF do LaTeX: 0.
 
 ## 2. Corpo do texto
 
-Parágrafos, títulos, legendas, itens, fontes e notas conferidos: 597; ausentes do PDF do LaTeX: 0.
+Parágrafos, títulos, legendas, itens, fontes e notas conferidos: 596; ausentes do PDF do LaTeX: 0.
 
 ## 3. Tabelas
 

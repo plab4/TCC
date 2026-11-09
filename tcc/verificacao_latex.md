@@ -4,8 +4,8 @@ DOCX: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.docx. P
 
 ## 1. Texto corrido, títulos, legendas, fontes e notas
 
-Elementos conferidos: 597. Encontrados no PDF: 597.
-Encontrados com interrupção do lado do PDF (cabeçalho, figura ou tabela no meio do parágrafo): 9.
+Elementos conferidos: 596. Encontrados no PDF: 596.
+Encontrados com interrupção do lado do PDF (cabeçalho, figura ou tabela no meio do parágrafo): 8.
 Diferenças esperadas, impostas pelo estilo ABNT do modelo: 'SHEN et al., 2020' passa a 'SHEN; FERGUSON; ROSEN, 2020'.
 
 ## 2. Células de tabela

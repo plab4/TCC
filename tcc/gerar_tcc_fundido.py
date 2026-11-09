@@ -452,6 +452,18 @@ EDICOES = [
      "e no MBDyn."),
     ("Por fim, os resultados referem-se a um único dispositivo",
      "Por fim, os resultados desta seção referem-se a um único dispositivo"),
+    # fechamento do exoesqueleto 1 escrito em componentes, como nos exos 2 e 3; a
+    # frase seguinte do autor vai, sem mudança, para depois das equações
+    # (cap3_fechamento_exo1)
+    ("As duas componentes da Equação (6) são as equações escalares de fechamento "
+     "f1 = 0 e f2 = 0. Isolando-se os termos em φ, o lado esquerdo torna-se o vetor "
+     "(s, R) girado de φ, o que permite resolver o sistema em forma fechada, sem "
+     "procedimento iterativo:",
+     "As duas componentes da Equação (6) são as equações escalares de fechamento:"),
+    # f1 e f2 passam a ser citados pelas suas equações (marcas de equação nova,
+    # numeradas por numerar)
+    (" da Equação (6); a identidade τ = −F m/1000",
+     " das Equações (⟦E:e1_f1⟧) e (⟦E:e1_f2⟧); a identidade τ = −F m/1000"),
     # parte comum do capítulo 3, antes da seção 3.1: as frases gerais saem da
     # seção 3.1, que fica só com o exoesqueleto 1
     ("Massa, posição do centro de massa e raios de giro de braço, antebraço e mão "
@@ -710,6 +722,8 @@ EDICOES_RE = [
     (r"(?<=4,7 × 10−8) mm(?=$|Par da mola)", " mm/rad"),
     # Tabela 12: H_CAD é medida em CAD; o "CAD" anterior é subscrito
     (r"(?<=CAD), documental", ", medida em CAD"),
+    # Tabela 6: f1 e f2 citados pelas suas equações; o "2" anterior é subscrito
+    (r"(?<=fechamento f1 e f2), Equação \(6\)", ", Equações (⟦E:e1_f1⟧) e (⟦E:e1_f2⟧)"),
 ]
 
 # Blocos do original retirados, pelo início do texto (cada um ocorre uma vez):
@@ -982,6 +996,17 @@ def cap4_ancoragens():
         "disponíveis não decidem qual das duas posições corresponde ao dispositivo.")]
 
 
+def cap3_fechamento_exo1():
+    """Seção 3.1.4: as componentes da Equação (6) por extenso, como as equações de
+    fechamento das seções 3.2.4 e 3.3.4 e como o modelo as calcula
+    (calculate_closure_residuals); a frase do autor que as seguia vem depois."""
+    return [EQ(("e1_f1", r"f_{1} = h\sin\alpha - p\cos\alpha + s\cos\varphi - R\sin\varphi + C\cos q = 0"),
+               ("e1_f2", r"f_{2} = h\cos\alpha + p\sin\alpha + s\sin\varphi + R\cos\varphi + C\sin q = 0")),
+            P("Isolando-se os termos em φ, o lado esquerdo torna-se o vetor (s, R) girado "
+              "de φ, o que permite resolver o sistema em forma fechada, sem procedimento "
+              "iterativo:")]
+
+
 def cap3_trabalho_virtual_exo1():
     """Seção 3.1.9: o modelo do exoesqueleto 1 pelo princípio dos trabalhos
     virtuais, com o torque do cabo como b × f, b e β das Equações (11) a (13)."""
@@ -1017,18 +1042,18 @@ def cap3_trabalho_virtual_exo1():
     a(P("O mesmo trabalho virtual pode ser calculado do lado da mola. Com o cabo "
         "inextensível, o giro δθ* estende a mola de δℓ = (dℓ/dθ*) δθ*, com ℓ da "
         "Equação (16), e a força F = K δ, que se opõe à extensão, realiza o trabalho "
-        "−F δℓ/1000. Como as duas expressões valem para todo δθ*,"))
-    a(EQ(("vt1_tv", r"(\mathbf{b}\times\mathbf{f})_{z} = -F\frac{d\ell}{d\theta^{*}}\quad\Leftrightarrow\quad\frac{d\ell}{d\theta^{*}} = m")))
-    a(P("que é a Equação (17). A força se cancela, e a igualdade depende só da "
-        "geometria, não de K, X_{pose} nem s_{0}. É ela que fixa como o arco enrolado "
-        "entra no caminho do cabo: das formulações ℓ = s, ℓ = s + Rψ e ℓ = s − Rψ, só "
-        "a última a satisfaz (seção 4.1.3)."))
+        "−F δℓ/1000. Como as duas expressões valem para todo δθ*, "
+        "(b × f)_{z} = −F dℓ/dθ*, isto é, dℓ/dθ* = m, que é a Equação (17). A força "
+        "se cancela, e a igualdade depende só da geometria, não de K, X_{pose} nem "
+        "s_{0}. É ela que fixa como o arco enrolado entra no caminho do cabo: das "
+        "formulações ℓ = s, ℓ = s + Rψ e ℓ = s − Rψ, só a última a satisfaz (seção "
+        "4.1.3)."))
     a(P("O peso deriva do potencial V_{g} = M g y_{G}/1000: num giro δθ*, o centro de "
         "massa sobe x_{g} δθ*, com x_{g} da Equação (23), e o trabalho do peso é "
         "τ_{g,s} δθ*, com τ_{g,s} = −M g x_{g}/1000, o torque gravitacional com sinal, "
-        "cujo módulo é o τ_{g} da Equação (24). Somados os três trabalhos,"))
-    a(EQ(("vt1_eq", r"\delta W = (\tau + \tau_{g,s} + \tau_{u})\,\delta\theta^{*} = 0\quad\Rightarrow\quad\tau_{u} = -(\tau + \tau_{g,s})")))
-    a(P("em que τ_{u} é o torque que o usuário precisa exercer para manter o braço "
+        "cujo módulo é o τ_{g} da Equação (24). Somados os três trabalhos, "
+        "δW = (τ + τ_{g,s} + τ_{u}) δθ* = 0 para todo δθ*, e τ_{u} = −(τ + τ_{g,s}), "
+        "em que τ_{u} é o torque que o usuário precisa exercer para manter o braço "
         "parado. Como τ está em u.p. e τ_{g,s} em N·m, essa soma só tem valor físico "
         "se u.p. corresponder a N·m (seção 3.1.13), e a seção 4.1 compara apenas a "
         "forma e os ângulos de τ e τ_{g}. Com aceleração nula e Q_{nc} = τ_{u}, a "
@@ -1619,7 +1644,7 @@ def parte_3D():
               "θ*, ângulo interno entre os elos; elevação pela Equação (4)",
               "θ_{el}, anteversão, abscissa da patente",
               "Θ, eixo maior com a horizontal; elevação Θ + 90°"],
-             ["Fechamento e incógnitas", "Equação (6), com s e φ",
+             ["Fechamento e incógnitas", "Equações (⟦E:e1_f1⟧) e (⟦E:e1_f2⟧), com s e φ",
               "Equações (⟦E:f1⟧) a (⟦E:f4⟧), em dois regimes, com s e ψ",
               "Equações (⟦E:e3_f1⟧) e (⟦E:e3_f2⟧), com S e φ"],
              ["Ponto de aplicação da força", "Ponto de tangência no tambor, móvel",
@@ -3965,6 +3990,7 @@ def montar(corpo_original):
         _unico(info, "Wu, Wang e Du (2016)"): cap2_balanceamento(),
         _unico(info, "O procedimento usual consiste no ajuste"): cap2_identificacao(),
         _unico(info, "Nota: O é o pivô"): cap3_sobreposicao_fig42(),
+        _unico(info, "em que s é o comprimento do vão livre do cabo"): cap3_fechamento_exo1(),
         _unico(info, "Em síntese, a varredura separa duas perguntas"): cap4_ancoragens(),
         _unico(info, "4 RESULTADOS E DISCUSSÃO"): cap4_introducao(),
         _unico(info, "5 CONCLUSÃO"): cap5_titulo(),

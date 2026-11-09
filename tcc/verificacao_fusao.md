@@ -1,13 +1,13 @@
 # Verificação do TCC fundido
 
-Original: TCC_apenas_exo1.docx, 305 blocos. Fundido: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.docx, 752 blocos.
+Original: TCC_apenas_exo1.docx, 305 blocos. Fundido: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.docx, 750 blocos.
 
 ## 1. Conteúdo do original
 
-Blocos do original encontrados em ordem, com XML idêntico fora do texto (nas equações, os delimitadores simples passam a ter tamanho fixo, e sen e arcsen passam a sin e arcsin): 300 de 300 (5 retirados de propósito, REMOVIDOS). Texto diferente do esperado (renumeração e as 70 edições declaradas): 0. Retirados ainda presentes: 0. Autores dos retirados ainda citados: nenhum.
+Blocos do original encontrados em ordem, com XML idêntico fora do texto (nas equações, os delimitadores simples passam a ter tamanho fixo, e sen e arcsen passam a sin e arcsin): 300 de 300 (5 retirados de propósito, REMOVIDOS). Texto diferente do esperado (renumeração e as 72 edições declaradas): 0. Retirados ainda presentes: 0. Autores dos retirados ainda citados: nenhum.
 Renumeração das tabelas do original: {1: 1, 2: 3, 3: 4, 4: 5, 5: 6, 6: 7, 7: 8, 8: 9, 9: 10, 10: 11, 11: 12}.
 Renumeração das figuras do original: {1: 1, 2: 8, 3: 9, 4: 10, 5: 11}.
-Renumeração das equações do original: {1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 16: 16, 17: 17, 18: 18, 19: 19, 20: 20, 21: 21, 22: 22, 23: 23, 24: 24, 25: 28, 26: 29, 27: 30}.
+Renumeração das equações do original: {1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 9, 8: 10, 9: 11, 10: 12, 11: 13, 12: 14, 13: 15, 14: 16, 15: 17, 16: 18, 17: 19, 18: 20, 19: 21, 20: 22, 21: 23, 22: 24, 23: 25, 24: 26, 25: 28, 26: 29, 27: 30}.
 
 ## 2. Numeração
 
@@ -21,7 +21,7 @@ Referências sem alvo: 0.
 
 ## 4. Texto novo
 
-Blocos novos: 452. Travessões: 0. Restos da numeração do apêndice antigo: 0. Apêndices depois das referências: A.
+Blocos novos: 450. Travessões: 0. Restos da numeração do apêndice antigo: 0. Apêndices depois das referências: A.
 
 ## 5. Parágrafos do apêndice da versão anterior
 

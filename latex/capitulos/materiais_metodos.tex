@@ -65,10 +65,10 @@ O torque τ do modelo é positivo no sentido anti-horário, isto é, no sentido 
 \midrule
 θ* & Ângulo interno do mecanismo, entre os elos & Variável independente, em graus & Toda a cadeia de cálculo \\
 q & θ* referido ao desenho, em radianos & Equação~\eqref{eq:02} & Fechamento do circuito \\
-φ & Direção da linha de ação do cabo & Equação~\eqref{eq:08} & Tangência, braço e força \\
+φ & Direção da linha de ação do cabo & Equação~\eqref{eq:10} & Tangência, braço e força \\
 φ\textsubscript{pat} & Ângulo da curva publicada, a partir da horizontal & θ* = θ\textsubscript{off} − φ\textsubscript{pat} & Leitura da patente \\
 θ\textsubscript{el} & Elevação anatômica do braço & θ\textsubscript{el} = φ\textsubscript{pat} + 90° & Comparação com o peso \\
-ψ & Ângulo entre o cabo e o elo pivô–tambor & Equação~\eqref{eq:15} & Arco enrolado no tambor \\
+ψ & Ângulo entre o cabo e o elo pivô–tambor & Equação~\eqref{eq:17} & Arco enrolado no tambor \\
 τ & Torque do cabo no modelo & Positivo no sentido de θ* crescente & Cadeia de cálculo \\
 −τ & Torque do cabo na convenção da patente & Positivo quando tende a elevar o braço & Comparação com a patente \\
 \bottomrule
@@ -92,21 +92,28 @@ em que h e p são as componentes desse vetor no referencial do elo proximal. A p
   \label{eq:06}
 \end{equation}
 
-em que s é o comprimento do vão livre do cabo, de A a T, R o raio do tambor e C a distância do pivô ao centro do tambor. As duas componentes da Equação~\eqref{eq:06} são as equações escalares de fechamento f\textsubscript{1} = 0 e f\textsubscript{2} = 0. Isolando-se os termos em φ, o lado esquerdo torna-se o vetor (s, R) girado de φ, o que permite resolver o sistema em forma fechada, sem procedimento iterativo:
+em que s é o comprimento do vão livre do cabo, de A a T, R o raio do tambor e C a distância do pivô ao centro do tambor. As duas componentes da Equação~\eqref{eq:06} são as equações escalares de fechamento:
 
 \begin{gather}
-  \mathbf{W} = - (\mathbf{B} + C\mathbf{u}(q)),\quad\rho = \left| \mathbf{W} \right|,\quad s = \sqrt{\rho^{2} - R^{2}} \label{eq:07} \\
-  \varphi = \operatorname{atan2}{(W_{y},W_{x})} - \operatorname{atan2}{(R,s)} \label{eq:08}
+  f_{1} = h\sin\alpha - p\cos\alpha + s\cos\varphi - R\sin\varphi + C\cos q = 0 \label{eq:07} \\
+  f_{2} = h\cos\alpha + p\sin\alpha + s\sin\varphi + R\cos\varphi + C\sin q = 0 \label{eq:08}
+\end{gather}
+
+Isolando-se os termos em φ, o lado esquerdo torna-se o vetor (s, R) girado de φ, o que permite resolver o sistema em forma fechada, sem procedimento iterativo:
+
+\begin{gather}
+  \mathbf{W} = - (\mathbf{B} + C\mathbf{u}(q)),\quad\rho = \left| \mathbf{W} \right|,\quad s = \sqrt{\rho^{2} - R^{2}} \label{eq:09} \\
+  \varphi = \operatorname{atan2}{(W_{y},W_{x})} - \operatorname{atan2}{(R,s)} \label{eq:10}
 \end{gather}
 
 A grandeza ρ é a distância da ancoragem ao centro do tambor, e a tangente existe somente se ρ > R, condição verificada em cada ponto calculado. A formulação original do autor para essa distância, obtida pela lei dos cossenos,
 
 \begin{equation}
   \rho_{orig}(\theta^{*}) = \sqrt{h^{2} + p^{2} + C^{2} + 2C(h\cos\theta^{*} + p\sin\theta^{*})}
-  \label{eq:09}
+  \label{eq:11}
 \end{equation}
 
-foi preservada no código como referência. Ela difere da Equação~\eqref{eq:07} pelo sinal do termo 2C(·) e equivale a ρ avaliado em θ* + 180°, com diferença numérica de 5,7 × 10\textsuperscript{−14} mm; por esse motivo, a cadeia de cálculo usa a Equação~\eqref{eq:07}, deduzida diretamente do fechamento.
+foi preservada no código como referência. Ela difere da Equação~\eqref{eq:09} pelo sinal do termo 2C(·) e equivale a ρ avaliado em θ* + 180°, com diferença numérica de 5,7 × 10\textsuperscript{−14} mm; por esse motivo, a cadeia de cálculo usa a Equação~\eqref{eq:09}, deduzida diretamente do fechamento.
 
 \begin{figure}[!htbp]
 \centering
@@ -132,22 +139,22 @@ O ponto em que o cabo deixa o tambor é
 
 \begin{equation}
   \mathbf{T} = \mathbf{D} + R(\sin\varphi,\quad - \cos\varphi),\quad\mathbf{D} = - C\mathbf{u}(q)
-  \label{eq:10}
+  \label{eq:12}
 \end{equation}
 
 Na formulação original do autor, o mesmo ponto é obtido a partir da distância b = |OT| e do ângulo β entre a linha do elo (de O a D) e o segmento OT, calculados pela lei dos cossenos nos triângulos pivô–ancoragem–tangência e pivô–tambor–tangência:
 
 \begin{gather}
-  b^{2} = s^{2} + \left| \mathbf{B} \right|^{2} + 2s\left| \mathbf{B} \right|\cos{(\varphi - \varphi_{B})} \label{eq:11} \\
-  \cos\beta = \frac{b^{2} + C^{2} - R^{2}}{2bC} \label{eq:12} \\
-  \mathbf{T} = b( - \cos{(\beta - q)},\quad\sin{(\beta - q)}) \label{eq:13}
+  b^{2} = s^{2} + \left| \mathbf{B} \right|^{2} + 2s\left| \mathbf{B} \right|\cos{(\varphi - \varphi_{B})} \label{eq:13} \\
+  \cos\beta = \frac{b^{2} + C^{2} - R^{2}}{2bC} \label{eq:14} \\
+  \mathbf{T} = b( - \cos{(\beta - q)},\quad\sin{(\beta - q)}) \label{eq:15}
 \end{gather}
 
-em que φ\textsubscript{B} = atan2(B\textsubscript{y}, B\textsubscript{x}) é a direção do vetor B. As duas vias são comparadas numericamente (seção~\ref{sec:3.1.12}), e a Equação~\eqref{eq:10} é a usada na cadeia por não depender do sinal de β. A distância b, entretanto, não é o braço de momento do cabo: como T pertence a uma circunferência de raio R centrada a C do pivô, b fica necessariamente entre C − R e C + R. O braço de momento é a distância perpendicular do pivô à linha de ação do cabo, que passa por A com direção u(φ):
+em que φ\textsubscript{B} = atan2(B\textsubscript{y}, B\textsubscript{x}) é a direção do vetor B. As duas vias são comparadas numericamente (seção~\ref{sec:3.1.12}), e a Equação~\eqref{eq:12} é a usada na cadeia por não depender do sinal de β. A distância b, entretanto, não é o braço de momento do cabo: como T pertence a uma circunferência de raio R centrada a C do pivô, b fica necessariamente entre C − R e C + R. O braço de momento é a distância perpendicular do pivô à linha de ação do cabo, que passa por A com direção u(φ):
 
 \begin{equation}
   m = B_{x}\sin\varphi - B_{y}\cos\varphi,\quad|m| \leq \left| \mathbf{B} \right| = \sqrt{h^{2} + p^{2}}
-  \label{eq:14}
+  \label{eq:16}
 \end{equation}
 
 O braço m tem sinal, anula-se quando a linha do cabo passa pelo pivô (ponto morto, seção~\ref{sec:3.1.7}) e é limitado pelo comprimento |B| = |OA|, teto que decorre do traçado do cabo, e não do ajuste.
@@ -158,30 +165,30 @@ A mola é tracionada pelo cabo, que vai da ancoragem até o tambor, onde se enro
 
 \begin{equation}
   \psi = \varphi - (q + \pi),\quad\psi \in ( - \pi,\ \pi)
-  \label{eq:15}
+  \label{eq:17}
 \end{equation}
 
 o caminho variável do cabo é
 
 \begin{equation}
   \ell(\theta^{*}) = s(\theta^{*}) - R\psi(\theta^{*})
-  \label{eq:16}
+  \label{eq:18}
 \end{equation}
 
 Entra no modelo apenas a parcela variável do enrolamento, um arco constante cancela-se na extensão da mola, porque o caminho e o comprimento de referência são calculados pela mesma expressão. O sinal do termo do arco foi fixado pelo princípio dos trabalhos virtuais, formulado na seção~\ref{sec:3.1.9}. Em um mecanismo conservativo, sem atrito no tambor, o trabalho da tração no cabo iguala o do torque no elo, o que exige
 
 \begin{equation}
   \frac{d\ell}{d\theta^{*}} = m
-  \label{eq:17}
+  \label{eq:19}
 \end{equation}
 
-com θ* em radianos. A Equação~\eqref{eq:17} é verificada numericamente por diferenças finitas centradas (seção~\ref{sec:3.1.12}) e permite discriminar entre formulações do caminho do cabo: com o caminho igual apenas ao vão livre, ela não é satisfeita (seção~\ref{sec:4.1.3}).
+com θ* em radianos. A Equação~\eqref{eq:19} é verificada numericamente por diferenças finitas centradas (seção~\ref{sec:3.1.12}) e permite discriminar entre formulações do caminho do cabo: com o caminho igual apenas ao vão livre, ela não é satisfeita (seção~\ref{sec:4.1.3}).
 
 A extensão da mola é referida a um comprimento, e não a um ângulo. Sendo X\textsubscript{pose} a extensão elástica da mola na pose de referência θ*\textsubscript{pose} = 115,017°, o valor do caminho em que a mola atinge o comprimento livre é
 
 \begin{gather}
-  s_{0}(h) = \ell(\theta_{pose}^{*},h) - X_{pose} \label{eq:18} \\
-  \delta = \max{(\ell - s_{0},\quad 0)},\quad F = K\delta \label{eq:19}
+  s_{0}(h) = \ell(\theta_{pose}^{*},h) - X_{pose} \label{eq:20} \\
+  \delta = \max{(\ell - s_{0},\quad 0)},\quad F = K\delta \label{eq:21}
 \end{gather}
 
 em que δ é a extensão elástica, F a tração no cabo e K a rigidez da mola. A extensão é limitada a valores não negativos porque o cabo traciona, mas não empurra. O comprimento livre L\textsubscript{livre} e o comprimento na pose L\textsubscript{pose} entram no modelo somente pela diferença X\textsubscript{pose} = L\textsubscript{pose} − L\textsubscript{livre}: qualquer par com a mesma diferença produz a mesma curva de torque.
@@ -190,7 +197,7 @@ A força do cabo atua sobre o tambor no ponto T, com direção oposta a u(φ), e
 
 \begin{equation}
   \mathbf{V} = - F\mathbf{u}(\varphi),\quad\tau = \frac{T_{x}V_{y} - T_{y}V_{x}}{1000} = - \frac{Fm}{1000}
-  \label{eq:20}
+  \label{eq:22}
 \end{equation}
 
 A identidade τ = −F m/1000 decorre de T e A estarem sobre a mesma linha de ação e é verificada numericamente (seção~\ref{sec:3.1.12}). O fator 1/1000 vem da formulação original, em que os comprimentos estão em milímetros. Como K é identificado contra a curva publicada (seção~\ref{sec:3.1.10}), cuja ordenada não tem unidade declarada, o torque do cabo é expresso na unidade da própria curva, denotada u.p. (unidade da patente). A unidade de K é, portanto, aquela que faz K δ m/1000 resultar em u.p.; ela só seria N/mm se u.p. correspondesse a N·m, o que não pode ser afirmado com os dados disponíveis (seção~\ref{sec:4.1.6}).
@@ -201,59 +208,45 @@ O torque do cabo se anula quando a linha de ação passa pelo pivô (m = 0). Da 
 
 \begin{equation}
   \theta_{pm}^{*}(h) = 180{^\circ} + \operatorname{atan2}{(p,h)} + \arcsin\left( \frac{R}{C} \right)
-  \label{eq:21}
+  \label{eq:23}
 \end{equation}
 
-Como θ*\textsubscript{pm} é monótono em h, a Equação~\eqref{eq:21} admite inversão analítica:
+Como θ*\textsubscript{pm} é monótono em h, a Equação~\eqref{eq:23} admite inversão analítica:
 
 \begin{equation}
   h = \frac{p}{\tan\left( \theta_{pm}^{*} - 180{^\circ} - \arcsin\left( \frac{R}{C} \right) \right)}
-  \label{eq:22}
+  \label{eq:24}
 \end{equation}
 
-Para h > 0, o termo atan2(p, h) fica entre 0° e 90°, de modo que a inversão só é válida quando o argumento da tangente pertence a esse intervalo; fora dele, a Equação~\eqref{eq:22} devolve um ramo espúrio, identificado pela substituição do resultado na Equação~\eqref{eq:21}. A forma fechada é conferida contra a raiz de m(θ*) = 0 obtida por bissecção. Depois do ponto morto, o torque do cabo troca de sinal; o modelo não representa a protuberância que, na patente, restringe o gerador de força além do ângulo de transição (seção~\ref{sec:2.3}).
+Para h > 0, o termo atan2(p, h) fica entre 0° e 90°, de modo que a inversão só é válida quando o argumento da tangente pertence a esse intervalo; fora dele, a Equação~\eqref{eq:24} devolve um ramo espúrio, identificado pela substituição do resultado na Equação~\eqref{eq:23}. A forma fechada é conferida contra a raiz de m(θ*) = 0 obtida por bissecção. Depois do ponto morto, o torque do cabo troca de sinal; o modelo não representa a protuberância que, na patente, restringe o gerador de força além do ângulo de transição (seção~\ref{sec:2.3}).
 
 \subsection{Torque gravitacional}\label{sec:3.1.8}
 
 O torque estático do peso do conjunto braço–exoesqueleto em relação ao pivô é calculado de forma independente da cadeia do cabo: não usa K, X\textsubscript{pose} nem h. O centro de massa (x\textsubscript{cm}, y\textsubscript{cm}), dado na pose de referência no referencial do desenho (Tabela~\ref{tab:propriedades-massa-conjunto-braco}), gira com o elo, e o desenho gira ainda α + 90° − θ\textsubscript{off} = −22,589° para alinhar sua vertical com a da configuração calibrada:
 
 \begin{gather}
-  \gamma = \theta^{*} - \theta_{pose}^{*} + \alpha + 90{^\circ} - \theta_{off},\quad x_{g} = x_{cm}\cos\gamma - y_{cm}\sin\gamma \label{eq:23} \\
-  \tau_{g} = \frac{Mg\left| x_{g} \right|}{1000} \label{eq:24}
+  \gamma = \theta^{*} - \theta_{pose}^{*} + \alpha + 90{^\circ} - \theta_{off},\quad x_{g} = x_{cm}\cos\gamma - y_{cm}\sin\gamma \label{eq:25} \\
+  \tau_{g} = \frac{Mg\left| x_{g} \right|}{1000} \label{eq:26}
 \end{gather}
 
-em que M é a massa do conjunto, g = 9,80665 m/s\textsuperscript{2} e x\textsubscript{g}, em milímetros, é o braço horizontal do centro de massa. O torque gravitacional resulta em N·m, unidade física, ao contrário do torque do cabo. O módulo na Equação~\eqref{eq:24} desconsidera o sentido do torque, cuja troca ocorre apenas no início da faixa (seção~\ref{sec:4.1.8}).
+em que M é a massa do conjunto, g = 9,80665 m/s\textsuperscript{2} e x\textsubscript{g}, em milímetros, é o braço horizontal do centro de massa. O torque gravitacional resulta em N·m, unidade física, ao contrário do torque do cabo. O módulo na Equação~\eqref{eq:26} desconsidera o sentido do torque, cuja troca ocorre apenas no início da faixa (seção~\ref{sec:4.1.8}).
 
 \subsection{Formulação pelo princípio dos trabalhos virtuais}\label{sec:3.1.9}
 
 O equilíbrio estático do braço pode ser escrito diretamente pelo princípio dos trabalhos virtuais. Com a junta e o tambor sem atrito e o cabo inextensível e sem massa, os vínculos são ideais, e suas reações não realizam trabalho. Num giro virtual δθ* do conjunto em torno de O, em radianos, com δq = δθ* pela Equação~\eqref{eq:02}, realizam trabalho a força do cabo sobre o tambor, o peso do conjunto e o torque τ\textsubscript{u} que o usuário aplica ao braço.
 
-A força do cabo atua no ponto de tangência T. Na formulação, T é o vetor b, de módulo b = |OT| e a um ângulo β da linha do elo, dados pelas Equações~\eqref{eq:11} a \eqref{eq:13}, e a força é o vetor f = −F u(φ), o V da Equação~\eqref{eq:20}. Como o elo é rígido e gira em torno de O, o trabalho virtual dessa força é o do seu momento em relação a O, a componente z de b × f:
+A força do cabo atua no ponto de tangência T. Na formulação, T é o vetor b, de módulo b = |OT| e a um ângulo β da linha do elo, dados pelas Equações~\eqref{eq:13} a \eqref{eq:15}, e a força é o vetor f = −F u(φ), o V da Equação~\eqref{eq:22}. Como o elo é rígido e gira em torno de O, o trabalho virtual dessa força é o do seu momento em relação a O, a componente z de b × f:
 
 \begin{equation}
   \delta W_{c} = \tau\,\delta\theta^{*},\quad\tau = \frac{{(\mathbf{b} \times \mathbf{f})}_{z}}{1000},\quad{(\mathbf{b} \times \mathbf{f})}_{z} = b_{x}f_{y} - b_{y}f_{x} = bF\sin{(\varphi + \beta - q)}
-  \label{eq:25}
-\end{equation}
-
-O seno vem do ângulo entre os dois vetores: pela Equação~\eqref{eq:13}, b aponta na direção q + π − β, e f, na direção φ + π. O produto vetorial retém só a componente de f perpendicular a b, que é a que gira o elo. Na faixa de operação, b vai de 282,503 a 284,363 mm e β de 4,604° a 4,619°, mas f aponta quase para o pivô: φ + β − q difere de 180° em no máximo 4,623°. Por isso, −b sin(φ + β − q), que coincide com o braço m da Equação~\eqref{eq:14}, não passa de |B| = 22,919 mm, e tomar F b como torque, sem a projeção, superestimaria o resultado em mais de 12 vezes.
-
-O mesmo trabalho virtual pode ser calculado do lado da mola. Com o cabo inextensível, o giro δθ* estende a mola de δℓ = (dℓ/dθ*) δθ*, com ℓ da Equação~\eqref{eq:16}, e a força F = K δ, que se opõe à extensão, realiza o trabalho −F δℓ/1000. Como as duas expressões valem para todo δθ*,
-
-\begin{equation}
-  {(\mathbf{b} \times \mathbf{f})}_{z} = - F\frac{d\ell}{d\theta^{*}}\quad \Leftrightarrow \quad\frac{d\ell}{d\theta^{*}} = m
-  \label{eq:26}
-\end{equation}
-
-que é a Equação~\eqref{eq:17}. A força se cancela, e a igualdade depende só da geometria, não de K, X\textsubscript{pose} nem s\textsubscript{0}. É ela que fixa como o arco enrolado entra no caminho do cabo: das formulações ℓ = s, ℓ = s + Rψ e ℓ = s − Rψ, só a última a satisfaz (seção~\ref{sec:4.1.3}).
-
-O peso deriva do potencial V\textsubscript{g} = M g y\textsubscript{G}/1000: num giro δθ*, o centro de massa sobe x\textsubscript{g} δθ*, com x\textsubscript{g} da Equação~\eqref{eq:23}, e o trabalho do peso é τ\textsubscript{g,s} δθ*, com τ\textsubscript{g,s} = −M g x\textsubscript{g}/1000, o torque gravitacional com sinal, cujo módulo é o τ\textsubscript{g} da Equação~\eqref{eq:24}. Somados os três trabalhos,
-
-\begin{equation}
-  \delta W = (\tau + \tau_{g,s} + \tau_{u})\,\delta\theta^{*} = 0\quad \Rightarrow \quad\tau_{u} = - (\tau + \tau_{g,s})
   \label{eq:27}
 \end{equation}
 
-em que τ\textsubscript{u} é o torque que o usuário precisa exercer para manter o braço parado. Como τ está em u.p. e τ\textsubscript{g,s} em N·m, essa soma só tem valor físico se u.p. corresponder a N·m (seção~\ref{sec:3.1.13}), e a seção~\ref{sec:4.1} compara apenas a forma e os ângulos de τ e τ\textsubscript{g}. Com aceleração nula e Q\textsubscript{nc} = τ\textsubscript{u}, a Equação~\eqref{eq:30} reduz-se a essa condição.
+O seno vem do ângulo entre os dois vetores: pela Equação~\eqref{eq:15}, b aponta na direção q + π − β, e f, na direção φ + π. O produto vetorial retém só a componente de f perpendicular a b, que é a que gira o elo. Na faixa de operação, b vai de 282,503 a 284,363 mm e β de 4,604° a 4,619°, mas f aponta quase para o pivô: φ + β − q difere de 180° em no máximo 4,623°. Por isso, −b sin(φ + β − q), que coincide com o braço m da Equação~\eqref{eq:16}, não passa de |B| = 22,919 mm, e tomar F b como torque, sem a projeção, superestimaria o resultado em mais de 12 vezes.
+
+O mesmo trabalho virtual pode ser calculado do lado da mola. Com o cabo inextensível, o giro δθ* estende a mola de δℓ = (dℓ/dθ*) δθ*, com ℓ da Equação~\eqref{eq:18}, e a força F = K δ, que se opõe à extensão, realiza o trabalho −F δℓ/1000. Como as duas expressões valem para todo δθ*, (b × f)\textsubscript{z} = −F dℓ/dθ*, isto é, dℓ/dθ* = m, que é a Equação~\eqref{eq:19}. A força se cancela, e a igualdade depende só da geometria, não de K, X\textsubscript{pose} nem s\textsubscript{0}. É ela que fixa como o arco enrolado entra no caminho do cabo: das formulações ℓ = s, ℓ = s + Rψ e ℓ = s − Rψ, só a última a satisfaz (seção~\ref{sec:4.1.3}).
+
+O peso deriva do potencial V\textsubscript{g} = M g y\textsubscript{G}/1000: num giro δθ*, o centro de massa sobe x\textsubscript{g} δθ*, com x\textsubscript{g} da Equação~\eqref{eq:25}, e o trabalho do peso é τ\textsubscript{g,s} δθ*, com τ\textsubscript{g,s} = −M g x\textsubscript{g}/1000, o torque gravitacional com sinal, cujo módulo é o τ\textsubscript{g} da Equação~\eqref{eq:26}. Somados os três trabalhos, δW = (τ + τ\textsubscript{g,s} + τ\textsubscript{u}) δθ* = 0 para todo δθ*, e τ\textsubscript{u} = −(τ + τ\textsubscript{g,s}), em que τ\textsubscript{u} é o torque que o usuário precisa exercer para manter o braço parado. Como τ está em u.p. e τ\textsubscript{g,s} em N·m, essa soma só tem valor físico se u.p. corresponder a N·m (seção~\ref{sec:3.1.13}), e a seção~\ref{sec:4.1} compara apenas a forma e os ângulos de τ e τ\textsubscript{g}. Com aceleração nula e Q\textsubscript{nc} = τ\textsubscript{u}, a Equação~\eqref{eq:30} reduz-se a essa condição.
 
 \subsection{Dados da patente e identificação dos parâmetros}\label{sec:3.1.10}
 
@@ -281,17 +274,17 @@ O RMSE mede a aderência à curva extraída, e não a validade física. Duas for
 
 Para separar o que a curva extraída informa sobre h do que a geometria impõe, h foi varrido de 8 a 60 mm, em passo de 0,005 mm, com o acréscimo dos valores exatos H\textsubscript{CAL} e H\textsubscript{CAD}, num total de 10.402 valores distintos, porque a cota do CAD, 34,785 mm, já pertence à malha. A varredura é um diagnóstico, não uma otimização: K permanece congelado em 174,68 em todos os valores de h, não é reidentificado por h, e nenhum parâmetro do modelo é substituído pelo resultado.
 
-Ao variar h, a referência s\textsubscript{0}(h) da Equação~\eqref{eq:18} é recalculada de modo que a extensão da mola na pose permaneça X\textsubscript{pose} = 37,383 mm, preservando a pré-tensão de montagem. Essa ancoragem é uma escolha de modelagem, que isola o efeito de h do efeito da montagem.
+Ao variar h, a referência s\textsubscript{0}(h) da Equação~\eqref{eq:20} é recalculada de modo que a extensão da mola na pose permaneça X\textsubscript{pose} = 37,383 mm, preservando a pré-tensão de montagem. Essa ancoragem é uma escolha de modelagem, que isola o efeito de h do efeito da montagem.
 
-Para cada h são calculados o RMSE contra os 29 pontos extraídos, que representam exclusivamente o torque do cabo, e três critérios de validade física que não usam os pontos extraídos, embora o primeiro dependa da extensão na pose, identificada contra eles: (i) tração, isto é, extensão da mola não negativa em toda a faixa de operação, calculada sem a limitação da Equação~\eqref{eq:19}, para que o afrouxamento do cabo apareça como extensão negativa; (ii) fechamento, isto é, existência de tangente ao tambor (ρ > R) em toda a faixa; e (iii) trabalho virtual, isto é, resíduo da Equação~\eqref{eq:17} inferior a 10\textsuperscript{−6} mm/rad. O torque gravitacional não entra em nenhum critério da varredura.
+Para cada h são calculados o RMSE contra os 29 pontos extraídos, que representam exclusivamente o torque do cabo, e três critérios de validade física que não usam os pontos extraídos, embora o primeiro dependa da extensão na pose, identificada contra eles: (i) tração, isto é, extensão da mola não negativa em toda a faixa de operação, calculada sem a limitação da Equação~\eqref{eq:21}, para que o afrouxamento do cabo apareça como extensão negativa; (ii) fechamento, isto é, existência de tangente ao tambor (ρ > R) em toda a faixa; e (iii) trabalho virtual, isto é, resíduo da Equação~\eqref{eq:19} inferior a 10\textsuperscript{−6} mm/rad. O torque gravitacional não entra em nenhum critério da varredura.
 
 O ângulo de enrolamento ψ não é critério de validade. Um valor nulo de ψ significa arco de enrolamento nulo, e não cabo fora do tambor; a permanência do cabo no tambor é garantida pela tangência, critério (ii).
 
-Da varredura derivam o valor de h de menor RMSE; os platôs de RMSE, intervalos de h em que o RMSE não excede 1,01, 1,05, 1,10 e 2 vezes o mínimo; a degradação do ajuste, valores de h em que o RMSE ultrapassa 2 e 10 vezes o mínimo; a fronteira de tração, obtida por bissecção; e o valor de h em que o ponto morto entra na faixa de operação, dado pela Equação~\eqref{eq:22}. Uma família de curvas para sete valores de h e seus nós, ângulos em que as curvas quase coincidem, completam a análise.
+Da varredura derivam o valor de h de menor RMSE; os platôs de RMSE, intervalos de h em que o RMSE não excede 1,01, 1,05, 1,10 e 2 vezes o mínimo; a degradação do ajuste, valores de h em que o RMSE ultrapassa 2 e 10 vezes o mínimo; a fronteira de tração, obtida por bissecção; e o valor de h em que o ponto morto entra na faixa de operação, dado pela Equação~\eqref{eq:24}. Uma família de curvas para sete valores de h e seus nós, ângulos em que as curvas quase coincidem, completam a análise.
 
 \subsection{Verificações numéricas e testes automatizados}\label{sec:3.1.12}
 
-A cadeia de cálculo é conferida a cada execução do modelo por seis verificações automáticas: os resíduos f\textsubscript{1} e f\textsubscript{2} da Equação~\eqref{eq:06}; a identidade τ = −F m/1000 da Equação~\eqref{eq:20}; a coincidência das Equações~\eqref{eq:10} e \eqref{eq:13} para o ponto de tangência; a coincidência da Equação~\eqref{eq:21} com a raiz de m(θ*) = 0 obtida por bissecção; o resíduo da Equação~\eqref{eq:17}, calculado por diferenças finitas centradas com passo de 10\textsuperscript{−4} grau em 2.001 pontos da faixa; e a identidade X\textsubscript{pose} = L\textsubscript{pose} − L\textsubscript{livre}. Cada verificação tem tolerância declarada, e o modelo interrompe a execução se alguma delas for violada.
+A cadeia de cálculo é conferida a cada execução do modelo por seis verificações automáticas: os resíduos f\textsubscript{1} e f\textsubscript{2} das Equações~\eqref{eq:07} e \eqref{eq:08}; a identidade τ = −F m/1000 da Equação~\eqref{eq:22}; a coincidência das Equações~\eqref{eq:12} e \eqref{eq:15} para o ponto de tangência; a coincidência da Equação~\eqref{eq:23} com a raiz de m(θ*) = 0 obtida por bissecção; o resíduo da Equação~\eqref{eq:19}, calculado por diferenças finitas centradas com passo de 10\textsuperscript{−4} grau em 2.001 pontos da faixa; e a identidade X\textsubscript{pose} = L\textsubscript{pose} − L\textsubscript{livre}. Cada verificação tem tolerância declarada, e o modelo interrompe a execução se alguma delas for violada.
 
 O projeto mantém, além disso, testes automatizados executados com o pytest. Eles verificam, entre outros pontos, que os 29 pontos são carregados na ordem da extração, que o torque é linear em K, que a posição da ancoragem é argumento obrigatório de toda a cadeia, que a formulação s − Rψ é a única das testadas que satisfaz o trabalho virtual, que o enrolamento não é usado como critério de validade e que a varredura não reidentifica K por h.
 
@@ -299,7 +292,7 @@ O projeto mantém, além disso, testes automatizados executados com o pytest. El
 
 Os objetivos específicos f e g preveem a obtenção da equação de movimento pela formulação de Lagrange, sua integração numérica e o acoplamento do modelo ao MBDyn. Essas etapas não foram executadas nesta fase do trabalho, e o capítulo 4 não apresenta nenhum resultado dinâmico. O procedimento previsto é registrado a seguir.
 
-O sistema seria tratado como mecanismo plano de um grau de liberdade, a rotação do conjunto membro–elo distal em torno do eixo da junta, com coordenada generalizada θ*. A energia cinética seria escrita com o momento de inércia I\textsubscript{O} da Equação~\eqref{eq:01}, e a energia potencial reuniria a parcela gravitacional e a parcela elástica V\textsubscript{e} = K δ\textsuperscript{2}/2. Pela Equação~\eqref{eq:17}, ∂V\textsubscript{e}/∂θ* = K δ m, de modo que a força generalizada elástica coincide, a menos do fator 1/1000, com o torque do cabo da Equação~\eqref{eq:20}. A equação de movimento teria a forma
+O sistema seria tratado como mecanismo plano de um grau de liberdade, a rotação do conjunto membro–elo distal em torno do eixo da junta, com coordenada generalizada θ*. A energia cinética seria escrita com o momento de inércia I\textsubscript{O} da Equação~\eqref{eq:01}, e a energia potencial reuniria a parcela gravitacional e a parcela elástica V\textsubscript{e} = K δ\textsuperscript{2}/2. Pela Equação~\eqref{eq:19}, ∂V\textsubscript{e}/∂θ* = K δ m, de modo que a força generalizada elástica coincide, a menos do fator 1/1000, com o torque do cabo da Equação~\eqref{eq:22}. A equação de movimento teria a forma
 
 \begin{equation}
   I_{O}{\ddot{\theta}}^{*} = \tau(\theta^{*}) + \tau_{g,s}(\theta^{*}) + Q_{nc}
@@ -759,9 +752,9 @@ A Tabela~\ref{tab:elementos-formulacoes-tres-exoesqueletos} reúne o que disting
 \midrule
 Arquitetura & Mola, cabo e tambor entre elo proximal e elo distal & Elástico ligado diretamente da barra à alavanca, com elemento de encosto junto à articulação & Cabo de ancoragem, par de polias com came de raio variável e mola no apoio de braço \\
 Variável independente & θ*, ângulo interno entre os elos; elevação pela Equação~\eqref{eq:04} & θ\textsubscript{el}, anteversão, abscissa da patente & Θ, eixo maior com a horizontal; elevação Θ + 90° \\
-Fechamento e incógnitas & Equação~\eqref{eq:06}, com s e φ & Equações~\eqref{eq:35} a \eqref{eq:38}, em dois regimes, com s e ψ & Equações~\eqref{eq:54} e \eqref{eq:55}, com S e φ \\
+Fechamento e incógnitas & Equações~\eqref{eq:07} e \eqref{eq:08}, com s e φ & Equações~\eqref{eq:35} a \eqref{eq:38}, em dois regimes, com s e ψ & Equações~\eqref{eq:54} e \eqref{eq:55}, com S e φ \\
 Ponto de aplicação da força & Ponto de tangência no tambor, móvel & P no regime I e centro do elemento 78 no regime II, fixos na alavanca & Ponto de tangência na polia primária; a mola atua pelo raio efetivo do came \\
-Trabalho virtual & dℓ/dθ* = m, Equação~\eqref{eq:17} & ds/dq = −m, Equação~\eqref{eq:44} & τ = −(F\textsubscript{s}/1000) dx/dΘ, Equação~\eqref{eq:63} \\
+Trabalho virtual & dℓ/dθ* = m, Equação~\eqref{eq:19} & ds/dq = −m, Equação~\eqref{eq:44} & τ = −(F\textsubscript{s}/1000) dx/dΘ, Equação~\eqref{eq:63} \\
 Parâmetro varrido & h, posição da ancoragem (seção~\ref{sec:3.1.11}) & e\textsubscript{c}, trecho da alavanca (seção~\ref{sec:3.2.11}) & Giro do came em relação à primária (seção~\ref{sec:3.3.11}) \\
 \bottomrule
 \end{tabularx}

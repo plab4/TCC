@@ -7,7 +7,9 @@ parte. Deduz a renumeração das legendas do próprio documento e confere:
 
 1. cada bloco do original, menos os de REMOVIDOS, aparece no fundido, na mesma
    ordem, com o XML idêntico fora do texto e com o texto esperado (renumeração e
-   EDICOES); os de REMOVIDOS não aparecem, nem citações aos seus autores;
+   EDICOES; uma marca de equação nova nas EDICOES aceita qualquer número que não
+   seja de equação do original); os de REMOVIDOS não aparecem, nem citações aos
+   seus autores;
 2. tabelas, figuras, equações e seções em sequência;
 3. toda referência a tabela, figura, equação ou seção aponta para um
    elemento existente, e figuras da patente estão qualificadas;
@@ -94,6 +96,18 @@ def legendas(blocos, sep):
     return out
 
 
+MARCA_EQ = re.compile(r"⟦E:[^⟧]+⟧")
+
+
+def confere(real, esperado, originais):
+    """Texto do fundido contra o esperado. As EDICOES podem citar equações novas
+    por marca (⟦E:chave⟧), que o gerador numera por ordem de aparição: cada marca
+    aceita um número, desde que não seja o de uma equação do original."""
+    pedacos = MARCA_EQ.split(esperado)
+    m = re.fullmatch(r"(\d+)".join(map(re.escape, pedacos)), real)
+    return m is not None and not {int(n) for n in m.groups()} & originais
+
+
 def main():
     co, xo = corpo(ORIG)
     cn, xn = corpo(NOVO)
@@ -165,12 +179,13 @@ def main():
     assert list(mapa_eq.values()) == sorted(mapa_eq.values()), mapa_eq
 
     j, diverge, casados = 0, [], set()
+    originais = set(mapa_eq.values())
     for i, b in enumerate(Nn):
         if j < len(Om) and esqueleto(b) == esqueleto(seno_sin(parenteses_fixos(Om[j]))):
             t_esp = esperado(txt(Om[j]))
             if titulo(Om[j]):
                 t_esp = re.sub(r"^([34])\.(\d+)(?= )", sec, txt(Om[j]))
-            if txt(b) != t_esp:
+            if not confere(txt(b), t_esp, originais):
                 diverge.append((j, txt(b)[:100], t_esp[:100]))
             casados.add(i)
             j += 1
