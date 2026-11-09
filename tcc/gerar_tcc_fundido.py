@@ -432,7 +432,7 @@ EDICOES = [
      "EP 3 504 033 B1, ao qual se referem as seções 3.2, 4.2 e 5.2, e para o "
      "mecanismo de came da US 9.737.374 B2, ao qual se referem as seções 3.3, 4.3 e "
      "5.3. As seções 3.1.9, 3.2.9 e 3.3.9 formulam os três modelos estáticos pelo "
-     "princípio dos trabalhos virtuais."),
+     "princípio dos trabalhos virtuais, e as seções 3.4, 4.4 e 5.4 comparam os três."),
     ("O sinal do termo do arco foi fixado pelo princípio dos trabalhos virtuais.",
      "O sinal do termo do arco foi fixado pelo princípio dos trabalhos virtuais, "
      "formulado na seção 3.1.9."),
@@ -445,15 +445,29 @@ EDICOES = [
      "não foram executadas."),
     ("O objetivo geral foi atingido em sua parte estática e para um dos três "
      "dispositivos previstos.",
-     "O objetivo geral foi atingido para o primeiro dispositivo, e a extensão à "
-     "dinâmica multicorpos ficou preparada, com o procedimento da seção 3.1.13, mas "
-     "não foi executada; o segundo e o terceiro dispositivos são tratados nas "
-     "seções 5.2 e 5.3."),
+     "O objetivo geral foi atingido para este dispositivo na parte estática, e a "
+     "extensão à dinâmica multicorpos ficou preparada, com o procedimento da seção "
+     "3.1.13, mas não foi executada."),
     ("e no MBDyn e estender o procedimento à US 9.737.374 B2 e à EP 3 504 033 B1.",
-     "e no MBDyn. A extensão à EP 3 504 033 B1 e à US 9.737.374 B2 é apresentada nas "
-     "seções 3.2, 4.2 e 5.2 e nas seções 3.3, 4.3 e 5.3."),
+     "e no MBDyn."),
     ("Por fim, os resultados referem-se a um único dispositivo",
      "Por fim, os resultados desta seção referem-se a um único dispositivo"),
+    # parte comum do capítulo 3, antes da seção 3.1: as frases gerais saem da
+    # seção 3.1, que fica só com o exoesqueleto 1
+    ("Massa, posição do centro de massa e raios de giro de braço, antebraço e mão "
+     "foram obtidos das tabelas de de Leva (1996) para o indivíduo masculino de "
+     "referência, com o cotovelo estendido. Os momentos de inércia de cada corpo, do "
+     "membro e das peças do exoesqueleto,",
+     "Os momentos de inércia de cada corpo, do membro de referência (seção 3) e das "
+     "peças do exoesqueleto,"),
+    ("Comprimentos são expressos em milímetros e ângulos em graus na entrada, com uma "
+     "única conversão para radianos dentro das contas. ", ""),
+    ("Não integram o escopo a avaliação experimental com participantes humanos, a "
+     "eletromiografia, a análise de conforto e usabilidade, a fabricação e o ensaio de "
+     "protótipo e o dimensionamento estrutural dos elos. ", ""),
+    ("Os parâmetros antropométricos correspondem ao indivíduo de referência adotado, e "
+     "o torque gravitacional é calculado para o membro superior estendido, sem "
+     "ferramenta na mão. ", ""),
     # Okabe: três autores, citados todos (NBR 10520), com a referência
     # acrescentada à lista (ref_okabe); o artigo saiu em 2026. Ning et al.
     # (2022) sai desta citação: sem o artigo, não há como conferir o que lhe é
@@ -1031,24 +1045,32 @@ def nota_mola():
         "de X_{pose}.")]
 
 
-def cap3_introducao():
-    return [P(
-        "A cadeia de cálculo do dispositivo da EP 3 504 033 B1, descrita nas seções "
-        "⟦S:conv⟧ a ⟦S:peso⟧, está implementada no arquivo torque_model_ottobock.py, "
-        "e os números e as figuras da seção 4.2 são produzidos pelo script "
-        "tcc_resultados_ottobock.py, que grava os valores citados em "
-        "results/ottobock_tcc_numeros.json e as figuras em results/, na mesma "
-        "organização usada por torque_model.py e tcc_resultados.py na seção 4.1. O "
-        "script de resultados não altera parâmetro algum do modelo; as únicas "
-        "identificações são as descritas na seção ⟦S:ident⟧."),
-            P("A cadeia de cálculo do mecanismo da US 9.737.374 B2, descrita nas seções "
-              "⟦S:e3_cad⟧ a ⟦S:e3_ferr⟧, está nos scripts da pasta exo3, que extraem o "
-              "perfil do came, "
-              "resolvem o circuito do cabo de ancoragem, tratam as relações entre o came "
-              "e o cabo da mola, medem as poses das figuras da patente e compõem a massa "
-              "do apoio de braço. Os números e as "
-              "figuras da seção 4.3 são produzidos por tcc_resultados_exo3.py, que grava "
-              "os valores em results/exo3_tcc_numeros.json.")]
+def abertura_comum():
+    """Parte comum do capítulo 3, antes da seção 3.1: o que vale para os três
+    exoesqueletos. A seção 3.1 fica só com o exoesqueleto 1."""
+    return [
+        P("As seções 3.1, 3.2 e 3.3 seguem a mesma ordem, e as subseções de mesmo número "
+          "tratam da mesma etapa; quando uma etapa não se aplica a um mecanismo ou não "
+          "pôde ser concluída com os dados disponíveis, a própria subseção registra o "
+          "motivo. Cada seção tem notação própria, e um mesmo símbolo pode ter "
+          "significados diferentes em seções diferentes."),
+        P("Os três mecanismos são tratados como planos, com origem O no eixo de rotação "
+          "do braço. Os ângulos são medidos a partir de +x, no sentido anti-horário, com "
+          "u(x) = (cos x, sin x); os comprimentos estão em milímetros, e os ângulos "
+          "entram em graus, com uma única conversão para radianos dentro das contas."),
+        P("O membro superior é o mesmo nos três modelos: o do indivíduo masculino de "
+          "referência de de Leva (1996), de 73,0 kg e 1,741 m, com braço, antebraço e mão "
+          "em série, alinhados ao eixo do braço, o cotovelo estendido e sem ferramenta na "
+          "mão. Massa, posição do centro de massa e raios de giro dos segmentos vêm das "
+          "tabelas desse trabalho, e o momento de inércia de cada corpo é levado ao eixo "
+          "de rotação pelo teorema de Steiner, I_{O} = I_{cm} + M d^{2}. O torque do peso "
+          "usa g = 9,80665 m/s^{2}."),
+        P("Não integram o escopo a avaliação experimental com participantes humanos, a "
+          "eletromiografia, a análise de conforto e usabilidade, a fabricação e o ensaio "
+          "de protótipo e o dimensionamento estrutural das peças. As etapas dinâmicas, "
+          "pela formulação de Lagrange e no MBDyn, foram previstas para os três "
+          "mecanismos e não foram executadas."),
+    ]
 
 
 def parte_3B():
@@ -1056,15 +1078,14 @@ def parte_3B():
     a = B.append
     apR, apF = APENDICE["A_rob"].append, APENDICE["A_forma"].append
     a(H("3.2 Exoesqueleto 2"))
-    a(P("As seções ⟦S:cad⟧ a ⟦S:ferr⟧ aplicam à EP 3 504 033 B1 (MIZERA et al., 2023) "
-        "o procedimento das seções 3.1.1 a 3.1.14, que foi executado para o gerador de "
-        "torque da US 9.889.554 B2, com a mesma numeração: a seção 3.2.k corresponde "
-        "à seção 3.1.k. Quando uma etapa não se aplica ao mecanismo da "
-        "Ottobock ou não pôde ser concluída com os dados disponíveis, a própria "
-        "seção registra o motivo."))
-    a(P("A classificação de origem é a da introdução deste capítulo: medida no modelo "
-        "em CAD, obtida da literatura, documental, identificada por ajuste, derivada "
-        "pelo modelo ou assumida como hipótese."))
+    a(P("As seções ⟦S:cad⟧ a ⟦S:ferr⟧ aplicam à EP 3 504 033 B1 (MIZERA et al., 2023), "
+        "da Ottobock, o procedimento deste capítulo, com a classificação de origem da "
+        "seção 3. A cadeia de cálculo, descrita nas seções ⟦S:conv⟧ a ⟦S:peso⟧, está "
+        "implementada no arquivo torque_model_ottobock.py, e os números e as figuras da "
+        "seção 4.2 são produzidos pelo script tcc_resultados_ottobock.py, que grava os "
+        "valores citados em results/ottobock_tcc_numeros.json e as figuras em results/. "
+        "O script de resultados não altera parâmetro algum do modelo; as únicas "
+        "identificações são as descritas na seção ⟦S:ident⟧."))
 
     # ------------------------------------------------------------ fontes
     # (na introdução da parte, sem seção própria, para que 3.2.k pareie com 3.1.k)
@@ -1103,9 +1124,8 @@ def parte_3B():
         "contato. A patente prefere o elemento 78 exatamente sobre o eixo da "
         "articulação 20; nesse caso, os dois trechos em que o elástico fica dividido "
         "exercem forças radiais ao eixo e não produzem torque, e o braço desce sem "
-        "assistência. O ângulo de contato é ajustável. "
-        "Esse é o mecanismo da faixa sem torque com o braço baixado, que no gerador "
-        "da US 9.889.554 B2 resulta da protuberância descrita na seção 2.3."))
+        "assistência. O ângulo de contato é ajustável, e esse é o mecanismo da faixa "
+        "sem torque com o braço baixado."))
     a(P("Como preferência, a patente indica que nenhuma força seja aplicada até que "
         "o braço ultrapasse um ângulo em relação à vertical, com 45°, 60° ou 90° como "
         "exemplos, e que a força máxima ocorra entre 70° e 120°, de preferência em "
@@ -1121,12 +1141,9 @@ def parte_3B():
         "a força é transmitida por um elemento rígido apoiado na pelve, e o elemento "
         "elástico atua sobre um braço de alavanca ajustável. O nome comercial do "
         "produto não aparece na patente, de modo que a associação com o Paexo, feita "
-        "na seção 2.7, não pode ser conferida no documento. A configuração analisada "
-        "não tem cabo, polia nem tambor: o elástico liga diretamente a barra à alavanca, e a "
-        "faixa sem torque descrita na patente resulta do contato com o elemento 78. Por isso, as relações "
-        "de tangência, de caminho do cabo e de ponto morto das seções 3.1.4 a 3.1.7 "
-        "não se aplicam e são substituídas pelas das seções ⟦S:cin⟧ a ⟦S:zero⟧, de "
-        "mesma numeração."))
+        "na seção 2.7, não pode ser conferida no documento. Na configuração analisada, "
+        "o elástico liga diretamente a barra à alavanca, e a faixa sem torque descrita "
+        "na patente resulta do contato com o elemento 78 (seções ⟦S:cin⟧ a ⟦S:zero⟧)."))
     a(P("O dispositivo admite abdução, adução e movimentos do tronco. O modelo é "
         "plano, restrito ao plano sagital, e representa somente a anteversão, que é o "
         "movimento das Figuras 16 e 17 da patente."))
@@ -1141,30 +1158,26 @@ def parte_3B():
         "Shoulder Air; como a patente não nomeia o produto, a "
         "correspondência entre esse produto, o modelo em CAD e os desenhos da "
         "patente não está documentada. As grandezas "
-        "são tratadas como medidas em CAD, nos termos da seção 3.1.1, e não como "
+        "são tratadas como medidas em CAD, na classificação da seção 3, e não como "
         "dimensões do dispositivo comercial."))
 
     # ------------------------------------------------------------ inércia
     a(SEC("3.2", "inercia", "Parâmetros inerciais do membro e transporte ao eixo da "
                            "articulação 20"))
-    a(P("O membro humano é o da seção 3.1.2: o indivíduo masculino de referência de "
-        "de Leva (1996), de 73,0 kg e 1,741 m, com o cotovelo estendido, e braço, "
-        "antebraço e mão em série a partir de O, alinhados ao eixo do braço. O "
+    a(P("O membro humano é o de referência (seção 3), em série a partir de O. O "
         "momento de inércia de cada segmento no centro de massa é M_{s} (k L)^{2}, com "
         "k o raio de giração transversal em fração do comprimento L, e o transporte ao "
-        "eixo da articulação 20 usa a Equação (1). A Tabela ⟦T:massa⟧, na seção "
+        "eixo da articulação 20 usa o teorema de Steiner. A Tabela ⟦T:massa⟧, na seção "
         "⟦S:r_geo⟧, reúne os resultados, que coincidem com os da planilha do autor."))
 
     # ------------------------------------------------------------ convenções
     a(SEC("3.2", "conv", "Referenciais e convenções angulares e de sinal"))
-    a(P("O mecanismo é tratado como plano, com origem O no eixo da articulação 20, "
-        "admitido coincidente com o centro do ombro, eixo x anterior e eixo y para "
-        "cima; os ângulos seguem a convenção da seção 3.1.4, e os comprimentos estão "
-        "em milímetros."))
+    a(P("A origem O fica no eixo da articulação 20, admitido coincidente com o centro "
+        "do ombro, com eixo x anterior e eixo y para cima, nas convenções da seção 3."))
     a(P("A variável independente é a anteversão do braço, θ_{el}, com 0° para o "
         "braço pendente e 90° para o braço horizontal à frente, que é a abscissa das "
-        "Figuras 16 e 17 da patente; ao contrário da seção 3.1.3, ela não precisa ser "
-        "convertida em elevação anatômica. O modelo admite que o giro do elemento de "
+        "Figuras 16 e 17 da patente e não precisa ser convertida em elevação "
+        "anatômica. O modelo admite que o giro do elemento de "
         "apoio do braço em relação à barra 18 seja igual à anteversão, o que supõe o "
         "eixo da articulação 20 no centro do ombro e a barra 18 fixa em relação ao "
         "tronco. A patente situa a articulação na altura do ombro, na região da "
@@ -1178,9 +1191,7 @@ def parte_3B():
     a(EQ(("lam", r"q = \theta_{\mathrm{el}} + 90^{\circ} + q_{0}"),
          ("lam0", r"q_{0} = q_{\mathrm{pose}} - \left( 180^{\circ} + \theta_{b,\mathrm{pose}} \right),\quad \theta_{\mathrm{el,pose}} = 90^{\circ} + \theta_{b,\mathrm{pose}}")))
     a(P("em que q_{pose} é a direção de OP na pose do CAD e θ_{b,pose} o ângulo do "
-        "braço com a horizontal nessa pose, positivo acima. Os símbolos desta parte "
-        "seguem a formulação do autor para este mecanismo; s, ψ, φ, p, α e γ têm, na "
-        "seção 3.1, outro significado."))
+        "braço com a horizontal nessa pose, positivo acima."))
     a(P("O torque τ é positivo no sentido anti-horário, que é o de θ_{el} "
         "crescente; τ > 0 assiste a subida do braço. O torque do peso tem sinal "
         "oposto na faixa de 0° a 180°, e as comparações usam seu módulo τ_{g}."))
@@ -1288,8 +1299,8 @@ def parte_3B():
 
     # ------------------------------------------------------------ força
     a(SEC("3.2", "forca", "Comprimento do elástico, lei da mola e torque"))
-    a(P("O elástico é tratado como linear e sem massa, com a lei da Equação (19) e "
-        "folga abaixo do comprimento livre: δ = max(s − s_{0}, 0) e F = K δ, em que "
+    a(P("O elástico é tratado como linear e sem massa, com folga abaixo do "
+        "comprimento livre: δ = max(s − s_{0}, 0) e F = K δ, em que "
         "s_{0} é o valor de s em que o elástico atinge o comprimento livre. A patente "
         "não informa K, o comprimento livre nem a pré-tensão; s_{0} é identificado "
         "pelo espaçamento entre as curvas da Figura 16 da patente (seção ⟦S:ident⟧)."))
@@ -1300,14 +1311,13 @@ def parte_3B():
         "são"))
     a(EQ(("m", r"m_{\mathrm{I}} = e\sin\left( q - \psi \right),\quad m_{\mathrm{II}} = p\sin\left( q + \varphi - \psi \right),\quad \tau = \frac{Fm}{1000}")))
     a(P("com m > 0 quando o torque assiste a subida; o fator 1/1000 converte N·mm em "
-        "N·m, como na seção 3.1.6. Com o elemento 78 pontual e sem atrito, a tração "
+        "N·m. Com o elemento 78 pontual e sem atrito, a tração "
         "é igual nos dois trechos, e o princípio dos trabalhos virtuais (seção "
         "⟦S:vt2⟧) dá"))
     a(EQ(("tv", r"\frac{ds}{dq} = - m")))
-    a(P("com q em radianos, relação análoga à Equação (17) e verificada nos dois "
-        "regimes (seção ⟦S:r_verif⟧). O sinal é oposto ao da Equação (17) porque q "
-        "cresce com a elevação do braço, e θ* decresce; nos dois mecanismos, m > 0 "
-        "assiste a subida, e o elástico se encurta quando o braço sobe."))
+    a(P("com q em radianos, verificada nos dois regimes (seção ⟦S:r_verif⟧). Como q "
+        "cresce com a elevação do braço e m > 0 assiste a subida, o elástico se encurta "
+        "quando o braço sobe."))
 
     # ------------------------------------------------------------ faixa sem torque
     a(SEC("3.2", "zero", "Faixa sem torque com o braço baixado"))
@@ -1340,15 +1350,13 @@ def parte_3B():
     # ------------------------------------------------------------ trabalho virtual
     a(SEC("3.2", "vt2", "Formulação pelo princípio dos trabalhos virtuais"))
     assert SECOES["vt2"] == "3.2.9", SECOES["vt2"]
-    a(P("Como na seção ⟦S:vt1⟧, o equilíbrio é escrito pelo trabalho virtual num "
-        "giro δθ_{el} do conjunto, em radianos, com δq = δθ_{el} pela Equação "
-        "(⟦E:lam⟧). Com o elemento 78 pontual e sem atrito e o elástico sem massa, o "
-        "contato é um vínculo ideal, e realizam trabalho a força do elástico sobre a "
-        "alavanca, o peso do conjunto e o torque τ_{u} do usuário. Na nomenclatura da "
-        "seção ⟦S:vt1⟧, b é o vetor de O ao ponto de aplicação da força do trecho "
-        "ligado a A, de módulo b e a um ângulo β de OP, e f = −F u(ψ). No "
-        "exoesqueleto 1, esse ponto percorre o tambor; aqui, ele é fixo na alavanca "
-        "em cada regime, e b e β são constantes:"))
+    a(P("O equilíbrio é escrito pelo trabalho virtual num giro δθ_{el} do conjunto, "
+        "em radianos, com δq = δθ_{el} pela Equação (⟦E:lam⟧). Com o elemento 78 "
+        "pontual e sem atrito e o elástico sem massa, o contato é um vínculo ideal, e "
+        "realizam trabalho a força do elástico sobre a alavanca, o peso do conjunto e o "
+        "torque τ_{u} do usuário. O vetor b vai de O ao ponto de aplicação da força do "
+        "trecho ligado a A, com módulo b e a um ângulo β de OP, e f = −F u(ψ); como esse "
+        "ponto é fixo na alavanca em cada regime, b e β são constantes:"))
     a(EQ(("vt2_bf", r"\mathbf{b} = b\,\mathbf{u}(q + \beta),\quad \delta W_{e} = \tau\,\delta q = \frac{(\mathbf{b}\times\mathbf{f})_{z}}{1000}\,\delta q,\quad (\mathbf{b}\times\mathbf{f})_{z} = bF\sin(q + \beta - \psi)")))
     a(P("com (b, β) = (‹e›, 0) no regime I, em que b = P, e (b, β) = (p, φ) no "
         "regime II, em que b = C_{78} (Equação (⟦E:P⟧)); com esses valores, "
@@ -1357,13 +1365,13 @@ def parte_3B():
         "e P estão alinhados, f é paralelo a P − C_{78}, e (P − C_{78}) × f = 0."))
     a(P("Do lado do elástico, o giro δq muda s de (ds/dq) δq, e a força realiza o "
         "trabalho −F δs/1000; como o contato não realiza trabalho, igualar as duas "
-        "expressões dá (b × f)_{z} = −F ds/dq, isto é, a Equação (⟦E:tv⟧). O peso entra "
-        "como no exoesqueleto 1, com τ_{g,s} = −M g x_{G}/1000 e "
-        "x_{G} = d cos(θ_{el} − 90° + a_{CG}), de módulo τ_{g} (Equação (⟦E:tg⟧)), e o "
-        "equilíbrio é o da Equação (⟦E:vt1_eq⟧) com δθ_{el} no lugar de δθ*: "
-        "τ_{u} = −(τ + τ_{g,s}), com τ em N·m sob a hipótese K = K_{40} (seção "
-        "⟦S:dados⟧). Com aceleração nula e Q_{nc} = τ_{u}, a Equação (27), escrita em "
-        "θ_{el}, reduz-se a essa condição."))
+        "expressões dá (b × f)_{z} = −F ds/dq, isto é, a Equação (⟦E:tv⟧). O peso "
+        "realiza o trabalho τ_{g,s} δθ_{el}, com τ_{g,s} = −M g x_{G}/1000 e "
+        "x_{G} = d cos(θ_{el} − 90° + a_{CG}), de módulo τ_{g} (Equação (⟦E:tg⟧)), e a "
+        "soma dos três trabalhos se anula para todo δθ_{el}: τ_{u} = −(τ + τ_{g,s}), "
+        "com τ em N·m sob a hipótese K = K_{40} (seção ⟦S:dados⟧). Com aceleração nula e "
+        "Q_{nc} = τ_{u}, a equação de movimento da seção ⟦S:din⟧ reduz-se a essa "
+        "condição."))
 
     # ------------------------------------------------------------ dados
     a(SEC("3.2", "dados", "Dados da patente e identificação dos parâmetros"))
@@ -1430,9 +1438,7 @@ def parte_3B():
         "linear em K, μ é o torque por unidade de rigidez dividido por τ_{g}, e c "
         "reúne K e o valor desconhecido de uma divisão da ordenada: c = K/σ, com σ "
         "a razão de torques que corresponde a uma divisão. A curva da patente não "
-        "separa K de σ, e por isso K não é identificável a partir dela. É a mesma "
-        "limitação discutida na seção 4.1.6 para o outro mecanismo, aqui explícita "
-        "na ausência de escala da ordenada."))
+        "separa K de σ, e por isso K não é identificável a partir dela."))
     a(P("Salvo indicação em contrário, os procedimentos desta seção usam apenas os "
         f"pontos com 20° < θ_{{el}} < 165°. Abaixo de {f(g['theta_t'], 2)}°, o "
         "modelo está no regime II e depende da posição do elemento 78; os pontos entre "
@@ -1527,23 +1533,22 @@ def parte_3B():
     a(P("O comprimento e_{c}, do pivô ao pino do rasgo da alavanca, é o comprimento "
         "‹e› do segmento OP, isto é, a excentricidade do ponto de aplicação, um dos "
         "parâmetros de ajuste previstos na patente e objeto da Figura 17 da "
-        "patente. Por isso, o papel de h na "
-        "seção 4.1 é desempenhado aqui por e_{c}. A "
+        "patente. A "
         f"varredura manteve s_{{0}} = {f(pr['s0'])} mm e "
         f"K = {f(pr['K'], 5)} N/mm, isto é, o mesmo elástico, e variou apenas "
         "e_{c}, de 20 a 50 mm em passo de 0,05 mm, com o acréscimo do valor do CAD, num "
         f"total de {var['n']} valores. As demais grandezas ficaram congeladas nos "
-        "valores da Tabela ⟦T:cad⟧. Como na seção 3.1.11, trata-se de diagnóstico, e "
-        "nenhum parâmetro é substituído pelo resultado."))
+        "valores da Tabela ⟦T:cad⟧. Trata-se de diagnóstico, e nenhum parâmetro é "
+        "substituído pelo resultado."))
 
     # ------------------------------------------------------------ verificações
     a(SEC("3.2", "verif", "Verificações numéricas"))
-    a(P("As verificações seguem as da seção 3.1.12 e estão na Tabela ⟦T:verif⟧: são "
+    a(P("As verificações estão na Tabela ⟦T:verif⟧: são "
         "asserções executadas a cada cálculo, com tolerância declarada, que "
         "interrompem o cálculo se alguma for violada, e não um conjunto de testes "
-        "executado com o pytest. As próprias do cabo e do tambor não se aplicam a este "
-        "mecanismo e foram substituídas pela continuidade na troca de regime e pelo "
-        "caso limite p = 0; o modelo confere ainda que o regime II ocorre exatamente "
+        "executado com o pytest. Além das equações de fechamento e do trabalho "
+        "virtual, elas conferem a continuidade na troca de regime e o caso limite "
+        "p = 0, e o modelo confere ainda que o regime II ocorre exatamente "
         "para q ≤ q*, que o elemento 78 fica entre A e P na transição e que toda a "
         f"cadeia depende de e_{{c}}. Os valores são de e_{{c}} = {f(34.785)} mm, com "
         "s_{0} e K do cenário de projeto, em malha de 0,1° de 0° a 180°; a "
@@ -1552,9 +1557,10 @@ def parte_3B():
 
     # ------------------------------------------------------------ dinâmica
     a(SEC("3.2", "din", "Etapas dinâmicas previstas"))
-    a(P("A equação de movimento tem a forma da Equação (27), com θ_{el} como "
-        "coordenada generalizada, o torque τ do elástico, o torque do peso com sinal, "
-        "τ_{g,s}, e os esforços não conservativos, Q_{nc}. Pela Equação (⟦E:tv⟧), a "
+    a(P("Pela formulação de Lagrange, a equação de movimento seria "
+        "I_{O} d^{2}θ_{el}/dt^{2} = τ + τ_{g,s} + Q_{nc}, com θ_{el} como coordenada "
+        "generalizada, τ o torque do elástico, τ_{g,s} o torque do peso com sinal e "
+        "Q_{nc} os esforços não conservativos. Pela Equação (⟦E:tv⟧), a "
         "energia elástica V_{e} = K δ^{2}/2 satisfaz dV_{e}/dq = −K δ m, de modo que a "
         "força generalizada elástica coincide, a menos do fator 1/1000, com o torque "
         "da Equação (⟦E:m⟧); esse pré-requisito estático está verificado (Tabela "
@@ -1569,17 +1575,20 @@ def parte_3B():
 
     # ------------------------------------------------------------ ferramentas
     a(SEC("3.2", "ferr", "Ferramentas e delimitação"))
-    a(P("Além das ferramentas da seção 3.1.14, foi empregada a biblioteca SciPy "
-        "(VIRTANEN et al., 2020), no refinamento pelo método de Brent (BRENT, 1973) "
-        "do ajuste de forma. A identificação pelo espaçamento entre as curvas é um "
-        "problema de mínimos quadrados lineares, resolvido em forma fechada, e o MBDyn "
-        "não foi empregado. Valem as exclusões de escopo da seção 3.1.14. O modelo é "
+    a(P("Foram empregados o Autodesk Fusion, para fechar o circuito do mecanismo e "
+        "extrair as propriedades de massa do braço do exoesqueleto; uma planilha "
+        "eletrônica, para a composição inercial; e a linguagem Python, com as "
+        "bibliotecas NumPy (HARRIS et al., 2020), para o cálculo vetorizado, SciPy "
+        "(VIRTANEN et al., 2020), para o refinamento pelo método de Brent (BRENT, "
+        "1973) no ajuste de forma, e Matplotlib (HUNTER, 2007), para as figuras. A "
+        "identificação pelo espaçamento entre as curvas é um problema de mínimos "
+        "quadrados lineares, resolvido em forma fechada, e o MBDyn não foi empregado. "
+        "Valem as exclusões de escopo da seção 3. O modelo é "
         "plano, restrito ao plano sagital, e admite elástico linear e sem massa, "
         "F = K δ, elemento 78 pontual e sem atrito e eixo da articulação 20 no centro "
         "do ombro, com a barra 18 fixa em relação ao tronco (seção ⟦S:conv⟧). O "
-        "torque gravitacional considera o membro humano estendido, sem ferramenta na "
-        "mão, e o braço do exoesqueleto; a alavanca, o elemento 78 e a braçadeira não "
-        "entram nele."))
+        "torque gravitacional considera o membro de referência e o braço do "
+        "exoesqueleto; a alavanca, o elemento 78 e a braçadeira não entram nele."))
     return B
 
 
@@ -1587,11 +1596,51 @@ def parte_3B():
 # capítulo 4
 # ======================================================================
 
+def parte_3D():
+    """Seção 3.4: o que difere entre as três formulações."""
+    SECOES["comp_met"] = "3.4"
+    return [
+        H("3.4 Comparação entre as formulações"),
+        P("A Tabela ⟦T:comp_met⟧ reúne o que distingue as formulações das seções 3.1, "
+          "3.2 e 3.3. Nas três, o trabalho virtual dá o braço de momento como a "
+          "derivada, em relação ao ângulo, do comprimento do caminho do elemento "
+          "elástico, mas com sinais diferentes, porque o ângulo θ* do exoesqueleto 1 "
+          "decresce quando o braço sobe, e os dos outros dois crescem."),
+        LEG_T("comp_met", "Elementos das formulações dos três exoesqueletos"),
+        TABELA(
+            ["Aspecto", "US 9.889.554 B2 (seção 3.1)", "EP 3 504 033 B1 (seção 3.2)",
+             "US 9.737.374 B2 (seção 3.3)"],
+            [["Arquitetura", "Mola, cabo e tambor entre elo proximal e elo distal",
+              "Elástico ligado diretamente da barra à alavanca, com elemento de encosto "
+              "junto à articulação",
+              "Cabo de ancoragem, par de polias com came de raio variável e mola no apoio "
+              "de braço"],
+             ["Variável independente",
+              "θ*, ângulo interno entre os elos; elevação pela Equação (4)",
+              "θ_{el}, anteversão, abscissa da patente",
+              "Θ, eixo maior com a horizontal; elevação Θ + 90°"],
+             ["Fechamento e incógnitas", "Equação (6), com s e φ",
+              "Equações (⟦E:f1⟧) a (⟦E:f4⟧), em dois regimes, com s e ψ",
+              "Equações (⟦E:e3_f1⟧) e (⟦E:e3_f2⟧), com S e φ"],
+             ["Ponto de aplicação da força", "Ponto de tangência no tambor, móvel",
+              "P no regime I e centro do elemento 78 no regime II, fixos na alavanca",
+              "Ponto de tangência na polia primária; a mola atua pelo raio efetivo do came"],
+             ["Trabalho virtual", "dℓ/dθ* = m, Equação (17)",
+              "ds/dq = −m, Equação (⟦E:tv⟧)",
+              "τ = −(F_{s}/1000) dx/dΘ, Equação (⟦E:e3_vt⟧)"],
+             ["Parâmetro varrido", "h, posição da ancoragem (seção 3.1.11)",
+              "e_{c}, trecho da alavanca (seção ⟦S:varr⟧)",
+              "Giro do came em relação à primária (seção ⟦S:e3_varr⟧)"]],
+            [1500, 2620, 2620, 2620]),
+        PEQUENO("Fonte: elaborada pelo autor, com as seções 3.1, 3.2 e 3.3.", True),
+    ]
+
+
 def cap4_introducao():
     return [P("Os resultados estão organizados por dispositivo. A seção 4.1 apresenta "
               "os do gerador de torque da US 9.889.554 B2; a seção 4.2, os do "
-              "dispositivo da EP 3 504 033 B1; e a seção 4.3, os do mecanismo de came "
-              "da US 9.737.374 B2, encerrada por uma comparação entre os três."),
+              "dispositivo da EP 3 504 033 B1; a seção 4.3, os do mecanismo de came "
+              "da US 9.737.374 B2; e a seção 4.4 compara os três."),
             H("4.1 Exoesqueleto 1")]
 
 
@@ -1655,9 +1704,7 @@ def parte_4B():
         [3560, 1200, 1000, 1100, 2500], ["left", "center", "center", "center", "left"]))
     a(FONTE)
     a(PEQUENO("Nota: ângulos medidos a partir de +x, no sentido anti-horário (seção "
-              "⟦S:conv⟧). O valor de e_{c} coincide, até a terceira casa decimal, com "
-              "a cota H_{CAD} do outro mecanismo (seção 3.1.4); o valor foi conferido no "
-              "modelo em CAD."))
+              "⟦S:conv⟧). O valor de e_{c} foi conferido no modelo em CAD."))
     a(P(f"Na pose do CAD, o modelo situa P, no pino do rasgo, em ({f(g['P_pose'][0])}; "
         f"{f(g['P_pose'][1])}) mm e o centro do elemento 78 em "
         f"({f(g['C78_pose'][0])}; {f(g['C78_pose'][1])}) mm. Com a peça de fixação "
@@ -1694,7 +1741,7 @@ def parte_4B():
              ["left", "center", "center", "center", "center", "center"]))
     a(PEQUENO("Fonte: elaborada pelo autor, com dados de de Leva (1996) e do "
               "modelo em CAD.", True))
-    a(P("A consistência foi conferida pela Equação (1): para o membro humano, "
+    a(P("A consistência foi conferida pelo teorema de Steiner: para o membro humano, "
         f"I_{{cm}} + M d^{{2}} = {f(hum['izz_cg_kgm2'], 6)} + "
         f"{f(hum['izz_o_kgm2'] - hum['izz_cg_kgm2'], 6)} = "
         f"{f(hum['izz_o_kgm2'], 6)} kg·m^{{2}}, e, para o conjunto, "
@@ -1714,15 +1761,13 @@ def parte_4B():
         f"de modo que o centro de massa fica a {f(cx['d'])} mm do eixo. Admitidos os "
         "eixos do Fusion paralelos aos do modelo, esse vetor foi levado ao eixo do "
         "braço pela direção do braço na pose do CAD, cujo sinal foi conferido no "
-        "CAD (seção ⟦S:conv⟧), e somado ao membro humano pela Equação (1). "
+        "CAD (seção ⟦S:conv⟧), e somado ao membro humano pelo teorema de Steiner. "
         "O braço do exoesqueleto acrescenta "
         f"{f(cx['massa'], 4)} kg ao conjunto e desloca seu centro de massa em "
         f"{f(tot['cg_angulo_braco_grau'])}° em relação ao eixo do braço. A "
         "alavanca, o elemento 78 e a braçadeira não estão modelados como corpos "
         "separados, e as peças do lado do tronco (barra 18, barra de ancoragem e "
-        "capas do elástico) apoiam-se no cinto e não giram com o braço. A Tabela "
-        "⟦T:o3⟧ da seção 4.1.1 tem o mesmo membro humano e soma a ele as peças do "
-        "outro exoesqueleto."))
+        "capas do elástico) apoiam-se no cinto e não giram com o braço."))
 
     # ------------------------------------------------------------ dados
     a(SEC("4.2", "r_dados", "Dados extraídos da patente"))
@@ -2037,8 +2082,7 @@ def parte_4B():
     def curvas(v):
         return (f"na curva {v[0]}" if len(v) == 1 else
                 "nas curvas " + ", ".join(v[:-1]) + " e " + v[-1])
-    apF(P("O ajuste é pior que o da seção 4.1, que tem R^{2} = 0,99839 (Tabela ⟦T:o7⟧): "
-          f"os resíduos em {min(zs)} a {max(zs)} zonas de sinal indicam diferença "
+    apF(P(f"Os resíduos em {min(zs)} a {max(zs)} zonas de sinal indicam diferença "
           "sistemática de forma entre o modelo e as curvas, e os maiores erros ficam "
           + "; ".join(f"{k}, {curvas(v)}" for k, v in grupos.items())
           + f" (transição em {f(g['theta_t'], 2)}°)."))
@@ -2108,8 +2152,8 @@ def parte_4B():
 
     # ------------------------------------------------------------ parâmetros
     a(SEC("4.2", "r_par", "Parâmetros do modelo"))
-    a(P("A Tabela ⟦T:par⟧ resume a situação dos parâmetros que a patente não publica, "
-        "no formato da Tabela ⟦T:o6⟧."))
+    a(P("A Tabela ⟦T:par⟧ resume a situação dos parâmetros que a patente não "
+        "publica."))
     a(LEG_T("par", "Parâmetros não publicados, origem e identificabilidade"))
     a(TABELA(
         ["Parâmetro", "Símbolo", "Valor adotado", "Origem", "Situação"],
@@ -2143,8 +2187,8 @@ def parte_4B():
         f"faixa, com mínimo de {f(g['b_t'])} mm na transição e máximo de "
         f"{f(g['m_max'])} mm em θ_{{el}} = {f(g['theta_m_max'], 1)}°, igual a |OP|: "
         "no regime I, a linha de ação passa por P, e m não pode exceder a "
-        "distância do pivô a esse ponto, teto análogo ao |OA| da seção 3.1.5. Como m "
-        "não se anula, não há ponto morto na faixa, ao contrário da seção 3.1.7. A "
+        "distância do pivô a esse ponto. Como m não se anula, não há ponto morto na "
+        "faixa. A "
         "Tabela ⟦T:circ⟧ reúne as grandezas do circuito em ângulos representativos."))
     a(LEG_T("circ", f"Grandezas do circuito em ângulos representativos "
                     f"(e_{{c}} = {f(34.785)} mm)"))
@@ -2179,9 +2223,9 @@ def parte_4B():
     a(SEC("4.2", "r_varr", "Varredura paramétrica do trecho e_{c} da alavanca"))
     ftr = var["faixas"]["tracao"]
     l45 = fam["linhas"][-1]
-    a(P("Dos três critérios de validade física da seção 3.1.11, adaptados ao "
-        "mecanismo, o fechamento dos dois regimes (s > 0 e s − x > 0) e o "
-        "trabalho virtual foram atendidos em todos os valores de e_{c}, com resíduo "
+    a(P("Dos três critérios de validade física, o fechamento dos dois regimes "
+        "(s > 0 e s − x > 0) e o trabalho virtual foram atendidos em todos os valores "
+        "de e_{c}, com resíduo "
         f"máximo de {sci(var['tv_max'])} mm/rad. A extensão não negativa do elástico "
         f"em toda a faixa só é atendida para e_{{c}} ≤ {f(ftr['max'], 2)} mm, em "
         f"{ftr['n']} dos {var['n']} valores: acima desse valor, com o s_{{0}} "
@@ -2357,8 +2401,8 @@ def parte_4B():
         f"{f(mud[0], 3)} em relação às da curva tracejada, com a maior mudança em "
         f"{mud[1]}°. A distribuição angular da assistência depende, assim, da curva "
         "tomada como referência."))
-    a(P("Como na seção 4.1.8, o resultado ilustra a limitação discutida na seção 2.4 "
-        "(NASR; FERGUSON; McPHEE, 2022), mas com o compromisso invertido: com o "
+    a(P("O resultado ilustra a limitação discutida na seção 2.4 (NASR; FERGUSON; "
+        "McPHEE, 2022): com o "
         f"s_{{0}} adotado, a forma do elástico fica abaixo da do peso entre "
         f"{f(cz_n[2], 2)}° e {f(cz_n[3], 2)}°, de modo que, no modelo, a "
         "subcompensação recai sobre a faixa acima da horizontal, onde se concentra o "
@@ -2439,7 +2483,8 @@ def parte_4B():
 def cap5_titulo():
     return [P("As conclusões estão organizadas por dispositivo: a seção 5.1 trata do "
               "gerador de torque da US 9.889.554 B2; a seção 5.2, do dispositivo da "
-              "EP 3 504 033 B1; e a seção 5.3, do mecanismo de came da US 9.737.374 B2."),
+              "EP 3 504 033 B1; a seção 5.3, do mecanismo de came da US 9.737.374 B2; e a "
+              "seção 5.4 compara os três."),
             H("5.1 Exoesqueleto 1")]
 
 
@@ -2538,20 +2583,6 @@ def parte_5B():
         "gravitacional feito pela forma normalizada e, em N·m, apenas no cenário de "
         "projeto. As etapas dinâmicas não foram executadas, pelas razões da seção "
         "⟦S:din⟧."))
-    a(P("Os dois dispositivos diferem tanto na arquitetura quanto no que suas "
-        "patentes permitem identificar. O gerador da US 9.889.554 B2 reproduz a "
-        "curva publicada com R^{2} de 0,99839, mas em unidade da patente; o "
-        "dispositivo da EP 3 504 033 B1 tem s_{0} determinado de forma mais robusta, "
-        "por dispor de três curvas, mas sua forma não é reproduzida pelo modelo do "
-        "CAD, e o torque só chega a N·m por hipótese. O pico de assistência fica "
-        "acima do pico gravitacional no primeiro, 8,1° (97,5° contra 89,4°), e "
-        f"{'abaixo' if pr['theta_pico'] < mas['theta_tau_g_pico'] else 'acima'} no "
-        f"segundo, {f(abs(pr['theta_pico'] - mas['theta_tau_g_pico']), 1)}° "
-        f"({f(pr['theta_pico'], 1)}° contra {f(mas['theta_tau_g_pico'], 1)}°), e a faixa sem torque com o braço "
-        "baixado é obtida, segundo as patentes, por meios distintos: uma "
-        "protuberância no primeiro e o contato com o elemento de encosto no segundo. A comparação proposta na "
-        "seção 2.11 fica, assim, respondida na parte estática quanto aos ângulos e à "
-        "forma dos perfis, mas não quanto à magnitude."))
     a(P("Como continuidade para esse dispositivo, recomenda-se incluir o modelo em "
         "CAD no repositório; "
         "esclarecer a definição da ordenada da Figura 16 "
@@ -2592,16 +2623,18 @@ def parte_3C():
     a = B.append
     a(H("3.3 Exoesqueleto 3"))
     a(P("As seções ⟦S:e3_cad⟧ a ⟦S:e3_ferr⟧ aplicam à US 9.737.374 B2 (DOYLE, 2017), da "
-        "Levitate, o procedimento das seções 3.1.1 a 3.1.14, com a mesma numeração: a seção "
-        "3.3.k corresponde às seções 3.1.k e 3.2.k. O mecanismo tem cabo e polia, como o do "
-        "exoesqueleto 1, mas a força da mola chega ao ombro por um par de polias, uma delas "
-        "um came de raio variável, e não por um tambor de raio fixo. Quando uma etapa não se "
-        "aplica a esse mecanismo ou não pôde ser concluída com os dados disponíveis, a "
-        "própria seção registra o motivo."))
+        "Levitate, o procedimento deste capítulo, com a classificação de origem da seção "
+        "3. Nesse mecanismo, a força da mola chega ao ombro por um par de polias, uma "
+        "delas um came de raio variável, e por um cabo de ancoragem. A cadeia de cálculo "
+        "está nos scripts da pasta exo3, que extraem o perfil do came, resolvem o "
+        "circuito do cabo de ancoragem, tratam as relações entre o came e o cabo da mola, "
+        "medem as poses das figuras da patente e compõem a massa do apoio de braço; os "
+        "números e as figuras da seção 4.3 são produzidos por tcc_resultados_exo3.py, que "
+        "grava os valores em results/exo3_tcc_numeros.json."))
     # tabela de fontes cortada pelo autor (versão revisada de 9/11/2026)
-    a(P("A classificação de origem é a da introdução deste capítulo. O documento da "
-        "patente, do escritório de patentes dos Estados Unidos, está só em imagem, com "
-        "48 folhas de desenho, e o texto foi lido por reconhecimento óptico."))
+    a(P("O documento da patente, do escritório de patentes dos Estados Unidos, está só "
+        "em imagem, com 48 folhas de desenho, e o texto foi lido por reconhecimento "
+        "óptico."))
 
     # ------------------------------------------------------------ CAD
     a(SEC("3.3", "e3_cad", "Reconstrução geométrica em CAD"))
@@ -2630,7 +2663,7 @@ def parte_3C():
         "as grandezas medidas nesse modelo estão na Tabela ⟦T:e3_cad⟧ (seção "
         "⟦S:e3_r_geo⟧). O mesmo modelo dá as propriedades de massa de cinco corpos do "
         "apoio de braço (seção ⟦S:e3_inercia⟧). As grandezas são tratadas como medidas em "
-        "CAD, nos termos da seção 3.1.1, e não como dimensões do dispositivo comercial."))
+        "CAD, na classificação da seção 3, e não como dimensões do dispositivo comercial."))
     a(P("Para conferir o CAD, as poses das Figuras 14C, com o braço erguido, e 14D, com o "
         "braço baixado, foram medidas na imagem da folha 21. O centro do pivô 584 é o do "
         "furo branco no meio do anel do pivô, e os dos pinos 572 e 632 saem de ajustes de "
@@ -2642,9 +2675,10 @@ def parte_3C():
     # ------------------------------------------------------------ inércia
     a(SEC("3.3", "e3_inercia", "Parâmetros inerciais do membro e transporte ao eixo do "
                               "pivô 584"))
-    a(P("O membro superior é o da seção 3.1.2, alinhado ao eixo maior do apoio de "
-        "braço, com o centro do ombro admitido no eixo do pivô 584 e o transporte ao "
-        "eixo pela Equação (1). O artigo de Okabe, Brittes e Brito (2026), que usa a "
+    a(P("O membro superior é o de referência (seção 3), alinhado ao eixo maior do "
+        "apoio de braço, com o centro do ombro admitido no eixo do pivô 584 e o "
+        "transporte ao eixo pelo teorema de Steiner. O artigo de Okabe, Brittes e Brito "
+        "(2026), que usa a "
         "curva desta patente numa simulação multicorpos, adota massas que correspondem "
         "às frações de de Leva (1996) para 82,8 kg de massa corporal; esse membro "
         "entra só na comparação da seção ⟦S:e3_r_conf⟧."))
@@ -2663,7 +2697,7 @@ def parte_3C():
         "na Figura 14D, do mesmo lado da mola, como no desenho. O eixo maior fica 26,741° "
         "além de C_{2} (seção ⟦S:e3_conv⟧). Para cada corpo, d_{i} é a distância do "
         "centro de massa a O e a_{i} o ângulo dele com o eixo maior, positivo acima do "
-        "eixo, e o momento de inércia em O sai da Equação (1). O centro do came, "
+        "eixo, e o momento de inércia em O sai do teorema de Steiner. O centro do came, "
         "excêntrico, gira com as polias em relação ao chassi; os demais corpos são fixos "
         "no chassi."))
     a(P("Duas conferências independentes sustentam esse referencial. Com o came "
@@ -2674,13 +2708,12 @@ def parte_3C():
 
     # ------------------------------------------------------------ convenções
     a(SEC("3.3", "e3_conv", "Referenciais e convenções angulares e de sinal"))
-    a(P("O mecanismo é tratado como plano, com origem O no eixo do pivô 584, no "
-        "referencial do CAD, que é o das Figuras 14C e 14D girado de 180°; os ângulos "
-        "seguem a convenção da seção 3.1.4, e os comprimentos estão em milímetros."))
+    a(P("A origem O fica no eixo do pivô 584, no referencial do CAD, que é o das "
+        "Figuras 14C e 14D girado de 180°, nas convenções da seção 3."))
     a(P("A variável independente é Θ, o ângulo do eixo maior do apoio de braço com a "
         "horizontal, positivo acima dela, que é a abscissa da Figura 16 da "
-        "US 9.737.374 B2; a elevação a partir do braço pendente é Θ + 90°. Como na seção "
-        "3.2.3, o ângulo da patente não precisa ser convertido em elevação anatômica, mas "
+        "US 9.737.374 B2; a elevação a partir do braço pendente é Θ + 90°. O ângulo da "
+        "patente não precisa ser convertido em elevação anatômica, mas "
         "a comparação com o peso do membro supõe o braço alinhado ao eixo maior e o centro "
         "do ombro no pivô 584. A variável primária do circuito é q, o ângulo entre C_{2} e "
         "a horizontal, 61,724° na pose do CAD; q cresce quando o braço desce. No CAD, o "
@@ -2689,9 +2722,7 @@ def parte_3C():
     a(EQ(("e3_Theta", r"\Theta = -\left( q + 26{,}741^{\circ} \right)")))
     a(P(f"e a pose do CAD está em Θ = {f(N3['theta_pose'])}°. As propriedades de massa "
         "da seção ⟦S:e3_inercia⟧ estão em outro referencial, o da peça, que é o da Figura "
-        "14D girado; os ângulos a_{i} são medidos a partir do eixo maior. Os símbolos "
-        "desta parte seguem a formulação do autor para este mecanismo; φ, θ, ρ e γ têm, "
-        "na seção 3.1, outro significado."))
+        "14D girado; os ângulos a_{i} são medidos a partir do eixo maior."))
     a(P("O torque τ é positivo no sentido anti-horário, que é o de Θ crescente; τ > 0 "
         "assiste a subida do braço. O torque do peso tem sinal oposto, e as comparações "
         "usam seu módulo τ_{g}. No código, τ sai do produto da força da mola pela "
@@ -2712,7 +2743,7 @@ def parte_3C():
     a(P("O mecanismo tem um grau de liberdade: a variável primária é q, e as "
         "secundárias são S e φ, porque o cabo sai tangente à polia, com θ = φ − 90° "
         "(seção ⟦S:e3_tang⟧), e a tangência elimina uma incógnita, não uma equação. "
-        "Com d = A − D, a solução é fechada, como a das Equações (7) e (8):"))
+        "Com d = A − D, a solução é fechada:"))
     a(EQ(("e3_sol", r"\mathbf{d} = -\left[ C_{1}\,\mathbf{u}\left( \gamma \right) + C_{2}\,\mathbf{u}\left( 180^{\circ} - q \right) \right],\quad S = \sqrt{\left| \mathbf{d} \right|^{2} - R^{2}},\quad \varphi = \operatorname{atan2}\left( d_{y},\ d_{x} \right) + \operatorname{atan2}\left( S,\ R \right)")))
     a(P("A tangente existe enquanto |d| > R; o limite |d| = R é tratado na seção "
         "⟦S:e3_zero⟧. O caminho inverso também fecha: com θ dado, φ = θ + 90°, "
@@ -2733,13 +2764,13 @@ def parte_3C():
         "σ = −1, isto é, θ = φ − 90°, é o confirmado na pose do CAD. O vetor de O a T "
         "é"))
     a(EQ(("e3_tang", r"\mathbf{b} = C_{2}\,\mathbf{u}\left( 180^{\circ} - q \right) + R\,\mathbf{u}\left( \varphi \right)")))
-    a(P("de módulo b e a um ângulo β de C_{2}, como na seção 3.1.5; a direção de b é "
+    a(P("de módulo b e a um ângulo β de C_{2}; a direção de b é "
         "180° − q − β. Com f = F_{a} u(θ), a tração do cabo 560 aplicada em T, o torque "
         "em torno de O é"))
     a(EQ(("e3_tau", r"\tau = \frac{\left( \mathbf{b}\times\mathbf{f} \right)_{z}}{1000},\quad \left( \mathbf{b}\times\mathbf{f} \right)_{z} = -bF_{a}\sin\left( \theta + q + \beta \right) = F_{a}m_{a},\quad m_{a} = C_{1}\sin\left( \gamma - \theta \right)")))
     a(P("A segunda forma vem do fechamento, b = −S u(θ) − C_{1} u(γ): como a linha do "
-        "cabo passa por A, o braço m_{a} só depende de θ e não passa de C_{1}, como "
-        "|m| ≤ |B| na Equação (14). Esse é o b certo porque o apoio de braço, com o "
+        "cabo passa por A, o braço m_{a} só depende de θ e não passa de C_{1}. Esse é o "
+        "b certo porque o apoio de braço, com o "
         "chassi, as polias, a mola e o cabo 634, gira em torno de O como um corpo só, "
         "e o único esforço externo do mecanismo é a tração F_{a} do cabo 560, em T."))
 
@@ -2808,8 +2839,8 @@ def parte_3C():
         "corpo i, de massa m_{i}, tem o centro de massa a d_{i} de O e a a_{i} do eixo "
         "maior (seção ⟦S:e3_inercia⟧). O módulo do torque do peso é"))
     a(EQ(("e3_tg", r"\tau_{g} = \frac{g}{1000}\left| \sum_{i}m_{i}d_{i}\cos\left( \Theta + a_{i} \right) \right|")))
-    a(P("com m_{i} em kg, d_{i} em mm e g = 9,80665 m/s^{2}, como nas seções 3.1.8 e "
-        "3.2.8. Para o membro, alinhado ao eixo maior, a_{i} = 0. O centro do came, a "
+    a(P("com m_{i} em kg e d_{i} em mm. Para o membro, alinhado ao eixo maior, "
+        "a_{i} = 0. O centro do came, a "
         f"{f(cm['excentricidade_mm'], 2)} mm do pino 572, gira com as polias, e o termo "
         "dele usa o giro θ_{p} da Equação (⟦E:e3_vt⟧). A mola entra com o centro de massa "
         "do CAD, embora o comprimento dela no CAD não corresponda à pose: ao longo do "
@@ -2821,7 +2852,7 @@ def parte_3C():
     # ------------------------------------------------------------ trabalho virtual
     a(SEC("3.3", "e3_vt", "Formulação pelo princípio dos trabalhos virtuais"))
     assert SECOES["e3_vt"] == "3.3.9", SECOES["e3_vt"]
-    a(P("Como nas seções 3.1.9 e 3.2.9, o equilíbrio é escrito pelo trabalho virtual num "
+    a(P("O equilíbrio é escrito pelo trabalho virtual num "
         "giro δΘ do apoio de braço, em radianos. Realizam trabalho a tração do cabo 560, "
         "que atua em T, o peso do conjunto e o torque τ_{u} do usuário. O vão S varia de "
         "m_{a} δΘ, a primária gira δθ_{p} = m_{a} δΘ/R em relação ao chassi, e a mola "
@@ -2830,9 +2861,9 @@ def parte_3C():
     a(EQ(("e3_vt", r"\tau = \frac{F_{s}}{1000}\,\frac{r}{R}\,C_{1}\sin\left( \gamma - \theta \right) = -\frac{F_{s}}{1000}\,\frac{dx}{d\Theta},\quad \frac{d\theta_{p}}{d\Theta} = \frac{C_{1}\sin\left( \gamma - \theta \right)}{R},\quad \frac{dx}{d\theta_{p}} = -r")))
     a(P("que é a Equação (⟦E:e3_forca⟧): as duas vias dão o mesmo torque, e a diferença "
         "numérica entre elas é conferida na seção ⟦S:e3_r_verif⟧. O peso entra com "
-        "τ_{g,s}, de sinal oposto ao de τ e módulo τ_{g} da Equação (⟦E:e3_tg⟧), e o "
-        "equilíbrio é o da Equação (⟦E:vt1_eq⟧) com δΘ no lugar de δθ*: "
-        "τ_{u} = −(τ + τ_{g,s}). Aqui, τ está em N·m na escala fixada pela AWM (seção "
+        "τ_{g,s}, de sinal oposto ao de τ e módulo τ_{g} da Equação (⟦E:e3_tg⟧), e a "
+        "soma dos trabalhos se anula para todo δΘ: τ_{u} = −(τ + τ_{g,s}). Aqui, τ está "
+        "em N·m na escala fixada pela AWM (seção "
         "⟦S:e3_dados⟧)."))
     a(P("A rotação das polias também sai do enrolamento. Com o cabo 560 inextensível, "
         "S + R w é constante, em que w é o arco enrolado de T a 561, e o giro absoluto "
@@ -2848,7 +2879,7 @@ def parte_3C():
         "AASM + AWM. A ordenada não tem unidade, e a AWM é um cosseno puro, o momento de "
         "um peso a distância fixa do pivô. As marcas da figura atribuem à zona Z12 a "
         "faixa de Θ = −56,4° a −40,3° e à Z11, de −23,8° a 4,0°."))
-    a(P("Como na seção 3.1.10, a falta de unidade impede identificar a rigidez em valor "
+    a(P("A falta de unidade impede identificar a rigidez em valor "
         "físico pela AASM sozinha. A própria figura, porém, traz uma referência: a AWM é o "
         "momento do peso do braço, um cosseno de amplitude A. Igualando A ao torque do "
         "peso do membro de referência na horizontal (seção ⟦S:e3_inercia⟧), a unidade da "
@@ -2869,16 +2900,16 @@ def parte_3C():
     a(SEC("3.3", "e3_varr", "Varredura paramétrica do giro do came"))
     a(P("O giro do came em relação à primária é a grandeza menos certa da cadeia, porque "
         "os dois desenhos discordam (seção ⟦S:e3_r_geo⟧), e é a que decide em que zona o "
-        "cabo da mola sai em cada Θ. Por isso, o papel de h na seção 3.1.11 e de e_{c} na "
-        "seção 3.2.11 é desempenhado aqui por esse giro. A varredura repetiu o ajuste da "
+        "cabo da mola sai em cada Θ; por isso, foi o parâmetro varrido. A varredura "
+        "repetiu o ajuste da "
         "seção ⟦S:e3_dados⟧ com o came girado de −120° a +40° em relação ao desenho da "
         "Figura 14D, de grau em grau, com as demais grandezas nos valores da Tabela "
         "⟦T:e3_cad⟧. Só valem os giros em que o cabo da mola sai do canal em toda a faixa "
         "do ajuste: ele deixa o bolsão do 573 pelo chifre de cima e se enrola no canal até "
         "o chifre de baixo, e a ponte da envoltória sobre o bolsão não é canal. As marcas "
         "das zonas na Figura 16 da US 9.737.374 B2 não entram no ajuste e servem de "
-        "conferência. Como nas seções 3.1.11 e 3.2.11, trata-se de diagnóstico, e nenhum "
-        "parâmetro é substituído pelo resultado."))
+        "conferência. Trata-se de diagnóstico, e nenhum parâmetro é substituído pelo "
+        "resultado."))
     a(P("Além do giro contínuo, foram testadas as montagens que os furos permitem. Nas "
         "Figuras 14C e 14D, há cinco furos pequenos num arco em torno do pino 572, no lado "
         "do came oposto ao bolsão, que acompanham o came de uma figura para a outra. Os "
@@ -2907,17 +2938,16 @@ def parte_3C():
         "enrolamento e aos comprimentos dos cabos; nas conferências com a patente, "
         "incluem o ponto de ancoragem nas Figuras 14C e 14D e, para as massas, o "
         "transporte do tensor, a forma das polias, a distância entre os pinos, o raio e "
-        "o giro do came, o espelhamento e a posição da mola. As verificações próprias "
-        "do tambor da seção 3.1.12 e do elemento de encosto da seção ⟦S:verif⟧ não se "
-        "aplicam a este mecanismo, e, como no exoesqueleto 2, as verificações são "
-        "asserções e conferências executadas pelos scripts, e não um conjunto de "
-        "testes executado com o pytest."))
+        "o giro do came, o espelhamento e a posição da mola. São asserções e "
+        "conferências executadas pelos scripts, e não um conjunto de testes executado "
+        "com o pytest."))
 
     # ------------------------------------------------------------ dinâmica
     cj = N3["conjunto"]
     a(SEC("3.3", "e3_din", "Etapas dinâmicas previstas"))
-    a(P("A equação de movimento tem a forma da Equação (27), com Θ como coordenada "
-        "generalizada. Pela Equação (⟦E:e3_vt⟧), a energia elástica da mola satisfaz "
+    a(P("Pela formulação de Lagrange, a equação de movimento seria "
+        "I_{O} d^{2}Θ/dt^{2} = τ + τ_{g,s} + Q_{nc}, com Θ como coordenada generalizada. "
+        "Pela Equação (⟦E:e3_vt⟧), a energia elástica da mola satisfaz "
         "dV_{e}/dΘ = F_{s} dx/dΘ = −1000 τ, de modo que a força generalizada elástica "
         "coincide, a menos do fator 1/1000, com o torque da Equação (⟦E:e3_forca⟧); esse "
         "pré-requisito estático está verificado (Tabela ⟦T:e3_verif⟧). O momento de "
@@ -2932,19 +2962,20 @@ def parte_3C():
 
     # ------------------------------------------------------------ ferramentas
     a(SEC("3.3", "e3_ferr", "Ferramentas e delimitação"))
-    a(P("Além da linguagem Python e das bibliotecas NumPy e Matplotlib da seção 3.1.14, "
-        "foram empregados o modelo em CAD do autor, para fechar o circuito do mecanismo "
-        "e extrair as propriedades de massa do apoio de braço, e a biblioteca SciPy "
+    a(P("Foram empregados o modelo em CAD do autor, para fechar o circuito do mecanismo "
+        "e extrair as propriedades de massa do apoio de braço, e a linguagem Python, com "
+        "as bibliotecas NumPy (HARRIS et al., 2020), para o cálculo vetorizado, SciPy "
         "(VIRTANEN et al., 2020), para o processamento das imagens das folhas da "
         "patente, a envoltória convexa do came, o ajuste da caixa envolvente do came e "
-        "o limite de subida, pelo método de Brent (BRENT, 1973). O ajuste da mola é um "
+        "o limite de subida, pelo método de Brent (BRENT, 1973), e Matplotlib (HUNTER, "
+        "2007), para as figuras. O ajuste da mola é um "
         "problema de mínimos quadrados lineares, resolvido em forma fechada, e o MBDyn "
-        "não foi empregado. Valem as exclusões de escopo da seção 3.1.14. O modelo é "
+        "não foi empregado. Valem as exclusões de escopo da seção 3. O modelo é "
         "plano e admite vínculos ideais, sem atrito no pivô e nas polias, cabos "
         "inextensíveis e sem massa, polia 630 no infinito e mola linear identificada "
         "pela própria curva da patente, na escala fixada pela AWM. O giro do came vem "
         "do desenho da Figura 14D, que discorda do da 14C. O torque gravitacional "
-        "considera o membro superior estendido, sem ferramenta na mão, alinhado ao eixo "
+        "considera o membro de referência, alinhado ao eixo "
         "maior e com o ombro no pivô 584, e os cinco corpos do apoio de braço; outras "
         "peças que giram com o braço não entram nele."))
     return B
@@ -3042,11 +3073,11 @@ def parte_4C():
               "CAD.", True))
     a(PEQUENO("Nota: d é a distância do centro de massa ao pivô 584 e a, o ângulo dele com "
               "o eixo maior, positivo acima. O centro do came está na pose do CAD."))
-    a(P("A consistência foi conferida pela Equação (1): para o conjunto, "
+    a(P("A consistência foi conferida pelo teorema de Steiner: para o conjunto, "
         f"I_{{cm}} + M d^{{2}} = {f(cj['izz_cg'], 6)} + "
         f"{f(cj['izz_o'] - cj['izz_cg'], 6)} = {f(cj['izz_o'], 6)} kg·m^{{2}}. A "
         f"amplitude do torque gravitacional é M g d = {f(mb['momento_horizontal_N_m'], 2)} "
-        "N·m para o membro, a mesma das seções 3.1.2 e 3.2.2, e "
+        "N·m para o membro e "
         f"{f(cj['amplitude_N_m'], 2)} N·m para o conjunto."))
     a(P(f"No CAD, o apoio de braço tem {f(ma_kg, 3)} kg: a capa, de náilon 6/6, responde "
         f"por {f(pa['corpos']['capa']['massa_g']/1000, 3)} kg, e a mola, de aço, por "
@@ -3156,8 +3187,8 @@ def parte_4C():
 
     # ------------------------------------------------------------ parâmetros
     a(SEC("4.3", "e3_r_par", "Parâmetros do modelo e identificação da mola"))
-    a(P("A Tabela ⟦T:e3_par⟧ resume a situação dos parâmetros que a patente não publica, "
-        "no formato das Tabelas ⟦T:o6⟧ e ⟦T:par⟧."))
+    a(P("A Tabela ⟦T:e3_par⟧ resume a situação dos parâmetros que a patente não "
+        "publica."))
     pv, ea = pa["pivo"], N3["escala_artigo"]
     a(LEG_T("e3_par", "Parâmetros não publicados do mecanismo da Levitate, origem e "
                       "identificabilidade"))
@@ -3230,8 +3261,8 @@ def parte_4C():
         f"somado ao alvo, R² = {f(apj['r2'], 3)}. A força que reproduziria a curva AASM "
         "não é linear no alongamento (Figura ⟦F:e3_fig16⟧b): com esse giro, uma mola "
         "linear acompanha a forma geral da curva, mas não o início da subida nem o "
-        "patamar. Como na seção 4.1.5, o ajuste contra a mesma curva reproduz a forma sem "
-        "constituir validação independente."))
+        "patamar. O ajuste contra a mesma curva reproduz a forma sem constituir "
+        "validação independente."))
     a(LEG_F("e3_fig16", "Curva AASM da Figura 16 da US 9.737.374 B2 contra o modelo "
             "com mola linear e giro do came como na Figura 14D (a) e força de mola que "
             "reproduziria a curva (b)"))
@@ -3511,12 +3542,22 @@ def parte_4C():
     a(FONTE)
 
     # ------------------------------------------------------------ comparação
+    return B
+
+
+def parte_4D():
+    """Seção 4.4: comparação dos resultados dos três exoesqueletos."""
+    aj, mg, co, cj, fg = (N3["ajuste"], N3["melhor_giro"], N3["confronto"],
+                          N3["conjunto"], N3["fig16"])
+    B = []
+    a = B.append
     # comparação entre os três exoesqueletos (antes, seções 4.2.11 e 4.3.10)
     mc2 = rz["modelo_completo"]["curvas"]
     ns2 = nrm["s0"]
     cz2, t3_2 = ns2["cruzamentos"], ns2["trechos"][3]
     r2_forma = [ind[n]["r2"] for n in ORDEM]
-    a(SEC("4.3", "e3_r_comp", "Comparação entre os três exoesqueletos"))
+    SECOES["comp_res"] = "4.4"
+    a(H("4.4 Comparação entre os três exoesqueletos"))
     a(P("A Tabela ⟦T:comp⟧ compara os três exoesqueletos com os números das seções "
         "4.1, 4.2 e 4.3. Os ângulos são comparáveis porque as três convenções medem o "
         "braço a partir da posição pendente: a elevação anatômica da seção 3.1.3, a "
@@ -3525,12 +3566,7 @@ def parte_4C():
     a(TABELA(
         ["Aspecto", "US 9.889.554 B2 (seção 4.1)", "EP 3 504 033 B1 (seção 4.2)",
          "US 9.737.374 B2 (seção 4.3)"],
-        [["Arquitetura", "Mola, cabo e polia entre elo proximal e elo distal",
-          "Elástico ligado diretamente da barra à alavanca, com elemento de encosto "
-          "junto à articulação",
-          "Cabo de ancoragem preso ao suporte do tronco, par de polias com came de raio "
-          "variável e mola no apoio de braço"],
-         ["Faixa sem torque com o braço baixado",
+        [["Faixa sem torque com o braço baixado",
           "Protuberância junto à junta, não modelada; ponto morto em 30,485° de "
           "elevação",
           f"Contato com o elemento 78; transição em {f(g['theta_t'], 2)}° de "
@@ -3679,14 +3715,6 @@ def parte_5C():
         "do giro do came. Para esse dispositivo, o objetivo geral foi atingido na parte "
         "estática; as etapas dinâmicas não foram executadas, pelas razões da seção "
         "⟦S:e3_din⟧."))
-    a(P("Os três dispositivos diferem tanto na arquitetura quanto no que suas patentes "
-        "permitem identificar. O gerador da US 9.889.554 B2 reproduz a curva publicada com "
-        "R^{2} de 0,99839, mas em unidade da patente; o dispositivo da EP 3 504 033 B1 tem "
-        "s_{0} determinado pelo espaçamento entre três curvas e só chega a N·m por "
-        "hipótese; e o mecanismo da US 9.737.374 B2 molda o torque pelo came, cujo giro em "
-        "relação à primária é o parâmetro mais sensível, e chega a N·m pela AWM da própria "
-        "patente, sob a hipótese de que ela seja o peso do membro de referência. Nos três, a magnitude do torque depende de hipótese, e a comparação "
-        "proposta na seção 2.11 fica respondida quanto aos ângulos e à forma dos perfis."))
     a(P("Como continuidade para esse dispositivo, recomenda-se medir a rigidez e o "
         "comprimento livre da mola e o giro do came na peça real; conferir no CAD os furos "
         "de fixação do came na polia externa; confirmar no CAD a "
@@ -3694,6 +3722,37 @@ def parte_5C():
         "limita a subida; e, com a escala resolvida, executar as etapas dinâmicas pela "
         "formulação de Lagrange e no MBDyn."))
     return B
+
+
+def parte_5D():
+    """Seção 5.4: o que as conclusões dos três exoesqueletos têm em comum e em que
+    diferem."""
+    co = N3["confronto"]
+    abaixo = pr["theta_pico"] < mas["theta_tau_g_pico"]
+    return [
+        H("5.4 Comparação entre os três exoesqueletos"),
+        P("Os três dispositivos diferem tanto na arquitetura quanto no que suas patentes "
+          "permitem identificar. O gerador da US 9.889.554 B2 reproduz a curva publicada "
+          "com R^{2} de 0,99839, mas em unidade da patente; o dispositivo da "
+          "EP 3 504 033 B1 tem s_{0} determinado pelo espaçamento entre três curvas, mas "
+          "sua forma não é reproduzida pelo modelo do CAD, e o torque só chega a N·m por "
+          "hipótese; e o mecanismo da US 9.737.374 B2 molda o torque pelo came, cujo giro "
+          "em relação à primária é o parâmetro mais sensível, e chega a N·m pela AWM da "
+          "própria patente, sob a hipótese de que ela seja o peso do membro de "
+          "referência."),
+        P("O pico de assistência fica acima do pico gravitacional no primeiro, 8,1° "
+          f"(97,5° contra 89,4°), e {'abaixo' if abaixo else 'acima'} no segundo, "
+          f"{f(abs(pr['theta_pico'] - mas['theta_tau_g_pico']), 1)}° "
+          f"({f(pr['theta_pico'], 1)}° contra {f(mas['theta_tau_g_pico'], 1)}°); no "
+          "terceiro, a curva da patente tem máximo em "
+          f"{f(co['theta_pico_aasm'] + 90, 0)}° de elevação, quase junto ao do peso, em "
+          f"{f(co['theta_pico_tau_g'] + 90, 1)}°. A faixa sem torque com o braço baixado "
+          "é obtida, segundo as patentes, por uma protuberância no primeiro e pelo "
+          "contato com o elemento de encosto no segundo, e o terceiro não tem faixa sem "
+          "torque no curso analisado. Nos três, a magnitude do torque depende de "
+          "hipótese, e a comparação proposta na seção 2.11 fica respondida quanto aos "
+          "ângulos e à forma dos perfis, mas não quanto à magnitude."),
+    ]
 
 
 def ref_brent():
@@ -3906,8 +3965,6 @@ def montar(corpo_original):
         _unico(info, "Wu, Wang e Du (2016)"): cap2_balanceamento(),
         _unico(info, "O procedimento usual consiste no ajuste"): cap2_identificacao(),
         _unico(info, "Nota: O é o pivô"): cap3_sobreposicao_fig42(),
-        _unico(info, "A cadeia de cálculo descrita nas seções"):
-            cap3_introducao() + [H("3.1 Exoesqueleto 1")],
         _unico(info, "Em síntese, a varredura separa duas perguntas"): cap4_ancoragens(),
         _unico(info, "4 RESULTADOS E DISCUSSÃO"): cap4_introducao(),
         _unico(info, "5 CONCLUSÃO"): cap5_titulo(),
@@ -3921,9 +3978,11 @@ def montar(corpo_original):
     antes = {
         _unico(info, "A extensão da mola permanece positiva"): nota_mola(),
         _unico(info, "3.9 Dados da patente"): cap3_trabalho_virtual_exo1(),
-        _unico(info, "4 RESULTADOS E DISCUSSÃO"): parte_3B() + parte_3C(),
-        _unico(info, "5 CONCLUSÃO"): parte_4B() + parte_4C(),
-        _unico(info, "REFERÊNCIAS"): parte_5B() + parte_5C(),
+        _unico(info, "A cadeia de cálculo descrita nas seções"):
+            abertura_comum() + [H("3.1 Exoesqueleto 1")],
+        _unico(info, "4 RESULTADOS E DISCUSSÃO"): parte_3B() + parte_3C() + parte_3D(),
+        _unico(info, "5 CONCLUSÃO"): parte_4B() + parte_4C() + parte_4D(),
+        _unico(info, "REFERÊNCIAS"): parte_5B() + parte_5C() + parte_5D(),
     }
     removidos = [i for i, (_, t, _) in enumerate(info) if t.startswith(REMOVIDOS)]
     assert len(removidos) == len(REMOVIDOS), removidos

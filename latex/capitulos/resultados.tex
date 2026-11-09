@@ -3,7 +3,7 @@
 
 \chapter{Resultados e discussão}\label{sec:4}
 
-Os resultados estão organizados por dispositivo. A seção~\ref{sec:4.1} apresenta os do gerador de torque da US 9.889.554 B2; a seção~\ref{sec:4.2}, os do dispositivo da EP 3 504 033 B1; e a seção~\ref{sec:4.3}, os do mecanismo de came da US 9.737.374 B2, encerrada por uma comparação entre os três.
+Os resultados estão organizados por dispositivo. A seção~\ref{sec:4.1} apresenta os do gerador de torque da US 9.889.554 B2; a seção~\ref{sec:4.2}, os do dispositivo da EP 3 504 033 B1; a seção~\ref{sec:4.3}, os do mecanismo de came da US 9.737.374 B2; e a seção~\ref{sec:4.4} compara os três.
 
 \section{Exoesqueleto 1}\label{sec:4.1}
 
@@ -409,7 +409,7 @@ Distância de A a O & |r\textsubscript{AO}| & 341,686 & mm & Derivada, Equação
 Comprimento do trecho entre o elemento 78 e P & x & 38,972 & mm & Derivada, Equação~\eqref{eq:39} \\
 \end{xltabular}
 \fonte{elaborada pelo autor.}
-\nota{ângulos medidos a partir de +x, no sentido anti-horário (seção~\ref{sec:3.2.3}). O valor de e\textsubscript{c} coincide, até a terceira casa decimal, com a cota H\textsubscript{CAD} do outro mecanismo (seção~\ref{sec:3.1.4}); o valor foi conferido no modelo em CAD.}
+\nota{ângulos medidos a partir de +x, no sentido anti-horário (seção~\ref{sec:3.2.3}). O valor de e\textsubscript{c} foi conferido no modelo em CAD.}
 \end{tabelaabnt}
 
 Na pose do CAD, o modelo situa P, no pino do rasgo, em (−32,787; 11,619) mm e o centro do elemento 78 em (1,071; −7,680) mm. Com a peça de fixação como desenhada no CAD, a ponta dela fica em (−38,090; 25,551) mm, e o circuito dá s = 359,7679 mm até ela, que difere do comprimento medido s\textsubscript{pose} em 1,4 × 10\textsuperscript{−4} mm, valor inferior à resolução de três casas decimais da medida; até o pino, o comprimento do elástico na pose é de 346,686 mm. O elemento 78 está a p = 7,754 mm do eixo da articulação, enquanto a patente prefere esse elemento sobre o eixo; as consequências dessa diferença são tratadas nas seções~\ref{sec:3.2.7} e \ref{sec:4.2.9}.
@@ -432,9 +432,9 @@ Conjunto & 3,7702 &  & d = 287,154 & 0,125134 & 0,436010 \\
 \fonte{elaborada pelo autor, com dados de \textcite{deleva1996} e do modelo em CAD.}
 \end{table}
 
-A consistência foi conferida pela Equação~\eqref{eq:01}: para o membro humano, I\textsubscript{cm} + M d\textsuperscript{2} = 0,113765 + 0,320911 = 0,434676 kg·m\textsuperscript{2}, e, para o conjunto, 0,125134 + 0,310876 = 0,436010 kg·m\textsuperscript{2}. A amplitude do momento gravitacional é M g d = 10,550 N·m para o membro e 10,617 N·m para o conjunto.
+A consistência foi conferida pelo teorema de Steiner: para o membro humano, I\textsubscript{cm} + M d\textsuperscript{2} = 0,113765 + 0,320911 = 0,434676 kg·m\textsuperscript{2}, e, para o conjunto, 0,125134 + 0,310876 = 0,436010 kg·m\textsuperscript{2}. A amplitude do momento gravitacional é M g d = 10,550 N·m para o membro e 10,617 N·m para o conjunto.
 
-No modelo em CAD, o braço do exoesqueleto (elemento 8) tem massa de 163,951 g, centro de massa em (69,249; 151,559) mm no referencial do Fusion e momento de inércia de 9,659 × 10\textsuperscript{5} g·mm\textsuperscript{2} no centro de massa. São estimativas obtidas da geometria reconstruída e de um material atribuído no CAD, náilon 6/6 em peça oca segundo a planilha, e não propriedades do produto. O eixo da articulação 20 está em (31,023; 123,596) mm no mesmo referencial, de modo que o centro de massa fica a 47,362 mm do eixo. Admitidos os eixos do Fusion paralelos aos do modelo, esse vetor foi levado ao eixo do braço pela direção do braço na pose do CAD, cujo sinal foi conferido no CAD (seção~\ref{sec:3.2.3}), e somado ao membro humano pela Equação~\eqref{eq:01}. O braço do exoesqueleto acrescenta 0,1640 kg ao conjunto e desloca seu centro de massa em 0,194° em relação ao eixo do braço. A alavanca, o elemento 78 e a braçadeira não estão modelados como corpos separados, e as peças do lado do tronco (barra 18, barra de ancoragem e capas do elástico) apoiam-se no cinto e não giram com o braço. A Tabela~\ref{tab:propriedades-massa-conjunto-braco} da seção~\ref{sec:4.1.1} tem o mesmo membro humano e soma a ele as peças do outro exoesqueleto.
+No modelo em CAD, o braço do exoesqueleto (elemento 8) tem massa de 163,951 g, centro de massa em (69,249; 151,559) mm no referencial do Fusion e momento de inércia de 9,659 × 10\textsuperscript{5} g·mm\textsuperscript{2} no centro de massa. São estimativas obtidas da geometria reconstruída e de um material atribuído no CAD, náilon 6/6 em peça oca segundo a planilha, e não propriedades do produto. O eixo da articulação 20 está em (31,023; 123,596) mm no mesmo referencial, de modo que o centro de massa fica a 47,362 mm do eixo. Admitidos os eixos do Fusion paralelos aos do modelo, esse vetor foi levado ao eixo do braço pela direção do braço na pose do CAD, cujo sinal foi conferido no CAD (seção~\ref{sec:3.2.3}), e somado ao membro humano pelo teorema de Steiner. O braço do exoesqueleto acrescenta 0,1640 kg ao conjunto e desloca seu centro de massa em 0,194° em relação ao eixo do braço. A alavanca, o elemento 78 e a braçadeira não estão modelados como corpos separados, e as peças do lado do tronco (barra 18, barra de ancoragem e capas do elástico) apoiam-se no cinto e não giram com o braço.
 
 \subsection{Dados extraídos da patente}\label{sec:4.2.2}
 
@@ -573,7 +573,7 @@ A pré-tensão da curva pontilhada, descrita como quase nula, distingue as ident
 
 \subsection{Parâmetros do modelo}\label{sec:4.2.6}
 
-A Tabela~\ref{tab:parametros-nao-publicados-origem-identificabilidade} resume a situação dos parâmetros que a patente não publica, no formato da Tabela~\ref{tab:parametros-nao-publicados-origem}.
+A Tabela~\ref{tab:parametros-nao-publicados-origem-identificabilidade} resume a situação dos parâmetros que a patente não publica.
 
 \begin{table}[!htbp]
 \estilotabela{\small}
@@ -595,7 +595,7 @@ Massa e centro de massa do braço do exoesqueleto &  & 163,951 g; 47,362 mm & Es
 
 \subsection{Comportamento do elástico e do mecanismo}\label{sec:4.2.7}
 
-Na faixa de 0° a 180° de anteversão, q varia de 62,525° a 242,525°, e o regime II ocupa θ\textsubscript{el} de 0° a 24,549°. O braço de momento permanece positivo em toda a faixa, com mínimo de 6,142 mm na transição e máximo de 34,785 mm em θ\textsubscript{el} = 109,2°, igual a |OP|: no regime I, a linha de ação passa por P, e m não pode exceder a distância do pivô a esse ponto, teto análogo ao |OA| da seção~\ref{sec:3.1.5}. Como m não se anula, não há ponto morto na faixa, ao contrário da seção~\ref{sec:3.1.7}. A Tabela~\ref{tab:grandezas-circuito-angulos-representativos} reúne as grandezas do circuito em ângulos representativos.
+Na faixa de 0° a 180° de anteversão, q varia de 62,525° a 242,525°, e o regime II ocupa θ\textsubscript{el} de 0° a 24,549°. O braço de momento permanece positivo em toda a faixa, com mínimo de 6,142 mm na transição e máximo de 34,785 mm em θ\textsubscript{el} = 109,2°, igual a |OP|: no regime I, a linha de ação passa por P, e m não pode exceder a distância do pivô a esse ponto. Como m não se anula, não há ponto morto na faixa. A Tabela~\ref{tab:grandezas-circuito-angulos-representativos} reúne as grandezas do circuito em ângulos representativos.
 
 \begin{table}[!htbp]
 \estilotabela{\footnotesize}
@@ -624,7 +624,7 @@ Com s\textsubscript{0} = 300,750 mm, a extensão do elástico vai de 78,10 mm co
 
 \subsection{\texorpdfstring{Varredura paramétrica do trecho e\textsubscript{c} da alavanca}{Varredura paramétrica do trecho ec da alavanca}}\label{sec:4.2.8}
 
-Dos três critérios de validade física da seção~\ref{sec:3.1.11}, adaptados ao mecanismo, o fechamento dos dois regimes (s > 0 e s − x > 0) e o trabalho virtual foram atendidos em todos os valores de e\textsubscript{c}, com resíduo máximo de 7,5 × 10\textsuperscript{−8} mm/rad. A extensão não negativa do elástico em toda a faixa só é atendida para e\textsubscript{c} ≤ 42,20 mm, em 446 dos 602 valores: acima desse valor, com o s\textsubscript{0} adotado, o elástico afrouxa perto de 180°, como mostra a curva de e\textsubscript{c} = 45 mm, frouxa de 170,43° a 180°. A transição de regime desloca-se de θ\textsubscript{el} = 30,56° (e\textsubscript{c} = 20 mm) para 21,74° (e\textsubscript{c} = 50 mm). A Tabela~\ref{tab:familia-curvas-ec-s0} e a Figura~\ref{fig:familia-curvas-ec-s0} mostram a família de curvas para cinco valores de e\textsubscript{c}.
+Dos três critérios de validade física, o fechamento dos dois regimes (s > 0 e s − x > 0) e o trabalho virtual foram atendidos em todos os valores de e\textsubscript{c}, com resíduo máximo de 7,5 × 10\textsuperscript{−8} mm/rad. A extensão não negativa do elástico em toda a faixa só é atendida para e\textsubscript{c} ≤ 42,20 mm, em 446 dos 602 valores: acima desse valor, com o s\textsubscript{0} adotado, o elástico afrouxa perto de 180°, como mostra a curva de e\textsubscript{c} = 45 mm, frouxa de 170,43° a 180°. A transição de regime desloca-se de θ\textsubscript{el} = 30,56° (e\textsubscript{c} = 20 mm) para 21,74° (e\textsubscript{c} = 50 mm). A Tabela~\ref{tab:familia-curvas-ec-s0} e a Figura~\ref{fig:familia-curvas-ec-s0} mostram a família de curvas para cinco valores de e\textsubscript{c}.
 
 \begin{table}[!htbp]
 \estilotabela{\footnotesize}
@@ -703,7 +703,7 @@ Entre os valores de s\textsubscript{0} obtidos nas faixas de θ\textsubscript{el
 
 Com o s\textsubscript{0} das outras duas curvas, 311,148 mm (pontilhada) e 291,956 mm (contínua), K\textsubscript{40} vai a 3,20932 e 2,17230 N/mm, e o pico de τ, a 4,516 N·m em 75,5° e 4,317 N·m em 81,7°; as razões τ/τ\textsubscript{g} em 30°, 60°, 120° e 150° mudam até 0,109 em relação às da curva tracejada, com a maior mudança em 150°. A distribuição angular da assistência depende, assim, da curva tomada como referência.
 
-Como na seção~\ref{sec:4.1.8}, o resultado ilustra a limitação discutida na seção~\ref{sec:2.4} \cite{nasr2022}, mas com o compromisso invertido: com o s\textsubscript{0} adotado, a forma do elástico fica abaixo da do peso entre 83,74° e 177,02°, de modo que, no modelo, a subcompensação recai sobre a faixa acima da horizontal, onde se concentra o risco documentado por \textcite{vandermolen2017} e \textcite{seidler2020}. Como essa forma depende da geometria do CAD, que não reproduz a Figura 16 da patente (seção~\ref{sec:4.2.5}), a leitura vale para o modelo.
+O resultado ilustra a limitação discutida na seção~\ref{sec:2.4} \cite{nasr2022}: com o s\textsubscript{0} adotado, a forma do elástico fica abaixo da do peso entre 83,74° e 177,02°, de modo que, no modelo, a subcompensação recai sobre a faixa acima da horizontal, onde se concentra o risco documentado por \textcite{vandermolen2017} e \textcite{seidler2020}. Como essa forma depende da geometria do CAD, que não reproduz a Figura 16 da patente (seção~\ref{sec:4.2.5}), a leitura vale para o modelo.
 
 \subsection{Limitações dos resultados}\label{sec:4.2.10}
 
@@ -802,7 +802,7 @@ Conjunto & 4,4024 & 265,1 & 0,8 & 0,140841 & 0,450320 \\
 \nota{d é a distância do centro de massa ao pivô 584 e a, o ângulo dele com o eixo maior, positivo acima. O centro do came está na pose do CAD.}
 \end{table}
 
-A consistência foi conferida pela Equação~\eqref{eq:01}: para o conjunto, I\textsubscript{cm} + M d\textsuperscript{2} = 0,140841 + 0,309480 = 0,450320 kg·m\textsuperscript{2}. A amplitude do torque gravitacional é M g d = 10,55 N·m para o membro, a mesma das seções~\ref{sec:3.1.2} e \ref{sec:3.2.2}, e 11,45 N·m para o conjunto.
+A consistência foi conferida pelo teorema de Steiner: para o conjunto, I\textsubscript{cm} + M d\textsuperscript{2} = 0,140841 + 0,309480 = 0,450320 kg·m\textsuperscript{2}. A amplitude do torque gravitacional é M g d = 10,55 N·m para o membro e 11,45 N·m para o conjunto.
 
 No CAD, o apoio de braço tem 0,796 kg: a capa, de náilon 6/6, responde por 0,564 kg, e a mola, de aço, por 0,105 kg. O pivô ficou em (−112,07; 3,61) mm no referencial da peça, e o centro de massa do apoio, a 116,4 mm de O e 9,7° acima do eixo maior, desloca o do conjunto em 0,77° em relação ao eixo. As peças caem sobre os desenhos: a distância entre os pinos 572 e 632 é de 163,6 mm no CAD, contra 165,0 mm na Figura 14D; o R20 do came do CAD sai de 31,65 a 32,01 mm pela área, pela giração e pela caixa envolvente; e o referencial da Figura 15B fica a −21,5° da reta de 572 a 632 no CAD e a −23,0° na Figura 14D.
 
@@ -871,7 +871,7 @@ Figura 16 da US 9.737.374 B2: RM contra AASM + AWM & 0,94 unidade \\
 
 \subsection{Parâmetros do modelo e identificação da mola}\label{sec:4.3.4}
 
-A Tabela~\ref{tab:parametros-nao-publicados-mecanismo} resume a situação dos parâmetros que a patente não publica, no formato das Tabelas~\ref{tab:parametros-nao-publicados-origem} e \ref{tab:parametros-nao-publicados-origem-identificabilidade}.
+A Tabela~\ref{tab:parametros-nao-publicados-mecanismo} resume a situação dos parâmetros que a patente não publica.
 
 \begin{table}[!htbp]
 \estilotabela{\small}
@@ -912,7 +912,7 @@ Came como na Figura 14D, na escala do artigo & 1,448 & 323,6 & 468 & 0,901 & 2,6
 
 \subsection{Qualidade do ajuste à curva da patente}\label{sec:4.3.5}
 
-Com o giro do came da Figura 14D, o ajuste tem R² = 0,901, erro quadrático médio de 0,91 N·m e erro máximo de 1,69 N·m (Figura~\ref{fig:curva-aasm-figura-us}a); com o peso do apoio somado ao alvo, R² = 0,918. A força que reproduziria a curva AASM não é linear no alongamento (Figura~\ref{fig:curva-aasm-figura-us}b): com esse giro, uma mola linear acompanha a forma geral da curva, mas não o início da subida nem o patamar. Como na seção~\ref{sec:4.1.5}, o ajuste contra a mesma curva reproduz a forma sem constituir validação independente.
+Com o giro do came da Figura 14D, o ajuste tem R² = 0,901, erro quadrático médio de 0,91 N·m e erro máximo de 1,69 N·m (Figura~\ref{fig:curva-aasm-figura-us}a); com o peso do apoio somado ao alvo, R² = 0,918. A força que reproduziria a curva AASM não é linear no alongamento (Figura~\ref{fig:curva-aasm-figura-us}b): com esse giro, uma mola linear acompanha a forma geral da curva, mas não o início da subida nem o patamar. O ajuste contra a mesma curva reproduz a forma sem constituir validação independente.
 
 \begin{figure}[!htbp]
 \centering
@@ -1064,7 +1064,7 @@ Etapas dinâmicas e MBDyn & Nenhum resultado dinâmico & Resolver as pendências
 \fonte{elaborada pelo autor.}
 \end{tabelaabnt}
 
-\subsection{Comparação entre os três exoesqueletos}\label{sec:4.3.10}
+\section{Comparação entre os três exoesqueletos}\label{sec:4.4}
 
 A Tabela~\ref{tab:comparacao-tres-exoesqueletos} compara os três exoesqueletos com os números das seções~\ref{sec:4.1}, \ref{sec:4.2} e \ref{sec:4.3}. Os ângulos são comparáveis porque as três convenções medem o braço a partir da posição pendente: a elevação anatômica da seção~\ref{sec:3.1.3}, a anteversão da seção~\ref{sec:3.2.3} e Θ + 90° (seção~\ref{sec:3.3.3}).
 
@@ -1083,7 +1083,6 @@ A Tabela~\ref{tab:comparacao-tres-exoesqueletos} compara os três exoesqueletos 
 \endfoot
 \bottomrule
 \endlastfoot
-Arquitetura & Mola, cabo e polia entre elo proximal e elo distal & Elástico ligado diretamente da barra à alavanca, com elemento de encosto junto à articulação & Cabo de ancoragem preso ao suporte do tronco, par de polias com came de raio variável e mola no apoio de braço \\
 Faixa sem torque com o braço baixado & Protuberância junto à junta, não modelada; ponto morto em 30,485° de elevação & Contato com o elemento 78; transição em 24,55° de anteversão no CAD, com torque não nulo abaixo dela & Não há no curso analisado; o braço do cabo de ancoragem só se anularia em Θ = −128,5° \\
 Dado da patente & Uma curva de torque sem unidade na ordenada; 29 pontos extraídos & Três curvas de razão de torques sem escala na ordenada, com pré-tensões diferentes; 146 pontos extraídos & Três curvas na mesma figura (AASM, AWM e RM), sem unidade na ordenada; 106 pontos extraídos de cada \\
 Parâmetros identificados & X\textsubscript{pose} e K, este em unidade da patente; θ\textsubscript{off} e h congelados, de origem não reproduzida & s\textsubscript{0} das três curvas, pelo espaçamento; K não identificável & k e x\textsubscript{0} da mola linear, na escala da AWM; R20 e giro do came medidos nas figuras \\
