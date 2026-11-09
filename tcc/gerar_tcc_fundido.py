@@ -1200,40 +1200,36 @@ def parte_3B():
     a(SEC("3.2", "cin", "Equação de fechamento do circuito vetorial"))
     assert abs(E_OP - g["E_CAD"]) < 1e-9
     a(P("A ancoragem A do elástico fica na barra 18, e o ponto P, no pino do rasgo "
-        "da alavanca solidária ao braço (Figura ⟦F:circ⟧). No modelo em CAD, o "
-        f"elástico prende numa peça de C_{{3}} = {f(par['C3'])} mm articulada nesse "
-        f"pino, desenhada girada de β_{{c}} = {f(par['BETA'])}° em relação ao trecho "
-        "e_{c}, que vai do pivô O ao pino. Articulada, a peça se alinha ao elástico, e "
-        "a força age no pino, como na Figura 22 da patente (seção ⟦S:contato⟧): a "
-        f"alavanca é o segmento OP, de comprimento ‹e› = e_{{c}} = {f(E_OP)} mm e "
-        "direção q. Com a peça como desenhada, o circuito fecha com o comprimento do "
-        "elástico medido no CAD até a ponta dela (seção ⟦S:r_geo⟧). O vetor fixo de A "
-        "a O, a posição de P e a do centro do elemento 78, na extremidade do vetor p, "
-        "são"))
+        "da alavanca solidária ao braço (Figura ⟦F:circ⟧). No CAD, o elástico prende "
+        f"numa peça de C_{{3}} = {f(par['C3'])} mm articulada nesse pino, desenhada "
+        f"girada de β_{{c}} = {f(par['BETA'])}°; articulada, ela se alinha ao elástico, e "
+        "a força age no pino, como na Figura 22 da patente (seção ⟦S:contato⟧). A "
+        f"alavanca é, assim, o segmento OP, de comprimento ‹e› = e_{{c}} = {f(E_OP)} mm "
+        "e direção q, e a peça só entra para fechar o circuito com o comprimento do "
+        "elástico medido no CAD (seção ⟦S:r_geo⟧). O vetor fixo de A a O e as "
+        "posições de P e do centro do elemento 78 são"))
     a(EQ(("rAO", r"\mathbf{r}_{AO} = C_{1}\,\mathbf{u}\left( - \alpha \right) + C_{2}\,\mathbf{u}\left( \gamma \right),\quad \alpha = 90^{\circ} - \gamma"),
-         ("P", r"\mathbf{P} = e\,\mathbf{u}(q),\quad \mathbf{C}_{78} = p\,\mathbf{u}\left( q + \varphi \right)"),
-         ("eta", r"\varphi = q_{78,\mathrm{pose}} - q_{\mathrm{pose}}")))
-    a(P("com A = −r_{AO}. O elemento 78 é preso ao braço, e φ é a defasagem "
-        f"constante entre a direção de p e q, {f(PHI_S)}° na geometria do CAD. Para "
-        "q > q*, o elástico é retilíneo de A a P (regime I), e o circuito fechado é"))
-    a(EQ(("circI", r"C_{1}\,\mathbf{u}\left( - \alpha \right) + C_{2}\,\mathbf{u}\left( \gamma \right) + e\,\mathbf{u}(q) - s\,\mathbf{u}(\psi) = \mathbf{0}")))
-    a(P("Para q ≤ q*, o elástico encosta no elemento 78 e fica dividido nos trechos "
-        "de A ao elemento 78 e do elemento 78 a P (regime II). O elemento 78 só "
-        "entra no circuito a partir do contato, e há dois circuitos: o circuito "
-        "fechado que passa pelo elemento 78 e o triângulo formado por ‹e›, p e x,"))
-    a(EQ(("circII", r"C_{1}\,\mathbf{u}\left( - \alpha \right) + C_{2}\,\mathbf{u}\left( \gamma \right) + p\,\mathbf{u}\left( q + \varphi \right) - \left( s - x \right)\mathbf{u}(\psi) = \mathbf{0}"),
-         ("tri", r"x = \left| e\,\mathbf{u}(q) - p\,\mathbf{u}\left( q + \varphi \right) \right|")))
-    a(P("em que s é o comprimento total do elástico entre A e P, ψ a direção do "
-        "trecho ligado a A e x o comprimento do trecho entre o elemento 78 e P. No "
-        "triângulo, ‹e› e p são constantes e o ângulo entre eles é a defasagem φ, de "
-        "modo que x não depende de q:"))
-    a(EQ(("d78", r"x = \sqrt{e^{2} + p^{2} - 2\,e\,p\cos\varphi}")))
-    a(P(f"Com as grandezas do CAD, x = {f(X_S)} mm. Cada regime tem solução fechada, "
-        "sem procedimento iterativo, porque o lado direito das relações abaixo, a "
-        "primeira para o regime I e a segunda para o regime II, é conhecido para "
-        "cada q:"))
-    a(EQ(("solI", r"s\,\mathbf{u}(\psi) = \mathbf{r}_{AO} + \mathbf{P}"),
-         ("solII", r"\left( s - x \right)\mathbf{u}(\psi) = \mathbf{r}_{AO} + \mathbf{C}_{78}")))
+         ("P", r"\mathbf{P} = e\,\mathbf{u}(q),\quad \mathbf{C}_{78} = p\,\mathbf{u}\left( q + \varphi \right)")))
+    a(P("com A = −r_{AO} e φ a defasagem constante entre a direção de p e q, "
+        f"{f(PHI_S)}° na geometria do CAD. Para q > q*, o elástico é retilíneo de A a "
+        "P (regime I), com comprimento s e direção ψ, e o circuito fechado "
+        "r_{AO} + P − s u(ψ) = 0 tem as componentes"))
+    a(EQ(("f1", r"f_{1} = C_{1}\cos\alpha + C_{2}\cos\gamma + e\cos q - s\cos\psi = 0"),
+         ("f2", r"f_{2} = - C_{1}\sin\alpha + C_{2}\sin\gamma + e\sin q - s\sin\psi = 0")))
+    a(P("Para q ≤ q*, o elástico encosta no elemento 78 e se divide no trecho de A ao "
+        "elemento 78, de comprimento s − x e direção ψ, e no trecho x, do elemento 78 "
+        "a P (regime II). O circuito passa a fechar pelo elemento 78, "
+        "r_{AO} + C_{78} − (s − x) u(ψ) = 0:"))
+    a(EQ(("f3", r"f_{3} = C_{1}\cos\alpha + C_{2}\cos\gamma + p\cos\left( q + \varphi \right) - \left( s - x \right)\cos\psi = 0"),
+         ("f4", r"f_{4} = - C_{1}\sin\alpha + C_{2}\sin\gamma + p\sin\left( q + \varphi \right) - \left( s - x \right)\sin\psi = 0")))
+    a(P("O trecho x é o lado do triângulo O, P, elemento 78 oposto ao ângulo φ, "
+        "entre ‹e› e p, e não depende de q:"))
+    a(EQ(("d78", r"x = \left| \mathbf{P} - \mathbf{C}_{78} \right| = \sqrt{e^{2} + p^{2} - 2\,e\,p\cos\varphi}")))
+    a(P(f"Com as grandezas do CAD, x = {f(X_S)} mm. Em cada regime, as incógnitas "
+        "são s e ψ, e a solução é fechada, porque os demais termos são conhecidos "
+        "para cada q; no regime I e no regime II, respectivamente,"))
+    a(EQ(("solI", r"\mathbf{w} = \mathbf{r}_{AO} + \mathbf{P},\quad s = \left| \mathbf{w} \right|,\quad \psi = \operatorname{atan2}\left( w_{y},\ w_{x} \right)"),
+         ("solII", r"\mathbf{w} = \mathbf{r}_{AO} + \mathbf{C}_{78},\quad s = x + \left| \mathbf{w} \right|,\quad \psi = \operatorname{atan2}\left( w_{y},\ w_{x} \right)")))
 
     # ------------------------------------------------------------ contato
     a(SEC("3.2", "contato", "Ponto de contato e troca de regime"))
@@ -1292,115 +1288,82 @@ def parte_3B():
 
     # ------------------------------------------------------------ força
     a(SEC("3.2", "forca", "Comprimento do elástico, lei da mola e torque"))
-    a(P("O elástico é tratado como linear e sem massa, com a mesma lei da Equação "
-        "(19):"))
-    a(EQ(("lei", r"\delta = \max\left( s - s_{0},\ 0 \right),\quad F = K\delta")))
-    a(P("em que s_{0} é o valor de s em que o elástico atinge o comprimento livre e "
-        "K a rigidez. A patente não informa K, o comprimento livre nem a "
-        "pré-tensão. O código admite três formas de definir s_{0}: constante, igual "
-        "ao comprimento medido na pose do CAD até a ponta da peça de fixação, "
-        f"s_{{pose}} = {f(par['S_POSE'])} mm, "
-        "apenas provisória; por uma pré-tensão X_{pre} num ângulo θ_{el,pre}, com "
-        "s_{0} = s(θ_{el,pre}) − X_{pre}, análoga à Equação (18); e identificada a "
-        "partir das curvas da Figura 16 da patente (seção ⟦S:ident⟧). As duas "
-        "primeiras usam K = 9 N/mm, valor ilustrativo sem origem documental, e não "
-        "produzem resultados neste trabalho; a terceira é a adotada, com s_{0} "
-        "obtido pelo espaçamento entre as três curvas."))
-    a(P("A força do trecho ligado a A atua em P, no regime I, ou no centro do "
-        "elemento 78, no regime II, com direção oposta a u(ψ):"))
-    a(EQ(("tau", r"\tau = \frac{\left\lbrack \mathbf{b} \times \mathbf{f} \right\rbrack_{z}}{1000},\quad \mathbf{f} = - F\,\mathbf{u}(\psi),\quad \mathbf{b}_{\mathrm{I}} = \mathbf{P},\quad \mathbf{b}_{\mathrm{II}} = \mathbf{C}_{78}")))
-    a(P("em que b é o vetor de O ao ponto de aplicação da força: b = b_{I} no "
-        "regime I e b = b_{II} no regime II."))
-    a(P("No regime II, o trecho x liga dois pontos do mesmo corpo; as forças que "
-        "exerce sobre P e sobre o elemento 78 são iguais, opostas e colineares e não "
-        "contribuem para o torque, o que corresponde à descrição da patente. O braço "
-        "de momento com sinal é"))
+    a(P("O elástico é tratado como linear e sem massa, com a lei da Equação (19) e "
+        "folga abaixo do comprimento livre: δ = max(s − s_{0}, 0) e F = K δ, em que "
+        "s_{0} é o valor de s em que o elástico atinge o comprimento livre. A patente "
+        "não informa K, o comprimento livre nem a pré-tensão; s_{0} é identificado "
+        "pelo espaçamento entre as curvas da Figura 16 da patente (seção ⟦S:ident⟧)."))
+    a(P("A força do trecho ligado a A, f = −F u(ψ), atua em P no regime I e no "
+        "centro do elemento 78 no regime II. O trecho x liga dois pontos da "
+        "alavanca, e as forças que ele exerce sobre eles são iguais, opostas e "
+        "colineares, sem momento resultante. O braço de momento com sinal e o torque "
+        "são"))
     a(EQ(("m", r"m_{\mathrm{I}} = e\sin\left( q - \psi \right),\quad m_{\mathrm{II}} = p\sin\left( q + \varphi - \psi \right),\quad \tau = \frac{Fm}{1000}")))
-    a(P("com m = m_{I} no regime I, m = m_{II} no regime II e m > 0 quando o torque "
-        "assiste a subida. O fator 1/1000, herdado da formulação da seção 3.1.6, "
-        "converte N·mm em N·m; "
-        "aqui o torque resulta em N·m sempre que K estiver em N/mm. Admitido o "
-        "elemento 78 pontual e sem atrito, hipótese que a patente não discute, a "
-        "tração é igual nos dois trechos, e o princípio dos trabalhos virtuais (seção ⟦S:vt2⟧) exige"))
+    a(P("com m > 0 quando o torque assiste a subida; o fator 1/1000 converte N·mm em "
+        "N·m, como na seção 3.1.6. Com o elemento 78 pontual e sem atrito, a tração "
+        "é igual nos dois trechos, e o princípio dos trabalhos virtuais (seção "
+        "⟦S:vt2⟧) dá"))
     a(EQ(("tv", r"\frac{ds}{dq} = - m")))
-    a(P("com q em radianos, relação análoga à Equação (17), verificada "
-        "numericamente nos dois regimes (seção ⟦S:r_verif⟧). O sinal negativo, "
-        "oposto ao da Equação (17), vem de q crescer com a elevação do braço, ao "
-        "passo que θ* decresce; nos dois mecanismos, m é positivo quando assiste a "
-        "subida, e o elástico se encurta quando o braço sobe e devolve energia, como "
-        "descreve a patente."))
+    a(P("com q em radianos, relação análoga à Equação (17) e verificada nos dois "
+        "regimes (seção ⟦S:r_verif⟧). O sinal é oposto ao da Equação (17) porque q "
+        "cresce com a elevação do braço, e θ* decresce; nos dois mecanismos, m > 0 "
+        "assiste a subida, e o elástico se encurta quando o braço sobe."))
 
     # ------------------------------------------------------------ faixa sem torque
     a(SEC("3.2", "zero", "Faixa sem torque com o braço baixado"))
-    a(P("Esta seção faz o papel da seção 3.1.7: indica onde o modelo libera o braço. "
-        "Pela Equação (⟦E:m⟧), m_{II} é proporcional a p, de modo que, abaixo do "
-        "contato, o torque só se anula se o elemento 78 estiver sobre o eixo. "
-        "Com o elemento 78 sobre o eixo (p = 0), configuração preferida pela "
-        "patente, x = ‹e› e o ângulo de contato tem forma fechada:"))
+    a(P("Pela Equação (⟦E:m⟧), m_{II} é proporcional a p: abaixo do contato, o torque "
+        "só se anula com o elemento 78 sobre o eixo (p = 0), configuração preferida "
+        "pela patente. Nesse caso, x = ‹e›, a reta do elástico passa pelo pivô no "
+        "contato, e o ângulo de contato tem forma fechada:"))
     a(EQ(("lamt", r"q^{*} = \operatorname{atan2}\left( r_{AO,y},\ r_{AO,x} \right)")))
-    a(P("Nesse caso, a direção de OP no contato coincide com a de r_{AO}, a reta do "
-        "elástico passa pelo pivô e o torque no regime II é nulo. Com as demais "
-        f"grandezas do CAD, a Equação (⟦E:lamt⟧) dá θ_{{el}} = {f(g['theta_t_p0'])}°. "
+    a(P(f"Com as demais grandezas do CAD, a Equação (⟦E:lamt⟧) dá θ_{{el}} = {f(g['theta_t_p0'])}°. "
         "As curvas da Figura 16 da patente partem de razão nula entre "
         f"{f(min(fg[n]['inicio'] for n in ORDEM), 2)}° e "
         f"{f(max(fg[n]['inicio'] for n in ORDEM), 2)}° (seção ⟦S:r_dados⟧), em média "
-        f"{f(INICIO16 - g['theta_t_p0'], 2)}° acima do contato com o elemento sobre o "
-        f"eixo e bem abaixo do contato com o elemento do CAD, em {f(g['theta_t'], 2)}°. "
-        "A Figura 16 da patente é, assim, compatível com o elemento 78 sobre o eixo, "
-        "e só nesse caso o modelo tem torque nulo antes do contato (seção "
-        "⟦S:r_conf⟧)."))
+        f"{f(INICIO16 - g['theta_t_p0'], 2)}° acima desse contato e bem abaixo do "
+        f"contato com o elemento do CAD, em {f(g['theta_t'], 2)}°: a figura é "
+        "compatível com o elemento 78 sobre o eixo, o único caso em que o modelo tem "
+        "torque nulo antes do contato (seção ⟦S:r_conf⟧)."))
 
     # ------------------------------------------------------------ peso
     a(SEC("3.2", "peso", "Torque gravitacional"))
-    a(P("O torque do peso é calculado de forma independente da cadeia do elástico. "
-        "O conjunto que gira com o braço é rígido, e seu centro de massa, a uma "
-        "distância d de O e a um ângulo a_{CG} do eixo do braço, acompanha θ_{el}:"))
+    a(P("O conjunto que gira com o braço tem o centro de massa a uma distância d de "
+        "O e a um ângulo a_{CG} do eixo do braço, e"))
     a(EQ(("tg", r"\tau_{g} = \frac{Mgd\left| \cos\left( \theta_{\mathrm{el}} - 90^{\circ} + a_{CG} \right) \right|}{1000}")))
     a(P("O conjunto reúne o membro humano e o braço do exoesqueleto (elemento 8), "
-        "cujo centro de massa é referido ao eixo da articulação 20 pela posição "
-        "desse eixo no modelo em CAD (seção ⟦S:r_geo⟧). Com o membro humano, "
-        "alinhado ao eixo do braço, a_{CG} seria nulo e τ_{g} = M g d sin θ_{el}/1000; "
-        f"o braço do exoesqueleto desloca o centro de massa do conjunto em "
-        f"a_{{CG}} = {f(mas['total']['cg_angulo_braco_grau'])}°, e o máximo de "
-        f"τ_{{g}}, {f(mas['tau_g_pico'])} N·m, ocorre em "
+        "cujo centro de massa é referido ao eixo da articulação 20 pela posição desse "
+        "eixo no CAD (seção ⟦S:r_geo⟧). O braço do exoesqueleto desloca o centro de "
+        f"massa do conjunto em a_{{CG}} = {f(mas['total']['cg_angulo_braco_grau'])}°, "
+        f"e o máximo de τ_{{g}}, {f(mas['tau_g_pico'])} N·m, ocorre em "
         f"θ_{{el}} = {f(mas['theta_tau_g_pico'], 1)}°."))
 
     # ------------------------------------------------------------ trabalho virtual
     a(SEC("3.2", "vt2", "Formulação pelo princípio dos trabalhos virtuais"))
     assert SECOES["vt2"] == "3.2.9", SECOES["vt2"]
     a(P("Como na seção ⟦S:vt1⟧, o equilíbrio é escrito pelo trabalho virtual num "
-        "giro δθ_{el} do conjunto, em radianos; pela Equação (⟦E:lam⟧), "
-        "δq = δθ_{el}. Com o elemento 78 pontual e sem atrito e o elástico sem massa, "
-        "o contato é um vínculo. Realizam trabalho a força do elástico sobre a "
-        "alavanca, o peso do conjunto e o torque τ_{u} do usuário."))
-    a(P("Na nomenclatura da seção ⟦S:vt1⟧, b é o vetor de O ao ponto de aplicação da "
-        "força do trecho ligado a A, de módulo b e a um ângulo β de OP, e f = −F u(ψ) "
-        "é o vetor dessa força, ambos da Equação (⟦E:tau⟧). No exoesqueleto 1, o "
-        "ponto de aplicação percorre o tambor, e b e β variam com o ângulo; aqui, ele "
-        "é fixo na alavanca em cada regime, e b e β são constantes:"))
+        "giro δθ_{el} do conjunto, em radianos, com δq = δθ_{el} pela Equação "
+        "(⟦E:lam⟧). Com o elemento 78 pontual e sem atrito e o elástico sem massa, o "
+        "contato é um vínculo ideal, e realizam trabalho a força do elástico sobre a "
+        "alavanca, o peso do conjunto e o torque τ_{u} do usuário. Na nomenclatura da "
+        "seção ⟦S:vt1⟧, b é o vetor de O ao ponto de aplicação da força do trecho "
+        "ligado a A, de módulo b e a um ângulo β de OP, e f = −F u(ψ). No "
+        "exoesqueleto 1, esse ponto percorre o tambor; aqui, ele é fixo na alavanca "
+        "em cada regime, e b e β são constantes:"))
     a(EQ(("vt2_bf", r"\mathbf{b} = b\,\mathbf{u}(q + \beta),\quad \delta W_{e} = \tau\,\delta q = \frac{(\mathbf{b}\times\mathbf{f})_{z}}{1000}\,\delta q,\quad (\mathbf{b}\times\mathbf{f})_{z} = bF\sin(q + \beta - \psi)")))
-    a(P("com (b, β) = (‹e›, 0) no regime I, em que b = P, e (b, β) = (p, φ) no regime "
-        "II, em que b = C_{78} (Equação (⟦E:P⟧)). Com esses valores, b sin(q + β − ψ) "
-        "é o braço m da Equação (⟦E:m⟧). O produto vetorial explica as duas "
-        "particularidades do regime II. O trecho x liga P ao elemento 78, dois pontos "
-        "da alavanca, e suas forças sobre eles são iguais, opostas e colineares, com "
-        "momento resultante nulo; por isso b vai ao elemento 78, e não a P. E, embora "
-        "b salte de P para C_{78} na troca de regime, o torque é contínuo: no "
-        "contato, A, o elemento 78 e P estão alinhados, f é paralelo a P − C_{78}, e "
-        "(P − C_{78}) × f = 0."))
-    a(P("Do lado do elástico, o giro δq muda s de (ds/dq) δq, e a força F = K δ "
-        "realiza o trabalho −F δs/1000; como o contato não realiza trabalho, o "
-        "potencial elástico depende só de s, nos dois regimes. Igualando as duas "
-        "expressões,"))
-    a(EQ(("vt2_tv", r"(\mathbf{b}\times\mathbf{f})_{z} = -F\frac{ds}{dq}\quad\Leftrightarrow\quad\frac{ds}{dq} = -m")))
-    a(P("que é a Equação (⟦E:tv⟧), com o sinal discutido na seção ⟦S:forca⟧. O peso "
-        "entra como no exoesqueleto 1, com τ_{g,s} = −M g x_{G}/1000 e "
-        "x_{G} = d cos(θ_{el} − 90° + a_{CG}), cujo módulo é o τ_{g} da Equação "
-        "(⟦E:tg⟧), e o equilíbrio é o da Equação (⟦E:vt1_eq⟧) com δθ_{el} no lugar de "
-        "δθ*: τ_{u} = −(τ + τ_{g,s}). Aqui, τ está em N·m sob a hipótese K = K_{40} "
-        "(seção ⟦S:dados⟧), e τ_{u} tem valor físico nesse cenário de projeto. Com "
-        "aceleração nula e Q_{nc} = τ_{u}, a Equação (27), escrita em θ_{el}, reduz-se a essa "
-        "condição."))
+    a(P("com (b, β) = (‹e›, 0) no regime I, em que b = P, e (b, β) = (p, φ) no "
+        "regime II, em que b = C_{78} (Equação (⟦E:P⟧)); com esses valores, "
+        "b sin(q + β − ψ) é o braço m da Equação (⟦E:m⟧). Embora b salte de P para "
+        "C_{78} na troca de regime, o torque é contínuo: no contato, A, o elemento 78 "
+        "e P estão alinhados, f é paralelo a P − C_{78}, e (P − C_{78}) × f = 0."))
+    a(P("Do lado do elástico, o giro δq muda s de (ds/dq) δq, e a força realiza o "
+        "trabalho −F δs/1000; como o contato não realiza trabalho, igualar as duas "
+        "expressões dá (b × f)_{z} = −F ds/dq, isto é, a Equação (⟦E:tv⟧). O peso entra "
+        "como no exoesqueleto 1, com τ_{g,s} = −M g x_{G}/1000 e "
+        "x_{G} = d cos(θ_{el} − 90° + a_{CG}), de módulo τ_{g} (Equação (⟦E:tg⟧)), e o "
+        "equilíbrio é o da Equação (⟦E:vt1_eq⟧) com δθ_{el} no lugar de δθ*: "
+        "τ_{u} = −(τ + τ_{g,s}), com τ em N·m sob a hipótese K = K_{40} (seção "
+        "⟦S:dados⟧). Com aceleração nula e Q_{nc} = τ_{u}, a Equação (27), escrita em "
+        "θ_{el}, reduz-se a essa condição."))
 
     # ------------------------------------------------------------ dados
     a(SEC("3.2", "dados", "Dados da patente e identificação dos parâmetros"))
@@ -1680,7 +1643,7 @@ def parte_4B():
          ["Comprimento do elástico de A a P, na pose do CAD", "s", f(g["s_pose_modelo"]),
           "mm", "Derivada, Equação (⟦E:solI⟧)"],
          ["Defasagem entre a direção de p e q", "φ", f(PHI_S),
-          "graus", "Derivada, Equação (⟦E:eta⟧)"],
+          "graus", "Derivada, seção ⟦S:cin⟧"],
          ["Defasagem entre q e θ_{el} + 90°", "q_{0}", f(der["delta"] + EPS), "graus",
           "Derivada, Equação (⟦E:lam0⟧)"],
          ["Anteversão na pose do CAD", "θ_{el,pose}", f(der["theta_pose"]),
@@ -1826,9 +1789,9 @@ def parte_4B():
     a(LEG_T("verif", "Verificações da cadeia de cálculo do modelo da Ottobock"))
     a(TABELA(
         ["Verificação", "Resíduo máximo"],
-        [["Equações de circuito do regime I, Equação (⟦E:circI⟧)",
+        [["Equações de fechamento do regime I, Equações (⟦E:f1⟧) e (⟦E:f2⟧)",
           f"{sci(max(ver['residuo_f1'], ver['residuo_f2']))} mm"],
-         ["Equações de circuito do regime II, Equação (⟦E:circII⟧)",
+         ["Equações de fechamento do regime II, Equações (⟦E:f3⟧) e (⟦E:f4⟧)",
           f"{sci(max(ver['residuo_f3'], ver['residuo_f4']))} mm"],
          ["x constante em q, Equação (⟦E:d78⟧)", f"{sci(ver['d_constante'])} mm"],
          ["Fechamento com o comprimento medido na pose do CAD",
@@ -2737,22 +2700,24 @@ def parte_3C():
     # ------------------------------------------------------------ circuito
     a(SEC("3.3", "e3_circ", "Equação de fechamento do circuito vetorial"))
     a(P("O cabo 560 fecha um circuito vetorial com o suporte e o chassi "
-        "(Figura ⟦F:e3_circ⟧). Os pontos são O, o pivô 584; A, o ponto de ancoragem "
+        "(Figura ⟦F:e3_circ⟧), pelos pontos O, o pivô 584; A, o ponto de ancoragem "
         "562; D, o pino 572; e T, o ponto em que o cabo deixa a polia primária. Os "
-        "vetores são C_{1}, de A a O, fixo no suporte; C_{2}, de O a D, solidário ao "
-        "chassi; R, de D a T, o raio da polia primária; e S, de T a A, o vão livre do "
-        "cabo. Com a direção de C_{2} igual a 180° − q no referencial do CAD, o "
-        "fechamento é"))
-    a(EQ(("e3_fech", r"S\,\mathbf{u}\left( \theta \right) + R\,\mathbf{u}\left( \varphi \right) + C_{2}\,\mathbf{u}\left( 180^{\circ} - q \right) + C_{1}\,\mathbf{u}\left( \gamma \right) = \mathbf{0}")))
-    a(P("O mecanismo tem um grau de liberdade. A variável primária é q, e as secundárias "
-        "são S e φ: como o cabo é tangente à polia (seção ⟦S:e3_tang⟧), θ não é livre, e "
-        "a tangência elimina uma incógnita, não uma equação. Com d = A − D, a solução é "
-        "fechada, como a das Equações (7) e (8):"))
+        "vetores são C_{1}, de A a O, fixo no suporte, na direção γ; C_{2}, de O a D, "
+        "solidário ao chassi, na direção 180° − q do referencial do CAD; R, de D a T, "
+        "o raio da polia primária, na direção φ; e S, de T a A, o vão livre do cabo, "
+        "na direção θ. O circuito fechado, "
+        "S u(θ) + R u(φ) + C_{2} u(180° − q) + C_{1} u(γ) = 0, tem as componentes"))
+    a(EQ(("e3_f1", r"f_{1} = S\cos\theta + R\cos\varphi - C_{2}\cos q + C_{1}\cos\gamma = 0"),
+         ("e3_f2", r"f_{2} = S\sin\theta + R\sin\varphi + C_{2}\sin q + C_{1}\sin\gamma = 0")))
+    a(P("O mecanismo tem um grau de liberdade: a variável primária é q, e as "
+        "secundárias são S e φ, porque o cabo sai tangente à polia, com θ = φ − 90° "
+        "(seção ⟦S:e3_tang⟧), e a tangência elimina uma incógnita, não uma equação. "
+        "Com d = A − D, a solução é fechada, como a das Equações (7) e (8):"))
     a(EQ(("e3_sol", r"\mathbf{d} = -\left[ C_{1}\,\mathbf{u}\left( \gamma \right) + C_{2}\,\mathbf{u}\left( 180^{\circ} - q \right) \right],\quad S = \sqrt{\left| \mathbf{d} \right|^{2} - R^{2}},\quad \varphi = \operatorname{atan2}\left( d_{y},\ d_{x} \right) + \operatorname{atan2}\left( S,\ R \right)")))
     a(P("A tangente existe enquanto |d| > R; o limite |d| = R é tratado na seção "
         "⟦S:e3_zero⟧. O caminho inverso também fecha: com θ dado, φ = θ + 90°, "
-        "w = −[R u(φ) + C_{1} u(γ)] e q = 180° − φ ± acos(w·u(φ)/C_{2}). Dos dois ramos, "
-        "o certo se escolhe por continuidade a partir da pose do CAD."))
+        "w = −[R u(φ) + C_{1} u(γ)] e q = 180° − φ ± acos(w·u(φ)/C_{2}); dos dois "
+        "ramos, o certo se escolhe por continuidade a partir da pose do CAD."))
     a(LEG_F("e3_circ", "Circuito do cabo de ancoragem sobre a Figura 14D da "
             "US 9.737.374 B2, na pose do desenho, e contorno do came da Figura 15A "
             "ajustado ao desenho"))
@@ -2765,19 +2730,18 @@ def parte_3C():
     # ------------------------------------------------------------ tangência
     a(SEC("3.3", "e3_tang", "Ponto de tangência, distância b, ângulo β e braço de momento"))
     a(P("O cabo 560 deixa a polia primária tangente a ela, com θ = φ + σ 90°; o lado "
-        "σ = −1, isto é, θ = φ − 90°, é o confirmado na pose do CAD. O vetor b vai de O a "
-        "T, e β é o ângulo em O entre C_{2} e b, no triângulo O, D, T, como as grandezas "
-        "das Equações (11) e (12):"))
-    a(EQ(("e3_tang", r"\mathbf{b} = C_{2}\,\mathbf{u}\left( 180^{\circ} - q \right) + R\,\mathbf{u}\left( \varphi \right),\quad b^{2} = C_{2}^{2} + R^{2} - 2C_{2}R\cos\left( \varphi + q \right),\quad R^{2} = C_{2}^{2} + b^{2} - 2C_{2}b\cos\beta")))
-    a(P("A direção de b, no referencial do CAD, é 180° − q − β. Com f = F_{a} u(θ), a "
-        "tração do cabo 560 aplicada em T, o torque em torno de O é"))
+        "σ = −1, isto é, θ = φ − 90°, é o confirmado na pose do CAD. O vetor de O a T "
+        "é"))
+    a(EQ(("e3_tang", r"\mathbf{b} = C_{2}\,\mathbf{u}\left( 180^{\circ} - q \right) + R\,\mathbf{u}\left( \varphi \right)")))
+    a(P("de módulo b e a um ângulo β de C_{2}, como na seção 3.1.5; a direção de b é "
+        "180° − q − β. Com f = F_{a} u(θ), a tração do cabo 560 aplicada em T, o torque "
+        "em torno de O é"))
     a(EQ(("e3_tau", r"\tau = \frac{\left( \mathbf{b}\times\mathbf{f} \right)_{z}}{1000},\quad \left( \mathbf{b}\times\mathbf{f} \right)_{z} = -bF_{a}\sin\left( \theta + q + \beta \right) = F_{a}m_{a},\quad m_{a} = C_{1}\sin\left( \gamma - \theta \right)")))
     a(P("A segunda forma vem do fechamento, b = −S u(θ) − C_{1} u(γ): como a linha do "
-        "cabo passa por A, o braço de momento m_{a} só depende de θ e não passa de C_{1}, "
-        "assim como |m| ≤ |B| na Equação (14). Esse é o b certo porque o apoio de braço, "
-        "com o chassi, as polias, a mola e o cabo 634, gira em torno de O como um corpo "
-        "só: a mola e o cabo 634 exercem forças internas a ele, e o único esforço externo "
-        "do mecanismo é a tração F_{a} do cabo 560, que atua em T."))
+        "cabo passa por A, o braço m_{a} só depende de θ e não passa de C_{1}, como "
+        "|m| ≤ |B| na Equação (14). Esse é o b certo porque o apoio de braço, com o "
+        "chassi, as polias, a mola e o cabo 634, gira em torno de O como um corpo só, "
+        "e o único esforço externo do mecanismo é a tração F_{a} do cabo 560, em T."))
 
     # ------------------------------------------------------------ força
     a(SEC("3.3", "e3_forca", "Caminho do cabo, lei da mola e torque"))
@@ -2787,14 +2751,13 @@ def parte_3C():
         "isto é, a distância de D à linha do cabo 634, o equilíbrio do par dá "
         "F_{a} R = F_{s} r."))
     a(P("O perfil do canal saiu da Figura 15B, um corte pelo plano do canal em que a área "
-        "hachurada é o fundo do canal. Na imagem da folha 22, a região hachurada foi "
-        "isolada pelos vãos brancos da hachura, faixas retas inclinadas de 45° e com 21 px "
-        "de largura, e completada pelos pedaços brancos a menos de 26 px dela, que são as "
-        "lascas junto ao contorno e os entalhes onde as cotas cruzam a borda. O contorno "
-        "fechado, centrado no furo 654 (pino 572), foi dividido pelo raio médio da zona "
-        "Z10, R20, tomado como raio de referência (Figura ⟦F:e3_came⟧a). As zonas foram "
-        "localizadas pelas linhas de chamada das cotas: Z10 de 89,6° a 140,4°, Z11 de "
-        "152,4° a 218,8° e Z12 de 242,6° a 292,6°, no referencial da Figura 15B."))
+        "hachurada é o fundo do canal: na imagem da folha 22, essa área foi isolada pelos "
+        "vãos brancos da hachura e completada pelas lascas junto ao contorno e pelos "
+        "entalhes das cotas. O contorno fechado, centrado no furo 654 (pino 572), foi "
+        "dividido pelo raio médio da zona Z10, R20, tomado como referência (Figura "
+        "⟦F:e3_came⟧a), e as zonas, localizadas pelas linhas de chamada das cotas, vão de "
+        "89,6° a 140,4° (Z10), de 152,4° a 218,8° (Z11) e de 242,6° a 292,6° (Z12), no "
+        "referencial da Figura 15B."))
     a(P("O cabo tracionado passa reto sobre concavidades. O raio efetivo é, por isso, a "
         "função suporte da envoltória convexa do canal: para cada direção φ_{c} normal "
         "ao cabo, no referencial do came, r(φ_{c}) é a maior projeção dos pontos do "
@@ -2811,16 +2774,13 @@ def parte_3C():
              "de saída"))
     a(PEQUENO("Fonte: elaborada pelo autor, a partir da Figura 15B da US 9.737.374 B2 "
               "(DOYLE, 2017).", True))
-    a(P("O cabo 634 sai do came tangente a ele e segue até a polia de reversão 630. Com "
-        "a polia a uma distância L de D, na direção λ, e de raio r_{630}, a tangência "
-        "fixa a direção normal ao cabo em λ − 90° + δ, com δ = asin[(r − r_{630})/L]: o "
-        "ângulo do cabo depende do giro das polias por meio do próprio r, e a equação é "
-        "implícita. Numa geometria de teste com L = 4,5 R20 e r_{630} = 0,5 R20, δ varia "
-        "de −2,3° a 6,4° ao longo do curso e muda r em até 0,031 R20."))
-    a(P("Por decisão do autor, a polia 630 fica fora da varredura: o cabo é tomado na "
-        "direção de 572 para 632, medida na Figura 14D, o que equivale a L infinito. A "
-        "mola, cuja rigidez e cujo comprimento livre a patente não informa, entra como "
-        "mola linear, e o torque fica"))
+    a(P("O cabo 634 sai do came tangente a ele e segue até a polia de reversão 630, de "
+        "modo que a sua direção depende do próprio r; numa geometria de teste, com a "
+        "polia a 4,5 R20 de D e raio 0,5 R20, essa dependência muda r em até 0,031 R20. "
+        "Por decisão do autor, a polia 630 fica fora da varredura: o cabo é tomado na "
+        "direção de 572 para 632, medida na Figura 14D, como se a polia estivesse no "
+        "infinito. A mola, cuja rigidez e cujo comprimento livre a patente não informa, "
+        "entra como mola linear, e o torque fica"))
     a(EQ(("e3_forca", r"F_{a} = \frac{F_{s}\,r}{R},\quad F_{s} = k\left( x_{0} + \Delta x \right),\quad \tau = \frac{F_{s}}{1000}\,\frac{r}{R}\,C_{1}\sin\left( \gamma - \theta \right)")))
     a(P("em que x_{0} é o alongamento na pose do CAD e Δx o alongamento desde ela, "
         "obtido na seção ⟦S:e3_vt⟧; k e x_{0} são identificados na seção ⟦S:e3_dados⟧. "
@@ -2830,10 +2790,8 @@ def parte_3C():
     # ------------------------------------------------------------ ponto morto
     pm = N3["ponto_morto"]
     a(SEC("3.3", "e3_zero", "Ponto morto e limite de subida"))
-    a(P("No gerador da seção 3.1.7, o torque se anula num ponto morto, e no dispositivo "
-        "da seção 3.2.7, numa faixa com o braço baixado. Neste mecanismo, o braço de "
-        "momento m_{a} se anula quando o cabo 560 passa por O, alinhado a C_{1}, e o vão "
-        "S se anula quando a ancoragem chega à polia:"))
+    a(P("O braço de momento m_{a} se anula quando o cabo 560 passa por O, alinhado a "
+        "C_{1}, e o vão S se anula quando a ancoragem chega à polia:"))
     a(EQ(("e3_lim", r"m_{a} = 0\quad \Leftrightarrow \quad \theta = \gamma + 180^{\circ},\qquad S = 0\quad \Leftrightarrow \quad \left| \mathbf{d} \right| = R")))
     a(P(f"A primeira condição dá q = {f(pm['q'], 2)}°, isto é, Θ = {f(pm['theta'], 1)}°, "
         "fora da faixa da Figura 16 da US 9.737.374 B2, que começa em −75°: o mecanismo "
@@ -2846,8 +2804,7 @@ def parte_3C():
 
     # ------------------------------------------------------------ peso
     a(SEC("3.3", "e3_peso", "Torque gravitacional"))
-    a(P("O torque do peso é calculado de forma independente da cadeia da mola. O "
-        "conjunto que gira com o braço reúne o membro superior e o apoio de braço, e cada "
+    a(P("O conjunto que gira com o braço reúne o membro superior e o apoio de braço, e cada "
         "corpo i, de massa m_{i}, tem o centro de massa a d_{i} de O e a a_{i} do eixo "
         "maior (seção ⟦S:e3_inercia⟧). O módulo do torque do peso é"))
     a(EQ(("e3_tg", r"\tau_{g} = \frac{g}{1000}\left| \sum_{i}m_{i}d_{i}\cos\left( \Theta + a_{i} \right) \right|")))
@@ -3156,7 +3113,7 @@ def parte_4C():
     a(LEG_T("e3_verif", "Verificações da cadeia de cálculo do modelo da Levitate"))
     a(TABELA(
         ["Verificação", "Resultado"],
-        [["Fechamento com as grandezas do CAD, Equação (⟦E:e3_fech⟧)",
+        [["Fechamento com as grandezas do CAD, Equações (⟦E:e3_f1⟧) e (⟦E:e3_f2⟧)",
           f"{sci(ver['fechamento_cad_mm'])} mm"],
          ["S e φ da solução fechada contra o CAD, Equação (⟦E:e3_sol⟧)",
           f"{sci(ver['S_cad_mm'])} mm; {sci(ver['fi_cad_grau'])}°"],

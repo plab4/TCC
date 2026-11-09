@@ -1,10 +1,10 @@
 # Verificação do TCC em LaTeX
 
-DOCX: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.docx. PDF: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.pdf, 123 páginas; capítulos nas páginas 13 a 114, referências a partir da página 115, apêndices a partir da página 119.
+DOCX: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.docx. PDF: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.pdf, 122 páginas; capítulos nas páginas 13 a 113, referências a partir da página 114, apêndices a partir da página 118.
 
 ## 1. Texto corrido, títulos, legendas, fontes e notas
 
-Elementos conferidos: 597. Encontrados no PDF: 597.
+Elementos conferidos: 591. Encontrados no PDF: 591.
 Encontrados com interrupção do lado do PDF (cabeçalho, figura ou tabela no meio do parágrafo): 7.
 Diferenças esperadas, impostas pelo estilo ABNT do modelo: 'SHEN et al., 2020' passa a 'SHEN; FERGUSON; ROSEN, 2020'.
 
@@ -16,7 +16,7 @@ Células com texto procuradas no PDF: 1990; não encontradas: 0.
 
 ## 3. Equações
 
-Equações no DOCX: 68, numeradas de (1) a (68). Números ausentes do PDF: nenhum.
+Equações no DOCX: 66, numeradas de (1) a (66). Números ausentes do PDF: nenhum.
 
 ## 4. Referências
 

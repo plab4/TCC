@@ -1,6 +1,6 @@
 # Verificação do DOCX no formato do modelo
 
-DOCX: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco_modelo_FT.docx. Referência de formato e texto: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.pdf (123 páginas). Conteúdo de origem: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.docx.
+DOCX: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco_modelo_FT.docx. Referência de formato e texto: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.pdf (122 páginas). Conteúdo de origem: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.docx.
 
 ## 1. Capa, folha de rosto, folha de aprovação e resumo
 
@@ -8,7 +8,7 @@ Parágrafos conferidos: 32; ausentes do PDF do LaTeX: 0.
 
 ## 2. Corpo do texto
 
-Parágrafos, títulos, legendas, itens, fontes e notas conferidos: 597; ausentes do PDF do LaTeX: 0.
+Parágrafos, títulos, legendas, itens, fontes e notas conferidos: 591; ausentes do PDF do LaTeX: 0.
 
 ## 3. Tabelas
 
@@ -16,7 +16,7 @@ Tabelas: 34 no DOCX novo e 34 no DOCX fundido. Células: 2029; diferentes do DOC
 
 ## 4. Equações
 
-Equações: 68 no DOCX novo e 68 no fundido; OMML idêntica: 68; numeração de (1) a (68).
+Equações: 66 no DOCX novo e 66 no fundido; OMML idêntica: 66; numeração de (1) a (66).
 
 ## 5. Figuras
 

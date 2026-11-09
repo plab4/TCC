@@ -402,7 +402,7 @@ Direção do centro do elemento 78 na pose do CAD & q\textsubscript{78,pose} & 2
 Ângulo do braço com a horizontal na pose do CAD, positivo acima & θ\textsubscript{b,pose} & 7,962 & graus & CAD; sinal conferido \\
 Direção de OP na pose do CAD & q\textsubscript{pose} & 160,487 & graus & Derivada, igual a q\textsubscript{c,pose} \\
 Comprimento do elástico de A a P, na pose do CAD & s & 346,686 & mm & Derivada, Equação~\eqref{eq:40} \\
-Defasagem entre a direção de p e q & φ & 117,450 & graus & Derivada, Equação~\eqref{eq:35} \\
+Defasagem entre a direção de p e q & φ & 117,450 & graus & Derivada, seção~\ref{sec:3.2.4} \\
 Defasagem entre q e θ\textsubscript{el} + 90° & q\textsubscript{0} & −27,475 & graus & Derivada, Equação~\eqref{eq:32} \\
 Anteversão na pose do CAD & θ\textsubscript{el,pose} & 97,962 & graus & Derivada, Equação~\eqref{eq:32} \\
 Distância de A a O & |r\textsubscript{AO}| & 341,686 & mm & Derivada, Equação~\eqref{eq:33} \\
@@ -522,15 +522,15 @@ As verificações automáticas da seção~\ref{sec:3.2.12} resultaram nos resíd
 \toprule
 \centering\textbf{Verificação} & \centering\textbf{Resíduo máximo} \tabularnewline
 \midrule
-Equações de circuito do regime I, Equação~\eqref{eq:36} & 5,7 × 10\textsuperscript{−14} mm \\
-Equações de circuito do regime II, Equação~\eqref{eq:37} & 5,7 × 10\textsuperscript{−14} mm \\
+Equações de fechamento do regime I, Equações~\eqref{eq:35} e \eqref{eq:36} & 5,7 × 10\textsuperscript{−14} mm \\
+Equações de fechamento do regime II, Equações~\eqref{eq:37} e \eqref{eq:38} & 5,7 × 10\textsuperscript{−14} mm \\
 x constante em q, Equação~\eqref{eq:39} & 7,1 × 10\textsuperscript{−15} mm \\
 Fechamento com o comprimento medido na pose do CAD & 1,4 × 10\textsuperscript{−4} mm \\
-Trabalho virtual no regime I, Equação~\eqref{eq:46} & 5,0 × 10\textsuperscript{−8} mm/rad \\
-Trabalho virtual no regime II, Equação~\eqref{eq:46} & 4,7 × 10\textsuperscript{−8} mm/rad \\
+Trabalho virtual no regime I, Equação~\eqref{eq:44} & 5,0 × 10\textsuperscript{−8} mm/rad \\
+Trabalho virtual no regime II, Equação~\eqref{eq:44} & 4,7 × 10\textsuperscript{−8} mm/rad \\
 Continuidade de s no contato & 0 mm \\
 Continuidade de τ/F na transição & 1,5 × 10\textsuperscript{−12} mm \\
-Caso p = 0: q* numérico contra a Equação~\eqref{eq:47} & 4,6 × 10\textsuperscript{−14} rad \\
+Caso p = 0: q* numérico contra a Equação~\eqref{eq:45} & 4,6 × 10\textsuperscript{−14} rad \\
 Caso p = 0: s = |r\textsubscript{AO}| + \textit{e} no regime II & 0 mm \\
 Caso p = 0: τ no regime II, força unitária & 0 N·mm \\
 τ pelo produto vetorial contra τ = F m/1000 & 1,8 × 10\textsuperscript{−15} N·m \\
@@ -545,11 +545,11 @@ Espaçamento entre curvas: s\textsubscript{0} conhecidos recuperados em curvas s
 
 \subsection{\texorpdfstring{Identificação de s\textsubscript{0} pelo espaçamento entre as curvas}{Identificação de s0 pelo espaçamento entre as curvas}}\label{sec:4.2.4}
 
-Pela Equação~\eqref{eq:53}, na faixa adotada, s\textsubscript{0} vale 311,148 mm na curva pontilhada, 300,750 mm na tracejada e 291,956 mm na contínua, com RMSE de 0,194 mm nas 234 equações. A ordem coincide com a das pré-tensões descritas na patente, porque menor s\textsubscript{0} significa maior extensão do elástico em qualquer ângulo, e os passos entre curvas, 10,40 e 8,79 mm, são da mesma ordem. O modelo adota o s\textsubscript{0} da curva tracejada, de pré-tensão intermediária entre as três, como configuração de referência; a seção~\ref{sec:4.2.9} mostra o efeito de adotar o das outras duas.
+Pela Equação~\eqref{eq:50}, na faixa adotada, s\textsubscript{0} vale 311,148 mm na curva pontilhada, 300,750 mm na tracejada e 291,956 mm na contínua, com RMSE de 0,194 mm nas 234 equações. A ordem coincide com a das pré-tensões descritas na patente, porque menor s\textsubscript{0} significa maior extensão do elástico em qualquer ângulo, e os passos entre curvas, 10,40 e 8,79 mm, são da mesma ordem. O modelo adota o s\textsubscript{0} da curva tracejada, de pré-tensão intermediária entre as três, como configuração de referência; a seção~\ref{sec:4.2.9} mostra o efeito de adotar o das outras duas.
 
 A identificação é estável: entre as faixas de θ\textsubscript{el} testadas, o s\textsubscript{0} da curva tracejada varia de 299,81 a 301,95 mm, e o ruído de extração dá desvio padrão de 0,772 mm nessa curva. O sinal oposto de θ\textsubscript{b,pose} piora o espaçamento, com RMSE de 0,406 mm contra 0,194 mm; o deslocamento da abscissa da figura praticamente não o melhora; e a abscissa espelhada deixaria o elástico frouxo em todos os ângulos. A Tabela~\ref{tab:comprimento-referencia-s0-identificado} e os detalhes estão no Apêndice A.
 
-Os fatores G\textsubscript{i} da Equação~\eqref{eq:54} coincidem nas três curvas (Figura~\ref{fig:identificacao-s0-espacamento-curvas}(a)), com dispersão mediana de 0,84\% entre 20° e 165° e de no máximo 4,87\% até 150°. Acima de 150°, a dispersão cresce, até 116,4\% em 165°, porque a extensão da curva pontilhada tende a zero e o quociente da Equação~\eqref{eq:54} fica mal condicionado. O comprimento do elástico lido no espaçamento entre as curvas pontilhada e contínua, s = (r\textsubscript{c} s\textsubscript{0,p} − r\textsubscript{p} s\textsubscript{0,c})/(r\textsubscript{c} − r\textsubscript{p}), difere do s do CAD em 0,84 mm RMS e no máximo 1,72 mm entre 35° e 155°: a variação de s com o ângulo implícita na figura é a do modelo.
+Os fatores G\textsubscript{i} da Equação~\eqref{eq:51} coincidem nas três curvas (Figura~\ref{fig:identificacao-s0-espacamento-curvas}(a)), com dispersão mediana de 0,84\% entre 20° e 165° e de no máximo 4,87\% até 150°. Acima de 150°, a dispersão cresce, até 116,4\% em 165°, porque a extensão da curva pontilhada tende a zero e o quociente da Equação~\eqref{eq:51} fica mal condicionado. O comprimento do elástico lido no espaçamento entre as curvas pontilhada e contínua, s = (r\textsubscript{c} s\textsubscript{0,p} − r\textsubscript{p} s\textsubscript{0,c})/(r\textsubscript{c} − r\textsubscript{p}), difere do s do CAD em 0,84 mm RMS e no máximo 1,72 mm entre 35° e 155°: a variação de s com o ângulo implícita na figura é a do modelo.
 
 O fim da curva pontilhada confirma o resultado de forma independente. A razão dessa curva, extrapolada, chega a zero em 171,19° com os dois últimos pontos e em 171,45° com os três últimos, onde s = 309,75 e 309,68 mm, a 1,40 e 1,47 mm do s\textsubscript{0} identificado pelo espaçamento; com esse s\textsubscript{0}, o modelo afrouxa a partir de 166,2°. A patente não diz em que posição a pré-tensão é medida. Interpretando a pré-tensão quase nula como extensão próxima de zero na posição de menor comprimento do elástico, perto de 180°, o s\textsubscript{0} identificado é compatível com essa descrição: a curva pontilhada fica frouxa perto de 180°, com s(180°) − s\textsubscript{0} = −3,20 mm, e as curvas tracejada e contínua têm extensão de 7,20 e 15,99 mm em 180°.
 
@@ -565,7 +565,7 @@ O ângulo em que as curvas começam, perto de 14°, não identifica s\textsubscr
 
 \subsection{Forma das curvas e ajuste de forma}\label{sec:4.2.5}
 
-Com os valores de s\textsubscript{0} da seção~\ref{sec:4.2.4}, o fator G lido na Figura 16 da patente e a forma m/(1000 τ\textsubscript{g}) do modelo diferem (Figura~\ref{fig:identificacao-s0-espacamento-curvas}(b)). Normalizada em 90°, a razão entre os dois vale 0,26 em 20°, 0,79 em 60°, 1,34 em 120°, 2,02 em 150° e 2,94 em 165°. Com esses valores de s\textsubscript{0} e com o m do CAD e o τ\textsubscript{g} do conjunto, a razão calculada não reproduz a Figura 16 da patente: com escala comum às três curvas, o coeficiente de determinação é −0,417 (pontilhada), −1,529 (tracejada) e −0,620 (contínua). Como o s implícito na figura concorda com o do CAD (seção~\ref{sec:4.2.4}), a diferença não se explica por s. Restam o braço de momento, que depende da derivada de s, e o torque do peso que a patente usou para formar a razão, que o texto não define de forma consistente (seção~\ref{sec:3.2.10}). Entre 35° e 155°, atribuir ao braço de momento toda a diferença afastaria o s implícito do s do CAD, pela Equação~\eqref{eq:46}, em até 5,82 mm (2,42 mm RMS), mais que os 1,72 mm (0,84 mm RMS) observados: a concordância de s descarta o braço de momento como causa principal e favorece o torque do peso usado pela patente ou a definição da ordenada, que a patente não permite separar.
+Com os valores de s\textsubscript{0} da seção~\ref{sec:4.2.4}, o fator G lido na Figura 16 da patente e a forma m/(1000 τ\textsubscript{g}) do modelo diferem (Figura~\ref{fig:identificacao-s0-espacamento-curvas}(b)). Normalizada em 90°, a razão entre os dois vale 0,26 em 20°, 0,79 em 60°, 1,34 em 120°, 2,02 em 150° e 2,94 em 165°. Com esses valores de s\textsubscript{0} e com o m do CAD e o τ\textsubscript{g} do conjunto, a razão calculada não reproduz a Figura 16 da patente: com escala comum às três curvas, o coeficiente de determinação é −0,417 (pontilhada), −1,529 (tracejada) e −0,620 (contínua). Como o s implícito na figura concorda com o do CAD (seção~\ref{sec:4.2.4}), a diferença não se explica por s. Restam o braço de momento, que depende da derivada de s, e o torque do peso que a patente usou para formar a razão, que o texto não define de forma consistente (seção~\ref{sec:3.2.10}). Entre 35° e 155°, atribuir ao braço de momento toda a diferença afastaria o s implícito do s do CAD, pela Equação~\eqref{eq:44}, em até 5,82 mm (2,42 mm RMS), mais que os 1,72 mm (0,84 mm RMS) observados: a concordância de s descarta o braço de momento como causa principal e favorece o torque do peso usado pela patente ou a definição da ordenada, que a patente não permite separar.
 
 O ajuste de forma da seção~\ref{sec:3.2.10} deixa s\textsubscript{0} e a escala livres em cada curva e, por isso, absorve essa diferença em s\textsubscript{0}. Os valores que ele encontra (Tabela~\ref{tab:ajuste-s0-forma-curva}, no Apêndice A), 294,34 mm na pontilhada, 213,40 mm na tracejada e 0,00 mm na contínua, o limite inferior da busca, afastam-se dos do espaçamento em 16,8, 87,4 e 292,0 mm, e as escalas por curva contrariam o atuador único descrito na patente. São mantidos como resultado secundário: descrevem a melhor forma que o modelo consegue produzir com a geometria do CAD, e não a pré-tensão do dispositivo.
 
@@ -765,7 +765,7 @@ Direção de R & φ & 352,869 & graus & CAD \\
 Direção de S & θ & 262,869 & graus & CAD \\
 Ângulo em O entre C\textsubscript{2} e b & β & 15,979 & graus & CAD \\
 Defasagem entre C\textsubscript{2} e o eixo maior &  & 26,741 & graus & CAD \\
-Ângulo do apoio de braço na pose & Θ & −88,465 & graus & Derivada, Equação~\eqref{eq:56} \\
+Ângulo do apoio de braço na pose & Θ & −88,465 & graus & Derivada, Equação~\eqref{eq:53} \\
 Raio de referência do came & R20 & 32,035 & mm & Documental, Figuras 14C e 14D \\
 \bottomrule
 \end{tabularx}
@@ -845,13 +845,13 @@ As verificações da seção~\ref{sec:3.3.12} resultaram nos valores da Tabela~\
 \toprule
 \centering\textbf{Verificação} & \centering\textbf{Resultado} \tabularnewline
 \midrule
-Fechamento com as grandezas do CAD, Equação~\eqref{eq:57} & 5,9 × 10\textsuperscript{−4} mm \\
-S e φ da solução fechada contra o CAD, Equação~\eqref{eq:58} & 1,6 × 10\textsuperscript{−5} mm; 2,4 × 10\textsuperscript{−4}° \\
-b e β do triângulo O, D, T contra o CAD, Equação~\eqref{eq:59} & 4,6 × 10\textsuperscript{−4} mm; 9,8 × 10\textsuperscript{−5}° \\
-Duas formas do braço de momento, Equação~\eqref{eq:60} & 2,1 × 10\textsuperscript{−13} mm \\
+Fechamento com as grandezas do CAD, Equações~\eqref{eq:54} e \eqref{eq:55} & 5,9 × 10\textsuperscript{−4} mm \\
+S e φ da solução fechada contra o CAD, Equação~\eqref{eq:56} & 1,6 × 10\textsuperscript{−5} mm; 2,4 × 10\textsuperscript{−4}° \\
+b e β do triângulo O, D, T contra o CAD, Equação~\eqref{eq:57} & 4,6 × 10\textsuperscript{−4} mm; 9,8 × 10\textsuperscript{−5}° \\
+Duas formas do braço de momento, Equação~\eqref{eq:58} & 2,1 × 10\textsuperscript{−13} mm \\
 Caminho inverso: q recuperado de θ & 5,8 × 10\textsuperscript{−11}° \\
-Trabalho virtual: τ/F\textsubscript{s} contra −dx/dΘ, Equação~\eqref{eq:65} & 1,8 × 10\textsuperscript{−5}, relativo \\
-Rotação das polias pelo enrolamento contra dθ\textsubscript{p}/dΘ, Equação~\eqref{eq:65} & 2,2 × 10\textsuperscript{−7} \\
+Trabalho virtual: τ/F\textsubscript{s} contra −dx/dΘ, Equação~\eqref{eq:63} & 1,8 × 10\textsuperscript{−5}, relativo \\
+Rotação das polias pelo enrolamento contra dθ\textsubscript{p}/dΘ, Equação~\eqref{eq:63} & 2,2 × 10\textsuperscript{−7} \\
 Cabo 634 na geometria de teste: dℓ/dθ\textsubscript{p} contra −r & 3,2 × 10\textsuperscript{−5} R20 \\
 Montagens do came: comprimento do cabo da mola contra Δx integrado, came desenhado & 6,6 × 10\textsuperscript{−7} mm \\
 Tensor de inércia: transporte do centro de massa à origem & 5,5 × 10\textsuperscript{−4}, relativo \\
@@ -892,7 +892,7 @@ Posição do pivô 584 no referencial da peça & O & (−112,07; 3,61) mm & Deri
 \fonte{elaborada pelo autor.}
 \end{table}
 
-Com o giro do came da Figura 14D, o ajuste da Equação~\eqref{eq:66} nos 97 pontos de Θ = −75° a 21°, abaixo do limite de subida, dá k = 0,492 N/mm e x\textsubscript{0} = 323,6 mm; a mola trabalha de 158 N em −75° a 114 N em 21°. Com o peso do apoio de braço somado ao alvo, k = 0,610 N/mm e x\textsubscript{0} = 293,6 mm. A Tabela~\ref{tab:mola-linear-ajustada-curva} resume esses ajustes, o do melhor giro da seção~\ref{sec:4.3.7} e, para comparação, o da escala do artigo de \textcite{okabe2026}.
+Com o giro do came da Figura 14D, o ajuste da Equação~\eqref{eq:64} nos 97 pontos de Θ = −75° a 21°, abaixo do limite de subida, dá k = 0,492 N/mm e x\textsubscript{0} = 323,6 mm; a mola trabalha de 158 N em −75° a 114 N em 21°. Com o peso do apoio de braço somado ao alvo, k = 0,610 N/mm e x\textsubscript{0} = 293,6 mm. A Tabela~\ref{tab:mola-linear-ajustada-curva} resume esses ajustes, o do melhor giro da seção~\ref{sec:4.3.7} e, para comparação, o da escala do artigo de \textcite{okabe2026}.
 
 \begin{table}[!htbp]
 \estilotabela{\footnotesize}
@@ -1006,7 +1006,7 @@ Com outra mola ajustada a cada montagem (Figura~\ref{fig:montagens-came-furos-to
 
 \subsection{Confronto entre o torque do cabo e o torque gravitacional}\label{sec:4.3.8}
 
-Pela Equação~\eqref{eq:64}, o torque gravitacional do conjunto chega a 11,45 N·m em Θ = −0,6°, quase com o eixo na horizontal. Na horizontal, o membro responde por 10,55 N·m, e o apoio de braço, por 0,90 N·m, 9\% do membro. Sozinho, o peso do apoio chega a 0,91 N·m em Θ = −7,9° e vale 0,18 N·m na pose do CAD; o giro do came muda esse valor em até 0,01 N·m.
+Pela Equação~\eqref{eq:62}, o torque gravitacional do conjunto chega a 11,45 N·m em Θ = −0,6°, quase com o eixo na horizontal. Na horizontal, o membro responde por 10,55 N·m, e o apoio de braço, por 0,90 N·m, 9\% do membro. Sozinho, o peso do apoio chega a 0,91 N·m em Θ = −7,9° e vale 0,18 N·m na pose do CAD; o giro do came muda esse valor em até 0,01 N·m.
 
 A Tabela~\ref{tab:curva-aasm-modelo-ajustado} compara, nos ângulos marcados na Figura 16 da US 9.737.374 B2, a curva AASM na escala da AWM e o torque do modelo ajustado com o torque gravitacional do conjunto. A AASM fica entre 0,53 e 0,89 vezes τ\textsubscript{g}, e o modelo, entre 0,71 e 0,88 vezes. Na horizontal, a AASM sustenta 96\% do peso do membro, a razão AASM/|AWM| da própria patente, e 89\% do peso do conjunto, com o apoio de braço. Os picos quase coincidem em ângulo: a AASM tem máximo em Θ = 1°, τ\textsubscript{g} em −0,6° e o modelo ajustado em −4,6°.
 
