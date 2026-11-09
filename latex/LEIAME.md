@@ -13,10 +13,10 @@ Versão LaTeX do `tcc/TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_
 |---|---|
 | `tese.tex` | Arquivo principal: dados da capa e da folha de rosto, ordem dos elementos |
 | `preambulo.tex` | Pacotes e comandos acrescentados ao modelo |
-| `capitulos/*.tex` | Os cinco capítulos, gerados a partir do DOCX por `tcc/gerar_latex.py` |
+| `capitulos/*.tex` | Os cinco capítulos e o apêndice A (`apendices.tex`, depois de `\appendix`), gerados a partir do DOCX por `tcc/gerar_latex.py` |
 | `bibliografia.bib` | As 45 referências da lista do DOCX |
 | `resumo.tex`, `agradecimentos.tex` | Elementos pré-textuais |
-| `figuras/` | As 14 figuras, extraídas do DOCX |
+| `figuras/` | As 20 figuras, extraídas do DOCX |
 | `logotipos/logo-fca.png` | Recorte do logotipo enviado com o modelo |
 | `tese-FT.cls`, `README.md`, `CHANGELOG.md` | Arquivos do modelo, sem alteração |
 | `TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.pdf` | PDF compilado |
@@ -38,11 +38,11 @@ A folha de aprovação, com a banca e a data, já aparece nesta versão por caus
 
 O texto dos parágrafos, tabelas, legendas, fontes e notas é o do DOCX. Mudou só o que o modelo ou a norma impõem:
 
-- **Títulos.** Os títulos de capítulo estão em caixa normal ("Introdução"), como no modelo.
+- **Títulos.** Os títulos de capítulo estão em caixa normal ("Introdução"), como no modelo. O apêndice, que no DOCX é "APÊNDICE A: ROBUSTEZ ...", sai como "Apêndice A" sobre o título, pelo `\appendix` do modelo.
 - **Legendas.** Todas seguem o formato "Tabela 1: ...". No DOCX, as legendas do exoesqueleto 1 usavam travessão.
 - **Citações.** Saem em caixa normal, como "(Spada et al., 2017)", pela NBR 10520:2023 adotada no modelo. Na lista de referências, o sobrenome também sai em caixa normal.
 - **"(SHEN et al., 2020)"** passa a "(Shen; Ferguson; Rosen, 2020)": a obra tem três autores, e a norma cita os três.
-- **Posição de figuras e tabelas.** As figuras e as tabelas curtas são flutuantes e podem mudar de página em relação ao DOCX. As tabelas 2, 3, 6, 14, 16, 25 e 36 podem atravessar páginas e repetem o cabeçalho na continuação. A numeração continua corrida, como no DOCX: Figura 1 a 20, Tabela 1 a 37, Equação (1) a (70). Para numerar por capítulo, veja o comentário em `preambulo.tex`.
+- **Posição de figuras e tabelas.** As figuras e as tabelas curtas são flutuantes e podem mudar de página em relação ao DOCX. As tabelas 4, 12, 14, 20, 30 e 31 podem atravessar páginas e repetem o cabeçalho na continuação. A numeração continua corrida, como no DOCX, inclusive no apêndice: Figura 1 a 20, Tabela 1 a 34, Equação (1) a (68). Para numerar por capítulo, veja o comentário em `preambulo.tex`.
 - **Ligações.** As caixas em volta das ligações são o padrão do modelo e aparecem só na tela. Para escondê-las, acrescente `\hypersetup{hidelinks}` ao `preambulo.tex`.
 
 ## Versão em Word no mesmo formato

@@ -17,6 +17,8 @@ Critérios:
 6. cada referência aparece na lista de referências do PDF do LaTeX;
 7. sumário e listas têm todas as entradas, com número de página;
 8. as fontes Linux Libertine O estão embutidas.
+Os apêndices, depois das referências nos dois documentos, entram nos
+critérios 2 a 5 com o corpo do texto.
 """
 import html
 import re
@@ -76,9 +78,15 @@ def main():
     # pré-textuais do PDF: as páginas antes da Lista de Figuras
     p_listas = next(i for i, t in enumerate(paginas, 1) if t.lstrip().startswith("Lista de Figuras"))
     fonte_pre = norm(" ".join(paginas[:p_listas - 1]))
+    # apêndices: no PDF, páginas com "Apêndice A" no topo depois das referências
+    p_ap = min((i for i, t in enumerate(paginas, 1)
+                if i > p_ref and re.match(r"\s*(?:\d+\s*\n)?\s*Apêndice [A-Z]\s*\n", t)),
+               default=n_pag + 1)
     corpo_pdf = vl.texto_pdf(pdf, p_cap1, p_ref - 1)
+    if p_ap <= n_pag:
+        corpo_pdf += "\n" + vl.texto_pdf(pdf, p_ap, n_pag)
     fonte = norm(corpo_pdf)
-    fonte_ref = norm(vl.texto_pdf(pdf, p_ref, n_pag))
+    fonte_ref = norm(vl.texto_pdf(pdf, p_ref, p_ap - 1))
 
     diga("# Verificação do DOCX no formato do modelo")
     diga()
@@ -89,6 +97,11 @@ def main():
     # divisão do DOCX novo: pré-textuais até o primeiro "Capítulo 1"
     i_cap1 = next(i for i, b in enumerate(bn) if norm(texto(b)).startswith("Capítulo1Introdução"))
     i_ref = max(i for i, b in enumerate(bn) if texto(b).strip() == "Referências")
+    i_ap = next((i for i, b in enumerate(bn) if i > i_ref and 'w:val="Ttulo1"' in b
+                 and re.match(r"Apêndice [A-Z]", texto(b))), len(bn))
+    if (i_ap < len(bn)) != (p_ap <= n_pag):
+        falhas.append("apêndice só num dos documentos")
+    corpo_n = bn[i_cap1:i_ref] + bn[i_ap:]
     pre = [texto(b) for b in bn[:i_cap1]]
     i_resumo_fim = next(i for i, t in enumerate(pre) if t.strip() == "Lista de Figuras")
 
@@ -102,7 +115,7 @@ def main():
     diga()
 
     # 2 a 5. corpo
-    tabs_n = [b for b in bn[i_cap1:i_ref] if b.startswith("<w:tbl")]
+    tabs_n = [b for b in corpo_n if b.startswith("<w:tbl")]
     tabs_f = [b for b in bf if b.startswith("<w:tbl")]
     eq_n = [b for b in tabs_n if "<m:oMath>" in b]
     eq_f = [b for b in tabs_f if "<m:oMath>" in b]
@@ -112,7 +125,7 @@ def main():
     legenda_pos = None
     i_tab = 0
     n_cel = 0
-    for b in bn[i_cap1:i_ref]:
+    for b in corpo_n:
         if b.startswith("<w:tbl"):
             if "<m:oMath>" in b:
                 continue
@@ -190,7 +203,7 @@ def main():
     diga()
 
     # 6. referências
-    refs = [texto(b) for b in bn[i_ref + 1:] if texto(b).strip()]
+    refs = [texto(b) for b in bn[i_ref + 1:i_ap] if texto(b).strip()]
     faltam_ref = [r for r in refs if not vl.encontrar(norm(r), fonte_ref)[0]]
     falhas += ["referência: " + r[:100] for r in faltam_ref]
     diga("## 6. Referências")

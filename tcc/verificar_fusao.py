@@ -11,7 +11,9 @@ parte. Deduz a renumeração das legendas do próprio documento e confere:
 2. tabelas, figuras, equações e seções em sequência;
 3. toda referência a tabela, figura, equação ou seção aponta para um
    elemento existente, e figuras da patente estão qualificadas;
-4. o texto novo não tem travessões nem restos da numeração do apêndice;
+4. o texto novo não tem travessões nem restos da numeração do apêndice antigo
+   (A.n); os apêndices atuais vêm depois das referências, e toda menção a um
+   apêndice aponta para um que existe;
 5. onde foram parar os parágrafos do apêndice da versão anterior;
 6. as demais partes do pacote não mudaram.
 
@@ -239,6 +241,15 @@ def main():
                    or m.group(2).startswith(", 16"))
         if not patente and n > len(figs):
             erros.append("figura da patente sem qualificação: " + m.group(0))
+    # apêndices: títulos "APÊNDICE X: ..." depois de REFERÊNCIAS
+    i_refs = tits.index("REFERÊNCIAS")
+    letras = [re.match(r"APÊNDICE ([A-Z]): ", t) for t in tits]
+    aps = [m.group(1) for m in letras if m]
+    assert all(i > i_refs for i, m in enumerate(letras) if m), "apêndice antes das referências"
+    assert aps == [chr(ord("A") + k) for k in range(len(aps))], aps
+    for m in re.finditer(r"\bApêndices? ([A-Z])\b", todo):
+        if m.group(1) not in aps:
+            erros.append(f"apêndice inexistente: {m.group(0)}")
     for m in re.finditer(r"\bEquaç(?:ão|ões) \((\d+)\)", todo):
         if int(m.group(1)) > len(eqs):
             erros.append(m.group(0))
@@ -258,13 +269,14 @@ def main():
     # 4. texto novo
     novos = [b for i, b in enumerate(Nn) if i not in casados]
     novo_txt = " ".join(txt(b) for b in novos)
-    restos = re.findall(r"(?:apêndice|Apêndice|APÊNDICE|seção A\.\d+|Tabela A\.\d+|"
-                        r"Figura A\.\d+|\(A\.\d+\))", novo_txt)
+    restos = re.findall(r"(?:seção A\.\d+|Tabela A\.\d+|Figura A\.\d+|\(A\.\d+\))",
+                        novo_txt)
     travessoes = novo_txt.count("—") + novo_txt.count("–")
     diga("## 4. Texto novo")
     diga()
     diga(f"Blocos novos: {len(novos)}. Travessões: {travessoes}. Restos da numeração do "
-         f"apêndice: {len(restos)}.")
+         f"apêndice antigo: {len(restos)}. Apêndices depois das referências: "
+         f"{', '.join(aps) or 'nenhum'}.")
     diga()
 
     # 5. parágrafos do apêndice anterior

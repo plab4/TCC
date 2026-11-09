@@ -14,7 +14,10 @@ Critérios:
    do DOCX, com os \\ref resolvidos pelo .aux e sem as citações (conferidas
    no critério 1 e no PDF); e o texto de cada célula aparece no PDF depois da
    legenda da sua tabela;
-3. as 52 equações estão numeradas de (1) a (52) e cada número aparece no PDF;
+3. as equações estão numeradas de (1) em diante, sem lacuna, e cada número
+   aparece no PDF;
+Os apêndices, que no DOCX vêm depois da lista de referências, entram nos
+critérios 1 a 3 com o texto dos capítulos.
 4. cada referência da lista do DOCX aparece na lista do PDF;
 5. o log não tem referência, citação ou rótulo indefinido, e o PDF não tem "??".
 
@@ -69,7 +72,8 @@ def texto_pdf(pdf, primeira, ultima):
             if linhas[k].strip() == str(p):
                 linhas.pop(k)
                 break
-        if linhas and re.match(r"^(Capítulo \d+\.|Referências$)", linhas[0]) and p != primeira:
+        if linhas and re.match(r"^(Capítulo \d+\.|Apêndice [A-Z]\.|Referências$)", linhas[0]) \
+                and p != primeira:
             linhas.pop(0)
         partes.append("\n".join(linhas))
     return "\n".join(partes)
@@ -169,8 +173,12 @@ def tex_para_texto(t, rot):
 def celulas_tex(pasta):
     """Células das tabelas no código gerado, na ordem do texto."""
     tabelas = []
-    for nome in ["introducao", "fundamentacao", "materiais_metodos", "resultados", "conclusao"]:
-        src = (pasta / "capitulos" / f"{nome}.tex").read_text(encoding="utf-8")
+    for nome in ["introducao", "fundamentacao", "materiais_metodos", "resultados", "conclusao",
+                 "apendices"]:
+        arq = pasta / "capitulos" / f"{nome}.tex"
+        if nome == "apendices" and not arq.exists():
+            continue
+        src = arq.read_text(encoding="utf-8")
         for m in re.finditer(r"\\begin\{(tabularx|xltabular)\}\{\\textwidth\}\{.*?\}\n(.*?)"
                              r"\\end\{\1\}", src, flags=re.S):
             corpo = m.group(2)
@@ -194,6 +202,10 @@ def main():
     corpo = doc[doc.index("<w:body>") + 8:]
     blocos = re.findall(r"<w:p[ >].*?</w:p>|<w:tbl>.*?</w:tbl>", corpo, flags=re.S)
     i_ref = next(i for i, b in enumerate(blocos) if texto(b) == "REFERÊNCIAS")
+    # apêndices: "APÊNDICE A: ..." depois da lista de referências
+    i_ap = next((i for i, b in enumerate(blocos) if i > i_ref
+                 and texto(b).startswith("APÊNDICE ")), len(blocos))
+    corpo_docx = blocos[1:i_ref] + blocos[i_ap:]
 
     n_pag = int(re.search(r"Pages:\s+(\d+)", subprocess.run(
         ["pdfinfo", str(pdf)], capture_output=True, text=True).stdout).group(1))
@@ -202,8 +214,15 @@ def main():
     p_cap1 = next(i for i, t in enumerate(paginas, 1) if re.search(r"Capítulo 1\s+Introdução", t))
     p_ref = min(i for i, t in enumerate(paginas, 1)
                 if i > p_cap1 and re.match(r"\s*(?:\d+\s*\n)?\s*Referências\s*\n", t))
+    # no PDF, o apêndice começa numa página com "Apêndice A" no topo
+    p_ap = min((i for i, t in enumerate(paginas, 1)
+                if i > p_ref and re.match(r"\s*(?:\d+\s*\n)?\s*Apêndice [A-Z]\s*\n", t)),
+               default=n_pag + 1)
+    assert (p_ap <= n_pag) == (i_ap < len(blocos)), "apêndice só num dos documentos"
     corpo_pdf = texto_pdf(pdf, p_cap1, p_ref - 1)
-    refs_pdf = texto_pdf(pdf, p_ref, n_pag)
+    if p_ap <= n_pag:
+        corpo_pdf += "\n" + texto_pdf(pdf, p_ap, n_pag)
+    refs_pdf = texto_pdf(pdf, p_ref, p_ap - 1)
     fonte = norm(corpo_pdf)
 
     falhas = []
@@ -214,7 +233,8 @@ def main():
     diga("# Verificação do TCC em LaTeX")
     diga()
     diga(f"DOCX: {docx.name}. PDF: {pdf.name}, {n_pag} páginas; capítulos nas páginas "
-         f"{p_cap1} a {p_ref - 1}, referências a partir da página {p_ref}.")
+         f"{p_cap1} a {p_ref - 1}, referências a partir da página {p_ref}"
+         + (f", apêndices a partir da página {p_ap}." if p_ap <= n_pag else "."))
     diga()
 
     # 1 e 2. texto corrido e tabelas
@@ -222,7 +242,7 @@ def main():
     interrompidos = []
     usadas = []
     legenda_pos = None
-    for b in blocos[1:i_ref]:
+    for b in corpo_docx:
         if b.startswith("<w:tbl"):
             if "<m:oMath>" in b:
                 continue
@@ -289,7 +309,7 @@ def main():
     diga()
 
     # 3. equações
-    nums = [int(n) for b in blocos[1:i_ref] if b.startswith("<w:tbl") and "<m:oMath>" in b
+    nums = [int(n) for b in corpo_docx if b.startswith("<w:tbl") and "<m:oMath>" in b
             for n in re.findall(r"<w:t>\((\d+)\)</w:t>", b)]
     faltam = [n for n in nums if f"({n})" not in corpo_pdf]
     if nums != list(range(1, len(nums) + 1)) or faltam:
@@ -301,7 +321,7 @@ def main():
     diga()
 
     # 4. referências
-    refs = [texto(b) for b in blocos[i_ref + 1:] if texto(b).strip()]
+    refs = [texto(b) for b in blocos[i_ref + 1:i_ap] if texto(b).strip()]
     fonte_ref = norm(refs_pdf)
     faltam_ref = [r for r in refs if not encontrar(norm(r), fonte_ref)[0]]
     falhas += ["referência: " + r[:120] for r in faltam_ref]

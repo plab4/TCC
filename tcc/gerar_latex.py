@@ -25,13 +25,19 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parent.parent
 
 ARQUIVOS = {1: "introducao", 2: "fundamentacao", 3: "materiais_metodos",
-            4: "resultados", 5: "conclusao"}
+            4: "resultados", 5: "conclusao", "apendices": "apendices"}
 TITULOS_CAPITULO = {
     "INTRODUÇÃO": "Introdução",
     "FUNDAMENTAÇÃO TEÓRICA": "Fundamentação teórica",
     "MATERIAIS E MÉTODOS": "Materiais e métodos",
     "RESULTADOS E DISCUSSÃO": "Resultados e discussão",
     "CONCLUSÃO": "Conclusão",
+}
+# apêndices: no DOCX, "APÊNDICE A: TÍTULO", depois das referências; no LaTeX,
+# capítulos depois de \appendix, em capitulos/apendices.tex
+TITULOS_APENDICE = {
+    "ROBUSTEZ DA IDENTIFICAÇÃO E AJUSTE DE FORMA NO EXOESQUELETO 2":
+        "Robustez da identificação e ajuste de forma no exoesqueleto 2",
 }
 
 # caracteres fora do Latin-1 usados no texto corrido; o preâmbulo declara
@@ -359,6 +365,7 @@ def slug(t, usados, prefixo):
 
 CAPTION = re.compile(r"^(Tabela|Figura) (\d+)(?: —|:) ")
 TITULO = [
+    (re.compile(r"^APÊNDICE ([A-Z]): (.+)$"), "appendix"),
     (re.compile(r"^(\d) (.+)$"), "chapter"),
     (re.compile(r"^(\d\.\d+) (.+)$"), "section"),
     (re.compile(r"^(\d\.\d+\.\d+) (.+)$"), "subsection"),
@@ -520,7 +527,10 @@ def converter(docx, destino):
     titulo_doc = texto(blocos[0])
     assert estilo(blocos[0]) == "Ttulo1"
     fim = next(i for i, b in enumerate(blocos) if texto(b) == "REFERÊNCIAS")
-    blocos = blocos[1:fim]
+    # a lista de referências sai do biblatex; os apêndices vêm depois dela
+    i_ap = next((i for i, b in enumerate(blocos) if i > fim and estilo(b) == "Ttulo2"
+                 and texto(b).startswith("APÊNDICE ")), len(blocos))
+    blocos = blocos[1:fim] + blocos[i_ap:]
     eqs = equacoes_pandoc(docx)
     assert len(eqs) == doc.count("<m:oMath>")
     rot = pre_rotulos(blocos)
@@ -572,6 +582,13 @@ def converter(docx, destino):
                 capitulos[atual] = [f"% Gerado por tcc/gerar_latex.py a partir de {Path(docx).name}.",
                                     "% Edite à vontade; uma nova geração sobrescreve este arquivo.", ""]
                 emitir([f"\\chapter{{{TITULOS_CAPITULO[nome]}}}\\label{{sec:{num}}}", ""])
+            elif nivel == "appendix":
+                atual = "apendices"
+                if atual not in capitulos:
+                    capitulos[atual] = [
+                        f"% Gerado por tcc/gerar_latex.py a partir de {Path(docx).name}.",
+                        "% Apêndices, incluídos depois de \\appendix em tese.tex.", ""]
+                emitir([f"\\chapter{{{TITULOS_APENDICE[nome]}}}\\label{{sec:ap{num}}}", ""])
             else:
                 lx = para_latex(runs(b), rot, cit, cortar_inicio=len(num) + 1)
                 if "\\" in lx:

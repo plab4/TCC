@@ -725,139 +725,153 @@ def converter_corpo(doc, docx, tx, larguras):
                            z.read("word/_rels/document.xml.rels").decode()))
     blocos = gl.blocos_do_corpo(xml)
     i_ref = next(i for i, b in enumerate(blocos) if gl.texto(b) == "REFERÊNCIAS")
-    corpo, refs = blocos[1:i_ref], blocos[i_ref + 1:]
+    # apêndices: "APÊNDICE A: ..." depois da lista de referências
+    i_ap = next((i for i, b in enumerate(blocos) if i > i_ref and gl.estilo(b) == "Ttulo2"
+                 and gl.texto(b).startswith("APÊNDICE ")), len(blocos))
+    corpo, refs, apendices = blocos[1:i_ref], blocos[i_ref + 1:i_ap], blocos[i_ap:]
     eq_tab = [b for b in corpo if b.startswith("<w:tbl") and "<m:oMath>" in b]
     assert len(eq_tab) > 0
-
     c = doc.corpo
-    capitulo = None
-    primeiro = True          # primeiro parágrafo depois de título: sem recuo
-    anterior = None          # tipo do bloco anterior
-    lista_aberta = False
-    secoes = []              # (número do capítulo, título) para os cabeçalhos
 
-    def fecha_capitulo():
-        if capitulo is None:
-            return
-        cp = doc.cabecalho(f"Capítulo {capitulo}. {secoes[-1][1]}", True)
-        pr = doc.cabecalho("", False)
-        c.append(par("", linha=20, regra="exact", sect=sect(cp, pr)))
+    def processar(corpo, fechar_ultimo=True):
+        """Converte os capítulos (ou os apêndices) e devolve o cabeçalho
+        corrente do último, para a seção final quando ele não é fechado aqui."""
+        capitulo = None
+        primeiro = True          # primeiro parágrafo depois de título: sem recuo
+        anterior = None          # tipo do bloco anterior
+        lista_aberta = False
+        secoes = []              # (rótulo do capítulo, título) para os cabeçalhos
 
-    def notas(j):
-        saida = []
-        while j < len(corpo) and not corpo[j].startswith("<w:tbl"):
-            t = gl.texto(corpo[j])
-            m = re.match(r"(Fonte|Nota): ", t)
-            if not m:
-                break
-            saida.append(par(tx.runs(gl.runs(corpo[j]), sz=20), estilo="FonteNota"))
-            j += 1
-        return saida, j
+        def fecha_capitulo():
+            if capitulo is None:
+                return
+            cp = doc.cabecalho(f"{secoes[-1][0]}. {secoes[-1][1]}", True)
+            pr = doc.cabecalho("", False)
+            c.append(par("", linha=20, regra="exact", sect=sect(cp, pr)))
 
-    def legenda(tipo, segs, cortar):
-        marca, n = doc.marca()
-        txt_plano = "".join(t for t, _ in segs)[cortar:]
-        conteudo = tx.runs(segs, cortar=cortar)
-        num = len(doc.legendas[tipo]) + 1
-        texto_toc = run(f"{tipo} {num}: ") + conteudo
-        doc.legendas[tipo].append((texto_toc, marca, f"{tipo} {num}: " + txt_plano))
-        larg = largura_texto(f"{tipo} {num}: " + txt_plano, 12, larguras)
-        jc = "center" if larg <= LARG_TEXTO / 20 else "both"
-        dentro = run(f"{tipo} ") + campo(f"SEQ {tipo} \\* ARABIC", str(num)) + run(": ") + conteudo
-        # tabela: o filete superior fica mais longe da legenda que a imagem
-        return par(marcador(marca, n, dentro), estilo="Legenda", jc=jc,
-                   depois=258 if tipo == "Tabela" else None)
+        def notas(j):
+            saida = []
+            while j < len(corpo) and not corpo[j].startswith("<w:tbl"):
+                t = gl.texto(corpo[j])
+                m = re.match(r"(Fonte|Nota): ", t)
+                if not m:
+                    break
+                saida.append(par(tx.runs(gl.runs(corpo[j]), sz=20), estilo="FonteNota"))
+                j += 1
+            return saida, j
 
-    i = 0
-    while i < len(corpo):
-        b = corpo[i]
-        t = gl.texto(b)
-        if not b.startswith("<w:tbl") and gl.estilo(b) == "Ttulo2":
-            nivel, num, nome = gl.classificar_titulo(t)
-            if lista_aberta:
-                lista_aberta = False
-            if nivel == "chapter":
-                fecha_capitulo()
-                capitulo = int(num)
-                titulo = gl.TITULOS_CAPITULO[nome]
-                secoes.append((capitulo, titulo))
-                marca, n = doc.marca()
-                tc = campo_tc(f"{num}\t{titulo}")
-                c.append(espacador(ESPACO_CAPITULO))
-                c.append(par(marcador(marca, n, run(f"Capítulo {num}") + quebra() + run(titulo)) + tc,
-                             estilo="Ttulo1"))
-                doc.sumario.append((1, num, run(titulo), marca, f"Capítulo {num} {titulo}"))
-            else:
-                est = "Ttulo2" if nivel == "section" else "Ttulo3"
-                conteudo = tx.runs(gl.runs(b), cortar=len(num) + 1)
-                marca, n = doc.marca()
-                antes = None
-                if anterior == "Ttulo2" and est == "Ttulo3":
-                    antes = 286   # título logo abaixo de outro: LaTeX não soma os espaços
-                c.append(par(marcador(marca, n, run(num + "\t") + conteudo), estilo=est, antes=antes))
-                doc.sumario.append((2 if est == "Ttulo2" else 3, num, conteudo, marca, f"{num} {t[len(num) + 1:]}"))
-                anterior = est
-            if nivel == "chapter":
-                anterior = "Ttulo1"
-            primeiro = True
-            i += 1
-            continue
-        if b.startswith("<w:tbl") and "<m:oMath>" in b:
-            c.append(tabela_equacao(b))
-            primeiro = False
-            anterior = "eq"
-            i += 1
-            continue
-        m = gl.CAPTION.match(t)
-        if m:
-            tipo, n_doc = m.group(1), int(m.group(2))
-            segs = gl.runs(b)
-            if tipo == "Tabela":
-                c.append(legenda("Tabela", segs, m.end()))
-                ns, j = notas(i + 2)
-                c.extend(tabela_dados(corpo[i + 1], tx))
-                c.extend(ns)
-            else:
-                if "<w:drawing" in b:
-                    img, j0 = b, i + 1
+        def legenda(tipo, segs, cortar):
+            marca, n = doc.marca()
+            txt_plano = "".join(t for t, _ in segs)[cortar:]
+            conteudo = tx.runs(segs, cortar=cortar)
+            num = len(doc.legendas[tipo]) + 1
+            texto_toc = run(f"{tipo} {num}: ") + conteudo
+            doc.legendas[tipo].append((texto_toc, marca, f"{tipo} {num}: " + txt_plano))
+            larg = largura_texto(f"{tipo} {num}: " + txt_plano, 12, larguras)
+            jc = "center" if larg <= LARG_TEXTO / 20 else "both"
+            dentro = run(f"{tipo} ") + campo(f"SEQ {tipo} \\* ARABIC", str(num)) + run(": ") + conteudo
+            # tabela: o filete superior fica mais longe da legenda que a imagem
+            return par(marcador(marca, n, dentro), estilo="Legenda", jc=jc,
+                       depois=258 if tipo == "Tabela" else None)
+
+        i = 0
+        while i < len(corpo):
+            b = corpo[i]
+            t = gl.texto(b)
+            if not b.startswith("<w:tbl") and gl.estilo(b) == "Ttulo2":
+                nivel, num, nome = gl.classificar_titulo(t)
+                if lista_aberta:
+                    lista_aberta = False
+                if nivel in ("chapter", "appendix"):
+                    fecha_capitulo()
+                    if nivel == "chapter":
+                        capitulo = int(num)
+                        rotulo, titulo = f"Capítulo {num}", gl.TITULOS_CAPITULO[nome]
+                    else:
+                        capitulo = num
+                        rotulo, titulo = f"Apêndice {num}", gl.TITULOS_APENDICE[nome]
+                    secoes.append((rotulo, titulo))
+                    marca, n = doc.marca()
+                    tc = campo_tc(f"{num}\t{titulo}")
+                    c.append(espacador(ESPACO_CAPITULO))
+                    c.append(par(marcador(marca, n, run(rotulo) + quebra() + run(titulo)) + tc,
+                                 estilo="Ttulo1"))
+                    doc.sumario.append((1, num, run(titulo), marca, f"{rotulo} {titulo}"))
                 else:
-                    img, j0 = corpo[i + 1], i + 2
-                c.append(legenda("Figura", segs, m.end()))
-                rid = re.search(r'<a:blip r:embed="([^"]+)"', img).group(1)
-                alvo = rels[rid]
-                cx0 = int(re.search(r'<wp:extent cx="(\d+)" cy="(\d+)"', img).group(1))
-                cy0 = int(re.search(r'<wp:extent cx="(\d+)" cy="(\d+)"', img).group(2))
-                frac = round(min(cx0 / (9360 * 635), 1.0), 2)
-                cx = round(frac * EMU_TEXTO)
-                cy = round(cy0 * cx / cx0)
-                descr = html.unescape(re.search(r'descr="([^"]*)"', img).group(1)) if 'descr="' in img else ""
-                c.append(par(doc.imagem(z.read("word/" + alvo), alvo.rsplit(".", 1)[1], cx, cy, descr),
-                             estilo="Figura"))
-                ns, j = notas(j0)
-                c.extend(ns)
-            anterior = "float"
-            i = j
-            continue
-        mi = re.match(r"([a-i])\) ", t)
-        if mi and capitulo == 1:
-            item = run(mi.group(1) + ")\t") + tx.runs(gl.runs(b), cortar=mi.end())
-            antes = None if lista_aberta else (178 if anterior not in ("Ttulo2", "Ttulo3") else 0)
-            c.append(par(item, estilo="ItemLista", antes=antes))
-            lista_aberta = True
-            primeiro = False
-            anterior = "item"
+                    est = "Ttulo2" if nivel == "section" else "Ttulo3"
+                    conteudo = tx.runs(gl.runs(b), cortar=len(num) + 1)
+                    marca, n = doc.marca()
+                    antes = None
+                    if anterior == "Ttulo2" and est == "Ttulo3":
+                        antes = 286   # título logo abaixo de outro: LaTeX não soma os espaços
+                    c.append(par(marcador(marca, n, run(num + "\t") + conteudo), estilo=est, antes=antes))
+                    doc.sumario.append((2 if est == "Ttulo2" else 3, num, conteudo, marca, f"{num} {t[len(num) + 1:]}"))
+                    anterior = est
+                if nivel in ("chapter", "appendix"):
+                    anterior = "Ttulo1"
+                primeiro = True
+                i += 1
+                continue
+            if b.startswith("<w:tbl") and "<m:oMath>" in b:
+                c.append(tabela_equacao(b))
+                primeiro = False
+                anterior = "eq"
+                i += 1
+                continue
+            m = gl.CAPTION.match(t)
+            if m:
+                tipo, n_doc = m.group(1), int(m.group(2))
+                segs = gl.runs(b)
+                if tipo == "Tabela":
+                    c.append(legenda("Tabela", segs, m.end()))
+                    ns, j = notas(i + 2)
+                    c.extend(tabela_dados(corpo[i + 1], tx))
+                    c.extend(ns)
+                else:
+                    if "<w:drawing" in b:
+                        img, j0 = b, i + 1
+                    else:
+                        img, j0 = corpo[i + 1], i + 2
+                    c.append(legenda("Figura", segs, m.end()))
+                    rid = re.search(r'<a:blip r:embed="([^"]+)"', img).group(1)
+                    alvo = rels[rid]
+                    cx0 = int(re.search(r'<wp:extent cx="(\d+)" cy="(\d+)"', img).group(1))
+                    cy0 = int(re.search(r'<wp:extent cx="(\d+)" cy="(\d+)"', img).group(2))
+                    frac = round(min(cx0 / (9360 * 635), 1.0), 2)
+                    cx = round(frac * EMU_TEXTO)
+                    cy = round(cy0 * cx / cx0)
+                    descr = html.unescape(re.search(r'descr="([^"]*)"', img).group(1)) if 'descr="' in img else ""
+                    c.append(par(doc.imagem(z.read("word/" + alvo), alvo.rsplit(".", 1)[1], cx, cy, descr),
+                                 estilo="Figura"))
+                    ns, j = notas(j0)
+                    c.extend(ns)
+                anterior = "float"
+                i = j
+                continue
+            mi = re.match(r"([a-i])\) ", t)
+            if mi and capitulo == 1:
+                item = run(mi.group(1) + ")\t") + tx.runs(gl.runs(b), cortar=mi.end())
+                antes = None if lista_aberta else (178 if anterior not in ("Ttulo2", "Ttulo3") else 0)
+                c.append(par(item, estilo="ItemLista", antes=antes))
+                lista_aberta = True
+                primeiro = False
+                anterior = "item"
+                i += 1
+                continue
+            if t.strip():
+                est = "SemRecuo" if primeiro else None
+                antes = 122 if anterior == "item" else None
+                c.append(par(tx.runs(gl.runs(b)), estilo=est, antes=antes))
+                primeiro = False
+                anterior = "par"
+                lista_aberta = False
             i += 1
-            continue
-        if t.strip():
-            est = "SemRecuo" if primeiro else None
-            antes = 122 if anterior == "item" else None
-            c.append(par(tx.runs(gl.runs(b)), estilo=est, antes=antes))
-            primeiro = False
-            anterior = "par"
-            lista_aberta = False
-        i += 1
-    fecha_capitulo()
-    return refs, rels
+        if fechar_ultimo:
+            fecha_capitulo()
+        return f"{secoes[-1][0]}. {secoes[-1][1]}" if secoes else None
+
+    processar(corpo)
+    return refs, rels, ((lambda: processar(apendices, fechar_ultimo=False)) if apendices else None)
 
 
 def tabela_equacao(b):
@@ -1029,15 +1043,21 @@ def montar(docx_origem, paginas, fontes, render, d):
     cmap, hmtx = f.getBestCmap(), f["hmtx"]
     larguras = {u: hmtx[g][0] for u, g in cmap.items()}
 
-    refs, rels_orig = converter_corpo(doc, docx_origem, tx, larguras)
+    refs, rels_orig, apendices = converter_corpo(doc, docx_origem, tx, larguras)
     referencias(doc, refs, rels_orig)
+    cab_final = "Referências"
+    if apendices:
+        # fecha a seção das referências; a seção final passa a ser a do último apêndice
+        doc.corpo.append(par("", linha=20, regra="exact",
+                             sect=sect(doc.cabecalho("Referências", True), doc.cabecalho("", False))))
+        cab_final = apendices()
     corpo = doc.corpo
     doc.corpo = []
     logo = (LATEX / "logotipos" / "logo-fca.png").read_bytes()
     pre_textuais(doc, d, logo)
     listas_e_sumario(doc, paginas)
     doc.corpo.append(par("", linha=20, sect=sect()))
-    cab_ref = doc.cabecalho("Referências", True)
+    cab_ref = doc.cabecalho(cab_final, True)
     pri_ref = doc.cabecalho("", False)
     final = sect(cab_ref, pri_ref).replace('<w:type w:val="nextPage"/>', "")
     xml_doc = ('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'
@@ -1188,9 +1208,11 @@ def main():
     tx = Textos(cit)
     xml = zipfile.ZipFile(origem).read("word/document.xml").decode("utf-8")
     comandos = []
-    for b in gl.blocos_do_corpo(xml):
-        if gl.texto(b) == "REFERÊNCIAS":
-            break
+    blocos = gl.blocos_do_corpo(xml)
+    i_ref = next(i for i, b in enumerate(blocos) if gl.texto(b) == "REFERÊNCIAS")
+    i_ap = next((i for i, b in enumerate(blocos) if i > i_ref and gl.texto(b).startswith("APÊNDICE ")),
+                len(blocos))
+    for b in blocos[:i_ref] + blocos[i_ap:]:
         for p in re.findall(r"<w:p[ >].*?</w:p>", b, flags=re.S) if b.startswith("<w:tbl") else [b]:
             comandos += tx.coletar(gl.runs(p))
     render = renderizar_citacoes(comandos)

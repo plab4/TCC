@@ -1,0 +1,117 @@
+% Gerado por tcc/gerar_latex.py a partir de TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.docx.
+% Apêndices, incluídos depois de \appendix em tese.tex.
+
+\chapter{Robustez da identificação e ajuste de forma no exoesqueleto 2}\label{sec:apA}
+
+Este apêndice reúne as análises de robustez da identificação de s\textsubscript{0} pelo espaçamento entre as curvas da Figura 16 da EP 3 504 033 B1 (seções~\ref{sec:3.2.10} e \ref{sec:4.2.4}) e o ajuste de forma, mantido como resultado secundário (seção~\ref{sec:4.2.5}).
+
+A identificação foi repetida nas faixas de θ\textsubscript{el} de 15° a 170°, de 25° a 160° e de 40° a 150°; em 500 sorteios com ruído gaussiano de 0,5 px, o erro mediano declarado na extração, nas duas coordenadas de cada ponto; com o sinal de θ\textsubscript{b,pose} oposto; com a abscissa da figura deslocada de ±0,93°, diferença entre o contato calculado com p = 0 e o início das curvas, e num deslocamento varrido de −20° a +40°; e com a abscissa espelhada, θ\textsubscript{el} → 180° − θ\textsubscript{el}, como teste de discriminação. Nos casos de abscissa deslocada ou espelhada, a faixa de identificação vale para os ângulos da figura, e os pontos usados são os mesmos da faixa adotada.
+
+\begin{table}[!htbp]
+\estilotabela{\small}
+\caption{Comprimento de referência s\textsubscript{0} identificado pelo espaçamento entre as curvas da Figura 16 da patente}\label{tab:comprimento-referencia-s0-identificado}
+\begin{tabularx}{\textwidth}{@{}>{\hsize=1.581\hsize\raggedright\arraybackslash}X>{\hsize=0.855\hsize\centering\arraybackslash}X>{\hsize=0.855\hsize\centering\arraybackslash}X>{\hsize=0.855\hsize\centering\arraybackslash}X>{\hsize=0.855\hsize\centering\arraybackslash}X@{}}
+\toprule
+\centering\textbf{Caso} & \centering\textbf{Pontilhada (mm)} & \centering\textbf{Tracejada (mm)} & \centering\textbf{Contínua (mm)} & \centering\textbf{RMSE das equações (mm)} \tabularnewline
+\midrule
+Faixa adotada, 20° a 165° & 311,148 & 300,750 & 291,956 & 0,194 \\
+Faixa de 15° a 170° & 310,648 & 299,810 & 291,276 & 0,648 \\
+Faixa de 25° a 160° & 311,430 & 301,131 & 292,424 & 0,153 \\
+Faixa de 40° a 150° & 312,001 & 301,950 & 293,371 & 0,102 \\
+Ruído de 0,5 px, intervalo de 95\% & 311,02 a 312,32 & 300,10 a 302,99 & 290,77 a 295,03 &  \\
+Ruído de 0,5 px, desvio padrão & 0,326 & 0,772 & 1,085 &  \\
+Abscissa deslocada de +0,93° & 310,765 & 300,381 & 291,597 & 0,189 \\
+Abscissa deslocada de −0,93° & 311,540 & 301,130 & 292,328 & 0,202 \\
+Sinal de θ\textsubscript{b,pose} oposto & 305,842 & 296,071 & 287,779 & 0,406 \\
+Abscissa espelhada, θ\textsubscript{el} → 180° − θ\textsubscript{el} & 379,607 & 387,932 & 395,026 & 0,762 \\
+\bottomrule
+\end{tabularx}
+\fonte{elaborada pelo autor.}
+\nota{ruído gaussiano de 0,5 px na unidade da leitura (0,024 divisão na ordenada e 0,38° na abscissa), em 500 sorteios; a faixa adotada é a dos demais casos, exceto nas linhas de outras faixas; nas linhas de abscissa deslocada ou espelhada, ela vale para os ângulos da figura.}
+\end{table}
+
+O sinal oposto de θ\textsubscript{b,pose} levaria o s\textsubscript{0} da tracejada a 296,07 mm, com K\textsubscript{40} de 2,66545 N/mm e pico de τ de 4,958 N·m em 64,6°, e, no ajuste de forma, de 213,400 mm a 0,000 mm (o limite inferior da busca). O deslocamento de ±0,93° da abscissa, que levaria o contato calculado com p = 0 exatamente ao início das curvas, muda pouco o resultado, e o menor RMSE da varredura do deslocamento, 0,186 mm, ocorre em +2,25°, praticamente sem ganho sobre a abscissa original. Com a abscissa espelhada, os três valores de s\textsubscript{0} ficam acima de s(0°) = 378,85 mm, maior comprimento do elástico na faixa, o que o deixaria frouxo em todos os ângulos; essa leitura da figura é rejeitada.
+
+O ajuste de forma deixa s\textsubscript{0} e a escala livres em cada curva e, por isso, depende também do braço de momento e do torque do peso do modelo; a seção~\ref{sec:4.2.5} explica por que ele não foi adotado.
+
+No ajuste de forma, para cada s\textsubscript{0}, a escala e a soma dos quadrados dos resíduos têm forma fechada:
+
+\begin{equation}
+  c = \frac{\sum_{i}^{}\mu_{i}r_{i}}{\sum_{i}^{}\mu_{i}^{2}},\quad SSE = \sum_{i}^{}{(c\mu_{i} - r_{i})}^{2},\quad RMSE = \sqrt{SSE/n}
+  \label{eq:67}
+\end{equation}
+
+O mínimo foi procurado em s\textsubscript{0} de 0 a 390 mm, em grade de 0,01 mm, e refinado pelo método de Brent limitado \cite{brent1973} entre os vizinhos do melhor ponto, com a biblioteca SciPy \cite{virtanen2020}. Valores negativos de s\textsubscript{0} não correspondem a um elástico ligado diretamente entre A e P e foram excluídos. A faixa de identificação é o intervalo de s\textsubscript{0}, na mesma grade, em que a raiz do erro quadrático médio não excede 1,01 vez o mínimo. Dos 117 pontos ajustados, 4 ficam no regime II, entre 20° e 24,55°. A Tabela~\ref{tab:ajuste-s0-forma-curva} reúne os resultados, e a Figura~\ref{fig:pontos-extraidos-figura-patente}(a) sobrepõe as curvas ajustadas aos pontos extraídos.
+
+A patente atribui as três curvas a um único atuador e as desenha no mesmo eixo, o que implica K e σ comuns e, portanto, um único c. Esse ajuste conjunto foi feito como verificação independente da hipótese do modelo, com c comum e um s\textsubscript{0} por curva:
+
+\begin{equation}
+  c = \frac{\sum_{j}^{}{\sum_{i}^{}\mu_{ij}}r_{ij}}{\sum_{j}^{}{\sum_{i}^{}\mu_{ij}^{2}}}
+  \label{eq:68}
+\end{equation}
+
+com j a curva e i o ponto. Os três valores de s\textsubscript{0} foram buscados por descida coordenada na mesma grade, a partir de 125 combinações iniciais, com refinamento de Brent. A Tabela~\ref{tab:ajuste-conjunto-escala-comum} compara o resultado com os ajustes individuais e com uma força constante, forma limite do modelo quando s\textsubscript{0} tende a valores muito negativos; a Figura~\ref{fig:pontos-extraidos-figura-patente}(b) mostra o ajuste conjunto.
+
+\begin{table}[!htbp]
+\estilotabela{\small}
+\caption{Ajuste de s\textsubscript{0} à forma de cada curva da Figura 16 da patente}\label{tab:ajuste-s0-forma-curva}
+\begin{tabularx}{\textwidth}{@{}>{\hsize=1.239\hsize\raggedright\arraybackslash}X>{\hsize=0.919\hsize\centering\arraybackslash}X>{\hsize=0.919\hsize\centering\arraybackslash}X>{\hsize=0.923\hsize\centering\arraybackslash}X@{}}
+\toprule
+\centering\textbf{Indicador} & \centering\textbf{Pontilhada} & \centering\textbf{Tracejada} & \centering\textbf{Contínua} \tabularnewline
+\midrule
+Pontos usados, n & 40 & 40 & 37 \\
+s\textsubscript{0} (mm) & 294,336 & 213,400 & 0,000 (limite inferior) \\
+Faixa de identificação de s\textsubscript{0} (mm) & 291,28 a 297,07 & 202,70 a 222,53 & 0,00 a 7,87 (na borda da grade) \\
+Escala c & 5,29695 & 2,91719 & 1,41385 \\
+RMSE (divisão) & 0,1550 & 0,1138 & 0,1330 \\
+RMSE/máx & 14,38\% & 6,72\% & 4,29\% \\
+Erro absoluto médio (divisão) & 0,1337 & 0,0922 & 0,0830 \\
+Erro máximo (divisão), em θ\textsubscript{el} & 0,3459, em 162,08° & 0,4165, em 21,39° & 0,5540, em 20,52° \\
+Coeficiente de determinação, R\textsuperscript{2} & 0,6023 & 0,8488 & 0,9579 \\
+Zonas de sinal do resíduo & 3 & 3 & 4 \\
+δ(90°) (mm) & 57,015 & 137,951 & 351,351 \\
+K\textsubscript{40} (N/mm), hipótese & 2,26298 & 0,93528 & 0,36722 \\
+σ = K\textsubscript{40}/c, hipótese & 0,4272 & 0,3206 & 0,2597 \\
+\bottomrule
+\end{tabularx}
+\fonte{elaborada pelo autor.}
+\nota{resíduo = cμ − r; RMSE/máx = raiz do erro quadrático médio dividida pelo maior valor extraído da curva na faixa do ajuste.}
+\end{table}
+
+O ajuste é pior que o da seção~\ref{sec:4.1}, que tem R\textsuperscript{2} = 0,99839 (Tabela~\ref{tab:indicadores-qualidade-ajuste-curva}): os resíduos em 3 a 4 zonas de sinal indicam diferença sistemática de forma entre o modelo e as curvas, e os maiores erros ficam no fim da faixa, onde o elástico do modelo se aproxima do comprimento livre, na curva pontilhada; no regime II do modelo, abaixo da transição, nas curvas tracejada e contínua (transição em 24,55°).
+
+Como as três curvas compartilham o mesmo eixo na patente, os valores distintos de σ = K\textsubscript{40}/c na Tabela~\ref{tab:ajuste-s0-forma-curva} mostram que o alvo de 40\% não pode valer para as três ao mesmo tempo com os s\textsubscript{0} do ajuste de forma; F(90°) = 129,02 N é o mesmo nas três por construção, porque F(90°) = 0,4 τ\textsubscript{g}(90°)·1000/m(90°) não depende de s\textsubscript{0}.
+
+\begin{table}[!htbp]
+\estilotabela{\small}
+\caption{Ajuste conjunto com escala comum e ajuste com força constante}\label{tab:ajuste-conjunto-escala-comum}
+\begin{tabularx}{\textwidth}{@{}>{\hsize=1.239\hsize\raggedright\arraybackslash}X>{\hsize=0.919\hsize\centering\arraybackslash}X>{\hsize=0.919\hsize\centering\arraybackslash}X>{\hsize=0.923\hsize\centering\arraybackslash}X@{}}
+\toprule
+\centering\textbf{Indicador} & \centering\textbf{Pontilhada} & \centering\textbf{Tracejada} & \centering\textbf{Contínua} \tabularnewline
+\midrule
+s\textsubscript{0}, ajuste individual (mm) & 294,336 & 213,400 & 0,000 (limite inferior) \\
+s\textsubscript{0}, ajuste conjunto (mm) & 257,470 & 210,079 & 164,432 \\
+RMSE/máx, ajuste individual & 14,38\% & 6,72\% & 4,29\% \\
+RMSE/máx, ajuste conjunto & 21,13\% & 6,73\% & 6,68\% \\
+R\textsuperscript{2}, ajuste conjunto & 0,1419 & 0,8484 & 0,8980 \\
+RMSE/máx, força constante & 36,33\% & 13,64\% & 3,84\% \\
+R\textsuperscript{2}, força constante & −1,5368 & 0,3772 & 0,9663 \\
+\bottomrule
+\end{tabularx}
+\fonte{elaborada pelo autor.}
+\nota{no ajuste conjunto, c = 2,8394, comum às três curvas; na força constante, c é ajustado por curva.}
+\end{table}
+
+O ajuste conjunto ordena os comprimentos de referência como as pré-tensões descritas na patente, mas a curva pontilhada passa de RMSE/máx de 14,38\% para 21,13\%: com uma só escala, o modelo linear reproduz a ordem das pré-tensões, mas não a forma da curva de menor pré-tensão. A força constante descreve a curva contínua com RMSE/máx de 3,84\%, abaixo dos 4,29\% do ajuste individual, que encosta no limite s\textsubscript{0} = 0, e as outras duas com erros de 36,33\% e 13,64\%: só a curva de maior pré-tensão se aproxima de uma força constante.
+
+\begin{figure}[!htbp]
+\centering
+\caption{Pontos extraídos da Figura 16 da patente e razão calculada pelo ajuste de forma, com (a) escala c por curva e (b) escala c comum às três curvas}\label{fig:pontos-extraidos-figura-patente}
+\includegraphics[width=1.00\textwidth]{pontos-extraidos-figura-patente.png}
+\fonte{elaborada pelo autor, a partir da EP 3 504 033 B1 \cite{mizera2023}.}
+\nota{faixa sombreada: 20° < θ\textsubscript{el} < 165°, usada no ajuste; pontos cinza: fora dessa faixa.}
+\end{figure}
+
+Com o s\textsubscript{0} do ajuste de forma da curva tracejada, 213,400 mm, a extensão do elástico iria de 165,45 a 94,55 mm, com deformação de 77,5\%, e a força, com o K\textsubscript{40} correspondente, de 154,74 a 88,43 N, valores bem diferentes dos do cenário de projeto (seção~\ref{sec:4.2.7}); a viabilidade dessas extensões depende do elemento elástico, que a patente não especifica.
+
+Com o s\textsubscript{0} do ajuste de forma, 213,400 mm, o pico normalizado ficaria em 94,7°, e as curvas se cruzariam em 14,16° e 92,31°, com a forma do elástico abaixo da do peso entre 14,16° e 92,31° e acima dela fora desse intervalo. A distribuição angular da assistência depende, portanto, de qual identificação de s\textsubscript{0} se adota.
