@@ -504,6 +504,11 @@ EDICOES = [
     ("onde m se anula, dℓ/dθ* também se anula", "onde m se anula, dℓ/dq também se anula"),
     ("com coordenada generalizada θ*.", "com coordenada generalizada q."),
     ("/∂θ* = K δ m", "/∂q = K δ m"),
+    # 5.1: a continuidade fica só com trabalho futuro de pesquisa, sem as tarefas
+    # internas de conferência e documentação (pedido do autor)
+    ("; conferir no CAD a cota de ancoragem, o comprimento do alojamento e o "
+     "comprimento da mola na pose; documentar o procedimento de extração dos pontos e "
+     "sua incerteza", ""),
     # parte comum do capítulo 3, antes da seção 3.1: as frases gerais saem da
     # seção 3.1, que fica só com o exoesqueleto 1
     ("Massa, posição do centro de massa e raios de giro de braço, antebraço e mão "
