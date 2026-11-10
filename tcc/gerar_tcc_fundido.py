@@ -1635,8 +1635,7 @@ def parte_3B():
         "humano e o braço do exoesqueleto sem a alavanca e a braçadeira, e Q_{nc} não "
         "pode ser escrito, porque massa e amortecimento do elástico e atrito no "
         "elemento 78 e na articulação 20 são desconhecidos. Nenhum resultado dinâmico "
-        "é apresentado, e as condições para executar a etapa estão na seção "
-        "⟦S:r_lim⟧."))
+        "é apresentado."))
 
     # ------------------------------------------------------------ ferramentas
     a(SEC("3.2", "ferr", "Ferramentas e delimitação"))
@@ -2477,69 +2476,6 @@ def parte_4B():
         "risco documentado por van der Molen et al. (2017) e Seidler et al. (2020). "
         "Como essa forma depende da geometria do CAD, que não reproduz a Figura 16 "
         "da patente (seção ⟦S:r_forma⟧), a leitura vale para o modelo."))
-
-    # ------------------------------------------------------------ limitações
-    a(SEC("4.2", "r_lim", "Limitações dos resultados"))
-    a(P("Além das limitações de escopo da seção ⟦S:ferr⟧, os resultados comportam as "
-        "ressalvas da Tabela ⟦T:pend⟧, que reúne o que falta para concluir cada "
-        "etapa, a consequência da ausência e a forma de obter o dado. A principal é "
-        "a diferença de forma entre o modelo e a Figura 16 da patente (seção ⟦S:r_forma⟧): o "
-        "s_{0} identificado pelo espaçamento entre as curvas não depende dela, mas a "
-        "distribuição angular do torque calculado, sim."))
-    a(LEG_T("pend", "Pendências da análise da EP 3 504 033 B1"))
-    a(TABELA(
-        ["Pendência", "Consequência", "Como obter"],
-        [["Arquivo do modelo em CAD e critério de escala da reconstrução",
-          "Grandezas da Tabela ⟦T:cad⟧ sem conferência independente",
-          "Incluir o modelo no repositório e registrar o critério de escala"],
-         ["Forma do fator G: torque do peso usado na Figura 16 da patente ou "
-          "definição da ordenada",
-          "Modelo completo não reproduz a figura com os s_{0} identificados (R^{2} "
-          f"de {f(min(mcomp[n]['comum']['r2'] for n in ORDEM), 2)} a "
-          f"{f(max(mcomp[n]['comum']['r2'] for n in ORDEM), 2)} com escala comum); "
-          "distribuição angular do torque incerta",
-          "Conferir a configuração do dispositivo que gerou a figura, não informada "
-          "no documento, e a definição de sua ordenada"],
-         ["Relação entre o giro da articulação 20 e a anteversão",
-          "Comparações angulares com a patente (início das curvas, transição, "
-          "posição do pico) dependem da hipótese de eixo no centro do ombro e barra "
-          "fixa no tronco (seção ⟦S:conv⟧)",
-          "Representar o afastamento entre o eixo da articulação e o ombro e o giro "
-          "da barra 18 em torno da articulação esférica 22"],
-         ["Rigidez K e escala da ordenada da Figura 16 da patente",
-          "K só por hipótese (K_{40}); torque em N·m apenas como cenário",
-          "Especificação ou ensaio de força e extensão do elemento elástico, ou "
-          "documento com a escala da figura"],
-         ["Lei do elástico e significado de s_{0}",
-          "Identificação pelo espaçamento supõe elástico linear e mesmo K nas três "
-          "curvas; ajuste de forma com escala diferente em cada curva",
-          "Curva de força e extensão do elástico; testar lei não linear ou "
-          "força inicial"],
-         ["Posição e raio de contato do elemento 78",
-          "Torque não nulo abaixo da transição, contra razão nula na Figura 16 da "
-          "patente; com o elemento sobre o eixo, o contato cai no início das curvas",
-          "Conferir no CAD; comparar com p = 0, preferido pela patente"],
-         ["Procedimento e incerteza da extração da Figura 16 da patente",
-          "Incerteza da leitura estimada só pelo erro mediano declarado; a "
-          "identificação supõe que a figura, apresentada como exemplar, seja fiel em "
-          "escala, o que a patente não declara",
-          "Registrar imagem, resolução e método da extração; repetir a leitura"],
-         ["Digitalização da Figura 17 da patente",
-          "Efeito de e_{c} comparado só visualmente",
-          "Digitalizar a Figura 17 da patente e obter os valores de excentricidade"],
-         ["Movimento fora do plano sagital",
-          "Abdução e articulação esférica 22 não representadas",
-          "Modelo espacial, fora do escopo deste trabalho"],
-         ["Verificação da alegação de assistência de 40%",
-          "Alvo de K_{40} baseado em alegação comercial (SUITX, [202-]), sem "
-          "verificação independente",
-          "Confrontar o alvo com medições do torque do dispositivo ou com estudos "
-          "independentes"],
-         ["Etapas dinâmicas e MBDyn",
-          "Nenhum resultado dinâmico", "Resolver as pendências de K, I_{O} e "
-          "Q_{nc} e montar o modelo no MBDyn"]],
-        [2800, 3080, 3480]))
-    a(FONTE)
 
     return B
 

@@ -2,7 +2,7 @@
 
 Documento gerado: `TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.docx`, a partir de `TCC_apenas_exo1.docx`.
 
-Blocos do original: 305; 5 retirados (REMOVIDOS em gerar_tcc_fundido.py), os demais mantidos e na mesma ordem. Blocos novos: 450. Blocos do original com texto alterado: 144 (renumeração e as edições de EDICOES em gerar_tcc_fundido.py).
+Blocos do original: 305; 5 retirados (REMOVIDOS em gerar_tcc_fundido.py), os demais mantidos e na mesma ordem. Blocos novos: 445. Blocos do original com texto alterado: 144 (renumeração e as edições de EDICOES em gerar_tcc_fundido.py).
 
 ## Numeração
 
