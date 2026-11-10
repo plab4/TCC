@@ -11,8 +11,8 @@ Diferenças esperadas, impostas pelo estilo ABNT do modelo: 'SHEN et al., 2020' 
 ## 2. Células de tabela
 
 Tabelas: 35 no DOCX e 35 no código LaTeX.
-Células comparadas no código LaTeX: 2053; diferentes: 0.
-Células com texto procuradas no PDF: 2014; não encontradas: 0.
+Células comparadas no código LaTeX: 2057; diferentes: 0.
+Células com texto procuradas no PDF: 2018; não encontradas: 0.
 
 ## 3. Equações
 

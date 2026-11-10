@@ -4,7 +4,7 @@ Original: TCC_apenas_exo1.docx, 305 blocos. Fundido: TCC_Modelagem_e_simulacao_d
 
 ## 1. Conteúdo do original
 
-Blocos do original encontrados em ordem, com XML idêntico fora do texto (nas equações, os delimitadores simples passam a ter tamanho fixo, e sen e arcsen passam a sin e arcsin): 300 de 300 (5 retirados de propósito, REMOVIDOS). Texto diferente do esperado (renumeração e as 72 edições declaradas): 0. Retirados ainda presentes: 0. Autores dos retirados ainda citados: nenhum.
+Blocos do original encontrados em ordem, com XML idêntico fora do texto (nas equações, os delimitadores simples passam a ter tamanho fixo, sen e arcsen passam a sin e arcsin, e θ* passa a q nas Equações (17) e (27) do original): 300 de 300 (5 retirados de propósito, REMOVIDOS). Texto diferente do esperado (renumeração e as 81 edições declaradas): 0. Retirados ainda presentes: 0. Autores dos retirados ainda citados: nenhum.
 Renumeração das tabelas do original: {1: 1, 2: 3, 3: 4, 4: 5, 5: 6, 6: 7, 7: 8, 8: 9, 9: 10, 10: 11, 11: 12}.
 Renumeração das figuras do original: {1: 1, 2: 8, 3: 9, 4: 10, 5: 11}.
 Renumeração das equações do original: {1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 9, 8: 10, 9: 11, 10: 12, 11: 13, 12: 14, 13: 15, 14: 16, 15: 17, 16: 18, 17: 19, 18: 20, 19: 21, 20: 22, 21: 23, 22: 24, 23: 25, 24: 26, 25: 28, 26: 29, 27: 30}.
@@ -121,10 +121,10 @@ Idênticos: 3. Iguais a menos de números e referências: 13. Modificados: 35. S
   - mais próximo no fundido: Duas conferências independentes sustentam esse referencial. Com o came espelhado, o giro dado pelo centróide e
 - Sem correspondente (0.08): em que s0 é o valor de ℓ em que o elástico atinge o comprimento livre e K a rigidez. A patente não informa K, 
   - mais próximo no fundido: Os fatores Gi da Equação (51) coincidem nas três curvas (Figura 12(a)), com dispersão mediana de 0,84% entre 2
-- Sem correspondente (0.08): A variável independente é a anteversão do braço, θel, com 0° para o braço pendente e 90° para o braço horizont
-  - mais próximo no fundido: O cabo tracionado passa reto sobre concavidades. O raio efetivo é, por isso, a função suporte da envoltória co
 - Sem correspondente (0.09): Na pose do CAD, o modelo situa P em (−38,090; 25,551) mm e o centro do elemento 78 em (1,071; −7,680) mm, e ca
   - mais próximo no fundido: Com as demais grandezas do CAD, a Equação (45) dá θel = 13,349°. As curvas da Figura 16 da patente partem de r
+- Sem correspondente (0.09): A variável independente é a anteversão do braço, θel, com 0° para o braço pendente e 90° para o braço horizont
+  - mais próximo no fundido: A variável independente é q, o ângulo entre C2 e a horizontal, 61,724° na pose do CAD; q cresce quando o braço
 - Sem correspondente (0.09): em que τg,s é o torque do peso com sinal e Qnc reúne os esforços não conservativos. Pela Equação (A.16), a ene
   - mais próximo no fundido: O elástico é tratado como linear e sem massa, com folga abaixo do comprimento livre: δ = max(s − s0, 0) e F = 
 - Sem correspondente (0.09): A classificação de origem é a da seção 3: medida no modelo em CAD, obtida da literatura, documental, identific
@@ -144,7 +144,7 @@ Idênticos: 3. Iguais a menos de números e referências: 13. Modificados: 35. S
 - Sem correspondente (0.14): Os pontos das três curvas foram extraídos pelo autor e estão no arquivo fig16_curvas.csv (Tabela A.6). Segundo
   - mais próximo no fundido: Os pontos das três curvas foram extraídos pelo autor e estão no arquivo fig16_curvas.csv (Tabela 15). A extraç
 - Sem correspondente (0.15): A integração não foi executada, pelas razões seguintes. O torque do elástico só está em N·m sob a hipótese K =
-  - mais próximo no fundido: Pela formulação de Lagrange, a equação de movimento seria IO d2θel/dt2 = τ + τg,s + Qnc, com θel como coordena
+  - mais próximo no fundido: Pela formulação de Lagrange, a equação de movimento seria IO d2q/dt2 = τ + τg,s + Qnc, com q como coordenada g
 - Sem correspondente (0.18): No regime II, o trecho entre o elemento 78 e P liga dois pontos do mesmo corpo; as forças que exerce sobre P e
   - mais próximo no fundido: A força do trecho ligado a A, f = −F u(ψ), atua em P no regime I e no centro do elemento 78 no regime II. O tr
 - Sem correspondente (0.25): Os três critérios de validade física da seção 3.10, adaptados ao mecanismo, foram atendidos em todos os valore

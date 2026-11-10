@@ -397,6 +397,26 @@ SENO_OMML = re.compile(r"(<m:t(?: [^>]*)?>)(arc)?sen(</m:t>)")
 def seno_sin(xml):
     """sen → sin e arcsen → arcsin nos nomes de função da OMML."""
     return SENO_OMML.sub(lambda m: f"{m.group(1)}{m.group(2) or ''}sin{m.group(3)}", xml)
+# Equações do original reescritas em q, a variável independente (pedido do
+# autor): a derivada da Equação (17), dℓ/dθ* = m, e a equação de movimento (27).
+# Como dq = dθ* pela Equação (2), o conteúdo não muda.
+THETA_EM_Q = (17, 27)
+SSUP_THETA = re.compile(
+    r"<m:sSup>(?:(?!</m:sSup>).)*?<m:e>((?:(?!</m:e><m:sup>).)*)</m:e>"
+    r"<m:sup><m:r>(?:(?!</m:r>).)*?<m:t>\*</m:t></m:r></m:sup></m:sSup>", re.S)
+
+
+def theta_em_q(bloco):
+    """θ* → q nas equações THETA_EM_Q do original (identificadas pelo rótulo):
+    o expoente * sai, e θ vira q, também sob o acento de θ̈*."""
+    m = re.fullmatch(r"\((\d+)\)", texto(bloco))
+    if not m or int(m.group(1)) not in THETA_EM_Q:
+        return bloco
+    novo = SSUP_THETA.sub(lambda x: x.group(1).replace("<m:t>θ</m:t>", "<m:t>q</m:t>"), bloco)
+    assert novo != bloco and "<m:t>θ</m:t>" not in novo, m.group(0)
+    return novo
+
+
 REFS_EQ = [
     (r"(Equaç(?:ão|ões) )\((\d+)\)", _ref_eq),
     (r"(Equações \(⟦E:o\d+⟧\) (?:e|a) )\((\d+)\)", _ref_eq),
@@ -464,6 +484,26 @@ EDICOES = [
     # numeradas por numerar)
     (" da Equação (6); a identidade τ = −F m/1000",
      " das Equações (⟦E:e1_f1⟧) e (⟦E:e1_f2⟧); a identidade τ = −F m/1000"),
+    # variável independente q (pedido do autor); θ* fica como o ângulo interno
+    # entre os elos, em que a patente publica a curva
+    ("O ângulo interno θ* entre os elos é a variável independente do modelo, e q é "
+     "sua versão referida ao desenho:",
+     "A variável independente do modelo é q, o ângulo interno θ* entre os elos "
+     "referido ao desenho:"),
+    # Tabela 1: designação e uso passam de θ* para q. A ordem importa: "Toda a
+    # cadeia de cálculo" sai da linha de θ* antes de entrar na de q
+    ("Variável independente, em graus", "Equação (2), em graus"),
+    ("Toda a cadeia de cálculo", "Pose do CAD e comparação com a patente"),
+    ("θ* referido ao desenho, em radianos",
+     "Variável independente: θ* referido ao desenho, em radianos"),
+    ("Fechamento do circuito", "Toda a cadeia de cálculo"),
+    # derivada e coordenada generalizada em q (Equações (17) e (27) do original,
+    # reescritas por theta_em_q)
+    ("com θ* em radianos. A Equação (17) é verificada",
+     "com q em radianos. A Equação (17) é verificada"),
+    ("onde m se anula, dℓ/dθ* também se anula", "onde m se anula, dℓ/dq também se anula"),
+    ("com coordenada generalizada θ*.", "com coordenada generalizada q."),
+    ("/∂θ* = K δ m", "/∂q = K δ m"),
     # parte comum do capítulo 3, antes da seção 3.1: as frases gerais saem da
     # seção 3.1, que fica só com o exoesqueleto 1
     ("Massa, posição do centro de massa e raios de giro de braço, antebraço e mão "
@@ -1019,8 +1059,8 @@ def cap3_trabalho_virtual_exo1():
     a(P("O equilíbrio estático do braço pode ser escrito diretamente pelo princípio "
         "dos trabalhos virtuais. Com a junta e o tambor sem atrito e o cabo "
         "inextensível e sem massa, os vínculos são ideais, e suas reações não "
-        "realizam trabalho. Num giro virtual δθ* do conjunto em torno de O, em "
-        "radianos, com δq = δθ* pela Equação (2), realizam trabalho a força do cabo "
+        "realizam trabalho. Num giro virtual δq do conjunto em torno de O, em "
+        "radianos, igual a δθ* pela Equação (2), realizam trabalho a força do cabo "
         "sobre o tambor, o peso do conjunto e o torque τ_{u} que o usuário aplica ao "
         "braço."))
     a(P("A força do cabo atua no ponto de tangência T. Na formulação, T é o "
@@ -1028,7 +1068,7 @@ def cap3_trabalho_virtual_exo1():
         "Equações (11) a (13), e a força é o vetor f = −F u(φ), o V da Equação (20). "
         "Como o elo é rígido e gira em torno de O, o trabalho virtual dessa força é o "
         "do seu momento em relação a O, a componente z de b × f:"))
-    a(EQ(("vt1_bf", r"\delta W_{c} = \tau\,\delta\theta^{*},\quad \tau = \frac{(\mathbf{b}\times\mathbf{f})_{z}}{1000},\quad (\mathbf{b}\times\mathbf{f})_{z} = b_{x}f_{y} - b_{y}f_{x} = bF\sin(\varphi + \beta - q)")))
+    a(EQ(("vt1_bf", r"\delta W_{c} = \tau\,\delta q,\quad \tau = \frac{(\mathbf{b}\times\mathbf{f})_{z}}{1000},\quad (\mathbf{b}\times\mathbf{f})_{z} = b_{x}f_{y} - b_{y}f_{x} = bF\sin(\varphi + \beta - q)")))
     a(P("O seno vem do ângulo entre os dois vetores: pela Equação (13), b aponta na "
         "direção q + π − β, e f, na direção φ + π. O produto vetorial retém só a "
         "componente de f perpendicular a b, que é a que gira o elo. Na faixa de "
@@ -1040,19 +1080,19 @@ def cap3_trabalho_virtual_exo1():
         f"|B| = {f(mec['oa'])} mm, e tomar F b como torque, sem a projeção, "
         f"superestimaria o resultado em mais de {int(razao)} vezes."))
     a(P("O mesmo trabalho virtual pode ser calculado do lado da mola. Com o cabo "
-        "inextensível, o giro δθ* estende a mola de δℓ = (dℓ/dθ*) δθ*, com ℓ da "
+        "inextensível, o giro δq estende a mola de δℓ = (dℓ/dq) δq, com ℓ da "
         "Equação (16), e a força F = K δ, que se opõe à extensão, realiza o trabalho "
-        "−F δℓ/1000. Como as duas expressões valem para todo δθ*, "
-        "(b × f)_{z} = −F dℓ/dθ*, isto é, dℓ/dθ* = m, que é a Equação (17). A força "
+        "−F δℓ/1000. Como as duas expressões valem para todo δq, "
+        "(b × f)_{z} = −F dℓ/dq, isto é, dℓ/dq = m, que é a Equação (17). A força "
         "se cancela, e a igualdade depende só da geometria, não de K, X_{pose} nem "
         "s_{0}. É ela que fixa como o arco enrolado entra no caminho do cabo: das "
         "formulações ℓ = s, ℓ = s + Rψ e ℓ = s − Rψ, só a última a satisfaz (seção "
         "4.1.3)."))
-    a(P("O peso deriva do potencial V_{g} = M g y_{G}/1000: num giro δθ*, o centro de "
-        "massa sobe x_{g} δθ*, com x_{g} da Equação (23), e o trabalho do peso é "
-        "τ_{g,s} δθ*, com τ_{g,s} = −M g x_{g}/1000, o torque gravitacional com sinal, "
+    a(P("O peso deriva do potencial V_{g} = M g y_{G}/1000: num giro δq, o centro de "
+        "massa sobe x_{g} δq, com x_{g} da Equação (23), e o trabalho do peso é "
+        "τ_{g,s} δq, com τ_{g,s} = −M g x_{g}/1000, o torque gravitacional com sinal, "
         "cujo módulo é o τ_{g} da Equação (24). Somados os três trabalhos, "
-        "δW = (τ + τ_{g,s} + τ_{u}) δθ* = 0 para todo δθ*, e τ_{u} = −(τ + τ_{g,s}), "
+        "δW = (τ + τ_{g,s} + τ_{u}) δq = 0 para todo δq, e τ_{u} = −(τ + τ_{g,s}), "
         "em que τ_{u} é o torque que o usuário precisa exercer para manter o braço "
         "parado. Como τ está em u.p. e τ_{g,s} em N·m, essa soma só tem valor físico "
         "se u.p. corresponder a N·m (seção 3.1.13), e a seção 4.1 compara apenas a "
@@ -1199,10 +1239,11 @@ def parte_3B():
     a(SEC("3.2", "conv", "Referenciais e convenções angulares e de sinal"))
     a(P("A origem O fica no eixo da articulação 20, admitido coincidente com o centro "
         "do ombro, com eixo x anterior e eixo y para cima, nas convenções da seção 3."))
-    a(P("A variável independente é a anteversão do braço, θ_{el}, com 0° para o "
-        "braço pendente e 90° para o braço horizontal à frente, que é a abscissa das "
-        "Figuras 16 e 17 da patente e não precisa ser convertida em elevação "
-        "anatômica. O modelo admite que o giro do elemento de "
+    a(P("A variável independente é q, a direção da alavanca, representada pelo "
+        "segmento OP, de comprimento ‹e› (seção ⟦S:cin⟧). A anteversão do braço, "
+        "θ_{el}, com 0° para o braço pendente e 90° para o braço horizontal à frente, "
+        "é a abscissa das Figuras 16 e 17 da patente e não precisa ser convertida em "
+        "elevação anatômica. O modelo admite que o giro do elemento de "
         "apoio do braço em relação à barra 18 seja igual à anteversão, o que supõe o "
         "eixo da articulação 20 no centro do ombro e a barra 18 fixa em relação ao "
         "tronco. A patente situa a articulação na altura do ombro, na região da "
@@ -1210,9 +1251,8 @@ def parte_3B():
         "o de abdução do ombro, admite que a barra 18 mude de orientação com o "
         "movimento do braço e não informa a relação entre o giro da articulação e a "
         "anteversão; as comparações angulares com as Figuras 16 e 17 da patente "
-        "dependem dessa hipótese. O eixo do braço aponta na direção θ_{el} − 90°, e a "
-        "alavanca é representada pelo segmento OP, de comprimento ‹e› e direção q "
-        "(seção ⟦S:cin⟧), que se relaciona com θ_{el} por"))
+        "dependem dessa hipótese. O eixo do braço aponta na direção θ_{el} − 90°, e q "
+        "se relaciona com θ_{el} por"))
     a(EQ(("lam", r"q = \theta_{\mathrm{el}} + 90^{\circ} + q_{0}"),
          ("lam0", r"q_{0} = q_{\mathrm{pose}} - \left( 180^{\circ} + \theta_{b,\mathrm{pose}} \right),\quad \theta_{\mathrm{el,pose}} = 90^{\circ} + \theta_{b,\mathrm{pose}}")))
     a(P("em que q_{pose} é a direção de OP na pose do CAD e θ_{b,pose} o ângulo do "
@@ -1375,8 +1415,8 @@ def parte_3B():
     # ------------------------------------------------------------ trabalho virtual
     a(SEC("3.2", "vt2", "Formulação pelo princípio dos trabalhos virtuais"))
     assert SECOES["vt2"] == "3.2.9", SECOES["vt2"]
-    a(P("O equilíbrio é escrito pelo trabalho virtual num giro δθ_{el} do conjunto, "
-        "em radianos, com δq = δθ_{el} pela Equação (⟦E:lam⟧). Com o elemento 78 "
+    a(P("O equilíbrio é escrito pelo trabalho virtual num giro δq do conjunto, "
+        "em radianos, igual a δθ_{el} pela Equação (⟦E:lam⟧). Com o elemento 78 "
         "pontual e sem atrito e o elástico sem massa, o contato é um vínculo ideal, e "
         "realizam trabalho a força do elástico sobre a alavanca, o peso do conjunto e o "
         "torque τ_{u} do usuário. O vetor b vai de O ao ponto de aplicação da força do "
@@ -1391,9 +1431,9 @@ def parte_3B():
     a(P("Do lado do elástico, o giro δq muda s de (ds/dq) δq, e a força realiza o "
         "trabalho −F δs/1000; como o contato não realiza trabalho, igualar as duas "
         "expressões dá (b × f)_{z} = −F ds/dq, isto é, a Equação (⟦E:tv⟧). O peso "
-        "realiza o trabalho τ_{g,s} δθ_{el}, com τ_{g,s} = −M g x_{G}/1000 e "
+        "realiza o trabalho τ_{g,s} δq, com τ_{g,s} = −M g x_{G}/1000 e "
         "x_{G} = d cos(θ_{el} − 90° + a_{CG}), de módulo τ_{g} (Equação (⟦E:tg⟧)), e a "
-        "soma dos três trabalhos se anula para todo δθ_{el}: τ_{u} = −(τ + τ_{g,s}), "
+        "soma dos três trabalhos se anula para todo δq: τ_{u} = −(τ + τ_{g,s}), "
         "com τ em N·m sob a hipótese K = K_{40} (seção ⟦S:dados⟧). Com aceleração nula e "
         "Q_{nc} = τ_{u}, a equação de movimento da seção ⟦S:din⟧ reduz-se a essa "
         "condição."))
@@ -1583,7 +1623,7 @@ def parte_3B():
     # ------------------------------------------------------------ dinâmica
     a(SEC("3.2", "din", "Etapas dinâmicas previstas"))
     a(P("Pela formulação de Lagrange, a equação de movimento seria "
-        "I_{O} d^{2}θ_{el}/dt^{2} = τ + τ_{g,s} + Q_{nc}, com θ_{el} como coordenada "
+        "I_{O} d^{2}q/dt^{2} = τ + τ_{g,s} + Q_{nc}, com q como coordenada "
         "generalizada, τ o torque do elástico, τ_{g,s} o torque do peso com sinal e "
         "Q_{nc} os esforços não conservativos. Pela Equação (⟦E:tv⟧), a "
         "energia elástica V_{e} = K δ^{2}/2 satisfaz dV_{e}/dq = −K δ m, de modo que a "
@@ -1627,10 +1667,10 @@ def parte_3D():
     return [
         H("3.4 Comparação entre as formulações"),
         P("A Tabela ⟦T:comp_met⟧ reúne o que distingue as formulações das seções 3.1, "
-          "3.2 e 3.3. Nas três, o trabalho virtual dá o braço de momento como a "
-          "derivada, em relação ao ângulo, do comprimento do caminho do elemento "
-          "elástico, mas com sinais diferentes, porque o ângulo θ* do exoesqueleto 1 "
-          "decresce quando o braço sobe, e os dos outros dois crescem."),
+          "3.2 e 3.3. Nas três, a variável independente é q, e o trabalho virtual dá "
+          "o braço de momento como a derivada, em relação a q, do comprimento do "
+          "caminho do elemento elástico, mas com sinais diferentes, porque q decresce "
+          "quando o braço sobe nos exoesqueletos 1 e 3 e cresce no 2."),
         LEG_T("comp_met", "Elementos das formulações dos três exoesqueletos"),
         TABELA(
             ["Aspecto", "US 9.889.554 B2 (seção 3.1)", "EP 3 504 033 B1 (seção 3.2)",
@@ -1640,9 +1680,12 @@ def parte_3D():
               "junto à articulação",
               "Cabo de ancoragem, par de polias com came de raio variável e mola no apoio "
               "de braço"],
-             ["Variável independente",
+             ["Variável independente", "q, θ* referido ao desenho (Equação (2))",
+              "q, direção da alavanca OP (Equação (⟦E:lam⟧))",
+              "q, ângulo entre C_{2} e a horizontal (Equação (⟦E:e3_Theta⟧))"],
+             ["Abscissa da patente",
               "θ*, ângulo interno entre os elos; elevação pela Equação (4)",
-              "θ_{el}, anteversão, abscissa da patente",
+              "θ_{el}, anteversão",
               "Θ, eixo maior com a horizontal; elevação Θ + 90°"],
              ["Fechamento e incógnitas", "Equações (⟦E:e1_f1⟧) e (⟦E:e1_f2⟧), com s e φ",
               "Equações (⟦E:f1⟧) a (⟦E:f4⟧), em dois regimes, com s e ψ",
@@ -1650,9 +1693,9 @@ def parte_3D():
              ["Ponto de aplicação da força", "Ponto de tangência no tambor, móvel",
               "P no regime I e centro do elemento 78 no regime II, fixos na alavanca",
               "Ponto de tangência na polia primária; a mola atua pelo raio efetivo do came"],
-             ["Trabalho virtual", "dℓ/dθ* = m, Equação (17)",
+             ["Trabalho virtual", "dℓ/dq = m, Equação (17)",
               "ds/dq = −m, Equação (⟦E:tv⟧)",
-              "τ = −(F_{s}/1000) dx/dΘ, Equação (⟦E:e3_vt⟧)"],
+              "τ = (F_{s}/1000) dx/dq, Equação (⟦E:e3_vt⟧)"],
              ["Parâmetro varrido", "h, posição da ancoragem (seção 3.1.11)",
               "e_{c}, trecho da alavanca (seção ⟦S:varr⟧)",
               "Giro do came em relação à primária (seção ⟦S:e3_varr⟧)"]],
@@ -2735,15 +2778,14 @@ def parte_3C():
     a(SEC("3.3", "e3_conv", "Referenciais e convenções angulares e de sinal"))
     a(P("A origem O fica no eixo do pivô 584, no referencial do CAD, que é o das "
         "Figuras 14C e 14D girado de 180°, nas convenções da seção 3."))
-    a(P("A variável independente é Θ, o ângulo do eixo maior do apoio de braço com a "
-        "horizontal, positivo acima dela, que é a abscissa da Figura 16 da "
-        "US 9.737.374 B2; a elevação a partir do braço pendente é Θ + 90°. O ângulo da "
-        "patente não precisa ser convertido em elevação anatômica, mas "
-        "a comparação com o peso do membro supõe o braço alinhado ao eixo maior e o centro "
-        "do ombro no pivô 584. A variável primária do circuito é q, o ângulo entre C_{2} e "
-        "a horizontal, 61,724° na pose do CAD; q cresce quando o braço desce. No CAD, o "
-        "eixo maior do apoio de braço fica 26,741° além de C_{2}, no sentido em que q "
-        "cresce, e, portanto,"))
+    a(P("A variável independente é q, o ângulo entre C_{2} e a horizontal, 61,724° "
+        "na pose do CAD; q cresce quando o braço desce. A abscissa da Figura 16 da "
+        "US 9.737.374 B2 é Θ, o ângulo do eixo maior do apoio de braço com a "
+        "horizontal, positivo acima dela; a elevação a partir do braço pendente é "
+        "Θ + 90°. O ângulo da patente não precisa ser convertido em elevação "
+        "anatômica, mas a comparação com o peso do membro supõe o braço alinhado ao "
+        "eixo maior e o centro do ombro no pivô 584. No CAD, o eixo maior do apoio de "
+        "braço fica 26,741° além de C_{2}, no sentido em que q cresce, e, portanto,"))
     a(EQ(("e3_Theta", r"\Theta = -\left( q + 26{,}741^{\circ} \right)")))
     a(P(f"e a pose do CAD está em Θ = {f(N3['theta_pose'])}°. As propriedades de massa "
         "da seção ⟦S:e3_inercia⟧ estão em outro referencial, o da peça, que é o da Figura "
@@ -2877,17 +2919,19 @@ def parte_3C():
     # ------------------------------------------------------------ trabalho virtual
     a(SEC("3.3", "e3_vt", "Formulação pelo princípio dos trabalhos virtuais"))
     assert SECOES["e3_vt"] == "3.3.9", SECOES["e3_vt"]
-    a(P("O equilíbrio é escrito pelo trabalho virtual num "
-        "giro δΘ do apoio de braço, em radianos. Realizam trabalho a tração do cabo 560, "
-        "que atua em T, o peso do conjunto e o torque τ_{u} do usuário. O vão S varia de "
-        "m_{a} δΘ, a primária gira δθ_{p} = m_{a} δΘ/R em relação ao chassi, e a mola "
-        "estende-se de δx = −r δθ_{p}. Os trabalhos virtuais da força do cabo 560 e da "
-        "força da mola são iguais, e"))
-    a(EQ(("e3_vt", r"\tau = \frac{F_{s}}{1000}\,\frac{r}{R}\,C_{1}\sin\left( \gamma - \theta \right) = -\frac{F_{s}}{1000}\,\frac{dx}{d\Theta},\quad \frac{d\theta_{p}}{d\Theta} = \frac{C_{1}\sin\left( \gamma - \theta \right)}{R},\quad \frac{dx}{d\theta_{p}} = -r")))
+    a(P("O equilíbrio é escrito pelo trabalho virtual num giro δq, em radianos, em "
+        "que o apoio de braço gira δΘ = −δq (Equação (⟦E:e3_Theta⟧)). Realizam trabalho "
+        "a tração do cabo 560, que atua em T, o peso do conjunto e o torque τ_{u} do "
+        "usuário. Com a primária presa ao chassi, o giro δq mudaria o vão S de "
+        "m_{a} δq; como o cabo 560 é inextensível e preso em A, a primária gira "
+        "δθ_{p} = −m_{a} δq/R em relação ao chassi, e a mola estende-se de "
+        "δx = −r δθ_{p}. Os trabalhos virtuais da força do cabo 560 e da força da mola "
+        "são iguais, e"))
+    a(EQ(("e3_vt", r"\tau = \frac{F_{s}}{1000}\,\frac{r}{R}\,C_{1}\sin\left( \gamma - \theta \right) = \frac{F_{s}}{1000}\,\frac{dx}{dq},\quad \frac{d\theta_{p}}{dq} = -\frac{C_{1}\sin\left( \gamma - \theta \right)}{R},\quad \frac{dx}{d\theta_{p}} = -r")))
     a(P("que é a Equação (⟦E:e3_forca⟧): as duas vias dão o mesmo torque, e a diferença "
         "numérica entre elas é conferida na seção ⟦S:e3_r_verif⟧. O peso entra com "
         "τ_{g,s}, de sinal oposto ao de τ e módulo τ_{g} da Equação (⟦E:e3_tg⟧), e a "
-        "soma dos trabalhos se anula para todo δΘ: τ_{u} = −(τ + τ_{g,s}). Aqui, τ está "
+        "soma dos trabalhos se anula para todo δq: τ_{u} = −(τ + τ_{g,s}). Aqui, τ está "
         "em N·m na escala fixada pela AWM (seção "
         "⟦S:e3_dados⟧)."))
     a(P("A rotação das polias também sai do enrolamento. Com o cabo 560 inextensível, "
@@ -2970,15 +3014,17 @@ def parte_3C():
     # ------------------------------------------------------------ dinâmica
     cj = N3["conjunto"]
     a(SEC("3.3", "e3_din", "Etapas dinâmicas previstas"))
-    a(P("Pela formulação de Lagrange, a equação de movimento seria "
-        "I_{O} d^{2}Θ/dt^{2} = τ + τ_{g,s} + Q_{nc}, com Θ como coordenada generalizada. "
-        "Pela Equação (⟦E:e3_vt⟧), a energia elástica da mola satisfaz "
-        "dV_{e}/dΘ = F_{s} dx/dΘ = −1000 τ, de modo que a força generalizada elástica "
-        "coincide, a menos do fator 1/1000, com o torque da Equação (⟦E:e3_forca⟧); esse "
+    a(P("Pela formulação de Lagrange, com q como coordenada generalizada, a equação "
+        "de movimento seria I_{O} d^{2}q/dt^{2} = −(τ + τ_{g,s} + Q_{nc}), com o sinal "
+        "trocado porque q cresce no sentido horário, oposto ao de τ positivo (Equação "
+        "(⟦E:e3_Theta⟧)). Pela Equação (⟦E:e3_vt⟧), a energia elástica da mola "
+        "satisfaz dV_{e}/dq = F_{s} dx/dq = 1000 τ, de modo que a força generalizada "
+        "elástica, −dV_{e}/dq, coincide, a menos do fator −1/1000, com o torque da "
+        "Equação (⟦E:e3_forca⟧); esse "
         "pré-requisito estático está verificado (Tabela ⟦T:e3_verif⟧). O momento de "
         f"inércia do conjunto em torno de 584 é de {f(cj['izz_o'], 4)} kg·m^{{2}} "
         "(Tabela ⟦T:e3_massa⟧), e a energia cinética teria ainda o termo do giro do par "
-        "de polias em relação ao chassi, que depende de dθ_{p}/dΘ e, portanto, de Θ. A "
+        "de polias em relação ao chassi, que depende de dθ_{p}/dq e, portanto, de q. A "
         "integração não foi executada: a escala do torque vem da AWM igualada ao peso "
         "do membro de referência, a rigidez e o comprimento livre da mola só existem "
         "como ajuste nessa escala, e Q_{nc} não pode ser escrito, porque atrito e "
@@ -3178,9 +3224,9 @@ def parte_4C():
          ["Duas formas do braço de momento, Equação (⟦E:e3_tau⟧)",
           f"{sci(ver['braco_duas_formas_mm'])} mm"],
          ["Caminho inverso: q recuperado de θ", f"{sci(ver['inverso_grau'])}°"],
-         ["Trabalho virtual: τ/F_{s} contra −dx/dΘ, Equação (⟦E:e3_vt⟧)",
+         ["Trabalho virtual: τ/F_{s} contra dx/dq, Equação (⟦E:e3_vt⟧)",
           f"{sci(ver['trabalho_virtual_rel'])}, relativo"],
-         ["Rotação das polias pelo enrolamento contra dθ_{p}/dΘ, Equação (⟦E:e3_vt⟧)",
+         ["Rotação das polias pelo enrolamento contra dθ_{p}/dq, Equação (⟦E:e3_vt⟧)",
           f"{sci(ver['enrolamento'])}"],
          ["Cabo 634 na geometria de teste: dℓ/dθ_{p} contra −r",
           f"{sci(ver['cabo634_R20'])} R20"],
@@ -3968,7 +4014,7 @@ def montar(corpo_original):
                 regras.append((padrao, lambda m, d=depois: d))
         # renumeração antes das edições: o texto das EDICOES já traz números
         # novos ("seções 3.1, 4.1 e 5.1"), que não podem ser renumerados
-        b2 = editar(b, (REGRA_TITULO if titulo else []) + REGRAS_ORIGINAL)
+        b2 = editar(theta_em_q(b), (REGRA_TITULO if titulo else []) + REGRAS_ORIGINAL)
         b2 = editar(b2, regras) if regras else b2
         b2 = editar(b2, REFS_EQ + SENO_TEXTO + (ROTULO_EQ if "<m:oMath" in b else []))
         editados.append(b2)

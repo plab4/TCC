@@ -34,7 +34,7 @@ from xml.sax.saxutils import unescape
 PASTA = Path(__file__).resolve().parent
 sys.path.insert(0, str(PASTA))
 from gerar_tcc_fundido import (EDICOES, EDICOES_RE, REMOVIDOS, SUBSTITUIDAS,  # noqa: E402
-                               parenteses_fixos, seno_sin)
+                               parenteses_fixos, seno_sin, theta_em_q)
 from nomes import FUNDIDO  # noqa: E402
 
 ORIG = PASTA/"TCC_apenas_exo1.docx"
@@ -167,7 +167,7 @@ def main():
     # fundido (mesmo esqueleto XML, na ordem), e a ordem tem de ser preservada
     mapa_eq, j = {}, 0
     for b in Nn:
-        if j < len(Om) and esqueleto(b) == esqueleto(seno_sin(parenteses_fixos(Om[j]))):
+        if j < len(Om) and esqueleto(b) == esqueleto(seno_sin(parenteses_fixos(theta_em_q(Om[j])))):
             # bloco de equações: só os rótulos, "(3)(4)", um por linha da tabela
             if "<m:oMath" in Om[j] and re.fullmatch(r"(?:\(\d+\))+", txt(Om[j])):
                 antes_ = [int(n) for n in re.findall(r"\d+", txt(Om[j]))]
@@ -181,7 +181,7 @@ def main():
     j, diverge, casados = 0, [], set()
     originais = set(mapa_eq.values())
     for i, b in enumerate(Nn):
-        if j < len(Om) and esqueleto(b) == esqueleto(seno_sin(parenteses_fixos(Om[j]))):
+        if j < len(Om) and esqueleto(b) == esqueleto(seno_sin(parenteses_fixos(theta_em_q(Om[j])))):
             t_esp = esperado(txt(Om[j]))
             if titulo(Om[j]):
                 t_esp = re.sub(r"^([34])\.(\d+)(?= )", sec, txt(Om[j]))
@@ -204,7 +204,7 @@ def main():
     diga("## 1. Conteúdo do original")
     diga()
     diga(f"Blocos do original encontrados em ordem, com XML idêntico fora do texto "
-         f"(nas equações, os delimitadores simples passam a ter tamanho fixo, e sen e arcsen passam a sin e arcsin): "
+         f"(nas equações, os delimitadores simples passam a ter tamanho fixo, sen e arcsen passam a sin e arcsin, e θ* passa a q nas Equações (17) e (27) do original): "
          f"{j} de {len(Om)} ({len(retirados)} retirados de propósito, REMOVIDOS). "
          f"Texto diferente do esperado (renumeração e as {len(EDICOES)} edições "
          f"declaradas): {len(diverge)}. Retirados ainda presentes: {len(presentes)}. "

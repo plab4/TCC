@@ -140,7 +140,7 @@ Depois: 3.1.3 Referenciais e convenções angulares e de sinal
 
 Antes: O mecanismo é tratado como plano, com origem O no eixo da junta (pivô). Comprimentos são expressos em milímetros e ângulos em graus na entrada, com uma única conversão para radianos dentro das contas. Quatro ângulos aparecem no cálculo e são mantidos separados, por serem fonte recorrente de erro (Tabela 1). O ângulo interno θ* entre os elos é a variável independente do modelo, e q é sua versão referida ao desenho:
 
-Depois: O mecanismo é tratado como plano, com origem O no eixo da junta (pivô). Seis ângulos aparecem no cálculo e são mantidos separados, por serem fonte recorrente de erro (Tabela 1). O ângulo interno θ* entre os elos é a variável independente do modelo, e q é sua versão referida ao desenho:
+Depois: O mecanismo é tratado como plano, com origem O no eixo da junta (pivô). Seis ângulos aparecem no cálculo e são mantidos separados, por serem fonte recorrente de erro (Tabela 1). A variável independente do modelo é q, o ângulo interno θ* entre os elos referido ao desenho:
 
 ### 21
 
@@ -152,7 +152,7 @@ Depois: em que θoff = 133,017° é a calibração angular identificada (seção
 
 Antes: SímboloDefiniçãoRelaçãoUsoθ*Ângulo interno do mecanismo, entre os elosVariável independente, em grausToda a cadeia de cálculoqθ* referido ao desenho, em radianosEquação (2)Fechamento do circuitoφDireção da linha de ação do caboEquação (8)Tangência, braço e forçaφpatÂngulo da curva publicada, a partir da horizontalθ* = θoff − φpatLeitura da patenteθelElevação anatômica do braçoθel = φpat + 90°Comparação com o pesoψÂngulo entre o cabo e o elo pivô–tamborEquação (15)Arco enrolado no tamborτTorque do cabo no modeloPositivo no sentido de θ* crescenteCadeia de cálculo−τTorque do cabo na convenção da patentePositivo quando tende a elevar o braçoComparação com a patente
 
-Depois: SímboloDefiniçãoRelaçãoUsoθ*Ângulo interno do mecanismo, entre os elosVariável independente, em grausToda a cadeia de cálculoqθ* referido ao desenho, em radianosEquação (2)Fechamento do circuitoφDireção da linha de ação do caboEquação (10)Tangência, braço e forçaφpatÂngulo da curva publicada, a partir da horizontalθ* = θoff − φpatLeitura da patenteθelElevação anatômica do braçoθel = φpat + 90°Comparação com o pesoψÂngulo entre o cabo e o elo pivô–tamborEquação (17)Arco enrolado no tamborτTorque do cabo no modeloPositivo no sentido de θ* crescenteCadeia de cálculo−τTorque do cabo na convenção da patentePositivo quando tende a elevar o braçoComparação com a patente
+Depois: SímboloDefiniçãoRelaçãoUsoθ*Ângulo interno do mecanismo, entre os elosEquação (2), em grausPose do CAD e comparação com a patenteqVariável independente: θ* referido ao desenho, em radianosEquação (2)Toda a cadeia de cálculoφDireção da linha de ação do caboEquação (10)Tangência, braço e forçaφpatÂngulo da curva publicada, a partir da horizontalθ* = θoff − φpatLeitura da patenteθelElevação anatômica do braçoθel = φpat + 90°Comparação com o pesoψÂngulo entre o cabo e o elo pivô–tamborEquação (17)Arco enrolado no tamborτTorque do cabo no modeloPositivo no sentido de θ* crescenteCadeia de cálculo−τTorque do cabo na convenção da patentePositivo quando tende a elevar o braçoComparação com a patente
 
 ### 23
 
@@ -266,7 +266,7 @@ Depois: (19)
 
 Antes: com θ* em radianos. A Equação (17) é verificada numericamente por diferenças finitas centradas (seção 3.11) e permite discriminar entre formulações do caminho do cabo: com o caminho igual apenas ao vão livre, ela não é satisfeita (seção 4.3).
 
-Depois: com θ* em radianos. A Equação (19) é verificada numericamente por diferenças finitas centradas (seção 3.1.12) e permite discriminar entre formulações do caminho do cabo: com o caminho igual apenas ao vão livre, ela não é satisfeita (seção 4.1.3).
+Depois: com q em radianos. A Equação (19) é verificada numericamente por diferenças finitas centradas (seção 3.1.12) e permite discriminar entre formulações do caminho do cabo: com o caminho igual apenas ao vão livre, ela não é satisfeita (seção 4.1.3).
 
 ### 42
 
@@ -434,7 +434,7 @@ Depois: 3.1.13 Etapas dinâmicas previstas
 
 Antes: O sistema seria tratado como mecanismo plano de um grau de liberdade, a rotação do conjunto membro–elo distal em torno do eixo da junta, com coordenada generalizada θ*. A energia cinética seria escrita com o momento de inércia IO da Equação (1), e a energia potencial reuniria a parcela gravitacional e a parcela elástica Ve = K δ2/2. Pela Equação (17), ∂Ve/∂θ* = K δ m, de modo que a força generalizada elástica coincide, a menos do fator 1/1000, com o torque do cabo da Equação (20). A equação de movimento teria a forma
 
-Depois: O sistema seria tratado como mecanismo plano de um grau de liberdade, a rotação do conjunto membro–elo distal em torno do eixo da junta, com coordenada generalizada θ*. A energia cinética seria escrita com o momento de inércia IO da Equação (1), e a energia potencial reuniria a parcela gravitacional e a parcela elástica Ve = K δ2/2. Pela Equação (19), ∂Ve/∂θ* = K δ m, de modo que a força generalizada elástica coincide, a menos do fator 1/1000, com o torque do cabo da Equação (22). A equação de movimento teria a forma
+Depois: O sistema seria tratado como mecanismo plano de um grau de liberdade, a rotação do conjunto membro–elo distal em torno do eixo da junta, com coordenada generalizada q. A energia cinética seria escrita com o momento de inércia IO da Equação (1), e a energia potencial reuniria a parcela gravitacional e a parcela elástica Ve = K δ2/2. Pela Equação (19), ∂Ve/∂q = K δ m, de modo que a força generalizada elástica coincide, a menos do fator 1/1000, com o torque do cabo da Equação (22). A equação de movimento teria a forma
 
 ### 70
 
@@ -686,7 +686,7 @@ Depois: Tabela 10 — Grandezas do mecanismo na faixa de operação
 
 Antes: A extensão da mola permanece positiva em toda a faixa, o que assegura a condição é que o cabo continua tracionado em todos os pontos avaliados. O máximo da extensão ocorre no ponto morto, como exige a Equação (17): onde m se anula, dℓ/dθ* também se anula, e o caminho do cabo passa por um extremo. O comprimento máximo da mola, 108,446 mm, é inferior ao comprimento útil do alojamento, 131,37 mm (valor a confirmar), com margem de 22,9 mm. A razão de 1,0095 entre a extensão máxima e o comprimento livre significa que a mola precisaria ser estendida a aproximadamente o dobro de seu comprimento livre; a viabilidade desse requisito depende da deflexão admissível da mola a especificar e deve ser confrontada com dados de fabricante.
 
-Depois: A extensão da mola permanece positiva em toda a faixa, o que assegura que o cabo continua tracionado em todos os pontos avaliados. O máximo da extensão ocorre no ponto morto, como exige a Equação (19): onde m se anula, dℓ/dθ* também se anula, e o caminho do cabo passa por um extremo. A razão de 1,0095 entre a extensão máxima e o comprimento livre significa que a mola precisaria ser estendida a aproximadamente o dobro de seu comprimento livre; a viabilidade desse requisito depende da deflexão admissível da mola a especificar e deve ser confrontada com dados de fabricante.
+Depois: A extensão da mola permanece positiva em toda a faixa, o que assegura que o cabo continua tracionado em todos os pontos avaliados. O máximo da extensão ocorre no ponto morto, como exige a Equação (19): onde m se anula, dℓ/dq também se anula, e o caminho do cabo passa por um extremo. A razão de 1,0095 entre a extensão máxima e o comprimento livre significa que a mola precisaria ser estendida a aproximadamente o dobro de seu comprimento livre; a viabilidade desse requisito depende da deflexão admissível da mola a especificar e deve ser confrontada com dados de fabricante.
 
 ### 112
 

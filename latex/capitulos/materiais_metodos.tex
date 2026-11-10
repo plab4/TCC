@@ -38,7 +38,7 @@ em que I\textsubscript{O} é o momento de inércia em relação ao eixo da junta
 
 \subsection{Referenciais e convenções angulares e de sinal}\label{sec:3.1.3}
 
-O mecanismo é tratado como plano, com origem O no eixo da junta (pivô). Seis ângulos aparecem no cálculo e são mantidos separados, por serem fonte recorrente de erro (Tabela~\ref{tab:convencoes-angulares-sinal}). O ângulo interno θ* entre os elos é a variável independente do modelo, e q é sua versão referida ao desenho:
+O mecanismo é tratado como plano, com origem O no eixo da junta (pivô). Seis ângulos aparecem no cálculo e são mantidos separados, por serem fonte recorrente de erro (Tabela~\ref{tab:convencoes-angulares-sinal}). A variável independente do modelo é q, o ângulo interno θ* entre os elos referido ao desenho:
 
 \begin{equation}
   q = \theta^{*} - \frac{\pi}{2} - \alpha
@@ -63,8 +63,8 @@ O torque τ do modelo é positivo no sentido anti-horário, isto é, no sentido 
 \toprule
 \centering\textbf{Símbolo} & \centering\textbf{Definição} & \centering\textbf{Relação} & \centering\textbf{Uso} \tabularnewline
 \midrule
-θ* & Ângulo interno do mecanismo, entre os elos & Variável independente, em graus & Toda a cadeia de cálculo \\
-q & θ* referido ao desenho, em radianos & Equação~\eqref{eq:02} & Fechamento do circuito \\
+θ* & Ângulo interno do mecanismo, entre os elos & Equação~\eqref{eq:02}, em graus & Pose do CAD e comparação com a patente \\
+q & Variável independente: θ* referido ao desenho, em radianos & Equação~\eqref{eq:02} & Toda a cadeia de cálculo \\
 φ & Direção da linha de ação do cabo & Equação~\eqref{eq:10} & Tangência, braço e força \\
 φ\textsubscript{pat} & Ângulo da curva publicada, a partir da horizontal & θ* = θ\textsubscript{off} − φ\textsubscript{pat} & Leitura da patente \\
 θ\textsubscript{el} & Elevação anatômica do braço & θ\textsubscript{el} = φ\textsubscript{pat} + 90° & Comparação com o peso \\
@@ -178,11 +178,11 @@ o caminho variável do cabo é
 Entra no modelo apenas a parcela variável do enrolamento, um arco constante cancela-se na extensão da mola, porque o caminho e o comprimento de referência são calculados pela mesma expressão. O sinal do termo do arco foi fixado pelo princípio dos trabalhos virtuais, formulado na seção~\ref{sec:3.1.9}. Em um mecanismo conservativo, sem atrito no tambor, o trabalho da tração no cabo iguala o do torque no elo, o que exige
 
 \begin{equation}
-  \frac{d\ell}{d\theta^{*}} = m
+  \frac{d\ell}{dq} = m
   \label{eq:19}
 \end{equation}
 
-com θ* em radianos. A Equação~\eqref{eq:19} é verificada numericamente por diferenças finitas centradas (seção~\ref{sec:3.1.12}) e permite discriminar entre formulações do caminho do cabo: com o caminho igual apenas ao vão livre, ela não é satisfeita (seção~\ref{sec:4.1.3}).
+com q em radianos. A Equação~\eqref{eq:19} é verificada numericamente por diferenças finitas centradas (seção~\ref{sec:3.1.12}) e permite discriminar entre formulações do caminho do cabo: com o caminho igual apenas ao vão livre, ela não é satisfeita (seção~\ref{sec:4.1.3}).
 
 A extensão da mola é referida a um comprimento, e não a um ângulo. Sendo X\textsubscript{pose} a extensão elástica da mola na pose de referência θ*\textsubscript{pose} = 115,017°, o valor do caminho em que a mola atinge o comprimento livre é
 
@@ -233,20 +233,20 @@ em que M é a massa do conjunto, g = 9,80665 m/s\textsuperscript{2} e x\textsubs
 
 \subsection{Formulação pelo princípio dos trabalhos virtuais}\label{sec:3.1.9}
 
-O equilíbrio estático do braço pode ser escrito diretamente pelo princípio dos trabalhos virtuais. Com a junta e o tambor sem atrito e o cabo inextensível e sem massa, os vínculos são ideais, e suas reações não realizam trabalho. Num giro virtual δθ* do conjunto em torno de O, em radianos, com δq = δθ* pela Equação~\eqref{eq:02}, realizam trabalho a força do cabo sobre o tambor, o peso do conjunto e o torque τ\textsubscript{u} que o usuário aplica ao braço.
+O equilíbrio estático do braço pode ser escrito diretamente pelo princípio dos trabalhos virtuais. Com a junta e o tambor sem atrito e o cabo inextensível e sem massa, os vínculos são ideais, e suas reações não realizam trabalho. Num giro virtual δq do conjunto em torno de O, em radianos, igual a δθ* pela Equação~\eqref{eq:02}, realizam trabalho a força do cabo sobre o tambor, o peso do conjunto e o torque τ\textsubscript{u} que o usuário aplica ao braço.
 
 A força do cabo atua no ponto de tangência T. Na formulação, T é o vetor b, de módulo b = |OT| e a um ângulo β da linha do elo, dados pelas Equações~\eqref{eq:13} a \eqref{eq:15}, e a força é o vetor f = −F u(φ), o V da Equação~\eqref{eq:22}. Como o elo é rígido e gira em torno de O, o trabalho virtual dessa força é o do seu momento em relação a O, a componente z de b × f:
 
 \begin{equation}
-  \delta W_{c} = \tau\,\delta\theta^{*},\quad\tau = \frac{{(\mathbf{b} \times \mathbf{f})}_{z}}{1000},\quad{(\mathbf{b} \times \mathbf{f})}_{z} = b_{x}f_{y} - b_{y}f_{x} = bF\sin{(\varphi + \beta - q)}
+  \delta W_{c} = \tau\,\delta q,\quad\tau = \frac{{(\mathbf{b} \times \mathbf{f})}_{z}}{1000},\quad{(\mathbf{b} \times \mathbf{f})}_{z} = b_{x}f_{y} - b_{y}f_{x} = bF\sin{(\varphi + \beta - q)}
   \label{eq:27}
 \end{equation}
 
 O seno vem do ângulo entre os dois vetores: pela Equação~\eqref{eq:15}, b aponta na direção q + π − β, e f, na direção φ + π. O produto vetorial retém só a componente de f perpendicular a b, que é a que gira o elo. Na faixa de operação, b vai de 282,503 a 284,363 mm e β de 4,604° a 4,619°, mas f aponta quase para o pivô: φ + β − q difere de 180° em no máximo 4,623°. Por isso, −b sin(φ + β − q), que coincide com o braço m da Equação~\eqref{eq:16}, não passa de |B| = 22,919 mm, e tomar F b como torque, sem a projeção, superestimaria o resultado em mais de 12 vezes.
 
-O mesmo trabalho virtual pode ser calculado do lado da mola. Com o cabo inextensível, o giro δθ* estende a mola de δℓ = (dℓ/dθ*) δθ*, com ℓ da Equação~\eqref{eq:18}, e a força F = K δ, que se opõe à extensão, realiza o trabalho −F δℓ/1000. Como as duas expressões valem para todo δθ*, (b × f)\textsubscript{z} = −F dℓ/dθ*, isto é, dℓ/dθ* = m, que é a Equação~\eqref{eq:19}. A força se cancela, e a igualdade depende só da geometria, não de K, X\textsubscript{pose} nem s\textsubscript{0}. É ela que fixa como o arco enrolado entra no caminho do cabo: das formulações ℓ = s, ℓ = s + Rψ e ℓ = s − Rψ, só a última a satisfaz (seção~\ref{sec:4.1.3}).
+O mesmo trabalho virtual pode ser calculado do lado da mola. Com o cabo inextensível, o giro δq estende a mola de δℓ = (dℓ/dq) δq, com ℓ da Equação~\eqref{eq:18}, e a força F = K δ, que se opõe à extensão, realiza o trabalho −F δℓ/1000. Como as duas expressões valem para todo δq, (b × f)\textsubscript{z} = −F dℓ/dq, isto é, dℓ/dq = m, que é a Equação~\eqref{eq:19}. A força se cancela, e a igualdade depende só da geometria, não de K, X\textsubscript{pose} nem s\textsubscript{0}. É ela que fixa como o arco enrolado entra no caminho do cabo: das formulações ℓ = s, ℓ = s + Rψ e ℓ = s − Rψ, só a última a satisfaz (seção~\ref{sec:4.1.3}).
 
-O peso deriva do potencial V\textsubscript{g} = M g y\textsubscript{G}/1000: num giro δθ*, o centro de massa sobe x\textsubscript{g} δθ*, com x\textsubscript{g} da Equação~\eqref{eq:25}, e o trabalho do peso é τ\textsubscript{g,s} δθ*, com τ\textsubscript{g,s} = −M g x\textsubscript{g}/1000, o torque gravitacional com sinal, cujo módulo é o τ\textsubscript{g} da Equação~\eqref{eq:26}. Somados os três trabalhos, δW = (τ + τ\textsubscript{g,s} + τ\textsubscript{u}) δθ* = 0 para todo δθ*, e τ\textsubscript{u} = −(τ + τ\textsubscript{g,s}), em que τ\textsubscript{u} é o torque que o usuário precisa exercer para manter o braço parado. Como τ está em u.p. e τ\textsubscript{g,s} em N·m, essa soma só tem valor físico se u.p. corresponder a N·m (seção~\ref{sec:3.1.13}), e a seção~\ref{sec:4.1} compara apenas a forma e os ângulos de τ e τ\textsubscript{g}. Com aceleração nula e Q\textsubscript{nc} = τ\textsubscript{u}, a Equação~\eqref{eq:30} reduz-se a essa condição.
+O peso deriva do potencial V\textsubscript{g} = M g y\textsubscript{G}/1000: num giro δq, o centro de massa sobe x\textsubscript{g} δq, com x\textsubscript{g} da Equação~\eqref{eq:25}, e o trabalho do peso é τ\textsubscript{g,s} δq, com τ\textsubscript{g,s} = −M g x\textsubscript{g}/1000, o torque gravitacional com sinal, cujo módulo é o τ\textsubscript{g} da Equação~\eqref{eq:26}. Somados os três trabalhos, δW = (τ + τ\textsubscript{g,s} + τ\textsubscript{u}) δq = 0 para todo δq, e τ\textsubscript{u} = −(τ + τ\textsubscript{g,s}), em que τ\textsubscript{u} é o torque que o usuário precisa exercer para manter o braço parado. Como τ está em u.p. e τ\textsubscript{g,s} em N·m, essa soma só tem valor físico se u.p. corresponder a N·m (seção~\ref{sec:3.1.13}), e a seção~\ref{sec:4.1} compara apenas a forma e os ângulos de τ e τ\textsubscript{g}. Com aceleração nula e Q\textsubscript{nc} = τ\textsubscript{u}, a Equação~\eqref{eq:30} reduz-se a essa condição.
 
 \subsection{Dados da patente e identificação dos parâmetros}\label{sec:3.1.10}
 
@@ -292,10 +292,10 @@ O projeto mantém, além disso, testes automatizados executados com o pytest. El
 
 Os objetivos específicos f e g preveem a obtenção da equação de movimento pela formulação de Lagrange, sua integração numérica e o acoplamento do modelo ao MBDyn. Essas etapas não foram executadas nesta fase do trabalho, e o capítulo 4 não apresenta nenhum resultado dinâmico. O procedimento previsto é registrado a seguir.
 
-O sistema seria tratado como mecanismo plano de um grau de liberdade, a rotação do conjunto membro–elo distal em torno do eixo da junta, com coordenada generalizada θ*. A energia cinética seria escrita com o momento de inércia I\textsubscript{O} da Equação~\eqref{eq:01}, e a energia potencial reuniria a parcela gravitacional e a parcela elástica V\textsubscript{e} = K δ\textsuperscript{2}/2. Pela Equação~\eqref{eq:19}, ∂V\textsubscript{e}/∂θ* = K δ m, de modo que a força generalizada elástica coincide, a menos do fator 1/1000, com o torque do cabo da Equação~\eqref{eq:22}. A equação de movimento teria a forma
+O sistema seria tratado como mecanismo plano de um grau de liberdade, a rotação do conjunto membro–elo distal em torno do eixo da junta, com coordenada generalizada q. A energia cinética seria escrita com o momento de inércia I\textsubscript{O} da Equação~\eqref{eq:01}, e a energia potencial reuniria a parcela gravitacional e a parcela elástica V\textsubscript{e} = K δ\textsuperscript{2}/2. Pela Equação~\eqref{eq:19}, ∂V\textsubscript{e}/∂q = K δ m, de modo que a força generalizada elástica coincide, a menos do fator 1/1000, com o torque do cabo da Equação~\eqref{eq:22}. A equação de movimento teria a forma
 
 \begin{equation}
-  I_{O}{\ddot{\theta}}^{*} = \tau(\theta^{*}) + \tau_{g,s}(\theta^{*}) + Q_{nc}
+  I_{O}\ddot{q} = \tau(q) + \tau_{g,s}(q) + Q_{nc}
   \label{eq:30}
 \end{equation}
 
@@ -339,7 +339,7 @@ O membro humano é o de referência (seção~\ref{sec:3}), em série a partir de
 
 A origem O fica no eixo da articulação 20, admitido coincidente com o centro do ombro, com eixo x anterior e eixo y para cima, nas convenções da seção~\ref{sec:3}.
 
-A variável independente é a anteversão do braço, θ\textsubscript{el}, com 0° para o braço pendente e 90° para o braço horizontal à frente, que é a abscissa das Figuras 16 e 17 da patente e não precisa ser convertida em elevação anatômica. O modelo admite que o giro do elemento de apoio do braço em relação à barra 18 seja igual à anteversão, o que supõe o eixo da articulação 20 no centro do ombro e a barra 18 fixa em relação ao tronco. A patente situa a articulação na altura do ombro, na região da escápula e atrás do corpo com o braço pendente, com eixo que não coincide com o de abdução do ombro, admite que a barra 18 mude de orientação com o movimento do braço e não informa a relação entre o giro da articulação e a anteversão; as comparações angulares com as Figuras 16 e 17 da patente dependem dessa hipótese. O eixo do braço aponta na direção θ\textsubscript{el} − 90°, e a alavanca é representada pelo segmento OP, de comprimento \textit{e} e direção q (seção~\ref{sec:3.2.4}), que se relaciona com θ\textsubscript{el} por
+A variável independente é q, a direção da alavanca, representada pelo segmento OP, de comprimento \textit{e} (seção~\ref{sec:3.2.4}). A anteversão do braço, θ\textsubscript{el}, com 0° para o braço pendente e 90° para o braço horizontal à frente, é a abscissa das Figuras 16 e 17 da patente e não precisa ser convertida em elevação anatômica. O modelo admite que o giro do elemento de apoio do braço em relação à barra 18 seja igual à anteversão, o que supõe o eixo da articulação 20 no centro do ombro e a barra 18 fixa em relação ao tronco. A patente situa a articulação na altura do ombro, na região da escápula e atrás do corpo com o braço pendente, com eixo que não coincide com o de abdução do ombro, admite que a barra 18 mude de orientação com o movimento do braço e não informa a relação entre o giro da articulação e a anteversão; as comparações angulares com as Figuras 16 e 17 da patente dependem dessa hipótese. O eixo do braço aponta na direção θ\textsubscript{el} − 90°, e q se relaciona com θ\textsubscript{el} por
 
 \begin{gather}
   q = \theta_{el} + 90^{\circ} + q_{0} \label{eq:31} \\
@@ -462,7 +462,7 @@ O conjunto reúne o membro humano e o braço do exoesqueleto (elemento 8), cujo 
 
 \subsection{Formulação pelo princípio dos trabalhos virtuais}\label{sec:3.2.9}
 
-O equilíbrio é escrito pelo trabalho virtual num giro δθ\textsubscript{el} do conjunto, em radianos, com δq = δθ\textsubscript{el} pela Equação~\eqref{eq:31}. Com o elemento 78 pontual e sem atrito e o elástico sem massa, o contato é um vínculo ideal, e realizam trabalho a força do elástico sobre a alavanca, o peso do conjunto e o torque τ\textsubscript{u} do usuário. O vetor b vai de O ao ponto de aplicação da força do trecho ligado a A, com módulo b e a um ângulo β de OP, e f = −F u(ψ); como esse ponto é fixo na alavanca em cada regime, b e β são constantes:
+O equilíbrio é escrito pelo trabalho virtual num giro δq do conjunto, em radianos, igual a δθ\textsubscript{el} pela Equação~\eqref{eq:31}. Com o elemento 78 pontual e sem atrito e o elástico sem massa, o contato é um vínculo ideal, e realizam trabalho a força do elástico sobre a alavanca, o peso do conjunto e o torque τ\textsubscript{u} do usuário. O vetor b vai de O ao ponto de aplicação da força do trecho ligado a A, com módulo b e a um ângulo β de OP, e f = −F u(ψ); como esse ponto é fixo na alavanca em cada regime, b e β são constantes:
 
 \begin{equation}
   \mathbf{b} = b\,\mathbf{u}(q + \beta),\quad\delta W_{e} = \tau\,\delta q = \frac{{(\mathbf{b} \times \mathbf{f})}_{z}}{1000}\,\delta q,\quad{(\mathbf{b} \times \mathbf{f})}_{z} = bF\sin{(q + \beta - \psi)}
@@ -471,7 +471,7 @@ O equilíbrio é escrito pelo trabalho virtual num giro δθ\textsubscript{el} d
 
 com (b, β) = (\textit{e}, 0) no regime I, em que b = P, e (b, β) = (p, φ) no regime II, em que b = C\textsubscript{78} (Equação~\eqref{eq:34}); com esses valores, b sin(q + β − ψ) é o braço m da Equação~\eqref{eq:43}. Embora b salte de P para C\textsubscript{78} na troca de regime, o torque é contínuo: no contato, A, o elemento 78 e P estão alinhados, f é paralelo a P − C\textsubscript{78}, e (P − C\textsubscript{78}) × f = 0.
 
-Do lado do elástico, o giro δq muda s de (ds/dq) δq, e a força realiza o trabalho −F δs/1000; como o contato não realiza trabalho, igualar as duas expressões dá (b × f)\textsubscript{z} = −F ds/dq, isto é, a Equação~\eqref{eq:44}. O peso realiza o trabalho τ\textsubscript{g,s} δθ\textsubscript{el}, com τ\textsubscript{g,s} = −M g x\textsubscript{G}/1000 e x\textsubscript{G} = d cos(θ\textsubscript{el} − 90° + a\textsubscript{CG}), de módulo τ\textsubscript{g} (Equação~\eqref{eq:46}), e a soma dos três trabalhos se anula para todo δθ\textsubscript{el}: τ\textsubscript{u} = −(τ + τ\textsubscript{g,s}), com τ em N·m sob a hipótese K = K\textsubscript{40} (seção~\ref{sec:3.2.10}). Com aceleração nula e Q\textsubscript{nc} = τ\textsubscript{u}, a equação de movimento da seção~\ref{sec:3.2.13} reduz-se a essa condição.
+Do lado do elástico, o giro δq muda s de (ds/dq) δq, e a força realiza o trabalho −F δs/1000; como o contato não realiza trabalho, igualar as duas expressões dá (b × f)\textsubscript{z} = −F ds/dq, isto é, a Equação~\eqref{eq:44}. O peso realiza o trabalho τ\textsubscript{g,s} δq, com τ\textsubscript{g,s} = −M g x\textsubscript{G}/1000 e x\textsubscript{G} = d cos(θ\textsubscript{el} − 90° + a\textsubscript{CG}), de módulo τ\textsubscript{g} (Equação~\eqref{eq:46}), e a soma dos três trabalhos se anula para todo δq: τ\textsubscript{u} = −(τ + τ\textsubscript{g,s}), com τ em N·m sob a hipótese K = K\textsubscript{40} (seção~\ref{sec:3.2.10}). Com aceleração nula e Q\textsubscript{nc} = τ\textsubscript{u}, a equação de movimento da seção~\ref{sec:3.2.13} reduz-se a essa condição.
 
 \subsection{Dados da patente e identificação dos parâmetros}\label{sec:3.2.10}
 
@@ -552,7 +552,7 @@ As verificações estão na Tabela~\ref{tab:verificacoes-cadeia-calculo-modelo}:
 
 \subsection{Etapas dinâmicas previstas}\label{sec:3.2.13}
 
-Pela formulação de Lagrange, a equação de movimento seria I\textsubscript{O} d\textsuperscript{2}θ\textsubscript{el}/dt\textsuperscript{2} = τ + τ\textsubscript{g,s} + Q\textsubscript{nc}, com θ\textsubscript{el} como coordenada generalizada, τ o torque do elástico, τ\textsubscript{g,s} o torque do peso com sinal e Q\textsubscript{nc} os esforços não conservativos. Pela Equação~\eqref{eq:44}, a energia elástica V\textsubscript{e} = K δ\textsuperscript{2}/2 satisfaz dV\textsubscript{e}/dq = −K δ m, de modo que a força generalizada elástica coincide, a menos do fator 1/1000, com o torque da Equação~\eqref{eq:43}; esse pré-requisito estático está verificado (Tabela~\ref{tab:verificacoes-cadeia-calculo-modelo}). A integração não foi executada: o torque só está em N·m sob a hipótese K = K\textsubscript{40}, o momento de inércia disponível, I\textsubscript{O} = 0,436010 kg·m\textsuperscript{2}, reúne o membro humano e o braço do exoesqueleto sem a alavanca e a braçadeira, e Q\textsubscript{nc} não pode ser escrito, porque massa e amortecimento do elástico e atrito no elemento 78 e na articulação 20 são desconhecidos. Nenhum resultado dinâmico é apresentado, e as condições para executar a etapa estão na seção~\ref{sec:4.2.10}.
+Pela formulação de Lagrange, a equação de movimento seria I\textsubscript{O} d\textsuperscript{2}q/dt\textsuperscript{2} = τ + τ\textsubscript{g,s} + Q\textsubscript{nc}, com q como coordenada generalizada, τ o torque do elástico, τ\textsubscript{g,s} o torque do peso com sinal e Q\textsubscript{nc} os esforços não conservativos. Pela Equação~\eqref{eq:44}, a energia elástica V\textsubscript{e} = K δ\textsuperscript{2}/2 satisfaz dV\textsubscript{e}/dq = −K δ m, de modo que a força generalizada elástica coincide, a menos do fator 1/1000, com o torque da Equação~\eqref{eq:43}; esse pré-requisito estático está verificado (Tabela~\ref{tab:verificacoes-cadeia-calculo-modelo}). A integração não foi executada: o torque só está em N·m sob a hipótese K = K\textsubscript{40}, o momento de inércia disponível, I\textsubscript{O} = 0,436010 kg·m\textsuperscript{2}, reúne o membro humano e o braço do exoesqueleto sem a alavanca e a braçadeira, e Q\textsubscript{nc} não pode ser escrito, porque massa e amortecimento do elástico e atrito no elemento 78 e na articulação 20 são desconhecidos. Nenhum resultado dinâmico é apresentado, e as condições para executar a etapa estão na seção~\ref{sec:4.2.10}.
 
 \subsection{Ferramentas e delimitação}\label{sec:3.2.14}
 
@@ -588,7 +588,7 @@ Duas conferências independentes sustentam esse referencial. Com o came espelhad
 
 A origem O fica no eixo do pivô 584, no referencial do CAD, que é o das Figuras 14C e 14D girado de 180°, nas convenções da seção~\ref{sec:3}.
 
-A variável independente é Θ, o ângulo do eixo maior do apoio de braço com a horizontal, positivo acima dela, que é a abscissa da Figura 16 da US 9.737.374 B2; a elevação a partir do braço pendente é Θ + 90°. O ângulo da patente não precisa ser convertido em elevação anatômica, mas a comparação com o peso do membro supõe o braço alinhado ao eixo maior e o centro do ombro no pivô 584. A variável primária do circuito é q, o ângulo entre C\textsubscript{2} e a horizontal, 61,724° na pose do CAD; q cresce quando o braço desce. No CAD, o eixo maior do apoio de braço fica 26,741° além de C\textsubscript{2}, no sentido em que q cresce, e, portanto,
+A variável independente é q, o ângulo entre C\textsubscript{2} e a horizontal, 61,724° na pose do CAD; q cresce quando o braço desce. A abscissa da Figura 16 da US 9.737.374 B2 é Θ, o ângulo do eixo maior do apoio de braço com a horizontal, positivo acima dela; a elevação a partir do braço pendente é Θ + 90°. O ângulo da patente não precisa ser convertido em elevação anatômica, mas a comparação com o peso do membro supõe o braço alinhado ao eixo maior e o centro do ombro no pivô 584. No CAD, o eixo maior do apoio de braço fica 26,741° além de C\textsubscript{2}, no sentido em que q cresce, e, portanto,
 
 \begin{equation}
   \Theta = - (q + 26{,}741^{\circ})
@@ -695,14 +695,14 @@ com m\textsubscript{i} em kg e d\textsubscript{i} em mm. Para o membro, alinhado
 
 \subsection{Formulação pelo princípio dos trabalhos virtuais}\label{sec:3.3.9}
 
-O equilíbrio é escrito pelo trabalho virtual num giro δΘ do apoio de braço, em radianos. Realizam trabalho a tração do cabo 560, que atua em T, o peso do conjunto e o torque τ\textsubscript{u} do usuário. O vão S varia de m\textsubscript{a} δΘ, a primária gira δθ\textsubscript{p} = m\textsubscript{a} δΘ/R em relação ao chassi, e a mola estende-se de δx = −r δθ\textsubscript{p}. Os trabalhos virtuais da força do cabo 560 e da força da mola são iguais, e
+O equilíbrio é escrito pelo trabalho virtual num giro δq, em radianos, em que o apoio de braço gira δΘ = −δq (Equação~\eqref{eq:53}). Realizam trabalho a tração do cabo 560, que atua em T, o peso do conjunto e o torque τ\textsubscript{u} do usuário. Com a primária presa ao chassi, o giro δq mudaria o vão S de m\textsubscript{a} δq; como o cabo 560 é inextensível e preso em A, a primária gira δθ\textsubscript{p} = −m\textsubscript{a} δq/R em relação ao chassi, e a mola estende-se de δx = −r δθ\textsubscript{p}. Os trabalhos virtuais da força do cabo 560 e da força da mola são iguais, e
 
 \begin{equation}
-  \tau = \frac{F_{s}}{1000}\,\frac{r}{R}\, C_{1}\sin{(\gamma - \theta)} = - \frac{F_{s}}{1000}\,\frac{dx}{d\Theta},\quad\frac{d\theta_{p}}{d\Theta} = \frac{C_{1}\sin{(\gamma - \theta)}}{R},\quad\frac{dx}{d\theta_{p}} = - r
+  \tau = \frac{F_{s}}{1000}\,\frac{r}{R}\, C_{1}\sin{(\gamma - \theta)} = \frac{F_{s}}{1000}\,\frac{dx}{dq},\quad\frac{d\theta_{p}}{dq} = - \frac{C_{1}\sin{(\gamma - \theta)}}{R},\quad\frac{dx}{d\theta_{p}} = - r
   \label{eq:63}
 \end{equation}
 
-que é a Equação~\eqref{eq:60}: as duas vias dão o mesmo torque, e a diferença numérica entre elas é conferida na seção~\ref{sec:4.3.3}. O peso entra com τ\textsubscript{g,s}, de sinal oposto ao de τ e módulo τ\textsubscript{g} da Equação~\eqref{eq:62}, e a soma dos trabalhos se anula para todo δΘ: τ\textsubscript{u} = −(τ + τ\textsubscript{g,s}). Aqui, τ está em N·m na escala fixada pela AWM (seção~\ref{sec:3.3.10}).
+que é a Equação~\eqref{eq:60}: as duas vias dão o mesmo torque, e a diferença numérica entre elas é conferida na seção~\ref{sec:4.3.3}. O peso entra com τ\textsubscript{g,s}, de sinal oposto ao de τ e módulo τ\textsubscript{g} da Equação~\eqref{eq:62}, e a soma dos trabalhos se anula para todo δq: τ\textsubscript{u} = −(τ + τ\textsubscript{g,s}). Aqui, τ está em N·m na escala fixada pela AWM (seção~\ref{sec:3.3.10}).
 
 A rotação das polias também sai do enrolamento. Com o cabo 560 inextensível, S + R w é constante, em que w é o arco enrolado de T a 561, e o giro absoluto das polias é φ − S/R, mais uma constante. O ponto 561 e o comprimento total do cabo só fixam essa constante, que vem do giro do came medido na Figura 14D (seção~\ref{sec:4.3.1}).
 
@@ -733,7 +733,7 @@ Os scripts executam as verificações da Tabela~\ref{tab:verificacoes-cadeia-cal
 
 \subsection{Etapas dinâmicas previstas}\label{sec:3.3.13}
 
-Pela formulação de Lagrange, a equação de movimento seria I\textsubscript{O} d\textsuperscript{2}Θ/dt\textsuperscript{2} = τ + τ\textsubscript{g,s} + Q\textsubscript{nc}, com Θ como coordenada generalizada. Pela Equação~\eqref{eq:63}, a energia elástica da mola satisfaz dV\textsubscript{e}/dΘ = F\textsubscript{s} dx/dΘ = −1000 τ, de modo que a força generalizada elástica coincide, a menos do fator 1/1000, com o torque da Equação~\eqref{eq:60}; esse pré-requisito estático está verificado (Tabela~\ref{tab:verificacoes-cadeia-calculo-modelo-levitate}). O momento de inércia do conjunto em torno de 584 é de 0,4503 kg·m\textsuperscript{2} (Tabela~\ref{tab:propriedades-massa-conjunto-que-gira}), e a energia cinética teria ainda o termo do giro do par de polias em relação ao chassi, que depende de dθ\textsubscript{p}/dΘ e, portanto, de Θ. A integração não foi executada: a escala do torque vem da AWM igualada ao peso do membro de referência, a rigidez e o comprimento livre da mola só existem como ajuste nessa escala, e Q\textsubscript{nc} não pode ser escrito, porque atrito e amortecimento são desconhecidos. Nenhum resultado dinâmico é apresentado, e as condições para executar a etapa estão na seção~\ref{sec:4.3.9}.
+Pela formulação de Lagrange, com q como coordenada generalizada, a equação de movimento seria I\textsubscript{O} d\textsuperscript{2}q/dt\textsuperscript{2} = −(τ + τ\textsubscript{g,s} + Q\textsubscript{nc}), com o sinal trocado porque q cresce no sentido horário, oposto ao de τ positivo (Equação~\eqref{eq:53}). Pela Equação~\eqref{eq:63}, a energia elástica da mola satisfaz dV\textsubscript{e}/dq = F\textsubscript{s} dx/dq = 1000 τ, de modo que a força generalizada elástica, −dV\textsubscript{e}/dq, coincide, a menos do fator −1/1000, com o torque da Equação~\eqref{eq:60}; esse pré-requisito estático está verificado (Tabela~\ref{tab:verificacoes-cadeia-calculo-modelo-levitate}). O momento de inércia do conjunto em torno de 584 é de 0,4503 kg·m\textsuperscript{2} (Tabela~\ref{tab:propriedades-massa-conjunto-que-gira}), e a energia cinética teria ainda o termo do giro do par de polias em relação ao chassi, que depende de dθ\textsubscript{p}/dq e, portanto, de q. A integração não foi executada: a escala do torque vem da AWM igualada ao peso do membro de referência, a rigidez e o comprimento livre da mola só existem como ajuste nessa escala, e Q\textsubscript{nc} não pode ser escrito, porque atrito e amortecimento são desconhecidos. Nenhum resultado dinâmico é apresentado, e as condições para executar a etapa estão na seção~\ref{sec:4.3.9}.
 
 \subsection{Ferramentas e delimitação}\label{sec:3.3.14}
 
@@ -741,7 +741,7 @@ Foram empregados o modelo em CAD do autor, para fechar o circuito do mecanismo e
 
 \section{Comparação entre as formulações}\label{sec:3.4}
 
-A Tabela~\ref{tab:elementos-formulacoes-tres-exoesqueletos} reúne o que distingue as formulações das seções~\ref{sec:3.1}, \ref{sec:3.2} e \ref{sec:3.3}. Nas três, o trabalho virtual dá o braço de momento como a derivada, em relação ao ângulo, do comprimento do caminho do elemento elástico, mas com sinais diferentes, porque o ângulo θ* do exoesqueleto 1 decresce quando o braço sobe, e os dos outros dois crescem.
+A Tabela~\ref{tab:elementos-formulacoes-tres-exoesqueletos} reúne o que distingue as formulações das seções~\ref{sec:3.1}, \ref{sec:3.2} e \ref{sec:3.3}. Nas três, a variável independente é q, e o trabalho virtual dá o braço de momento como a derivada, em relação a q, do comprimento do caminho do elemento elástico, mas com sinais diferentes, porque q decresce quando o braço sobe nos exoesqueletos 1 e 3 e cresce no 2.
 
 \begin{table}[!htbp]
 \estilotabela{\small}
@@ -751,10 +751,11 @@ A Tabela~\ref{tab:elementos-formulacoes-tres-exoesqueletos} reúne o que disting
 \centering\textbf{Aspecto} & \centering\textbf{US 9.889.554 B2 (seção~\ref{sec:3.1})} & \centering\textbf{EP 3 504 033 B1 (seção~\ref{sec:3.2})} & \centering\textbf{US 9.737.374 B2 (seção~\ref{sec:3.3})} \tabularnewline
 \midrule
 Arquitetura & Mola, cabo e tambor entre elo proximal e elo distal & Elástico ligado diretamente da barra à alavanca, com elemento de encosto junto à articulação & Cabo de ancoragem, par de polias com came de raio variável e mola no apoio de braço \\
-Variável independente & θ*, ângulo interno entre os elos; elevação pela Equação~\eqref{eq:04} & θ\textsubscript{el}, anteversão, abscissa da patente & Θ, eixo maior com a horizontal; elevação Θ + 90° \\
+Variável independente & q, θ* referido ao desenho (Equação~\eqref{eq:02}) & q, direção da alavanca OP (Equação~\eqref{eq:31}) & q, ângulo entre C\textsubscript{2} e a horizontal (Equação~\eqref{eq:53}) \\
+Abscissa da patente & θ*, ângulo interno entre os elos; elevação pela Equação~\eqref{eq:04} & θ\textsubscript{el}, anteversão & Θ, eixo maior com a horizontal; elevação Θ + 90° \\
 Fechamento e incógnitas & Equações~\eqref{eq:07} e \eqref{eq:08}, com s e φ & Equações~\eqref{eq:35} a \eqref{eq:38}, em dois regimes, com s e ψ & Equações~\eqref{eq:54} e \eqref{eq:55}, com S e φ \\
 Ponto de aplicação da força & Ponto de tangência no tambor, móvel & P no regime I e centro do elemento 78 no regime II, fixos na alavanca & Ponto de tangência na polia primária; a mola atua pelo raio efetivo do came \\
-Trabalho virtual & dℓ/dθ* = m, Equação~\eqref{eq:19} & ds/dq = −m, Equação~\eqref{eq:44} & τ = −(F\textsubscript{s}/1000) dx/dΘ, Equação~\eqref{eq:63} \\
+Trabalho virtual & dℓ/dq = m, Equação~\eqref{eq:19} & ds/dq = −m, Equação~\eqref{eq:44} & τ = (F\textsubscript{s}/1000) dx/dq, Equação~\eqref{eq:63} \\
 Parâmetro varrido & h, posição da ancoragem (seção~\ref{sec:3.1.11}) & e\textsubscript{c}, trecho da alavanca (seção~\ref{sec:3.2.11}) & Giro do came em relação à primária (seção~\ref{sec:3.3.11}) \\
 \bottomrule
 \end{tabularx}
