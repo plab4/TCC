@@ -38,7 +38,7 @@ No ajuste de forma, para cada s\textsubscript{0}, a escala e a soma dos quadrado
 
 \begin{equation}
   c = \frac{\sum_{i}^{}\mu_{i}r_{i}}{\sum_{i}^{}\mu_{i}^{2}},\quad SSE = \sum_{i}^{}{(c\mu_{i} - r_{i})}^{2},\quad RMSE = \sqrt{SSE/n}
-  \label{eq:65}
+  \label{eq:68}
 \end{equation}
 
 O mínimo foi procurado em s\textsubscript{0} de 0 a 390 mm, em grade de 0,01 mm, e refinado pelo método de Brent limitado \cite{brent1973} entre os vizinhos do melhor ponto, com a biblioteca SciPy \cite{virtanen2020}. Valores negativos de s\textsubscript{0} não correspondem a um elástico ligado diretamente entre A e P e foram excluídos. A faixa de identificação é o intervalo de s\textsubscript{0}, na mesma grade, em que a raiz do erro quadrático médio não excede 1,01 vez o mínimo. Dos 117 pontos ajustados, 4 ficam no regime II, entre 20° e 24,55°. A Tabela~\ref{tab:ajuste-s0-forma-curva} reúne os resultados, e a Figura~\ref{fig:pontos-extraidos-figura-patente}(a) sobrepõe as curvas ajustadas aos pontos extraídos.
@@ -47,7 +47,7 @@ A patente atribui as três curvas a um único atuador e as desenha no mesmo eixo
 
 \begin{equation}
   c = \frac{\sum_{j}^{}{\sum_{i}^{}\mu_{ij}}r_{ij}}{\sum_{j}^{}{\sum_{i}^{}\mu_{ij}^{2}}}
-  \label{eq:66}
+  \label{eq:69}
 \end{equation}
 
 com j a curva e i o ponto. Os três valores de s\textsubscript{0} foram buscados por descida coordenada na mesma grade, a partir de 125 combinações iniciais, com refinamento de Brent. A Tabela~\ref{tab:ajuste-conjunto-escala-comum} compara o resultado com os ajustes individuais e com uma força constante, forma limite do modelo quando s\textsubscript{0} tende a valores muito negativos; a Figura~\ref{fig:pontos-extraidos-figura-patente}(b) mostra o ajuste conjunto.

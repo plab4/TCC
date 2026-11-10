@@ -1,18 +1,18 @@
 # Verificação do TCC fundido
 
-Original: TCC_apenas_exo1.docx, 305 blocos. Fundido: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.docx, 745 blocos.
+Original: TCC_apenas_exo1.docx, 305 blocos. Fundido: TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.docx, 758 blocos.
 
 ## 1. Conteúdo do original
 
 Blocos do original encontrados em ordem, com XML idêntico fora do texto (nas equações, os delimitadores simples passam a ter tamanho fixo, sen e arcsen passam a sin e arcsin, e θ* passa a q nas Equações (17) e (27) do original): 300 de 300 (5 retirados de propósito, REMOVIDOS). Texto diferente do esperado (renumeração e as 81 edições declaradas): 0. Retirados ainda presentes: 0. Autores dos retirados ainda citados: nenhum.
 Renumeração das tabelas do original: {1: 1, 2: 3, 3: 4, 4: 5, 5: 6, 6: 7, 7: 8, 8: 9, 9: 10, 10: 11, 11: 12}.
 Renumeração das figuras do original: {1: 1, 2: 8, 3: 9, 4: 10, 5: 11}.
-Renumeração das equações do original: {1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 9, 8: 10, 9: 11, 10: 12, 11: 13, 12: 14, 13: 15, 14: 16, 15: 17, 16: 18, 17: 19, 18: 20, 19: 21, 20: 22, 21: 23, 22: 24, 23: 25, 24: 26, 25: 28, 26: 29, 27: 30}.
+Renumeração das equações do original: {1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 9, 8: 10, 9: 11, 10: 12, 11: 13, 12: 14, 13: 15, 14: 16, 15: 17, 16: 18, 17: 19, 18: 20, 19: 21, 20: 22, 21: 23, 22: 24, 23: 25, 24: 26, 25: 29, 26: 30, 27: 31}.
 
 ## 2. Numeração
 
-Tabelas 1 a 34 em sequência: True. Figuras 1 a 20: True. Equações (1) a (66): True.
-Seções por parte: 1.1 a 1.2 (ok); 1.1.1 a 1.1.2 (ok); 2.1 a 2.11 (ok); 3.1 a 3.4 (ok); 3.1.1 a 3.1.14 (ok); 3.2.1 a 3.2.14 (ok); 3.3.1 a 3.3.14 (ok); 4.1 a 4.4 (ok); 4.1.1 a 4.1.9 (ok); 4.2.1 a 4.2.9 (ok); 4.3.1 a 4.3.9 (ok); 5.1 a 5.4 (ok).
+Tabelas 1 a 33 em sequência: True. Figuras 1 a 20: True. Equações (1) a (69): True.
+Seções por parte: 1.1 a 1.2 (ok); 1.1.1 a 1.1.2 (ok); 2.1 a 2.11 (ok); 3.1 a 3.4 (ok); 3.1.1 a 3.1.14 (ok); 3.2.1 a 3.2.14 (ok); 3.3.1 a 3.3.14 (ok); 4.1 a 4.4 (ok); 4.1.1 a 4.1.9 (ok); 4.2.1 a 4.2.10 (ok); 4.3.1 a 4.3.9 (ok); 5.1 a 5.4 (ok).
 Títulos de capítulo e de parte: 1 INTRODUÇÃO; 2 FUNDAMENTAÇÃO TEÓRICA; 3 MATERIAIS E MÉTODOS; 3.1 Exoesqueleto 1; 3.2 Exoesqueleto 2; 3.3 Exoesqueleto 3; 4 RESULTADOS E DISCUSSÃO; 4.1 Exoesqueleto 1; 4.2 Exoesqueleto 2; 4.3 Exoesqueleto 3; 5 CONCLUSÃO; 5.1 Exoesqueleto 1; 5.2 Exoesqueleto 2; 5.3 Exoesqueleto 3; REFERÊNCIAS; APÊNDICE A: ROBUSTEZ DA IDENTIFICAÇÃO E AJUSTE DE FORMA NO EXOESQUELETO 2.
 
 ## 3. Referências
@@ -21,7 +21,7 @@ Referências sem alvo: 0.
 
 ## 4. Texto novo
 
-Blocos novos: 445. Travessões: 0. Restos da numeração do apêndice antigo: 0. Apêndices depois das referências: A.
+Blocos novos: 458. Travessões: 0. Restos da numeração do apêndice antigo: 0. Apêndices depois das referências: A.
 
 ## 5. Parágrafos do apêndice da versão anterior
 
@@ -35,6 +35,8 @@ Idênticos: 3. Iguais a menos de números e referências: 13. Modificados: 35. S
   - mais próximo no fundido: 4.3.7 Varredura paramétrica do giro do came
 - Modificado (0.57): O ajuste conjunto ordena os comprimentos de referência como as pré-tensões descritas em [0093]: s0 = 221,841 m
   - mais próximo no fundido: O ajuste conjunto ordena os comprimentos de referência como as pré-tensões descritas na patente, mas a curva p
+- Modificado (0.59): Tabela A.1: Fontes e arquivos utilizados na análise da EP 3 504 033 B1
+  - mais próximo no fundido: Tabela 23: Pontos extraídos da Figura 16 da US 9.737.374 B2
 - Modificado (0.59): com λ em radianos, relação análoga à Equação (17), verificada numericamente nos dois regimes (seção A.12). O s
   - mais próximo no fundido: com q em radianos, verificada nos dois regimes (seção 4.2.3). Como q cresce com a elevação do braço e m > 0 as
 - Modificado (0.60): Em N·m, a comparação só é possível sob a hipótese K = K40, e por isso a Figura A.6 e a Tabela A.12 descrevem u
@@ -43,8 +45,6 @@ Idênticos: 3. Iguais a menos de números e referências: 13. Modificados: 35. S
   - mais próximo no fundido: O elemento 78, chamado na patente de Anlageelement e aqui de elemento de encosto, fica junto à articulação 20 
 - Modificado (0.61): Essas informações confirmam o que as seções 2.3 e 2.7 dizem do mecanismo: a força é transmitida por um element
   - mais próximo no fundido: Essas informações confirmam o que as seções 2.3 e 2.7 dizem do mecanismo: a força é transmitida por um element
-- Modificado (0.61): Tabela A.1: Fontes e arquivos utilizados na análise da EP 3 504 033 B1
-  - mais próximo no fundido: Tabela 30: Pendências da análise da US 9.737.374 B2
 - Modificado (0.64): O atuador passivo (26) é uma mola de tração na Figura 1 [0080] e um cabo ou fio elástico na Figura 18 [0095]. 
   - mais próximo no fundido: O atuador passivo (26) é uma mola de tração na Figura 1 da patente e um cabo ou fio elástico na Figura 18 da p
 - Modificado (0.65): O mecanismo é tratado como plano, com origem O no eixo da articulação 20, admitido coincidente com o centro do
@@ -106,53 +106,53 @@ Idênticos: 3. Iguais a menos de números e referências: 13. Modificados: 35. S
 - Sem correspondente (0.06): A pré-tensão da curva pontilhada, descrita como quase nula [0093], também diverge do modelo. Essa curva exige 
   - mais próximo no fundido: O fim da curva pontilhada confirma o resultado de forma independente. A razão dessa curva, extrapolada, chega 
 - Sem correspondente (0.07): A análise usou os documentos e arquivos da Tabela A.1. A patente foi lida no documento B1 completo, de 44 pági
-  - mais próximo no fundido: Pela Equação (50), na faixa adotada, s0 vale 311,148 mm na curva pontilhada, 300,750 mm na tracejada e 291,956
-- Sem correspondente (0.07): com m = mI no regime I, m = mII no regime II e m > 0 quando o torque assiste a subida. Como no capítulo 3, o f
-  - mais próximo no fundido: A força do trecho ligado a A, f = −F u(ψ), atua em P no regime I e no centro do elemento 78 no regime II. O tr
+  - mais próximo no fundido: Pela Equação (52), na faixa adotada, s0 vale 311,148 mm na curva pontilhada, 300,750 mm na tracejada e 291,956
 - Sem correspondente (0.07): As Figuras 16 e 17 da patente mostram curvas obtidas com o dispositivo [0092]. A abscissa é o ângulo de anteve
   - mais próximo no fundido: Além do giro contínuo, foram testadas as montagens que os furos permitem. Nas Figuras 14C e 14D, há cinco furo
-- Sem correspondente (0.07): em que θb,pose é o ângulo do braço com a horizontal na pose do CAD, positivo acima. A Tabela A.4 resume as con
-  - mais próximo no fundido: Duas conferências independentes sustentam esse referencial. Com o came espelhado, o giro dado pelo centróide e
 - Sem correspondente (0.07): O modelo executa as verificações da Tabela A.11 a cada execução, com tolerância declarada, e interrompe o cálc
   - mais próximo no fundido: A identificação é estável: entre as faixas de θel testadas, o s0 da curva tracejada varia de 299,81 a 301,95 m
+- Sem correspondente (0.08): Foram executadas, para a EP 3 504 033 B1, a leitura da arquitetura na patente, a organização das grandezas do 
+  - mais próximo no fundido: Os mecanismos também distribuem a assistência de modo distinto em relação à demanda gravitacional. O gerador d
 - Sem correspondente (0.08): Este apêndice aplica à EP 3 504 033 B1 (OTTOBOCK, 2023) o procedimento dos capítulos 3 e 4, que no corpo do tr
   - mais próximo no fundido: No dispositivo da EP 3 504 033 B1, o elástico liga diretamente a barra à alavanca, sem o arranjo de cabo e pol
 - Sem correspondente (0.08): Para expressar o torque em N·m, K foi fixado por hipótese de projeto, e não identificado. O alvo é 40% do torq
   - mais próximo no fundido: Duas conferências independentes sustentam esse referencial. Com o came espelhado, o giro dado pelo centróide e
+- Sem correspondente (0.08): em que θb,pose é o ângulo do braço com a horizontal na pose do CAD, positivo acima. A Tabela A.4 resume as con
+  - mais próximo no fundido: As leituras do perfil do came e da curva de momento da patente não têm incerteza estimada, e o torque do peso 
 - Sem correspondente (0.08): em que s0 é o valor de ℓ em que o elástico atinge o comprimento livre e K a rigidez. A patente não informa K, 
-  - mais próximo no fundido: Os fatores Gi da Equação (51) coincidem nas três curvas (Figura 12(a)), com dispersão mediana de 0,84% entre 2
+  - mais próximo no fundido: Os fatores Gi da Equação (53) coincidem nas três curvas (Figura 12(a)), com dispersão mediana de 0,84% entre 2
+- Sem correspondente (0.08): A variável independente é a anteversão do braço, θel, com 0° para o braço pendente e 90° para o braço horizont
+  - mais próximo no fundido: O cabo tracionado passa reto sobre concavidades. O raio efetivo é, por isso, a função suporte da envoltória co
 - Sem correspondente (0.09): Na pose do CAD, o modelo situa P em (−38,090; 25,551) mm e o centro do elemento 78 em (1,071; −7,680) mm, e ca
-  - mais próximo no fundido: Com as demais grandezas do CAD, a Equação (45) dá θel = 13,349°. As curvas da Figura 16 da patente partem de r
-- Sem correspondente (0.09): A variável independente é a anteversão do braço, θel, com 0° para o braço pendente e 90° para o braço horizont
-  - mais próximo no fundido: A variável independente é q, o ângulo entre C2 e a horizontal, 61,724° na pose do CAD; q cresce quando o braço
-- Sem correspondente (0.09): em que τg,s é o torque do peso com sinal e Qnc reúne os esforços não conservativos. Pela Equação (A.16), a ene
-  - mais próximo no fundido: O elástico é tratado como linear e sem massa, com folga abaixo do comprimento livre: δ = max(s − s0, 0) e F = 
+  - mais próximo no fundido: Com as demais grandezas do CAD, a Equação (46) dá θel = 13,349°. As curvas da Figura 16 da patente partem de r
 - Sem correspondente (0.09): A classificação de origem é a da seção 3: medida no modelo em CAD, obtida da literatura, documental, identific
   - mais próximo no fundido: As relações do circuito foram verificadas com resíduos de até 5,9 × 10−4 mm contra o CAD e entre as duas forma
-- Sem correspondente (0.09): Foram executadas, para a EP 3 504 033 B1, a leitura da arquitetura na patente, a organização das grandezas do 
-  - mais próximo no fundido: Dos objetivos acrescentados para esse dispositivo, o item h foi cumprido na parte estática, com três ressalvas
 - Sem correspondente (0.09): O modelo verifica ainda que o regime II ocorre exatamente para λ ≤ λt na malha, que o elemento 78 fica entre A
   - mais próximo no fundido: A identificação é estável: entre as faixas de θel testadas, o s0 da curva tracejada varia de 299,81 a 301,95 m
 - Sem correspondente (0.09): O sinal de θb,pose = −7,962° está registrado no código como a confirmar. Com o sinal trocado, λ0 passa a −27,4
   - mais próximo no fundido: As relações de circuito dos dois regimes e o princípio dos trabalhos virtuais foram verificados com resíduos d
 - Sem correspondente (0.10): A Figura 17 da patente não foi digitalizada, e a comparação com ela é visual. Nela, as três curvas partem de p
   - mais próximo no fundido: Como preferência, a patente indica que nenhuma força seja aplicada até que o braço ultrapasse um ângulo em rel
+- Sem correspondente (0.12): em que τg,s é o torque do peso com sinal e Qnc reúne os esforços não conservativos. Pela Equação (A.16), a ene
+  - mais próximo no fundido: O peso deriva do potencial Vg = M g yG/1000: num giro δq, o centro de massa sobe xg δq, com xg da Equação (25)
 - Sem correspondente (0.13): Com apenas o membro humano, aCG = 0 e τg = M g D sen θel/1000, com máximo de 10,550 N·m em θel = 90°. A Equaçã
   - mais próximo no fundido: O conjunto reúne o membro humano e o braço do exoesqueleto (elemento 8), cujo centro de massa é referido ao ei
 - Sem correspondente (0.13): A forma do torque do elástico pode ser comparada à do peso sem depender de K, normalizando cada curva pelo pró
   - mais próximo no fundido: Os mecanismos também distribuem a assistência de modo distinto em relação à demanda gravitacional. O gerador d
+- Sem correspondente (0.13): com m = mI no regime I, m = mII no regime II e m > 0 quando o torque assiste a subida. Como no capítulo 3, o f
+  - mais próximo no fundido: que é a Equação (62): as duas vias dão o mesmo torque, e a diferença numérica entre elas é conferida na seção 
 - Sem correspondente (0.14): Os pontos das três curvas foram extraídos pelo autor e estão no arquivo fig16_curvas.csv (Tabela A.6). Segundo
   - mais próximo no fundido: Os pontos das três curvas foram extraídos pelo autor e estão no arquivo fig16_curvas.csv (Tabela 15). A extraç
 - Sem correspondente (0.15): A integração não foi executada, pelas razões seguintes. O torque do elástico só está em N·m sob a hipótese K =
   - mais próximo no fundido: Pela formulação de Lagrange, a equação de movimento seria IO d2q/dt2 = τ + τg,s + Qnc, com q como coordenada g
 - Sem correspondente (0.18): No regime II, o trecho entre o elemento 78 e P liga dois pontos do mesmo corpo; as forças que exerce sobre P e
   - mais próximo no fundido: A força do trecho ligado a A, f = −F u(ψ), atua em P no regime I e no centro do elemento 78 no regime II. O tr
+- Sem correspondente (0.21): em que ℓ é o comprimento total do elástico entre A e P, φ a direção do trecho ligado a A e d78 o comprimento d
+  - mais próximo no fundido: O ajuste de forma deixa s0 e a escala livres em cada curva e, por isso, depende também do braço de momento e d
 - Sem correspondente (0.25): Os três critérios de validade física da seção 3.10, adaptados ao mecanismo, foram atendidos em todos os valore
   - mais próximo no fundido: Dos três critérios de validade física, o fechamento dos dois regimes (s > 0 e s − x > 0) e o trabalho virtual 
 - Sem correspondente (0.26): com A = −rAO. Acima do ângulo de transição, o elástico é retilíneo de A a P (regime I); abaixo dele, encosta n
   - mais próximo no fundido: com A = −rAO e φ a defasagem constante entre a direção de p e q, 117,450° na geometria do CAD. Para q > q*, o 
-- Sem correspondente (0.29): em que ℓ é o comprimento total do elástico entre A e P, φ a direção do trecho ligado a A e d78 o comprimento d
-  - mais próximo no fundido: O dispositivo admite abdução, adução e movimentos do tronco. O modelo é plano, restrito ao plano sagital, e re
 - Sem correspondente (0.31): A equação de movimento teria a forma da Equação (27), com θel como coordenada generalizada:
   - mais próximo no fundido: Nota: valores entre parênteses ficam fora da faixa 20° < θel < 165° usada na identificação (seção 3.2.10).
 - Sem correspondente (0.35): As referências citadas no apêndice e já cadastradas no trabalho estão na lista de referências. As referências 
@@ -167,18 +167,18 @@ Idênticos: 3. Iguais a menos de números e referências: 13. Modificados: 35. S
   - mais próximo no fundido: As seções 3.2.1 a 3.2.14 aplicam à EP 3 504 033 B1 (MIZERA et al., 2023), da Ottobock, o procedimento deste ca
 - Sem correspondente (0.38): No modelo em CAD, o braço do exoesqueleto (elemento 8) tem massa de 163,951 g, centro de massa em (69,249; 151
   - mais próximo no fundido: No modelo em CAD, o braço do exoesqueleto (elemento 8) tem massa de 163,951 g, centro de massa em (69,249; 151
+- Sem correspondente (0.39): A.3 Reconstrução geométrica e grandezas do modelo (seções 3.1 e 4.1)
+  - mais próximo no fundido: Tabela 18: Grandezas do circuito em ângulos representativos (ec = 34,785 mm)
 - Sem correspondente (0.40): em que ε é o ângulo fixo de OP em relação ao trecho e. Nesse caso, a direção de OP na transição coincide com a
-  - mais próximo no fundido: Com as demais grandezas do CAD, a Equação (45) dá θel = 13,349°. As curvas da Figura 16 da patente partem de r
+  - mais próximo no fundido: Com as demais grandezas do CAD, a Equação (46) dá θel = 13,349°. As curvas da Figura 16 da patente partem de r
+- Sem correspondente (0.41): O circuito do mecanismo foi fechado pelo autor no modelo em CAD do Autodesk Fusion, e as grandezas medidas nes
+  - mais próximo no fundido: O modelo é plano, no plano das Figuras 14C e 14D, normal ao eixo do pivô 584, e representa só a rotação do apo
 - Sem correspondente (0.42): A Tabela A.13 reúne o que falta para concluir cada etapa, a consequência da ausência e a forma de obter o dado
   - mais próximo no fundido: A Tabela 21 reúne as grandezas medidas no CAD na pose de referência e as que delas derivam, com a origem de ca
 - Sem correspondente (0.43): Cada regime tem solução fechada, sem procedimento iterativo, porque o lado direito das relações abaixo, a prim
   - mais próximo no fundido: Com as grandezas do CAD, x = 38,972 mm. Em cada regime, as incógnitas são s e ψ, e a solução é fechada, porque
 - Sem correspondente (0.43): Com o elemento 78 sobre o eixo (p78 = 0), configuração preferida pela patente [0099], a transição tem forma fe
   - mais próximo no fundido: Nota: página do documento girada para a orientação de leitura. A patente não traz rótulo nem escala na ordenad
-- Sem correspondente (0.45): A.3 Reconstrução geométrica e grandezas do modelo (seções 3.1 e 4.1)
-  - mais próximo no fundido: 4.2.1 Geometria reconstruída e propriedades de massa
-- Sem correspondente (0.45): O circuito do mecanismo foi fechado pelo autor no modelo em CAD do Autodesk Fusion, e as grandezas medidas nes
-  - mais próximo no fundido: O circuito do mecanismo foi fechado no modelo em CAD do Autodesk Fusion, e as grandezas medidas nesse modelo, 
 - Sem correspondente (0.45): O torque do peso é calculado de forma independente da cadeia do elástico. O conjunto que gira com o braço é rí
   - mais próximo no fundido: O conjunto que gira com o braço reúne o membro superior e o apoio de braço, e cada corpo i, de massa mi, tem o
 - Sem correspondente (0.48): A.6 Cinemática: equações de circuito e troca de regime (seções 3.4, 3.5 e 3.7)

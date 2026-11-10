@@ -1091,9 +1091,10 @@ def cap3_trabalho_virtual_exo1():
     a(P("O peso deriva do potencial V_{g} = M g y_{G}/1000: num giro δq, o centro de "
         "massa sobe x_{g} δq, com x_{g} da Equação (23), e o trabalho do peso é "
         "τ_{g,s} δq, com τ_{g,s} = −M g x_{g}/1000, o torque gravitacional com sinal, "
-        "cujo módulo é o τ_{g} da Equação (24). Somados os três trabalhos, "
-        "δW = (τ + τ_{g,s} + τ_{u}) δq = 0 para todo δq, e τ_{u} = −(τ + τ_{g,s}), "
-        "em que τ_{u} é o torque que o usuário precisa exercer para manter o braço "
+        "cujo módulo é o τ_{g} da Equação (24). Somados os três trabalhos, o princípio "
+        "dos trabalhos virtuais exige, para todo δq,"))
+    a(EQ(("vt1_eq", r"\delta W = (\tau + \tau_{g,s} + \tau_{u})\,\delta q = 0\quad\Rightarrow\quad\tau_{u} = -(\tau + \tau_{g,s})")))
+    a(P("em que τ_{u} é o torque que o usuário precisa exercer para manter o braço "
         "parado. Como τ está em u.p. e τ_{g,s} em N·m, essa soma só tem valor físico "
         "se u.p. corresponder a N·m (seção 3.1.13), e a seção 4.1 compara apenas a "
         "forma e os ângulos de τ e τ_{g}. Com aceleração nula e Q_{nc} = τ_{u}, a "
@@ -1217,7 +1218,7 @@ def parte_3B():
     a(P("O circuito do mecanismo foi fechado no modelo em CAD do Autodesk Fusion, e "
         "as grandezas medidas nesse modelo, com as derivadas delas, estão na Tabela "
         "⟦T:cad⟧ (seção ⟦S:r_geo⟧). O arquivo do modelo e o critério de escala não "
-        "constam do repositório, e as medições não têm, por isso, conferência "
+        "foram documentados, e as medições não têm, por isso, conferência "
         "independente. A "
         "planilha de composição inercial identifica o modelo como Ottobock iX "
         "Shoulder Air; como a patente não nomeia o produto, a "
@@ -1432,9 +1433,11 @@ def parte_3B():
         "trabalho −F δs/1000; como o contato não realiza trabalho, igualar as duas "
         "expressões dá (b × f)_{z} = −F ds/dq, isto é, a Equação (⟦E:tv⟧). O peso "
         "realiza o trabalho τ_{g,s} δq, com τ_{g,s} = −M g x_{G}/1000 e "
-        "x_{G} = d cos(θ_{el} − 90° + a_{CG}), de módulo τ_{g} (Equação (⟦E:tg⟧)), e a "
-        "soma dos três trabalhos se anula para todo δq: τ_{u} = −(τ + τ_{g,s}), "
-        "com τ em N·m sob a hipótese K = K_{40} (seção ⟦S:dados⟧). Com aceleração nula e "
+        "x_{G} = d cos(θ_{el} − 90° + a_{CG}), de módulo τ_{g} (Equação (⟦E:tg⟧)). "
+        "Somados os três trabalhos, o princípio dos trabalhos virtuais exige, para todo "
+        "δq,"))
+    a(EQ(("vt2_eq", r"\delta W = (\tau + \tau_{g,s} + \tau_{u})\,\delta q = 0\quad\Rightarrow\quad\tau_{u} = -(\tau + \tau_{g,s})")))
+    a(P("com τ em N·m sob a hipótese K = K_{40} (seção ⟦S:dados⟧). Com aceleração nula e "
         "Q_{nc} = τ_{u}, a equação de movimento da seção ⟦S:din⟧ reduz-se a essa "
         "condição."))
 
@@ -2477,6 +2480,36 @@ def parte_4B():
         "Como essa forma depende da geometria do CAD, que não reproduz a Figura 16 "
         "da patente (seção ⟦S:r_forma⟧), a leitura vale para o modelo."))
 
+    # ------------------------------------------------------------ limitações
+    a(SEC("4.2", "r_lim", "Limitações dos resultados"))
+    a(P("Além das limitações de escopo da seção ⟦S:ferr⟧, os resultados comportam as "
+        "ressalvas a seguir."))
+    a(P("A principal é a diferença de forma entre o modelo e a Figura 16 da patente "
+        "(seção ⟦S:r_forma⟧). Com os s_{0} identificados e escala comum, o modelo "
+        "completo não reproduz a figura: o R^{2} fica entre "
+        f"{f(min(mcomp[n]['comum']['r2'] for n in ORDEM), 2)} e "
+        f"{f(max(mcomp[n]['comum']['r2'] for n in ORDEM), 2)}, e a patente não informa a "
+        "configuração do dispositivo que gerou a figura nem a definição de sua ordenada. "
+        "O s_{0} identificado pelo espaçamento entre as curvas não depende dessa forma, "
+        "mas a distribuição angular do torque calculado, sim."))
+    a(P("O torque em N·m é um cenário, e não uma medida: a patente não publica a rigidez "
+        "do elástico nem a escala da ordenada da Figura 16, e K = K_{40} vem da alegação "
+        "comercial de 40% de assistência (SUITX, [202-]), sem verificação independente. "
+        "A identificação pelo espaçamento supõe elástico linear, com o mesmo K nas três "
+        "curvas, e o ajuste de forma usa escala diferente em cada curva."))
+    a(P("As comparações angulares com a patente, como o início das curvas, a transição "
+        "e a posição do pico, dependem da hipótese de eixo da articulação 20 no centro "
+        "do ombro e barra 18 fixa no tronco (seção ⟦S:conv⟧). O modelo dá torque não nulo "
+        "abaixo da transição, onde a Figura 16 da patente mostra razão nula, e esse "
+        "trecho depende da posição e do raio de contato do elemento 78: com o elemento "
+        "sobre o eixo, o contato cai no início das curvas."))
+    a(P("As grandezas medidas no CAD (Tabela ⟦T:cad⟧) não têm conferência independente. "
+        "A incerteza da leitura da Figura 16 da patente foi estimada só pelo erro mediano "
+        "declarado, e a identificação supõe que a figura, apresentada como exemplar, seja "
+        "fiel em escala, o que a patente não declara; o efeito de e_{c} foi comparado com "
+        "a Figura 17 da patente só visualmente. Por fim, o modelo é plano, sem a abdução "
+        "e a articulação esférica 22, e os resultados limitam-se à análise estática."))
+
     return B
 
 
@@ -2578,7 +2611,7 @@ def parte_5B():
     a(P("Dos objetivos acrescentados para esse dispositivo, o item h foi cumprido "
         "na parte estática, com três ressalvas: a escala do torque depende da "
         "hipótese K = K_{40}; as grandezas do CAD não têm conferência "
-        "independente, porque o modelo não está no repositório; e a "
+        "independente; e a "
         "composição inercial e o torque gravitacional incluem o membro humano e o "
         "braço do exoesqueleto, mas não a alavanca, o elemento 78 e a braçadeira, "
         "previstos nos itens a e e. O item i foi "
@@ -2587,16 +2620,10 @@ def parte_5B():
         "gravitacional feito pela forma normalizada e, em N·m, apenas no cenário de "
         "projeto. As etapas dinâmicas não foram executadas, pelas razões da seção "
         "⟦S:din⟧."))
-    a(P("Como continuidade para esse dispositivo, recomenda-se incluir o modelo em "
-        "CAD no repositório; "
-        "esclarecer a definição da ordenada da Figura 16 "
-        "da patente e a configuração do dispositivo que a gerou, que a patente não "
-        "informa; conferir a posição e o raio de contato do elemento de encosto, "
-        "comparando com a posição sobre o eixo preferida pela patente; registrar o "
-        "procedimento e a incerteza da extração da Figura 16 da patente; obter a "
-        "curva de força e extensão do elemento elástico, que fixaria K; digitalizar "
-        "a Figura 17 da patente; e, com a escala resolvida, executar as etapas "
-        "dinâmicas pela formulação de Lagrange e no MBDyn."))
+    a(P("Como continuidade para esse dispositivo, recomenda-se obter a curva de força "
+        "e extensão do elemento elástico, que fixaria K e a escala do torque, e, com a "
+        "escala resolvida, executar as etapas dinâmicas pela formulação de Lagrange e "
+        "no MBDyn."))
     return B
 
 
@@ -2866,10 +2893,11 @@ def parte_3C():
     a(EQ(("e3_vt", r"\tau = \frac{F_{s}}{1000}\,\frac{r}{R}\,C_{1}\sin\left( \gamma - \theta \right) = \frac{F_{s}}{1000}\,\frac{dx}{dq},\quad \frac{d\theta_{p}}{dq} = -\frac{C_{1}\sin\left( \gamma - \theta \right)}{R},\quad \frac{dx}{d\theta_{p}} = -r")))
     a(P("que é a Equação (⟦E:e3_forca⟧): as duas vias dão o mesmo torque, e a diferença "
         "numérica entre elas é conferida na seção ⟦S:e3_r_verif⟧. O peso entra com "
-        "τ_{g,s}, de sinal oposto ao de τ e módulo τ_{g} da Equação (⟦E:e3_tg⟧), e a "
-        "soma dos trabalhos se anula para todo δq: τ_{u} = −(τ + τ_{g,s}). Aqui, τ está "
-        "em N·m na escala fixada pela AWM (seção "
-        "⟦S:e3_dados⟧)."))
+        "τ_{g,s}, de sinal oposto ao de τ e módulo τ_{g} da Equação (⟦E:e3_tg⟧). Como os "
+        "três torques são positivos no sentido de Θ crescente e δΘ = −δq, o princípio dos "
+        "trabalhos virtuais exige, para todo δq,"))
+    a(EQ(("e3_vteq", r"\delta W = -(\tau + \tau_{g,s} + \tau_{u})\,\delta q = 0\quad\Rightarrow\quad\tau_{u} = -(\tau + \tau_{g,s})")))
+    a(P("Aqui, τ está em N·m na escala fixada pela AWM (seção ⟦S:e3_dados⟧)."))
     a(P("A rotação das polias também sai do enrolamento. Com o cabo 560 inextensível, "
         "S + R w é constante, em que w é o arco enrolado de T a 561, e o giro absoluto "
         "das polias é φ − S/R, mais uma constante. O ponto 561 e o comprimento total do "
@@ -3217,8 +3245,7 @@ def parte_4C():
          ["Raio de referência do came", "R20", f"{f(N3['R20_mm'], 3)} mm",
           "Medido nas Figuras 14C e 14D",
           f"CAD de {f(min(cm['R20_area'], cm['R20_giracao'], cm['R20_caixa']), 2)} a "
-          f"{f(max(cm['R20_area'], cm['R20_giracao'], cm['R20_caixa']), 2)} mm; a "
-          "conferir na peça"],
+          f"{f(max(cm['R20_area'], cm['R20_giracao'], cm['R20_caixa']), 2)} mm"],
          ["Giro do came em relação à primária", "", "Como na Figura 14D",
           "Documental (desenho)",
           "As Figuras 14C e 14D discordam em 15,5°; varrido na seção ⟦S:e3_r_varr⟧"],
@@ -3504,49 +3531,28 @@ def parte_4C():
     # ------------------------------------------------------------ limitações
     a(SEC("4.3", "e3_r_lim", "Limitações dos resultados"))
     a(P("Além das limitações de escopo da seção ⟦S:e3_ferr⟧, os resultados comportam as "
-        "ressalvas da Tabela ⟦T:e3_pend⟧, que reúne o que falta para concluir cada etapa, "
-        "a consequência da ausência e a forma de obter o dado. A principal é a escala: a "
-        "ordenada da Figura 16 da US 9.737.374 B2 não tem unidade, e a escala adotada supõe "
-        "que a AWM seja o momento do peso do membro de referência, sem ferramenta na mão e "
-        "sem o apoio de braço."))
-    a(LEG_T("e3_pend", "Pendências da análise da US 9.737.374 B2"))
-    a(TABELA(
-        ["Pendência", "Consequência", "Como obter"],
-        [["Rigidez e comprimento livre da mola",
-          "Torque em N·m só pela escala da AWM; k e x_{0} identificados pela forma da "
-          "curva", "Especificação ou ensaio de força e alongamento da mola"],
-         ["Escala da ordenada da Figura 16 da US 9.737.374 B2",
-          "Escala adotada pela AWM igualada ao peso do membro de referência; a do artigo "
-          f"é {f(N3['escala_artigo']['razao'], 2)} vezes maior",
-          "Documento com a escala da figura ou medição do torque do dispositivo"],
-         ["Giro do came em relação à primária e furos de fixação",
-          "As Figuras 14C e 14D discordam em 15,5°; com o came girado de "
-          f"{f(mg['giro'], 0)}°, o ajuste melhora e as zonas caem nas marcas da patente; "
-          "as montagens supõem na polia os furos medidos nas figuras",
-          "Medir o giro na peça real e conferir no CAD o número, o raio e o passo dos "
-          "furos do came e da polia"],
-         ["Posição do ponto de ancoragem 562",
-          f"Limite de subida em Θ = {f(N3['theta_limite'], 1)}°, contra 30° na curva da "
-          "patente", "Conferir a ancoragem na peça real"],
-         ["Polia 630 e geometria do cabo da mola",
-          "Cabo tomado no infinito; numa geometria de teste, r muda até 0,031 R20",
-          "Medir L, λ e r_{630} no CAD"],
-         ["Pivô 584 no referencial da peça",
-          "Posição derivada da Figura 14D; o momento máximo do peso muda menos de "
-          "0,01 N·m", "Marcar o eixo do pivô no CAD"],
-         ["Comprimento da mola no CAD",
-          f"Centro de massa da mola incerto ao longo do eixo; "
-          f"{f(pa['mola_10mm_N_m'], 2)} N·m a cada 10 mm", "Modelar a mola na pose"],
-         ["Incerteza da extração do perfil do came e da curva de momento da patente",
-          "Leitura sem incerteza estimada", "Repetir a leitura por outro método e "
-          "comparar"],
-         ["Alinhamento do membro e posição do ombro",
-          "Torque do peso supõe o braço alinhado ao eixo maior e o ombro no pivô 584",
-          "Representar o afastamento entre o ombro e o pivô"],
-         ["Etapas dinâmicas e MBDyn", "Nenhum resultado dinâmico",
-          "Resolver as pendências da mola e da escala e montar o modelo no MBDyn"]],
-        [2800, 3080, 3480]))
-    a(FONTE)
+        "ressalvas a seguir."))
+    a(P("A principal é a escala. A ordenada da Figura 16 da US 9.737.374 B2 não tem "
+        "unidade, e a escala adotada supõe que a AWM seja o momento do peso do membro de "
+        "referência, sem ferramenta na mão e sem o apoio de braço; a escala do artigo é "
+        f"{f(N3['escala_artigo']['razao'], 2)} vezes maior. O torque em N·m e a rigidez k "
+        "da mola valem nessa escala, e k e x_{0} foram identificados pela forma da curva, "
+        "e não medidos."))
+    a(P("A curva calculada depende do giro do came em relação à primária, em que as "
+        "Figuras 14C e 14D da patente discordam em 15,5°. Com o came girado de "
+        f"{f(mg['giro'], 0)}°, o ajuste melhora e as zonas caem nas marcas da patente, e "
+        "as montagens do came supõem na polia os furos medidos nas figuras. Com a "
+        "ancoragem 562 na posição do CAD, o braço não sobe além de "
+        f"Θ = {f(N3['theta_limite'], 1)}°, enquanto a curva da patente vai até 30°."))
+    a(P("As simplificações da geometria têm efeito pequeno nos resultados: tomar a polia "
+        "630 no infinito muda r em até 0,031 R20 numa geometria de teste; a posição do "
+        "pivô 584 no referencial da peça, derivada da Figura 14D, muda o momento máximo "
+        "do peso em menos de 0,01 N·m; e cada 10 mm de erro no centro de massa da mola, "
+        f"ao longo do eixo, mudam o torque do peso em {f(pa['mola_10mm_N_m'], 2)} N·m."))
+    a(P("As leituras do perfil do came e da curva de momento da patente não têm "
+        "incerteza estimada, e o torque do peso supõe o braço alinhado ao eixo maior do "
+        "apoio de braço e o centro do ombro no pivô 584. Por fim, os resultados referem-se "
+        "ao membro de referência e limitam-se à análise estática."))
 
     # ------------------------------------------------------------ comparação
     return B
@@ -3723,10 +3729,8 @@ def parte_5C():
         "estática; as etapas dinâmicas não foram executadas, pelas razões da seção "
         "⟦S:e3_din⟧."))
     a(P("Como continuidade para esse dispositivo, recomenda-se medir a rigidez e o "
-        "comprimento livre da mola e o giro do came na peça real; conferir no CAD os furos "
-        "de fixação do came na polia externa; confirmar no CAD a "
-        "posição do pivô 584 no referencial da peça; representar a polia 630; conferir a posição do ponto de ancoragem, que "
-        "limita a subida; e, com a escala resolvida, executar as etapas dinâmicas pela "
+        "comprimento livre da mola e o giro do came na peça real, que fixariam a escala e "
+        "a montagem do came, e, com a escala resolvida, executar as etapas dinâmicas pela "
         "formulação de Lagrange e no MBDyn."))
     return B
 

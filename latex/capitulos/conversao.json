@@ -1,9 +1,9 @@
 {
  "titulo": "Modelagem e simulação de mecanismos passivos de apoio ao braço",
- "tabelas": 34,
+ "tabelas": 33,
  "figuras": 20,
- "equacoes": 66,
- "secoes": 102,
+ "equacoes": 69,
+ "secoes": 103,
  "citadas": [
   "agenciabrasil2026",
   "arakelian2016",
@@ -84,11 +84,10 @@
    "27": "tab:circuito-came-transmissao-angulos",
    "28": "tab:montagens-came-furos-torno",
    "29": "tab:curva-aasm-modelo-ajustado",
-   "30": "tab:pendencias-analise-us-b2",
-   "31": "tab:comparacao-tres-exoesqueletos",
-   "32": "tab:comprimento-referencia-s0-identificado",
-   "33": "tab:ajuste-s0-forma-curva",
-   "34": "tab:ajuste-conjunto-escala-comum"
+   "30": "tab:comparacao-tres-exoesqueletos",
+   "31": "tab:comprimento-referencia-s0-identificado",
+   "32": "tab:ajuste-s0-forma-curva",
+   "33": "tab:ajuste-conjunto-escala-comum"
   },
   "fig": {
    "1": "fig:circuito-vetorial-gerador-torque",

@@ -2,7 +2,7 @@
 
 Documento gerado: `TCC_Modelagem_e_simulacao_de_mecanismos_passivos_de_apoio_ao_braco.docx`, a partir de `TCC_apenas_exo1.docx`.
 
-Blocos do original: 305; 5 retirados (REMOVIDOS em gerar_tcc_fundido.py), os demais mantidos e na mesma ordem. Blocos novos: 445. Blocos do original com texto alterado: 144 (renumeração e as edições de EDICOES em gerar_tcc_fundido.py).
+Blocos do original: 305; 5 retirados (REMOVIDOS em gerar_tcc_fundido.py), os demais mantidos e na mesma ordem. Blocos novos: 458. Blocos do original com texto alterado: 144 (renumeração e as edições de EDICOES em gerar_tcc_fundido.py).
 
 ## Numeração
 
@@ -10,7 +10,7 @@ Tabelas do original (antes → depois): 1 → 1, 2 → 3, 3 → 4, 4 → 5, 5 �
 
 Figuras do original (antes → depois): 1 → 1, 2 → 8, 3 → 9, 4 → 10, 5 → 11.
 
-Equações do original (antes → depois): 1 → 1, 2 → 2, 3 → 3, 4 → 4, 5 → 5, 6 → 6, 7 → 9, 8 → 10, 9 → 11, 10 → 12, 11 → 13, 12 → 14, 13 → 15, 14 → 16, 15 → 17, 16 → 18, 17 → 19, 18 → 20, 19 → 21, 20 → 22, 21 → 23, 22 → 24, 23 → 25, 24 → 26, 25 → 28, 26 → 29, 27 → 30.
+Equações do original (antes → depois): 1 → 1, 2 → 2, 3 → 3, 4 → 4, 5 → 5, 6 → 6, 7 → 9, 8 → 10, 9 → 11, 10 → 12, 11 → 13, 12 → 14, 13 → 15, 14 → 16, 15 → 17, 16 → 18, 17 → 19, 18 → 20, 19 → 21, 20 → 22, 21 → 23, 22 → 24, 23 → 25, 24 → 26, 25 → 29, 26 → 30, 27 → 31.
 
 ## Blocos do original retirados
 
@@ -362,19 +362,19 @@ Depois: A patente não informa rigidez, pré-carga, comprimento livre nem posiç
 
 Antes: (25)
 
-Depois: (28)
+Depois: (29)
 
 ### 58
 
 Antes: Com h e θoff fixados, Xpose foi reidentificado por varredura unidimensional, em passo de 0,001 mm, com K dado pela Equação (25) em cada valor. A qualidade do ajuste é avaliada pela raiz do erro quadrático médio (RMSE), pelo erro absoluto médio (MAE), pelo erro máximo e pelo coeficiente de determinação R2, com resíduo ei = ŷi − yi, em que ŷi é o torque calculado na convenção da patente, −τ:
 
-Depois: Com h e θoff fixados, Xpose foi reidentificado por varredura unidimensional, em passo de 0,001 mm, com K dado pela Equação (28) em cada valor. A qualidade do ajuste é avaliada pela raiz do erro quadrático médio (RMSE), pelo erro absoluto médio (MAE), pelo erro máximo e pelo coeficiente de determinação R2, com resíduo ei = ŷi − yi, em que ŷi é o torque calculado na convenção da patente, −τ:
+Depois: Com h e θoff fixados, Xpose foi reidentificado por varredura unidimensional, em passo de 0,001 mm, com K dado pela Equação (29) em cada valor. A qualidade do ajuste é avaliada pela raiz do erro quadrático médio (RMSE), pelo erro absoluto médio (MAE), pelo erro máximo e pelo coeficiente de determinação R2, com resíduo ei = ŷi − yi, em que ŷi é o torque calculado na convenção da patente, −τ:
 
 ### 59
 
 Antes: (26)
 
-Depois: (29)
+Depois: (30)
 
 ### 60
 
@@ -440,7 +440,7 @@ Depois: O sistema seria tratado como mecanismo plano de um grau de liberdade, a 
 
 Antes: (27)
 
-Depois: (30)
+Depois: (31)
 
 ### 71
 
@@ -452,7 +452,7 @@ Depois: em que τg,s é o torque gravitacional com sinal e Qnc reúne os esforç
 
 Antes: As duas etapas dependem de um pré-requisito ainda não satisfeito: a Equação (27) soma o torque do cabo ao torque gravitacional e exige ambos na mesma unidade física. Enquanto K estiver referido à ordenada sem unidade da patente, a integração da equação de movimento não tem significado físico.
 
-Depois: As duas etapas dependem de um pré-requisito ainda não satisfeito: a Equação (30) soma o torque do cabo ao torque gravitacional e exige ambos na mesma unidade física. Enquanto K estiver referido à ordenada sem unidade da patente, a integração da equação de movimento não tem significado físico.
+Depois: As duas etapas dependem de um pré-requisito ainda não satisfeito: a Equação (31) soma o torque do cabo ao torque gravitacional e exige ambos na mesma unidade física. Enquanto K estiver referido à ordenada sem unidade da patente, a integração da equação de movimento não tem significado físico.
 
 ### 73
 
@@ -464,7 +464,7 @@ Depois: 3.1.14 Ferramentas e delimitação
 
 Antes: Foram empregados o Autodesk Fusion, para a reconstrução geométrica e a extração das propriedades de massa; uma planilha eletrônica, para o transporte de eixos e a composição inercial; e a linguagem Python, com a biblioteca NumPy (HARRIS et al., 2020) para o cálculo vetorizado, a biblioteca Matplotlib (HUNTER, 2007) para as figuras e o pytest para os testes automatizados. A identificação não depende de biblioteca de otimização: K tem forma fechada, Equação (25), e as demais grandezas são obtidas por varredura direta e por bissecção. O MBDyn, previsto para a simulação multicorpos, não foi empregado nesta etapa.
 
-Depois: Foram empregados o Autodesk Fusion, para a reconstrução geométrica e a extração das propriedades de massa; uma planilha eletrônica, para o transporte de eixos e a composição inercial; e a linguagem Python, com a biblioteca NumPy (HARRIS et al., 2020) para o cálculo vetorizado, a biblioteca Matplotlib (HUNTER, 2007) para as figuras e o pytest para os testes automatizados. A identificação não depende de biblioteca de otimização: K tem forma fechada, Equação (28), e as demais grandezas são obtidas por varredura direta e por bissecção. O MBDyn, previsto para a simulação multicorpos, não foi empregado nesta etapa.
+Depois: Foram empregados o Autodesk Fusion, para a reconstrução geométrica e a extração das propriedades de massa; uma planilha eletrônica, para o transporte de eixos e a composição inercial; e a linguagem Python, com a biblioteca NumPy (HARRIS et al., 2020) para o cálculo vetorizado, a biblioteca Matplotlib (HUNTER, 2007) para as figuras e o pytest para os testes automatizados. A identificação não depende de biblioteca de otimização: K tem forma fechada, Equação (29), e as demais grandezas são obtidas por varredura direta e por bissecção. O MBDyn, previsto para a simulação multicorpos, não foi empregado nesta etapa.
 
 ### 75
 
@@ -602,7 +602,7 @@ Depois: Nota: K tem a unidade que faz K δ m/1000 resultar em u.p. (seção 3.1.
 
 Antes: Com h = 22,701 mm e θoff congelados, a varredura de Xpose com K dado pela Equação (25) reproduz o par identificado: Xpose = 37,383 mm, K = 174,676 e RMSE de 1,8305 u.p., coincidentes com os valores congelados até a resolução da varredura. O valor 174,68 é, portanto, o arredondamento do K de mínimos quadrados no h adotado, e o par (K, h) é consistente.
 
-Depois: Com h = 22,701 mm e θoff congelados, a varredura de Xpose com K dado pela Equação (28) reproduz o par identificado: Xpose = 37,383 mm, K = 174,676 e RMSE de 1,8305 u.p., coincidentes com os valores congelados até a resolução da varredura. O valor 174,68 é, portanto, o arredondamento do K de mínimos quadrados no h adotado, e o par (K, h) é consistente.
+Depois: Com h = 22,701 mm e θoff congelados, a varredura de Xpose com K dado pela Equação (29) reproduz o par identificado: Xpose = 37,383 mm, K = 174,676 e RMSE de 1,8305 u.p., coincidentes com os valores congelados até a resolução da varredura. O valor 174,68 é, portanto, o arredondamento do K de mínimos quadrados no h adotado, e o par (K, h) é consistente.
 
 ### 98
 
