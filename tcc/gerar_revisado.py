@@ -113,7 +113,7 @@ def reescrever(p, novo):
     return "".join(saida)
 
 
-def aplicar(corpo, mudancas, alterar_cap_1_2=False, globais=()):
+def aplicar(corpo, mudancas, alterar_cap_1_2=False, globais=(), globais_cap_1_2=()):
     """Devolve o corpo revisado e o registro das mudanças."""
     pars = [(m.start(), m.end(), m.group(0)) for m in PARAGRAFO.finditer(corpo)]
     textos = [texto(p) for _, _, p in pars]
@@ -145,6 +145,12 @@ def aplicar(corpo, mudancas, alterar_cap_1_2=False, globais=()):
         if any(m == "R" for m, _, _ in plano.get(i, [])):
             continue
         for padrao, novo in globais:
+            if re.search(padrao, t):
+                plano.setdefault(i, []).append(("G", padrao, novo))
+    for i, t in enumerate(textos[:cap3]):           # capítulos 1 e 2, só se autorizado
+        if titulo[i] or any(m == "R" for m, _, _ in plano.get(i, [])):
+            continue
+        for padrao, novo in globais_cap_1_2:
             if re.search(padrao, t):
                 plano.setdefault(i, []).append(("G", padrao, novo))
     registro, saida, pos, secao = [], [], 0, ""
@@ -183,8 +189,10 @@ def gerar_fundido(origem=None, destino=FUNDIDO_REV):
     doc = partes["word/document.xml"].decode("utf-8")
     b0 = doc.index("<w:body>") + len("<w:body>")
     b1 = doc.rindex("<w:sectPr")
-    corpo, registro = aplicar(doc[b0:b1], rd.MUDANCAS, getattr(rd, "ALTERAR_CAP_1_2", False),
-                              getattr(rd, "GLOBAIS", ()))
+    cap12 = getattr(rd, "ALTERAR_CAP_1_2", False)
+    mudancas = list(rd.MUDANCAS) + (list(getattr(rd, "MUDANCAS_CAP_1_2", [])) if cap12 else [])
+    corpo, registro = aplicar(doc[b0:b1], mudancas, cap12, getattr(rd, "GLOBAIS", ()),
+                              getattr(rd, "GLOBAIS_CAP_1_2", ()) if cap12 else ())
     partes["word/document.xml"] = (doc[:b0] + corpo + doc[b1:]).encode("utf-8")
     destino.parent.mkdir(parents=True, exist_ok=True)
     tmp = destino.with_suffix(".tmp")

@@ -329,6 +329,26 @@ MUDANCAS = [
       "da geometria reconstruída em CAD a partir de desenhos sem cotas."]),
 ]
 
+# Correções pontuais dos capítulos 1 e 2 (digitação, pontuação e travessões), sem
+# reescrita. Ficam DESATIVADAS: o autor pediu que esses capítulos não fossem
+# alterados. Só entram com ALTERAR_CAP_1_2 = True.
+MUDANCAS_CAP_1_2 = [
+    ("T", "Vários setores como: Montagem automotiva, construção civil, solda e manutenção industrial exigem",
+          "Vários setores, como montagem automotiva, construção civil, solda e manutenção industrial, exigem"),
+    ("T", "distúrbios na articulação ombro", "distúrbios na articulação do ombro"),
+    ("T", "4,12 milhões afastamentos", "4,12 milhões de afastamentos"),
+    ("T", "Em um dispositivo passivo o auxílio é consequência", "Em um dispositivo passivo, o auxílio é consequência"),
+    ("T", "os parâmetros que a patente não informa — posição da ancoragem, comprimento livre e rigidez da mola e calibração angular;",
+          "os parâmetros que a patente não informa: posição da ancoragem, comprimento livre e rigidez da mola e calibração angular;"),
+    ("T", "sobre a mesma base quantitativa — algo que as patentes, por si, não oferecem.",
+          "sobre a mesma base quantitativa, algo que as patentes, por si, não oferecem."),
+    ("T", "acima da linha dos ombros — faixa angular na qual", "acima da linha dos ombros, faixa angular na qual"),
+    ("T", "na etapa de projeto do mecanismo — circunstância que confere", "na etapa de projeto do mecanismo, circunstância que confere"),
+    ("T", "quanto à origem — medida, de literatura, identificada, derivada ou assumida — de modo que",
+          "quanto à origem (medida, de literatura, identificada, derivada ou assumida), de modo que"),
+]
+GLOBAIS_CAP_1_2 = [(r"(?<=\w)–(?=\w)", "-")]
+
 EXCECOES = {
     "O pico de assistência fica acima do pico gravitacional no primeiro, 8,1°": {
         "entram": ["40", "90", "AWM", "CAD"],
