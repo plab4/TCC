@@ -19,6 +19,7 @@ abrir o arquivo.
 """
 import html
 import io
+import os
 import re
 import subprocess
 import sys
@@ -31,7 +32,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import gerar_latex as gl  # noqa: E402
 
 RAIZ = Path(__file__).resolve().parent.parent
-LATEX = RAIZ / "latex"
+# TCC_LATEX e TCC_FUNDIDO: pasta do LaTeX e DOCX de conteúdo de uma variante do
+# documento (tcc/gerar_revisado.py); sem elas, valem latex/ e tcc/<nomes.FUNDIDO>
+LATEX = Path(os.environ.get("TCC_LATEX", RAIZ / "latex"))
 FONTE_OTF = Path("/usr/share/fonts/opentype/linux-libertine")
 
 # espaçadores no topo da página (pt): título de capítulo e título pré-textual
@@ -1201,7 +1204,7 @@ def paginas_renderizadas(docx, doc):
 def main():
     from nomes import FUNDIDO, MODELO_FT
     destino = Path(sys.argv[1]) if len(sys.argv) > 1 else RAIZ / "tcc" / MODELO_FT
-    origem = RAIZ / "tcc" / FUNDIDO
+    origem = Path(os.environ.get("TCC_FUNDIDO", RAIZ / "tcc" / FUNDIDO))
     d = dados_tese()
     # citações: comandos usados no texto e no que o biblatex imprime para cada um
     cit = gl.Citacoes((LATEX / "bibliografia.bib").read_text(encoding="utf-8"))

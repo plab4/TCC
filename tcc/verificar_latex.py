@@ -25,6 +25,7 @@ As citações que o biblatex escreve de outra forma por regra da ABNT estão
 em DIFERENCAS_ESPERADAS e são listadas no relatório.
 """
 import html
+import os
 import re
 import subprocess
 import sys
@@ -352,7 +353,8 @@ def main():
             diga(f"- {f}")
     else:
         diga("Todos os critérios foram atendidos.")
-    destino = RAIZ / "tcc" / "verificacao_latex.md"
+    # TCC_RELATORIOS: pasta do relatório de uma variante (tcc/gerar_revisado.py)
+    destino = Path(os.environ.get("TCC_RELATORIOS", RAIZ / "tcc")) / "verificacao_latex.md"
     destino.write_text("\n".join(SAIDA) + "\n", encoding="utf-8")
     print("\n".join(SAIDA[-(len(falhas) + 3):]))
     sys.exit(1 if falhas else 0)

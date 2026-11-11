@@ -21,6 +21,7 @@ Os apêndices, depois das referências nos dois documentos, entram nos
 critérios 2 a 5 com o corpo do texto.
 """
 import html
+import os
 import re
 import subprocess
 import sys
@@ -262,7 +263,8 @@ def main():
             diga(f"- {f}")
     else:
         diga("Todos os critérios foram atendidos.")
-    (RAIZ / "tcc" / "verificacao_docx_modelo.md").write_text("\n".join(SAIDA) + "\n", encoding="utf-8")
+    # TCC_RELATORIOS: pasta do relatório de uma variante (tcc/gerar_revisado.py)
+    (Path(os.environ.get("TCC_RELATORIOS", RAIZ / "tcc")) / "verificacao_docx_modelo.md").write_text("\n".join(SAIDA) + "\n", encoding="utf-8")
     print("\n".join(SAIDA[-(len(falhas) + 3):]))
     sys.exit(1 if falhas else 0)
 

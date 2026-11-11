@@ -16,3 +16,6 @@ latex/*.out
 latex/*.run.xml
 latex/*.toc
 latex/*.synctex.gz
+
+# versão revisada para a defesa: intermediários reproduzíveis por tcc/gerar_revisado.py
+revisao_defesa/build/
