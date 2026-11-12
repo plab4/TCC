@@ -565,9 +565,13 @@ EXO1_R = [
     ("K", 374, 376),
     ("E", 377, [(" As etapas dinâmicas da seção 3.1.13 não foram executadas.", "")]),
     ("H", "4.1", "r1_geo", R_GEO),
-    ("K", 379, 380),
+    ("P", "A reconstrução da vista em corte do gerador de torque forneceu as grandezas da Tabela 3, e a "
+          "composição inercial do conjunto braço-exoesqueleto, obtida pelo transporte dos momentos ao "
+          "eixo da junta, consta da Tabela 4."),
+    ("K", 380),
     ("L", 381, [1, 2, 3, 4, 5, 6, 8]),       # sem o comprimento útil do alojamento, que não entra no cálculo
-    ("K", 382, 386),
+    ("K", 382),
+    ("K", 384, 386),
     ("E", 387, [("igual ao momento de inércia no eixo da junta, conforme a Equação (1);",
                  "igual ao momento de inércia no eixo da junta, como exige o teorema de Steiner;"),
                 ("O momento de inércia destina-se à etapa dinâmica, não executada, e não participa do "
@@ -575,111 +579,110 @@ EXO1_R = [
                  "O momento de inércia não participa do cálculo do torque estático.")]),
     ("P", "As verificações automáticas da seção ⟦S:m1_verif⟧ resultaram em resíduos da ordem do erro de "
           "arredondamento da aritmética de ponto flutuante, de no máximo 8,0 × 10^{−13} mm nas relações "
-          "geométricas e de 1,3 × 10^{−11} grau no ponto morto, exceto o do trabalho virtual, de "
-          "4,7 × 10^{−8} mm/rad, limitado pelo truncamento da diferença finita."),
-    ("K", 399),
-    ("P", "O efeito do arco é pequeno em valor absoluto: ele varia 1,862 mm na faixa de operação, contra "
-          "42,435 mm de variação do caminho total (4,4%)."),
+          "geométricas, exceto o do trabalho virtual, de 4,7 × 10^{−8} mm/rad, limitado pelo truncamento "
+          "da diferença finita. Essa verificação decidiu a formulação do caminho do cabo: com a extensão "
+          "da mola acompanhando apenas o vão livre s, o resíduo da Equação (19) é de 1,7129 mm/rad; com "
+          "o arco somado ao vão, s + Rψ, é de 3,4258 mm/rad; somente com ℓ = s − Rψ, Equação (18), ele cai "
+          "a 4,7 × 10^{−8} mm/rad. Um resíduo da ordem de 1 mm/rad significa que o modelo entrega torque "
+          "sem a correspondente variação da energia da mola, o que viola a conservação de energia em um "
+          "mecanismo sem atrito."),
     ("H", "4.1", "r1_ident", R_IDENT),
-    ("P", "Os 29 pontos extraídos da curva da patente cobrem θ* de 42,909° a 193,017°, isto é, elevação de "
-          "180,1° a 30,0°, com espaçamento irregular, de 2,87° a 8,03° em θ*. O maior valor extraído, "
-          "147,310 u.p., ocorre em θ* = 123,196° (elevação de 99,8°), e a média dos 29 valores é "
-          "81,840 u.p. Os valores são expressos em u.p. porque a figura de origem não declara unidade "
-          "(seção 2.10)."),
-    ("K", 402, 407),
+    ("P", "Os 29 pontos extraídos cobrem θ* de 42,909° a 193,017°, isto é, elevação de 180,1° a 30,0°; o "
+          "maior valor, 147,310 u.p., ocorre em θ* = 123,196° (elevação de 99,8°). A Tabela 7 reúne os "
+          "parâmetros não publicados pela patente, com seus valores congelados e a situação de cada um."),
+    ("K", 403, 407),
     ("P", "A origem de H_{CAL} = 22,701 mm, ao contrário, não pôde ser reproduzida. Numa análise "
           "complementar, em que X_{pose} e K são reidentificados para cada h, de 8 a 60 mm em passo de "
-          "0,25 mm, o RMSE tem mínimo interior em h ≈ 24,0 mm, com RMSE de 1,682 u.p., X_{pose} = 38,83 mm "
-          "e K = 160,46. O vale é largo: o RMSE fica abaixo de 2 vezes o mínimo de h = 19,25 a 31,00 mm, "
-          "faixa em que K vai de 222,1 a 106,6; com K e a extensão na pose livres, a curva extraída não "
-          "determina h."),
-    ("K", 409, 410),
-    ("K", 412, 419),
-    ("P", "Os resíduos não se distribuem aleatoriamente. Ordenados por θ*, eles formam três zonas extensas "
-          "de sinal alternado, que reúnem 25 dos 29 pontos: o modelo superestima o torque com o braço alto, "
-          "acima de 155° de elevação, e entre 45° e 94°, e o subestima entre 100° e 150°. Resíduo "
-          "estruturado dessa natureza indica diferença sistemática de forma entre o modelo e a curva, e "
-          "não apenas dispersão de digitalização. As causas possíveis são a imprecisão da geometria "
-          "reconstruída, um erro sistemático na extração ou uma diferença entre a formulação do modelo e "
-          "a que gerou a figura da patente. O último ponto, em θ* = 193,017°, está além do ponto morto "
-          "calculado (θ*_{pm} = 192,532°): ali o modelo prevê torque de −1,709 u.p., com sinal invertido, "
-          "ao passo que a curva extraída registra 0,443 u.p., diferença coerente com a ausência, no "
-          "modelo, da protuberância que mantém o torque residual aproximadamente nulo no dispositivo real."),
+          "0,25 mm, o RMSE tem mínimo interior em h ≈ 24,0 mm, com RMSE de 1,682 u.p., e fica abaixo de 2 "
+          "vezes o mínimo de h = 19,25 a 31,00 mm: com K e a extensão na pose livres, a curva extraída "
+          "não determina h. Por isso, H_{CAL} é tratado como parâmetro congelado de origem não "
+          "reproduzida, e não como ótimo identificado. Ele é mantido porque o par (K, X_{pose}) foi "
+          "identificado nesse valor e porque o ponto morto correspondente, na elevação de 30,485°, fica a "
+          "0,485° do início da zona neutra indicado na patente."),
+    ("P", "Com o caminho do cabo igual ao vão livre, a formulação sem o arco alcança RMSE de 1,152 u.p. no "
+          "mesmo h, contra 1,830 u.p. com o caminho completo. Ela ajusta melhor a curva publicada, mas "
+          "viola a conservação de energia (seção ⟦S:r1_geo⟧) e, por isso, não foi adotada: o menor RMSE "
+          "não é critério de validade física."),
+    ("K", 412, 416),
+    ("L", 417, [1, 2, 3, 4, 5, 6, 8, 10]),
+    ("K", 418),
+    ("P", "O coeficiente de determinação de 0,99839 e o erro absoluto médio de 1,94% da média indicam que "
+          "a forma do perfil é reproduzida com fidelidade, com duas ressalvas: os quatro parâmetros não "
+          "publicados foram identificados contra os mesmos 29 pontos usados na avaliação, de modo que a "
+          "aderência não constitui validação independente do modelo, e a incerteza da extração não é "
+          "conhecida, o que impede afirmar se os resíduos estão ou não dentro dela."),
+    ("P", "Os resíduos não se distribuem aleatoriamente: ordenados por θ*, formam três zonas extensas de "
+          "sinal alternado, que reúnem 25 dos 29 pontos. O modelo superestima o torque acima de 155° de "
+          "elevação e entre 45° e 94° e o subestima entre 100° e 150°, o que indica diferença sistemática "
+          "de forma entre o modelo e a curva, e não apenas dispersão de digitalização. O último ponto, em "
+          "θ* = 193,017°, está além do ponto morto calculado (θ*_{pm} = 192,532°): ali o modelo prevê "
+          "torque de −1,709 u.p., com sinal invertido, e a curva extraída registra 0,443 u.p., diferença "
+          "coerente com a ausência, no modelo, da protuberância do dispositivo real."),
     ("H", "4.1", "r1_comp", R_COMP),
-    ("P", "Na faixa de operação, de θ* = 42,917° a 193,017°, a extensão da mola vai de 12,044 mm a "
-          "54,479 mm, valor que ocorre no ponto morto, e permanece positiva: o cabo continua tracionado em "
-          "todos os pontos avaliados. O comprimento livre da mola é de 53,967 mm, e a razão de 1,0095 entre "
-          "a extensão máxima e o comprimento livre significa que a mola precisaria ser estendida a "
-          "aproximadamente o dobro de seu comprimento livre, requisito que deve ser confrontado com dados "
-          "de fabricante. O braço de momento cresce de 12,451 mm em θ* = 42,917° até o teto "
-          "|OA| = 22,919 mm em θ* = 97,894°, posição em que o cabo fica perpendicular a OA, e decresce a "
-          "partir daí, anulando-se no ponto morto, em θ* = 192,532° (elevação de 30,485°)."),
-    ("K", 434),
-    ("P", "Na varredura de h com K congelado, o menor RMSE, 1,8270 u.p. (R^{2} = 0,99840), ocorre em "
-          "h = 22,735 mm, a 0,034 mm de H_{CAL}, e o RMSE não excede 1,01 vez o mínimo de h = 22,660 a "
-          "22,805 mm, intervalo de 0,145 mm. Essa precisão não deve ser lida como identificação "
-          "independente de h: K e X_{pose} foram identificados no próprio H_{CAL}, de modo que a "
-          "proximidade entre o mínimo da varredura e H_{CAL} é esperada por construção. O resultado mostra "
-          "que o trio (K, X_{pose}, H_{CAL}) é internamente consistente e que o ajuste é muito sensível a "
-          "h, mas não substitui a medição da ancoragem no dispositivo real."),
-    ("P", "Os critérios de fechamento e de trabalho virtual foram atendidos em todos os 10.402 valores de "
-          "h, este com resíduo máximo de 7,4 × 10^{−8} mm/rad. O critério decisivo é a tração: com "
-          "X_{pose} congelada, o aumento de h rebaixa a extensão mínima, que ocorre sempre em "
-          "θ* = 42,917° e se anula na fronteira de tração, h = 32,886 mm. A cota do CAD, "
-          "H_{CAD} = 34,785 mm, fica fora do intervalo viável: com X_{pose} congelada, o cabo afrouxaria no "
-          "início da faixa, com extensão mínima de −2,257 mm, e o RMSE seria de 43,48 u.p. "
-          "(R^{2} = 0,093). A Tabela 12 reúne os valores notáveis de h."),
+    ("P", "Na faixa de operação, a extensão da mola vai de 12,044 mm a 54,479 mm, valor que ocorre no "
+          "ponto morto, e permanece positiva: o cabo continua tracionado em todos os pontos avaliados. A "
+          "razão de 1,0095 entre a extensão máxima e o comprimento livre, de 53,967 mm, significa que a "
+          "mola precisaria ser estendida a aproximadamente o dobro de seu comprimento livre, requisito "
+          "que deve ser confrontado com dados de fabricante. O braço de momento cresce de 12,451 mm em "
+          "θ* = 42,917° até o teto |OA| = 22,919 mm em θ* = 97,894° e decresce a partir daí, anulando-se "
+          "no ponto morto, em θ* = 192,532° (elevação de 30,485°)."),
+    ("P", "A força máxima K δ_{máx} vale 9.516,5 na unidade de K multiplicada por milímetro. Se a ordenada "
+          "da patente estivesse em N·m, K estaria em N/mm, a tração no cabo chegaria a 9,5 kN e o pico do "
+          "torque do cabo, 147,07 N·m, seria 13,2 vezes o pico do torque gravitacional do conjunto, de "
+          "11,1619 N·m; para equilibrar esse pico com o maior braço disponível, bastaria uma tração de "
+          "cerca de 487 N. A leitura da ordenada em N·m conduz, portanto, a valores implausíveis para um "
+          "dispositivo vestível de apoio ao braço, e a curva publicada é tratada como qualitativa quanto "
+          "à magnitude: o modelo reproduz a forma do torque, mas não sua escala física."),
+    ("P", "Na varredura de h com K congelado, o menor RMSE, 1,8270 u.p., ocorre em h = 22,735 mm, a "
+          "0,034 mm de H_{CAL}, e o RMSE não excede 1,01 vez o mínimo num intervalo de 0,145 mm. Essa "
+          "precisão não é identificação independente de h: K e X_{pose} foram identificados no próprio "
+          "H_{CAL}, de modo que a proximidade é esperada por construção. Os critérios de fechamento e de "
+          "trabalho virtual foram atendidos em todos os 10.402 valores de h. O critério decisivo é a "
+          "tração: com X_{pose} congelada, o aumento de h rebaixa a extensão mínima, que se anula na "
+          "fronteira de tração, h = 32,886 mm. A cota do CAD, H_{CAD} = 34,785 mm, fica fora do intervalo "
+          "viável: o cabo afrouxaria no início da faixa, com extensão mínima de −2,257 mm, e o RMSE seria "
+          "de 43,48 u.p. (Tabela 12)."),
     ("K", 451, 453),
-    ("P", "Em síntese, a varredura separa duas perguntas. A geometria, com a extensão na pose "
-          "identificada, admite h ≤ 32,886 mm e exclui a cota do CAD; a curva extraída, com K e X_{pose} "
-          "congelados, favorece um intervalo estreito em torno de H_{CAL}. As duas posições da ancoragem "
-          "são grandezas distintas: H_{CAD} é a cota do desenho, e H_{CAL}, o parâmetro que, com K e "
-          "X_{pose}, reproduz a curva extraída e põe A 12,084 mm abaixo, sobre a mesma perna h. Nenhuma das "
-          "duas concordâncias é verificação independente, e os dados disponíveis não decidem qual das duas "
-          "posições corresponde ao dispositivo."),
+    ("P", "Em síntese, a geometria, com a extensão na pose identificada, admite h ≤ 32,886 mm e exclui a "
+          "cota do CAD, e a curva extraída, com K e X_{pose} congelados, favorece um intervalo estreito em "
+          "torno de H_{CAL}. As duas posições da ancoragem são grandezas distintas: H_{CAD} é a cota do "
+          "desenho, e H_{CAL}, o parâmetro que, com K e X_{pose}, reproduz a curva extraída e põe A "
+          "12,084 mm abaixo, sobre a mesma perna h. Nenhuma das duas concordâncias é verificação "
+          "independente, e os dados disponíveis não decidem qual das duas posições corresponde ao "
+          "dispositivo."),
     ("H", "4.1", "r1_grav", R_GRAV),
     ("P", "O torque gravitacional do conjunto, calculado pela Equação (26) de forma independente da cadeia "
-          "do cabo, atinge o máximo de 11,1619 N·m na elevação de 89,44°, valor que coincide com M g d da "
-          "Tabela 4. Como a ordenada da curva publicada não tem unidade declarada e sua leitura em N·m é "
-          "implausível (seção ⟦S:r1_comp⟧), as magnitudes não são comparáveis. O que se pode confrontar é "
-          "a forma dos perfis, apresentados na Figura 11 normalizados pelos respectivos valores de pico, "
-          "em função da elevação anatômica; como a normalização elimina a escala, o confronto não informa "
-          "que fração do torque gravitacional o mecanismo compensa."),
+          "do cabo, atinge o máximo de 11,1619 N·m na elevação de 89,44°. Como a ordenada da curva "
+          "publicada não tem unidade declarada, as magnitudes não são comparáveis, e o que se confronta é "
+          "a forma dos perfis, normalizados pelos respectivos valores de pico (Figura 11); o confronto "
+          "não informa que fração do torque gravitacional o mecanismo compensa."),
     ("K", 461, 464),
     ("P", "O pico do torque do cabo ocorre na elevação de 97,484°, e o do torque gravitacional, em "
           "89,438°, com defasagem de 8,046°: o mecanismo entrega sua assistência máxima acima da posição "
           "de maior demanda gravitacional, configuração compatível com dispositivo projetado para trabalho "
           "acima da cabeça. As curvas normalizadas cruzam-se na elevação de 93,96° e, entre 105° e 150°, "
-          "diferem em no máximo 0,027, o que indica que o perfil elástico reproduz a forma da demanda "
-          "gravitacional na faixa de maior interesse para o trabalho acima da cabeça."),
-    ("P", "Abaixo de 94°, as diferenças tornam-se negativas e crescentes em módulo, até −0,520 na elevação "
-          "de 30°. No ponto morto, na elevação de 30,485°, o torque gravitacional ainda vale 5,757 N·m, "
-          "51,6% de seu pico, enquanto o torque do cabo se anula. Trata-se de característica da "
-          "arquitetura, e não de deficiência do ajuste: abaixo do ângulo de transição, o torque cai a um "
-          "valor residual e o braço recupera a liberdade de movimento (seção 2.3). O confronto ilustra a "
-          "limitação apontada por Nasr, Ferguson e McPhee (2022) e discutida na seção 2.4: um mecanismo "
+          "diferem em no máximo 0,027. Abaixo de 94°, as diferenças tornam-se negativas e crescentes em "
+          "módulo, até −0,520 na elevação de 30°; no ponto morto, o torque gravitacional ainda vale "
+          "5,757 N·m, 51,6% de seu pico, enquanto o torque do cabo se anula. Trata-se de característica "
+          "da arquitetura, e não de deficiência do ajuste (seção 2.3)."),
+    ("P", "O confronto ilustra a limitação apontada por Nasr, Ferguson e McPhee (2022): um mecanismo "
           "passivo entrega torque determinado para cada ângulo, de modo que o ajuste favorável em uma "
           "faixa implica desvio em outra. No caso analisado, o compromisso privilegia a faixa acima da "
           "horizontal, onde a exposição postural concentra o risco documentado por van der Molen et al. "
           "(2017) e Seidler et al. (2020), à custa de subcompensação na faixa inferior."),
     ("H", "4.1", "r1_lim", R_LIM),
     ("P", "O modelo não representa a protuberância que, no dispositivo real, restringe o gerador de força "
-          "além do ponto morto, na elevação de 30,485°; a patente indica a zona neutra a partir de 30°, "
-          "diferença de 0,485°. Em consequência, o modelo prevê inversão de sinal do torque após o ponto "
-          "morto, ao passo que o dispositivo mantém torque residual aproximadamente nulo; a ressalva "
-          "restringe-se aos 0,485° finais da faixa e ao último ponto extraído. A ausência de unidade "
-          "declarada na ordenada da curva publicada impede a conversão do torque do cabo para N·m e, por "
-          "conseguinte, o cálculo do torque resultante sobre a articulação. Essa conversão exige dado "
-          "independente, como a especificação de rigidez de uma mola comercial compatível com o mecanismo "
-          "ou fonte documentada que estabeleça a escala da figura original."),
-    ("P", "A identificação foi reproduzida apenas em parte. K e X_{pose} foram reproduzidos no h adotado, "
+          "além do ponto morto; em consequência, prevê inversão de sinal do torque nos 0,485° finais da "
+          "faixa, onde o dispositivo mantém torque residual aproximadamente nulo. A ausência de unidade "
+          "declarada na ordenada da curva publicada impede a conversão do torque do cabo para N·m e o "
+          "cálculo do torque resultante sobre a articulação; essa conversão exige dado independente, "
+          "como a especificação de rigidez de uma mola comercial compatível com o mecanismo. A "
+          "identificação foi reproduzida apenas em parte: K e X_{pose} foram reproduzidos no h adotado, "
           "mas a origem de θ_{off} e de H_{CAL} não pôde ser reconstituída, e os quatro parâmetros foram "
           "identificados e avaliados contra os mesmos 29 pontos, cuja incerteza de extração não está "
-          "documentada. O fator de escala propaga-se a todas as grandezas dimensionais e de massa. Por "
-          "fim, os resultados referem-se a um único dispositivo, ao indivíduo de referência adotado e ao "
-          "membro superior estendido sem ferramenta na mão; a generalização a outros percentis "
-          "antropométricos, a outras configurações de cotovelo e à presença de carga na mão demanda a "
-          "reexecução do procedimento com os parâmetros correspondentes."),
+          "documentada. O fator de escala propaga-se a todas as grandezas dimensionais e de massa, e os "
+          "resultados referem-se ao indivíduo de referência, com o membro superior estendido e sem "
+          "ferramenta na mão."),
 ]
 
 EXO2_R = [
@@ -692,66 +695,108 @@ EXO2_R = [
     ("L", 481, [1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12]),     # só as medidas em CAD; as derivadas estão no texto
     ("K", 482, 483),
     ("P", "Na pose do CAD, o circuito dá s = 359,7679 mm até a ponta da peça de fixação do elástico, que "
-          "difere do comprimento medido s_{pose} em 1,4 × 10^{−4} mm, valor inferior à resolução de três "
-          "casas decimais da medida; até o pino, o comprimento do elástico na pose é de 346,686 mm. O "
-          "elemento 78 está a p = 7,754 mm do eixo da articulação, enquanto a patente prefere esse "
-          "elemento sobre o eixo; as consequências dessa diferença são tratadas nas seções "
-          "⟦S:m2_torque⟧ e ⟦S:r2_grav⟧."),
+          "difere do comprimento medido s_{pose} em 1,4 × 10^{−4} mm, valor inferior à resolução da "
+          "medida; até o pino, o comprimento do elástico na pose é de 346,686 mm. O elemento 78 está a "
+          "p = 7,754 mm do eixo da articulação, enquanto a patente prefere esse elemento sobre o eixo "
+          "(seção ⟦S:r2_grav⟧)."),
     ("K", 485, 488),
-    ("P", "No modelo em CAD, o braço do exoesqueleto (elemento 8) tem massa de 163,951 g, e o centro de "
-          "massa fica a 47,362 mm do eixo da articulação 20. São estimativas obtidas da geometria "
-          "reconstruída e de um material atribuído no CAD, náilon 6/6 em peça oca segundo a planilha, e "
-          "não propriedades do produto. O braço do exoesqueleto acrescenta 0,1640 kg ao conjunto e "
-          "desloca seu centro de massa em 0,194° em relação ao eixo do braço. A alavanca, o elemento 78 e "
-          "a braçadeira não estão modelados como corpos separados, e as peças do lado do tronco apoiam-se "
-          "no cinto e não giram com o braço."),
-    ("P", "As verificações da seção ⟦S:m2_verif⟧ resultaram em resíduos da ordem do erro de "
-          "arredondamento da aritmética de ponto flutuante, de até 5,7 × 10^{−14} mm nas equações de "
-          "fechamento dos dois regimes, exceto os do trabalho virtual, de até 5,0 × 10^{−8} mm/rad, "
-          "limitados pelo truncamento da diferença finita, e o do fechamento com o CAD, limitado pela "
-          "resolução da medida. No teste sintético, a identificação pelo espaçamento entre as curvas "
-          "recupera os valores de s_{0} com erro máximo de 0,074 mm, limitado pela interpolação linear "
-          "entre os pontos de cada curva."),
+    ("P", "O braço do exoesqueleto (elemento 8) tem, no CAD, massa de 163,951 g e centro de massa a "
+          "47,362 mm do eixo da articulação 20, estimativas obtidas da geometria reconstruída e de um "
+          "material atribuído no CAD, e não propriedades do produto. A alavanca, o elemento 78 e a "
+          "braçadeira não estão modelados como corpos separados. Nas verificações da seção "
+          "⟦S:m2_verif⟧, os resíduos são da ordem do erro de arredondamento, de até 5,7 × 10^{−14} mm nas "
+          "equações de fechamento dos dois regimes, exceto os do trabalho virtual, de até "
+          "5,0 × 10^{−8} mm/rad, limitados pelo truncamento da diferença finita. No teste sintético, a "
+          "identificação pelo espaçamento entre as curvas recupera os valores de s_{0} com erro máximo de "
+          "0,074 mm."),
     ("H", "4.2", "r2_ident", R_IDENT),
-    ("P", "Foram extraídos 48 pontos da curva tracejada, 47 da pontilhada e 51 da contínua. As três cruzam "
-          "zero, por interpolação linear entre os dois primeiros pontos, em 14,24° (tracejada), 14,36° "
-          "(pontilhada) e 14,23° (contínua). A curva pontilhada tem máximo interior de 1,0777 divisão e "
-          "termina em 0,0134 divisão em 170,82°. A contínua cresce até 4,6319 divisões em 170,28°, e a "
-          "tracejada, depois de um patamar entre 1,37 e 1,40 divisão de cerca de 100° a 150°, sobe até "
-          "2,4432 divisões em 169,80°."),
-    ("K", 503),
-    ("E", 504, [(" A Tabela 31 e os detalhes estão no Apêndice A.", "")]),
-    ("K", 505, 511),
-    ("K", 513, 514),
-    ("E", 515, [("Os valores que ele encontra (Tabela 32, no Apêndice A), 294,34 mm",
-                 "Os valores que ele encontra, 294,34 mm")]),
-    ("K", 518, 521),
+    ("P", "Foram extraídos 48 pontos da curva tracejada, 47 da pontilhada e 51 da contínua, que cruzam "
+          "zero em 14,24°, 14,36° e 14,23°. Pela Equação (52), na faixa adotada, s_{0} vale 311,148 mm na "
+          "curva pontilhada, 300,750 mm na tracejada e 291,956 mm na contínua, com RMSE de 0,194 mm nas "
+          "234 equações. A ordem coincide com a das pré-tensões descritas na patente, porque menor s_{0} "
+          "significa maior extensão do elástico em qualquer ângulo. O modelo adota o s_{0} da curva "
+          "tracejada, de pré-tensão intermediária, como configuração de referência. A identificação é "
+          "estável: entre as faixas de θ_{el} testadas, o s_{0} da curva tracejada varia de 299,81 a "
+          "301,95 mm, e o ruído de extração dá desvio padrão de 0,772 mm nessa curva."),
+    ("P", "Os fatores G_{i} da Equação (53) coincidem nas três curvas (Figura 12(a)), com dispersão "
+          "mediana de 0,84% entre 20° e 165°, e o comprimento do elástico implícito no espaçamento entre "
+          "as curvas pontilhada e contínua difere do s do CAD em 0,84 mm RMS: a variação de s com o "
+          "ângulo implícita na figura é a do modelo. O fim da curva pontilhada confirma o resultado de "
+          "forma independente: a razão dessa curva, extrapolada, chega a zero em 171,19° com os dois "
+          "últimos pontos, onde s = 309,75 mm, a 1,40 mm do s_{0} identificado pelo espaçamento."),
+    ("P", "O ângulo em que as curvas começam, perto de 14°, não identifica s_{0}: as três começam quase "
+          "no mesmo ângulo, apesar das pré-tensões diferentes. O contato do elástico com o elemento 78 "
+          "explica esse início: com o elemento sobre o eixo, configuração preferida pela patente, o "
+          "contato calculado ocorre em 13,35°, a 0,93° do início médio das curvas, e o torque é nulo "
+          "abaixo dele; com o elemento do CAD, a 7,754 mm do eixo, o contato ocorre em 24,55°, e o torque "
+          "não se anula abaixo dele."),
+    ("K", 508, 511),
+    ("P", "Com esses valores de s_{0}, o fator G lido na Figura 16 da patente e a forma m/(1000 τ_{g}) "
+          "prevista pelo modelo diferem (Figura 12(b)): normalizada em 90°, a razão entre os dois vale "
+          "0,26 em 20°, 0,79 em 60°, 1,34 em 120° e 2,94 em 165°. Em consequência, a razão calculada não "
+          "reproduz a Figura 16 da patente: com escala comum às três curvas, o coeficiente de "
+          "determinação é −0,417 (pontilhada), −1,529 (tracejada) e −0,620 (contínua). Como o s implícito "
+          "na figura concorda com o do CAD, a diferença não se explica por s nem, como causa principal, "
+          "pelo braço de momento, que depende da derivada de s; ela aponta para o torque do peso usado "
+          "pela patente ou para a definição da ordenada, que a patente não permite separar."),
+    ("P", "O ajuste de forma, que deixa s_{0} e a escala livres em cada curva, absorve essa diferença em "
+          "s_{0}. Os valores que ele encontra, 294,34 mm na pontilhada, 213,40 mm na tracejada e 0,00 mm "
+          "na contínua, o limite inferior da busca, afastam-se dos do espaçamento, e as escalas por curva "
+          "contrariam o atuador único descrito na patente. São mantidos como resultado secundário: "
+          "descrevem a melhor forma que o modelo consegue produzir com a geometria do CAD, e não a "
+          "pré-tensão do dispositivo."),
     ("H", "4.2", "r2_comp", R_COMP),
-    ("E", 523, [(" A Tabela 18 reúne as grandezas do circuito em ângulos representativos.", "")]),
-    ("K", 528),
-    ("E", 530, [("A Tabela 19 e a Figura 13 mostram", "A Tabela 19 mostra")]),
-    ("K", 531, 535),
-    ("P", "A Figura 17 da patente não foi digitalizada, e a comparação com ela é visual. Qualitativamente, "
-          "o modelo reproduz a sequência de máximo, vale e subida perto de 180° da figura, mas com o "
-          "máximo antes do da patente e o cruzamento das curvas mais cedo, perto de 144°, contra cerca de "
-          "155° a 160° na figura. A comparação quantitativa depende da digitalização da Figura 17 da "
-          "patente, da definição de sua ordenada e dos valores de excentricidade, que a patente não "
-          "informa."),
+    ("P", "Na faixa de 0° a 180° de anteversão, o regime II ocupa θ_{el} de 0° a 24,549°. O braço de "
+          "momento permanece positivo em toda a faixa, com mínimo de 6,142 mm na transição e máximo de "
+          "34,785 mm em θ_{el} = 109,2°, igual a |OP|; como m não se anula, não há ponto morto na faixa. "
+          "Com s_{0} = 300,750 mm, a extensão do elástico vai de 78,10 mm com o braço pendente a 7,20 mm "
+          "em 180°, e o elástico permanece tracionado em toda a faixa. A deformação máxima equivale a "
+          "26,0% do comprimento de referência, e, com K = K_{40}, a força vai de 199,15 N a 18,35 N."),
+    ("P", "Na varredura de e_{c}, o fechamento dos dois regimes e o trabalho virtual foram atendidos em "
+          "todos os valores. A extensão não negativa do elástico em toda a faixa só é atendida para "
+          "e_{c} ≤ 42,20 mm: acima desse valor, com o s_{0} adotado, o elástico afrouxa perto de 180°. "
+          "Com o aumento de e_{c}, a transição de regime ocorre mais cedo e o pico do torque se desloca "
+          "de 82,4° para 77,0° (Tabela 19). A Figura 17 da patente não foi digitalizada, e a comparação "
+          "com ela é visual: o modelo reproduz a sequência de máximo, vale e subida perto de 180°, mas "
+          "com o máximo antes do da patente."),
+    ("K", 531, 534),
     ("H", "4.2", "r2_grav", R_GRAV),
-    ("K", 541, 545),
+    ("P", "A forma do torque do elástico pode ser comparada à do peso sem depender de K, normalizando "
+          "cada curva pelo próprio pico (Figura 14). Com o s_{0} adotado, o pico normalizado do elástico "
+          "ocorre em θ_{el} = 79,1°, contra 89,8° do peso. Entre 48,40° e 83,74°, a forma do elástico fica "
+          "ligeiramente acima da do peso, com no máximo +0,039; entre 83,74° e 177,02°, fica abaixo, com "
+          "diferença de até −0,272 em 139,2°. A posição do pico fica na faixa de 70° a 120° em que a "
+          "patente prefere a força máxima, desde que essa força seja lida como a força de apoio sobre o "
+          "braço, proporcional ao torque na articulação."),
+    ("K", 543, 545),
     ("E", 546, [(" da Tabela 31, no Apêndice A.", " testadas na identificação.")]),
-    ("E", 547, [("e por isso a Figura 15 e a Tabela 20 descrevem um cenário de projeto",
-                 "e por isso a Tabela 20 descreve um cenário de projeto")]),
+    ("P", "Em N·m, a comparação só é possível sob a hipótese K = K_{40}, e por isso a Tabela 20 descreve "
+          "um cenário de projeto, e não o dispositivo comercial. Nesse cenário, o torque do elástico "
+          "atinge 4,379 N·m em θ_{el} = 79,1°, 10,7° abaixo do pico de τ_{g}, e a razão τ/τ_{g} vai de "
+          "0,32 em 30° a 0,43 em 60°, 0,40 em 90° e 0,21 em 150°. Abaixo da transição, o modelo mantém "
+          "torque positivo, 1,399 N·m em 10°, porque o elemento 78 está a 7,754 mm do eixo, ao passo que "
+          "a Figura 16 da patente mostra razão nula abaixo de cerca de 14°; a divergência foi mantida no "
+          "modelo, porque depende da posição real do elemento 78 e de seu raio de contato, que não estão "
+          "documentados."),
     ("K", 548, 551),
-    ("K", 556),
-    ("K", 558, 559),
+    ("P", "Com o s_{0} das outras duas curvas, K_{40} vai a 3,20932 e 2,17230 N/mm, e o pico de τ, a "
+          "4,516 N·m em 75,5° e 4,317 N·m em 81,7°: a distribuição angular da assistência depende da "
+          "curva tomada como referência. O resultado ilustra a limitação discutida na seção 2.4 (NASR; "
+          "FERGUSON; McPHEE, 2022): no modelo, a subcompensação recai sobre a faixa acima da horizontal, "
+          "onde se concentra o risco documentado por van der Molen et al. (2017) e Seidler et al. (2020). "
+          "Como essa forma depende da geometria do CAD, que não reproduz a Figura 16 da patente, a "
+          "leitura vale para o modelo."),
     ("H", "4.2", "r2_lim", R_LIM),
-    ("K", 562),
-    ("E", 563, [("da ordenada da Figura 16, e K", "da ordenada da Figura 16 da patente, e K"),
-                (", e o ajuste de forma usa escala diferente em cada curva.", ".")]),
-    ("K", 564),
-    ("E", 565, [("e os resultados referem-se ao membro de referência e limitam-se à análise estática.",
-                 "e os resultados referem-se ao membro de referência.")]),
+    ("P", "A principal ressalva é a diferença de forma entre o modelo e a Figura 16 da patente: o s_{0} "
+          "identificado pelo espaçamento entre as curvas não depende dessa forma, mas a distribuição "
+          "angular do torque calculado, sim. O torque em N·m é um cenário, e não uma medida: a patente "
+          "não publica a rigidez do elástico nem a escala da ordenada, e K = K_{40} vem da alegação "
+          "comercial de 40% de assistência (SUITX, [202-]), sem verificação independente. As comparações "
+          "angulares com a patente dependem da hipótese de eixo da articulação 20 no centro do ombro e "
+          "barra 18 fixa no tronco, e o trecho abaixo da transição depende da posição e do raio de "
+          "contato do elemento 78. As grandezas medidas no CAD não têm conferência independente, a "
+          "incerteza da leitura da figura foi estimada só pelo erro mediano declarado, e os resultados "
+          "referem-se ao membro de referência, num modelo plano."),
 ]
 
 EXO3_R = [
@@ -759,62 +804,109 @@ EXO3_R = [
     ("E", 567, [(" As etapas dinâmicas da seção 3.3.13 não foram executadas.", "")]),
     ("H", "4.3", "r3_geo", R_GEO),
     ("K", 569, 572),
-    ("P", "Com esses valores, o fechamento tem resíduo de 0,0006 mm, e a solução fechada devolve S e φ da "
-          "tabela. Na imagem da folha 21, a distância de 584 a 572, com C_{2} = 90,587 mm, dá a escala do "
-          "desenho, de 1,68 px/mm. Na Figura 14D, q = 61,19°, contra 61,724° no CAD: a pose do CAD é a da "
-          "Figura 14D. Na 14C, q = −36,99°, isto é, Θ = 10,25°. Nas duas, o ponto A do CAD fica a 0,6 mm e "
-          "a 0,3 mm do 562 desenhado."),
-    ("K", 575, 576),
+    ("P", "Com esses valores, o fechamento tem resíduo de 0,0006 mm. Na imagem da folha 21, a pose da "
+          "Figura 14D dá q = 61,19°, contra 61,724° no CAD, e o ponto A do CAD fica a 0,3 mm do 562 "
+          "desenhado: a pose do CAD é a da Figura 14D. Na 14C, q = −36,99°, isto é, Θ = 10,25°. O came "
+          "desenhado nas duas figuras é o contorno externo da Figura 15A; ajustado ao desenho, ele dá "
+          "R_{20} = 31,96 mm na Figura 14C e 32,11 mm na 14D, e adotou-se R_{20} = 32,035 mm. Do came da "
+          "14C para o da 14D, o giro absoluto medido é de 61,3°, e a cinemática do cabo 560 prevê 76,8°: "
+          "a diferença, 15,5°, mostra que os dois desenhos não são exatamente coerentes entre si."),
+    ("K", 576),
     ("L", 577, [4, 5, 6, 7, 8, 9, 10, 11]),     # sem as linhas de braço, antebraço e mão, iguais às da Tabela 14
-    ("K", 578, 580),
-    ("P", "No CAD, o apoio de braço tem 0,796 kg: a capa, de náilon 6/6, responde por 0,564 kg, e a mola, "
-          "de aço, por 0,105 kg. O centro de massa do apoio, a 116,4 mm de O e 9,7° acima do eixo maior, "
-          "desloca o do conjunto em 0,77° em relação ao eixo. As peças do CAD concordam com os desenhos: "
-          "a distância entre os pinos 572 e 632 é de 163,6 mm no CAD, contra 165,0 mm na Figura 14D, e o "
-          "R_{20} do came do CAD vai de 31,65 a 32,01 mm, conforme se calcule pela área, pela giração ou "
-          "pela caixa envolvente."),
-    ("P", "Nas verificações da seção ⟦S:m3_verif⟧, os resíduos da cadeia de cálculo são da ordem do erro "
-          "de arredondamento, como 2,1 × 10^{−13} mm entre as duas formas do braço de momento, exceto o "
-          "do trabalho virtual, com diferença relativa de 1,8 × 10^{−5} entre τ/F_{s} e dx/dq, limitado "
-          "pelo truncamento da diferença finita, e os do fechamento com o CAD, de 5,9 × 10^{−4} mm, "
-          "limitados pela resolução da medida. Nas peças do apoio de braço, as distâncias entre eixos "
-          "diferem do desenho em até 1,36 mm, os ângulos em menos de 2°, e o eixo da mola passa a 3,3 mm "
-          "do centro dos traços da mola 636; a hipótese de came espelhado é rejeitada pelas duas medidas "
-          "do giro."),
+    ("K", 578, 579),
+    ("P", "A amplitude do torque gravitacional é M g d = 10,55 N·m para o membro e 11,45 N·m para o "
+          "conjunto. No CAD, o apoio de braço tem 0,796 kg, e as peças concordam com os desenhos: a "
+          "distância entre os pinos 572 e 632 é de 163,6 mm no CAD, contra 165,0 mm na Figura 14D. Nas "
+          "verificações da seção ⟦S:m3_verif⟧, os resíduos da cadeia de cálculo são da ordem do erro de "
+          "arredondamento, exceto o do trabalho virtual, com diferença relativa de 1,8 × 10^{−5}, "
+          "limitado pelo truncamento da diferença finita, e os do fechamento com o CAD, de "
+          "5,9 × 10^{−4} mm, limitados pela resolução da medida."),
     ("H", "4.3", "r3_ident", R_IDENT),
-    ("E", 583, [(" A Tabela 23 traz os valores em ângulos de 15 em 15 graus e no máximo da AASM.", "")]),
-    ("K", 588),
+    ("P", "Da Figura 16 da US 9.737.374 B2 foram extraídos 106 pontos de cada curva. A AASM tem máximo de "
+          "75,55 em Θ = 1° e fica acima de 95% dele de −20° a 9°, o trecho de sustentação quase constante "
+          "que a patente atribui à Z11. A AWM é um cosseno puro, −78,22 cos Θ, e AASM/|AWM| vale 0,96 na "
+          "horizontal. No perfil do came (Figura 7), o raio é constante na Z10 e cai continuamente na "
+          "Z11, de 0,961 para 0,663 R_{20}; usar ρ no lugar de r superestimaria o momento da mola em até "
+          "12% na Z11 e em até 49% na Z12."),
     ("K", 600, 603),
     ("K", 605, 609),
     ("H", "4.3", "r3_comp", R_COMP),
-    ("P", "Da pose do CAD (Θ = −88,47°) até o limite de subida, o vão S diminui à medida que o braço sobe "
-          "e se anula em Θ = 22,01° (seção ⟦S:m3_torque⟧). O braço de momento do cabo 560 cresce de "
-          "26,04 mm na pose para 63,26 mm em Θ = 0 e fica positivo em toda a faixa. Com o giro do came da "
-          "Figura 14D, o cabo da mola sai na Z12 na pose, no canto entre Z12 e Z11 de Θ = −85,9° a −47,0°, "
-          "na Z11 de −47,0° a −18,6° e na Z10 de −2,4° a 18,0°. O raio efetivo vai de 10,55 mm na pose a "
-          "32,08 mm na horizontal e coincide com ρ na Z10."),
-    ("P", "A transmissão τ/F_{s} = (r/R) C_{1} sin(γ − θ), em N·mm por N, cresce de 10,39 mm na pose a "
-          "77,79 mm em Θ = 9,6° e cai perto do limite de subida. Entre Θ = −75°, onde começa a curva da "
-          "patente, e a horizontal, ela passa de 17,42 mm a 76,75 mm, isto é, é multiplicada por 4,4. O "
-          "came responde por parte disso, com r de 13,57 para 32,08 mm, e o cabo de ancoragem pelo resto, "
-          "com o braço de 33,94 para 63,26 mm. Da pose até o limite de subida, a mola encurta 93,1 mm."),
-    ("K", 621, 624),
-    ("E", 625, [("(Tabela 28 e Figura 19)", "(Tabela 28)")]),
-    ("E", 626, [("e a força da mola fica entre 98,3 e 165,5 N (Figura 19a).",
-                 "e a força da mola fica entre 98,3 e 165,5 N.")]),
-    ("E", 627, [("Com outra mola ajustada a cada montagem (Figura 19b), as montagens",
-                 "Com outra mola ajustada a cada montagem, as montagens"),
-                ("quando a Figura 16 foi gerada.", "quando a Figura 16 da US 9.737.374 B2 foi gerada.")]),
-    ("K", 628, 631),
+    ("P", "Da pose do CAD (Θ = −88,47°) até o limite de subida, em Θ = 22,01°, o braço de momento do cabo "
+          "560 cresce de 26,04 mm para 63,26 mm em Θ = 0 e fica positivo em toda a faixa, e o raio efetivo "
+          "do came vai de 10,55 mm na pose a 32,08 mm na horizontal. A transmissão τ/F_{s}, em N·mm por "
+          "N, passa de 17,42 mm em Θ = −75°, onde começa a curva da patente, a 76,75 mm na horizontal, "
+          "isto é, é multiplicada por 4,4: o came responde por parte disso, e o cabo de ancoragem, pelo "
+          "resto."),
+    ("P", "Repetido o ajuste com o came girado de −120° a +40° em relação ao desenho (Figura 18a), o cabo "
+          "da mola sai do canal em toda a faixa entre −86° e +40°. Nessa faixa, o melhor resultado com k "
+          "e x_{0} positivos ocorre com o came girado de −49°: R^{2} = 0,953, k = 2,053 N/mm e "
+          "x_{0} = 121,2 mm (Figura 18b). Com esse giro, a Z11 do modelo vai de −22,7° a 2,4°, e a saída "
+          "na Z12 ocorre de −53,2° a −51,2°: as duas ficam dentro das marcas da patente, que não entram "
+          "no ajuste. O ajuste da mola e as marcas das zonas indicam o mesmo giro, o que sugere que a "
+          "curva da patente corresponde a uma montagem diferente da desenhada nas Figuras 14C e 14D."),
+    ("K", 622, 624),
+    ("P", "Os furos em torno do pino 572 reforçam essa leitura. Os cinco têm passo médio de 25,31° e "
+          "ocupam quase a mesma posição no came nas duas figuras; portanto, giram com ele, e as nove "
+          "montagens vão de −101,25° a +101,25° (Tabela 28). A de dois furos no sentido horário, a "
+          "−50,62°, fica a 1,6° do melhor giro contínuo e reproduz a curva da patente com R^{2} = 0,953 "
+          "e k = 2,119 N/mm, contra R^{2} = 0,901 da montagem desenhada. Com a mesma mola e o mesmo cabo, "
+          "a troca de furo desloca o máximo do torque de Θ = −24,4° a 17,4°. Entre as montagens "
+          "anti-horárias, as de +2 a +4 furos só melhoram o ajuste com rigidez negativa, sem mola "
+          "física. A patente não diz em que furo o came estava quando a Figura 16 da US 9.737.374 B2 foi "
+          "gerada."),
+    ("K", 628, 630),
+    ("R", 631, "Nota: giro positivo no sentido anti-horário, na vista das Figuras 14C e 14D; pares: furos "
+               "do came e da polia que coincidem. Mesma mola: k = 0,492 N/mm e x_{0} = 323,6 mm. Outra "
+               "mola: k e x_{0} ajustados à Figura 16 da US 9.737.374 B2 em cada montagem; k negativo não "
+               "corresponde a mola física. Nas montagens de −4, +3 e +4 furos, o cabo da mola sai do canal "
+               "em parte da faixa do ajuste, e os R^{2} não foram calculados."),
     ("H", "4.3", "r3_grav", R_GRAV),
-    ("K", 637, 642),
+    ("P", "Pela Equação (64), o torque gravitacional do conjunto chega a 11,45 N·m em Θ = −0,6°; na "
+          "horizontal, o membro responde por 10,55 N·m, e o apoio de braço, por 0,90 N·m, 9% do membro. A "
+          "Tabela 29 compara a curva AASM, na escala da AWM, e o torque do modelo ajustado com o torque "
+          "gravitacional do conjunto. Na horizontal, a AASM sustenta 96% do peso do membro, a razão "
+          "AASM/|AWM| da própria patente, e 89% do peso do conjunto. Os picos quase coincidem em ângulo: "
+          "a AASM tem máximo em Θ = 1°, τ_{g} em −0,6° e o modelo ajustado em −4,6°."),
+    ("K", 639, 641),
+    ("P", "O artigo de Okabe, Brittes e Brito (2026) adotou outra escala, com o máximo da AASM em 30 N·m, "
+          "2,94 vezes a adotada aqui. Nela, a AWM valeria 31,06 N·m na horizontal, 2,9 vezes o torque do "
+          "peso do membro de referência: a escala do artigo corresponde a uma carga entre duas e meia e "
+          "três vezes o peso do membro. O ajuste nessa escala tem o mesmo x_{0} e o mesmo R^{2}, e a "
+          "rigidez cresce na mesma razão, com k = 1,448 N/mm (Tabela 26)."),
     ("H", "4.3", "r3_lim", R_LIM),
-    ("K", 645, 647),
-    ("E", 648, [("Por fim, os resultados referem-se ao membro de referência e limitam-se à análise estática.",
-                 "Por fim, os resultados referem-se ao membro de referência.")]),
+    ("P", "A principal ressalva é a escala. A ordenada da Figura 16 da US 9.737.374 B2 não tem unidade, e "
+          "a escala adotada supõe que a AWM seja o momento do peso do membro de referência, sem "
+          "ferramenta na mão e sem o apoio de braço; o torque em N·m e a rigidez k valem nessa escala, e "
+          "k e x_{0} foram identificados pela forma da curva, e não medidos. A curva calculada depende do "
+          "giro do came em relação à primária, em que as Figuras 14C e 14D discordam em 15,5°, e as "
+          "montagens do came supõem na polia os furos medidos nas figuras. Com a ancoragem 562 na posição "
+          "do CAD, o braço não sobe além de Θ = 22,0°, enquanto a curva da patente vai até 30°. As "
+          "leituras do perfil do came e da curva de momento não têm incerteza estimada, e o torque do "
+          "peso supõe o braço alinhado ao eixo maior do apoio de braço e o centro do ombro no pivô 584."),
 ]
 
-CAP4_FIM = [("K", 649, 655)]
+CAP4_FIM = [
+    ("K", 649, 653),
+    ("P", "O contraste mais útil para o procedimento está na identificação. Uma única curva sem unidade, "
+          "como a da US 9.889.554 B2, fixa a forma do perfil, e o ajuste de quatro parâmetros contra os "
+          "mesmos 29 pontos reproduz essa forma sem constituir validação independente. As três curvas da "
+          "EP 3 504 033 B1 trazem uma redundância que separou o comprimento de referência do elástico, "
+          "determinado pelo espaçamento entre elas, da forma do perfil, e essa separação revelou uma "
+          "diferença de forma que o ajuste de uma curva isolada teria escondido no valor de s_{0}. Na "
+          "US 9.737.374 B2, a forma depende também do perfil do came e de um giro que os desenhos não "
+          "fixam com precisão; as marcas das zonas, que não entram no ajuste, apontam o mesmo giro que "
+          "melhora o ajuste da mola, uma redundância parecida com a das três curvas da EP 3 504 033 B1."),
+    ("P", "Os mecanismos também distribuem a assistência de modo distinto em relação à demanda "
+          "gravitacional. O gerador da US 9.889.554 B2 concentra o torque acima da horizontal e acompanha "
+          "a forma do peso entre 105° e 150° de elevação. Com o s_{0} adotado, a forma normalizada do "
+          "elástico na EP 3 504 033 B1 acompanha a do peso de 48° a 84° e fica abaixo dela entre 84° e "
+          "177°; como essa forma depende da geometria do CAD, a comparação vale para os modelos, e não "
+          "para os produtos. Na US 9.737.374 B2, a curva da patente tem máximo em Θ = 1°, quase junto ao "
+          "do torque do peso, em −0,6°. A comparação é quantitativa quanto aos ângulos e à forma dos "
+          "perfis, mas não quanto à magnitude: o torque do primeiro dispositivo está em unidade da "
+          "patente, o do segundo chega a N·m pela hipótese K = K_{40}, e o do terceiro, pela hipótese de "
+          "que a AWM seja o peso do membro de referência."),
+]
 
 # ====================================================================== capítulo 5
 CAP5 = [
@@ -830,7 +922,14 @@ CAP5 = [
           "especificação de uma mola comercial compatível, e representar a protuberância responsável pela "
           "zona neutra."),
     ("K", 666),
-    ("K", 668, 671),
+    ("P", "Para a EP 3 504 033 B1, o espaçamento entre as três curvas da Figura 16 da patente determina os "
+          "comprimentos de referência do elástico sem depender da escala da ordenada, da rigidez, do "
+          "braço de momento ou do torque do peso: 311,15 mm na curva pontilhada, 300,75 mm na tracejada e "
+          "291,96 mm na contínua. O fim da curva pontilhada, de pré-tensão quase nula, confirma o "
+          "resultado de forma independente, e o início das curvas, perto de 14°, fica a 0,9° do contato "
+          "calculado com o elemento de encosto sobre o eixo, em 13,35°, configuração preferida pela "
+          "patente."),
+    ("K", 670, 671),
     ("E", 673, [("o item h foi cumprido na parte estática, com três ressalvas",
                  "o item f foi cumprido, com três ressalvas"),
                 ("O item i foi cumprido", "O item g foi cumprido"),
