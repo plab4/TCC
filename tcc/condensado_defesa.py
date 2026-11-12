@@ -259,8 +259,7 @@ EXO2_M = [
     ("K", 202),
     ("H", "3.2", "m2_fech", T_FECH),
     ("K", 204),
-    ("E", 205, [("representada pelo segmento OP, de comprimento e (seção 3.2.4).",
-                 "representada pelo segmento OP, de comprimento e.")]),
+    ("E", 205, [(" (seção 3.2.4).", ".")]),
     ("K", 206, 210),
     ("P", "O ângulo θ_{b,pose} = 7,962° é positivo, como conferido no CAD: na pose, o braço fica acima da "
           "horizontal. O modelo é sensível a esse sinal. Com o sinal oposto, q_{0} seria −11,551° e "
@@ -519,8 +518,7 @@ EXO2_R = [
           "informa."),
     ("H", "4.2", "r2_grav", R_GRAV),
     ("K", 541, 545),
-    ("E", 546, [("valores da curva tracejada nas faixas de θel da Tabela 31, no Apêndice A.",
-                 "valores da curva tracejada nas faixas de θel testadas na identificação.")]),
+    ("E", 546, [(" da Tabela 31, no Apêndice A.", " testadas na identificação.")]),
     ("E", 547, [("e por isso a Figura 15 e a Tabela 20 descrevem um cenário de projeto",
                  "e por isso a Tabela 20 descreve um cenário de projeto")]),
     ("K", 548, 551),
@@ -528,7 +526,7 @@ EXO2_R = [
     ("K", 558, 559),
     ("H", "4.2", "r2_lim", R_LIM),
     ("K", 562),
-    ("E", 563, [("da ordenada da Figura 16, e K = K40", "da ordenada da Figura 16 da patente, e K = K40"),
+    ("E", 563, [("da ordenada da Figura 16, e K", "da ordenada da Figura 16 da patente, e K"),
                 (", e o ajuste de forma usa escala diferente em cada curva.", ".")]),
     ("K", 564),
     ("E", 565, [("e os resultados referem-se ao membro de referência e limitam-se à análise estática.",
