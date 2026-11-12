@@ -84,7 +84,9 @@ CAP1 = [
     ("E", 7, [(", com parâmetros antropométricos de referência, e preparar a extensão do modelo à dinâmica "
                "multicorpos pela formulação de Lagrange.",
                ", com parâmetros antropométricos de referência.")]),
-    ("E", 8, [("Nesta etapa, o procedimento foi aplicado", "O procedimento foi aplicado")]),
+    ("E", 8, [("Nesta etapa, o procedimento foi aplicado", "O procedimento foi aplicado"),
+              (" Os três são tratados em seções separadas dos capítulos 3, 4 e 5, dedicadas aos "
+               "exoesqueletos 1, 2 e 3.", "")]),
     ("K", 9, 10),
     ("E", 11, [("da US 9.737.374 B2, comparar o torque", "da US 9.737.374 B2, e comparar o torque"),
                ("braço–exoesqueleto", "braço-exoesqueleto"),
@@ -105,12 +107,10 @@ CAP1 = [
     ("E", 27, [("base quantitativa — algo que", "base quantitativa, algo que")]),
     ("E", 28, [("A escolha de ferramentas livres, Python e MBDyn, torna o modelo reprodutível por outros "
                 "grupos e extensível a sistemas multicorpos mais completos.",
-                "A implementação em Python, ferramenta livre, torna o modelo reprodutível por outros grupos.")]),
-    ("P", "O segundo dispositivo acrescenta ao trabalho um caso de teste do procedimento de identificação: "
-          "a EP 3 504 033 B1 publica, na mesma figura, três curvas obtidas com o mesmo atuador e "
-          "pré-tensões diferentes (MIZERA et al., 2023), redundância que permite obter grandezas que uma "
-          "única curva sem escala não determina. O terceiro acrescenta um came de raio variável, cujo "
-          "perfil a patente publica só como desenho."),
+                "A implementação em Python, ferramenta livre, torna o modelo reprodutível por outros grupos."),
+               (" E o tema tem endereço local: as lesões de ombro continuam entre as principais causas de "
+                "afastamento no país, em setores que concentram trabalho acima da cabeça.", "")]),
+    # 29 (o que o segundo e o terceiro dispositivos acrescentam) sai; está na introdução
 ]
 
 # ====================================================================== capítulo 2
@@ -124,10 +124,14 @@ CAP2 = [
     ("K", 35),
     # 36 (reabilitação), 38 (instrumentação dos dispositivos ativos) e 39 (meta-análises) saem
     ("K", 37),
-    ("K", 40, 47),
-    ("E", 48, [("; na primeira direção, Grazi et al. (2022) regulam o nível de assistência em tempo real a "
-                "partir dos sinais cinemáticos captados pelos próprios sensores embarcados no dispositivo.",
-                ".")]),
+    ("K", 40),
+    ("E", 41, [(" Nguyen (2026) atualiza o panorama das alternativas estritamente passivas e de seus limites "
+                "de aplicação.", "")]),
+    ("K", 42, 47),
+    ("E", 48, [(" Daí decorrem as soluções semipassivas de assistência regulável (GRAZI et al., 2020) e as "
+                "configurações ativo-passivas (NASR; BELL; McPHEE, 2023); na primeira direção, Grazi et al. "
+                "(2022) regulam o nível de assistência em tempo real a partir dos sinais cinemáticos "
+                "captados pelos próprios sensores embarcados no dispositivo.", "")]),
     ("K", 49, 50),
     ("P", "O complexo do ombro é modelável como junta de três graus de rotação cujo centro glenoumeral se "
           "desloca durante a elevação do braço (GOPURA; KIGUCHI, 2009; SHEN et al., 2020), e os "
@@ -144,9 +148,15 @@ CAP2 = [
     ("P", "Três arquiteturas comerciais consolidaram soluções distintas para esse mesmo problema. O "
           "shoulderX, desenvolvido na Universidade da Califórnia em Berkeley, gera o torque pelo conjunto "
           "de mola, cabo e polia descrito na seção 2.3 (VAN ENGELHOVEN; KAZEROONI, 2018)."),
-    ("K", 60),
+    ("E", 60, [(" Apesar das diferenças construtivas, as três soluções perseguem idêntico objetivo "
+                "funcional: sintetizar, por meio da geometria e de um único elemento elástico, perfil de "
+                "torque que acompanhe o momento gravitacional do membro superior ao longo da elevação.", "")]),
     # 61 (variantes das Figuras 1 e 18 da patente) sai; está em 3.2.1
-    ("K", 62, 65),
+    ("K", 62, 64),
+    ("E", 65, [("Wu, Wang e Du (2016) aplicam o princípio a um exoesqueleto de membro superior e relatam "
+                "redução de 34,6% no consumo de potência em relação à configuração não balanceada. Em "
+                "exoesqueletos vestíveis, porém, o balanceamento",
+                "Em exoesqueletos vestíveis, porém, o balanceamento")]),
     # 66 (o elástico da EP e o comprimento livre nulo) sai
     ("K", 67),
     ("P", "O cálculo do torque gravitacional pressupõe o conhecimento da massa e da posição do centro de "
@@ -451,10 +461,10 @@ EXO2_M = [
           "s(θ_{el}) do circuito: não depende de K, de σ, de m nem de τ_{g}. A robustez foi avaliada com "
           "outras faixas de θ_{el}, de 15° a 170°, de 25° a 160° e de 40° a 150°, e com ruído de extração "
           "de 0,5 px, em 500 sorteios, e um teste sintético confere a implementação. Com os valores "
-          "identificados, o fator de cada curva é"),
-    ("K", 281),
-    ("P", "A coincidência das três estimativas testa a hipótese de G comum. Para expressar o torque em "
-          "N·m, K foi fixado por hipótese de projeto, e não identificado: o alvo é 40% do torque do peso "
+          "identificados, a razão de cada curva dividida pela extensão do elástico, s − s_{0}, dá uma "
+          "estimativa do fator G, e a coincidência das três estimativas testa a hipótese de G comum."),
+    ("P", "Para expressar o torque em N·m, "
+          "K foi fixado por hipótese de projeto, e não identificado: o alvo é 40% do torque do peso "
           "em θ_{el} = 90°, percentual baseado na alegação comercial de que o exoesqueleto IX Shoulder "
           "Air reduz em 40% ou mais a sobrecarga no ombro durante o trabalho acima da cabeça (SUITX, "
           "[202-]). A alegação não consta da patente, não informa as condições em que a redução foi "
@@ -685,8 +695,7 @@ EXO1_R = [
     ("K", 461, 464),
     ("P", "O pico do torque do cabo ocorre na elevação de 97,484°, e o do torque gravitacional, em "
           "89,438°, com defasagem de 8,046°: o mecanismo entrega sua assistência máxima acima da posição "
-          "de maior demanda gravitacional, configuração compatível com dispositivo projetado para trabalho "
-          "acima da cabeça. As curvas normalizadas cruzam-se na elevação de 93,96° e, entre 105° e 150°, "
+          "de maior demanda gravitacional. As curvas normalizadas cruzam-se na elevação de 93,96° e, entre 105° e 150°, "
           "diferem em no máximo 0,027. Abaixo de 94°, as diferenças tornam-se negativas e crescentes em "
           "módulo, até −0,520 na elevação de 30°; no ponto morto, o torque gravitacional ainda vale "
           "5,757 N·m, 51,6% de seu pico, enquanto o torque do cabo se anula. Trata-se de característica "
@@ -741,7 +750,7 @@ EXO2_R = [
           "tracejada, de pré-tensão intermediária. A identificação é estável: entre as faixas de θ_{el} "
           "testadas, o s_{0} da curva tracejada varia de 299,81 a 301,95 mm, e o ruído de extração dá "
           "desvio padrão de 0,772 mm nessa curva."),
-    ("P", "Os fatores G_{i} da Equação (53) coincidem nas três curvas (Figura 12(a)), com dispersão "
+    ("P", "As três estimativas do fator G coincidem (Figura 12(a)), com dispersão "
           "mediana de 0,84% entre 20° e 165°. O fim da curva pontilhada confirma o resultado de forma "
           "independente: a razão dessa curva, extrapolada, chega a zero em 171,19° com os dois últimos "
           "pontos, onde s = 309,75 mm, a 1,40 mm do s_{0} identificado pelo espaçamento. O início das "
@@ -828,8 +837,7 @@ EXO3_R = [
     ("L", 577, [4, 5, 6, 7, 8, 9, 10, 11]),     # sem as linhas de braço, antebraço e mão, iguais às da Tabela 14
     ("K", 578, 579),
     ("P", "A amplitude do torque gravitacional é M g d = 10,55 N·m para o membro e 11,45 N·m para o "
-          "conjunto. As peças do CAD concordam com os desenhos: a distância entre os pinos 572 e 632 é de "
-          "163,6 mm no CAD, contra 165,0 mm na Figura 14D. Nas verificações da seção ⟦S:m3_verif⟧, os "
+          "conjunto. Nas verificações da seção ⟦S:m3_verif⟧, os "
           "resíduos da cadeia de cálculo são da ordem do erro de arredondamento, exceto o do trabalho "
           "virtual, com diferença relativa de 1,8 × 10^{−5}, limitado pelo truncamento da diferença "
           "finita, e os do fechamento com o CAD, limitados pela resolução da medida."),
@@ -905,8 +913,7 @@ EXO3_R = [
           "giro do came em relação à primária, em que as Figuras 14C e 14D discordam em 15,5°, e as "
           "montagens do came supõem na polia os furos medidos nas figuras. Com a ancoragem 562 na posição "
           "do CAD, o braço não sobe além de Θ = 22,0°, enquanto a curva da patente vai até 30°. As "
-          "leituras do perfil do came e da curva de momento não têm incerteza estimada, e o torque do "
-          "peso supõe o braço alinhado ao eixo maior do apoio de braço e o centro do ombro no pivô 584."),
+          "leituras do perfil do came e da curva de momento não têm incerteza estimada."),
 ]
 
 CAP4_FIM = [
@@ -919,7 +926,7 @@ CAP4_FIM = [
           "diferença de forma que o ajuste de uma curva isolada teria escondido no valor de s_{0}. Na "
           "US 9.737.374 B2, a forma depende também do perfil do came e de um giro que os desenhos não "
           "fixam com precisão; as marcas das zonas, que não entram no ajuste, apontam o mesmo giro que "
-          "melhora o ajuste da mola, uma redundância parecida com a das três curvas da EP 3 504 033 B1."),
+          "melhora o ajuste da mola."),
     ("P", "Os mecanismos também distribuem a assistência de modo distinto em relação à demanda "
           "gravitacional. O gerador da US 9.889.554 B2 concentra o torque acima da horizontal e acompanha "
           "a forma do peso entre 105° e 150° de elevação. Com o s_{0} adotado, a forma normalizada do "
@@ -977,7 +984,10 @@ CAP5 = [
     ("P", "Como continuidade para esse dispositivo, recomenda-se obter a curva de força e extensão do "
           "elemento elástico, que fixaria K e a escala do torque."),
     ("K", 675),
-    ("K", 677),
+    ("E", 677, [("A pose do CAD é a da Figura 14D, o ponto de ancoragem do CAD fica a menos de 1 mm do "
+                 "desenhado, e as peças do apoio de braço concordam com o desenho: as polias nos pinos, o "
+                 "came com o giro da figura e a mola sobre a mola 636. O mecanismo molda",
+                 "O mecanismo molda")]),
     ("P", "Com o giro do came desenhado, uma mola linear reproduz a forma da curva AASM com "
           "R^{2} = 0,901; com o came girado de −49°, R^{2} = 0,953, e as zonas Z11 e Z12 do modelo ficam "
           "dentro das marcas da Figura 16 da US 9.737.374 B2. Os cinco furos em torno do pino 572 "
