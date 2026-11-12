@@ -190,7 +190,8 @@ def main():
                       f"({len(lin_fora)}) que não estão no documento longo: {list(lin_fora)[:3]}")
     diga("## 3. Equações, figuras e tabelas")
     diga()
-    diga(f"Equações (OMML) do condensado: {len(om(doc))}, todas idênticas, byte a byte, às do documento longo: "
+    diga(f"Equações (OMML) do condensado: {doc.count('<m:oMathPara>')}, todas idênticas, byte a byte, às do "
+         f"documento longo: "
          f"{not eq_fora}. Imagens usadas: {len(usadas)}, todas idênticas às do documento longo: {not img_fora}; "
          f"imagens sem uso deixadas no pacote: {len(orfas)}. Linhas de tabela do condensado que não estão no "
          f"documento longo (a menos da numeração): {len(lin_fora)}.")
