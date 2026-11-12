@@ -71,6 +71,52 @@ def numeros(t):
     return set(NUMERO.findall(sem_remissoes(t)))
 
 
+def mapa_do_corte(registro, res_longo):
+    """revisao_defesa/O_que_saiu_e_o_que_ficou.md: seções, tabelas, figuras e equações do
+    documento longo, com o número novo de cada uma ou a indicação de que saiu."""
+    longa = registro["numeracao_longa"]
+    novo = {"T": registro["tabelas"], "F": registro["figuras"], "E": registro["equacoes"]}
+    legendas, secoes = {"T": {}, "F": {}}, []
+    for x in res_longo:
+        if x.startswith("<w:tbl"):
+            continue
+        t = g.texto(x)
+        m = re.match(r"(Tabela|Figura) (\d+)(?: —|:) (.*)", t)
+        if m:
+            legendas[m.group(1)[0]][int(m.group(2))] = m.group(3).strip()
+        elif gc.estilo(x) == "Ttulo2" and gc.TITULO_NUM.match(t):
+            secoes.append(gc.TITULO_NUM.match(t).groups())
+    sec_nova = registro["secoes"]
+    linhas = ["# O que saiu e o que ficou na versão condensada", "",
+              "Gerado por `tcc/verificar_condensado.py`. A coluna da esquerda traz a numeração do documento "
+              "longo (tcc/" + FUNDIDO + "); a da direita, a da versão condensada.", "",
+              "## Seções", "", "| Documento longo | Versão condensada |", "|---|---|"]
+    for num, titulo in secoes:
+        if num in sec_nova:
+            destino = f"{sec_nova[num]} (título mantido)"
+        elif cd.ALIAS.get(num):
+            destino = f"conteúdo condensado em {sec_nova[cd.ALIAS[num]]}"
+        else:
+            destino = "saiu"
+        linhas.append(f"| {num} {titulo} | {destino} |")
+    linhas += ["", "## Apêndice", "", "O Apêndice A (robustez da identificação e ajuste de forma no "
+               "exoesqueleto 2) saiu inteiro, com as Tabelas 31 a 33, a Figura 20 e as Equações (68) e (69)."]
+    for tipo, nome in (("T", "Tabelas"), ("F", "Figuras")):
+        linhas += ["", f"## {nome}", "", "| Documento longo | Versão condensada | Legenda |", "|---|---|---|"]
+        por_numero = {v: k for k, v in longa[tipo].items()}
+        for n in sorted(por_numero):
+            k = por_numero[n]
+            linhas.append(f"| {n} | {novo[tipo].get(k, 'saiu')} | {legendas[tipo].get(n, '')[:110]} |")
+    por_numero = {v: k for k, v in longa["E"].items()}
+    ficam = [f"({n}) → ({novo['E'][por_numero[n]]})" for n in sorted(por_numero) if por_numero[n] in novo["E"]]
+    saem = [f"({n})" for n in sorted(por_numero) if por_numero[n] not in novo["E"]]
+    linhas += ["", "## Equações", "", "Mantidas, com o número novo: " + ", ".join(ficam) + ".", "",
+               "Retiradas: " + ", ".join(saem) + ".", "",
+               "## Referências", "", "Saíram da lista, por não serem mais citadas no texto: "
+               + ", ".join(registro["referencias_retiradas"]) + " (chaves de latex/bibliografia.bib).", ""]
+    (gc.SAIDA / "O_que_saiu_e_o_que_ficou.md").write_text("\n".join(linhas), encoding="utf-8")
+
+
 def main():
     com_docx = "--sem-docx" not in sys.argv[1:]
     blocos, midia, rels, doc = corpo(gc.FUNDIDO_COND)
@@ -79,6 +125,7 @@ def main():
     res_longo = [x for _, x in ctx["resolvidos"]]
     textos = [g.texto(b) for b in blocos]
     i_ref = textos.index("REFERÊNCIAS")
+    mapa_do_corte(registro, res_longo)
     diga("# Verificação da versão condensada")
     diga()
     diga(f"Conteúdo: {gc.FUNDIDO_COND.relative_to(RAIZ)}, {len(blocos)} blocos, contra o documento longo "
