@@ -9,7 +9,7 @@ Este arquivo reúne o que depende de você: decisões, dados que só você tem e
 ### A1. Retirada da etapa dinâmica e dos objetivos correspondentes
 
 - **O que foi feito, a seu pedido:** saiu tudo o que mencionava a etapa dinâmica e o MBDyn. Na prática: os objetivos específicos sobre a equação de movimento e sobre o acoplamento multicorpos (eram f e g), a seção de fundamentação sobre modelagem dinâmica multicorpos (era a 2.6), as três seções de etapas dinâmicas previstas (eram 3.1.13, 3.2.13 e 3.3.13), a equação de movimento, as frases correspondentes das conclusões e a última frase do resumo e do abstract. Os objetivos seguintes mudaram de letra: os do exoesqueleto 2 são agora f e g, e os do exoesqueleto 3, h e i.
-- **Título:** por decisão sua, passou a "Modelagem de mecanismos passivos de apoio ao braço", na capa e na folha de rosto. Os nomes dos arquivos entregues ficaram como você pediu no início, com "Modelagem_e_simulacao"; se quiser, eu renomeio.
+- **Título:** por decisão sua, passou a "Modelagem de mecanismos passivos de apoio ao braço", na capa e na folha de rosto. Os arquivos entregues foram renomeados para acompanhar o título.
 - **Por que importa:** se o projeto aprovado previa os objetivos de dinâmica, ou se o título antigo está registrado na coordenação, a banca ou a secretaria podem perguntar.
 - **Pergunta:** o orientador está de acordo com a retirada dos dois objetivos e com o título novo? É preciso atualizar o título em algum registro do curso?
 - **Situação no documento:** texto só estático, sem menção à dinâmica. O roteiro de defesa traz a resposta que o texto sustenta (pergunta 2.11).

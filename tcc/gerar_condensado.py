@@ -34,7 +34,7 @@ from nomes import ORIGINAL  # noqa: E402
 RAIZ = Path(__file__).resolve().parent.parent
 SAIDA = RAIZ / "revisao_defesa"
 BUILD = SAIDA / "build_condensado"
-NOME = gr.NOME
+NOME = "TCC_Modelagem_de_mecanismos_passivos_revisado_para_defesa"      # segue o título novo
 FUNDIDO_COND = BUILD / "fundido_condensado.docx"
 DOCX_FT = SAIDA / f"{NOME}.docx"
 

@@ -6,8 +6,8 @@ TCC "Modelagem de mecanismos passivos de apoio ao braço", de Pedro Luís de Alm
 
 | Arquivo | O que é |
 |---|---|
-| `revisao_defesa/TCC_Modelagem_e_simulacao_de_mecanismos_passivos_revisado_para_defesa.docx` | Documento para a defesa, no formato FT/FCA, com 67 páginas da capa ao fim |
-| `revisao_defesa/TCC_Modelagem_e_simulacao_de_mecanismos_passivos_revisado_para_defesa.pdf` | O mesmo conteúdo, composto em LaTeX com o modelo da FT (68 páginas) |
+| `revisao_defesa/TCC_Modelagem_de_mecanismos_passivos_revisado_para_defesa.docx` | Documento para a defesa, no formato FT/FCA, com 67 páginas da capa ao fim |
+| `revisao_defesa/TCC_Modelagem_de_mecanismos_passivos_revisado_para_defesa.pdf` | O mesmo conteúdo, composto em LaTeX com o modelo da FT (68 páginas) |
 | `revisao_defesa/Relatorio_de_Revisao_Tecnica.md` | Este relatório |
 | `revisao_defesa/Pendencias_e_Perguntas_ao_Autor.md` | O que depende de você: decisões, dados e confirmações |
 | `revisao_defesa/Roteiro_de_Defesa.md` | Perguntas prováveis da banca, com a resposta que o texto sustenta e a seção correspondente |
@@ -21,7 +21,7 @@ O trabalho teve duas etapas.
 
 **Etapa 1, revisão do documento longo.** Leitura integral do documento de 123 páginas, auditoria técnica, matemática e computacional e reescrita de 68 parágrafos dos capítulos 3 a 5 (frases longas divididas, jargão interno trocado por termos da patente, remissões corrigidas, travessões retirados). O registro dessas reescritas, antes e depois, está em `revisao_defesa/Alteracoes_paragrafo_a_paragrafo.md`. Essa versão longa revisada ficou no histórico do repositório (commit `c3bee74`).
 
-**Etapa 2, versão condensada.** Você pediu um DOCX de no máximo 60 a 70 páginas e decidiu: o limite vale para o documento inteiro; o que sai, sai de vez; os três exoesqueletos ficam enxutos, com o mesmo peso; os capítulos 1 e 2 também podem ser enxugados; e sai tudo o que menciona a etapa dinâmica e o MBDyn. O título passou a "Modelagem de mecanismos passivos de apoio ao braço", também por decisão sua; os nomes dos arquivos ficaram como você pediu no início. A versão condensada parte do documento longo revisado e é montada por um plano declarado (`tcc/condensado_defesa.py`), que diz, bloco a bloco, o que fica, o que tem um trecho trocado e o que é substituído por um parágrafo mais curto.
+**Etapa 2, versão condensada.** Você pediu um DOCX de no máximo 60 a 70 páginas e decidiu: o limite vale para o documento inteiro; o que sai, sai de vez; os três exoesqueletos ficam enxutos, com o mesmo peso; os capítulos 1 e 2 também podem ser enxugados; e sai tudo o que menciona a etapa dinâmica e o MBDyn. O título passou a "Modelagem de mecanismos passivos de apoio ao braço", também por decisão sua, e os arquivos entregues foram renomeados para acompanhá-lo. A versão condensada parte do documento longo revisado e é montada por um plano declarado (`tcc/condensado_defesa.py`), que diz, bloco a bloco, o que fica, o que tem um trecho trocado e o que é substituído por um parágrafo mais curto.
 
 | | Documento longo | Versão condensada |
 |---|---|---|

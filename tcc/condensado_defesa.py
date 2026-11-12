@@ -139,7 +139,9 @@ CAP2 = [
     ("E", 41, [(" Nguyen (2026) atualiza o panorama das alternativas estritamente passivas e de seus limites "
                 "de aplicação.", "")]),
     ("K", 42, 47),
-    ("E", 48, [(" Daí decorrem as soluções semipassivas de assistência regulável (GRAZI et al., 2020) e as "
+    ("E", 48, [(" mediante simulação dinâmica inversa e equações algébrico-diferenciais e concluem",
+                " e concluem"),
+               (" Daí decorrem as soluções semipassivas de assistência regulável (GRAZI et al., 2020) e as "
                 "configurações ativo-passivas (NASR; BELL; McPHEE, 2023); na primeira direção, Grazi et al. "
                 "(2022) regulam o nível de assistência em tempo real a partir dos sinais cinemáticos "
                 "captados pelos próprios sensores embarcados no dispositivo.", "")]),
@@ -1026,5 +1028,6 @@ FRASES_FORA_DO_RESUMO = (
 )
 
 # termos que não podem aparecer no documento condensado (pedido do autor)
-PROIBIDOS = ("MBDyn", "Lagrange", "etapa dinâmica", "etapas dinâmicas", "equação de movimento",
+PROIBIDOS = ("MBDyn", "Lagrange", "etapa dinâmica", "etapas dinâmicas", "simulação dinâmica",
+             "equação de movimento",
              "equações de movimento", "Apêndice", "APÊNDICE")
