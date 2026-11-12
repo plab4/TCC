@@ -580,8 +580,7 @@ EXO3_M = [
           "desenhos discordam, e é a que decide em que zona o cabo da mola sai em cada Θ; por isso, foi o "
           "parâmetro varrido. A varredura repetiu o ajuste com o came girado de −120° a +40° em relação "
           "ao desenho da Figura 14D, de grau em grau, e só valem os giros em que o cabo da mola sai do "
-          "canal em toda a faixa do ajuste. As marcas das zonas na Figura 16 da US 9.737.374 B2 não "
-          "entram no ajuste e servem de conferência."),
+          "canal em toda a faixa do ajuste."),
     ("P", "Além do giro contínuo, foram testadas as montagens que os furos permitem. Nas Figuras 14C e "
           "14D, há cinco furos pequenos num arco em torno do pino 572, que acompanham o came de uma "
           "figura para a outra. Admitido, por hipótese, que a polia externa tenha furos correspondentes, "
@@ -593,7 +592,7 @@ EXO3_M = [
 
 CAP3_FIM = [
     ("K", 369, 371),
-    ("L", 372, [2, 3, 4, 5, 6, 7]),      # sem a linha de arquitetura, descrita em 3.1.1, 3.2.1 e 3.3.1
+    ("L", 372, [2, 3, 4, 6, 7]),         # sem as linhas de arquitetura e de ponto de aplicação da força
     ("K", 373),
 ]
 
