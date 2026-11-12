@@ -244,7 +244,7 @@ def _linhas(tabela, manter):
     return tabela[:ini] + linhas[0] + "".join(linhas[k] for k in manter) + tabela[fim:]
 
 
-def aplicar_plano(plano, blocos, res, marc):
+def aplicar_plano(plano, blocos, res, marc, escalas=None):
     """Lista de itens {origem, xml, indice, modo} e, para títulos, {chave, pai, titulo}."""
     itens, usados, ultimo = [], set(), -1
 
@@ -274,6 +274,11 @@ def aplicar_plano(plano, blocos, res, marc):
         elif linhas is not None:
             assert marcado.startswith("<w:tbl") and "⟦E#" not in marcado, f"bloco {i}: L só vale para tabela"
             xml = _linhas(xml, linhas)
+        if escalas and i in escalas:
+            assert "<w:drawing" in xml, f"bloco {i}: não é figura"
+            xml = re.sub(r'(<(?:wp:extent|a:ext) cx=")(\d+)(" cy=")(\d+)(")',
+                         lambda m: f"{m.group(1)}{int(int(m.group(2)) * escalas[i])}{m.group(3)}"
+                                   f"{int(int(m.group(4)) * escalas[i])}{m.group(5)}", xml)
         item = {"origem": origem, "xml": xml, "indice": i, "modo": modo}
         t = g.texto(res[i])
         m = TITULO_NUM.match(t)
@@ -433,7 +438,7 @@ def montar_condensado(verboso=True):
     blocos, num, ctx = base_marcada()
     res = [x for _, x in ctx["resolvidos"]]
     marc = Marcador(num)
-    itens = aplicar_plano(cd.PLANO, blocos, res, marc)
+    itens = aplicar_plano(cd.PLANO, blocos, res, marc, getattr(cd, "ESCALA_FIGURAS", None))
     numero, avisos = numerar_secoes(itens, cd.ALIAS)
     itens, citadas, refs_fora = filtrar_referencias(itens)
     problemas = conferir_texto(itens, cd.PROIBIDOS)
