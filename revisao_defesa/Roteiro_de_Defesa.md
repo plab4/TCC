@@ -1,6 +1,6 @@
 # Roteiro de defesa
 
-TCC "Modelagem e simulação de mecanismos passivos de apoio ao braço", versão condensada para a defesa.
+TCC "Modelagem de mecanismos passivos de apoio ao braço", versão condensada para a defesa.
 
 As respostas abaixo usam só o que está no texto entregue, e cada uma indica a seção, a tabela ou a figura em que a banca encontra o que você disser. As perguntas marcadas com **[depende de você]** pedem um dado ou uma decisão que o texto não traz; elas estão detalhadas em `Pendencias_e_Perguntas_ao_Autor.md`.
 
@@ -67,9 +67,9 @@ Porque cada torque está numa escala diferente. O do primeiro está em unidade d
 
 Os ângulos dos picos, dos pontos mortos e das transições, a forma normalizada dos perfis, os comprimentos de referência s0 e as verificações de fechamento e de trabalho virtual. Dependem de hipótese os valores em N·m. Tudo depende da geometria reconstruída a partir de desenhos sem cotas (último parágrafo da seção 5.4).
 
-### 2.11 E a dinâmica? O título fala em simulação.
+### 2.11 E a dinâmica?
 
-A versão entregue trata só do comportamento estático, e o texto não promete análise dinâmica. Se a banca perguntar, a resposta que o texto sustenta é esta: o trabalho calcula numericamente o torque estático ao longo de toda a faixa de movimento e faz varreduras paramétricas (h, e_c e giro do came); uma análise dinâmica somaria o torque do mecanismo ao do peso e exigiria os dois na mesma unidade física, e nenhuma das três patentes fornece a escala do torque (seções 4.1.5, 4.2.5 e 4.3.5). Por isso a continuidade recomendada em cada conclusão é obter um dado independente que fixe a escala (seções 5.1, 5.2 e 5.3).
+A versão entregue trata só do comportamento estático, e o texto não promete análise dinâmica. O título é "Modelagem de mecanismos passivos de apoio ao braço". Se a banca perguntar pela dinâmica, a resposta que o texto sustenta é esta: o trabalho calcula numericamente o torque estático ao longo de toda a faixa de movimento e faz varreduras paramétricas (h, e_c e giro do came); uma análise dinâmica somaria o torque do mecanismo ao do peso e exigiria os dois na mesma unidade física, e nenhuma das três patentes fornece a escala do torque (seções 4.1.5, 4.2.5 e 4.3.5). Por isso a continuidade recomendada em cada conclusão é obter um dado independente que fixe a escala (seções 5.1, 5.2 e 5.3).
 
 **[depende de você]** Os objetivos sobre equação de movimento e simulação multicorpos saíram do texto a seu pedido. Se eles constavam do projeto aprovado, combine com o orientador como responder.
 
@@ -149,5 +149,5 @@ Valem para o indivíduo de referência de de Leva (1996), de 73,0 kg e 1,741 m, 
 | Como os pontos foram extraídos das figuras? | Ferramenta, imagem e resolução |
 | Qual medida fixou a escala do CAD? | A medida antropométrica (exo 1) e o critério do exo 2 |
 | O CAD do exo 2 é de qual produto? | A relação entre Paexo e iX Shoulder Air |
-| Por que não há análise dinâmica, se o título fala em simulação? | Combinar a resposta com o orientador |
+| Por que não há análise dinâmica? | Combinar a resposta com o orientador, se os objetivos de dinâmica constavam do projeto |
 | Qual norma a monografia segue? | Confirmação da coordenação do curso |

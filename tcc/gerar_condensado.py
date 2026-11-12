@@ -539,7 +539,11 @@ def _preparar_latex(m):
     tese = (base / "tese.tex").read_text(encoding="utf-8")
     ap = re.compile(r"% Apêndices, gerados por [^\n]*\n\\appendix\n\\include\{capitulos/apendices\}\n")
     assert len(ap.findall(tese)) == 1
-    (dest / "tese.tex").write_text(ap.sub("", tese), encoding="utf-8")
+    tese = ap.sub("", tese)
+    velho = "\\titulo{" + cd.TITULO_LONGO + "}"
+    assert tese.count(velho) == 1, "título não encontrado em tese.tex"
+    tese = tese.replace(velho, "\\titulo{" + cd.TITULO + "}")
+    (dest / "tese.tex").write_text(tese, encoding="utf-8")
     velho = dest / "capitulos" / "apendices.tex"
     if velho.exists():
         velho.unlink()

@@ -1,6 +1,6 @@
 # Relatório de revisão técnica
 
-TCC "Modelagem e simulação de mecanismos passivos de apoio ao braço", de Pedro Luís de Almeida Brito. Revisão técnica, científica e editorial para a defesa.
+TCC "Modelagem de mecanismos passivos de apoio ao braço", de Pedro Luís de Almeida Brito. Revisão técnica, científica e editorial para a defesa.
 
 ## 1. O que foi entregue
 
@@ -21,7 +21,7 @@ O trabalho teve duas etapas.
 
 **Etapa 1, revisão do documento longo.** Leitura integral do documento de 123 páginas, auditoria técnica, matemática e computacional e reescrita de 68 parágrafos dos capítulos 3 a 5 (frases longas divididas, jargão interno trocado por termos da patente, remissões corrigidas, travessões retirados). O registro dessas reescritas, antes e depois, está em `revisao_defesa/Alteracoes_paragrafo_a_paragrafo.md`. Essa versão longa revisada ficou no histórico do repositório (commit `c3bee74`).
 
-**Etapa 2, versão condensada.** Você pediu um DOCX de no máximo 60 a 70 páginas e decidiu: o limite vale para o documento inteiro; o que sai, sai de vez; os três exoesqueletos ficam enxutos, com o mesmo peso; os capítulos 1 e 2 também podem ser enxugados; e sai tudo o que menciona a etapa dinâmica e o MBDyn. A versão condensada parte do documento longo revisado e é montada por um plano declarado (`tcc/condensado_defesa.py`), que diz, bloco a bloco, o que fica, o que tem um trecho trocado e o que é substituído por um parágrafo mais curto.
+**Etapa 2, versão condensada.** Você pediu um DOCX de no máximo 60 a 70 páginas e decidiu: o limite vale para o documento inteiro; o que sai, sai de vez; os três exoesqueletos ficam enxutos, com o mesmo peso; os capítulos 1 e 2 também podem ser enxugados; e sai tudo o que menciona a etapa dinâmica e o MBDyn. O título passou a "Modelagem de mecanismos passivos de apoio ao braço", também por decisão sua; os nomes dos arquivos ficaram como você pediu no início. A versão condensada parte do documento longo revisado e é montada por um plano declarado (`tcc/condensado_defesa.py`), que diz, bloco a bloco, o que fica, o que tem um trecho trocado e o que é substituído por um parágrafo mais curto.
 
 | | Documento longo | Versão condensada |
 |---|---|---|
@@ -48,7 +48,7 @@ A classificação indica o efeito sobre a defesa. "Declarado" quer dizer que o t
 | Os quatro parâmetros do exoesqueleto 1 foram identificados e avaliados nos mesmos 29 pontos | 4.1.2, 5.1 | Declarado: "não constitui validação independente" |
 | A forma do torque do exoesqueleto 2, com a geometria do CAD, não reproduz as curvas da patente (R² de −1,529 a −0,417) | 4.2.2, 4.2.5, 5.2 | Declarado, com a causa delimitada (não é o comprimento s) |
 | A magnitude do torque depende de hipótese nos três mecanismos: unidade da patente no primeiro, K40 no segundo, AWM igualada ao peso do membro no terceiro | 4.1.3, 4.2.4, 4.3.4, 5.4 | Declarado. O último parágrafo de 5.4 separa o que depende e o que não depende de escala |
-| O título fala em "simulação" e o texto, por decisão sua, é só estático | título, 1.1 | Decisão do autor. Pergunta A1 e pergunta 2.11 do roteiro |
+| O título falava em "simulação" e o texto, por decisão sua, é só estático | título, 1.1 | Resolvido: o título passou a "Modelagem de mecanismos passivos de apoio ao braço" na capa e na folha de rosto. Pergunta A1 |
 
 ### 3.2 Importantes
 

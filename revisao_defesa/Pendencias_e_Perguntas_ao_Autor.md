@@ -1,6 +1,6 @@
 # Pendências e perguntas ao autor
 
-Versão condensada para a defesa do TCC "Modelagem e simulação de mecanismos passivos de apoio ao braço".
+Versão condensada para a defesa do TCC "Modelagem de mecanismos passivos de apoio ao braço".
 
 Este arquivo reúne o que depende de você: decisões, dados que só você tem e confirmações. Nada do que está aqui foi resolvido em silêncio no documento. As perguntas estão em ordem de prioridade. As da parte A mudam o texto final; as demais servem para você chegar à banca com a resposta pronta.
 
@@ -9,8 +9,9 @@ Este arquivo reúne o que depende de você: decisões, dados que só você tem e
 ### A1. Retirada da etapa dinâmica e dos objetivos correspondentes
 
 - **O que foi feito, a seu pedido:** saiu tudo o que mencionava a etapa dinâmica e o MBDyn. Na prática: os objetivos específicos sobre a equação de movimento e sobre o acoplamento multicorpos (eram f e g), a seção de fundamentação sobre modelagem dinâmica multicorpos (era a 2.6), as três seções de etapas dinâmicas previstas (eram 3.1.13, 3.2.13 e 3.3.13), a equação de movimento, as frases correspondentes das conclusões e a última frase do resumo e do abstract. Os objetivos seguintes mudaram de letra: os do exoesqueleto 2 são agora f e g, e os do exoesqueleto 3, h e i.
-- **Por que importa:** o título continua "Modelagem e simulação", e o objetivo geral deixou de falar em dinâmica. Se o projeto aprovado previa esses objetivos, a banca pode perguntar por eles.
-- **Pergunta:** o orientador está de acordo com a retirada dos dois objetivos? O título pode ficar como está?
+- **Título:** por decisão sua, passou a "Modelagem de mecanismos passivos de apoio ao braço", na capa e na folha de rosto. Os nomes dos arquivos entregues ficaram como você pediu no início, com "Modelagem_e_simulacao"; se quiser, eu renomeio.
+- **Por que importa:** se o projeto aprovado previa os objetivos de dinâmica, ou se o título antigo está registrado na coordenação, a banca ou a secretaria podem perguntar.
+- **Pergunta:** o orientador está de acordo com a retirada dos dois objetivos e com o título novo? É preciso atualizar o título em algum registro do curso?
 - **Situação no documento:** texto só estático, sem menção à dinâmica. O roteiro de defesa traz a resposta que o texto sustenta (pergunta 2.11).
 
 ### A2. Correções pontuais nos capítulos 1 e 2

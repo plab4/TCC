@@ -68,9 +68,15 @@ R_COMP = "Comportamento do mecanismo e varredura paramétrica"
 R_GRAV = "Confronto com o torque gravitacional"
 R_LIM = "Limitações dos resultados"
 
+# título do trabalho na versão para a defesa: só "Modelagem", por decisão do autor, porque o
+# texto ficou só com a parte estática
+TITULO_LONGO = "Modelagem e simulação de mecanismos passivos de apoio ao braço"
+TITULO = "Modelagem de mecanismos passivos de apoio ao braço"
+
 # ====================================================================== capítulo 1
 CAP1 = [
-    ("K", 0, 1),
+    ("E", 0, [(TITULO_LONGO, TITULO)]),
+    ("K", 1),
     ("E", 2, [("Vários setores como: Montagem automotiva, construção civil, solda e manutenção industrial exigem",
                "Vários setores, como montagem automotiva, construção civil, solda e manutenção industrial, exigem"),
               ("distúrbios na articulação ombro", "distúrbios na articulação do ombro")]),
