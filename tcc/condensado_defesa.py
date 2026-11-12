@@ -438,7 +438,10 @@ EXO2_M = [
           "de 14° e crescem com o ângulo, e com essa definição a razão seria infinita onde o dispositivo "
           "não aplica torque. Só a leitura inversa, torque do dispositivo dividido pelo torque do peso, "
           "é coerente com a figura; essa foi a interpretação adotada."),
-    ("K", 262, 265),
+    ("K", 262, 263),
+    # a nota da figura (página girada; ordenada sem rótulo, já dita no texto) entra na linha da fonte
+    ("R", 264, "Fonte: Mizera et al. (2023), Figura 16, p. 31 do documento B1, com a página girada para a "
+               "orientação de leitura."),
     ("P", "Os pontos das três curvas foram extraídos neste trabalho, com a razão em divisões da grade e "
           "erro mediano de sobreposição inferior a 0,5 px; a imagem e a resolução usadas na leitura não "
           "foram registradas, e a incerteza da extração não foi avaliada de forma independente. A Figura "
