@@ -96,12 +96,12 @@ Gerado por `tcc/verificar_condensado.py`. A coluna da esquerda traz a numeraçã
 | 4.3.1 Geometria reconstruída e propriedades de massa | 4.3.1 (título mantido) |
 | 4.3.2 Dados extraídos da patente | 4.3.2 (título mantido) |
 | 4.3.3 Verificação da cadeia de cálculo | conteúdo condensado em 3.12 |
-| 4.3.4 Parâmetros do modelo e identificação da mola | 4.3.3 (título mantido) |
+| 4.3.4 Parâmetros do modelo e identificação da mola | conteúdo condensado em 4.3.3 |
 | 4.3.5 Qualidade do ajuste à curva da patente | 4.3.4 (título mantido) |
-| 4.3.6 Comportamento da mola e do mecanismo | 4.3.5 (título mantido) |
-| 4.3.7 Varredura paramétrica do giro do came | 4.3.6 (título mantido) |
-| 4.3.8 Confronto entre o torque do cabo e o torque gravitacional | 4.3.7 (título mantido) |
-| 4.3.9 Limitações dos resultados | 4.3.8 (título mantido) |
+| 4.3.6 Comportamento da mola e do mecanismo | 4.3.6 (título mantido) |
+| 4.3.7 Varredura paramétrica do giro do came | 4.3.7 (título mantido) |
+| 4.3.8 Confronto entre o torque do cabo e o torque gravitacional | 4.3.8 (título mantido) |
+| 4.3.9 Limitações dos resultados | 4.3.9 (título mantido) |
 | 4.4 Comparação entre os três exoesqueletos | saiu |
 | 5 CONCLUSÃO | 5 (título mantido) |
 | 5.1 Exoesqueleto 1 | 5.1 (título mantido) |
@@ -141,8 +141,8 @@ O Apêndice A (robustez da identificação e ajuste de forma no exoesqueleto 2) 
 | 22 | 13 | Propriedades de massa do conjunto que gira com o braço em relação ao pivô 584 |
 | 23 | saiu | Pontos extraídos da Figura 16 da US 9.737.374 B2 |
 | 24 | saiu | Verificações da cadeia de cálculo do modelo da Levitate |
-| 25 | 14 | Parâmetros não publicados do mecanismo da Levitate, origem e identificabilidade |
-| 26 | 15 | Mola linear ajustada à curva AASM da Figura 16 da US 9.737.374 B2, na escala da AWM |
+| 25 | 15 | Parâmetros não publicados do mecanismo da Levitate, origem e identificabilidade |
+| 26 | 14 | Mola linear ajustada à curva AASM da Figura 16 da US 9.737.374 B2, na escala da AWM |
 | 27 | saiu | Circuito, came e transmissão nos ângulos marcados na Figura 16 da US 9.737.374 B2 |
 | 28 | 16 | Montagens do came nos furos em torno do pino 572 |
 | 29 | 17 | Curva AASM, modelo ajustado e torque gravitacional nos ângulos marcados na Figura 16 da US 9.737.374 B2 |

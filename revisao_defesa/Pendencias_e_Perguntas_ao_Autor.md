@@ -1,6 +1,6 @@
 # Pendências e perguntas ao autor
 
-Versão para a defesa do TCC "Modelagem de mecanismos passivos de apoio ao braço", com até 80 páginas.
+Versão para a defesa do TCC "Modelagem de mecanismos passivos de apoio ao braço", com até 82 páginas.
 
 Este arquivo reúne o que depende de você: decisões, dados que só você tem e confirmações. Nada do que está aqui foi resolvido em silêncio no documento. As perguntas estão em ordem de prioridade. As da parte A mudam o texto final; as demais servem para você chegar à banca com a resposta pronta.
 
@@ -17,10 +17,10 @@ Este arquivo reúne o que depende de você: decisões, dados que só você tem e
 ### A2. Estrutura nova e o que veio do seu arquivo
 
 - **Capítulo 3 fundido por tópico, como você escolheu:** são 12 seções, uma por etapa do procedimento (reconstrução em CAD, parâmetros inerciais, convenções, fechamento, braço de momento, elemento elástico e torque, ponto morto, torque gravitacional, trabalhos virtuais, dados da patente e identificação, varredura paramétrica, verificações e delimitação). Cada seção trata os três exoesqueletos, nessa ordem, e cada trecho começa por "No exoesqueleto 1, ...", "No exoesqueleto 2, ..." e assim por diante. A definição do trabalho virtual, δW = 0, está nas três formulações (seção 3.9), e a variável independente é q nas três.
-- **Capítulo 4 com os títulos do seu arquivo:** saíram as seções de verificação dos exoesqueletos 2 e 3, como no seu arquivo, e ficaram as subseções de comportamento, varredura, confronto com o torque gravitacional e limitações dos três (4.1.6 a 4.1.9, 4.2.6 a 4.2.9 e 4.3.5 a 4.3.8), com o texto encurtado e os resultados mantidos. As varreduras (h, e_c e giro do came) estão inteiras: figuras, números e conclusões.
+- **Capítulo 4 com os títulos do seu arquivo:** saíram as seções de verificação dos exoesqueletos 2 e 3, como no seu arquivo, e ficaram as subseções de comportamento, varredura, confronto com o torque gravitacional e limitações dos três (4.1.6 a 4.1.9, 4.2.6 a 4.2.9 e 4.3.6 a 4.3.9), com o texto encurtado e os resultados mantidos. As varreduras (h, e_c e giro do came) estão inteiras: figuras, números e conclusões.
 - **Cortes seus que foram adotados:** a última frase do primeiro parágrafo de 2.4 (Palazzi), o parágrafo sobre Nasr e o das preferências da EP no capítulo 2, a seção sobre dinâmica multicorpos, o parágrafo das curvas da EP em 2.9 e as tabelas de fontes dos exoesqueletos 2 e 3.
 - **Tabelas que saíram nesta rodada, porque repetiam números do texto ou de outra tabela:** a de platôs de RMSE e a de valores notáveis de h (exoesqueleto 1; os valores estão no texto de 4.1.7 e na Figura 8) e a de grandezas do circuito por ângulo (exoesqueleto 2; os mesmos ângulos estão na Tabela 11, do cenário de projeto).
-- **Pergunta:** algum desses cortes deve voltar? Se sim, diga qual, e eu compenso em outro ponto para manter as 80 páginas.
+- **Pergunta:** algum desses cortes deve voltar? Se sim, diga qual, e eu compenso em outro ponto para não passar de 82 páginas.
 
 ### A3. Correções pontuais nos capítulos 1 e 2
 
@@ -129,12 +129,12 @@ Ficam fora dessa lista, porque pedem redação sua:
 
 ### C4. Contagem de páginas no Microsoft Word
 
-- A contagem de páginas foi feita com o LibreOffice, que é o que há no ambiente. O Word pode quebrar linhas e posicionar figuras de modo um pouco diferente, e o limite de 80 páginas ficou justo.
-- **Pergunta:** ao abrir o arquivo no Word, confira o total de páginas. Se passar de 80, me diga quantas páginas deu, e eu corto o que faltar.
+- A contagem de páginas foi feita com o LibreOffice, que é o que há no ambiente. O Word pode quebrar linhas e posicionar figuras de modo um pouco diferente, e o limite de 82 páginas ficou justo.
+- **Pergunta:** ao abrir o arquivo no Word, confira o total de páginas. Se passar de 82, me diga quantas páginas deu, e eu corto o que faltar.
 
 ### C5. Citações das bibliotecas de software
 
-- Para caber em 80 páginas, as bibliotecas NumPy, SciPy e Matplotlib continuam nomeadas na seção 3.12, mas sem citação nem entrada na lista de referências (eram as três últimas linhas que transbordavam). O método de Brent continua citado.
+- Para caber no limite, as bibliotecas NumPy, SciPy e Matplotlib continuam nomeadas na seção 3.12, mas sem citação nem entrada na lista de referências (eram as três últimas linhas que transbordavam). O método de Brent continua citado.
 - **Pergunta:** se o curso ou o orientador pedir a citação do software usado, elas voltam com três entradas na lista, e eu compenso as linhas em outro ponto.
 
 ## D. Decisão sua e do orientador
@@ -147,8 +147,9 @@ Ficam fora dessa lista, porque pedem redação sua:
 
 ## E. Itens já decididos por você, só para constar
 
-- **Limite de 80 páginas:** vale para o documento inteiro, da capa ao fim.
+- **Limite de páginas:** 80 para o documento inteiro, da capa ao fim, mais as 2 que você aceitou para o exoesqueleto 3 ficar parelho com os outros dois: 82.
+- **Exoesqueleto 3 parelho:** o antigo 4.3.3 foi dividido como no exoesqueleto 2 (4.3.3 Identificação da mola, 4.3.4 Qualidade do ajuste, 4.3.5 Parâmetros do modelo), e as quatro subseções finais passaram a 4.3.6 a 4.3.9. Voltaram as aberturas de 4.2 e 4.3 e as recomendações de continuidade de 5.2 e 5.3, sem a parte de dinâmica.
 - **Base:** o seu arquivo com os cortes, sem seguir 100% dele; a metodologia fundida por tópico e os resultados por exoesqueleto.
 - **O que saiu, saiu de vez:** não há apêndice nem material suplementar citado no texto.
 - **e_c = 34,785 mm (exoesqueleto 2) e H_CAD = 34,785 mm (exoesqueleto 1):** os dois valores coincidem até a terceira casa. Em 8/11 você conferiu e_c no CAD. A banca pode notar; a resposta está no roteiro de defesa.
-- **Sem tabelas de pendências no TCC:** as limitações estão em texto corrido nas seções 4.1.9, 4.2.9 e 4.3.8.
+- **Sem tabelas de pendências no TCC:** as limitações estão em texto corrido nas seções 4.1.9, 4.2.9 e 4.3.9.

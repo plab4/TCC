@@ -6,8 +6,8 @@ TCC "Modelagem de mecanismos passivos de apoio ao braço", de Pedro Luís de Alm
 
 | Arquivo | O que é |
 |---|---|
-| `revisao_defesa/TCC_Modelagem_de_mecanismos_passivos_revisado_para_defesa.docx` | Documento para a defesa, no formato FT/FCA, com 80 páginas da capa ao fim |
-| `revisao_defesa/TCC_Modelagem_de_mecanismos_passivos_revisado_para_defesa.pdf` | O mesmo conteúdo, composto em LaTeX com o modelo da FT (82 páginas) |
+| `revisao_defesa/TCC_Modelagem_de_mecanismos_passivos_revisado_para_defesa.docx` | Documento para a defesa, no formato FT/FCA, com 82 páginas da capa ao fim |
+| `revisao_defesa/TCC_Modelagem_de_mecanismos_passivos_revisado_para_defesa.pdf` | O mesmo conteúdo, composto em LaTeX com o modelo da FT (83 páginas) |
 | `revisao_defesa/Relatorio_de_Revisao_Tecnica.md` | Este relatório |
 | `revisao_defesa/Pendencias_e_Perguntas_ao_Autor.md` | O que depende de você: decisões, dados e confirmações |
 | `revisao_defesa/Roteiro_de_Defesa.md` | Perguntas prováveis da banca, com a resposta que o texto sustenta e a seção correspondente |
@@ -23,20 +23,20 @@ O trabalho teve três etapas.
 
 **Etapa 2, primeira versão condensada (67 páginas).** Você pediu um DOCX de no máximo 60 a 70 páginas e decidiu: o limite vale para o documento inteiro; o que sai, sai de vez; os capítulos 1 e 2 também podem ser enxugados; e sai tudo o que menciona a etapa dinâmica e o MBDyn. O título passou a "Modelagem de mecanismos passivos de apoio ao braço", também por decisão sua, e os arquivos entregues foram renomeados para acompanhá-lo. Para caber, essa versão cortou os resultados das varreduras, o que você apontou como o erro principal.
 
-**Etapa 3, versão de até 80 páginas.** Você mandou o seu arquivo com cortes como base, pediu que as subseções de comportamento, varredura, confronto e limitações (4.x.6 a 4.x.9) ficassem, com o texto encurtado e o essencial mantido, e que voltassem os tópicos de ponto morto, torque gravitacional, trabalhos virtuais e identificação; escolheu fundir a metodologia por tópico e fixou o limite em 80 páginas. A versão para a defesa parte do documento longo revisado e é montada por um plano declarado (`tcc/condensado_defesa.py`), que diz, bloco a bloco, o que fica, o que tem um trecho trocado e o que é substituído por um parágrafo mais curto.
+**Etapa 3, versão de até 82 páginas.** Você mandou o seu arquivo com cortes como base, pediu que as subseções de comportamento, varredura, confronto e limitações (4.x.6 a 4.x.9) ficassem, com o texto encurtado e o essencial mantido, e que voltassem os tópicos de ponto morto, torque gravitacional, trabalhos virtuais e identificação; escolheu fundir a metodologia por tópico e fixou o limite em 80 páginas; depois, aceitou 2 a mais para o exoesqueleto 3 ficar parelho com os outros dois. A versão para a defesa parte do documento longo revisado e é montada por um plano declarado (`tcc/condensado_defesa.py`), que diz, bloco a bloco, o que fica, o que tem um trecho trocado e o que é substituído por um parágrafo mais curto.
 
 | | Documento longo | Versão condensada |
 |---|---|---|
-| Páginas (DOCX, LibreOffice) | 123 | 80 |
-| Títulos numerados | 104 | 64 |
+| Páginas (DOCX, LibreOffice) | 123 | 82 |
+| Títulos numerados | 104 | 65 |
 | Equações numeradas | 69 | 64 |
 | Figuras | 20 | 16 |
 | Tabelas | 33 | 17 |
 | Referências | 45 | 37 |
 
-Composição do corpo da versão para a defesa: 499 blocos, dos quais 321 mantidos sem alteração (equações, figuras, tabelas e parágrafos), 101 mantidos com um trecho trocado ou cortado, 16 legendas ou notas reescritas, 49 parágrafos novos, que condensam ou juntam os do documento longo, e 12 títulos novos (as seções do capítulo 3). O PDF do LaTeX tem 82 páginas porque a composição tipográfica é outra; o limite de 80 vale para o DOCX, como você pediu.
+Composição do corpo da versão para a defesa: 504 blocos, dos quais 320 mantidos sem alteração (equações, figuras, tabelas e parágrafos), 105 mantidos com um trecho trocado ou cortado, 16 legendas ou notas reescritas, 49 parágrafos novos, que condensam ou juntam os do documento longo, e 14 títulos novos (as 12 seções do capítulo 3 e duas subseções do exoesqueleto 3). O PDF do LaTeX tem 83 páginas porque a composição tipográfica é outra; o limite vale para o DOCX, como você pediu.
 
-**Estrutura.** O capítulo 3 tem 12 seções, uma por etapa do procedimento (reconstrução em CAD; parâmetros inerciais; referenciais e convenções; fechamento do circuito; ponto de aplicação e braço de momento; elemento elástico, lei da mola e torque; ponto morto; torque gravitacional; trabalhos virtuais; dados da patente e identificação; varredura paramétrica; verificações, ferramentas e delimitação), e cada seção trata os três exoesqueletos em sequência. O capítulo 4 segue os títulos do seu arquivo: nove subseções para os exoesqueletos 1 e 2 e oito para o 3, sem as seções de verificação dos exoesqueletos 2 e 3, que você cortou. A variável independente é q nas três formulações, e a definição do trabalho virtual, δW = 0, aparece nas três (seção 3.9).
+**Estrutura.** O capítulo 3 tem 12 seções, uma por etapa do procedimento (reconstrução em CAD; parâmetros inerciais; referenciais e convenções; fechamento do circuito; ponto de aplicação e braço de momento; elemento elástico, lei da mola e torque; ponto morto; torque gravitacional; trabalhos virtuais; dados da patente e identificação; varredura paramétrica; verificações, ferramentas e delimitação), e cada seção trata os três exoesqueletos em sequência. O capítulo 4 segue os títulos do seu arquivo: nove subseções para cada exoesqueleto, sem as seções de verificação dos exoesqueletos 2 e 3, que você cortou; no exoesqueleto 3, identificação da mola, qualidade do ajuste e parâmetros do modelo ficam em subseções separadas, como no 2, e as quatro finais são 4.3.6 a 4.3.9. A variável independente é q nas três formulações, e a definição do trabalho virtual, δW = 0, aparece nas três (seção 3.9).
 
 ## 3. Diagnóstico
 
@@ -49,7 +49,7 @@ A classificação indica o efeito sobre a defesa. "Declarado" quer dizer que o t
 | θ_off = 133,017° e H_CAL = 22,701 mm têm origem não reproduzida; o ajuste de R² = 0,99839 depende deles | 3.10, 4.1.4, Tabela 4 | Declarado. A revisão reproduziu K e X_pose no h adotado, mas não o procedimento que levou a esses dois valores. Pergunta B1 |
 | Os quatro parâmetros do exoesqueleto 1 foram identificados e avaliados nos mesmos 29 pontos | 4.1.5, 5.1 | Declarado: "não constitui validação independente" |
 | A forma do torque do exoesqueleto 2, com a geometria do CAD, não reproduz as curvas da patente (R² de −1,529 a −0,417) | 4.2.4, 4.2.9, 5.2 | Declarado, com a causa delimitada (não é o comprimento s) |
-| A magnitude do torque depende de hipótese nos três mecanismos: unidade da patente no primeiro, K40 no segundo, AWM igualada ao peso do membro no terceiro | 4.1.6, 4.2.8, 4.3.7, 5.4 | Declarado. O último parágrafo de 5.4 separa o que depende e o que não depende de escala |
+| A magnitude do torque depende de hipótese nos três mecanismos: unidade da patente no primeiro, K40 no segundo, AWM igualada ao peso do membro no terceiro | 4.1.6, 4.2.8, 4.3.8, 5.4 | Declarado. O último parágrafo de 5.4 separa o que depende e o que não depende de escala |
 | O título falava em "simulação" e o texto, por decisão sua, é só estático | título, 1.1 | Resolvido: o título passou a "Modelagem de mecanismos passivos de apoio ao braço" na capa e na folha de rosto. Pergunta A1 |
 
 ### 3.2 Importantes
@@ -101,8 +101,8 @@ Executadas por `tcc/verificar_condensado.py` e pelos verificadores do pipeline, 
 
 | Conferência | Resultado |
 |---|---|
-| Numeração de seções, tabelas, figuras e equações em sequência; remissões sem destino | 64 títulos, 17 tabelas, 16 figuras e 64 equações em ordem; nenhuma remissão sem destino; nenhuma tabela ou figura sem chamada no texto |
-| Proveniência dos números: todo número do texto condensado existe no documento longo | 1.817 números conferidos; nenhum novo |
+| Numeração de seções, tabelas, figuras e equações em sequência; remissões sem destino | 65 títulos, 17 tabelas, 16 figuras e 64 equações em ordem; nenhuma remissão sem destino; nenhuma tabela ou figura sem chamada no texto |
+| Proveniência dos números: todo número do texto condensado existe no documento longo | 1.833 números conferidos; nenhum novo |
 | Equações iguais às do documento longo | 64 equações editáveis, idênticas byte a byte |
 | Figuras e tabelas | 16 imagens idênticas às do documento longo (quatro reduzidas em tamanho na página: os circuitos dos três exoesqueletos e a reprodução da Figura 16 da EP 3 504 033 B1); nenhuma linha de tabela que não exista no documento longo |
 | Termos retirados (MBDyn, Lagrange, etapa dinâmica, equação de movimento, apêndice) | Nenhuma ocorrência, incluídos o resumo e o abstract |
@@ -110,8 +110,8 @@ Executadas por `tcc/verificar_condensado.py` e pelos verificadores do pipeline, 
 | Citações e referências | 37 referências, todas citadas; nenhuma citação sem referência |
 | DOCX contra o PDF do LaTeX (`verificar_docx_modelo.py`) | Mesmo texto, mesmas equações, tabelas e figuras; sumário e listas com as páginas do próprio DOCX |
 | Integridade do pacote DOCX | Abre sem erro; sem comentários nem alterações controladas; equações editáveis, nenhuma em imagem |
-| Páginas | 80, da capa ao fim, na conversão pelo LibreOffice |
-| Inspeção visual | Todas as 80 páginas renderizadas e olhadas: capa, folha de aprovação, resumo, listas, sumário, equações, figuras e tabelas |
+| Páginas | 82, da capa ao fim, na conversão pelo LibreOffice |
+| Inspeção visual | Todas as 82 páginas renderizadas e olhadas: capa, folha de aprovação, resumo, listas, sumário, equações, figuras e tabelas |
 
 ## 7. O que saiu
 

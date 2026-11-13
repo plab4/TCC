@@ -21,7 +21,7 @@ O auxílio de um exoesqueleto passivo é uma curva de torque em função do âng
 - Um procedimento único, aplicado a três arquiteturas: reconstrução em CAD, cinemática de circuito fechado em forma fechada, identificação dos parâmetros não publicados e conferência pelo princípio dos trabalhos virtuais (capítulo 3).
 - No exoesqueleto 1, a demonstração de que a extensão da mola deve seguir ℓ = s − Rψ, e a distinção entre o braço de momento m, limitado a 22,919 mm, e a distância b ao ponto de tangência, perto de 283 mm (seções 3.6, 3.9 e 4.1.3).
 - No exoesqueleto 2, a identificação do comprimento de referência do elástico pelo espaçamento entre as três curvas da patente, que não depende da escala da ordenada nem da rigidez (seções 3.10 e 4.2.3).
-- No exoesqueleto 3, o raio efetivo do came como função suporte da envoltória convexa, diferente do raio cotado, e a leitura das montagens do came pelos furos (seções 3.6, 3.11 e 4.3.6).
+- No exoesqueleto 3, o raio efetivo do came como função suporte da envoltória convexa, diferente do raio cotado, e a leitura das montagens do came pelos furos (seções 3.6, 3.11 e 4.3.7).
 
 ### 2.3 Por que essas três patentes?
 
@@ -39,7 +39,7 @@ Porque o elemento que transmite a força muda. No primeiro, o cabo tangencia um 
 |---|---|---|---|
 | Exoesqueleto 1 | p, C, R, α, pose, L_pose, H_CAD (Tabela 1) | X_pose = 37,383 mm e K = 174,68, em unidade da patente | θ_off = 133,017° e H_CAL = 22,701 mm, congelados, de origem não reproduzida (Tabela 4) |
 | Exoesqueleto 2 | C1, C2, γ, e_c, p, pose (Tabela 7) | s0 = 311,148, 300,750 e 291,956 mm, pelo espaçamento (seção 4.2.3) | K = K40 = 2,54982 N/mm, pela hipótese de 40% do peso em 90° (seção 3.10 e Tabela 11) |
-| Exoesqueleto 3 | C1, C2, R, γ, pose (Tabela 12); R20 e giro do came lidos nas figuras | k = 0,492 N/mm e x0 = 323,6 mm, na escala da AWM (Tabela 15) | escala: AWM igualada ao peso do membro de referência; polia 630 no infinito (seções 3.6 e 3.10) |
+| Exoesqueleto 3 | C1, C2, R, γ, pose (Tabela 12); R20 e giro do came lidos nas figuras | k = 0,492 N/mm e x0 = 323,6 mm, na escala da AWM (Tabela 14) | escala: AWM igualada ao peso do membro de referência; polia 630 no infinito (seções 3.6 e 3.10) |
 
 As grandezas de CAD são classificadas como medidas em CAD, e não como dimensões do produto (abertura do capítulo 3).
 
@@ -61,7 +61,7 @@ Em nenhuma se conhece a incerteza da leitura. **[depende de você]** O método d
 
 ### 2.9 Por que não comparar a magnitude dos três?
 
-Porque cada torque está numa escala diferente. O do primeiro está em unidade da patente; lido em N·m, daria tração de 9,5 kN e pico 13,2 vezes o do peso, o que é implausível (seção 4.1.6). O do segundo só chega a N·m pela hipótese K = K40. O do terceiro, pela hipótese de que a AWM seja o peso do membro de referência; a escala do artigo de Okabe, Brittes e Brito (2026) é 2,94 vezes maior (seção 4.3.7). A comparação vale para ângulos e forma (seção 5.4).
+Porque cada torque está numa escala diferente. O do primeiro está em unidade da patente; lido em N·m, daria tração de 9,5 kN e pico 13,2 vezes o do peso, o que é implausível (seção 4.1.6). O do segundo só chega a N·m pela hipótese K = K40. O do terceiro, pela hipótese de que a AWM seja o peso do membro de referência; a escala do artigo de Okabe, Brittes e Brito (2026) é 2,94 vezes maior (seção 4.3.8). A comparação vale para ângulos e forma (seção 5.4).
 
 ### 2.10 Quais resultados não dependem de hipótese de escala?
 
@@ -69,7 +69,7 @@ Os ângulos dos picos, dos pontos mortos e das transições, a forma normalizada
 
 ### 2.11 E a dinâmica?
 
-A versão entregue trata só do comportamento estático, e o texto não promete análise dinâmica. O título é "Modelagem de mecanismos passivos de apoio ao braço". Se a banca perguntar pela dinâmica, a resposta que o texto sustenta é esta: o trabalho calcula numericamente o torque estático ao longo de toda a faixa de movimento e faz varreduras paramétricas (h, e_c e giro do came); uma análise dinâmica somaria o torque do mecanismo ao do peso e exigiria os dois na mesma unidade física, e nenhuma das três patentes fornece a escala do torque (seções 4.1.9, 4.2.9 e 4.3.8). Por isso a continuidade recomendada em cada conclusão é obter um dado independente que fixe a escala (seções 5.1, 5.2 e 5.3).
+A versão entregue trata só do comportamento estático, e o texto não promete análise dinâmica. O título é "Modelagem de mecanismos passivos de apoio ao braço". Se a banca perguntar pela dinâmica, a resposta que o texto sustenta é esta: o trabalho calcula numericamente o torque estático ao longo de toda a faixa de movimento e faz varreduras paramétricas (h, e_c e giro do came); uma análise dinâmica somaria o torque do mecanismo ao do peso e exigiria os dois na mesma unidade física, e nenhuma das três patentes fornece a escala do torque (seções 4.1.9, 4.2.9 e 4.3.9). Por isso a continuidade recomendada em cada conclusão é obter um dado independente que fixe a escala (seções 5.1, 5.2 e 5.3).
 
 **[depende de você]** Os objetivos sobre equação de movimento e simulação multicorpos saíram do texto a seu pedido. Se eles constavam do projeto aprovado, combine com o orientador como responder.
 
@@ -115,9 +115,9 @@ Valem para o indivíduo de referência de de Leva (1996), de 73,0 kg e 1,741 m, 
 
 ### Exoesqueleto 3
 
-**Por que igualar a AWM ao peso do membro de referência?** Porque a figura não tem unidade e a AWM é, segundo a patente, o momento do peso do braço: um cosseno puro, −78,22 cos Θ. Igualar sua amplitude ao torque do peso do membro na horizontal (10,55 N·m) dá 0,1349 N·m por unidade. É hipótese declarada; na escala do artigo de Okabe, Brittes e Brito (2026), a mesma AWM corresponderia a 2,9 vezes o peso do membro (seções 3.10, 4.3.2 e 4.3.7).
+**Por que igualar a AWM ao peso do membro de referência?** Porque a figura não tem unidade e a AWM é, segundo a patente, o momento do peso do braço: um cosseno puro, −78,22 cos Θ. Igualar sua amplitude ao torque do peso do membro na horizontal (10,55 N·m) dá 0,1349 N·m por unidade. É hipótese declarada; na escala do artigo de Okabe, Brittes e Brito (2026), a mesma AWM corresponderia a 2,9 vezes o peso do membro (seções 3.10, 4.3.2 e 4.3.8).
 
-**Por que o came girado de −49° ajusta melhor?** O ajuste da mola (R² de 0,901 para 0,953) e as marcas das zonas da patente, que não entram no ajuste, apontam o mesmo giro. A montagem dois furos no sentido horário (−50,62°) fica a 1,6° dele. O texto conclui que a curva da patente é compatível com essa montagem, e não que ela foi a usada: a patente não diz em que furo o came estava (seção 4.3.6, Figura 15 e Tabela 16).
+**Por que o came girado de −49° ajusta melhor?** O ajuste da mola (R² de 0,901 para 0,953) e as marcas das zonas da patente, que não entram no ajuste, apontam o mesmo giro. A montagem dois furos no sentido horário (−50,62°) fica a 1,6° dele. O texto conclui que a curva da patente é compatível com essa montagem, e não que ela foi a usada: a patente não diz em que furo o came estava (seção 4.3.7, Figura 15 e Tabela 16).
 
 **Os furos da polia existem?** O texto admite, por hipótese, que a polia externa tem furos correspondentes aos cinco do came vistos nas Figuras 14C e 14D da patente (seção 3.11). Não afirme mais que isso.
 
@@ -129,7 +129,7 @@ Valem para o indivíduo de referência de de Leva (1996), de 73,0 kg e 1,741 m, 
 
 **Por que os três torques do peso são diferentes (11,16, 10,617 e 11,45 N·m)?** O membro humano é o mesmo (10,55 N·m na horizontal). O que muda são as peças do exoesqueleto somadas a ele em cada modelo (Tabelas 2, 8 e 13).
 
-**Qual dos três compensa melhor o peso?** O trabalho não responde em magnitude. Em forma: o primeiro acompanha o peso entre 105° e 150°; o segundo, com a geometria do CAD, fica abaixo do peso entre 84° e 177°; no terceiro, o máximo da curva da patente quase coincide com o do peso (seções 4.1.8, 4.2.8, 4.3.7 e 5.4). No segundo, a comparação vale para o modelo, e não para o produto.
+**Qual dos três compensa melhor o peso?** O trabalho não responde em magnitude. Em forma: o primeiro acompanha o peso entre 105° e 150°; o segundo, com a geometria do CAD, fica abaixo do peso entre 84° e 177°; no terceiro, o máximo da curva da patente quase coincide com o do peso (seções 4.1.8, 4.2.8, 4.3.8 e 5.4). No segundo, a comparação vale para o modelo, e não para o produto.
 
 ## 4. Pontos de atenção na apresentação
 

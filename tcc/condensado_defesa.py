@@ -1,9 +1,9 @@
 """
-Plano da versão para a defesa (até 80 páginas), montada por
+Plano da versão para a defesa (até 82 páginas), montada por
 tcc/gerar_condensado.py a partir do documento longo revisado.
 
 Decisões do autor que o plano segue:
-- até 80 páginas, da capa ao fim;
+- até 82 páginas, da capa ao fim (80, mais as 2 que o autor aceitou para o exoesqueleto 3 ficar parelho);
 - base: o arquivo do autor de 13/11/2026, que é o documento longo sem a seção 2.6, as
   seções 3.x.12 e 3.x.13, as comparações 3.4 e 4.4, as verificações 4.2.3 e 4.3.3, o
   apêndice e alguns parágrafos (aberturas das seções, trechos dos capítulos 2, 4 e 5);
@@ -45,7 +45,7 @@ quando se cita uma figura dela.
 # por tópico: a subseção 3.e.k do exoesqueleto e vai para o tópico k.
 TOPICO = {1: "t_cad", 2: "t_iner", 3: "t_conv", 4: "t_fech", 5: "t_braco", 6: "t_mola", 7: "t_morto",
           8: "t_grav", 9: "t_ptv", 10: "t_ident", 11: "t_varr", 12: "t_verif", 13: None, 14: "t_verif"}
-ALIAS = {"2.6": None, "3.4": None, "4.4": None, "4.2.3": "t_verif", "4.3.3": "t_verif"}
+ALIAS = {"2.6": None, "3.4": None, "4.4": None, "4.2.3": "t_verif", "4.3.3": "t_verif", "4.3.4": "r3_ident"}
 for _e in "123":
     ALIAS.update({f"3.{_e}.{_k}": _t for _k, _t in TOPICO.items()})
 
@@ -671,6 +671,7 @@ CAP4 = [
                 '')]),
     ('K', 473),
     ('K', 476),
+    ("E", 477, [(" As etapas dinâmicas da seção 3.2.13 não foram executadas.", "")]),
     ('K', 478, 483),
     ("P", 'Na pose do CAD, o circuito dá s = 359,7679 mm até a ponta da peça de fixação do '
           'elástico, que difere do comprimento medido s_{pose} em 1,4 × 10^{−4} mm, valor '
@@ -758,6 +759,7 @@ CAP4 = [
           'grandezas medidas no CAD não têm conferência independente, e os resultados referem-se '
           'ao membro de referência, num modelo plano.'),
     ('K', 566),
+    ("E", 567, [(" As etapas dinâmicas da seção 3.3.13 não foram executadas.", "")]),
     ('K', 568, 572),
     ("P", 'Com esses valores, o fechamento tem resíduo de 0,0006 mm. Na imagem da folha 21, a '
           'pose da Figura 14D dá q = 61,19°, contra 61,724° no CAD, e o ponto A do CAD fica a 0,3 '
@@ -778,10 +780,13 @@ CAP4 = [
     ("E", 583, [(' A Tabela 23 traz os valores em ângulos de 15 em 15 graus e no máximo da AASM.',
                 '')]),
     ('K', 588),
-    ('K', 595, 603),
+    ("H", "4.3", "r3_ident", "Identificação da mola"),
+    ('K', 600, 603),
     ('K', 604, 605),
     ('K', 609),
     ('K', 606, 608),
+    ("H", "4.3", "r3_par", "Parâmetros do modelo"),
+    ('K', 596, 599),
     ('K', 610),
     ("E", 611, [(' A Tabela 27 traz os valores nos ângulos marcados na Figura 16 da US 9.737.374 B2.',
                 '')]),
@@ -886,6 +891,8 @@ CAP5 = [
                 'O item g foi cumprido'),
                (' As etapas dinâmicas não foram executadas, pelas razões da seção 3.2.13.',
                 '')]),
+    ("E", 674, [(", e, com a escala resolvida, executar as etapas dinâmicas pela formulação de Lagrange e no "
+                 "MBDyn.", ".")]),
     ('K', 675),
     ("E", 677, [('A pose do CAD é a da Figura 14D, o ponto de ancoragem do CAD fica a menos de 1 '
                 'mm do desenhado, e as peças do apoio de braço concordam com o desenho: as polias '
@@ -912,6 +919,8 @@ CAP5 = [
                ('o objetivo geral foi atingido na parte estática; as etapas dinâmicas não foram '
                 'executadas, pelas razões da seção 3.3.13.',
                 'o objetivo geral foi atingido.')]),
+    ("E", 682, [(", e, com a escala resolvida, executar as etapas dinâmicas pela formulação de Lagrange e no "
+                 "MBDyn.", ".")]),
     ('K', 683),
     ("E", 684, [(" com R2 de 0,99839", ""),
                 (", mas sua forma não é reproduzida pelo modelo do CAD, e o torque", ", mas o torque"),
