@@ -1,6 +1,6 @@
 # Pendências e perguntas ao autor
 
-Versão condensada para a defesa do TCC "Modelagem de mecanismos passivos de apoio ao braço".
+Versão para a defesa do TCC "Modelagem de mecanismos passivos de apoio ao braço", com até 80 páginas.
 
 Este arquivo reúne o que depende de você: decisões, dados que só você tem e confirmações. Nada do que está aqui foi resolvido em silêncio no documento. As perguntas estão em ordem de prioridade. As da parte A mudam o texto final; as demais servem para você chegar à banca com a resposta pronta.
 
@@ -8,13 +8,21 @@ Este arquivo reúne o que depende de você: decisões, dados que só você tem e
 
 ### A1. Retirada da etapa dinâmica e dos objetivos correspondentes
 
-- **O que foi feito, a seu pedido:** saiu tudo o que mencionava a etapa dinâmica e o MBDyn. Na prática: os objetivos específicos sobre a equação de movimento e sobre o acoplamento multicorpos (eram f e g), a seção de fundamentação sobre modelagem dinâmica multicorpos (era a 2.6), as três seções de etapas dinâmicas previstas (eram 3.1.13, 3.2.13 e 3.3.13), a equação de movimento, as frases correspondentes das conclusões e a última frase do resumo e do abstract. Os objetivos seguintes mudaram de letra: os do exoesqueleto 2 são agora f e g, e os do exoesqueleto 3, h e i.
+- **O que foi feito, a seu pedido:** saiu tudo o que mencionava a etapa dinâmica e o MBDyn. Na prática: os objetivos específicos sobre a equação de movimento e sobre o acoplamento multicorpos (eram f e g), a seção de fundamentação sobre modelagem dinâmica multicorpos, as três seções de etapas dinâmicas previstas, a equação de movimento, as frases correspondentes das conclusões e a última frase do resumo e do abstract. Os objetivos seguintes mudaram de letra: os do exoesqueleto 2 são agora f e g, e os do exoesqueleto 3, h e i.
 - **Título:** por decisão sua, passou a "Modelagem de mecanismos passivos de apoio ao braço", na capa e na folha de rosto. Os arquivos entregues foram renomeados para acompanhar o título.
 - **Por que importa:** se o projeto aprovado previa os objetivos de dinâmica, ou se o título antigo está registrado na coordenação, a banca ou a secretaria podem perguntar.
 - **Pergunta:** o orientador está de acordo com a retirada dos dois objetivos e com o título novo? É preciso atualizar o título em algum registro do curso?
 - **Situação no documento:** texto só estático, sem menção à dinâmica. O roteiro de defesa traz a resposta que o texto sustenta (pergunta 2.11).
 
-### A2. Correções pontuais nos capítulos 1 e 2
+### A2. Estrutura nova e o que veio do seu arquivo
+
+- **Capítulo 3 fundido por tópico, como você escolheu:** são 12 seções, uma por etapa do procedimento (reconstrução em CAD, parâmetros inerciais, convenções, fechamento, braço de momento, elemento elástico e torque, ponto morto, torque gravitacional, trabalhos virtuais, dados da patente e identificação, varredura paramétrica, verificações e delimitação). Cada seção trata os três exoesqueletos, nessa ordem, e cada trecho começa por "No exoesqueleto 1, ...", "No exoesqueleto 2, ..." e assim por diante. A definição do trabalho virtual, δW = 0, está nas três formulações (seção 3.9), e a variável independente é q nas três.
+- **Capítulo 4 com os títulos do seu arquivo:** saíram as seções de verificação dos exoesqueletos 2 e 3, como no seu arquivo, e ficaram as subseções de comportamento, varredura, confronto com o torque gravitacional e limitações dos três (4.1.6 a 4.1.9, 4.2.6 a 4.2.9 e 4.3.5 a 4.3.8), com o texto encurtado e os resultados mantidos. As varreduras (h, e_c e giro do came) estão inteiras: figuras, números e conclusões.
+- **Cortes seus que foram adotados:** a última frase do primeiro parágrafo de 2.4 (Palazzi), o parágrafo sobre Nasr e o das preferências da EP no capítulo 2, a seção sobre dinâmica multicorpos, o parágrafo das curvas da EP em 2.9 e as tabelas de fontes dos exoesqueletos 2 e 3.
+- **Tabelas que saíram nesta rodada, porque repetiam números do texto ou de outra tabela:** a de platôs de RMSE e a de valores notáveis de h (exoesqueleto 1; os valores estão no texto de 4.1.7 e na Figura 8) e a de grandezas do circuito por ângulo (exoesqueleto 2; os mesmos ângulos estão na Tabela 11, do cenário de projeto).
+- **Pergunta:** algum desses cortes deve voltar? Se sim, diga qual, e eu compenso em outro ponto para manter as 80 páginas.
+
+### A3. Correções pontuais nos capítulos 1 e 2
 
 Você autorizou enxugar os capítulos 1 e 2. Além dos cortes, entraram as correções objetivas abaixo. Se preferir a redação original em algum ponto, basta tirar a linha correspondente em `tcc/condensado_defesa.py`.
 
@@ -24,54 +32,65 @@ Você autorizou enxugar os capítulos 1 e 2. Além dos cortes, entraram as corre
 | 1, 1º parágrafo | "distúrbios na articulação ombro" | "distúrbios na articulação do ombro" |
 | 1, 2º parágrafo | "4,12 milhões afastamentos" | "4,12 milhões de afastamentos" |
 | 1, 4º parágrafo | "Em um dispositivo passivo o auxílio é consequência" | vírgula depois de "passivo" |
+| 1, 7º parágrafo | "... reduz o torque com o braço baixado e o anula quando situado sobre o eixo de rotação" | sem a última oração; o caso do elemento sobre o eixo está nas seções 3.1 e 3.7 |
+| 1.1.2 | duas frases de abertura ("Para o dispositivo da EP 3 504 033 B1, acrescentam-se os objetivos:" e a da US 9.737.374 B2) | lista única, de a a i; os itens f e h nomeiam a patente |
 | 1.1.2, objetivo d | "que a patente não informa — posição da ancoragem, [...]" | dois-pontos no lugar do travessão |
 | 1.2 | "base quantitativa — algo que as patentes" | vírgula no lugar do travessão |
+| 1.2 | "A escolha de ferramentas livres, Python e MBDyn, [...]" | "A implementação em Python, ferramenta livre, torna o modelo reprodutível por outros grupos.", no fim do primeiro parágrafo |
+| 1.2 | "E o tema tem endereço local: [...]" e o parágrafo "O segundo dispositivo acrescenta [...]" | retirados: repetiam o 2º e o 7º parágrafos da introdução |
+| 2.8 | "Cabe distinguir, nesse ponto, [...] comparece exclusivamente na análise dinâmica." | retirada, com a dinâmica |
 | 2.9 | "quanto à origem — medida, [...] ou assumida — de modo que" | parênteses no lugar dos travessões |
 | 1 e 2 | meia-risca em "braço–exoesqueleto" e "braço–antebraço" | hífen, como nos capítulos 3 a 5 |
 
 Ficam fora dessa lista, porque pedem redação sua:
 
 - **Seção 1, 5º parágrafo:** "apesar de conter as curvas de torque nos eixos, nenhuma delas informa massa, inércia ou rigidez". A expressão "nos eixos" não está clara. Sugestão: "embora tragam curvas de torque, nenhuma delas informa massa, inércia ou rigidez".
-- **Seção 2.3, último parágrafo:** "Nenhum dos dois documentos, contudo, permite quantificar o torque". O trabalho trata de três patentes, e a seção 2.3 descreve só duas. Sugestão: trocar por "Nenhum dos três documentos" e acrescentar uma frase sobre o came da US 9.737.374 B2, com o que já está na seção 3.3.1.
+- **Seção 2.3, último parágrafo:** "Nenhum dos dois documentos, contudo, permite quantificar o torque". O trabalho trata de três patentes, e a seção 2.3 descreve só duas. Sugestão: trocar por "Nenhum dos três documentos" e acrescentar uma frase sobre o came da US 9.737.374 B2, com o que já está na seção 3.1.
 - **Seção 2.6, último parágrafo:** "o benefício depende menos da magnitude do torque fornecido do que de sua distribuição angular". A frase é uma leitura sua dos resultados de Kim et al. (2018a, 2018b), e não uma conclusão deles. Convém dizer isso com um verbo como "sugere".
 
-### A3. Data da defesa e folha de aprovação
+### A4. Data da defesa e folha de aprovação
 
 - **Onde:** folha de aprovação, "Limeira, XX de novembro de 2026".
 - **Pergunta:** qual é a data da defesa? A composição da banca (Okabe, Brittes e Tuckmantel) está correta?
 - **Situação:** mantido "XX". Não inventei data.
 
-### A4. Comprimento útil do alojamento: 131,37 mm ou 140,0 mm
+### A5. Comprimento útil do alojamento: 131,37 mm ou 140,0 mm
 
 - **O que havia:** a tabela de grandezas do CAD do exoesqueleto 1 trazia "Comprimento útil do alojamento, 131,37 mm", e as limitações diziam "140,0 mm no CAD". No código, a constante é `L_CARCACA = 131.37`, com o comentário "CAD anterior: 140,0".
-- **Situação na versão condensada:** a grandeza não entra em nenhum cálculo, e os dois trechos saíram. O documento não traz mais valores conflitantes.
-- **Pergunta:** qual é o valor no CAD atual? Vale corrigir a constante ou o comentário no código, para que o repositório não guarde a dúvida.
+- **Situação:** como no seu arquivo, a Tabela 1 traz 131,37 mm e a frase com 140,0 mm saiu. O documento não traz mais valores conflitantes, e a grandeza não entra em nenhum cálculo.
+- **Pergunta:** qual é o valor no CAD atual? Vale corrigir o comentário no código, para que o repositório não guarde a dúvida.
+
+### A6. Data da página do IX Shoulder Air
+
+- **O que há no seu arquivo:** a citação aparece como "(suitX, [202-])" na identificação do exoesqueleto 2 e como "(suitX, [2026])" nas limitações; a lista de referências traz "[202-]".
+- **Situação:** o documento usa "[202-]" nos dois lugares, como na lista de referências (data de publicação não informada, acesso em 23 out. 2026).
+- **Pergunta:** se a página traz data de publicação, ela entra na referência e nas citações; se não traz, fica "[202-]".
 
 ## B. Perguntas que a banca deve fazer e que só você responde
 
 ### B1. Origem de θ_off = 133,017° e H_CAL = 22,701 mm (exoesqueleto 1)
 
-- **Onde:** seções 3.1.5 e 4.1.2; Tabela 4 ("Congelado; origem não reproduzida").
+- **Onde:** seções 3.10 e 4.1.4; Tabela 4 ("Congelado; origem não reproduzida").
 - **Dúvida:** o texto diz que os quatro parâmetros foram identificados por mínimos quadrados "por um procedimento que não foi registrado". A revisão reproduziu K e X_pose no h adotado, mas não como se chegou a θ_off e H_CAL.
 - **Por que importa:** é o ponto mais exposto do trabalho. O ajuste de R² = 0,99839 depende de dois parâmetros cuja origem o próprio texto não explica.
-- **Pergunta:** você consegue descrever como chegou a esses dois valores (ferramenta, critério, restrição usada para h)? Se sim, a descrição pode entrar na seção 3.1.5 e muda "origem não reproduzida" para "identificado".
+- **Pergunta:** você consegue descrever como chegou a esses dois valores (ferramenta, critério, restrição usada para h)? Se sim, a descrição pode entrar na seção 3.10 e muda "origem não reproduzida" para "identificado".
 
 ### B2. Como os pontos das curvas foram extraídos
 
-- **Onde:** seção 3.1.5 (29 pontos da Figura 56 da US 9.889.554 B2) e seção 3.2.5 (146 pontos da Figura 16 da EP 3 504 033 B1).
-- **Dúvida:** o texto registra que a imagem e a resolução usadas na leitura da Figura 16 "não foram registradas" e que a incerteza da extração "não foi avaliada de forma independente". Para os 29 pontos do exoesqueleto 1, o método não é descrito.
+- **Onde:** seção 3.10 (29 pontos da Figura 56 da US 9.889.554 B2 e 146 pontos da Figura 16 da EP 3 504 033 B1).
+- **Dúvida:** o texto registra que a imagem e a resolução usadas na leitura da Figura 16 da EP "não foram registradas" e que a incerteza da extração "não foi avaliada de forma independente". Para os 29 pontos do exoesqueleto 1, o método não é descrito.
 - **Pergunta:** qual ferramenta você usou em cada extração e a partir de qual arquivo de imagem? Uma frase com isso resolve as duas ressalvas.
 
 ### B3. Escala dos modelos em CAD
 
-- **Onde:** seção 3.1.1 ("fator único, fixado a partir de uma estimativa de medida antropométrica") e seção 3.2.1 ("O critério de escala do modelo não foi registrado").
+- **Onde:** seção 3.1 ("fator único, fixado a partir de uma estimativa de medida antropométrica", no exoesqueleto 1, e "O critério de escala do modelo não foi registrado", no exoesqueleto 2).
 - **Pergunta para a defesa:** qual medida antropométrica fixou a escala do exoesqueleto 1, e como o CAD do exoesqueleto 2 foi escalado? A banca tende a perguntar, porque todas as grandezas dimensionais e de massa dependem disso.
 
 ### B4. Qual produto o CAD do exoesqueleto 2 representa
 
-- **Onde:** a seção 2.6 associa a EP 3 504 033 B1 ao Paexo; a seção 3.2.1 diz que a planilha identifica o modelo como Ottobock iX Shoulder Air; a hipótese de 40% vem da página do IX Shoulder Air (SUITX, [202-]).
+- **Onde:** a seção 2.6 associa a EP 3 504 033 B1 ao Paexo; a seção 3.1 diz que a planilha identifica o modelo como Ottobock iX Shoulder Air; a hipótese de 40% vem da página do IX Shoulder Air (SUITX, [202-]).
 - **Dúvida:** são dois nomes de produto para a mesma patente. O texto já ressalva que a correspondência não está documentada, mas não diz se Paexo e iX Shoulder Air são o mesmo dispositivo, gerações diferentes ou produtos distintos.
-- **Pergunta:** o CAD foi feito a partir de qual produto ou desenho? Se você souber a relação entre os dois nomes por uma fonte citável, uma frase na seção 3.2.1 fecha a questão.
+- **Pergunta:** o CAD foi feito a partir de qual produto ou desenho? Se você souber a relação entre os dois nomes por uma fonte citável, uma frase na seção 3.1 fecha a questão.
 
 ### B5. Código "CID M75" na citação da Agência Brasil
 
@@ -79,13 +98,21 @@ Ficam fora dessa lista, porque pedem redação sua:
 - **Dúvida:** a busca confirmou a notícia (27/01/2026), os 4,12 milhões de afastamentos e as 135.093 concessões por lesões de ombro. As cópias da notícia que consegui ler falam em "lesões de ombro", sem o código M75.
 - **Pergunta:** o código M75 está na notícia original ou foi acrescentado por você? Se foi acrescentado, convém tirar o código dos parênteses ou citar a fonte da correspondência.
 
+### B6. Sua leitura das curvas da Figura 16 da US 9.737.374 B2 (exoesqueleto 3)
+
+- **O que você mandou:** três blocos de coordenadas (AASM, RM e AWM), lidos nos marcadores da figura.
+- **O que a conferência mostrou:** a sua leitura tem um erro de calibração do eixo vertical, e não de leitura dos pontos. Comparada aos 27 marcadores de cada curva (Θ de −74° a 30°, a cada 4°), ela segue M_lido = 0,9416 M − 6,156 e Θ_lido = 0,9982 Θ + 1,036°: a ordenada está deslocada de cerca de 6,2 unidades e comprimida em 6%, e a abscissa, deslocada de cerca de 1°. O sinal disso aparece no fechamento: na figura, RM = AASM + AWM, e na sua leitura AASM + AWM − RM vale em média −6,54, o próprio deslocamento. Antes da correção, a maior diferença na ordenada é de 10,63 unidades; depois de corrigida a calibração, a diferença cai a 0,32 unidade RMS (máximo de 1,66) e 0,63° RMS na abscissa, isto é, os pontos que você marcou estão certos.
+- **O que entrou no repositório:** `exo3/marcadores_fig16.py` e `exo3/fig16_marcadores.csv`, com o valor de cada curva nos 27 marcadores, lido no traçado calibrado pela grade da própria figura. Nesse arquivo, o fechamento RM = AASM + AWM vale com resíduo máximo de 0,94 e médio de −0,28 unidade em 26 marcadores, e o traçado passa pelos 76 símbolos encontrados na imagem com desvio de 0,36 unidade RMS. O script aceita uma leitura manual (`--leitura arquivo.csv`) e estima a calibração dela.
+- **O que não mudou:** o modelo do exoesqueleto 3 usa o traçado com um ponto por grau, que já é o dos marcadores. Nenhum número do TCC muda.
+- **Pergunta:** quer que o ajuste da mola seja refeito só com os 27 marcadores de cada curva, em vez do traçado completo? A diferença esperada é pequena, mas é uma escolha sua.
+
 ## C. Verificações que não consegui executar
 
 ### C1. Dados bibliográficos por DOI
 
 - O ambiente bloqueia o acesso ao Crossref (`api.crossref.org`). Sem ele, não foi possível conferir título, autores, periódico, volume e páginas pelos DOIs da lista.
 - Por busca na web, confirmei a existência e os dados da notícia da Agência Brasil (2026). A referência de Okabe, Brittes e Brito (2026), Journal of Computational and Nonlinear Dynamics, v. 21, n. 7, não apareceu na busca. Isso não indica erro, só que não pude confirmar; como o artigo é do seu orientador, é fácil conferir com ele.
-- O que está verificado: as 29 referências da versão condensada são citadas no texto, e nenhuma citação fica sem referência (conferência automática).
+- O que está verificado: as referências da versão para a defesa são todas citadas no texto, e nenhuma citação fica sem referência (conferência automática).
 - **Como resolver:** se você liberar `api.crossref.org` no ambiente, a conferência dos DOIs leva poucos minutos.
 
 ### C2. Norma institucional aplicável
@@ -96,14 +123,19 @@ Ficam fora dessa lista, porque pedem redação sua:
 
 ### C3. Arquivos que não estão no repositório
 
-- Planilha de composição inercial: as tabelas de propriedades de massa (Tabelas 3, 7 e 10) foram conferidas pela consistência interna (teorema de Steiner e M g d), e não contra a planilha.
+- Planilha de composição inercial: as tabelas de propriedades de massa (Tabelas 2, 8 e 13) foram conferidas pela consistência interna (teorema de Steiner e M g d), e não contra a planilha.
 - Arquivos de CAD dos três mecanismos: as grandezas "medidas em CAD" foram tomadas como dadas.
-- Texto das patentes: as descrições das seções 2.3, 3.2.1 e 3.3.1 não foram conferidas contra os documentos, só as figuras que estão na pasta `patentes/`.
+- Texto das patentes: as descrições das seções 2.3 e 3.1 não foram conferidas contra os documentos, só as figuras que estão na pasta `patentes/`.
 
 ### C4. Contagem de páginas no Microsoft Word
 
-- A contagem de páginas foi feita com o LibreOffice, que é o que há no ambiente. O Word pode quebrar linhas de modo um pouco diferente.
-- **Pergunta:** ao abrir o arquivo no Word, confira o total de páginas. Se passar do limite que você precisa cumprir, me diga quantas páginas deu, e eu corto o que faltar.
+- A contagem de páginas foi feita com o LibreOffice, que é o que há no ambiente. O Word pode quebrar linhas e posicionar figuras de modo um pouco diferente, e o limite de 80 páginas ficou justo.
+- **Pergunta:** ao abrir o arquivo no Word, confira o total de páginas. Se passar de 80, me diga quantas páginas deu, e eu corto o que faltar.
+
+### C5. Citações das bibliotecas de software
+
+- Para caber em 80 páginas, as bibliotecas NumPy, SciPy e Matplotlib continuam nomeadas na seção 3.12, mas sem citação nem entrada na lista de referências (eram as três últimas linhas que transbordavam). O método de Brent continua citado.
+- **Pergunta:** se o curso ou o orientador pedir a citação do software usado, elas voltam com três entradas na lista, e eu compenso as linhas em outro ponto.
 
 ## D. Decisão sua e do orientador
 
@@ -115,8 +147,8 @@ Ficam fora dessa lista, porque pedem redação sua:
 
 ## E. Itens já decididos por você, só para constar
 
-- **Limite de 60 a 70 páginas:** vale para o documento inteiro, da capa ao fim.
+- **Limite de 80 páginas:** vale para o documento inteiro, da capa ao fim.
+- **Base:** o seu arquivo com os cortes, sem seguir 100% dele; a metodologia fundida por tópico e os resultados por exoesqueleto.
 - **O que saiu, saiu de vez:** não há apêndice nem material suplementar citado no texto.
-- **Três exoesqueletos com o mesmo peso:** seis subseções de método e cinco de resultados para cada um.
 - **e_c = 34,785 mm (exoesqueleto 2) e H_CAD = 34,785 mm (exoesqueleto 1):** os dois valores coincidem até a terceira casa. Em 8/11 você conferiu e_c no CAD. A banca pode notar; a resposta está no roteiro de defesa.
-- **Sem tabelas de pendências no TCC:** as limitações estão em texto corrido nas seções 4.1.5, 4.2.5 e 4.3.5.
+- **Sem tabelas de pendências no TCC:** as limitações estão em texto corrido nas seções 4.1.9, 4.2.9 e 4.3.8.
