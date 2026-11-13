@@ -253,7 +253,9 @@ def aplicar_plano(plano, blocos, res, marc, escalas=None):
 
     def mantido(i, modo="K", edicoes=None, texto_novo=None, linhas=None):
         nonlocal ultimo
-        assert i not in usados and i > ultimo, f"bloco {i} repetido ou fora de ordem"
+        # a metodologia é fundida por tópico: os blocos podem vir fora da ordem do documento
+        # longo, mas nenhum entra duas vezes
+        assert i not in usados, f"bloco {i} repetido"
         usados.add(i)
         ultimo = i
         origem, marcado = blocos[i]
