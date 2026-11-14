@@ -901,7 +901,7 @@ def tabela_equacao(b):
 # no DOCX, tabelas mais altas que isto (pt) podem atravessar a página, com o cabeçalho repetido;
 # as menores ficam inteiras. Sem isso, uma tabela de meia página que não cabe no fim da página
 # pula inteira e deixa um vão (o LaTeX resolve o mesmo caso com flutuantes)
-ALTURA_QUEBRA = 250
+ALTURA_QUEBRA = 180
 
 
 def tabela_dados(b, tx):

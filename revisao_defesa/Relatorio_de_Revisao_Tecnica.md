@@ -6,7 +6,7 @@ TCC "Modelagem de mecanismos passivos de apoio ao braço", de Pedro Luís de Alm
 
 | Arquivo | O que é |
 |---|---|
-| `revisao_defesa/TCC_Modelagem_de_mecanismos_passivos_revisado_para_defesa.docx` | Documento para a defesa, no formato FT/FCA, com 83 páginas da capa ao fim |
+| `revisao_defesa/TCC_Modelagem_de_mecanismos_passivos_revisado_para_defesa.docx` | Documento para a defesa, no formato FT/FCA, com 81 páginas da capa ao fim |
 | `revisao_defesa/TCC_Modelagem_de_mecanismos_passivos_revisado_para_defesa.pdf` | O mesmo conteúdo, composto em LaTeX com o modelo da FT (82 páginas) |
 | `revisao_defesa/Relatorio_de_Revisao_Tecnica.md` | Este relatório |
 | `revisao_defesa/Pendencias_e_Perguntas_ao_Autor.md` | O que depende de você: decisões, dados e confirmações |
@@ -34,9 +34,9 @@ O trabalho teve três etapas.
 | Tabelas | 33 | 17 |
 | Referências | 45 | 37 |
 
-Composição do corpo da versão para a defesa: 517 blocos, dos quais 318 mantidos sem alteração (equações, figuras, tabelas e parágrafos), 122 mantidos com um trecho trocado ou cortado, 16 legendas ou notas reescritas, 48 parágrafos novos, que condensam ou juntam os do documento longo, e 13 títulos novos (as 11 seções do capítulo 3 e duas subseções do exoesqueleto 3). Depois do limite de 82 páginas, voltaram, a seu pedido, as quatro figuras que tinham saído (86 páginas); em seguida, as seções 3.4 e 3.5 foram fundidas e saíram trechos repetidos, e o DOCX ficou com 80 páginas. Uma conferência frase a frase contra a versão anterior mostrou que tinham saído também duas conclusões e frases de método, resultado e ressalva que só existiam num lugar; elas voltaram, e o DOCX ficou com 83 páginas (o PDF do LaTeX, com 84). A base é o seu arquivo de 14/11, com as suas quatro alterações.
+Composição do corpo da versão para a defesa: 497 blocos, dos quais 278 mantidos sem alteração (equações, figuras, tabelas e parágrafos), 131 mantidos com um trecho trocado ou cortado, 16 legendas ou notas reescritas, 52 parágrafos novos, que condensam ou juntam os do documento longo, e 20 títulos novos (as 11 seções do capítulo 3 e as 9 do capítulo 4). Depois do limite de 82 páginas, voltaram, a seu pedido, as quatro figuras que tinham saído (86 páginas); em seguida, as seções 3.4 e 3.5 foram fundidas e saíram trechos repetidos, e o DOCX ficou com 80 páginas. Uma conferência frase a frase contra a versão anterior mostrou que tinham saído também duas conclusões e frases de método, resultado e ressalva que só existiam num lugar; elas voltaram (83 páginas). Por fim, o capítulo 4 foi fundido por assunto, como o 3, e cada tabela ou figura que deixava vão no fim da página passou para depois do parágrafo seguinte que a discute; tabelas acima de 180 pt podem atravessar a página, com o cabeçalho repetido. O DOCX ficou com 81 páginas (o PDF do LaTeX, com 84). A base é o seu arquivo de 14/11, com as suas quatro alterações.
 
-**Estrutura.** O capítulo 3 tem 11 seções, uma por etapa do procedimento (reconstrução em CAD; parâmetros inerciais; referenciais e convenções; fechamento do circuito e braço de momento, com cada exoesqueleto completo antes do seguinte; elemento elástico, lei da mola e torque; ponto morto; torque gravitacional; trabalhos virtuais; dados da patente e identificação; varredura paramétrica; verificações, ferramentas e delimitação), e cada seção trata os três exoesqueletos em sequência. O capítulo 4 segue os títulos do seu arquivo: nove subseções para cada exoesqueleto, sem as seções de verificação dos exoesqueletos 2 e 3, que você cortou; no exoesqueleto 3, identificação da mola, qualidade do ajuste e parâmetros do modelo ficam em subseções separadas, como no 2, e as quatro finais são 4.3.6 a 4.3.9. A variável independente é q nas três formulações, e a definição do trabalho virtual, δW = 0, aparece nas três (seção 3.8).
+**Estrutura.** O capítulo 3 tem 11 seções, uma por etapa do procedimento (reconstrução em CAD; parâmetros inerciais; referenciais e convenções; fechamento do circuito e braço de momento, com cada exoesqueleto completo antes do seguinte; elemento elástico, lei da mola e torque; ponto morto; torque gravitacional; trabalhos virtuais; dados da patente e identificação; varredura paramétrica; verificações, ferramentas e delimitação), e cada seção trata os três exoesqueletos em sequência. O capítulo 4 foi fundido do mesmo modo, a seu pedido: nove seções por assunto (geometria e massa; dados extraídos; verificação; parâmetros e identificação; ajuste às curvas; comportamento; varredura; confronto com o torque gravitacional; limitações), com uma abertura só e, em cada seção, os exoesqueletos 1, 2 e 3 em sequência, cada um aberto por "No exoesqueleto n". A seção de verificação detalha só o exoesqueleto 1, porque as dos exoesqueletos 2 e 3 saíram no seu arquivo. A variável independente é q nas três formulações, e a definição do trabalho virtual, δW = 0, aparece nas três (seção 3.8).
 
 ## 3. Diagnóstico
 
@@ -46,10 +46,10 @@ A classificação indica o efeito sobre a defesa. "Declarado" quer dizer que o t
 
 | Problema | Onde | Situação |
 |---|---|---|
-| θ_off = 133,017° e H_CAL = 22,701 mm têm origem não reproduzida; o ajuste de R² = 0,99839 depende deles | 3.9, 4.1.4, Tabela 4 | Declarado. A revisão reproduziu K e X_pose no h adotado, mas não o procedimento que levou a esses dois valores. Pergunta B1 |
-| Os quatro parâmetros do exoesqueleto 1 foram identificados e avaliados nos mesmos 29 pontos | 4.1.5, 5.1 | Declarado: "não constitui validação independente" |
-| A forma do torque do exoesqueleto 2, com a geometria do CAD, não reproduz as curvas da patente (R² de −1,529 a −0,417) | 4.2.4, 4.2.9, 5.2 | Declarado, com a causa delimitada (não é o comprimento s) |
-| A magnitude do torque depende de hipótese nos três mecanismos: unidade da patente no primeiro, K40 no segundo, AWM igualada ao peso do membro no terceiro | 4.1.6, 4.2.8, 4.3.8, 5.4 | Declarado. O último parágrafo de 5.4 separa o que depende e o que não depende de escala |
+| θ_off = 133,017° e H_CAL = 22,701 mm têm origem não reproduzida; o ajuste de R² = 0,99839 depende deles | 3.9, 4.4, Tabela 8 | Declarado. A revisão reproduziu K e X_pose no h adotado, mas não o procedimento que levou a esses dois valores. Pergunta B1 |
+| Os quatro parâmetros do exoesqueleto 1 foram identificados e avaliados nos mesmos 29 pontos | 4.5, 5.1 | Declarado: "não constitui validação independente" |
+| A forma do torque do exoesqueleto 2, com a geometria do CAD, não reproduz as curvas da patente (R² de −1,529 a −0,417) | 4.5, 4.9, 5.2 | Declarado, com a causa delimitada (não é o comprimento s) |
+| A magnitude do torque depende de hipótese nos três mecanismos: unidade da patente no primeiro, K40 no segundo, AWM igualada ao peso do membro no terceiro | 4.6, 4.8, 5.4 | Declarado. O último parágrafo de 5.4 separa o que depende e o que não depende de escala |
 | O título falava em "simulação" e o texto, por decisão sua, é só estático | título, 1.1 | Resolvido: o título passou a "Modelagem de mecanismos passivos de apoio ao braço" na capa e na folha de rosto. Pergunta A1 |
 
 ### 3.2 Importantes
@@ -64,9 +64,9 @@ A classificação indica o efeito sobre a defesa. "Declarado" quer dizer que o t
 | Método de extração dos pontos das curvas não descrito; incerteza não avaliada | 3.9 | Declarado. Pergunta B2 |
 | Critério de escala dos modelos em CAD | 3.1 | Declarado. Pergunta B3 |
 | Código "CID M75" atribuído à notícia da Agência Brasil | 1 | Não confirmado na fonte. Pergunta B5 |
-| Data da página do IX Shoulder Air citada como "[202-]" num ponto e "[2026]" em outro, no seu arquivo | 3.9 e 4.2.9 | Uniformizado em "[202-]", como na lista de referências. Pergunta A6 |
+| Data da página do IX Shoulder Air citada como "[202-]" num ponto e "[2026]" em outro, no seu arquivo | 3.9 e 4.9 | Uniformizado em "[202-]", como na lista de referências. Pergunta A6 |
 | Sua leitura das curvas da Figura 16 da US 9.737.374 B2 com deslocamento de cerca de 6,2 unidades na ordenada | exoesqueleto 3 | Diagnosticado e conferido contra os 27 marcadores de cada curva; o modelo já usa o traçado calibrado, e nenhum número do texto muda. Pergunta B6 |
-| e_c = 34,785 mm (exo 2) igual a H_CAD = 34,785 mm (exo 1) | Tabelas 1 e 7 | Coincidência confirmada por você no CAD em 8/11; resposta pronta no roteiro |
+| e_c = 34,785 mm (exo 2) igual a H_CAD = 34,785 mm (exo 1) | Tabelas 1 e 3 | Coincidência confirmada por você no CAD em 8/11; resposta pronta no roteiro |
 
 ### 3.3 Editoriais
 
@@ -102,7 +102,7 @@ Executadas por `tcc/verificar_condensado.py` e pelos verificadores do pipeline, 
 | Conferência | Resultado |
 |---|---|
 | Numeração de seções, tabelas, figuras e equações em sequência; remissões sem destino | 64 títulos, 17 tabelas, 20 figuras e 64 equações em ordem; nenhuma remissão sem destino; nenhuma tabela ou figura sem chamada no texto |
-| Proveniência dos números: todo número do texto condensado existe no documento longo | 1.819 números conferidos; nenhum novo |
+| Proveniência dos números: todo número do texto condensado existe no documento longo | 1.851 números conferidos; nenhum novo |
 | Equações iguais às do documento longo | 64 equações editáveis, idênticas byte a byte |
 | Figuras e tabelas | 20 imagens, todas as do documento longo e idênticas a elas (quatro reduzidas em tamanho na página: os circuitos dos três exoesqueletos e a reprodução da Figura 16 da EP 3 504 033 B1); nenhuma linha de tabela que não exista no documento longo |
 | Termos retirados (MBDyn, Lagrange, etapa dinâmica, equação de movimento, apêndice) | Nenhuma ocorrência, incluídos o resumo e o abstract |
@@ -111,16 +111,16 @@ Executadas por `tcc/verificar_condensado.py` e pelos verificadores do pipeline, 
 | DOCX contra o PDF do LaTeX (`verificar_docx_modelo.py`) | Mesmo texto, mesmas equações, tabelas e figuras; sumário e listas com as páginas do próprio DOCX |
 | Integridade do pacote DOCX | Abre sem erro; sem comentários nem alterações controladas; equações editáveis, nenhuma em imagem |
 | Páginas | 80, da capa ao fim, na conversão pelo LibreOffice |
-| Inspeção visual | Todas as 83 páginas renderizadas e olhadas em conjunto, com o preenchimento de cada uma medido: capa, folha de aprovação, resumo, listas, sumário, equações, figuras e tabelas |
+| Inspeção visual | Todas as 81 páginas renderizadas e olhadas em conjunto, com o preenchimento de cada uma medido: capa, folha de aprovação, resumo, listas, sumário, equações, figuras e tabelas |
 
 ## 7. O que saiu
 
 O mapa completo está em `O_que_saiu_e_o_que_ficou.md`. Em resumo:
 
 - **Etapa dinâmica e MBDyn:** dois objetivos específicos, a seção de fundamentação sobre dinâmica multicorpos, as três seções de etapas dinâmicas previstas, a equação de movimento e as frases correspondentes das conclusões, do resumo e do abstract.
-- **Apêndice A** (robustez da identificação e ajuste de forma do exoesqueleto 2), inteiro. O texto guarda o essencial nas seções 3.9 e 4.2.3: as faixas de ângulo testadas, o ruído de 0,5 px em 500 sorteios e o intervalo de 299,81 a 301,95 mm.
-- **Seções de verificação dos exoesqueletos 2 e 3** nos resultados, como no seu arquivo. As verificações continuam descritas na seção 3.11; os resíduos numéricos ficaram só no exoesqueleto 1 (Tabela 3).
-- **Tabelas:** a das convenções angulares do exoesqueleto 1 (os ângulos continuam definidos no texto da seção 3.3), a tabela-resumo das três formulações, as de pontos extraídos das três patentes, a de zonas de sinal dos resíduos, as de platôs de RMSE e de valores notáveis de h, as de verificações dos exoesqueletos 2 e 3, a de grandezas do circuito do exoesqueleto 2 por ângulo (os mesmos ângulos estão na Tabela 11), a de valores do exoesqueleto 3 nos ângulos marcados (coberta pela Figura 18), a de comparação entre os três (a comparação está em texto, na seção 5.4) e as três do apêndice.
+- **Apêndice A** (robustez da identificação e ajuste de forma do exoesqueleto 2), inteiro. O texto guarda o essencial nas seções 3.9 e 4.4: as faixas de ângulo testadas, o ruído de 0,5 px em 500 sorteios e o intervalo de 299,81 a 301,95 mm.
+- **Seções de verificação dos exoesqueletos 2 e 3** nos resultados, como no seu arquivo. As verificações continuam descritas na seção 3.11; os resíduos numéricos ficaram só no exoesqueleto 1 (Tabela 7).
+- **Tabelas:** a das convenções angulares do exoesqueleto 1 (os ângulos continuam definidos no texto da seção 3.3), a tabela-resumo das três formulações, as de pontos extraídos das três patentes, a de zonas de sinal dos resíduos, as de platôs de RMSE e de valores notáveis de h, as de verificações dos exoesqueletos 2 e 3, a de grandezas do circuito do exoesqueleto 2 por ângulo (os mesmos ângulos estão na Tabela 16), a de valores do exoesqueleto 3 nos ângulos marcados (coberta pela Figura 12), a de comparação entre os três (a comparação está em texto, na seção 5.4) e as três do apêndice.
 - **Figuras:** nenhuma. As quatro que tinham saído (as duas sobreposições do circuito ao desenho da patente, o cenário de projeto do exoesqueleto 2 em gráfico e a figura do ajuste de forma, que era do apêndice) voltaram a seu pedido.
 - **Capítulos 1 e 2:** os cortes do seu arquivo, a seção sobre dinâmica multicorpos e frases que repetiam outras (lista em A3 das pendências).
 - **Referências:** as que só os trechos retirados citavam e as das bibliotecas NumPy, SciPy e Matplotlib, que continuam nomeadas no texto sem citação (pendência C5).
@@ -138,7 +138,7 @@ O mapa completo está em `O_que_saiu_e_o_que_ficou.md`. Em resumo:
 | Contagem de páginas no Microsoft Word | O ambiente só tem LibreOffice; o Word pode quebrar linhas de modo diferente | Abrir o DOCX no Word e conferir o total |
 | Dados bibliográficos por DOI | Acesso ao Crossref bloqueado | Liberar `api.crossref.org` ou conferir à mão |
 | Norma do curso para a monografia | Não localizada | Confirmar com a coordenação ou com o orientador |
-| Grandezas "medidas em CAD" | Os arquivos de CAD e a planilha não estão no repositório | Conferir no CAD as Tabelas 1, 7 e 12 |
+| Grandezas "medidas em CAD" | Os arquivos de CAD e a planilha não estão no repositório | Conferir no CAD as Tabelas 1, 3 e 5 |
 | Descrições das patentes | O texto das patentes não está no repositório, só as figuras | Conferir 2.3 e 3.1 contra os documentos |
 
 ## 10. Como reproduzir

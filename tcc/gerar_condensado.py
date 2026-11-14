@@ -364,12 +364,15 @@ def numerar_secoes(itens, alias):
         xml = g.PARAGRAFO.sub(lambda p: g._editar_paragrafo(p.group(0), [(REF_SEC.pattern, troca)]), it["xml"])
 
         def marca(m, it=it):
-            if m.group(1) not in numero:
+            # a marca leva a chave de um título mantido ou de um título novo; a de uma seção
+            # antiga que foi fundida em outra segue o ALIAS, como as remissões dos blocos mantidos
+            n = destino(m.group(1))
+            if n is None:
                 erros.append((it["indice"], m.group(0), g.texto(it["xml"])[:90]))
                 return m.group(0)
-            if numero[m.group(1)] == atual:
+            if n == atual:
                 avisos.append((it["indice"], atual, m.group(0), g.texto(it["xml"])[:90]))
-            return numero[m.group(1)]
+            return n
         it["xml"] = S_MARCA.sub(marca, xml)
     if erros:
         raise SystemExit("remissões de seção sem destino:\n" + "\n".join(f"  {e}" for e in erros))
