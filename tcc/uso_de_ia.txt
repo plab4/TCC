@@ -34,8 +34,9 @@ repositório (tcc/, revisao_defesa/, exo3/, latex/, DERIVATION.md).
   páginas, o que entra e o que sai do texto.
 - Artigo Okabe, Brittes e Brito (2026), do qual o autor é coautor.
 
-O repositório não registra quem fez a extração dos 29 pontos da curva do
-exoesqueleto 1 nem a identificação inicial de θ_off = 133,017° e H_CAL = 22,701 mm.
+- Extração dos 29 pontos da curva do exoesqueleto 1 e identificação inicial de
+  θ_off = 133,017° e H_CAL = 22,701 mm. O repositório não registrava a autoria; o
+  autor confirmou que fez as duas em 14/11/2026.
 
 
 2. USO DA IA NO CÓDIGO E NA MODELAGEM
