@@ -54,7 +54,7 @@ Porque ele decide entre formulações que o ajuste à curva não distingue. No e
 ### 2.8 Quais são os limites das curvas publicadas nas patentes?
 
 - US 9.889.554 B2: uma curva, sem unidade na ordenada (seções 2.9 e 3.5).
-- EP 3 504 033 B1: três curvas, sem rótulo nem valores na ordenada; o texto da patente define a ordenada como uma razão que não é coerente com a figura; o documento as chama de representações exemplares e não diz se foram medidas (seção 3.9 e Figura 7).
+- EP 3 504 033 B1: três curvas, sem rótulo nem valores na ordenada; o texto da patente define a ordenada como uma razão que não é coerente com a figura; o documento as chama de representações exemplares e não diz se foram medidas (seção 3.9 e Figura 5).
 - US 9.737.374 B2: três curvas (AASM, AWM, RM) sem unidade (seções 3.1 e 3.9).
 
 Em nenhuma se conhece a incerteza da leitura. **[depende de você]** O método de extração dos pontos não está descrito.
@@ -87,7 +87,7 @@ Valem para o indivíduo de referência de de Leva (1996), de 73,0 kg e 1,741 m, 
 
 **De onde vêm θ_off = 133,017° e H_CAL = 22,701 mm?** **[depende de você]** O texto diz que o procedimento não foi registrado (seção 3.9). O que você pode sustentar com o texto: K e X_pose foram reproduzidos no h adotado; H_CAL foi mantido porque o par (K, X_pose) foi identificado nele e porque o ponto morto fica a 0,485° do início da zona neutra da patente (seção 4.4).
 
-**Um R² de 0,99839 não é bom demais?** O texto já responde: os quatro parâmetros foram identificados contra os mesmos 29 pontos usados na avaliação, então a aderência não é validação independente. Além disso, os resíduos formam três zonas de sinal alternado, o que indica diferença sistemática de forma (seção 4.5 e Figura 9).
+**Um R² de 0,99839 não é bom demais?** O texto já responde: os quatro parâmetros foram identificados contra os mesmos 29 pontos usados na avaliação, então a aderência não é validação independente. Além disso, os resíduos formam três zonas de sinal alternado, o que indica diferença sistemática de forma (seção 4.5 e Figura 7).
 
 **Por que a cota do CAD (34,785 mm) não foi usada para h?** Com X_pose congelado, ela afrouxa o cabo no início da faixa (extensão mínima de −2,257 mm) e dá RMSE de 43,48 u.p. (seção 4.7). A diferença entre H_CAD e H_CAL fica sem explicação no texto: não afirme qual dos dois corresponde ao dispositivo.
 
@@ -95,13 +95,13 @@ Valem para o indivíduo de referência de de Leva (1996), de 73,0 kg e 1,741 m, 
 
 **O que é "u.p."?** Unidade da patente: a unidade da ordenada da curva publicada, que o documento não declara. K só estaria em N/mm se u.p. correspondesse a N·m (seção 3.5 e nota da Tabela 8).
 
-**Por que o pico do mecanismo fica 8° acima do pico do peso?** O pico do cabo ocorre a 97,5° de elevação e o do peso a 89,4°. O mecanismo entrega a assistência máxima acima da posição de maior demanda, à custa de subcompensação abaixo de 94° (seção 4.8 e Figura 18).
+**Por que o pico do mecanismo fica 8° acima do pico do peso?** O pico do cabo ocorre a 97,5° de elevação e o do peso a 89,4°. O mecanismo entrega a assistência máxima acima da posição de maior demanda, à custa de subcompensação abaixo de 94° (seção 4.8 e Figura 16).
 
 **O modelo representa a zona neutra?** Não. A protuberância que limita o gerador de força não está no modelo; por isso o torque calculado troca de sinal depois do ponto morto, nos 0,485° finais da faixa (seções 3.6 e 4.9).
 
 ### Exoesqueleto 2
 
-**Por que o modelo não reproduz as curvas da patente?** Com os s0 identificados e escala comum, o R² fica entre −1,529 e −0,417. O texto delimita a causa: o comprimento s implícito na figura concorda com o do CAD (0,84 mm RMS), então a diferença não vem de s nem, como causa principal, do braço de momento. Sobram o torque do peso usado pela patente e a definição da ordenada, que a patente não permite separar (seção 4.5 e Figura 8).
+**Por que o modelo não reproduz as curvas da patente?** Com os s0 identificados e escala comum, o R² fica entre −1,529 e −0,417. O texto delimita a causa: o comprimento s implícito na figura concorda com o do CAD (0,84 mm RMS), então a diferença não vem de s nem, como causa principal, do braço de momento. Sobram o torque do peso usado pela patente e a definição da ordenada, que a patente não permite separar (seção 4.5 e Figura 6).
 
 **Se a forma não reproduz, por que confiar no s0?** Porque a identificação pelo espaçamento usa só s(θ_el) e elimina o fator comum às três curvas. Ela é conferida de três modos: as três estimativas do fator G coincidem (dispersão mediana de 0,84%), o fim da curva pontilhada dá s0 a 1,40 mm do identificado, e um teste sintético confere a implementação (seções 3.9 e 4.4).
 
@@ -117,11 +117,11 @@ Valem para o indivíduo de referência de de Leva (1996), de 73,0 kg e 1,741 m, 
 
 **Por que igualar a AWM ao peso do membro de referência?** Porque a figura não tem unidade e a AWM é, segundo a patente, o momento do peso do braço: um cosseno puro, −78,22 cos Θ. Igualar sua amplitude ao torque do peso do membro na horizontal (10,55 N·m) dá 0,1349 N·m por unidade. É hipótese declarada; na escala do artigo de Okabe, Brittes e Brito (2026), a mesma AWM corresponderia a 2,9 vezes o peso do membro (seções 3.9, 4.2 e 4.8).
 
-**Por que o came girado de −49° ajusta melhor?** O ajuste da mola (R² de 0,901 para 0,953) e as marcas das zonas da patente, que não entram no ajuste, apontam o mesmo giro. A montagem dois furos no sentido horário (−50,62°) fica a 1,6° dele. O texto conclui que a curva da patente é compatível com essa montagem, e não que ela foi a usada: a patente não diz em que furo o came estava (seção 4.7, Figura 16 e Tabela 15).
+**Por que o came girado de −49° ajusta melhor?** O ajuste da mola (R² de 0,901 para 0,953) e as marcas das zonas da patente, que não entram no ajuste, apontam o mesmo giro. A montagem dois furos no sentido horário (−50,62°) fica a 1,6° dele. O texto conclui que a curva da patente é compatível com essa montagem, e não que ela foi a usada: a patente não diz em que furo o came estava (seção 4.7, Figura 14 e Tabela 15).
 
 **Os furos da polia existem?** O texto admite, por hipótese, que a polia externa tem furos correspondentes aos cinco do came vistos nas Figuras 14C e 14D da patente (seção 3.10). Não afirme mais que isso.
 
-**Por que o raio efetivo e não o raio cotado?** O cabo tracionado passa reto sobre as concavidades do canal. Usar o raio do ponto de saída superestimaria o momento da mola em até 12% na Z11 e em até 49% na Z12 (seções 3.5 e 4.2 e Figura 6).
+**Por que o raio efetivo e não o raio cotado?** O cabo tracionado passa reto sobre as concavidades do canal. Usar o raio do ponto de saída superestimaria o momento da mola em até 12% na Z11 e em até 49% na Z12 (seções 3.5 e 4.2 e Figura 4).
 
 **O braço só sobe até Θ = 22° no modelo, e a curva vai a 30°.** Com a ancoragem na posição do CAD, o vão do cabo se anula em 22,0°. O texto registra a diferença (seções 3.6 e 5.3).
 
@@ -138,7 +138,7 @@ Valem para o indivíduo de referência de de Leva (1996), de 73,0 kg e 1,741 m, 
 - **Diga cedo o que não foi feito:** ensaio com protótipo, medida independente de escala, análise dinâmica. A banca reage melhor a uma limitação declarada do que a uma descoberta.
 - **Tenha de cabeça:** 29 pontos e R² = 0,99839 (exo 1); 97,5° contra 89,4°; s0 = 300,750 mm e K40 = 2,54982 N/mm (exo 2); 4,379 N·m em 79,1°; R² de 0,901 e 0,953 e k = 0,492 N/mm (exo 3); resíduo de 1,7129 mm/rad sem o arco.
 - **Três ressalvas que a banca vai procurar:** origem de θ_off e H_CAL; forma do exoesqueleto 2 não reproduzida; escala por hipótese nos três.
-- **O que saiu do texto e você pode citar de memória, se perguntarem:** a tabela com os 29 pontos extraídos, a tabela com os pontos das três curvas da EP 3 504 033 B1, o detalhe das análises de robustez do s0 (a figura do ajuste de forma voltou, como Figura 10), as tabelas de platôs de RMSE e de valores notáveis de h, a tabela de grandezas do circuito do exoesqueleto 2 por ângulo e os resíduos das verificações dos exoesqueletos 2 e 3. Os números estão nos arquivos `results/*.json` do repositório.
+- **O que saiu do texto e você pode citar de memória, se perguntarem:** a tabela com os 29 pontos extraídos, a tabela com os pontos das três curvas da EP 3 504 033 B1, o detalhe das análises de robustez do s0 (a figura do ajuste de forma voltou, como Figura 8), as tabelas de platôs de RMSE e de valores notáveis de h, a tabela de grandezas do circuito do exoesqueleto 2 por ângulo e os resíduos das verificações dos exoesqueletos 2 e 3. Os números estão nos arquivos `results/*.json` do repositório.
 - **[depende de você]** Se perguntarem sobre uso de ferramentas de IA, responda com o que de fato ocorreu. O texto não trata do assunto.
 
 ## 5. Perguntas que exigem dados ou decisões que o texto não tem

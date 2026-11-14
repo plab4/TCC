@@ -292,39 +292,51 @@ CAP3 = [
                 (" O torque τ é o produto da força da mola pela transmissão τ/Fs.", "")]),
     H("t_fech"),
     ("E", 103, [('A cinemática do gerador de torque é descrita',
-                'No exoesqueleto 1, a cinemática do gerador de torque é descrita')]),
+                'No exoesqueleto 1, a cinemática do gerador de torque é descrita'),
+               (' (Figura 1)', '')]),
     ('K', 104, 110),
     ("P", 'A grandeza ρ é a distância da ancoragem ao centro do tambor, e a tangente existe '
           'somente se ρ > R, condição verificada em cada ponto calculado.'),
-    ("E", 114, [(" na pose de referência (θ* = 115,017°, h = 22,701 mm)", " na pose de referência")]),
-    ('K', 115, 116),
-    ("R", 117, 'Nota: O é o pivô, A a ancoragem do cabo, D o centro do tambor e T o ponto de '
-               'tangência. O painel da direita amplia a região do pivô; as componentes h e p de B '
-               'estão tracejadas, e os arcos marcam os ângulos θ*, α, q e φ, medidos no sentido '
-               'anti-horário.'),
-    ('K', 118),
-    ("E", 119, [(", na pose de referência (θ* = 115,017°, h = HCAD = 34,785 mm)", "")]),
-    ('K', 120, 122),
+    # a Figura 1 do documento longo (circuito do modelo) saiu a pedido do autor (14/11): o mesmo
+    # circuito está na sobreposição à Figura 42 da US, cuja nota passa a dizer o que cada ponto é
+    ("E", 118, [("na mesma pose,", "na pose de referência,")]),
     ('K', 124),
     ('K', 125, 127),
+    ("E", 119, [(", na pose de referência (θ* = 115,017°, h = HCAD = 34,785 mm)", "")]),
+    ('K', 120, 121),
+    ("R", 122, 'Nota: desenho da patente em cinza. O é o pivô, A a ancoragem do cabo, D o centro do '
+               'tambor e T o ponto de tangência; as componentes h e p de B estão tracejadas. O '
+               'desenho foi alinhado pelo pivô 151 (O) e pelo centro do tambor 183 (D), que por isso '
+               'coincidem por construção; a posição de A no 176 é o que a sobreposição testa. Com h '
+               '= H_{CAL} = 22,701 mm, valor adotado no modelo, A fica 12,084 mm abaixo, sobre a '
+               'perna h. O painel da direita amplia a região do pivô, onde se distinguem o vetor B '
+               'e o braço m.'),
     ("E", 128, [(" A distância b, entretanto, não é o braço de momento do cabo: como T pertence a uma "
                  "circunferência de raio R centrada a C do pivô, b fica necessariamente entre C − R e C + R. O braço",
                  " O braço")]),
     ('K', 129, 130),
     ("E", 213, [('A ancoragem A do elástico fica na barra 18',
                 'No exoesqueleto 2, a ancoragem A do elástico fica na barra 18'),
-               (" (seção 3.2.5)", "")]),
+               (" (seção 3.2.5)", ""),
+               (" (Figura 3)", "")]),
     ('K', 214, 222),
-    ("E", 224, [('O contato não é imposto por um ângulo.',
-                'O contato do elástico com o elemento 78 não é imposto por um ângulo.')]),
-    ('K', 225, 229),
-    ("R", 230, 'Nota: à direita, ampliação da região do pivô. Regime I: circuito fechado C_{1}, '
-               'C_{2}, ‹e› e s. Regime II: circuito fechado C_{1}, C_{2}, p e s − x, e triângulo '
-               '‹e›, p e x; o elemento 78, na ponta de p, só entra depois do contato. As linhas '
-               'pontilhadas indicam o eixo do braço.'),
     ('K', 231),
     ("E", 232, [(" (regime I, θel = 96,5°)", ""), (" (regime II, θel = −2,2°)", "")]),
-    ('K', 233, 235),
+    ('K', 233, 234),
+    ("R", 235, 'Nota: desenho da patente em cinza, girado para a orientação de leitura. Regime I, com '
+               'o braço elevado: circuito fechado C_{1}, C_{2}, ‹e› e s. Regime II, com o braço '
+               'baixado: circuito fechado C_{1}, C_{2}, p e s − x, e triângulo ‹e›, p e x; o '
+               'elemento 78, na ponta de p, só entra depois do contato. As linhas pontilhadas indicam '
+               'o eixo do braço. À direita, ampliação da região do pivô. Em cada pose, O e A coincidem '
+               'por construção, porque o desenho foi alinhado por esses dois pontos; só P e o elemento '
+               '78 testam o modelo. O P do modelo fica a 1,8 mm do pino do elástico desenhado com o '
+               'braço elevado e a 4,7 mm com o braço baixado; com o braço baixado, o centro do '
+               'elemento 78 do CAD fica a 22,7 mm do ponto em que o elástico desenhado se dobra.'),
+    ("E", 224, [('O contato não é imposto por um ângulo.',
+                'O contato do elástico com o elemento 78 não é imposto por um ângulo.')]),
+    # a Figura 3 do documento longo (circuitos do modelo) saiu a pedido do autor (14/11): os dois
+    # regimes estão na sobreposição à Figura 22 da EP, cuja nota passa a descrevê-los
+    ('K', 225, 226),
     ("E", 314, [('O cabo 560 fecha um circuito vetorial',
                 'No exoesqueleto 3, o cabo 560 fecha um circuito vetorial')]),
     ('K', 315),
@@ -578,7 +590,7 @@ CAP3 = [
 ]
 
 # figuras reduzidas: índice do bloco da imagem → fator
-ESCALA_FIGURAS = {115: 0.9, 228: 0.85, 263: 0.8, 320: 0.9,
+ESCALA_FIGURAS = {263: 0.8, 320: 0.9,
                   413: 0.9, 438: 0.9, 443: 0.9, 462: 0.9, 509: 0.9, 538: 0.9, 544: 0.9, 553: 0.9, 607: 0.9,
                   617: 0.85, 623: 0.9, 633: 0.9, 760: 0.9}
 

@@ -155,26 +155,26 @@ O Apêndice A (robustez da identificação e ajuste de forma no exoesqueleto 2) 
 
 | Documento longo | Versão condensada | Legenda |
 |---|---|---|
-| 1 | 1 | Circuito vetorial do gerador de torque na pose de referência (θ* = 115,017°, h = 22,701 mm) |
-| 2 | 2 | Circuito vetorial do gerador de torque sobreposto à Figura 42 da US 9.889.554 B2, na pose de referência (θ* =  |
-| 3 | 3 | Circuitos do mecanismo: regime I na pose do CAD (θel = 97,962°) e regime II em θel = 10° |
-| 4 | 4 | Circuitos do modelo sobrepostos à Figura 22 da patente, com o braço elevado (regime I, θel = 96,5°) e baixado  |
-| 5 | 7 | Figura 16 da EP 3 504 033 B1, razão de torques em função da anteversão para três pré-tensões do mesmo atuador |
-| 6 | 5 | Circuito do cabo de ancoragem sobre a Figura 14D da US 9.737.374 B2, na pose do desenho, e contorno do came da |
-| 7 | 6 | Fundo do canal do came 570 extraído da Figura 15B da US 9.737.374 B2 (a) e raio efetivo r e raio no ponto de s |
-| 8 | 9 | Torque do cabo calculado (−τ) e pontos extraídos da patente, com os resíduos no painel inferior (K = 174,68; h |
-| 9 | 13 | Família de curvas de torque do cabo para h de 16 a 32,886 mm, com K = 174,68 e Xpose = 37,383 mm congelados, e |
-| 10 | 14 | RMSE contra os pontos extraídos em função de h, com K congelado: faixa completa, em escala logarítmica, com os |
-| 11 | 18 | Torque do cabo e torque gravitacional normalizados pelos respectivos picos, em função da elevação anatômica (K |
-| 12 | 8 | Identificação de s0 pelo espaçamento entre as curvas, com (a) o fator Gi de cada curva e (b) o fator G lido na |
-| 13 | 15 | Família de curvas em ec, com s0 = 300,750 mm, com (a) o torque por unidade de rigidez e (b) a razão entre o to |
-| 14 | 19 | Torque do elástico e torque do peso normalizados pelos respectivos picos, em função da anteversão |
-| 15 | 20 | Torque do elástico com K = K40 no cenário de projeto, torque do peso do membro e do braço do exoesqueleto e al |
-| 16 | 11 | Curva AASM da Figura 16 da US 9.737.374 B2 contra o modelo com mola linear e giro do came como na Figura 14D ( |
-| 17 | 12 | Vão S e braço de momento do cabo de ancoragem (a), raio efetivo e zona de saída do cabo da mola (b) e transmis |
-| 18 | 16 | Sensibilidade do ajuste da mola ao giro do came: R² em função do giro em relação ao desenho da Figura 14D (a)  |
-| 19 | 17 | Montagens do came nos furos em torno do pino 572: torque com a mesma mola e o mesmo cabo da montagem desenhada |
-| 20 | 10 | Pontos extraídos da Figura 16 da patente e razão calculada pelo ajuste de forma, com (a) escala c por curva e  |
+| 1 | saiu | Circuito vetorial do gerador de torque na pose de referência (θ* = 115,017°, h = 22,701 mm) |
+| 2 | 1 | Circuito vetorial do gerador de torque sobreposto à Figura 42 da US 9.889.554 B2, na pose de referência (θ* =  |
+| 3 | saiu | Circuitos do mecanismo: regime I na pose do CAD (θel = 97,962°) e regime II em θel = 10° |
+| 4 | 2 | Circuitos do modelo sobrepostos à Figura 22 da patente, com o braço elevado (regime I, θel = 96,5°) e baixado  |
+| 5 | 5 | Figura 16 da EP 3 504 033 B1, razão de torques em função da anteversão para três pré-tensões do mesmo atuador |
+| 6 | 3 | Circuito do cabo de ancoragem sobre a Figura 14D da US 9.737.374 B2, na pose do desenho, e contorno do came da |
+| 7 | 4 | Fundo do canal do came 570 extraído da Figura 15B da US 9.737.374 B2 (a) e raio efetivo r e raio no ponto de s |
+| 8 | 7 | Torque do cabo calculado (−τ) e pontos extraídos da patente, com os resíduos no painel inferior (K = 174,68; h |
+| 9 | 11 | Família de curvas de torque do cabo para h de 16 a 32,886 mm, com K = 174,68 e Xpose = 37,383 mm congelados, e |
+| 10 | 12 | RMSE contra os pontos extraídos em função de h, com K congelado: faixa completa, em escala logarítmica, com os |
+| 11 | 16 | Torque do cabo e torque gravitacional normalizados pelos respectivos picos, em função da elevação anatômica (K |
+| 12 | 6 | Identificação de s0 pelo espaçamento entre as curvas, com (a) o fator Gi de cada curva e (b) o fator G lido na |
+| 13 | 13 | Família de curvas em ec, com s0 = 300,750 mm, com (a) o torque por unidade de rigidez e (b) a razão entre o to |
+| 14 | 17 | Torque do elástico e torque do peso normalizados pelos respectivos picos, em função da anteversão |
+| 15 | 18 | Torque do elástico com K = K40 no cenário de projeto, torque do peso do membro e do braço do exoesqueleto e al |
+| 16 | 9 | Curva AASM da Figura 16 da US 9.737.374 B2 contra o modelo com mola linear e giro do came como na Figura 14D ( |
+| 17 | 10 | Vão S e braço de momento do cabo de ancoragem (a), raio efetivo e zona de saída do cabo da mola (b) e transmis |
+| 18 | 14 | Sensibilidade do ajuste da mola ao giro do came: R² em função do giro em relação ao desenho da Figura 14D (a)  |
+| 19 | 15 | Montagens do came nos furos em torno do pino 572: torque com a mesma mola e o mesmo cabo da montagem desenhada |
+| 20 | 8 | Pontos extraídos da Figura 16 da patente e razão calculada pelo ajuste de forma, com (a) escala c por curva e  |
 
 ## Equações
 
