@@ -19,6 +19,14 @@ repositório (tcc/, revisao_defesa/, exo3/, latex/, DERIVATION.md).
   ponto morto.
 - Circuito vetorial do exoesqueleto 3, no caderno de 16/10/2026 e no traçado sobre a
   Figura 14D da patente.
+- Formulação do circuito do exoesqueleto 2: as equações na notação do autor e a figura
+  dos circuitos foram refeitas pela IA conforme essa formulação.
+- Leitura própria das curvas da Figura 16 da US 9.737.374 B2, comparada depois com a
+  digitalização feita pela IA.
+- Medidas e conferências passadas durante o trabalho, por exemplo: posição da
+  articulação 20 no CAD do exoesqueleto 2, sinal do ângulo do braço na pose do CAD e
+  material (náilon 6/6) das polias e do came do exoesqueleto 3.
+- Texto dos agradecimentos.
 - Capítulos 1 e 2 do texto e a redação original dos capítulos 3 e 4.
 - Versões e cortes próprios do DOCX (por exemplo, TCC_apenas_exo1.docx e a versão de
   14/11/2026), sobre as quais a IA trabalhou.
@@ -59,7 +67,11 @@ exoesqueleto 1 nem a identificação inicial de θ_off = 133,017° e H_CAL = 22,
 
 2.2 Exoesqueleto 2 (EP 3 504 033 B1, Ottobock)
 - torque_model_ottobock.py: modelo do elemento elástico com alavanca e pino, adaptado
-  da arquitetura do exoesqueleto 1.
+  da arquitetura do exoesqueleto 1, com os dois regimes (com e sem contato no
+  elemento 78), a força no pino do rasgo e o braço do exoesqueleto no peso.
+- Digitalização das três curvas da Figura 16 da patente; identificação do comprimento
+  de referência s0 pelo espaçamento entre as curvas; ajuste de forma; cenário de
+  projeto com K40 (hipótese de 40% de assistência); varredura do trecho e_c.
 - tcc_resultados_ottobock.py: números e figuras.
 - Geração do apêndice com a análise complementar.
 
@@ -99,6 +111,13 @@ exoesqueleto 1 nem a identificação inicial de θ_off = 133,017° e H_CAL = 22,
   de estrutura (capítulo 3 por tópico, capítulo 4 por assunto).
 - Versão revisada e versão condensada para a defesa, com o plano de cortes, conforme as
   decisões do autor.
+- Na versão de 80 páginas para a defesa (14/11/2026): fusão das seções 3.4 e 3.5;
+  capítulo 4 por assunto, com frases de ligação entre os exoesqueletos; retirada, a
+  pedido do autor, das figuras dos circuitos do modelo dos exoesqueletos 1 e 2 e da
+  reprodução da Figura 16 da EP; padronização das tabelas do mesmo tipo (geometria,
+  massa e parâmetros) entre os três exoesqueletos, sem mudar números.
+- Rascunho dos agradecimentos e da folha de aprovação; os agradecimentos foram depois
+  trocados pelo texto do autor.
 - Resumo e abstract do LaTeX, redigidos a partir das conclusões.
 - Correções pontuais nos capítulos 1 e 2:
   - patente repetida no objetivo geral;
@@ -147,6 +166,7 @@ exoesqueleto 1 nem a identificação inicial de θ_off = 133,017° e H_CAL = 22,
   (revisao_defesa/Roteiro_de_Defesa.md).
 - Lista de pendências que só o autor pode resolver
   (revisao_defesa/Pendencias_e_Perguntas_ao_Autor.md).
+- Slides de apoio à defesa (cerca de 20).
 - Busca de referência comercial para a deflexão admissível de molas de tração. O
   resultado ficou só no relatório, por falta de fonte normativa.
 
