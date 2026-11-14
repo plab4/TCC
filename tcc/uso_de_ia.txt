@@ -1,0 +1,189 @@
+REGISTRO DO USO DE INTELIGÊNCIA ARTIFICIAL NO TCC
+Modelagem de mecanismos passivos de apoio ao braço
+
+Ferramenta: Claude (Anthropic), por meio do Claude Code, em sessões na nuvem com acesso
+ao repositório do projeto (plab4/TCC).
+Período: outubro e novembro de 2026.
+Fonte deste registro: as conversas, o histórico de commits e os relatórios gravados no
+repositório (tcc/, revisao_defesa/, exo3/, latex/, DERIVATION.md).
+
+
+1. O QUE O REPOSITÓRIO ATRIBUI AO AUTOR
+
+- Reconstrução dos mecanismos em CAD (Autodesk Fusion e CAD dos exoesqueletos 2 e 3),
+  com as cotas, a pose de referência e as propriedades de massa das peças.
+- Composição inercial do membro superior (de Leva, 1996) e transporte de eixos, em
+  planilha própria.
+- Formulação original do exoesqueleto 1 no código de partida: equações de fechamento,
+  vão livre do cabo, distância b e ângulo β pela lei dos cossenos, forma fechada do
+  ponto morto.
+- Circuito vetorial do exoesqueleto 3, no caderno de 16/10/2026 e no traçado sobre a
+  Figura 14D da patente.
+- Capítulos 1 e 2 do texto e a redação original dos capítulos 3 e 4.
+- Versões e cortes próprios do DOCX (por exemplo, TCC_apenas_exo1.docx e a versão de
+  14/11/2026), sobre as quais a IA trabalhou.
+- Decisões de escopo: um ou três exoesqueletos, retirada da etapa dinâmica, limites de
+  páginas, o que entra e o que sai do texto.
+- Artigo Okabe, Brittes e Brito (2026), do qual o autor é coautor.
+
+O repositório não registra quem fez a extração dos 29 pontos da curva do
+exoesqueleto 1 nem a identificação inicial de θ_off = 133,017° e H_CAL = 22,701 mm.
+
+
+2. USO DA IA NO CÓDIGO E NA MODELAGEM
+
+2.1 Exoesqueleto 1 (US 9.889.554 B2, SuitX/Berkeley), arquivo torque_model.py
+- Reorganização e correção do código de partida:
+  - funções de math trocadas por NumPy;
+  - raiz que faltava no vão livre;
+  - conversão dupla para radianos;
+  - torque calculado pelo produto vetorial plano, em vez do produto externo (np.outer);
+  - h obrigatório em todas as funções.
+- Dedução de φ em forma fechada a partir das equações de fechamento, com
+  q = θ* − 90° − α.
+- Distinção entre a distância b = |OT| e o braço de momento perpendicular m, com a
+  identidade τ = −F·m conferida numericamente.
+- Uso do princípio dos trabalhos virtuais para fixar o caminho do cabo em ℓ = s − Rψ,
+  incluindo o arco enrolado no tambor.
+- Lei da mola referida à extensão na pose (X_pose), em vez de um ângulo.
+- Autotestes internos e testes automatizados com pytest (47 testes).
+- Varredura de h com K congelado: critérios de tração, fechamento e trabalho virtual;
+  família de curvas; nós da família.
+- Diagrama SVAJ (svaj.py), a partir da formulação simbólica fornecida pelo autor.
+- tcc_resultados.py: cálculo de todos os números, tabelas e figuras do exoesqueleto 1
+  no TCC, incluindo:
+  - a otimização de h para o máximo torque devolvido;
+  - o cenário com folga de cabo para h acima da fronteira de tração;
+  - a verificação até o limite geométrico do CAD (76,846 mm).
+- Documentação do modelo em DERIVATION.md.
+
+2.2 Exoesqueleto 2 (EP 3 504 033 B1, Ottobock)
+- torque_model_ottobock.py: modelo do elemento elástico com alavanca e pino, adaptado
+  da arquitetura do exoesqueleto 1.
+- tcc_resultados_ottobock.py: números e figuras.
+- Geração do apêndice com a análise complementar.
+
+2.3 Exoesqueleto 3 (US 9.737.374 B2, Levitate)
+- Digitalização das curvas da Figura 16 da patente a partir da imagem e leitura dos 27
+  marcadores (exo3/digitalizar_fig16.py, exo3/marcadores_fig16.py).
+- Extração do contorno do came 570 da Figura 15B e do raio efetivo do cabo da mola
+  (exo3/extrair_came570.py, exo3/relacoes_came570.py).
+- Implementação do circuito do cabo 560 sobre o circuito do autor
+  (exo3/circuito_cabo560.py).
+- Medição das poses das Figuras 14C e 14D (exo3/poses_fig14.py).
+- Peso do apoio de braço a partir das massas do CAD (exo3/massa_apoio.py).
+- tcc_resultados_exo3.py: números e figuras.
+- Relatório de viabilidade (tcc/exo3_viabilidade.md).
+
+2.4 Auditorias e verificações
+- Auditoria do modelo e dos números do TCC contra o código (revisao_defesa/auditoria/).
+- Tabela de rastreabilidade dos 29 pontos da patente.
+- Verificadores automáticos dos documentos gerados: DOCX, LaTeX, versão fundida e
+  versão condensada.
+
+
+3. USO DA IA NO TEXTO DO TCC
+
+- Revisão técnico-científica integral dos capítulos 3 e 4:
+  - correções de unidades, notação, convenções angulares e da definição de braço de
+    momento;
+  - retirada de afirmações não reproduzidas pelo código (por exemplo, o decrescimento
+    monotônico do RMSE com h);
+  - retirada de etapas não executadas apresentadas como feitas (Lagrange, SciPy, MBDyn).
+- Redação do capítulo 5 (Conclusão) a partir dos resultados.
+- Seção 4.7, sobre a otimização de h para o máximo torque devolvido: subseções de cabo
+  tracionado e de cabo com folga, incluindo a descontinuidade da derivada do torque.
+- Seção de limitações, com as fragilidades declaradas, como a precisão do desenho da
+  patente para o alojamento e para a deflexão relativa da mola.
+- Inclusão dos exoesqueletos 2 e 3 nos capítulos 3, 4 e 5 (versão fundida) e reescritas
+  de estrutura (capítulo 3 por tópico, capítulo 4 por assunto).
+- Versão revisada e versão condensada para a defesa, com o plano de cortes, conforme as
+  decisões do autor.
+- Resumo e abstract do LaTeX, redigidos a partir das conclusões.
+- Correções pontuais nos capítulos 1 e 2:
+  - patente repetida no objetivo geral;
+  - citação OKABE et al., 2025 corrigida para OKABE; BRITTES; BRITO, 2026.
+- Retirada de notas internas e pendências do texto final.
+
+
+4. USO DA IA EM FIGURAS, TABELAS, EQUAÇÕES E REFERÊNCIAS
+
+- Geração das figuras dos resultados em Python/Matplotlib:
+  - geometria do circuito;
+  - ajuste à patente;
+  - família de curvas e indicadores em função de h;
+  - perfis normalizados;
+  - figuras dos exoesqueletos 2 e 3.
+- Montagem das tabelas a partir dos números calculados.
+- Conversão das equações para o editor de equações do Word e numeração.
+- Referências:
+  - ordenação alfabética da lista;
+  - inclusão de HARRIS et al. (2020, NumPy) e HUNTER (2007, Matplotlib), citadas na
+    descrição das ferramentas;
+  - inclusão de OKABE, BRITTES e BRITO (2026), com dados confirmados pelo autor;
+  - busca de metadados por DOI.
+
+
+5. USO DA IA NA FORMATAÇÃO DOS DOCUMENTOS
+
+- Geração e edição dos arquivos DOCX: revisado, fundido, condensado e no formato do
+  modelo FT/UNICAMP.
+- Edições feitas sobre os arquivos enviados pelo autor, preservando o restante.
+- Conversão do TCC para LaTeX no modelo de teses da FT/UNICAMP (latex/), com a
+  bibliografia em BibTeX.
+- Renderização em PDF para conferência visual.
+
+
+6. USO DA IA COMO CONSULTA E EXPLICAÇÃO
+
+- Explicação de equações e conceitos do modelo:
+  - ponto morto e o termo atan2(p, h);
+  - diferença entre b e o braço de momento m, e a relação m = b·sen(ψ + β);
+  - papel do ângulo β;
+  - torque como produto vetorial;
+  - significado do RMSE na varredura.
+- Parecer sobre o nível do trabalho e sobre incluir mais exoesqueletos.
+- Roteiro de defesa e lista de perguntas prováveis da banca
+  (revisao_defesa/Roteiro_de_Defesa.md).
+- Lista de pendências que só o autor pode resolver
+  (revisao_defesa/Pendencias_e_Perguntas_ao_Autor.md).
+- Busca de referência comercial para a deflexão admissível de molas de tração. O
+  resultado ficou só no relatório, por falta de fonte normativa.
+
+
+7. TENTATIVAS DESCARTADAS
+
+- Escala da ordenada da patente tomada como N·m. Foi aplicada ao texto a pedido do autor
+  e depois revertida, também a pedido dele.
+- Primeira versão da seção 4.7 baseada em platôs de RMSE e, depois, em erro de forma
+  contra o peso. Ambas foram substituídas pela otimização do torque devolvido.
+- Otimização com a pré-extensão da mola ajustada para cada h e deflexão máxima de 1,25
+  vez o comprimento livre. Foi calculada, mas não entrou no texto, por decisão do autor.
+
+
+8. O QUE A IA NÃO FEZ
+
+- Não produziu dados experimentais. Não há ensaio, protótipo nem medição em pessoas.
+- Não executou simulação dinâmica, integração da equação de movimento nem MBDyn. O texto
+  as trata como etapas previstas e não executadas.
+- Não criou valores ausentes. Dados não verificáveis foram marcados como documentais ou
+  a confirmar e listados como pendências, por exemplo:
+  - unidade da ordenada das patentes;
+  - origem de H_CAL e θ_off;
+  - método e incerteza da extração dos pontos;
+  - cotas do CAD;
+  - fator de escala.
+
+
+9. ONDE ESTÃO OS REGISTROS
+
+- Histórico de commits do branch claude/determined-cori-m1benv no repositório
+  plab4/TCC.
+- Relatórios de revisão:
+  - tcc/relatorio_revisao.md;
+  - tcc/relatorio_fusao.md;
+  - revisao_defesa/Relatorio_de_Revisao_Tecnica.md;
+  - revisao_defesa/Alteracoes_paragrafo_a_paragrafo.md;
+  - revisao_defesa/O_que_saiu_e_o_que_ficou.md.
+- Documentação do modelo: DERIVATION.md, exo3/LEIAME.md, latex/LEIAME.md.
+- Cópias dos originais do autor: backup/ e revisao_defesa/versoes_do_autor/.
