@@ -1,6 +1,6 @@
 # Pendências e perguntas ao autor
 
-Versão para a defesa do TCC "Modelagem de mecanismos passivos de apoio ao braço", com 86 páginas.
+Versão para a defesa do TCC "Modelagem de mecanismos passivos de apoio ao braço", com 80 páginas.
 
 Este arquivo reúne o que depende de você: decisões, dados que só você tem e confirmações. Nada do que está aqui foi resolvido em silêncio no documento. As perguntas estão em ordem de prioridade. As da parte A mudam o texto final; as demais servem para você chegar à banca com a resposta pronta.
 
@@ -16,7 +16,7 @@ Este arquivo reúne o que depende de você: decisões, dados que só você tem e
 
 ### A2. Estrutura nova e o que veio do seu arquivo
 
-- **Capítulo 3 fundido por tópico, como você escolheu:** são 12 seções, uma por etapa do procedimento (reconstrução em CAD, parâmetros inerciais, convenções, fechamento, braço de momento, elemento elástico e torque, ponto morto, torque gravitacional, trabalhos virtuais, dados da patente e identificação, varredura paramétrica, verificações e delimitação). Cada seção trata os três exoesqueletos, nessa ordem, e cada trecho começa por "No exoesqueleto 1, ...", "No exoesqueleto 2, ..." e assim por diante. A definição do trabalho virtual, δW = 0, está nas três formulações (seção 3.9), e a variável independente é q nas três.
+- **Capítulo 3 fundido por tópico, como você escolheu:** são 11 seções, uma por etapa do procedimento (reconstrução em CAD, parâmetros inerciais, convenções, fechamento do circuito e braço de momento, elemento elástico e torque, ponto morto, torque gravitacional, trabalhos virtuais, dados da patente e identificação, varredura paramétrica, verificações e delimitação). Cada seção trata os três exoesqueletos, nessa ordem; na 3.4, que junta fechamento e braço de momento, cada exoesqueleto aparece completo antes do seguinte. Cada trecho começa por "No exoesqueleto 1, ...", "No exoesqueleto 2, ..." e assim por diante. A definição do trabalho virtual, δW = 0, está nas três formulações (seção 3.8), e a variável independente é q nas três.
 - **Capítulo 4 com os títulos do seu arquivo:** saíram as seções de verificação dos exoesqueletos 2 e 3, como no seu arquivo, e ficaram as subseções de comportamento, varredura, confronto com o torque gravitacional e limitações dos três (4.1.6 a 4.1.9, 4.2.6 a 4.2.9 e 4.3.6 a 4.3.9), com o texto encurtado e os resultados mantidos. As varreduras (h, e_c e giro do came) estão inteiras: figuras, números e conclusões.
 - **Cortes seus que foram adotados:** a última frase do primeiro parágrafo de 2.4 (Palazzi), o parágrafo sobre Nasr e o das preferências da EP no capítulo 2, a seção sobre dinâmica multicorpos, o parágrafo das curvas da EP em 2.9 e as tabelas de fontes dos exoesqueletos 2 e 3.
 - **Tabelas que saíram nesta rodada, porque repetiam números do texto ou de outra tabela:** a de platôs de RMSE e a de valores notáveis de h (exoesqueleto 1; os valores estão no texto de 4.1.7 e na Figura 10) e a de grandezas do circuito por ângulo (exoesqueleto 2; os mesmos ângulos estão na Tabela 11, do cenário de projeto).
@@ -32,7 +32,7 @@ Você autorizou enxugar os capítulos 1 e 2. Além dos cortes, entraram as corre
 | 1, 1º parágrafo | "distúrbios na articulação ombro" | "distúrbios na articulação do ombro" |
 | 1, 2º parágrafo | "4,12 milhões afastamentos" | "4,12 milhões de afastamentos" |
 | 1, 4º parágrafo | "Em um dispositivo passivo o auxílio é consequência" | vírgula depois de "passivo" |
-| 1, 7º parágrafo | "... reduz o torque com o braço baixado e o anula quando situado sobre o eixo de rotação" | sem a última oração; o caso do elemento sobre o eixo está nas seções 3.1 e 3.7 |
+| 1, 7º parágrafo | "... reduz o torque com o braço baixado e o anula quando situado sobre o eixo de rotação" | sem a última oração; o caso do elemento sobre o eixo está nas seções 3.1 e 3.6 |
 | 1.1.2 | duas frases de abertura ("Para o dispositivo da EP 3 504 033 B1, acrescentam-se os objetivos:" e a da US 9.737.374 B2) | lista única, de a a i; os itens f e h nomeiam a patente |
 | 1.1.2, objetivo d | "que a patente não informa — posição da ancoragem, [...]" | dois-pontos no lugar do travessão |
 | 1.2 | "base quantitativa — algo que as patentes" | vírgula no lugar do travessão |
@@ -69,14 +69,14 @@ Ficam fora dessa lista, porque pedem redação sua:
 
 ### B1. Origem de θ_off = 133,017° e H_CAL = 22,701 mm (exoesqueleto 1)
 
-- **Onde:** seções 3.10 e 4.1.4; Tabela 4 ("Congelado; origem não reproduzida").
+- **Onde:** seções 3.9 e 4.1.4; Tabela 4 ("Congelado; origem não reproduzida").
 - **Dúvida:** o texto diz que os quatro parâmetros foram identificados por mínimos quadrados "por um procedimento que não foi registrado". A revisão reproduziu K e X_pose no h adotado, mas não como se chegou a θ_off e H_CAL.
 - **Por que importa:** é o ponto mais exposto do trabalho. O ajuste de R² = 0,99839 depende de dois parâmetros cuja origem o próprio texto não explica.
-- **Pergunta:** você consegue descrever como chegou a esses dois valores (ferramenta, critério, restrição usada para h)? Se sim, a descrição pode entrar na seção 3.10 e muda "origem não reproduzida" para "identificado".
+- **Pergunta:** você consegue descrever como chegou a esses dois valores (ferramenta, critério, restrição usada para h)? Se sim, a descrição pode entrar na seção 3.9 e muda "origem não reproduzida" para "identificado".
 
 ### B2. Como os pontos das curvas foram extraídos
 
-- **Onde:** seção 3.10 (29 pontos da Figura 56 da US 9.889.554 B2 e 146 pontos da Figura 16 da EP 3 504 033 B1).
+- **Onde:** seção 3.9 (29 pontos da Figura 56 da US 9.889.554 B2 e 146 pontos da Figura 16 da EP 3 504 033 B1).
 - **Dúvida:** o texto registra que a imagem e a resolução usadas na leitura da Figura 16 da EP "não foram registradas" e que a incerteza da extração "não foi avaliada de forma independente". Para os 29 pontos do exoesqueleto 1, o método não é descrito.
 - **Pergunta:** qual ferramenta você usou em cada extração e a partir de qual arquivo de imagem? Uma frase com isso resolve as duas ressalvas.
 
@@ -133,7 +133,7 @@ Ficam fora dessa lista, porque pedem redação sua:
 
 ### C5. Citações das bibliotecas de software
 
-- Para caber no limite, as bibliotecas NumPy, SciPy e Matplotlib continuam nomeadas na seção 3.12, mas sem citação nem entrada na lista de referências (eram as três últimas linhas que transbordavam). O método de Brent continua citado.
+- Para caber no limite, as bibliotecas NumPy, SciPy e Matplotlib continuam nomeadas na seção 3.11, mas sem citação nem entrada na lista de referências (eram as três últimas linhas que transbordavam). O método de Brent continua citado.
 - **Pergunta:** se o curso ou o orientador pedir a citação do software usado, elas voltam com três entradas na lista, e eu compenso as linhas em outro ponto.
 
 ## D. Decisão sua e do orientador
@@ -146,9 +146,9 @@ Ficam fora dessa lista, porque pedem redação sua:
 
 ## E. Itens já decididos por você, só para constar
 
-- **Limite de páginas:** 80 para o documento inteiro, da capa ao fim, mais as 2 que você aceitou para o exoesqueleto 3 ficar parelho com os outros dois: 82. Depois, a seu pedido, voltaram as quatro figuras que tinham saído, e o documento foi a 86 páginas.
+- **Limite de páginas:** 80 para o documento inteiro, da capa ao fim, mais as 2 que você aceitou para o exoesqueleto 3 ficar parelho com os outros dois: 82. Depois, a seu pedido, voltaram as quatro figuras que tinham saído (86 páginas), e em seguida o texto foi enxugado, sem tirar figuras nem resultados: as seções 3.4 e 3.5 foram fundidas e saíram trechos que repetiam o que já estava dito em outro lugar. O DOCX ficou com 80 páginas.
 - **Seu arquivo de 14/11 como base:** ficaram as suas quatro alterações (data da defesa, frase retirada do capítulo 2, parágrafo do CAD do exoesqueleto 1 e retirada do parágrafo do apoio de braço do exoesqueleto 3 em 3.2). Para a Tabela 13 continuar citada no texto, 4.3.1 ganhou a frase "A Tabela 13 reúne as propriedades de massa do conjunto."
-- **Figuras de volta:** o circuito do exoesqueleto 1 sobre a Figura 42 da US 9.889.554 B2 (Figura 2), os circuitos do exoesqueleto 2 sobre a Figura 22 da EP 3 504 033 B1 (Figura 5), o ajuste de forma do exoesqueleto 2, que era do apêndice (Figura 13), e o cenário de projeto do exoesqueleto 2 em gráfico (Figura 16). Algumas legendas longas foram encurtadas, sem perder informação que não esteja na nota ou no texto, para a lista de figuras caber numa página.
+- **Figuras de volta:** o circuito do exoesqueleto 1 sobre a Figura 42 da US 9.889.554 B2 (Figura 2), os circuitos do exoesqueleto 2 sobre a Figura 22 da EP 3 504 033 B1 (Figura 4), o ajuste de forma do exoesqueleto 2, que era do apêndice (Figura 13), e o cenário de projeto do exoesqueleto 2 em gráfico (Figura 16). Algumas legendas longas foram encurtadas, sem perder informação que não esteja na nota ou no texto, para a lista de figuras caber numa página.
 - **Exoesqueleto 3 parelho:** o antigo 4.3.3 foi dividido como no exoesqueleto 2 (4.3.3 Identificação da mola, 4.3.4 Qualidade do ajuste, 4.3.5 Parâmetros do modelo), e as quatro subseções finais passaram a 4.3.6 a 4.3.9. Voltaram as aberturas de 4.2 e 4.3 e as recomendações de continuidade de 5.2 e 5.3, sem a parte de dinâmica.
 - **Base:** o seu arquivo com os cortes, sem seguir 100% dele; a metodologia fundida por tópico e os resultados por exoesqueleto.
 - **O que saiu, saiu de vez:** não há apêndice nem material suplementar citado no texto.

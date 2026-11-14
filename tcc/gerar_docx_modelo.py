@@ -898,6 +898,12 @@ def tabela_equacao(b):
             '<w:tblGrid><w:gridCol w:w="8171"/><w:gridCol w:w="900"/></w:tblGrid>' + "".join(tr) + "</w:tbl>")
 
 
+# no DOCX, tabelas mais altas que isto (pt) podem atravessar a página, com o cabeçalho repetido;
+# as menores ficam inteiras. Sem isso, uma tabela de meia página que não cabe no fim da página
+# pula inteira e deixa um vão (o LaTeX resolve o mesmo caso com flutuantes)
+ALTURA_QUEBRA = 250
+
+
 def tabela_dados(b, tx):
     """Tabela com filetes no estilo booktabs, cabeçalho em negrito e
     centralizado, colunas alinhadas como no LaTeX."""
@@ -918,7 +924,7 @@ def tabela_dados(b, tx):
             for k in range(n)]
     estilo = "TabelaTextoMenor" if n > 6 else "TabelaTexto"
     sz = 20 if n > 6 else 22
-    longa = gl.altura_estimada(larg, linhas, r"\footnotesize" if n > 6 else r"\small") > gl.ALTURA_LONGA
+    longa = gl.altura_estimada(larg, linhas, r"\footnotesize" if n > 6 else r"\small") > ALTURA_QUEBRA
     trs = []
     for r_, ln in enumerate(linhas):
         cels = re.findall(r"<w:tc>.*?</w:tc>", ln, flags=re.S)

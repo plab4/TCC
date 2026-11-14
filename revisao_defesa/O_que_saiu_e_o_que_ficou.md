@@ -29,46 +29,46 @@ Gerado por `tcc/verificar_condensado.py`. A coluna da esquerda traz a numeraçã
 | 3.1.2 Parâmetros inerciais do membro e transporte ao eixo da junta | conteúdo condensado em 3.2 |
 | 3.1.3 Referenciais e convenções angulares e de sinal | conteúdo condensado em 3.3 |
 | 3.1.4 Equação de fechamento do circuito vetorial | conteúdo condensado em 3.4 |
-| 3.1.5 Ponto de tangência, distância b, ângulo β e braço de momento | conteúdo condensado em 3.5 |
-| 3.1.6 Caminho do cabo, lei da mola e torque | conteúdo condensado em 3.6 |
-| 3.1.7 Ponto morto | conteúdo condensado em 3.7 |
-| 3.1.8 Torque gravitacional | conteúdo condensado em 3.8 |
-| 3.1.9 Formulação pelo princípio dos trabalhos virtuais | conteúdo condensado em 3.9 |
-| 3.1.10 Dados da patente e identificação dos parâmetros | conteúdo condensado em 3.10 |
-| 3.1.11 Varredura paramétrica de h com K congelado | conteúdo condensado em 3.11 |
-| 3.1.12 Verificações numéricas e testes automatizados | conteúdo condensado em 3.12 |
+| 3.1.5 Ponto de tangência, distância b, ângulo β e braço de momento | conteúdo condensado em 3.4 |
+| 3.1.6 Caminho do cabo, lei da mola e torque | conteúdo condensado em 3.5 |
+| 3.1.7 Ponto morto | conteúdo condensado em 3.6 |
+| 3.1.8 Torque gravitacional | conteúdo condensado em 3.7 |
+| 3.1.9 Formulação pelo princípio dos trabalhos virtuais | conteúdo condensado em 3.8 |
+| 3.1.10 Dados da patente e identificação dos parâmetros | conteúdo condensado em 3.9 |
+| 3.1.11 Varredura paramétrica de h com K congelado | conteúdo condensado em 3.10 |
+| 3.1.12 Verificações numéricas e testes automatizados | conteúdo condensado em 3.11 |
 | 3.1.13 Etapas dinâmicas previstas | saiu |
-| 3.1.14 Ferramentas e delimitação | conteúdo condensado em 3.12 |
+| 3.1.14 Ferramentas e delimitação | conteúdo condensado em 3.11 |
 | 3.2 Exoesqueleto 2 | saiu |
 | 3.2.1 Reconstrução geométrica em CAD | conteúdo condensado em 3.1 |
 | 3.2.2 Parâmetros inerciais do membro e transporte ao eixo da articulação 20 | conteúdo condensado em 3.2 |
 | 3.2.3 Referenciais e convenções angulares e de sinal | conteúdo condensado em 3.3 |
 | 3.2.4 Equação de fechamento do circuito vetorial | conteúdo condensado em 3.4 |
-| 3.2.5 Ponto de contato e troca de regime | conteúdo condensado em 3.5 |
-| 3.2.6 Comprimento do elástico, lei da mola e torque | conteúdo condensado em 3.6 |
-| 3.2.7 Faixa sem torque com o braço baixado | conteúdo condensado em 3.7 |
-| 3.2.8 Torque gravitacional | conteúdo condensado em 3.8 |
-| 3.2.9 Formulação pelo princípio dos trabalhos virtuais | conteúdo condensado em 3.9 |
-| 3.2.10 Dados da patente e identificação dos parâmetros | conteúdo condensado em 3.10 |
-| 3.2.11 Varredura paramétrica do trecho ec da alavanca | conteúdo condensado em 3.11 |
-| 3.2.12 Verificações numéricas | conteúdo condensado em 3.12 |
+| 3.2.5 Ponto de contato e troca de regime | conteúdo condensado em 3.4 |
+| 3.2.6 Comprimento do elástico, lei da mola e torque | conteúdo condensado em 3.5 |
+| 3.2.7 Faixa sem torque com o braço baixado | conteúdo condensado em 3.6 |
+| 3.2.8 Torque gravitacional | conteúdo condensado em 3.7 |
+| 3.2.9 Formulação pelo princípio dos trabalhos virtuais | conteúdo condensado em 3.8 |
+| 3.2.10 Dados da patente e identificação dos parâmetros | conteúdo condensado em 3.9 |
+| 3.2.11 Varredura paramétrica do trecho ec da alavanca | conteúdo condensado em 3.10 |
+| 3.2.12 Verificações numéricas | conteúdo condensado em 3.11 |
 | 3.2.13 Etapas dinâmicas previstas | saiu |
-| 3.2.14 Ferramentas e delimitação | conteúdo condensado em 3.12 |
+| 3.2.14 Ferramentas e delimitação | conteúdo condensado em 3.11 |
 | 3.3 Exoesqueleto 3 | saiu |
 | 3.3.1 Reconstrução geométrica em CAD | conteúdo condensado em 3.1 |
 | 3.3.2 Parâmetros inerciais do membro e transporte ao eixo do pivô 584 | conteúdo condensado em 3.2 |
 | 3.3.3 Referenciais e convenções angulares e de sinal | conteúdo condensado em 3.3 |
 | 3.3.4 Equação de fechamento do circuito vetorial | conteúdo condensado em 3.4 |
-| 3.3.5 Ponto de tangência, distância b, ângulo β e braço de momento | conteúdo condensado em 3.5 |
-| 3.3.6 Caminho do cabo, lei da mola e torque | conteúdo condensado em 3.6 |
-| 3.3.7 Ponto morto e limite de subida | conteúdo condensado em 3.7 |
-| 3.3.8 Torque gravitacional | conteúdo condensado em 3.8 |
-| 3.3.9 Formulação pelo princípio dos trabalhos virtuais | conteúdo condensado em 3.9 |
-| 3.3.10 Dados da patente e identificação dos parâmetros | conteúdo condensado em 3.10 |
-| 3.3.11 Varredura paramétrica do giro do came | conteúdo condensado em 3.11 |
-| 3.3.12 Verificações numéricas | conteúdo condensado em 3.12 |
+| 3.3.5 Ponto de tangência, distância b, ângulo β e braço de momento | conteúdo condensado em 3.4 |
+| 3.3.6 Caminho do cabo, lei da mola e torque | conteúdo condensado em 3.5 |
+| 3.3.7 Ponto morto e limite de subida | conteúdo condensado em 3.6 |
+| 3.3.8 Torque gravitacional | conteúdo condensado em 3.7 |
+| 3.3.9 Formulação pelo princípio dos trabalhos virtuais | conteúdo condensado em 3.8 |
+| 3.3.10 Dados da patente e identificação dos parâmetros | conteúdo condensado em 3.9 |
+| 3.3.11 Varredura paramétrica do giro do came | conteúdo condensado em 3.10 |
+| 3.3.12 Verificações numéricas | conteúdo condensado em 3.11 |
 | 3.3.13 Etapas dinâmicas previstas | saiu |
-| 3.3.14 Ferramentas e delimitação | conteúdo condensado em 3.12 |
+| 3.3.14 Ferramentas e delimitação | conteúdo condensado em 3.11 |
 | 3.4 Comparação entre as formulações | saiu |
 | 4 RESULTADOS E DISCUSSÃO | 4 (título mantido) |
 | 4.1 Exoesqueleto 1 | 4.1 (título mantido) |
@@ -84,7 +84,7 @@ Gerado por `tcc/verificar_condensado.py`. A coluna da esquerda traz a numeraçã
 | 4.2 Exoesqueleto 2 | 4.2 (título mantido) |
 | 4.2.1 Geometria reconstruída e propriedades de massa | 4.2.1 (título mantido) |
 | 4.2.2 Dados extraídos da patente | 4.2.2 (título mantido) |
-| 4.2.3 Verificação da cadeia de cálculo | conteúdo condensado em 3.12 |
+| 4.2.3 Verificação da cadeia de cálculo | conteúdo condensado em 3.11 |
 | 4.2.4 Identificação de s0 pelo espaçamento entre as curvas | 4.2.3 (título mantido) |
 | 4.2.5 Forma das curvas e ajuste de forma | 4.2.4 (título mantido) |
 | 4.2.6 Parâmetros do modelo | 4.2.5 (título mantido) |
@@ -95,7 +95,7 @@ Gerado por `tcc/verificar_condensado.py`. A coluna da esquerda traz a numeraçã
 | 4.3 Exoesqueleto 3 | 4.3 (título mantido) |
 | 4.3.1 Geometria reconstruída e propriedades de massa | 4.3.1 (título mantido) |
 | 4.3.2 Dados extraídos da patente | 4.3.2 (título mantido) |
-| 4.3.3 Verificação da cadeia de cálculo | conteúdo condensado em 3.12 |
+| 4.3.3 Verificação da cadeia de cálculo | conteúdo condensado em 3.11 |
 | 4.3.4 Parâmetros do modelo e identificação da mola | conteúdo condensado em 4.3.3 |
 | 4.3.5 Qualidade do ajuste à curva da patente | 4.3.4 (título mantido) |
 | 4.3.6 Comportamento da mola e do mecanismo | 4.3.6 (título mantido) |
@@ -157,10 +157,10 @@ O Apêndice A (robustez da identificação e ajuste de forma no exoesqueleto 2) 
 |---|---|---|
 | 1 | 1 | Circuito vetorial do gerador de torque na pose de referência (θ* = 115,017°, h = 22,701 mm) |
 | 2 | 2 | Circuito vetorial do gerador de torque sobreposto à Figura 42 da US 9.889.554 B2, na pose de referência (θ* =  |
-| 3 | 4 | Circuitos do mecanismo: regime I na pose do CAD (θel = 97,962°) e regime II em θel = 10° |
-| 4 | 5 | Circuitos do modelo sobrepostos à Figura 22 da patente, com o braço elevado (regime I, θel = 96,5°) e baixado  |
+| 3 | 3 | Circuitos do mecanismo: regime I na pose do CAD (θel = 97,962°) e regime II em θel = 10° |
+| 4 | 4 | Circuitos do modelo sobrepostos à Figura 22 da patente, com o braço elevado (regime I, θel = 96,5°) e baixado  |
 | 5 | 7 | Figura 16 da EP 3 504 033 B1, razão de torques em função da anteversão para três pré-tensões do mesmo atuador |
-| 6 | 3 | Circuito do cabo de ancoragem sobre a Figura 14D da US 9.737.374 B2, na pose do desenho, e contorno do came da |
+| 6 | 5 | Circuito do cabo de ancoragem sobre a Figura 14D da US 9.737.374 B2, na pose do desenho, e contorno do came da |
 | 7 | 6 | Fundo do canal do came 570 extraído da Figura 15B da US 9.737.374 B2 (a) e raio efetivo r e raio no ponto de s |
 | 8 | 8 | Torque do cabo calculado (−τ) e pontos extraídos da patente, com os resíduos no painel inferior (K = 174,68; h |
 | 9 | 9 | Família de curvas de torque do cabo para h de 16 a 32,886 mm, com K = 174,68 e Xpose = 37,383 mm congelados, e |
@@ -178,7 +178,7 @@ O Apêndice A (robustez da identificação e ajuste de forma no exoesqueleto 2) 
 
 ## Equações
 
-Mantidas, com o número novo: (1) → (1), (2) → (2), (3) → (3), (4) → (4), (5) → (8), (6) → (9), (7) → (10), (8) → (11), (9) → (12), (10) → (13), (12) → (26), (13) → (27), (14) → (28), (15) → (29), (16) → (30), (17) → (34), (18) → (35), (19) → (36), (20) → (37), (21) → (38), (22) → (39), (23) → (44), (24) → (45), (25) → (48), (26) → (49), (27) → (52), (28) → (53), (29) → (58), (32) → (5), (33) → (6), (34) → (14), (35) → (15), (36) → (16), (37) → (17), (38) → (18), (39) → (19), (40) → (20), (41) → (21), (42) → (22), (43) → (31), (44) → (40), (45) → (41), (46) → (46), (47) → (50), (48) → (54), (49) → (55), (50) → (59), (51) → (60), (52) → (61), (53) → (62), (54) → (63), (55) → (7), (56) → (23), (57) → (24), (58) → (25), (59) → (32), (60) → (33), (61) → (42), (62) → (43), (63) → (47), (64) → (51), (65) → (56), (66) → (57), (67) → (64).
+Mantidas, com o número novo: (1) → (1), (2) → (2), (3) → (3), (4) → (4), (5) → (8), (6) → (9), (7) → (10), (8) → (11), (9) → (12), (10) → (13), (12) → (14), (13) → (15), (14) → (16), (15) → (17), (16) → (18), (17) → (34), (18) → (35), (19) → (36), (20) → (37), (21) → (38), (22) → (39), (23) → (44), (24) → (45), (25) → (48), (26) → (49), (27) → (52), (28) → (53), (29) → (58), (32) → (5), (33) → (6), (34) → (19), (35) → (20), (36) → (21), (37) → (22), (38) → (23), (39) → (24), (40) → (25), (41) → (26), (42) → (27), (43) → (28), (44) → (40), (45) → (41), (46) → (46), (47) → (50), (48) → (54), (49) → (55), (50) → (59), (51) → (60), (52) → (61), (53) → (62), (54) → (63), (55) → (7), (56) → (29), (57) → (30), (58) → (31), (59) → (32), (60) → (33), (61) → (42), (62) → (43), (63) → (47), (64) → (51), (65) → (56), (66) → (57), (67) → (64).
 
 Retiradas: (11), (30), (31), (68), (69).
 
