@@ -69,7 +69,7 @@ Ficam fora dessa lista, porque pedem redação sua:
 
 ### B1. Origem de θ_off = 133,017° e H_CAL = 22,701 mm (exoesqueleto 1)
 
-- **Onde:** seções 3.9 e 4.4; Tabela 8 ("Congelado; origem não reproduzida").
+- **Onde:** seções 3.9 e 4.4; Tabela 8 (origem "Congelado", situação "Origem não reproduzida").
 - **Dúvida:** o texto diz que os quatro parâmetros foram identificados por mínimos quadrados "por um procedimento que não foi registrado". A revisão reproduziu K e X_pose no h adotado, mas não como se chegou a θ_off e H_CAL.
 - **Por que importa:** é o ponto mais exposto do trabalho. O ajuste de R² = 0,99839 depende de dois parâmetros cuja origem o próprio texto não explica.
 - **Pergunta:** você consegue descrever como chegou a esses dois valores (ferramenta, critério, restrição usada para h)? Se sim, a descrição pode entrar na seção 3.9 e muda "origem não reproduzida" para "identificado".
@@ -153,4 +153,5 @@ Ficam fora dessa lista, porque pedem redação sua:
 - **Base:** o seu arquivo com os cortes, sem seguir 100% dele; a metodologia fundida por tópico e os resultados por exoesqueleto.
 - **O que saiu, saiu de vez:** não há apêndice nem material suplementar citado no texto.
 - **e_c = 34,785 mm (exoesqueleto 2) e H_CAD = 34,785 mm (exoesqueleto 1):** os dois valores coincidem até a terceira casa. Em 8/11 você conferiu e_c no CAD. A banca pode notar; a resposta está no roteiro de defesa.
+- **Tabelas do mesmo tipo padronizadas (pedido de 14/11):** geometria (Tabelas 1, 3 e 5): Grandeza, Símbolo, Valor, Unidade e Origem, com "CAD" na origem de todas as grandezas da Tabela 1, que são medidas na reconstrução; massa (Tabelas 2, 4 e 6): Corpo, Massa, d, I_cm e I_O, com L no exoesqueleto 2 e a no 3; na Tabela 2, que só tem o conjunto, o centro de massa e M g d foram para a nota; parâmetros (Tabelas 8, 9 e 10): Parâmetro, Símbolo, Valor adotado, Origem e Situação, com a antiga coluna da Tabela 8 dividida em origem ("Congelado" ou "Identificado") e situação ("Origem não reproduzida" ou "Reproduzido no h adotado", como diz a seção 4.4). Nenhum número mudou.
 - **Sem tabelas de pendências no TCC:** as limitações estão em texto corrido na seção 4.9.

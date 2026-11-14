@@ -308,9 +308,65 @@ def aplicar_plano(plano, blocos, res, marc, escalas=None):
             _, pai, chave, titulo = e
             itens.append({"origem": "n", "xml": None, "indice": None, "modo": "H",
                           "chave": chave, "pai": pai, "titulo": titulo})
+        elif op == "T":
+            # tabela i remontada no formato padrão do gerador (o das tabelas novas), com o
+            # cabeçalho, a ordem, as larguras e o alinhamento das colunas dados em e[2]
+            _, i, spec = e
+            assert i not in usados, f"bloco {i} repetido"
+            assert res[i].startswith("<w:tbl") and "⟦E#" not in blocos[i][1], f"bloco {i}: T só vale para tabela"
+            usados.add(i)
+            ultimo = i
+            if "linhas" in spec:
+                corpo = [list(l) for l in spec["linhas"]]
+            else:
+                corpo = _celulas_marcadas(res[i])[1:]
+                ordem = spec.get("ordem")
+                if ordem:
+                    corpo = [[l[k] for k in ordem] for l in corpo]
+                for antes, depois in spec.get("troca", []):
+                    corpo = [[c.replace(antes, depois) for c in l] for l in corpo]
+                if "extra" in spec:
+                    assert len(spec["extra"]) == len(corpo), (i, len(corpo))
+                    corpo = [l + [x] for l, x in zip(corpo, spec["extra"])]
+            cab = spec["cab"]
+            assert all(len(l) == len(cab) for l in corpo), f"bloco {i}: colunas"
+            xml = g.TABELA([marc.texto(c) for c in cab], [[marc.texto(c) for c in l] for l in corpo],
+                           spec["larg"], spec.get("alin"))
+            itens.append({"origem": "n", "xml": xml, "indice": i, "modo": "T"})
+        elif op == "N":
+            # nota nova de tabela ou figura, no estilo das notas (texto na marcação do gerador)
+            assert e[1].startswith("Nota: "), e[1][:40]
+            itens.append({"origem": "n", "xml": g.PEQUENO(marc.texto(e[1])), "indice": None, "modo": "N"})
         else:
             raise ValueError(op)
     return itens
+
+
+def _celulas_marcadas(tabela):
+    """Linhas da tabela como listas de células na marcação do gerador: _{...} para subscrito,
+    ^{...} para sobrescrito e ‹...› para itálico."""
+    linhas = []
+    for tr in re.findall(r"<w:tr[ >].*?</w:tr>", tabela, flags=re.S):
+        celulas = []
+        for tc in re.findall(r"<w:tc>.*?</w:tc>", tr, flags=re.S):
+            partes = []
+            for p in re.findall(r"<w:p[ >].*?</w:p>", tc, flags=re.S):
+                texto = ""
+                for r in re.findall(r"<w:r[ >].*?</w:r>", p, flags=re.S):
+                    t = g.texto(r)
+                    if not t:
+                        continue
+                    if 'w:val="subscript"' in r:
+                        t = "_{" + t + "}"
+                    elif 'w:val="superscript"' in r:
+                        t = "^{" + t + "}"
+                    if re.search(r"<w:i/>|<w:i w:val=\"(1|true)\"/>", r):
+                        t = "‹" + t + "›"
+                    texto += t
+                partes.append(texto)
+            celulas.append("\n".join(partes))
+        linhas.append(celulas)
+    return linhas
 
 
 def numerar_secoes(itens, alias):

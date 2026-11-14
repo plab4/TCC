@@ -941,7 +941,9 @@ def tabela_dados(b, tx):
                    if k in (0, n - 1) else "")
             ps = []
             for p in re.findall(r"<w:p[ >].*?</w:p>", cel, flags=re.S):
-                manter = not longa and r_ < len(linhas) - 1
+                # tabela curta: inteira; tabela que pode atravessar a página: o cabeçalho com as
+                # duas primeiras linhas e as duas últimas juntas, sem linha sozinha numa página
+                manter = (r_ < len(linhas) - 1) if not longa else r_ in (1, len(linhas) - 2)
                 if r_ == 0:
                     ps.append(par(tx.runs(gl.runs(p), sz=sz, negrito=True), estilo=estilo,
                                   jc="center", keep=manter or longa))

@@ -630,6 +630,15 @@ ALIAS.update({f"4.2.{k}": t for k, t in enumerate(
 ALIAS.update({f"4.3.{k}": t for k, t in enumerate(
     ["r_geo", "r_dados", "t_verif", "r_ident", "r_ajuste", "r_comp", "r_varr", "r_conf", "r_lim"], 1)})
 
+# tabelas de mesmo tipo têm o mesmo formato nos três exoesqueletos (pedido de 14/11): mesmo
+# cabeçalho, mesmas larguras e mesmo alinhamento; só os números e as linhas mudam
+GEO = {"cab": ["Grandeza", "Símbolo", "Valor", "Unidade", "Origem"],
+       "larg": [3400, 1100, 1100, 1000, 2760], "alin": ["left", "center", "center", "center", "left"]}
+MASSA = {"larg6": [2300, 1300, 1200, 1200, 1680, 1680], "larg5": [3000, 1500, 1500, 1680, 1680],
+         "alin6": ["left"] + ["center"]*5, "alin5": ["left"] + ["center"]*4}
+PARAM = {"cab": ["Parâmetro", "Símbolo", "Valor adotado", "Origem", "Situação"],
+         "larg": [2300, 1060, 1500, 2000, 2500], "alin": ["left", "center", "center", "left", "left"]}
+
 CAP4 = [
     ('K', 374),
     ("P", 'Este capítulo segue a ordem do capítulo 3: cada seção trata de um assunto e apresenta '
@@ -651,10 +660,24 @@ CAP4 = [
                  "")]),
     ("E", 387, [(' O momento de inércia destina-se à etapa dinâmica, não executada, e não participa '
                 'do cálculo do torque estático.', '')]),
-    ('K', 380, 382),
-    ('K', 384, 386),
+    ("E", 380, [("Grandezas medidas na reconstrução em CAD", "Grandezas geométricas do exoesqueleto 1 na pose do CAD")]),
+    ("T", 381, dict(GEO, extra=["CAD"]*8)),
+    ('K', 382),
+    ("E", 384, [("Propriedades de massa do conjunto braço-exoesqueleto",
+                 "Propriedades de massa do conjunto que gira com o braço do exoesqueleto 1, em relação "
+                 "ao eixo da junta")]),
+    ("T", 385, {"cab": ["Corpo", "Massa (kg)", "d (mm)", "I_{cm} (kg·m^{2})", "I_{O} (kg·m^{2})"],
+                "linhas": [["Conjunto braço-exoesqueleto", "4,034309", "282,128", "0,127111", "0,448227"]],
+                "larg": MASSA["larg5"], "alin": MASSA["alin5"]}),
+    ('K', 386),
+    ("N", 'Nota: d é a distância do centro de massa ao eixo da junta. Na pose de referência, o centro '
+          'de massa fica em (x_{cm}; y_{cm}) = (−281,432; −19,812) mm, e a amplitude do momento '
+          'gravitacional é M g d = 11,1619 N·m.'),
     ("E", 479, [("A Tabela 13 reúne", "No exoesqueleto 2, a Tabela 13 reúne")]),
-    ('K', 480, 483),
+    ("E", 480, [("Grandezas medidas no modelo em CAD e grandezas derivadas",
+                 "Grandezas geométricas do exoesqueleto 2 na pose do CAD")]),
+    ("T", 481, GEO),
+    ('K', 482, 483),
     ("P", 'Na pose do CAD, o circuito dá s = 359,7679 mm até a ponta da peça de fixação do '
           'elástico, que difere do comprimento medido s_{pose} em 1,4 × 10^{−4} mm, valor '
           'inferior à resolução da medida. O elemento 78 está a p = 7,754 mm do eixo da '
@@ -665,10 +688,21 @@ CAP4 = [
           'planilha, e não propriedades do produto. O braço do exoesqueleto acrescenta 0,1640 kg '
           'ao conjunto e desloca seu centro de massa em 0,194° em relação ao eixo do braço; a '
           'alavanca, o elemento 78 e a braçadeira não estão modelados como corpos separados.'),
-    ('K', 485, 487),
+    ("E", 485, [("Propriedades de massa do conjunto que gira com o braço em relação ao eixo da articulação 20",
+                 "Propriedades de massa do conjunto que gira com o braço do exoesqueleto 2, em relação ao "
+                 "eixo da articulação 20")]),
+    ("T", 486, {"cab": ["Corpo", "Massa (kg)", "d (mm)", "L (mm)", "I_{cm} (kg·m^{2})", "I_{O} (kg·m^{2})"],
+                "ordem": [0, 1, 3, 2, 4, 5], "troca": [("d = ", "")],
+                "larg": MASSA["larg6"], "alin": MASSA["alin6"]}),
+    ('K', 487),
+    ("N", "Nota: d é a distância do centro de massa ao eixo da articulação 20, e L, o comprimento do "
+          "segmento."),
     ('K', 488),
     ("E", 569, [("A Tabela 21 reúne", "No exoesqueleto 3, a Tabela 21 reúne")]),
-    ('K', 570, 572),
+    ("E", 570, [("Grandezas do circuito do cabo de ancoragem na pose do CAD",
+                 "Grandezas geométricas do exoesqueleto 3 na pose do CAD")]),
+    ("T", 571, GEO),
+    ('K', 572),
     ("P", 'Com esses valores, o fechamento tem resíduo de 0,0006 mm. Na imagem da folha 21, a '
           'pose da Figura 14D dá q = 61,19°, contra 61,724° no CAD, e o ponto A do CAD fica a 0,3 '
           'mm do 562 desenhado: a pose do CAD é a da Figura 14D. O came desenhado nas duas '
@@ -677,7 +711,10 @@ CAP4 = [
           'para o da 14D, o giro absoluto medido é de 61,3°, e a cinemática do cabo 560 prevê '
           '76,8°: a diferença, 15,5°, mostra que os dois desenhos não são exatamente coerentes '
           'entre si.'),
-    ('K', 576, 579),
+    ("E", 576, [("Propriedades de massa do conjunto que gira com o braço em relação ao pivô 584",
+                 "Propriedades de massa do conjunto que gira com o braço do exoesqueleto 3, em relação ao "
+                 "pivô 584")]),
+    ('K', 577, 579),
     ("P", 'A Tabela 22 reúne as propriedades de massa do conjunto. No CAD, o apoio de braço tem 0,796 kg: a capa, de náilon 6/6, responde por '
           '0,564 kg, e a mola, de aço, por 0,105 kg. O centro de massa do apoio, a 116,4 mm de O '
           'e 9,7° acima do eixo maior, desloca o do conjunto em 0,77° em relação ao eixo, e as '
@@ -714,7 +751,14 @@ CAP4 = [
     # ------------------------------------------------------------------ parâmetros e identificação
     HR("r_ident"),
     ("E", 402, [('A Tabela 7 reúne', 'No exoesqueleto 1, a Tabela 7 reúne')]),
-    ('K', 403, 406),
+    ("E", 403, [("Parâmetros não publicados, origem e verificação",
+                 "Parâmetros não publicados do exoesqueleto 1, origem e situação")]),
+    ("T", 404, dict(PARAM, linhas=[
+        ["Calibração angular", "θ_{off}", "133,017°", "Congelado", "Origem não reproduzida"],
+        ["Posição da ancoragem", "H_{CAL}", "22,701 mm", "Congelado", "Origem não reproduzida"],
+        ["Extensão da mola na pose", "X_{pose}", "37,383 mm", "Identificado", "Reproduzido no h adotado"],
+        ["Rigidez da mola", "K", "174,68", "Identificado", "Reproduzido no h adotado"]])),
+    ('K', 405, 406),
     ("P", 'Com h = 22,701 mm e θ_{off} congelados, a varredura de X_{pose} com K dado pela '
           'Equação (29) reproduz o par identificado: X_{pose} = 37,383 mm, K = 174,676 e RMSE de '
           '1,8305 u.p. A origem de H_{CAL}, ao contrário, não pôde ser reproduzida. Numa análise '
@@ -730,7 +774,9 @@ CAP4 = [
           'energia (seção 4.1.3) e não foi adotada: o menor RMSE não é critério de validade '
           'física.'),
     ("E", 518, [("A Tabela 17 resume", "No exoesqueleto 2, a Tabela 17 resume")]),
-    ('K', 519, 521),
+    ("E", 519, [("Parâmetros não publicados, origem e identificabilidade",
+                 "Parâmetros não publicados do exoesqueleto 2, origem e situação")]),
+    ('K', 520, 521),
     ("E", 503, [("Pela Equação", "Identificado pelo espaçamento entre as curvas, pela Equação")]),
     ("E", 504, [(' A Tabela 31 e os detalhes estão no Apêndice A.',
                 '')]),
@@ -741,7 +787,9 @@ CAP4 = [
     ('K', 508, 511),
     ("E", 596, [("A Tabela 25 resume", "No exoesqueleto 3, a Tabela 25 resume")]),
     ('K', 600),
-    ('K', 597, 599),
+    ("E", 597, [("Parâmetros não publicados do mecanismo da Levitate, origem e identificabilidade",
+                 "Parâmetros não publicados do exoesqueleto 3, origem e situação")]),
+    ('K', 598, 599),
     ('K', 601, 603),
 
     # ------------------------------------------------------------------ ajuste às curvas

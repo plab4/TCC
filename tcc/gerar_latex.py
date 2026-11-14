@@ -354,13 +354,15 @@ PARADAS = {"a", "o", "as", "os", "de", "da", "do", "das", "dos", "e", "em", "na"
 
 
 def slug(t, usados, prefixo):
-    palavras = [w for w in re.findall(r"[a-z0-9]+", sem_acento(t).lower())
-                if w not in PARADAS and not w.isdigit()]
-    for n in range(min(4, len(palavras)), len(palavras) + 1):
-        s = prefixo + ":" + "-".join(palavras[:n])
-        if s not in usados:
-            usados.add(s)
-            return s
+    todas = [w for w in re.findall(r"[a-z0-9]+", sem_acento(t).lower()) if w not in PARADAS]
+    # sem números primeiro; com eles, quando legendas paralelas só diferem no número
+    # (por exemplo, "exoesqueleto 1" e "exoesqueleto 2")
+    for palavras in ([w for w in todas if not w.isdigit()], todas):
+        for n in range(min(4, len(palavras)), len(palavras) + 1):
+            s = prefixo + ":" + "-".join(palavras[:n])
+            if s not in usados:
+                usados.add(s)
+                return s
     raise ValueError(t)
 
 

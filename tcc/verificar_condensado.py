@@ -231,7 +231,21 @@ def main():
             for ln in re.findall(r"<w:tr[ >].*?</w:tr>", tb, re.S):
                 saida.add(sem_remissoes(" | ".join(g.texto(c) for c in re.findall(r"<w:tc>.*?</w:tc>", ln, re.S))))
         return saida
-    lin_fora = linhas("".join(blocos)) - linhas("".join(res_longo))
+    # as tabelas remontadas no formato padrão (modo T) mudam cabeçalho, ordem ou colunas; nelas, cada
+    # número das células tem de estar na tabela de origem do documento longo
+    base_linhas = linhas("".join(res_longo))
+    lin_fora, remontadas = set(), []
+    for b, r in zip(blocos[:i_ref], registro["blocos"][:i_ref]):
+        if not b.startswith("<w:tbl"):
+            continue
+        if r["modo"] == "T":
+            origem = set().union(*(numeros(g.texto(q)) for q in g.PARAGRAFO.findall(res_longo[r["indice"]])))
+            fora = sorted({n for q in g.PARAGRAFO.findall(b) for n in numeros(g.texto(q))} - origem)
+            remontadas.append((r["indice"], fora))
+            if fora:
+                FALHAS.append(f"tabela remontada (bloco {r['indice']}) com números fora da tabela de origem: {fora[:8]}")
+            continue
+        lin_fora |= linhas(b) - base_linhas
     if eq_fora or img_fora or lin_fora:
         FALHAS.append(f"equações ({len(eq_fora)}), imagens ({len(img_fora)}) ou linhas de tabela "
                       f"({len(lin_fora)}) que não estão no documento longo: {list(lin_fora)[:3]}")
@@ -241,7 +255,8 @@ def main():
          f"documento longo: "
          f"{not eq_fora}. Imagens usadas: {len(usadas)}, todas idênticas às do documento longo: {not img_fora}; "
          f"imagens sem uso deixadas no pacote: {len(orfas)}. Linhas de tabela do condensado que não estão no "
-         f"documento longo (a menos da numeração): {len(lin_fora)}.")
+         f"documento longo (a menos da numeração): {len(lin_fora)}. Tabelas remontadas no formato padrão: "
+         f"{len(remontadas)}, todas com os números da tabela de origem: {not any(f for _, f in remontadas)}.")
     diga()
 
     # 4. termos proibidos e travessões
@@ -283,7 +298,8 @@ def main():
     diga(f"Blocos do corpo: {i_ref}. Mantidos sem alteração: {modos.get('K', 0)}; mantidos com trechos trocados "
          f"ou cortados: {modos.get('E', 0)}; legendas e notas reescritas: {modos.get('R', 0)}; tabelas com "
          f"linhas retiradas: {modos.get('L', 0)}; parágrafos novos, que condensam os do documento longo: "
-         f"{modos.get('P', 0)}; títulos novos: {modos.get('H', 0)}.")
+         f"{modos.get('P', 0)}; títulos novos: {modos.get('H', 0)}; tabelas remontadas no formato padrão: "
+         f"{modos.get('T', 0)}; notas novas: {modos.get('N', 0)}.")
     diga()
 
     # 6 e 7. DOCX entregue
