@@ -545,6 +545,11 @@ def _preparar_latex(m):
     velho = "\\titulo{" + cd.TITULO_LONGO + "}"
     assert tese.count(velho) == 1, "título não encontrado em tese.tex"
     tese = tese.replace(velho, "\\titulo{" + cd.TITULO + "}")
+    data = getattr(cd, "DATA_DEFESA", None)
+    if data:
+        velho = "\\datadadefesa{XX}{11}{2026}"
+        assert tese.count(velho) == 1, "data da defesa não encontrada em tese.tex"
+        tese = tese.replace(velho, "\\datadadefesa{%s}{%s}{%s}" % data)
     (dest / "tese.tex").write_text(tese, encoding="utf-8")
     velho = dest / "capitulos" / "apendices.tex"
     if velho.exists():

@@ -46,7 +46,8 @@ UNICODE_TEXTO = set("θτℓλδφψσαβργηπκεμξΔΘ−≤≥≈⊥√
 
 ESCAPE = {"\\": r"\textbackslash{}", "{": r"\{", "}": r"\}", "$": r"\$",
           "&": r"\&", "%": r"\%", "#": r"\#", "_": r"\_",
-          "^": r"\^{}", "~": r"\textasciitilde{}", '"': r"\textquotedbl{}"}
+          "^": r"\^{}", "~": r"\textasciitilde{}", '"': r"\textquotedbl{}",
+          "“": "``", "”": "''"}   # aspas tipográficas do texto do autor
 
 def escapar(t):
     return "".join(ESCAPE.get(c, c) for c in t)

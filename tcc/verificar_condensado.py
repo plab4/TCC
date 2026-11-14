@@ -36,7 +36,7 @@ import condensado_defesa as cd  # noqa: E402
 from nomes import FUNDIDO, MODELO_FT, ORIGINAL  # noqa: E402
 
 RAIZ = Path(__file__).resolve().parent.parent
-LIMITE_PAGINAS = 82
+LIMITE_PAGINAS = 86   # 82 aceitas pelo autor, mais as figuras que voltaram a pedido dele (14/11)
 L, FALHAS = [], []
 NUMERO = re.compile(r"\d+(?:\.\d{3})+(?:,\d+)?|\d+,\d+|\d+")
 HASHES = {ORIGINAL: "7e188436c05ff859"}

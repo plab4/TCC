@@ -1,6 +1,6 @@
 # Pendências e perguntas ao autor
 
-Versão para a defesa do TCC "Modelagem de mecanismos passivos de apoio ao braço", com até 82 páginas.
+Versão para a defesa do TCC "Modelagem de mecanismos passivos de apoio ao braço", com 86 páginas.
 
 Este arquivo reúne o que depende de você: decisões, dados que só você tem e confirmações. Nada do que está aqui foi resolvido em silêncio no documento. As perguntas estão em ordem de prioridade. As da parte A mudam o texto final; as demais servem para você chegar à banca com a resposta pronta.
 
@@ -19,8 +19,8 @@ Este arquivo reúne o que depende de você: decisões, dados que só você tem e
 - **Capítulo 3 fundido por tópico, como você escolheu:** são 12 seções, uma por etapa do procedimento (reconstrução em CAD, parâmetros inerciais, convenções, fechamento, braço de momento, elemento elástico e torque, ponto morto, torque gravitacional, trabalhos virtuais, dados da patente e identificação, varredura paramétrica, verificações e delimitação). Cada seção trata os três exoesqueletos, nessa ordem, e cada trecho começa por "No exoesqueleto 1, ...", "No exoesqueleto 2, ..." e assim por diante. A definição do trabalho virtual, δW = 0, está nas três formulações (seção 3.9), e a variável independente é q nas três.
 - **Capítulo 4 com os títulos do seu arquivo:** saíram as seções de verificação dos exoesqueletos 2 e 3, como no seu arquivo, e ficaram as subseções de comportamento, varredura, confronto com o torque gravitacional e limitações dos três (4.1.6 a 4.1.9, 4.2.6 a 4.2.9 e 4.3.6 a 4.3.9), com o texto encurtado e os resultados mantidos. As varreduras (h, e_c e giro do came) estão inteiras: figuras, números e conclusões.
 - **Cortes seus que foram adotados:** a última frase do primeiro parágrafo de 2.4 (Palazzi), o parágrafo sobre Nasr e o das preferências da EP no capítulo 2, a seção sobre dinâmica multicorpos, o parágrafo das curvas da EP em 2.9 e as tabelas de fontes dos exoesqueletos 2 e 3.
-- **Tabelas que saíram nesta rodada, porque repetiam números do texto ou de outra tabela:** a de platôs de RMSE e a de valores notáveis de h (exoesqueleto 1; os valores estão no texto de 4.1.7 e na Figura 8) e a de grandezas do circuito por ângulo (exoesqueleto 2; os mesmos ângulos estão na Tabela 11, do cenário de projeto).
-- **Pergunta:** algum desses cortes deve voltar? Se sim, diga qual, e eu compenso em outro ponto para não passar de 82 páginas.
+- **Tabelas que saíram nesta rodada, porque repetiam números do texto ou de outra tabela:** a de platôs de RMSE e a de valores notáveis de h (exoesqueleto 1; os valores estão no texto de 4.1.7 e na Figura 10) e a de grandezas do circuito por ângulo (exoesqueleto 2; os mesmos ângulos estão na Tabela 11, do cenário de projeto).
+- **Pergunta:** algum desses cortes deve voltar? Se sim, diga qual, e eu compenso em outro ponto.
 
 ### A3. Correções pontuais nos capítulos 1 e 2
 
@@ -50,9 +50,8 @@ Ficam fora dessa lista, porque pedem redação sua:
 
 ### A4. Data da defesa e folha de aprovação
 
-- **Onde:** folha de aprovação, "Limeira, XX de novembro de 2026".
-- **Pergunta:** qual é a data da defesa? A composição da banca (Okabe, Brittes e Tuckmantel) está correta?
-- **Situação:** mantido "XX". Não inventei data.
+- **Situação:** 26/11/2026, como no seu arquivo de 14/11, na folha de aprovação e na folha de rosto.
+- **Pergunta:** a composição da banca (Okabe, Brittes e Tuckmantel) está correta?
 
 ### A5. Comprimento útil do alojamento: 131,37 mm ou 140,0 mm
 
@@ -129,8 +128,8 @@ Ficam fora dessa lista, porque pedem redação sua:
 
 ### C4. Contagem de páginas no Microsoft Word
 
-- A contagem de páginas foi feita com o LibreOffice, que é o que há no ambiente. O Word pode quebrar linhas e posicionar figuras de modo um pouco diferente, e o limite de 82 páginas ficou justo.
-- **Pergunta:** ao abrir o arquivo no Word, confira o total de páginas. Se passar de 82, me diga quantas páginas deu, e eu corto o que faltar.
+- A contagem de páginas foi feita com o LibreOffice, que é o que há no ambiente. O Word pode quebrar linhas e posicionar figuras de modo um pouco diferente, e figuras inteiras podem mudar de página.
+- **Pergunta:** ao abrir o arquivo no Word, confira o total de páginas. Se passar do limite que você precisa cumprir, me diga quantas páginas deu, e eu corto o que faltar.
 
 ### C5. Citações das bibliotecas de software
 
@@ -147,7 +146,9 @@ Ficam fora dessa lista, porque pedem redação sua:
 
 ## E. Itens já decididos por você, só para constar
 
-- **Limite de páginas:** 80 para o documento inteiro, da capa ao fim, mais as 2 que você aceitou para o exoesqueleto 3 ficar parelho com os outros dois: 82.
+- **Limite de páginas:** 80 para o documento inteiro, da capa ao fim, mais as 2 que você aceitou para o exoesqueleto 3 ficar parelho com os outros dois: 82. Depois, a seu pedido, voltaram as quatro figuras que tinham saído, e o documento foi a 86 páginas.
+- **Seu arquivo de 14/11 como base:** ficaram as suas quatro alterações (data da defesa, frase retirada do capítulo 2, parágrafo do CAD do exoesqueleto 1 e retirada do parágrafo do apoio de braço do exoesqueleto 3 em 3.2). Para a Tabela 13 continuar citada no texto, 4.3.1 ganhou a frase "A Tabela 13 reúne as propriedades de massa do conjunto."
+- **Figuras de volta:** o circuito do exoesqueleto 1 sobre a Figura 42 da US 9.889.554 B2 (Figura 2), os circuitos do exoesqueleto 2 sobre a Figura 22 da EP 3 504 033 B1 (Figura 5), o ajuste de forma do exoesqueleto 2, que era do apêndice (Figura 13), e o cenário de projeto do exoesqueleto 2 em gráfico (Figura 16). Algumas legendas longas foram encurtadas, sem perder informação que não esteja na nota ou no texto, para a lista de figuras caber numa página.
 - **Exoesqueleto 3 parelho:** o antigo 4.3.3 foi dividido como no exoesqueleto 2 (4.3.3 Identificação da mola, 4.3.4 Qualidade do ajuste, 4.3.5 Parâmetros do modelo), e as quatro subseções finais passaram a 4.3.6 a 4.3.9. Voltaram as aberturas de 4.2 e 4.3 e as recomendações de continuidade de 5.2 e 5.3, sem a parte de dinâmica.
 - **Base:** o seu arquivo com os cortes, sem seguir 100% dele; a metodologia fundida por tópico e os resultados por exoesqueleto.
 - **O que saiu, saiu de vez:** não há apêndice nem material suplementar citado no texto.
