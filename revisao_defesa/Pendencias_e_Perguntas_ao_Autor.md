@@ -1,6 +1,6 @@
 # Pendências e perguntas ao autor
 
-Versão para a defesa do TCC "Modelagem de mecanismos passivos de apoio ao braço", com 80 páginas.
+Versão para a defesa do TCC "Modelagem de mecanismos passivos de apoio ao braço", com 83 páginas.
 
 Este arquivo reúne o que depende de você: decisões, dados que só você tem e confirmações. Nada do que está aqui foi resolvido em silêncio no documento. As perguntas estão em ordem de prioridade. As da parte A mudam o texto final; as demais servem para você chegar à banca com a resposta pronta.
 
@@ -146,7 +146,7 @@ Ficam fora dessa lista, porque pedem redação sua:
 
 ## E. Itens já decididos por você, só para constar
 
-- **Limite de páginas:** 80 para o documento inteiro, da capa ao fim, mais as 2 que você aceitou para o exoesqueleto 3 ficar parelho com os outros dois: 82. Depois, a seu pedido, voltaram as quatro figuras que tinham saído (86 páginas), e em seguida o texto foi enxugado, sem tirar figuras nem resultados: as seções 3.4 e 3.5 foram fundidas e saíram trechos que repetiam o que já estava dito em outro lugar. O DOCX ficou com 80 páginas.
+- **Limite de páginas:** 80 para o documento inteiro, da capa ao fim, mais as 2 que você aceitou para o exoesqueleto 3 ficar parelho com os outros dois: 82. Depois, a seu pedido, voltaram as quatro figuras que tinham saído (86 páginas), e em seguida o texto foi enxugado, sem tirar figuras nem resultados: as seções 3.4 e 3.5 foram fundidas e saíram trechos que repetiam o que já estava dito em outro lugar (80 páginas). Uma conferência frase a frase mostrou que, nesse enxugamento, tinham saído também duas conclusões (a da validade física, em 5.1, e a síntese que abre a 5.4) e frases de método, resultado e ressalva que só existiam num lugar; elas voltaram, e o DOCX ficou com 83 páginas.
 - **Seu arquivo de 14/11 como base:** ficaram as suas quatro alterações (data da defesa, frase retirada do capítulo 2, parágrafo do CAD do exoesqueleto 1 e retirada do parágrafo do apoio de braço do exoesqueleto 3 em 3.2). Para a Tabela 13 continuar citada no texto, 4.3.1 ganhou a frase "A Tabela 13 reúne as propriedades de massa do conjunto."
 - **Figuras de volta:** o circuito do exoesqueleto 1 sobre a Figura 42 da US 9.889.554 B2 (Figura 2), os circuitos do exoesqueleto 2 sobre a Figura 22 da EP 3 504 033 B1 (Figura 4), o ajuste de forma do exoesqueleto 2, que era do apêndice (Figura 13), e o cenário de projeto do exoesqueleto 2 em gráfico (Figura 16). Algumas legendas longas foram encurtadas, sem perder informação que não esteja na nota ou no texto, para a lista de figuras caber numa página.
 - **Exoesqueleto 3 parelho:** o antigo 4.3.3 foi dividido como no exoesqueleto 2 (4.3.3 Identificação da mola, 4.3.4 Qualidade do ajuste, 4.3.5 Parâmetros do modelo), e as quatro subseções finais passaram a 4.3.6 a 4.3.9. Voltaram as aberturas de 4.2 e 4.3 e as recomendações de continuidade de 5.2 e 5.3, sem a parte de dinâmica.

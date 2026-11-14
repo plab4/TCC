@@ -6,7 +6,7 @@ TCC "Modelagem de mecanismos passivos de apoio ao braço", de Pedro Luís de Alm
 
 | Arquivo | O que é |
 |---|---|
-| `revisao_defesa/TCC_Modelagem_de_mecanismos_passivos_revisado_para_defesa.docx` | Documento para a defesa, no formato FT/FCA, com 80 páginas da capa ao fim |
+| `revisao_defesa/TCC_Modelagem_de_mecanismos_passivos_revisado_para_defesa.docx` | Documento para a defesa, no formato FT/FCA, com 83 páginas da capa ao fim |
 | `revisao_defesa/TCC_Modelagem_de_mecanismos_passivos_revisado_para_defesa.pdf` | O mesmo conteúdo, composto em LaTeX com o modelo da FT (82 páginas) |
 | `revisao_defesa/Relatorio_de_Revisao_Tecnica.md` | Este relatório |
 | `revisao_defesa/Pendencias_e_Perguntas_ao_Autor.md` | O que depende de você: decisões, dados e confirmações |
@@ -34,7 +34,7 @@ O trabalho teve três etapas.
 | Tabelas | 33 | 17 |
 | Referências | 45 | 37 |
 
-Composição do corpo da versão para a defesa: 512 blocos, dos quais 308 mantidos sem alteração (equações, figuras, tabelas e parágrafos), 129 mantidos com um trecho trocado ou cortado, 14 legendas ou notas reescritas, 48 parágrafos novos, que condensam ou juntam os do documento longo, e 13 títulos novos (as 11 seções do capítulo 3 e duas subseções do exoesqueleto 3). Depois do limite de 82 páginas, voltaram, a seu pedido, as quatro figuras que tinham saído (86 páginas); em seguida, as seções 3.4 e 3.5 foram fundidas e saíram trechos repetidos, e o DOCX ficou com 80 páginas (o PDF do LaTeX, com 82). A base é o seu arquivo de 14/11, com as suas quatro alterações.
+Composição do corpo da versão para a defesa: 517 blocos, dos quais 318 mantidos sem alteração (equações, figuras, tabelas e parágrafos), 122 mantidos com um trecho trocado ou cortado, 16 legendas ou notas reescritas, 48 parágrafos novos, que condensam ou juntam os do documento longo, e 13 títulos novos (as 11 seções do capítulo 3 e duas subseções do exoesqueleto 3). Depois do limite de 82 páginas, voltaram, a seu pedido, as quatro figuras que tinham saído (86 páginas); em seguida, as seções 3.4 e 3.5 foram fundidas e saíram trechos repetidos, e o DOCX ficou com 80 páginas. Uma conferência frase a frase contra a versão anterior mostrou que tinham saído também duas conclusões e frases de método, resultado e ressalva que só existiam num lugar; elas voltaram, e o DOCX ficou com 83 páginas (o PDF do LaTeX, com 84). A base é o seu arquivo de 14/11, com as suas quatro alterações.
 
 **Estrutura.** O capítulo 3 tem 11 seções, uma por etapa do procedimento (reconstrução em CAD; parâmetros inerciais; referenciais e convenções; fechamento do circuito e braço de momento, com cada exoesqueleto completo antes do seguinte; elemento elástico, lei da mola e torque; ponto morto; torque gravitacional; trabalhos virtuais; dados da patente e identificação; varredura paramétrica; verificações, ferramentas e delimitação), e cada seção trata os três exoesqueletos em sequência. O capítulo 4 segue os títulos do seu arquivo: nove subseções para cada exoesqueleto, sem as seções de verificação dos exoesqueletos 2 e 3, que você cortou; no exoesqueleto 3, identificação da mola, qualidade do ajuste e parâmetros do modelo ficam em subseções separadas, como no 2, e as quatro finais são 4.3.6 a 4.3.9. A variável independente é q nas três formulações, e a definição do trabalho virtual, δW = 0, aparece nas três (seção 3.8).
 
@@ -102,7 +102,7 @@ Executadas por `tcc/verificar_condensado.py` e pelos verificadores do pipeline, 
 | Conferência | Resultado |
 |---|---|
 | Numeração de seções, tabelas, figuras e equações em sequência; remissões sem destino | 64 títulos, 17 tabelas, 20 figuras e 64 equações em ordem; nenhuma remissão sem destino; nenhuma tabela ou figura sem chamada no texto |
-| Proveniência dos números: todo número do texto condensado existe no documento longo | 1.767 números conferidos; nenhum novo |
+| Proveniência dos números: todo número do texto condensado existe no documento longo | 1.819 números conferidos; nenhum novo |
 | Equações iguais às do documento longo | 64 equações editáveis, idênticas byte a byte |
 | Figuras e tabelas | 20 imagens, todas as do documento longo e idênticas a elas (quatro reduzidas em tamanho na página: os circuitos dos três exoesqueletos e a reprodução da Figura 16 da EP 3 504 033 B1); nenhuma linha de tabela que não exista no documento longo |
 | Termos retirados (MBDyn, Lagrange, etapa dinâmica, equação de movimento, apêndice) | Nenhuma ocorrência, incluídos o resumo e o abstract |
@@ -111,7 +111,7 @@ Executadas por `tcc/verificar_condensado.py` e pelos verificadores do pipeline, 
 | DOCX contra o PDF do LaTeX (`verificar_docx_modelo.py`) | Mesmo texto, mesmas equações, tabelas e figuras; sumário e listas com as páginas do próprio DOCX |
 | Integridade do pacote DOCX | Abre sem erro; sem comentários nem alterações controladas; equações editáveis, nenhuma em imagem |
 | Páginas | 80, da capa ao fim, na conversão pelo LibreOffice |
-| Inspeção visual | Todas as 80 páginas renderizadas e olhadas: capa, folha de aprovação, resumo, listas, sumário, equações, figuras e tabelas |
+| Inspeção visual | Todas as 83 páginas renderizadas e olhadas em conjunto, com o preenchimento de cada uma medido: capa, folha de aprovação, resumo, listas, sumário, equações, figuras e tabelas |
 
 ## 7. O que saiu
 

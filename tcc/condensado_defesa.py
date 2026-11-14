@@ -14,7 +14,8 @@ Decisões do autor que o plano segue:
   com os três exoesqueletos em sequência; os capítulos 4 e 5 seguem por exoesqueleto;
 - as seções 4.x.6 a 4.x.9 (comportamento, varredura, confronto e limitações) ficam;
 - 3.4 e 3.5 fundidas (fechamento do circuito e braço de momento), com cada exoesqueleto completo
-  antes do seguinte; saem trechos que repetem o que já está dito em outra seção (pedido de 14/11);
+  antes do seguinte; saem trechos que repetem o que já está dito em outra seção (pedido de 14/11),
+  mas ficam as conclusões, as remissões de método e as ressalvas que só aparecem num lugar;
 - saem as tabelas longas de pontos extraídos (Tabelas 5 e 15 do documento longo) e as que
   repetem números do texto ou de outra tabela;
 - no DOCX, cada figura entra depois do parágrafo que a antecede no fluxo da página, para não
@@ -154,8 +155,7 @@ CAP2 = [
     ('K', 58),
     ("E", 59, [('mola–cabo–polia',
                 'mola-cabo-polia')]),
-    ('K', 60),
-    ('K', 62, 67),
+    ('K', 60, 67),
     ("E", 68, [('O cálculo do torque gravitacional e das equações de movimento pressupõe',
                 'O cálculo do torque gravitacional e a composição inercial do conjunto pressupõem')]),
     ("E", 69, [(' Cabe distinguir, nesse ponto, as duas grandezas que o procedimento alimenta: o momento '
@@ -268,10 +268,7 @@ CAP3 = [
                 'No exoesqueleto 1, a origem O fica no eixo da junta (pivô).')]),
     ('K', 94),
     ("E", 95, [("curva publicada na patente, medido", "curva da patente, medido")]),
-    ('K', 96),
-    ("E", 97, [(" O ângulo φpat não deve ser confundido com φ, direção da linha do cabo calculada pelo modelo "
-                "(seção 3.1.4).", "")]),
-    ('K', 98),
+    ('K', 96, 98),
     ("E", 204, [('A origem O fica no eixo da articulação 20',
                 'No exoesqueleto 2, a origem O fica no eixo da articulação 20')]),
     ('K', 205),
@@ -282,12 +279,14 @@ CAP3 = [
     ('K', 207, 209),
     ("E", 210, [(", e as comparações usam seu módulo τg", "")]),
     ("R", 211, 'O ângulo θ_{b,pose} = 7,962° é positivo, como conferido no CAD: na pose, o braço '
-               'fica acima da horizontal.'),
+               'fica acima da horizontal. Com o sinal oposto, o contato do elástico com o '
+               'elemento 78 passaria de 24,55° para 8,62°, e o espaçamento entre as curvas da '
+               'Figura 16 da patente fecharia com resíduo de 0,406 mm, contra 0,194 mm com o '
+               'sinal adotado (seção 4.2.4).'),
     ("E", 308, [('A origem O fica no eixo do pivô 584',
                 'No exoesqueleto 3, a origem O fica no eixo do pivô 584')]),
     ('K', 309, 310),
-    ("E", 311, [(" As propriedades de massa da seção 3.3.2 estão em outro referencial, o da peça, que é o da "
-                 "Figura 14D girado; os ângulos ai são medidos a partir do eixo maior.", "")]),
+    ('K', 311),
     ("E", 312, [(", e as comparações usam seu módulo τg", ""),
                 (" O torque τ é o produto da força da mola pela transmissão τ/Fs.", "")]),
     H("t_fech"),
@@ -329,11 +328,7 @@ CAP3 = [
                 'No exoesqueleto 3, o cabo 560 fecha um circuito vetorial')]),
     ('K', 315),
     ("E", 316, [(" (seção 3.3.5)", "")]),
-    ('K', 317),
-    ("E", 318, [(" O caminho inverso também fecha: com θ dado, φ = θ + 90°, w = −[R u(φ) + C1 u(γ)] e q = 180° − φ "
-                 "± acos(w·u(φ)/C2); dos dois ramos, o correto é escolhido por continuidade a partir da pose do "
-                 "CAD.", "")]),
-    ('K', 319, 321),
+    ('K', 317, 321),
     ('K', 323),
     ('K', 324, 327),
     H("t_mola"),
@@ -394,9 +389,7 @@ CAP3 = [
     ('K', 245, 246),
     ("E", 340, [('O braço de momento',
                 'No exoesqueleto 3, o braço de momento')]),
-    ('K', 341),
-    ("E", 342, [(" O primeiro valor sai do caminho inverso da seção 3.3.4, com θ = γ + 180°, e o segundo, pelo "
-                 "método de Brent (BRENT, 1973).", "")]),
+    ('K', 341, 342),
     H("t_grav"),
     ("P", 'O torque do peso de cada conjunto é calculado de forma independente do mecanismo, em '
           'N·m, unidade física, e as comparações usam o seu módulo, τ_{g}.'),
@@ -439,8 +432,8 @@ CAP3 = [
                  "faixa de operação, f aponta quase para o pivô: φ + β − q difere de 180° em no máximo 4,623°. "
                  "Por isso, −b")]),
     ('K', 160, 162),
-    ("E", 163, [(' Como τ está em u.p. e τg,s em N·m, essa soma só tem valor físico se u.p. corresponder a N·m '
-                 '(seção 3.1.13), e a seção 4.1 compara apenas a forma e os ângulos de τ e τg.', ''),
+    ("E", 163, [(' (seção 3.1.13)',
+                ''),
                (' Com aceleração nula e Qnc = τu, a Equação (31) reduz-se a essa condição.',
                 '')]),
     ("E", 252, [('O equilíbrio é escrito pelo trabalho virtual num giro δq do conjunto, em radianos, igual a',
@@ -477,10 +470,8 @@ CAP3 = [
                'que corresponde a 0,024 divisão na ordenada e a 0,38° na abscissa; a imagem e a '
                'resolução usadas na leitura não foram registradas, e a incerteza da extração não '
                'foi avaliada de forma independente.'),
-    ("E", 268, [(" O ajuste da forma de cada curva, com s0 e escala livres, dá uma terceira estimativa, que "
-                 "depende também do braço de momento e do torque do peso do modelo.", ""),
-                ("; a terceira é mantida como resultado secundário, pelas razões da seção 4.2.5, e está descrita no "
-                 "Apêndice A.", ".")]),
+    ("E", 268, [(', e está descrita no Apêndice A.',
+                '.')]),
     ('K', 269, 272),
     ('K', 262, 263),
     ("R", 264, 'Fonte: Mizera et al. (2023), Figura 16, p. 31 do documento B1, com a página '
@@ -504,7 +495,8 @@ CAP3 = [
     H("t_varr"),
     ("P", 'Em cada mecanismo, o parâmetro geométrico menos certo foi varrido, com os demais '
           'congelados. A varredura é um diagnóstico, e não uma otimização: nenhum parâmetro do '
-          'modelo é substituído pelo resultado.'),
+          'modelo é substituído pelo resultado, e cada valor é testado por critérios de validade '
+          'física que não usam a curva da patente.'),
     ("E", 173, [('Para separar o que a curva extraída informa sobre h',
                 'No exoesqueleto 1, para separar o que a curva extraída informa sobre h'),
                (" A varredura é um diagnóstico, não uma otimização: K permanece congelado em 174,68 em todos "
@@ -519,6 +511,9 @@ CAP3 = [
                'existência de tangente ao tambor (ρ > R) em toda a faixa; e (iii) trabalho '
                'virtual, isto é, resíduo da Equação (19) inferior a 10^{−6} mm/rad. O torque '
                'gravitacional não entra em nenhum critério da varredura.'),
+    ("R", 177, "Da varredura derivam o h de menor RMSE, os platôs de RMSE, a fronteira de tração, obtida por "
+               "bissecção, o h em que o ponto morto entra na faixa de operação, dado pela Equação (24), e os nós "
+               "da família de curvas, ângulos em que as curvas para sete valores de h quase coincidem."),
     ("E", 287, [('O comprimento',
                 'No exoesqueleto 2, o comprimento'),
                ("é o comprimento e do segmento OP, isto é, a excentricidade", "é a excentricidade"),
@@ -538,7 +533,11 @@ CAP3 = [
                'acompanham o came de uma figura para a outra. Admitido, por hipótese, que a polia externa tenha furos '
                'correspondentes, o came pode ser fixado girado de j passos em relação ao desenho, '
                'com j de −4 a +4, e, com os mesmos cinco furos nas duas peças, 5 − |j| pares '
-               'coincidem.'),
+               'coincidem; j positivo é o giro anti-horário na vista das Figuras 14C e 14D.'),
+    ("R", 362, "Cada montagem foi calculada de dois modos: com a mola e o cabo da montagem desenhada, com "
+               "k e x_{0} do ajuste da seção 3.3.10 e o alongamento dado pela variação do comprimento do cabo "
+               "da mola desde a pose do CAD com o came desenhado; e com k e x_{0} ajustados de novo à Figura 16 "
+               "da US 9.737.374 B2, como no giro contínuo."),
     H("t_verif"),
     ("E", 179, [('A cadeia de cálculo é conferida a cada execução do modelo',
                 'No exoesqueleto 1, a cadeia de cálculo é conferida a cada execução do modelo'),
@@ -557,7 +556,7 @@ CAP3 = [
                 "mm, com s0 e K do cenário de projeto, em malha de 0,1° de 0° a 180°; a identificação",
                 ". A identificação")]),
     ("R", 364, "No exoesqueleto 3, os scripts executam verificações com tolerância declarada, do fechamento "
-               "com as grandezas do CAD ao trabalho virtual e à rotação das polias pelo "
+               "com as grandezas do CAD ao caminho inverso, ao trabalho virtual e à rotação das polias pelo "
                "enrolamento, e conferem as massas e o came contra as figuras da patente; não há um conjunto "
                "separado de testes executado com o pytest."),
     ("P", 'Foram empregados o Autodesk Fusion, para a reconstrução geométrica e a extração das '
@@ -623,7 +622,8 @@ CAP4 = [
           'da zona neutra indicado na patente.'),
     ("P", 'A formulação sem o arco alcança RMSE de 1,152 u.p. no mesmo h, contra 1,830 u.p. com o '
           'caminho completo. Ela ajusta melhor a curva publicada, mas viola a conservação de '
-          'energia (seção 4.1.3) e não foi adotada.'),
+          'energia (seção 4.1.3) e não foi adotada: o menor RMSE não é critério de validade '
+          'física.'),
     ('K', 411, 418),
     ("P", 'A forma do perfil é reproduzida com fidelidade, com duas ressalvas: os quatro '
           'parâmetros não publicados foram identificados contra os mesmos 29 pontos usados na '
@@ -666,12 +666,8 @@ CAP4 = [
     ('K', 443, 444),
     ("E", 445, [(" Os platôs constam da Tabela 11.", "")]),
     ('K', 449),
-    ("E", 450, [(" A Tabela 12 reúne os valores notáveis de h.", ""),
-                (" (de 28,942 mm em h = 15 mm para 42,435 mm em h = 22,701 mm e 106,573 mm em h = 60 mm)", "")]),
-    ("E", 454, [(" Nenhum h positivo leva o ponto morto ao outro extremo: para h > 0, θ*pm fica confinado entre "
-                 "184,619° e 274,619° e nunca alcança θ* = 42,917°. Para esse extremo, a Equação (24) devolve "
-                 "h = 3,9953 mm, que é ramo espúrio: nesse h, a Equação (23) situa o ponto morto em 222,917°.",
-                 "")]),
+    ("E", 450, [(" A Tabela 12 reúne os valores notáveis de h.", "")]),
+    ('K', 454),
     ('K', 458),
     ("P", 'O torque gravitacional do conjunto, calculado pela Equação (26), atinge o máximo de '
           '11,1619 N·m na elevação de 89,44°. Como as magnitudes não são comparáveis, '
@@ -685,32 +681,25 @@ CAP4 = [
           'elevação de 93,96° e, entre 105° e 150°, diferem em no máximo 0,027. Abaixo de 94°, as '
           'diferenças tornam-se negativas e crescentes em módulo, até −0,520 na elevação de 30°; '
           'no ponto morto, o torque gravitacional ainda vale 5,757 N·m, 51,6% de seu pico, '
-          'enquanto o torque do cabo se anula.'),
+          'enquanto o torque do cabo se anula. Trata-se de característica da arquitetura, e não '
+          'de deficiência do ajuste (seção 2.3).'),
     ("P", 'O confronto ilustra a limitação apontada por Nasr, Ferguson e McPhee (2022): um '
           'mecanismo passivo entrega torque determinado para cada ângulo, de modo que o ajuste '
           'favorável em uma faixa implica desvio em outra. No caso analisado, o compromisso '
           'privilegia a faixa acima da horizontal, onde a exposição postural concentra o risco '
           'documentado por van der Molen et al. (2017) e Seidler et al. (2020), à custa de '
           'subcompensação na faixa inferior.'),
-    ('K', 469),
-    ("E", 471, [("O ponto morto do mecanismo situa-se em θ* = 192,5317°, equivalente à elevação de 30,485°, e a "
-                 "patente indica a zona neutra a partir de 30°, diferença de 0,485°. A protuberância que, no "
-                 "dispositivo real, restringe o gerador de força além desse ângulo",
-                 "A protuberância que, no dispositivo real, restringe o gerador de força além do ponto morto")]),
-    ("E", 472, [(" Essa conversão exige dado independente, como a especificação de rigidez de uma mola comercial "
-                 "compatível com o mecanismo ou fonte documentada que estabeleça a escala da figura original.", ""),
-                (' e a integração da equação de movimento',
+    ('K', 469, 471),
+    ("E", 472, [(' e a integração da equação de movimento',
                 '')]),
-    ("E", 473, [(", e os quatro parâmetros foram identificados e avaliados contra os mesmos 29 pontos, cuja "
-                 "incerteza de extração não está documentada", ""),
-                (" A cota do CAD, HCAD, é incompatível com os demais parâmetros congelados, pois viola o critério "
-                 "de tração.", "")]),
+    ('K', 473),
     ('K', 476),
     ("E", 477, [(" As etapas dinâmicas da seção 3.2.13 não foram executadas.", "")]),
     ('K', 478, 483),
     ("P", 'Na pose do CAD, o circuito dá s = 359,7679 mm até a ponta da peça de fixação do '
           'elástico, que difere do comprimento medido s_{pose} em 1,4 × 10^{−4} mm, valor '
-          'inferior à resolução da medida.'),
+          'inferior à resolução da medida. O elemento 78 está a p = 7,754 mm do eixo da '
+          'articulação, enquanto a patente prefere esse elemento sobre o eixo (seção ⟦S:4.2.9⟧).'),
     ('K', 485, 488),
     ("P", 'No modelo em CAD, o braço do exoesqueleto (elemento 8) tem massa de 163,951 g e centro '
           'de massa a 47,362 mm do eixo da articulação 20, estimativas obtidas da geometria '
@@ -778,7 +767,9 @@ CAP4 = [
                 ' testadas na identificação.')]),
     ("P", 'Em N·m, a comparação só é possível sob a hipótese K = K_{40}, e por isso a Figura 15 e a '
           'Tabela 20 descrevem um cenário de projeto, e não o dispositivo comercial. Nesse cenário, o torque '
-          'do elástico atinge 4,379 N·m em θ_{el} = 79,1°, 10,7° abaixo do pico de τ_{g}.'),
+          'do elástico atinge 4,379 N·m em θ_{el} = 79,1°, 10,7° abaixo do pico de τ_{g}. Abaixo '
+          'da transição, o modelo mantém torque positivo, porque o elemento 78 está a 7,754 mm do '
+          'eixo, ao passo que a Figura 16 da patente mostra razão nula abaixo de cerca de 14°.'),
     ('K', 548, 551),
     ("E", 552, [(" do membro e do braço do exoesqueleto", "")]),
     ('K', 553, 555),
@@ -794,7 +785,9 @@ CAP4 = [
           'distribuição angular do torque calculado, sim. O torque em N·m é um cenário, e não uma '
           'medida: a patente não publica a rigidez do elástico nem a escala da ordenada, e K = '
           'K_{40} vem da alegação comercial de 40% de assistência (SUITX, [202-]), sem '
-          'verificação independente. O trecho abaixo da transição depende da posição e do raio de contato do elemento 78. As '
+          'verificação independente. As comparações angulares com a patente dependem da hipótese '
+          'de eixo da articulação 20 no centro do ombro e barra 18 fixa no tronco, e o trecho '
+          'abaixo da transição depende da posição e do raio de contato do elemento 78. As '
           'grandezas medidas no CAD não têm conferência independente, e os resultados referem-se '
           'ao membro de referência, num modelo plano.'),
     ('K', 566),
@@ -899,9 +892,7 @@ CAP5 = [
           'momento perpendicular, limitado a 22,919 mm, da distância do pivô ao ponto de '
           'tangência, próxima de 283 mm, cuja confusão superestimaria o torque por um fator '
           'superior a 12.'),
-    ("E", 661, [(" A adoção da formulação consistente, apesar do RMSE maior, reflete o critério de que a escolha "
-                 "entre modelos se faz por validade física, e não pelo indicador de erro.", "")]),
-    ('K', 662),
+    ('K', 661, 662),
     ("E", 663, [(" O resultado quantifica o compromisso de um mecanismo passivo de torque fixo por ângulo, que "
                  "favorece o trabalho acima da cabeça.", "")]),
     ("E", 664, [('O objetivo geral foi atingido para este dispositivo na parte estática, e a '
@@ -970,6 +961,11 @@ CAP5 = [
     ("E", 682, [(", e, com a escala resolvida, executar as etapas dinâmicas pela formulação de Lagrange e no "
                  "MBDyn.", ".")]),
     ('K', 683),
+    ("E", 684, [(" com R2 de 0,99839", ""),
+                (", mas sua forma não é reproduzida pelo modelo do CAD, e o torque", ", mas o torque"),
+                (" molda o torque pelo came, cujo giro em relação à primária é o parâmetro mais sensível, e chega",
+                 " chega"),
+                (", sob a hipótese de que ela seja o peso do membro de referência.", ".")]),
     ("E", 685, [("O pico de assistência fica acima do pico gravitacional no primeiro, 8,1° (97,5° contra "
                  "89,4°), e abaixo no segundo, 10,7° (79,1° contra 89,8°);",
                  "O pico de assistência fica 8,1° acima do pico gravitacional no primeiro e 10,7° abaixo no "
