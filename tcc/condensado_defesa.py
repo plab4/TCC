@@ -476,7 +476,8 @@ CAP3 = [
           'torque calculado na convenção da patente, −τ, menos o valor extraído.'),
     ('K', 171),
     ("E", 259, [('As Figuras 16 e 17 da patente são apresentadas',
-                'No exoesqueleto 2, as Figuras 16 e 17 da EP 3 504 033 B1 são apresentadas')]),
+                'No exoesqueleto 2, as Figuras 16 e 17 da EP 3 504 033 B1 são apresentadas'),
+               (' (Figura 5)', '')]),
     ('K', 260, 261),
     ("R", 266, 'Os pontos das três curvas foram extraídos neste trabalho e estão no arquivo '
                'fig16_curvas.csv. A extração dividiu a leitura vertical por 21,1311 para obter a '
@@ -487,9 +488,8 @@ CAP3 = [
     ("E", 268, [(', e está descrita no Apêndice A.',
                 '.')]),
     ('K', 269, 272),
-    ('K', 262, 263),
-    ("R", 264, 'Fonte: Mizera et al. (2023), Figura 16, p. 31 do documento B1, com a página '
-               'girada para a orientação de leitura.'),
+    # a reprodução da Figura 16 da EP saiu a pedido do autor (14/11), para o 3.9 não mostrar a
+    # figura de uma patente só; os pontos extraídos dela aparecem nos resultados
     ('K', 273, 277),
     ("R", 278, 'A robustez da identificação foi avaliada com outras faixas de θ_{el}, de 15° a '
                '170°, de 25° a 160° e de 40° a 150°, com ruído de 0,5 px nas duas coordenadas de '
@@ -590,7 +590,7 @@ CAP3 = [
 ]
 
 # figuras reduzidas: índice do bloco da imagem → fator
-ESCALA_FIGURAS = {263: 0.8, 320: 0.9,
+ESCALA_FIGURAS = {320: 0.9,
                   413: 0.9, 438: 0.9, 443: 0.9, 462: 0.9, 509: 0.9, 538: 0.9, 544: 0.9, 553: 0.9, 607: 0.9,
                   617: 0.85, 623: 0.9, 633: 0.9, 760: 0.9}
 
