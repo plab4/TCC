@@ -337,6 +337,14 @@ def aplicar_plano(plano, blocos, res, marc, escalas=None):
             # nota nova de tabela ou figura, no estilo das notas (texto na marcação do gerador)
             assert e[1].startswith("Nota: "), e[1][:40]
             itens.append({"origem": "n", "xml": g.PEQUENO(marc.texto(e[1])), "indice": None, "modo": "N"})
+        elif op == "F":
+            # figura nova, feita por um script de results/ depois do documento longo: legenda
+            # (chave ⟦F#…⟧, citada no texto por ⟦F:…⟧), imagem, fonte e, se houver, nota
+            _, chave, arquivo, largura, descricao, titulo, fonte, nota = e
+            assert fonte.startswith("Fonte: ") and (nota is None or nota.startswith("Nota: "))
+            for xml in (g.LEG_F(chave, marc.texto(titulo)), g.FIGURA(arquivo, largura, descricao),
+                        g.PEQUENO(marc.texto(fonte), True)) + ((g.PEQUENO(marc.texto(nota)),) if nota else ()):
+                itens.append({"origem": "n", "xml": xml, "indice": None, "modo": "F"})
         else:
             raise ValueError(op)
     return itens

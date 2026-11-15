@@ -86,6 +86,9 @@ repositório (tcc/, revisao_defesa/, exo3/, latex/, DERIVATION.md).
 - Peso do apoio de braço a partir das massas do CAD (exo3/massa_apoio.py).
 - tcc_resultados_exo3.py: números e figuras.
 - Relatório de viabilidade (tcc/exo3_viabilidade.md).
+- tcc_resultados_exo3_marcadores.py (15/11/2026): ajuste da mola refeito só nos 27
+  marcadores da Figura 16 e confronto, nesses marcadores, do torque da patente com o
+  torque do braço (AWM) e do conjunto membro e apoio, com duas figuras.
 
 2.4 Auditorias e verificações
 - Auditoria do modelo e dos números do TCC contra o código (revisao_defesa/auditoria/).
@@ -118,6 +121,8 @@ repositório (tcc/, revisao_defesa/, exo3/, latex/, DERIVATION.md).
   massa e parâmetros) entre os três exoesqueletos, sem mudar números.
 - Rascunho dos agradecimentos e da folha de aprovação; os agradecimentos foram depois
   trocados pelo texto do autor.
+- Capítulo 5 reorganizado por assunto (15/11/2026), com os três exoesqueletos em cada
+  seção, e textos novos do exoesqueleto 3 nas seções 4.7 e 4.8, a partir dos marcadores.
 - Resumo e abstract do LaTeX, redigidos a partir das conclusões.
 - Correções pontuais nos capítulos 1 e 2:
   - patente repetida no objetivo geral;

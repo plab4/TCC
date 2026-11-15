@@ -104,10 +104,10 @@ Gerado por `tcc/verificar_condensado.py`. A coluna da esquerda traz a numeraçã
 | 4.3.9 Limitações dos resultados | conteúdo condensado em 4.9 |
 | 4.4 Comparação entre os três exoesqueletos | saiu |
 | 5 CONCLUSÃO | 5 (título mantido) |
-| 5.1 Exoesqueleto 1 | 5.1 (título mantido) |
-| 5.2 Exoesqueleto 2 | 5.2 (título mantido) |
-| 5.3 Exoesqueleto 3 | 5.3 (título mantido) |
-| 5.4 Comparação entre os três exoesqueletos | 5.4 (título mantido) |
+| 5.1 Exoesqueleto 1 | saiu |
+| 5.2 Exoesqueleto 2 | saiu |
+| 5.3 Exoesqueleto 3 | saiu |
+| 5.4 Comparação entre os três exoesqueletos | conteúdo condensado em 5.4 |
 
 ## Apêndice
 
@@ -165,11 +165,11 @@ O Apêndice A (robustez da identificação e ajuste de forma no exoesqueleto 2) 
 | 8 | 6 | Torque do cabo calculado (−τ) e pontos extraídos da patente, com os resíduos no painel inferior (K = 174,68; h |
 | 9 | 10 | Família de curvas de torque do cabo para h de 16 a 32,886 mm, com K = 174,68 e Xpose = 37,383 mm congelados, e |
 | 10 | 11 | RMSE contra os pontos extraídos em função de h, com K congelado: faixa completa, em escala logarítmica, com os |
-| 11 | 15 | Torque do cabo e torque gravitacional normalizados pelos respectivos picos, em função da elevação anatômica (K |
+| 11 | 16 | Torque do cabo e torque gravitacional normalizados pelos respectivos picos, em função da elevação anatômica (K |
 | 12 | 5 | Identificação de s0 pelo espaçamento entre as curvas, com (a) o fator Gi de cada curva e (b) o fator G lido na |
 | 13 | 12 | Família de curvas em ec, com s0 = 300,750 mm, com (a) o torque por unidade de rigidez e (b) a razão entre o to |
-| 14 | 16 | Torque do elástico e torque do peso normalizados pelos respectivos picos, em função da anteversão |
-| 15 | 17 | Torque do elástico com K = K40 no cenário de projeto, torque do peso do membro e do braço do exoesqueleto e al |
+| 14 | 17 | Torque do elástico e torque do peso normalizados pelos respectivos picos, em função da anteversão |
+| 15 | 18 | Torque do elástico com K = K40 no cenário de projeto, torque do peso do membro e do braço do exoesqueleto e al |
 | 16 | 8 | Curva AASM da Figura 16 da US 9.737.374 B2 contra o modelo com mola linear e giro do came como na Figura 14D ( |
 | 17 | 9 | Vão S e braço de momento do cabo de ancoragem (a), raio efetivo e zona de saída do cabo da mola (b) e transmis |
 | 18 | 13 | Sensibilidade do ajuste da mola ao giro do came: R² em função do giro em relação ao desenho da Figura 14D (a)  |

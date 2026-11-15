@@ -191,6 +191,21 @@ def main():
     for x in res_longo:
         for p in g.PARAGRAFO.findall(x):
             base |= numeros(g.texto(p))
+    # complemento do exoesqueleto 3 (seções 4.7 a 4.9): números escritos pelo script de
+    # resultados, como aparecem no texto
+    def _folhas(x):
+        if isinstance(x, dict):
+            for y in x.values():
+                yield from _folhas(y)
+        elif isinstance(x, list):
+            for y in x:
+                yield from _folhas(y)
+        else:
+            yield str(x)
+    complemento = set()
+    for t in _folhas(json.loads(cd.COMPLEMENTO_EXO3.read_text(encoding="utf-8"))["texto"]):
+        complemento |= numeros(t)
+    base |= complemento
     novos, total = [], 0
     for b, r in zip(blocos[:i_ref], registro["blocos"][:i_ref]):
         if gc.estilo(b) == "Ttulo2" and not b.startswith("<w:tbl"):
@@ -208,7 +223,8 @@ def main():
     diga("## 2. Proveniência dos números")
     diga()
     diga(f"Números distintos por parágrafo conferidos: {total}. Números do texto condensado que não existem no "
-         f"documento longo: {len(novos)}. Os números de seção, tabela, figura e equação ficam fora dessa conta, "
+         f"documento longo nem no complemento do exoesqueleto 3 ({cd.COMPLEMENTO_EXO3.relative_to(RAIZ)}, escrito "
+         f"por tcc_resultados_exo3_marcadores.py): {len(novos)}. Os números de seção, tabela, figura e equação ficam fora dessa conta, "
          "porque são refeitos pela montagem e conferidos no item 1.")
     diga()
 
@@ -220,7 +236,8 @@ def main():
     eq_fora = om(doc) - om(doc_longo)
     usadas = set(re.findall(r'r:embed="([^"]+)"', "".join(blocos)))
     alvo = dict(re.findall(r'Id="([^"]+)"[^>]*Target="([^"]+)"', rels))
-    img_fora = [r for r in usadas if midia.get("word/" + alvo[r]) not in midia_longa]
+    novas_figuras = {hashlib.sha256((RAIZ / "results" / f).read_bytes()).hexdigest() for f in cd.FIGURAS_NOVAS}
+    img_fora = [r for r in usadas if midia.get("word/" + alvo[r]) not in midia_longa | novas_figuras]
     orfas = [n for n in midia if n[5:] not in alvo.values()]
 
     def linhas(x):
@@ -253,7 +270,8 @@ def main():
     diga()
     diga(f"Equações (OMML) do condensado: {doc.count('<m:oMathPara>')}, todas idênticas, byte a byte, às do "
          f"documento longo: "
-         f"{not eq_fora}. Imagens usadas: {len(usadas)}, todas idênticas às do documento longo: {not img_fora}; "
+         f"{not eq_fora}. Imagens usadas: {len(usadas)}, todas idênticas às do documento longo ou às "
+         f"{len(cd.FIGURAS_NOVAS)} figuras novas do complemento do exoesqueleto 3: {not img_fora}; "
          f"imagens sem uso deixadas no pacote: {len(orfas)}. Linhas de tabela do condensado que não estão no "
          f"documento longo (a menos da numeração): {len(lin_fora)}. Tabelas remontadas no formato padrão: "
          f"{len(remontadas)}, todas com os números da tabela de origem: {not any(f for _, f in remontadas)}.")

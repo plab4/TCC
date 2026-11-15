@@ -65,21 +65,21 @@ Porque cada torque está numa escala diferente. O do primeiro está em unidade d
 
 ### 2.10 Quais resultados não dependem de hipótese de escala?
 
-Os ângulos dos picos, dos pontos mortos e das transições, a forma normalizada dos perfis, os comprimentos de referência s0 e as verificações de fechamento e de trabalho virtual. Dependem de hipótese os valores em N·m. Tudo depende da geometria reconstruída a partir de desenhos sem cotas (último parágrafo da seção 5.4).
+Os ângulos dos picos, dos pontos mortos e das transições, a forma normalizada dos perfis, os comprimentos de referência s0 e as verificações de fechamento e de trabalho virtual. Dependem de hipótese os valores em N·m. Tudo depende da geometria reconstruída a partir de desenhos sem cotas (seção 5.5).
 
 ### 2.11 E a dinâmica?
 
-A versão entregue trata só do comportamento estático, e o texto não promete análise dinâmica. O título é "Modelagem de mecanismos passivos de apoio ao braço". Se a banca perguntar pela dinâmica, a resposta que o texto sustenta é esta: o trabalho calcula numericamente o torque estático ao longo de toda a faixa de movimento e faz varreduras paramétricas (h, e_c e giro do came); uma análise dinâmica somaria o torque do mecanismo ao do peso e exigiria os dois na mesma unidade física, e nenhuma das três patentes fornece a escala do torque (seção 4.9). Por isso a continuidade recomendada em cada conclusão é obter um dado independente que fixe a escala (seções 5.1, 5.2 e 5.3).
+A versão entregue trata só do comportamento estático, e o texto não promete análise dinâmica. O título é "Modelagem de mecanismos passivos de apoio ao braço". Se a banca perguntar pela dinâmica, a resposta que o texto sustenta é esta: o trabalho calcula numericamente o torque estático ao longo de toda a faixa de movimento e faz varreduras paramétricas (h, e_c e giro do came); uma análise dinâmica somaria o torque do mecanismo ao do peso e exigiria os dois na mesma unidade física, e nenhuma das três patentes fornece a escala do torque (seção 4.9). Por isso a continuidade recomendada em cada conclusão é obter um dado independente que fixe a escala (seção 5.5).
 
 **[depende de você]** Os objetivos sobre equação de movimento e simulação multicorpos saíram do texto a seu pedido. Se eles constavam do projeto aprovado, combine com o orientador como responder.
 
 ### 2.12 O que seria necessário para validar os modelos experimentalmente?
 
-Um dado independente que fixe a escala: a especificação ou o ensaio da mola no primeiro, a curva de força e extensão do elástico no segundo, e a rigidez, o comprimento livre e o giro do came medidos na peça real no terceiro (seções 5.1, 5.2 e 5.3). Com a escala fixada, a comparação com o torque medido no dispositivo validaria a magnitude.
+Um dado independente que fixe a escala: a especificação ou o ensaio da mola no primeiro, a curva de força e extensão do elástico no segundo, e a rigidez, o comprimento livre e o giro do came medidos na peça real no terceiro (seção 5.6). Com a escala fixada, a comparação com o torque medido no dispositivo validaria a magnitude.
 
 ### 2.13 Os resultados valem para outras pessoas e outros usos?
 
-Valem para o indivíduo de referência de de Leva (1996), de 73,0 kg e 1,741 m, com o cotovelo estendido e sem ferramenta na mão (abertura do capítulo 3 e último parágrafo da seção 5.4). Outro percentil, outro ângulo de cotovelo ou carga na mão pedem a reexecução do procedimento. A curva do mecanismo não muda com a pessoa; o que muda é o torque do peso com que ela é comparada.
+Valem para o indivíduo de referência de de Leva (1996), de 73,0 kg e 1,741 m, com o cotovelo estendido e sem ferramenta na mão (abertura do capítulo 3 e último parágrafo da seção 5.5). Outro percentil, outro ângulo de cotovelo ou carga na mão pedem a reexecução do procedimento. A curva do mecanismo não muda com a pessoa; o que muda é o torque do peso com que ela é comparada.
 
 ## 3. Perguntas específicas prováveis
 
@@ -91,11 +91,11 @@ Valem para o indivíduo de referência de de Leva (1996), de 73,0 kg e 1,741 m, 
 
 **Por que a cota do CAD (34,785 mm) não foi usada para h?** Com X_pose congelado, ela afrouxa o cabo no início da faixa (extensão mínima de −2,257 mm) e dá RMSE de 43,48 u.p. (seção 4.7). A diferença entre H_CAD e H_CAL fica sem explicação no texto: não afirme qual dos dois corresponde ao dispositivo.
 
-**A curva determina h?** Com K e X_pose congelados, sim, dentro de 0,145 mm, mas isso é esperado por construção. Com K e X_pose livres, o RMSE fica abaixo de 2 vezes o mínimo de h = 19,25 a 31,00 mm: a curva sozinha não determina h (seções 4.7 e 5.1).
+**A curva determina h?** Com K e X_pose congelados, sim, dentro de 0,145 mm, mas isso é esperado por construção. Com K e X_pose livres, o RMSE fica abaixo de 2 vezes o mínimo de h = 19,25 a 31,00 mm: a curva sozinha não determina h (seções 4.7 e 5.3).
 
 **O que é "u.p."?** Unidade da patente: a unidade da ordenada da curva publicada, que o documento não declara. K só estaria em N/mm se u.p. correspondesse a N·m (seção 3.5 e nota da Tabela 8).
 
-**Por que o pico do mecanismo fica 8° acima do pico do peso?** O pico do cabo ocorre a 97,5° de elevação e o do peso a 89,4°. O mecanismo entrega a assistência máxima acima da posição de maior demanda, à custa de subcompensação abaixo de 94° (seção 4.8 e Figura 15).
+**Por que o pico do mecanismo fica 8° acima do pico do peso?** O pico do cabo ocorre a 97,5° de elevação e o do peso a 89,4°. O mecanismo entrega a assistência máxima acima da posição de maior demanda, à custa de subcompensação abaixo de 94° (seção 4.8 e Figura 16).
 
 **O modelo representa a zona neutra?** Não. A protuberância que limita o gerador de força não está no modelo; por isso o torque calculado troca de sinal depois do ponto morto, nos 0,485° finais da faixa (seções 3.6 e 4.9).
 
