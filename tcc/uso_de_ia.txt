@@ -88,7 +88,10 @@ repositório (tcc/, revisao_defesa/, exo3/, latex/, DERIVATION.md).
 - Relatório de viabilidade (tcc/exo3_viabilidade.md).
 - tcc_resultados_exo3_marcadores.py (15/11/2026): ajuste da mola refeito só nos 27
   marcadores da Figura 16 e confronto, nesses marcadores, do torque da patente com o
-  torque do braço (AWM) e do conjunto membro e apoio, com duas figuras.
+  torque do braço (AWM) e do conjunto membro e apoio, com duas figuras. No mesmo dia,
+  ampliado com a conferência dos símbolos da imagem, os indicadores do ajuste, o perfil
+  do ajuste em x0, a força da mola, a tração no cabo e a energia, as poses das Figuras
+  14C e 14D e a fração do peso sustentada em cada configuração, com uma terceira figura.
 
 2.4 Auditorias e verificações
 - Auditoria do modelo e dos números do TCC contra o código (revisao_defesa/auditoria/).
@@ -123,6 +126,10 @@ repositório (tcc/, revisao_defesa/, exo3/, latex/, DERIVATION.md).
   trocados pelo texto do autor.
 - Capítulo 5 reorganizado por assunto (15/11/2026), com os três exoesqueletos em cada
   seção, e textos novos do exoesqueleto 3 nas seções 4.7 e 4.8, a partir dos marcadores.
+- Exoesqueleto 3 em todas as seções do capítulo 4 (15/11/2026), a pedido do autor: volta
+  de trechos do documento longo (geometria e massa, verificações, tabela dos ângulos
+  marcados, limitações), tabelas de verificação dos três exoesqueletos no mesmo formato
+  e textos novos a partir dos marcadores, com uma tabela de indicadores do ajuste.
 - Resumo e abstract do LaTeX, redigidos a partir das conclusões.
 - Correções pontuais nos capítulos 1 e 2:
   - patente repetida no objetivo geral;

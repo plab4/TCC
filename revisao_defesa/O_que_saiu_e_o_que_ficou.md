@@ -95,7 +95,7 @@ Gerado por `tcc/verificar_condensado.py`. A coluna da esquerda traz a numeraçã
 | 4.3 Exoesqueleto 3 | saiu |
 | 4.3.1 Geometria reconstruída e propriedades de massa | conteúdo condensado em 4.1 |
 | 4.3.2 Dados extraídos da patente | conteúdo condensado em 4.2 |
-| 4.3.3 Verificação da cadeia de cálculo | conteúdo condensado em 3.11 |
+| 4.3.3 Verificação da cadeia de cálculo | conteúdo condensado em 4.3 |
 | 4.3.4 Parâmetros do modelo e identificação da mola | conteúdo condensado em 4.4 |
 | 4.3.5 Qualidade do ajuste à curva da patente | conteúdo condensado em 4.5 |
 | 4.3.6 Comportamento da mola e do mecanismo | conteúdo condensado em 4.6 |
@@ -123,29 +123,29 @@ O Apêndice A (robustez da identificação e ajuste de forma no exoesqueleto 2) 
 | 4 | 2 | Propriedades de massa do conjunto braço-exoesqueleto |
 | 5 | saiu | Pontos extraídos da curva da patente e torque calculado pelo modelo |
 | 6 | 7 | Verificações da cadeia de cálculo (h = 22,701 mm) |
-| 7 | 8 | Parâmetros não publicados, origem e verificação |
-| 8 | 12 | Indicadores de qualidade do ajuste à curva da patente |
+| 7 | 9 | Parâmetros não publicados, origem e verificação |
+| 8 | 13 | Indicadores de qualidade do ajuste à curva da patente |
 | 9 | saiu | Zonas de sinal dos resíduos (modelo − extraído), em ordem de θ* |
-| 10 | 13 | Grandezas do mecanismo na faixa de operação |
+| 10 | 15 | Grandezas do mecanismo na faixa de operação |
 | 11 | saiu | Platôs de RMSE com K congelado |
 | 12 | saiu | Valores notáveis de h na varredura com K congelado |
 | 13 | 3 | Grandezas medidas no modelo em CAD e grandezas derivadas |
 | 14 | 4 | Propriedades de massa do conjunto que gira com o braço em relação ao eixo da articulação 20 |
 | 15 | saiu | Pontos extraídos da Figura 16 da patente (razão em divisões da grade) |
 | 16 | saiu | Verificações da cadeia de cálculo do modelo da Ottobock |
-| 17 | 9 | Parâmetros não publicados, origem e identificabilidade |
+| 17 | 10 | Parâmetros não publicados, origem e identificabilidade |
 | 18 | saiu | Grandezas do circuito em ângulos representativos (ec = 34,785 mm) |
-| 19 | 14 | Família de curvas em ec, com s0 = 300,750 mm e K = 2,54982 N/mm |
-| 20 | 16 | Cenário de projeto com s0 = 300,750 mm e K = K40 = 2,54982 N/mm |
+| 19 | 17 | Família de curvas em ec, com s0 = 300,750 mm e K = 2,54982 N/mm |
+| 20 | 19 | Cenário de projeto com s0 = 300,750 mm e K = K40 = 2,54982 N/mm |
 | 21 | 5 | Grandezas do circuito do cabo de ancoragem na pose do CAD |
 | 22 | 6 | Propriedades de massa do conjunto que gira com o braço em relação ao pivô 584 |
 | 23 | saiu | Pontos extraídos da Figura 16 da US 9.737.374 B2 |
-| 24 | saiu | Verificações da cadeia de cálculo do modelo da Levitate |
-| 25 | 10 | Parâmetros não publicados do mecanismo da Levitate, origem e identificabilidade |
-| 26 | 11 | Mola linear ajustada à curva AASM da Figura 16 da US 9.737.374 B2, na escala da AWM |
-| 27 | saiu | Circuito, came e transmissão nos ângulos marcados na Figura 16 da US 9.737.374 B2 |
-| 28 | 15 | Montagens do came nos furos em torno do pino 572 |
-| 29 | 17 | Curva AASM, modelo ajustado e torque gravitacional nos ângulos marcados na Figura 16 da US 9.737.374 B2 |
+| 24 | 8 | Verificações da cadeia de cálculo do modelo da Levitate |
+| 25 | 11 | Parâmetros não publicados do mecanismo da Levitate, origem e identificabilidade |
+| 26 | 12 | Mola linear ajustada à curva AASM da Figura 16 da US 9.737.374 B2, na escala da AWM |
+| 27 | 16 | Circuito, came e transmissão nos ângulos marcados na Figura 16 da US 9.737.374 B2 |
+| 28 | 18 | Montagens do came nos furos em torno do pino 572 |
+| 29 | saiu | Curva AASM, modelo ajustado e torque gravitacional nos ângulos marcados na Figura 16 da US 9.737.374 B2 |
 | 30 | saiu | Comparação entre os três exoesqueletos |
 | 31 | saiu | Comprimento de referência s0 identificado pelo espaçamento entre as curvas da Figura 16 da patente |
 | 32 | saiu | Ajuste de s0 à forma de cada curva da Figura 16 da patente |
@@ -163,17 +163,17 @@ O Apêndice A (robustez da identificação e ajuste de forma no exoesqueleto 2) 
 | 6 | 3 | Circuito do cabo de ancoragem sobre a Figura 14D da US 9.737.374 B2, na pose do desenho, e contorno do came da |
 | 7 | 4 | Fundo do canal do came 570 extraído da Figura 15B da US 9.737.374 B2 (a) e raio efetivo r e raio no ponto de s |
 | 8 | 6 | Torque do cabo calculado (−τ) e pontos extraídos da patente, com os resíduos no painel inferior (K = 174,68; h |
-| 9 | 10 | Família de curvas de torque do cabo para h de 16 a 32,886 mm, com K = 174,68 e Xpose = 37,383 mm congelados, e |
-| 10 | 11 | RMSE contra os pontos extraídos em função de h, com K congelado: faixa completa, em escala logarítmica, com os |
+| 9 | 11 | Família de curvas de torque do cabo para h de 16 a 32,886 mm, com K = 174,68 e Xpose = 37,383 mm congelados, e |
+| 10 | 12 | RMSE contra os pontos extraídos em função de h, com K congelado: faixa completa, em escala logarítmica, com os |
 | 11 | 16 | Torque do cabo e torque gravitacional normalizados pelos respectivos picos, em função da elevação anatômica (K |
 | 12 | 5 | Identificação de s0 pelo espaçamento entre as curvas, com (a) o fator Gi de cada curva e (b) o fator G lido na |
-| 13 | 12 | Família de curvas em ec, com s0 = 300,750 mm, com (a) o torque por unidade de rigidez e (b) a razão entre o to |
+| 13 | 13 | Família de curvas em ec, com s0 = 300,750 mm, com (a) o torque por unidade de rigidez e (b) a razão entre o to |
 | 14 | 17 | Torque do elástico e torque do peso normalizados pelos respectivos picos, em função da anteversão |
 | 15 | 18 | Torque do elástico com K = K40 no cenário de projeto, torque do peso do membro e do braço do exoesqueleto e al |
 | 16 | 8 | Curva AASM da Figura 16 da US 9.737.374 B2 contra o modelo com mola linear e giro do came como na Figura 14D ( |
-| 17 | 9 | Vão S e braço de momento do cabo de ancoragem (a), raio efetivo e zona de saída do cabo da mola (b) e transmis |
-| 18 | 13 | Sensibilidade do ajuste da mola ao giro do came: R² em função do giro em relação ao desenho da Figura 14D (a)  |
-| 19 | 14 | Montagens do came nos furos em torno do pino 572: torque com a mesma mola e o mesmo cabo da montagem desenhada |
+| 17 | 10 | Vão S e braço de momento do cabo de ancoragem (a), raio efetivo e zona de saída do cabo da mola (b) e transmis |
+| 18 | 14 | Sensibilidade do ajuste da mola ao giro do came: R² em função do giro em relação ao desenho da Figura 14D (a)  |
+| 19 | 15 | Montagens do came nos furos em torno do pino 572: torque com a mesma mola e o mesmo cabo da montagem desenhada |
 | 20 | 7 | Pontos extraídos da Figura 16 da patente e razão calculada pelo ajuste de forma, com (a) escala c por curva e  |
 
 ## Equações

@@ -94,7 +94,7 @@ import json as _json
 from pathlib import Path as _Path
 COMPLEMENTO_EXO3 = _Path(__file__).resolve().parent.parent / "results" / "exo3_marcadores.json"
 M3 = _json.loads(COMPLEMENTO_EXO3.read_text(encoding="utf-8"))["texto"]
-FIGURAS_NOVAS = ["exo3_tcc_fig_7_marcadores.png", "exo3_tcc_fig_8_confronto.png"]
+FIGURAS_NOVAS = ["exo3_tcc_fig_7_marcadores.png", "exo3_tcc_fig_8_confronto.png", "exo3_tcc_fig_9_razao.png"]
 
 # título do trabalho na versão para a defesa: só "Modelagem", por decisão do autor, porque o
 # texto ficou só com a parte estática
@@ -512,11 +512,18 @@ CAP3 = [
     ("E", 355, [('A Figura 16 da US 9.737.374 B2 foi digitalizada neste trabalho',
                 'No exoesqueleto 3, a Figura 16 da US 9.737.374 B2 foi digitalizada neste trabalho'),
                 (", e a RM foi mantida onde fecha com AASM + AWM", ""),
+                ("nas três curvas.", "nas três curvas. Cada curva da figura tem 27 marcadores, de Θ = −74° a "
+                 "30°, a cada 4°, ligados por linhas; os valores nos marcadores, que são os dados publicados, "
+                 "foram lidos no mesmo traçado e conferidos pelos símbolos encontrados na imagem e pelo "
+                 "fechamento RM = AASM + AWM."),
                 (" A ordenada não tem unidade, e a AWM é um cosseno puro, o momento de um peso a distância fixa do "
                  "pivô.", "")]),
     ('K', 356, 357),
     ("E", 358, [(" O giro do came, que fixa a constante da rotação das polias, foi medido na Figura 14D, e R20, "
-                 "nas Figuras 14C e 14D (seção 4.3.1).", "")]),
+                 "nas Figuras 14C e 14D (seção 4.3.1).", ""),
+                ("os dois ajustes estão na seção 4.3.4.",
+                 "os dois ajustes estão na seção 4.3.4. Todos os ajustes foram feitos na curva grau a grau e "
+                 "repetidos só nos marcadores abaixo do limite de subida.")]),
     H("t_varr"),
     ("P", 'Em cada mecanismo, o parâmetro geométrico menos certo foi varrido, com os demais '
           'congelados. A varredura é um diagnóstico, e não uma otimização: nenhum parâmetro do '
@@ -610,8 +617,12 @@ ESCALA_FIGURAS = {320: 0.9,
 # 1, 2 e 3 em sequência, e as subseções 4.e.k do documento longo vão para o tópico correspondente
 # (RESULTADOS e ALIAS). Saem os títulos por exoesqueleto e as três aberturas, trocadas por uma só.
 # Continuam fora as tabelas de pontos (5, 15 e 23), a de zonas (9), as de platôs e valores notáveis
-# de h (11 e 12), a de grandezas por ângulo do exoesqueleto 2 (18), coberta pela 20, e a 27,
-# coberta pela Figura 17; todas as figuras ficam
+# de h (11 e 12), a de grandezas por ângulo do exoesqueleto 2 (18), coberta pela 20, e a 29, do
+# exoesqueleto 3, coberta pelas figuras novas do confronto (pedido de 15/11); todas as figuras ficam. A pedido do
+# autor (15/11), o exoesqueleto 3 tem as mesmas seções dos outros dois: voltam as verificações
+# do exoesqueleto 3 (Tabela 24, com a 6 no mesmo formato; as do 2 continuam fora, como no arquivo do autor), a Tabela 27 e os parágrafos de 4.3.1 e 4.3.9, e
+# entram a reprodução da Figura 16 pelos marcadores, os indicadores do ajuste, o perfil em x0, a
+# força da mola e a energia, as poses medidas e a fração do peso sustentada por configuração
 RESULTADOS = [
     ("r_geo", "Geometria reconstruída e propriedades de massa"),
     ("r_dados", "Dados extraídos das patentes"),
@@ -639,7 +650,7 @@ ALIAS.update({f"4.2.{k}": t for k, t in enumerate(
     ["r_geo", "r_dados", "t_verif", "r_ident", "r_ajuste", "r_ident", "r_comp", "r_varr", "r_conf",
      "r_lim"], 1)})
 ALIAS.update({f"4.3.{k}": t for k, t in enumerate(
-    ["r_geo", "r_dados", "t_verif", "r_ident", "r_ajuste", "r_comp", "r_varr", "r_conf", "r_lim"], 1)})
+    ["r_geo", "r_dados", "r_verif", "r_ident", "r_ajuste", "r_comp", "r_varr", "r_conf", "r_lim"], 1)})
 
 # tabelas de mesmo tipo têm o mesmo formato nos três exoesqueletos (pedido de 14/11): mesmo
 # cabeçalho, mesmas larguras e mesmo alinhamento; só os números e as linhas mudam
@@ -650,6 +661,9 @@ MASSA = {"larg6": [2300, 1300, 1200, 1200, 1680, 1680], "larg5": [3000, 1500, 15
 # o autor tirou a coluna Situação das três (arquivo de 15/11/2026)
 PARAM = {"cab": ["Parâmetro", "Símbolo", "Valor adotado", "Origem"],
          "larg": [2900, 1600, 2120, 2740], "alin": ["left", "center", "center", "left"]}
+
+# as tabelas de verificação dos exoesqueletos 1 e 3, no mesmo formato (pedido de 15/11: tabelas de mesmo tipo iguais)
+VERIF = {"cab": ["Verificação", "Resultado"], "larg": [6300, 3060], "alin": ["left", "center"]}
 
 CAP4 = [
     ('K', 374),
@@ -715,24 +729,14 @@ CAP4 = [
     ("E", 570, [("Grandezas do circuito do cabo de ancoragem na pose do CAD",
                  "Grandezas geométricas do exoesqueleto 3 na pose do CAD")]),
     ("T", 571, dict(GEO, troca=[("Derivada", "Calculada")])),
-    ('K', 572),
-    ("P", 'Com esses valores, o fechamento tem resíduo de 0,0006 mm. Na imagem da folha 21, a '
-          'pose da Figura 14D dá q = 61,19°, contra 61,724° no CAD, e o ponto A do CAD fica a 0,3 '
-          'mm do 562 desenhado: a pose do CAD é a da Figura 14D. O came desenhado nas duas '
-          'figuras é o contorno externo da Figura 15A; ajustado ao desenho, ele dá R_{20} = 31,96 '
-          'mm na Figura 14C e 32,11 mm na 14D, e adotou-se R_{20} = 32,035 mm. Do came da 14C '
-          'para o da 14D, o giro absoluto medido é de 61,3°, e a cinemática do cabo 560 prevê '
-          '76,8°: a diferença, 15,5°, mostra que os dois desenhos não são exatamente coerentes '
-          'entre si.'),
+    ('K', 572, 575),
+    ("P", 'A Tabela 22 reúne as propriedades de massa do conjunto que gira com o braço em torno do '
+          'pivô 584: os segmentos do membro de referência, segundo de Leva (1996), e as peças do '
+          'apoio de braço, medidas no modelo em CAD.'),
     ("E", 576, [("Propriedades de massa do conjunto que gira com o braço em relação ao pivô 584",
                  "Propriedades de massa do conjunto que gira com o braço do exoesqueleto 3, em relação ao "
                  "pivô 584")]),
-    ('K', 577, 579),
-    ("P", 'A Tabela 22 reúne as propriedades de massa do conjunto. No CAD, o apoio de braço tem 0,796 kg: a capa, de náilon 6/6, responde por '
-          '0,564 kg, e a mola, de aço, por 0,105 kg. O centro de massa do apoio, a 116,4 mm de O '
-          'e 9,7° acima do eixo maior, desloca o do conjunto em 0,77° em relação ao eixo, e as '
-          'peças do CAD concordam com os desenhos: a distância entre os pinos 572 e 632 é de '
-          '163,6 mm no CAD, contra 165,0 mm na Figura 14D.'),
+    ('K', 577, 581),
 
     # ------------------------------------------------------------------ dados extraídos
     HR("r_dados"),
@@ -747,19 +751,44 @@ CAP4 = [
     ("E", 583, [('Da Figura 16 da US 9.737.374 B2 foram extraídos 106 pontos de cada curva',
                  'No exoesqueleto 3, foram extraídos 106 pontos de cada curva da Figura 16 da US 9.737.374 B2'),
                 (' A Tabela 23 traz os valores em ângulos de 15 em 15 graus e no máximo da AASM.', '')]),
+    ("P", f'A Figura 16 da US 9.737.374 B2, porém, não é só um traçado: cada curva tem 27 '
+          f'marcadores, de Θ = −74° a 30°, a cada 4°, e a linha entre eles apenas os liga. Os '
+          f'marcadores são, portanto, os dados que a patente publica, e seus valores foram lidos no '
+          f'mesmo traçado digitalizado. Dos {M3["simb_tot"]} marcadores com leitura nas três curvas, '
+          f'{M3["simb_n"]} têm o símbolo encontrado na imagem junto ao valor lido, com desvio '
+          f'mediano de {M3["simb_med"]} e RMS de {M3["simb_rms"]} unidade. Nos marcadores, as três '
+          f'curvas fecham RM = AASM + AWM com diferença de no máximo {M3["fecha"]} unidade nos '
+          f'{M3["n_rm"]} em que a RM foi lida, e a AWM é um cosseno de amplitude {M3["awm_marc"]}, '
+          f'contra {M3["awm_curva"]} na curva grau a grau, com resíduo RMS de {M3["awm_res"]}.'),
+    ("P", f'O maior valor marcado da AASM é {M3["aasm_mmax"]}, em Θ = {M3["aasm_mmax_th"]}, e ela '
+          f'fica acima de 95% dele em {M3["pat_m_n"]} marcadores, de Θ = {M3["pat_m_ini"]}° a '
+          f'{M3["pat_m_fim"]}°; vale {M3["aasm_mini"]} no primeiro marcador e {M3["aasm_mfim"]} no '
+          f'último. A RM é negativa em todos os marcadores, isto é, a figura nunca mostra o peso do '
+          f'braço todo sustentado; ela vai de {M3["rm_mmax"]}, em Θ = {M3["rm_mmax_th"]}°, a '
+          f'{M3["rm_mmin"]}, em Θ = {M3["rm_mmin_th"]}°. Os {M3["n_acima"]} últimos marcadores ficam '
+          f'acima do limite de subida do modelo, Θ = {M3["lim"]}°, e não entram nos ajustes.'),
     ("E", 588, [(" Das Figuras 14C e 14D saíram as poses, a escala do desenho e o giro do came (seção 4.3.1).",
                  "")]),
 
     # ------------------------------------------------------------------ verificação
     HR("r_verif"),
     ("P", 'As verificações descritas na seção ⟦S:t_verif⟧ acompanham o cálculo nos três modelos, e '
-          'esta seção detalha as do exoesqueleto 1.'),
+          'esta seção detalha as dos exoesqueletos 1 e 3.'),
     ("E", 395, [('As verificações automáticas da seção 3.1.12 resultaram nos resíduos da Tabela 6,',
-                 'Os resíduos estão na Tabela 6,')]),
-    ('K', 396, 399),
+                 'No exoesqueleto 1, os resíduos estão na Tabela 6,')]),
+    ("E", 396, [("Verificações da cadeia de cálculo (h = 22,701 mm)",
+                 "Verificações da cadeia de cálculo do exoesqueleto 1 (h = 22,701 mm)")]),
+    ("T", 397, VERIF),
+    ('K', 398, 399),
     ("P", 'O efeito do arco é pequeno em valor absoluto: ele varia 1,862 mm na faixa de operação, '
           'contra 42,435 mm de variação do caminho total (4,4%), e altera a extensão da mola em '
           'até 1,782 mm.'),
+    ("E", 590, [("As verificações da seção 3.3.12 resultaram",
+                 "No exoesqueleto 3, as verificações da seção 3.3.12 resultaram")]),
+    ("E", 591, [("Verificações da cadeia de cálculo do modelo da Levitate",
+                 "Verificações da cadeia de cálculo do exoesqueleto 3")]),
+    ("T", 592, VERIF),
+    ('K', 593, 594),
 
     # ------------------------------------------------------------------ parâmetros e identificação
     HR("r_ident"),
@@ -800,12 +829,57 @@ CAP4 = [
           'últimos pontos, onde s = 309,75 mm, a 1,40 mm do s_{0} identificado pelo espaçamento.'),
     ('K', 508, 511),
     ("E", 596, [("A Tabela 25 resume", "No exoesqueleto 3, a Tabela 25 resume")]),
-    ('K', 600),
+    ("E", 600, [("A Tabela 26 resume esses ajustes, o do melhor giro da seção 4.3.7 e, para comparação,",
+                 "A Tabela 26 resume esses ajustes, refeitos também só nos marcadores, os do melhor giro e da "
+                 "montagem de dois furos no sentido horário (seção 4.3.7) e, para comparação,")]),
     ("E", 597, [("Parâmetros não publicados do mecanismo da Levitate, origem e identificabilidade",
                  "Parâmetros não publicados do exoesqueleto 3, origem e situação")]),
     ("T", 598, dict(PARAM, ordem=[0, 1, 2, 3])),
     ('K', 599),
-    ('K', 601, 603),
+    ("E", 601, [("Mola linear ajustada à curva AASM da Figura 16 da US 9.737.374 B2, na escala da AWM",
+                 "Mola linear ajustada à curva AASM e aos marcadores da Figura 16 da US 9.737.374 B2, na "
+                 "escala da AWM")]),
+    ("T", 602, {"cab": ["Ajuste", "Pontos", "k (N/mm)", "x_{0} (mm)", "F_{s} na pose (N)", "R^{2}",
+                        "Erro quadrático médio (N·m)", "Erro máximo (N·m)"],
+                "linhas": [
+                    ["Came como na Figura 14D", "Curva", "0,492", "323,6", "159", "0,901", "0,91", "1,69"],
+                    ["Came como na Figura 14D", "Marcadores", M3["d_k"], M3["d_x0"], M3["d_fpose"], M3["d_r2"],
+                     M3["d_rms"], M3["d_max"]],
+                    ["Came como na Figura 14D, com o peso do apoio", "Curva", "0,610", "293,6", "179", "0,918",
+                     "0,87", "1,56"],
+                    ["Came como na Figura 14D, com o peso do apoio", "Marcadores", M3["mp_k"], M3["mp_x0"],
+                     M3["mp_f"], M3["mp_r2"], M3["mp_rms"], M3["mp_max"]],
+                    ["Came girado de −49°", "Curva", "2,053", "121,2", "249", "0,953", "0,63", "1,09"],
+                    ["Came dois furos no sentido horário", "Curva", M3["d2_k"], M3["d2_x0"], M3["d2_f"],
+                     M3["d2_r2"], M3["d2_rms"], M3["d2_max"]],
+                    ["Came dois furos no sentido horário", "Marcadores", M3["df_k"], M3["df_x0"], M3["df_f"],
+                     M3["df_r2"], M3["df_rms"], M3["df_max"]],
+                    ["Came como na Figura 14D, na escala do artigo", "Curva", "1,448", "323,6", "468", "0,901",
+                     "2,68", "4,99"]],
+                "larg": [2200, 1250, 950, 850, 950, 700, 1260, 1200],
+                "alin": ["left", "left"] + ["center"]*6}),
+    ('K', 603),
+    ("N", f'Nota: curva: os {M3["ic_n"]} pontos grau a grau de Θ = {M3["ic_ini"]}° a {M3["ic_fim"]}°; '
+          f'marcadores: os {M3["im_n"]} marcadores de Θ = {M3["im_ini"]}° a {M3["im_fim"]}°, abaixo do '
+          f'limite de subida. Came dois furos no sentido horário: montagem a {M3["df_giro"]}°.'),
+    ("P", f'Nos marcadores, a qualidade do ajuste é praticamente a mesma da curva, mas a divisão '
+          f'entre k e x_{{0}} muda: com o came como na Figura 14D, k = {M3["d_k"]} N/mm e x_{{0}} = '
+          f'{M3["d_x0"]} mm, contra {M3["d_kc"]} N/mm e {M3["d_x0c"]} mm, enquanto a força na pose '
+          f'fica em {M3["d_fpose"]} N, contra {M3["d_fpose_c"]} N. O perfil do ajuste em x_{{0}} mostra '
+          f'por quê. Com x_{{0}} fixado e só k ajustado, o R^{{2}} fica a menos de {M3["tol_r2"]} do '
+          f'máximo de x_{{0}} = {M3["pc_x0a"]} a {M3["pc_x0b"]} mm na curva, com k de {M3["pc_ka"]} a '
+          f'{M3["pc_kb"]} N/mm, e de {M3["pm_x0a"]} a {M3["pm_x0b"]} mm nos marcadores, com k de '
+          f'{M3["pm_ka"]} a {M3["pm_kb"]} N/mm; nessas faixas, a força na pose varia só de '
+          f'{M3["pc_fa"]} a {M3["pc_fb"]} N na curva e de {M3["pm_fa"]} a {M3["pm_fb"]} N nos '
+          f'marcadores. A curva da patente fixa, assim, o nível da força da mola, mas não separa a '
+          f'rigidez do alongamento: k e x_{{0}} são identificados como par, e o par adotado é o de '
+          f'maior R^{{2}} na curva grau a grau.'),
+    ("P", f'O mesmo vale para as outras configurações da Tabela 26. Com o peso do apoio somado ao '
+          f'alvo, os marcadores dão k = {M3["mp_k"]} N/mm e força de {M3["mp_f"]} N na pose, com '
+          f'R^{{2}} = {M3["mp_r2"]}; com o came dois furos no sentido horário, k = {M3["df_k"]} N/mm, '
+          f'contra {M3["d2_k"]} N/mm na curva. Em todas, curva e marcadores dão praticamente o mesmo '
+          f'R^{{2}}, e a escala do artigo multiplica k e as forças por 2,94 sem mudar x_{{0}} nem o '
+          f'R^{{2}}.'),
 
     # ------------------------------------------------------------------ ajuste às curvas
     HR("r_ajuste"),
@@ -821,7 +895,11 @@ CAP4 = [
           'ponto morto calculado (θ*_{pm} = 192,532°), o modelo prevê torque de −1,709 u.p., com '
           'sinal invertido, e a curva extraída registra 0,443 u.p., diferença coerente com a '
           'ausência, no modelo, da protuberância do dispositivo real.'),
-    ('K', 413, 418),
+    ('K', 413, 415),
+    ("E", 416, [("Indicadores de qualidade do ajuste à curva da patente",
+                 "Indicadores de qualidade do ajuste do exoesqueleto 1 à curva da patente")]),
+    ("T", 417, {"cab": ["Indicador", "Valor"], "larg": [4400, 4960], "alin": ["left", "left"]}),
+    ('K', 418),
     ("P", 'No exoesqueleto 2, com os valores de s_{0} identificados pelo espaçamento, o fator G lido '
           'na Figura 16 da patente e a forma m/(1000 τ_{g}) prevista pelo modelo diferem (Figura '
           '12(b)): normalizada em 90°, a razão entre os dois vale 0,26 em 20°, 0,79 em 60°, 1,34 '
@@ -850,6 +928,64 @@ CAP4 = [
     ("E", 606, [("Curva AASM da Figura 16 da US 9.737.374 B2 contra", "Curva AASM contra"),
                  (" e giro do came como na Figura 14D (a)", " e o giro do came da Figura 14D (a)")]),
     ('K', 607, 608),
+    ("P", f'Nos {M3["im_n"]} marcadores abaixo do limite de subida, que são os dados que a patente '
+          f'efetivamente publica, o ajuste tem a mesma qualidade (Tabela ⟦T:e3_ind⟧): R^{{2}} = '
+          f'{M3["im_r2"]}, contra {M3["ic_r2"]} na curva, e erro quadrático médio de {M3["im_rmse"]} '
+          f'N·m, contra {M3["ic_rmse"]} N·m, {M3["im_rmse_rel"]}% do maior valor da AASM nos dois '
+          f'casos. Os dois ajustes superestimam a AASM em média, com resíduo médio de '
+          f'{M3["im_resm"]} N·m, e o erro máximo ocorre perto do limite de subida, em Θ = '
+          f'{M3["ic_th_max"]}° na curva e {M3["im_th_max"]}° nos marcadores.'),
+    ("TN", "e3_ind", "Indicadores de qualidade do ajuste do exoesqueleto 3 à curva AASM da patente",
+     {"cab": ["Indicador", "Curva grau a grau", "Marcadores"],
+      "linhas": [
+          ["Pontos do ajuste", f'{M3["ic_n"]}, de Θ = {M3["ic_ini"]}° a {M3["ic_fim"]}°',
+           f'{M3["im_n"]}, de Θ = {M3["im_ini"]}° a {M3["im_fim"]}°'],
+          ["Raiz do erro quadrático médio, RMSE", f'{M3["ic_rmse"]} N·m', f'{M3["im_rmse"]} N·m'],
+          ["Erro absoluto médio, MAE", f'{M3["ic_mae"]} N·m', f'{M3["im_mae"]} N·m'],
+          ["Erro máximo", f'{M3["ic_max"]} N·m, em Θ = {M3["ic_th_max"]}°',
+           f'{M3["im_max"]} N·m, em Θ = {M3["im_th_max"]}°'],
+          ["Coeficiente de determinação, R^{2}", M3["ic_r2"], M3["im_r2"]],
+          ["MAE relativo à média da AASM", f'{M3["ic_mae_rel"]}%', f'{M3["im_mae_rel"]}%'],
+          ["RMSE relativo ao maior valor da AASM", f'{M3["ic_rmse_rel"]}%', f'{M3["im_rmse_rel"]}%'],
+          ["Resíduo médio", f'{M3["ic_resm"]} N·m', f'{M3["im_resm"]} N·m'],
+          ["Pico do modelo", f'{M3["ic_pico"]} N·m, em Θ = {M3["ic_th_pico"]}°',
+           f'{M3["im_pico"]} N·m, em Θ = {M3["im_th_pico"]}°'],
+          ["Maior valor da AASM", f'{M3["ic_maior"]} N·m, em Θ = {M3["ic_th_maior"]}',
+           f'{M3["im_maior"]} N·m, em Θ = {M3["im_th_maior"]}'],
+          ["Trecho acima de 95% do pico, AASM", f'Θ = {M3["ic_pata_ini"]}° a {M3["ic_pata_fim"]}°',
+           f'Θ = {M3["im_pata_ini"]}° a {M3["im_pata_fim"]}°'],
+          ["Trecho acima de 95% do pico, modelo", f'Θ = {M3["ic_patm_ini"]}° a {M3["ic_patm_fim"]}°',
+           f'Θ = {M3["im_patm_ini"]}° a {M3["im_patm_fim"]}°']],
+      "larg": [3400, 2980, 2980], "alin": ["left", "left", "left"]},
+     "Fonte: elaborada pelo autor, a partir da Figura 16 da US 9.737.374 B2 (DOYLE, 2017).",
+     f'Nota: AASM na escala da AWM; resíduo = modelo − patente; came como na Figura 14D. Curva: mola '
+     f'adotada, k = {M3["d_kc"]} N/mm e x_{{0}} = {M3["d_x0c"]} mm; marcadores: k = {M3["d_k"]} N/mm e '
+     f'x_{{0}} = {M3["d_x0"]} mm.'),
+    ("P", f'O resíduo nos marcadores, modelo menos patente, forma três trechos de sinal alternado '
+          f'(Figura ⟦F:e3_marc⟧b): o modelo fica acima da AASM de Θ = {M3["d_trechos"][0][0]}° a '
+          f'{M3["d_trechos"][0][1]}°, abaixo dela de {M3["d_trechos"][1][0]}° a {M3["d_trechos"][1][1]}° e '
+          f'de novo acima de {M3["d_trechos"][2][0]}° a {M3["d_trechos"][2][1]}°. Com o came como na '
+          f'Figura 14D, a mola linear sobe antes da AASM, não alcança o patamar e cai mais devagar '
+          f'perto do limite. O patamar resume a diferença de forma: a AASM fica acima de 95% do '
+          f'próprio pico de Θ = {M3["ic_pata_ini"]}° a {M3["ic_pata_fim"]}° na curva e de '
+          f'{M3["im_pata_ini"]}° a {M3["im_pata_fim"]}° nos marcadores, e o modelo, só de '
+          f'{M3["ic_patm_ini"]}° a {M3["ic_patm_fim"]}°, num trecho mais curto e que começa mais '
+          f'tarde; o pico do modelo, {M3["ic_pico"]} N·m em Θ = {M3["ic_th_pico"]}°, fica abaixo do '
+          f'maior valor da curva, {M3["ic_maior"]} N·m em Θ = {M3["ic_th_maior"]}.'),
+    ("P", f'Como a AWM entra igual no modelo e na patente, a RM do modelo, a AASM do modelo mais a '
+          f'AWM, herda o erro da AASM: nos {M3["rmr_n"]} marcadores com RM lida abaixo do limite, o '
+          f'erro quadrático médio é de {M3["rmr_rmse"]} N·m. A RM, porém, varia bem menos que a AASM '
+          f'nessa faixa, {M3["rmr_amp"]} unidades contra {M3["rmr_amp_aasm"]}, e o mesmo erro absoluto '
+          f'dá R^{{2}} de só {M3["rmr_r2"]} (Figura ⟦F:e3_marc⟧a): o torque que sobra para o usuário, '
+          f'pequeno perto da horizontal, é a parte da figura que a mola linear reproduz pior.'),
+    ("F", "e3_marc", "exo3_tcc_fig_7_marcadores.png", 6.3,
+     "Reprodução da Figura 16 da patente pelos marcadores e resíduo do ajuste",
+     "Figura 16 da US 9.737.374 B2 reproduzida pelos marcadores, com o modelo (a), e resíduo do "
+     "ajuste em cada marcador (b)",
+     "Fonte: elaborada pelo autor, a partir da Figura 16 da US 9.737.374 B2 (DOYLE, 2017).",
+     "Nota: em (a), linhas cheias: AASM do modelo; tracejadas: RM do modelo, a AASM do modelo mais "
+     "a AWM; ajustes só nos marcadores abaixo do limite de subida. Faixas sombreadas: marcas Z12 e "
+     "Z11 da patente."),
 
     # ------------------------------------------------------------------ comportamento
     HR("r_comp"),
@@ -875,10 +1011,18 @@ CAP4 = [
                 ("A Tabela 18 reúne as grandezas do circuito em ângulos representativos.",
                  "A Tabela 20, na seção 4.2.9, traz s e m em ângulos representativos.")]),
     ('K', 528),
-    ("E", 611, [("A Figura 17a mostra", "No exoesqueleto 3, a Figura 17a mostra"),
-                (' A Tabela 27 traz os valores nos ângulos marcados na Figura 16 da US 9.737.374 B2.', '')]),
-    ('K', 615),
+    ("E", 611, [("A Figura 17a mostra", "No exoesqueleto 3, a Figura 17a mostra")]),
+    ('K', 612, 615),
     ('K', 619),
+    ("P", f'Com a mola adotada, a força cai de {M3["fs_pose"]} N na pose a {M3["fs_lim"]} N no limite '
+          f'de subida, e a mola continua alongada em toda a faixa, com no mínimo {M3["al_min"]} mm. A '
+          f'tração no cabo 560, F_{{a}} = F_{{s}} r/R, cresce de {M3["fa_pose"]} N na pose a {M3["fa_max"]} N em '
+          f'Θ = {M3["fa_th"]}° e cai a {M3["fa_lim"]} N no limite: o came amplia a força da mola '
+          f'enquanto ela diminui, e é o crescimento da transmissão, e não o da força, que faz o '
+          f'torque subir. Da pose ao limite de subida, a mola libera {M3["e_mola"]} J, e o torque '
+          f'calculado realiza o mesmo trabalho nesse trecho, como pede o princípio dos trabalhos '
+          f'virtuais; para erguer o conjunto da pose ao limite, o peso exige {M3["w_peso"]} J, e a '
+          f'mola devolve {M3["e_pct"]}% dessa energia.'),
     ("E", 616, [("; as faixas sombreadas são as marcas Z12 e Z11 da Figura 16 da US 9.737.374 B2", "")]),
     ('K', 617, 618),
 
@@ -938,39 +1082,16 @@ CAP4 = [
     ("E", 632, [(" à curva AASM da Figura 16 da US 9.737.374 B2 (b)", " (b)"),
                 (" e o mesmo cabo da montagem desenhada (a)", " (a)")]),
     ('K', 633, 635),
-    ("P", f'Até aqui, os ajustes do exoesqueleto 3 usaram a curva digitalizada grau a grau. A '
-          f'Figura 16 da US 9.737.374 B2, porém, desenha cada curva por 27 marcadores, de Θ = −74° '
-          f'a 30°, a cada 4°, e a linha entre eles só os liga: os marcadores são os dados da '
-          f'patente. Neles, as três curvas fecham RM = AASM + AWM com diferença de no máximo '
-          f'{M3["fecha"]} unidade nos {M3["n_rm"]} marcadores em que a RM foi lida, e a AWM é um '
-          f'cosseno de amplitude {M3["awm_marc"]}, contra {M3["awm_curva"]} na curva, com resíduo '
-          f'RMS de {M3["awm_res"]}. Refeito só nos {M3["n_marc"]} marcadores abaixo do limite de '
-          f'subida, de {M3["marc_ini"]}° a {M3["marc_fim"]}°, o ajuste da mola com o came como na '
-          f'Figura 14D dá R^{{2}} = {M3["d_r2"]}, contra {M3["d_r2c"]} na curva (Figura ⟦F:e3_marc⟧). '
-          f'A qualidade do ajuste não depende de usar a curva ou os marcadores, mas a divisão entre '
-          f'k e x_{{0}} depende: nos marcadores, k = {M3["d_k"]} N/mm e x_{{0}} = {M3["d_x0"]} mm, '
-          f'contra {M3["d_kc"]} N/mm e {M3["d_x0c"]} mm, e a força da mola na pose fica em '
-          f'{M3["d_fpose"]} N, contra {M3["d_fpose_c"]} N: os marcadores fixam o nível da força, '
-          f'mas não separam a rigidez do alongamento.'),
-    ("P", f'O resíduo nos marcadores, modelo menos patente, forma três trechos de sinal alternado: '
-          f'o modelo fica acima da AASM de {M3["d_trechos"][0][0]}° a {M3["d_trechos"][0][1]}°, '
-          f'abaixo dela de {M3["d_trechos"][1][0]}° a {M3["d_trechos"][1][1]}° e de novo acima de '
-          f'{M3["d_trechos"][2][0]}° a {M3["d_trechos"][2][1]}°, com RMS de {M3["d_rms"]} N·m e '
-          f'erro máximo de {M3["d_max"]} N·m, em Θ = {M3["d_th_max"]}°. Com o came fixado dois '
-          f'furos no sentido horário, a {M3["df_giro"]}°, os mesmos marcadores dão R^{{2}} = '
-          f'{M3["df_r2"]}, com k = {M3["df_k"]} N/mm, x_{{0}} = {M3["df_x0"]} mm, RMS de '
-          f'{M3["df_rms"]} N·m e erro máximo de {M3["df_max"]} N·m, em Θ = {M3["df_th_max"]}°; o '
-          f'melhor giro contínuo, {M3["mg_giro"]}°, dá R^{{2}} = {M3["mg_r2"]}. A ordem entre as '
-          f'montagens é a mesma da curva, e, como a AWM entra igual no modelo e na patente, a RM '
-          f'do modelo herda o erro da AASM.'),
-    ("F", "e3_marc", "exo3_tcc_fig_7_marcadores.png", 6.3,
-     "Reprodução da Figura 16 da patente pelos marcadores e resíduo do ajuste",
-     "Figura 16 da US 9.737.374 B2 reproduzida pelos marcadores, com o modelo (a), e resíduo do "
-     "ajuste em cada marcador (b)",
-     "Fonte: elaborada pelo autor, a partir da Figura 16 da US 9.737.374 B2 (DOYLE, 2017).",
-     "Nota: em (a), linhas cheias: AASM do modelo; tracejadas: RM do modelo, a AASM do modelo mais "
-     "a AWM; ajustes só nos marcadores abaixo do limite de subida. Faixas sombreadas: marcas Z12 e "
-     "Z11 da patente."),
+    ("P", f'Refeitos só nos marcadores, os ajustes de outra mola por montagem mantêm a ordem da '
+          f'curva: R^{{2}} = {M3["mt_m3_r2"]} com −3 furos, {M3["mt_m2_r2"]} com −2 e {M3["mt_m1_r2"]} '
+          f'com −1, todos com k e x_{{0}} positivos. Com o came dois furos no sentido horário, a '
+          f'{M3["df_giro"]}°, k = {M3["df_k"]} N/mm e x_{{0}} = {M3["df_x0"]} mm, com erro quadrático '
+          f'médio de {M3["df_rms"]} N·m e erro máximo de {M3["df_max"]} N·m, em Θ = '
+          f'{M3["df_th_max"]}° (Figura ⟦F:e3_marc⟧b), e o melhor giro contínuo, {M3["mg_giro"]}°, dá '
+          f'R^{{2}} = {M3["mg_r2"]}. Entre as anti-horárias, a de +1 furo, que na curva chega a k = '
+          f'0,008 N/mm, passa a k negativo nos marcadores, {M3["mt_p1_k"]} N/mm, e a de +2 furos '
+          f'continua sem mola física, com k = {M3["mt_p2_k"]} N/mm: nos dados da patente, só as '
+          f'montagens horárias admitem uma mola linear.'),
 
     # ------------------------------------------------------------------ confronto
     HR("r_conf"),
@@ -1023,31 +1144,29 @@ CAP4 = [
     ('K', 548, 551),
     ("E", 552, [(" do membro e do braço do exoesqueleto", "")]),
     ('K', 553, 555),
-    ("E", 637, [("Pela Equação", "No exoesqueleto 3, pela Equação"),
-                (" Sozinho, o peso do apoio chega a 0,91 N·m em Θ = −7,9° e vale 0,18 N·m na pose do CAD; o giro "
-                 "do came muda esse valor em até 0,01 N·m.", ""),
-                (", quase com o eixo na horizontal", "")]),
-    ("E", 638, [("compara, nos ângulos marcados na Figura 16 da US 9.737.374 B2, a curva AASM na escala da AWM e "
-                 "o torque do modelo ajustado com o torque gravitacional do conjunto.",
-                 "compara a curva AASM, na escala da AWM, e o modelo ajustado com o torque gravitacional do "
-                 "conjunto."),
-                (", a razão AASM/|AWM| da própria patente,", ""),
-                (" A AASM fica entre 0,53 e 0,89 vezes τg, e o modelo, entre 0,71 e 0,88 vezes.", "")]),
-    ('K', 639, 641),
-    ("P", f'Nos marcadores, a curva da patente pode ser comparada com o próprio torque do braço '
-          f'que ela desenha. Na escala adotada, a AWM é o torque do peso do membro de referência, '
-          f'e a razão AASM/|AWM| vai de {M3["ra_min"]}, em Θ = {M3["ra_th_min"]}°, a {M3["ra_max"]}, '
-          f'em Θ = {M3["ra_th_max"]}°; passa de 90% em {M3["a90_n"]} marcadores, de {M3["a90_ini"]}° '
-          f'a {M3["a90_fim"]}°, o trecho de sustentação quase constante da Z11. A sobra que a '
-          f'patente desenha, a RM, vai de {M3["rmN_min"]} N·m, em Θ = {M3["rmN_th_min"]}°, a '
-          f'{M3["rmN_max"]} N·m, em Θ = {M3["rmN_th_max"]}° (Figura ⟦F:e3_conf⟧a).'),
-    ("P", f'Com o apoio de braço, o torque do peso do conjunto cresce, e a AASM cobre de '
-          f'{M3["rc_min_pct"]}%, em Θ = {M3["rc_th_min"]}°, a {M3["rc_max_pct"]}%, em Θ = '
-          f'{M3["rc_th_max"]}°, dele nos {M3["n_dentro"]} marcadores abaixo do limite de subida, com '
-          f'média de {M3["rc_media_pct"]}%; a sobra fica entre {M3["sobra_min"]} N·m, em Θ = {M3["sobra_th_min"]}°, '
-          f'e {M3["sobra_max"]} N·m, em Θ = {M3["sobra_th_max"]}°. O modelo ajustado, com o came '
-          f'como na Figura 14D, cobre de {M3["rm_min_pct"]}% a {M3["rm_max_pct"]}% do peso do conjunto. '
-          f'Normalizadas pelos picos (Figura ⟦F:e3_conf⟧b), as formas da AASM e de τ_{{g}} quase '
+    ("E", 637, [("Pela Equação", "No exoesqueleto 3, pela Equação")]),
+    ("P", f'Na escala adotada, a AWM é o torque do peso do membro de referência, e a curva da '
+          f'patente pode ser comparada com ele nos próprios marcadores. A razão AASM/|AWM| vai de '
+          f'{M3["ra_min"]}, em Θ = {M3["ra_th_min"]}°, a {M3["ra_max"]}, em Θ = {M3["ra_th_max"]}°, e '
+          f'passa de 90% em {M3["a90_n"]} marcadores, de {M3["a90_ini"]}° a {M3["a90_fim"]}°, o trecho '
+          f'de sustentação quase constante da Z11; na horizontal, a AASM sustenta 96% do peso do '
+          f'membro. A RM é o que o usuário ainda sustenta: vai de {M3["rmN_min"]} N·m, em Θ = '
+          f'{M3["rmN_th_min"]}°, a {M3["rmN_max"]} N·m, em Θ = {M3["rmN_th_max"]}°, e cresce nas duas '
+          f'pontas da faixa (Figura ⟦F:e3_conf⟧a).'),
+    ("P", f'Com o apoio de braço, o peso a sustentar cresce, e a AASM cobre de {M3["rc_min_pct"]}%, '
+          f'em Θ = {M3["rc_th_min"]}°, a {M3["rc_max_pct"]}%, em Θ = {M3["rc_th_max"]}°, do torque do '
+          f'peso do conjunto nos {M3["n_dentro"]} marcadores abaixo do limite de subida, com média de '
+          f'{M3["rc_media_pct"]}%; na horizontal, 89%. O que sobra fica entre {M3["sobra_min"]} N·m, em '
+          f'Θ = {M3["sobra_th_min"]}°, e {M3["sobra_max"]} N·m, em Θ = {M3["sobra_th_max"]}°. Integrada '
+          f'de Θ = −75° ao limite de subida, a AASM realiza {M3["w_aasm"]} J, {M3["w_aasm_pct"]}% dos '
+          f'{M3["w_tg"]} J que o peso do conjunto exige nessa faixa. O modelo com a mola adotada '
+          f'cobre de {M3["ca_rmin_pct"]}%, em Θ = {M3["ca_rmin_th"]}°, a {M3["ca_rmax_pct"]}%, em Θ = '
+          f'{M3["ca_rmax_th"]}°, do peso do conjunto nos mesmos marcadores, com média de '
+          f'{M3["ca_rmed_pct"]}%, e realiza {M3["w_mod"]} J, {M3["w_mod_pct"]}% do trabalho do peso: '
+          f'sustenta menos que a patente perto da horizontal e mais nas pontas, e o que sobra para o '
+          f'usuário vai de {M3["sm_min"]} N·m, em Θ = {M3["sm_th_min"]}°, a {M3["sm_max"]} N·m, em Θ = '
+          f'{M3["sm_th_max"]}°.'),
+    ("P", f'Normalizadas pelos picos (Figura ⟦F:e3_conf⟧b), as formas da AASM e de τ_{{g}} quase '
           f'coincidem de Θ = {M3["cruz_ini"]}° a {M3["cruz_fim"]}°, com diferença de no máximo '
           f'{M3["meio_max"]}: o pico da AASM, em Θ = {M3["pico_aasm"]}° ({M3["elev_aasm"]}° de '
           f'elevação), fica {M3["defas_aasm"]}° acima do de τ_{{g}}, em Θ = {M3["pico_tg"]}° '
@@ -1064,14 +1183,54 @@ CAP4 = [
      "picos (b)",
      "Fonte: elaborada pelo autor, a partir da Figura 16 da US 9.737.374 B2 (DOYLE, 2017).",
      "Nota: AASM e AWM nos marcadores, na escala que iguala a AWM ao torque do peso do membro de "
-     "referência; τ_{g} inclui o apoio de braço. Linha pontilhada em (a): limite de subida; em (b), "
-     "entre as linhas pontilhadas, as formas da AASM e de τ_{g} quase coincidem."),
+     "referência; τ_{g} inclui o apoio de braço; modelo com a mola adotada. Linha pontilhada em (a): "
+     "limite de subida; em (b), entre as linhas pontilhadas, as formas da AASM e de τ_{g} quase "
+     "coincidem."),
+    ("P", f'Nas duas poses que a patente desenha, medidas nas Figuras 14C e 14D (seção '
+          f'⟦S:r_geo⟧), a comparação muda de natureza. Na da Figura 14C, Θ = {M3["p14c_th"]}°, dentro '
+          f'da faixa da curva, o peso do conjunto vale {M3["p14c_tg"]} N·m, {M3["p14c_membro"]} N·m do '
+          f'membro e {M3["p14c_apoio"]} N·m do apoio, e a AASM, {M3["p14c_aasm"]} N·m, e o modelo, '
+          f'{M3["p14c_mod"]} N·m, sustentam {M3["p14c_raasm_pct"]}% dele. Na da Figura 14D, Θ = '
+          f'{M3["p14d_th"]}°, com o braço quase pendente, a curva da patente não chega: ela começa em '
+          f'Θ = −75°. Extrapolado com a mesma mola, o modelo dá ali {M3["p14d_mod"]} N·m, contra '
+          f'{M3["p14d_tg"]} N·m do peso, {M3["p14d_rmod"]} vezes mais. Modelo e peso se igualam em Θ = '
+          f'{M3["ca_eq"]}°: abaixo desse ângulo, a mola supera o peso, e o braço solto, no modelo sem '
+          f'atrito, sobe até ele, que é a posição de repouso do conjunto (Figura ⟦F:e3_razao⟧).'),
+    ("P", f'A fração sustentada depende da montagem e do alvo do ajuste. Com o came dois furos no '
+          f'sentido horário e a mola ajustada a essa montagem, o modelo cobre de {M3["cd_rmin_pct"]}%, '
+          f'em Θ = {M3["cd_rmin_th"]}°, a {M3["cd_rmax_pct"]}%, em Θ = {M3["cd_rmax_th"]}°, do peso do '
+          f'conjunto nos marcadores, com média de {M3["cd_rmed_pct"]}%, iguala o peso em Θ = '
+          f'{M3["cd_eq"]}°, já dentro da faixa da curva, e dá {M3["cd_pose"]} N·m na pose da Figura '
+          f'14D, {M3["cd_r14d"]} vezes o peso. Com o peso do apoio somado ao alvo, a mola cobre de '
+          f'{M3["cp_rmin_pct"]}% a {M3["cp_rmax_pct"]}%, com média de {M3["cp_rmed_pct"]}%, e iguala o '
+          f'peso em Θ = {M3["cp_eq"]}°. Em todas as configurações ajustadas à curva da patente, a '
+          f'assistência fica abaixo do peso em quase toda a faixa da curva e só passa dele perto da '
+          f'posição pendente, abaixo de um ângulo que vai de Θ = {M3["ca_eq"]}° a {M3["cd_eq"]}°, '
+          f'conforme a configuração.'),
+    ("F", "e3_razao", "exo3_tcc_fig_9_razao.png", 6.3,
+     "Fração do peso do conjunto sustentada no exoesqueleto 3 e torque que sobra para o usuário",
+     "Fração do peso do conjunto sustentada no exoesqueleto 3 (a) e torque do peso que sobra para o "
+     "usuário (b), da pose da Figura 14D ao limite de subida",
+     "Fonte: elaborada pelo autor, a partir das Figuras 14C, 14D e 16 da US 9.737.374 B2 (DOYLE, 2017).",
+     "Nota: modelos com o came e a mola de cada configuração ajustada à curva (Tabela 26); trecho "
+     "pontilhado: abaixo de Θ = −75°, onde a curva da patente não chega, o modelo extrapolado. Linhas "
+     "tracejadas: poses das Figuras 14D e 14C; pontilhada: limite de subida. Pontos: AASM nos "
+     "marcadores, na escala da AWM. Faixas sombreadas: marcas Z12 e Z11 da patente."),
     ("E", 642, [(" e 2,6 vezes o do membro do próprio artigo, de 11,97 N·m: a escala do artigo corresponde a "
                  "uma carga entre duas e meia e três vezes o peso do membro.",
                  " e 2,6 vezes o do membro do próprio artigo, de 11,97 N·m."),
                 ("2,94 vezes a adotada aqui. Nela, a AWM valeria 31,06 N·m na horizontal, 2,9 vezes",
                  "2,94 vezes a adotada aqui; nela, a AWM valeria 2,9 vezes"),
-                ("o mesmo R², e a rigidez e as forças crescem na mesma razão, com k", "o mesmo R², com k")]),
+                ("o mesmo R², e a rigidez e as forças crescem na mesma razão, com k", "o mesmo R², com k"),
+                ("(Tabela 26).", f"(Tabela 26). Nessa escala, a AASM passaria de {M3['art_rmin']} a "
+                 f"{M3['art_rmax']} vezes o torque do peso do conjunto nos marcadores, e a assistência "
+                 f"excederia o peso em toda a faixa.")]),
+    ("P", 'O confronto mostra, no exoesqueleto 3, a limitação apontada por Nasr, Ferguson e McPhee '
+          '(2022): o torque de um mecanismo passivo é determinado pelo ângulo, e ajustá-lo bem numa '
+          'faixa implica desvio em outra. Aqui, o came dá liberdade para moldar a transmissão, e a '
+          'curva da patente a usa para sustentar quase todo o peso do membro em torno da '
+          'horizontal, onde a demanda é maior, à custa de deixar mais torque para o usuário nas '
+          'pontas da faixa: na subida a partir do braço pendente e perto do limite de subida.'),
 
     # ------------------------------------------------------------------ limitações
     HR("r_lim"),
@@ -1092,10 +1251,24 @@ CAP4 = [
           'ao membro de referência, num modelo plano.'),
     ("P", 'No exoesqueleto 3, a principal ressalva é a escala: a ordenada da Figura 16 da US '
           '9.737.374 B2 não tem unidade, e o torque em N·m e a rigidez k supõem que a AWM seja o '
-          'momento do peso do membro de referência, sem ferramenta na mão e sem o apoio de braço. '
-          'A curva calculada depende ainda do giro do came, em que as Figuras 14C e 14D discordam '
-          'em 15,5°, e as leituras do perfil do came e da curva de momento não têm incerteza '
-          'estimada.'),
+          'momento do peso do membro de referência, sem ferramenta na mão e sem o apoio de braço; '
+          'na escala do artigo de Okabe, Brittes e Brito (2026), 2,94 vezes maior, a assistência '
+          'excederia o peso. A curva fixa só o nível da força da mola: k e x_{0} foram '
+          'identificados juntos, pela forma da curva, e não medidos. Os marcadores, que são os '
+          'dados da patente, foram lidos no mesmo traçado digitalizado da curva, e a incerteza '
+          'dessa leitura foi estimada só pelos símbolos encontrados na imagem e pelo fechamento RM '
+          '= AASM + AWM.'),
+    ("P", 'A curva calculada depende do giro do came em relação à primária, em que as Figuras 14C '
+          'e 14D da patente discordam em 15,5°. Com o came girado de −49°, o ajuste melhora e as '
+          'zonas ficam dentro das marcas da patente; a montagem de dois furos no sentido horário, a '
+          '1,6° desse giro, dá o mesmo R^{2}, e as montagens supõem na polia os furos medidos nas '
+          'figuras. Com a ancoragem 562 na posição '
+          'do CAD, o braço não sobe além de Θ = 22,0°, enquanto a curva da patente vai até 30°, e '
+          'os três últimos marcadores ficam fora dos ajustes. Abaixo de Θ = −75°, inclusive na '
+          'pose da Figura 14D, o torque do modelo é extrapolado com a mola ajustada na faixa da '
+          'curva, e a posição de repouso calculada depende dessa extrapolação.'),
+    ('K', 647),
+    ("E", 648, [(" e limitam-se à análise estática", ", num modelo plano")]),
 ]
 
 # ====================================================================== capítulo 5, fundido por assunto
@@ -1165,8 +1338,12 @@ CAP5 = [
           f'curva AASM com R^{{2}} = 0,901, e o ajuste refeito só nos marcadores que a patente '
           f'desenha dá R^{{2}} = {M3["d_r2"]}. A rigidez não é identificável pela AASM sozinha, que '
           f'não tem unidade, mas a AWM da própria patente, igualada ao peso do membro de '
-          f'referência, fixa a escala. Nela, k = 0,492 N/mm, e a mola trabalha de 158 a 114 N; os '
-          f'marcadores fixam esse nível de força, mas não separam k de x_{{0}}.'),
+          f'referência, fixa a escala. Nela, k = 0,492 N/mm, e a mola trabalha de 158 a 114 N. A '
+          f'curva e os marcadores fixam esse nível de força, mas não separam k de x_{{0}}: com o '
+          f'R^{{2}} a menos de {M3["tol_r2"]} do máximo, x_{{0}} vai de {M3["pc_x0a"]} a {M3["pc_x0b"]} '
+          f'mm, e a força na pose, só de {M3["pc_fa"]} a {M3["pc_fb"]} N. O resíduo tem três trechos de '
+          f'sinal alternado, e a mola linear não alcança o patamar da AASM; a RM, que varia três '
+          f'vezes menos, é reproduzida com R^{{2}} de só {M3["rmr_r2"]}.'),
     ("E", 684, [(" com R2 de 0,99839", ""),
                 (", mas sua forma não é reproduzida pelo modelo do CAD, e o torque", ", mas o torque"),
                 (" molda o torque pelo came, cujo giro em relação à primária é o parâmetro mais sensível, e chega",
@@ -1184,8 +1361,9 @@ CAP5 = [
           f'marcas da Figura 16 da US 9.737.374 B2. Os cinco furos em torno do pino 572 permitem '
           f'nove montagens do came; a de dois furos no sentido horário, a −50,6°, reproduz a curva '
           f'com R^{{2}} = 0,953, a 1,6° do melhor giro, e mantém R^{{2}} = {M3["df_r2"]} nos '
-          f'marcadores. A curva da patente parece corresponder a outra montagem do came, e a '
-          f'ancoragem desenhada limita a subida a Θ = 22,0°, contra 30° na curva.'),
+          f'marcadores, onde só as montagens horárias admitem uma mola linear. A curva da patente '
+          f'parece corresponder a outra montagem do came, e a ancoragem desenhada limita a subida a '
+          f'Θ = 22,0°, contra 30° na curva.'),
 
     HC("c_conf"),
     ("E", 663, [(" O resultado quantifica o compromisso de um mecanismo passivo de torque fixo por ângulo, que "
@@ -1203,8 +1381,14 @@ CAP5 = [
           f'que a própria patente desenha, passa de 90% dele de Θ = {M3["a90_ini"]}° a '
           f'{M3["a90_fim"]}° e cobre de {M3["rc_min_pct"]}% a {M3["rc_max_pct"]}% do peso do conjunto; as formas quase '
           f'coincidem perto da horizontal, com o pico da patente {M3["defas_aasm"]}° acima do do '
-          f'peso, e a sobra cresce nas pontas da faixa. A escala de 30 N·m do artigo de Okabe, '
-          f'Brittes e Brito (2026) é 2,9 vezes maior.'),
+          f'peso, e a sobra cresce nas pontas da faixa. Integrada na faixa da curva, a AASM realiza '
+          f'{M3["w_aasm_pct"]}% do trabalho do peso do conjunto, e a mola adotada devolve '
+          f'{M3["e_pct"]}% da energia que o peso exige da pose ao limite de subida. Com o braço quase '
+          f'pendente, na pose da Figura 14D, o modelo extrapolado dá {M3["p14d_rmod"]} vezes o peso e '
+          f'o iguala em Θ = {M3["ca_eq"]}°, que seria, no modelo, a posição de repouso do conjunto; na pose da Figura 14C, a '
+          f'patente e o modelo sustentam {M3["p14c_raasm_pct"]}% do peso. A escala de 30 N·m do artigo '
+          f'de Okabe, Brittes e Brito (2026) é 2,9 vezes maior, e nela a assistência excederia o '
+          f'peso em toda a faixa.'),
     ("E", 685, [("O pico de assistência fica acima do pico gravitacional no primeiro, 8,1° (97,5° contra "
                  "89,4°), e abaixo no segundo, 10,7° (79,1° contra 89,8°);",
                  "Comparados os três, o pico de assistência fica 8,1° acima do pico gravitacional no "
@@ -1250,7 +1434,8 @@ CAP5 = [
           'comercial compatível, e representar a protuberância responsável pela zona neutra; para '
           'o exoesqueleto 2, obter a curva de força e extensão do elemento elástico, que fixaria K '
           'e a escala do torque; e, para o exoesqueleto 3, medir a rigidez e o comprimento livre '
-          'da mola e o giro do came na peça real, que fixariam a escala e a montagem do came.'),
+          'da mola e o giro do came na peça real, que fixariam a escala, a divisão entre rigidez e '
+          'alongamento e a montagem do came.'),
 ]
 
 REFERENCIAS = [("K", 687, 732)]      # as não citadas saem na montagem

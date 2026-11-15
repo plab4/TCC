@@ -36,7 +36,7 @@ import condensado_defesa as cd  # noqa: E402
 from nomes import FUNDIDO, MODELO_FT, ORIGINAL  # noqa: E402
 
 RAIZ = Path(__file__).resolve().parent.parent
-LIMITE_PAGINAS = 80   # pedido do autor (14/11): enxugar para perto de 78, com todas as figuras
+LIMITE_PAGINAS = 90   # o autor liberou mais texto para o exoesqueleto 3 em 15/11 ("pode escrever mais")
 L, FALHAS = [], []
 NUMERO = re.compile(r"\d+(?:\.\d{3})+(?:,\d+)?|\d+,\d+|\d+")
 HASHES = {ORIGINAL: "7e188436c05ff859"}
@@ -191,7 +191,7 @@ def main():
     for x in res_longo:
         for p in g.PARAGRAFO.findall(x):
             base |= numeros(g.texto(p))
-    # complemento do exoesqueleto 3 (seções 4.7 a 4.9): números escritos pelo script de
+    # complemento do exoesqueleto 3 (capítulos 3 a 5): números escritos pelo script de
     # resultados, como aparecem no texto
     def _folhas(x):
         if isinstance(x, dict):
@@ -251,16 +251,21 @@ def main():
     # as tabelas remontadas no formato padrão (modo T) mudam cabeçalho, ordem ou colunas; nelas, cada
     # número das células tem de estar na tabela de origem do documento longo
     base_linhas = linhas("".join(res_longo))
-    lin_fora, remontadas = set(), []
+    lin_fora, remontadas, novas_tabelas = set(), [], 0
     for b, r in zip(blocos[:i_ref], registro["blocos"][:i_ref]):
         if not b.startswith("<w:tbl"):
             continue
         if r["modo"] == "T":
+            # linhas acrescentadas pelo complemento do exoesqueleto 3 trazem números dele
             origem = set().union(*(numeros(g.texto(q)) for q in g.PARAGRAFO.findall(res_longo[r["indice"]])))
-            fora = sorted({n for q in g.PARAGRAFO.findall(b) for n in numeros(g.texto(q))} - origem)
+            fora = sorted({n for q in g.PARAGRAFO.findall(b) for n in numeros(g.texto(q))} - origem - complemento)
             remontadas.append((r["indice"], fora))
             if fora:
                 FALHAS.append(f"tabela remontada (bloco {r['indice']}) com números fora da tabela de origem: {fora[:8]}")
+            continue
+        if r["modo"] == "TN":
+            # tabela nova do complemento: os números já passaram pela conferência do item 2
+            novas_tabelas += 1
             continue
         lin_fora |= linhas(b) - base_linhas
     if eq_fora or img_fora or lin_fora:
@@ -274,7 +279,8 @@ def main():
          f"{len(cd.FIGURAS_NOVAS)} figuras novas do complemento do exoesqueleto 3: {not img_fora}; "
          f"imagens sem uso deixadas no pacote: {len(orfas)}. Linhas de tabela do condensado que não estão no "
          f"documento longo (a menos da numeração): {len(lin_fora)}. Tabelas remontadas no formato padrão: "
-         f"{len(remontadas)}, todas com os números da tabela de origem: {not any(f for _, f in remontadas)}.")
+         f"{len(remontadas)}, todas com os números da tabela de origem ou do complemento do exoesqueleto 3: "
+         f"{not any(f for _, f in remontadas)}. Tabelas novas do complemento: {novas_tabelas}.")
     diga()
 
     # 4. termos proibidos e travessões
@@ -317,7 +323,8 @@ def main():
          f"ou cortados: {modos.get('E', 0)}; legendas e notas reescritas: {modos.get('R', 0)}; tabelas com "
          f"linhas retiradas: {modos.get('L', 0)}; parágrafos novos, que condensam os do documento longo: "
          f"{modos.get('P', 0)}; títulos novos: {modos.get('H', 0)}; tabelas remontadas no formato padrão: "
-         f"{modos.get('T', 0)}; notas novas: {modos.get('N', 0)}.")
+         f"{modos.get('T', 0)}; notas novas: {modos.get('N', 0)}; blocos de tabelas novas (legenda, tabela, fonte e "
+         f"nota): {modos.get('TN', 0)}; blocos de figuras novas: {modos.get('F', 0)}.")
     diga()
 
     # 6 e 7. DOCX entregue

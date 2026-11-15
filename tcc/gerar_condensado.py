@@ -333,6 +333,20 @@ def aplicar_plano(plano, blocos, res, marc, escalas=None):
             xml = g.TABELA([marc.texto(c) for c in cab], [[marc.texto(c) for c in l] for l in corpo],
                            spec["larg"], spec.get("alin"))
             itens.append({"origem": "n", "xml": xml, "indice": i, "modo": "T"})
+        elif op == "TN":
+            # tabela nova, com números de results/ escritos depois do documento longo: legenda
+            # (chave ⟦T#…⟧, citada no texto por ⟦T:…⟧), tabela no formato padrão, fonte e nota
+            _, chave, titulo, spec, fonte, nota = e
+            assert fonte.startswith("Fonte: ") and (nota is None or nota.startswith("Nota: "))
+            cab, corpo = spec["cab"], spec["linhas"]
+            assert all(len(l) == len(cab) for l in corpo), f"tabela {chave}: colunas"
+            itens.append({"origem": "n", "xml": g.LEG_T(chave, marc.texto(titulo)), "indice": None, "modo": "TN"})
+            itens.append({"origem": "n", "xml": g.TABELA([marc.texto(c) for c in cab],
+                                                          [[marc.texto(c) for c in l] for l in corpo],
+                                                          spec["larg"], spec.get("alin")),
+                          "indice": None, "modo": "TN"})
+            for xml in (g.PEQUENO(marc.texto(fonte), True),) + ((g.PEQUENO(marc.texto(nota)),) if nota else ()):
+                itens.append({"origem": "n", "xml": xml, "indice": None, "modo": "TN"})
         elif op == "N":
             # nota nova de tabela ou figura, no estilo das notas (texto na marcação do gerador)
             assert e[1].startswith("Nota: "), e[1][:40]

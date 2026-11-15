@@ -37,15 +37,15 @@ Porque o elemento que transmite a força muda. No primeiro, o cabo tangencia um 
 
 | | Medido em CAD ou em figura | Identificado por ajuste | Hipótese ou origem não reproduzida |
 |---|---|---|---|
-| Exoesqueleto 1 | p, C, R, α, pose, L_pose, H_CAD (Tabela 1) | X_pose = 37,383 mm e K = 174,68, em unidade da patente | θ_off = 133,017° e H_CAL = 22,701 mm, congelados, de origem não reproduzida (Tabela 8) |
-| Exoesqueleto 2 | C1, C2, γ, e_c, p, pose (Tabela 3) | s0 = 311,148, 300,750 e 291,956 mm, pelo espaçamento (seção 4.4) | K = K40 = 2,54982 N/mm, pela hipótese de 40% do peso em 90° (seção 3.9 e Tabela 16) |
-| Exoesqueleto 3 | C1, C2, R, γ, pose (Tabela 5); R20 e giro do came lidos nas figuras | k = 0,492 N/mm e x0 = 323,6 mm, na escala da AWM (Tabela 11) | escala: AWM igualada ao peso do membro de referência; polia 630 no infinito (seções 3.5 e 3.9) |
+| Exoesqueleto 1 | p, C, R, α, pose, L_pose, H_CAD (Tabela 1) | X_pose = 37,383 mm e K = 174,68, em unidade da patente | θ_off = 133,017° e H_CAL = 22,701 mm, congelados, de origem não reproduzida (Tabela 9) |
+| Exoesqueleto 2 | C1, C2, γ, e_c, p, pose (Tabela 3) | s0 = 311,148, 300,750 e 291,956 mm, pelo espaçamento (seção 4.4) | K = K40 = 2,54982 N/mm, pela hipótese de 40% do peso em 90° (seção 3.9 e Tabela 19) |
+| Exoesqueleto 3 | C1, C2, R, γ, pose (Tabela 5); R20 e giro do came lidos nas figuras | k = 0,492 N/mm e x0 = 323,6 mm, na escala da AWM (Tabela 12) | escala: AWM igualada ao peso do membro de referência; polia 630 no infinito (seções 3.5 e 3.9) |
 
 As grandezas de CAD são classificadas como medidas em CAD, e não como dimensões do produto (abertura do capítulo 3).
 
 ### 2.6 Como a consistência física foi demonstrada?
 
-Por verificações executadas a cada cálculo, descritas para os três na seção 3.11. No exoesqueleto 1, os resíduos estão na Tabela 7 (seção 4.3): os de fechamento são da ordem do erro de arredondamento, no máximo 8,0 × 10⁻¹³ mm, e o do trabalho virtual é de 4,7 × 10⁻⁸ mm/rad, limitado pela diferença finita. Há ainda testes automatizados no exoesqueleto 1 e o caso limite p = 0 no 2. Os resíduos numéricos dos exoesqueletos 2 e 3 saíram do texto com as seções de verificação que você cortou; se perguntarem, os valores do documento longo eram estes (fechamento até 5,7 × 10⁻¹⁴ mm e trabalho virtual com 5,0 × 10⁻⁸ mm/rad no 2; trabalho virtual com diferença relativa de 1,8 × 10⁻⁵ no 3).
+Por verificações executadas a cada cálculo, descritas para os três na seção 3.11. No exoesqueleto 1, os resíduos estão na Tabela 7 (seção 4.3): os de fechamento são da ordem do erro de arredondamento, no máximo 8,0 × 10⁻¹³ mm, e o do trabalho virtual é de 4,7 × 10⁻⁸ mm/rad, limitado pela diferença finita. Há ainda testes automatizados no exoesqueleto 1 e o caso limite p = 0 no 2. No exoesqueleto 3, os resultados voltaram à seção 4.3 (Tabela 8): fechamento com o CAD de 5,9 × 10⁻⁴ mm, limitado pela resolução da medida, duas formas do braço de momento iguais a 2,1 × 10⁻¹³ mm e trabalho virtual com diferença relativa de 1,8 × 10⁻⁵. Os resíduos do exoesqueleto 2 continuam fora do texto, como no seu arquivo; se perguntarem: fechamento até 5,7 × 10⁻¹⁴ mm e trabalho virtual com 5,0 × 10⁻⁸ mm/rad.
 
 ### 2.7 Por que o princípio dos trabalhos virtuais é importante aqui?
 
@@ -93,7 +93,7 @@ Valem para o indivíduo de referência de de Leva (1996), de 73,0 kg e 1,741 m, 
 
 **A curva determina h?** Com K e X_pose congelados, sim, dentro de 0,145 mm, mas isso é esperado por construção. Com K e X_pose livres, o RMSE fica abaixo de 2 vezes o mínimo de h = 19,25 a 31,00 mm: a curva sozinha não determina h (seções 4.7 e 5.3).
 
-**O que é "u.p."?** Unidade da patente: a unidade da ordenada da curva publicada, que o documento não declara. K só estaria em N/mm se u.p. correspondesse a N·m (seção 3.5 e nota da Tabela 8).
+**O que é "u.p."?** Unidade da patente: a unidade da ordenada da curva publicada, que o documento não declara. K só estaria em N/mm se u.p. correspondesse a N·m (seção 3.5 e nota da Tabela 9).
 
 **Por que o pico do mecanismo fica 8° acima do pico do peso?** O pico do cabo ocorre a 97,5° de elevação e o do peso a 89,4°. O mecanismo entrega a assistência máxima acima da posição de maior demanda, à custa de subcompensação abaixo de 94° (seção 4.8 e Figura 16).
 
@@ -117,11 +117,19 @@ Valem para o indivíduo de referência de de Leva (1996), de 73,0 kg e 1,741 m, 
 
 **Por que igualar a AWM ao peso do membro de referência?** Porque a figura não tem unidade e a AWM é, segundo a patente, o momento do peso do braço: um cosseno puro, −78,22 cos Θ. Igualar sua amplitude ao torque do peso do membro na horizontal (10,55 N·m) dá 0,1349 N·m por unidade. É hipótese declarada; na escala do artigo de Okabe, Brittes e Brito (2026), a mesma AWM corresponderia a 2,9 vezes o peso do membro (seções 3.9, 4.2 e 4.8).
 
-**Por que o came girado de −49° ajusta melhor?** O ajuste da mola (R² de 0,901 para 0,953) e as marcas das zonas da patente, que não entram no ajuste, apontam o mesmo giro. A montagem dois furos no sentido horário (−50,62°) fica a 1,6° dele. O texto conclui que a curva da patente é compatível com essa montagem, e não que ela foi a usada: a patente não diz em que furo o came estava (seção 4.7, Figura 13 e Tabela 15).
+**Por que o came girado de −49° ajusta melhor?** O ajuste da mola (R² de 0,901 para 0,953) e as marcas das zonas da patente, que não entram no ajuste, apontam o mesmo giro. A montagem dois furos no sentido horário (−50,62°) fica a 1,6° dele. O texto conclui que a curva da patente é compatível com essa montagem, e não que ela foi a usada: a patente não diz em que furo o came estava (seção 4.7, Figura 14 e Tabela 18).
 
 **Os furos da polia existem?** O texto admite, por hipótese, que a polia externa tem furos correspondentes aos cinco do came vistos nas Figuras 14C e 14D da patente (seção 3.10). Não afirme mais que isso.
 
 **Por que o raio efetivo e não o raio cotado?** O cabo tracionado passa reto sobre as concavidades do canal. Usar o raio do ponto de saída superestimaria o momento da mola em até 12% na Z11 e em até 49% na Z12 (seções 3.5 e 4.2 e Figura 4).
+
+**Por que refazer o ajuste nos marcadores?** A Figura 16 desenha cada curva por 27 marcadores, a cada 4°, e a linha só os liga: os marcadores são os dados que a patente publica. Nos 24 abaixo do limite de subida, o ajuste tem R² = 0,906, contra 0,901 na curva; k e x0 mudam (0,436 N/mm e 358,1 mm, contra 0,492 N/mm e 323,6 mm), mas a força na pose quase não (156 contra 159 N). Com x0 de 241 a 537 mm o R² cai menos de 0,01: a curva fixa o nível da força, e não a rigidez sozinha (seções 4.2, 4.4 e 4.5, Tabelas 12 e 14, Figura 9).
+
+**Por que a RM sai com R² de só 0,088?** Porque o erro da AASM passa inteiro para a RM, que é a AASM mais a AWM, e a RM varia três vezes menos (19,0 contra 57,8 unidades). O erro absoluto é o mesmo: 0,88 contra 0,90 N·m (seção 4.5).
+
+**Quanto do peso a patente sustenta?** Nos marcadores, a AASM chega a 98% do torque do braço que a própria patente desenha (a AWM) e passa de 90% dele de −30° a 10°. Com o apoio de braço, cobre de 51% a 90% do peso do conjunto, com média de 74%, e, integrada na faixa da curva, realiza 77% do trabalho do peso. A mola adotada devolve 80% da energia que o peso exige da pose ao limite de subida (seções 4.6 e 4.8, Figuras 19 e 20).
+
+**E nas poses desenhadas na patente?** Na Figura 14C (Θ = 10,25°), a patente e o modelo sustentam 84% do peso do conjunto. Na 14D, com o braço quase pendente, a curva da patente não chega; o modelo, extrapolado com a mesma mola, dá 3,0 vezes o peso e o iguala em Θ = −78,6°, que seria a posição de repouso no modelo sem atrito. Diga que é extrapolação: a curva começa em −75° (seções 4.8 e 4.9, Figura 20).
 
 **O braço só sobe até Θ = 22° no modelo, e a curva vai a 30°.** Com a ancoragem na posição do CAD, o vão do cabo se anula em 22,0°. O texto registra a diferença (seções 3.6 e 5.3).
 
@@ -136,9 +144,9 @@ Valem para o indivíduo de referência de de Leva (1996), de 73,0 kg e 1,741 m, 
 - **Não diga "validado".** O texto usa "reproduz a forma" e "verificado". Validação exigiria medida independente.
 - **Não cite torque do exoesqueleto 1 em N·m.** Ele está em unidade da patente.
 - **Diga cedo o que não foi feito:** ensaio com protótipo, medida independente de escala, análise dinâmica. A banca reage melhor a uma limitação declarada do que a uma descoberta.
-- **Tenha de cabeça:** 29 pontos e R² = 0,99839 (exo 1); 97,5° contra 89,4°; s0 = 300,750 mm e K40 = 2,54982 N/mm (exo 2); 4,379 N·m em 79,1°; R² de 0,901 e 0,953 e k = 0,492 N/mm (exo 3); resíduo de 1,7129 mm/rad sem o arco.
+- **Tenha de cabeça:** 29 pontos e R² = 0,99839 (exo 1); 97,5° contra 89,4°; s0 = 300,750 mm e K40 = 2,54982 N/mm (exo 2); 4,379 N·m em 79,1°; R² de 0,901 e 0,953 e k = 0,492 N/mm (exo 3); 77% do trabalho do peso, 84% na pose da Figura 14C e repouso calculado em −78,6° (exo 3); resíduo de 1,7129 mm/rad sem o arco.
 - **Três ressalvas que a banca vai procurar:** origem de θ_off e H_CAL; forma do exoesqueleto 2 não reproduzida; escala por hipótese nos três.
-- **O que saiu do texto e você pode citar de memória, se perguntarem:** a tabela com os 29 pontos extraídos, a tabela com os pontos das três curvas da EP 3 504 033 B1, o detalhe das análises de robustez do s0 (a figura do ajuste de forma voltou, como Figura 7), as tabelas de platôs de RMSE e de valores notáveis de h, a tabela de grandezas do circuito do exoesqueleto 2 por ângulo e os resíduos das verificações dos exoesqueletos 2 e 3. Os números estão nos arquivos `results/*.json` do repositório.
+- **O que saiu do texto e você pode citar de memória, se perguntarem:** a tabela com os 29 pontos extraídos, a tabela com os pontos das três curvas da EP 3 504 033 B1, o detalhe das análises de robustez do s0 (a figura do ajuste de forma voltou, como Figura 7), as tabelas de platôs de RMSE e de valores notáveis de h, a tabela de grandezas do circuito do exoesqueleto 2 por ângulo e os resíduos das verificações do exoesqueleto 2. Os números estão nos arquivos `results/*.json` do repositório.
 - **[depende de você]** Se perguntarem sobre uso de ferramentas de IA, responda com o que de fato ocorreu. O texto não trata do assunto.
 
 ## 5. Perguntas que exigem dados ou decisões que o texto não tem
