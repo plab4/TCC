@@ -10,7 +10,7 @@ Gerado por `tcc/verificar_condensado.py`. A coluna da esquerda traz a numeraçã
 | 1.1 Objetivos | 1.1 (título mantido) |
 | 1.1.1 Objetivo geral | 1.1.1 (título mantido) |
 | 1.1.2 Objetivos específicos | 1.1.2 (título mantido) |
-| 1.2 Justificativa | 1.2 (título mantido) |
+| 1.2 Justificativa | saiu |
 | 2 FUNDAMENTAÇÃO TEÓRICA | 2 (título mantido) |
 | 2.1 Carga do ombro no trabalho acima da cabeça | 2.1 (título mantido) |
 | 2.2 Exoesqueletos de membro superior | 2.2 (título mantido) |

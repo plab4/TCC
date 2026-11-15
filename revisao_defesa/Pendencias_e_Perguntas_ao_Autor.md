@@ -1,6 +1,6 @@
 # Pendências e perguntas ao autor
 
-Versão para a defesa do TCC "Modelagem de mecanismos passivos de apoio ao braço", com 89 páginas.
+Versão para a defesa do TCC "Modelagem de mecanismos passivos de apoio ao braço", com 85 páginas.
 
 Este arquivo reúne o que depende de você: decisões, dados que só você tem e confirmações. Nada do que está aqui foi resolvido em silêncio no documento. As perguntas estão em ordem de prioridade. As da parte A mudam o texto final; as demais servem para você chegar à banca com a resposta pronta.
 
@@ -160,4 +160,23 @@ Ficam fora dessa lista, porque pedem redação sua:
 - **Exoesqueleto 3 em todas as seções do capítulo 4 (pedido de 15/11, com liberdade de escrever mais):** saiu a Tabela 17 do confronto (curva AASM, modelo e torque do peso nos ângulos marcados), como você pediu. Em 4.1 voltaram o fechamento, as poses das Figuras 14C e 14D, a conferência de Steiner (M g d = 10,55 N·m para o membro e 11,45 N·m para o conjunto) e o detalhe do apoio de braço; em 4.2 entrou a leitura dos 27 marcadores, conferida pelos símbolos da imagem (76 de 80, desvio de 0,36 unidade RMS); em 4.3 voltou a verificação do exoesqueleto 3 (Tabela 8), no mesmo formato da do exoesqueleto 1 (Tabela 7, cujo cabeçalho passou de "Resíduo máximo" a "Resultado"); em 4.4 a Tabela 12 ganhou os ajustes nos marcadores e o da montagem de dois furos, e um parágrafo mostra que a curva fixa o nível da força da mola (147 a 170 N na pose), mas não separa k de x0; em 4.5 entraram a Tabela 14, de indicadores, parelha à Tabela 13 do exoesqueleto 1, o padrão do resíduo, o patamar e a reprodução da RM, com a Figura 9; em 4.6 voltou a Tabela 16, dos ângulos marcados, e entraram a força da mola, a tração no cabo 560 e a energia (a mola devolve 80% do que o peso exige da pose ao limite); em 4.7, as montagens refeitas nos marcadores; em 4.8, a fração do peso sustentada (AASM e modelo), o trabalho na faixa da curva (77%), as poses das Figuras 14C (84%) e 14D, a posição de repouso calculada (−78,6°) e o efeito da montagem e do alvo do ajuste, com a Figura 20; em 4.9, as simplificações e as ressalvas novas. Os números novos vêm de `results/exo3_marcadores.json`; o confronto usa a mola adotada (k = 0,492 N/mm), e o ajuste nos marcadores aparece como conferência. A seção 4.3 tem as verificações dos exoesqueletos 1 e 3; a do 2 continua fora, como no seu arquivo.
 - **Pergunta:** quer a verificação do exoesqueleto 2 de volta em 4.3 (uma tabela de 15 linhas, cerca de meia página), para as três ficarem iguais?
 - **Atenção à posição de repouso (−78,6°):** abaixo de Θ = −75° a curva da patente não existe, e o modelo é extrapolado com a mola ajustada acima disso. O texto diz isso em 4.8 e 4.9; na defesa, apresente como resultado do modelo, e não do dispositivo.
+- **Poda do texto (pedido de 15/11).** Cortado ou encurtado, sem tirar resultado nem conclusão:
+  - 1.2 Justificativa: a seção saiu; o conteúdo virou a última frase do parágrafo "Este trabalho trata dessa lacuna". A 1.1 (Objetivos) ficou, porque a seção 5.5 confere objetivo por objetivo, pelas letras a a i.
+  - 2.1: o parágrafo de van der Molen e Seidler, que repetia a introdução, virou uma frase (compressão subacromial).
+  - 2.2: classificação ativo/passivo/semipassivo e dispositivos ativos (Atia, Obukhov) encurtados, com as mesmas citações.
+  - 2.4: parágrafo do artigo de Okabe, Brittes e Brito (2026) encurtado, mantida a diferença de 70° contra 99,8°.
+  - 2.5: compatibilidade cinemática na EP encurtada a uma frase.
+  - 2.6: shoulderX encurtado (repetia 2.3); saiu o parágrafo das configurações das Figuras 1 e 18 da Ottobock (repetia 2.3); a frase de Kim et al. passou a "Esses resultados sugerem", como pedia a nota de 2.6.
+  - 3 (abertura): saiu o roteiro dos capítulos 4 e 5.
+  - 3.3: saiu o teste do sinal oposto de θ_b,pose (está em 4.4).
+  - 3.9: saiu a frase que antecipava a adoção do caminho completo do cabo (está em 4.4).
+  - 3.11: saíram as frases "não há um conjunto separado de testes executado com o pytest" dos exoesqueletos 2 e 3; a lista de scripts ganhou tcc_resultados_exo3_marcadores.py.
+  - 4.1: saíram as conferências das peças do CAD do exoesqueleto 3 (estão na Tabela 8).
+  - 4.2: os dois parágrafos dos marcadores viraram um, sem o que repetia 4.2 (fechamento) e a Tabela 14 (patamar e maior valor).
+  - 4.4: a Tabela 12 ficou só com o came como na Figura 14D (sem e com o peso do apoio, curva e marcadores, e a escala do artigo); o giro de −49° e a montagem de dois furos ficam só em 4.7. Saíram o parágrafo "O mesmo vale para as outras configurações" e as faixas de k do perfil em x0.
+  - 4.5: o patamar foi para a Tabela 14, sem repetir os números no texto.
+  - 4.7: "A Figura 12 apresenta o RMSE" virou referência na frase seguinte; saíram o parêntese do RMSE que dobra e decuplica (repetia o parágrafo anterior), o ramo espúrio do ponto morto (h = 3,9953 mm) e, nas montagens refeitas nos marcadores, os números que a Tabela 12 e a Figura 9 já mostram.
+  - 4.8: saíram o peso do apoio sozinho (0,91 N·m e 0,18 N·m), a sobra do modelo em N·m (está na Figura 20), a frase repetida sobre concentrar a sustentação na horizontal e o parágrafo de Nasr do exoesqueleto 3 encurtado a uma frase.
+  - 4.9: enxugada antes, a seu pedido.
+  - 5.4: o parágrafo do exoesqueleto 3 caiu de 210 para cerca de 110 palavras.
 - **Sem tabelas de pendências no TCC:** as limitações estão em texto corrido na seção 4.9.
