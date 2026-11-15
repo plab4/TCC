@@ -7,9 +7,9 @@ Gerado por `tcc/verificar_condensado.py`. A coluna da esquerda traz a numeraçã
 | Documento longo | Versão condensada |
 |---|---|
 | 1 INTRODUÇÃO | 1 (título mantido) |
-| 1.1 Objetivos | 1.1 (título mantido) |
-| 1.1.1 Objetivo geral | 1.1.1 (título mantido) |
-| 1.1.2 Objetivos específicos | 1.1.2 (título mantido) |
+| 1.1 Objetivos | saiu |
+| 1.1.1 Objetivo geral | saiu |
+| 1.1.2 Objetivos específicos | saiu |
 | 1.2 Justificativa | saiu |
 | 2 FUNDAMENTAÇÃO TEÓRICA | 2 (título mantido) |
 | 2.1 Carga do ombro no trabalho acima da cabeça | 2.1 (título mantido) |
@@ -107,7 +107,7 @@ Gerado por `tcc/verificar_condensado.py`. A coluna da esquerda traz a numeraçã
 | 5.1 Exoesqueleto 1 | saiu |
 | 5.2 Exoesqueleto 2 | saiu |
 | 5.3 Exoesqueleto 3 | saiu |
-| 5.4 Comparação entre os três exoesqueletos | conteúdo condensado em 5.4 |
+| 5.4 Comparação entre os três exoesqueletos | saiu |
 
 ## Apêndice
 

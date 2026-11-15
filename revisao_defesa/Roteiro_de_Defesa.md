@@ -61,21 +61,21 @@ Em nenhuma se conhece a incerteza da leitura. **[depende de você]** O método d
 
 ### 2.9 Por que não comparar a magnitude dos três?
 
-Porque cada torque está numa escala diferente. O do primeiro está em unidade da patente; lido em N·m, daria tração de 9,5 kN e pico 13,2 vezes o do peso, o que é implausível (seção 4.6). O do segundo só chega a N·m pela hipótese K = K40. O do terceiro, pela hipótese de que a AWM seja o peso do membro de referência; a escala do artigo de Okabe, Brittes e Brito (2026) é 2,94 vezes maior (seção 4.8). A comparação vale para ângulos e forma (seção 5.4).
+Porque cada torque está numa escala diferente. O do primeiro está em unidade da patente; lido em N·m, daria tração de 9,5 kN e pico 13,2 vezes o do peso, o que é implausível (seção 4.6). O do segundo só chega a N·m pela hipótese K = K40. O do terceiro, pela hipótese de que a AWM seja o peso do membro de referência; a escala do artigo de Okabe, Brittes e Brito (2026) é 2,94 vezes maior (seção 4.8). A comparação vale para ângulos e forma (capítulo 5).
 
 ### 2.10 Quais resultados não dependem de hipótese de escala?
 
-Os ângulos dos picos, dos pontos mortos e das transições, a forma normalizada dos perfis, os comprimentos de referência s0 e as verificações de fechamento e de trabalho virtual. Dependem de hipótese os valores em N·m. Tudo depende da geometria reconstruída a partir de desenhos sem cotas (seção 5.5).
+Os ângulos dos picos, dos pontos mortos e das transições, a forma normalizada dos perfis, os comprimentos de referência s0 e as verificações de fechamento e de trabalho virtual. Dependem de hipótese os valores em N·m. Tudo depende da geometria reconstruída a partir de desenhos sem cotas (capítulo 5).
 
 ### 2.11 E a dinâmica?
 
-A versão entregue trata só do comportamento estático, e o texto não promete análise dinâmica. O título é "Modelagem de mecanismos passivos de apoio ao braço". Se a banca perguntar pela dinâmica, a resposta que o texto sustenta é esta: o trabalho calcula numericamente o torque estático ao longo de toda a faixa de movimento e faz varreduras paramétricas (h, e_c e giro do came); uma análise dinâmica somaria o torque do mecanismo ao do peso e exigiria os dois na mesma unidade física, e nenhuma das três patentes fornece a escala do torque (seção 4.9). Por isso a continuidade recomendada em cada conclusão é obter um dado independente que fixe a escala (seção 5.5).
+A versão entregue trata só do comportamento estático, e o texto não promete análise dinâmica. O título é "Modelagem de mecanismos passivos de apoio ao braço". Se a banca perguntar pela dinâmica, a resposta que o texto sustenta é esta: o trabalho calcula numericamente o torque estático ao longo de toda a faixa de movimento e faz varreduras paramétricas (h, e_c e giro do came); uma análise dinâmica somaria o torque do mecanismo ao do peso e exigiria os dois na mesma unidade física, e nenhuma das três patentes fornece a escala do torque (seção 4.9). Por isso a continuidade recomendada em cada conclusão é obter um dado independente que fixe a escala (capítulo 5).
 
 **[depende de você]** Os objetivos sobre equação de movimento e simulação multicorpos saíram do texto a seu pedido. Se eles constavam do projeto aprovado, combine com o orientador como responder.
 
 ### 2.12 O que seria necessário para validar os modelos experimentalmente?
 
-Um dado independente que fixe a escala: a especificação ou o ensaio da mola no primeiro, a curva de força e extensão do elástico no segundo, e a rigidez, o comprimento livre e o giro do came medidos na peça real no terceiro (seção 5.6). Com a escala fixada, a comparação com o torque medido no dispositivo validaria a magnitude.
+Um dado independente que fixe a escala: a especificação ou o ensaio da mola no primeiro, a curva de força e extensão do elástico no segundo, e a rigidez, o comprimento livre e o giro do came medidos na peça real no terceiro (capítulo 5). Com a escala fixada, a comparação com o torque medido no dispositivo validaria a magnitude.
 
 ### 2.13 Os resultados valem para outras pessoas e outros usos?
 
@@ -91,7 +91,7 @@ Valem para o indivíduo de referência de de Leva (1996), de 73,0 kg e 1,741 m, 
 
 **Por que a cota do CAD (34,785 mm) não foi usada para h?** Com X_pose congelado, ela afrouxa o cabo no início da faixa (extensão mínima de −2,257 mm) e dá RMSE de 43,48 u.p. (seção 4.7). A diferença entre H_CAD e H_CAL fica sem explicação no texto: não afirme qual dos dois corresponde ao dispositivo.
 
-**A curva determina h?** Com K e X_pose congelados, sim, dentro de 0,145 mm, mas isso é esperado por construção. Com K e X_pose livres, o RMSE fica abaixo de 2 vezes o mínimo de h = 19,25 a 31,00 mm: a curva sozinha não determina h (seções 4.7 e 5.3).
+**A curva determina h?** Com K e X_pose congelados, sim, dentro de 0,145 mm, mas isso é esperado por construção. Com K e X_pose livres, o RMSE fica abaixo de 2 vezes o mínimo de h = 19,25 a 31,00 mm: a curva sozinha não determina h (seção 4.7 e capítulo 5).
 
 **O que é "u.p."?** Unidade da patente: a unidade da ordenada da curva publicada, que o documento não declara. K só estaria em N/mm se u.p. correspondesse a N·m (seção 3.5 e nota da Tabela 9).
 
@@ -131,13 +131,13 @@ Valem para o indivíduo de referência de de Leva (1996), de 73,0 kg e 1,741 m, 
 
 **E nas poses desenhadas na patente?** Na Figura 14C (Θ = 10,25°), a patente e o modelo sustentam 84% do peso do conjunto. Na 14D, com o braço quase pendente, a curva da patente não chega; o modelo, extrapolado com a mesma mola, dá 3,0 vezes o peso e o iguala em Θ = −78,6°, que seria a posição de repouso no modelo sem atrito. Diga que é extrapolação: a curva começa em −75° (seções 4.8 e 4.9, Figura 20).
 
-**O braço só sobe até Θ = 22° no modelo, e a curva vai a 30°.** Com a ancoragem na posição do CAD, o vão do cabo se anula em 22,0°. O texto registra a diferença (seções 3.6 e 5.3).
+**O braço só sobe até Θ = 22° no modelo, e a curva vai a 30°.** Com a ancoragem na posição do CAD, o vão do cabo se anula em 22,0°. O texto registra a diferença (seção 3.6 e capítulo 5).
 
 ### Comparação
 
 **Por que os três torques do peso são diferentes (11,16, 10,617 e 11,45 N·m)?** O membro humano é o mesmo (10,55 N·m na horizontal). O que muda são as peças do exoesqueleto somadas a ele em cada modelo (Tabelas 2, 4 e 6).
 
-**Qual dos três compensa melhor o peso?** O trabalho não responde em magnitude. Em forma: o primeiro acompanha o peso entre 105° e 150°; o segundo, com a geometria do CAD, fica abaixo do peso entre 84° e 177°; no terceiro, o máximo da curva da patente quase coincide com o do peso (seções 4.8 e 5.4). No segundo, a comparação vale para o modelo, e não para o produto.
+**Qual dos três compensa melhor o peso?** O trabalho não responde em magnitude. Em forma: o primeiro acompanha o peso entre 105° e 150°; o segundo, com a geometria do CAD, fica abaixo do peso entre 84° e 177°; no terceiro, o máximo da curva da patente quase coincide com o do peso (seção 4.8 e capítulo 5). No segundo, a comparação vale para o modelo, e não para o produto.
 
 ## 4. Pontos de atenção na apresentação
 

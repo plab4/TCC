@@ -117,12 +117,23 @@ CAP1 = [
                "Vários setores, como montagem automotiva, construção civil, solda e manutenção industrial, exigem"),
               ("distúrbios na articulação ombro", "distúrbios na articulação do ombro")]),
     ("E", 3, [("4,12 milhões afastamentos", "4,12 milhões de afastamentos")]),
-    ("K", 4),
-    ("E", 5, [("Em um dispositivo passivo o auxílio", "Em um dispositivo passivo, o auxílio")]),
-    ("E", 6, [("resolver o problema em duas etapas, o equilíbrio estático, que dimensiona a compensação de "
-               "gravidade, e a dinâmica multicorpos, que expõe inércia, forças de Coriolis e atrito durante o "
-               "movimento real.",
-               "resolver o equilíbrio estático, que dimensiona a compensação de gravidade.")]),
+    ("R", 4, 'Os exoesqueletos são uma das respostas a esse problema. Os passivos, que '
+               'devolvem ao usuário a energia armazenada em molas, predominam na indústria '
+               'por serem leves, baratos e independentes de fonte externa de energia (DE '
+               'LOOZE et al., 2016; REYES et al., 2023), e revisões de estudos experimentais '
+               'sugerem redução consistente da atividade dos deltoides e do trapézio no '
+               'trabalho acima da cabeça (BÄR et al., 2021; MOELLER et al., 2022).'),
+    ("R", 5, 'Num dispositivo passivo, o auxílio decorre da geometria do mecanismo e da '
+               'mola: o torque entregue é função do ângulo de elevação, e projetar o '
+               'dispositivo é aproximar essa curva do torque gravitacional do braço. Onde as '
+               'duas curvas se afastam, o exoesqueleto ajuda demais numa faixa e de menos em '
+               'outra, e a musculatura do usuário compensa a diferença (NASR; FERGUSON; '
+               'McPHEE, 2022).'),
+    ("R", 6, 'Os modelos que chegaram ao mercado estão descritos em patentes, que detalham '
+               'o mecanismo, mas não permitem quantificá-lo: trazem curvas de torque, mas '
+               'nenhuma informa massa, inércia ou rigidez. Avaliar um desses mecanismos exige '
+               'reconstruir sua geometria e resolver o equilíbrio estático, que dimensiona a '
+               'compensação de gravidade.'),
     ("E", 7, [(", com parâmetros antropométricos de referência, e preparar a extensão do modelo à dinâmica "
                "multicorpos pela formulação de Lagrange.",
                ", com parâmetros antropométricos de referência. Um modelo assim permite estudar "
@@ -130,16 +141,22 @@ CAP1 = [
                "barato, e comparar mecanismos concorrentes sobre a mesma base quantitativa, algo que as "
                "patentes, por si, não oferecem; implementado em Python, ferramenta livre, ele é reprodutível "
                "por outros grupos.")]),
-    ("E", 8, [("Nesta etapa, o procedimento foi aplicado", "O procedimento foi aplicado"),
-              (" Os três são tratados em seções separadas dos capítulos 3, 4 e 5, dedicadas aos "
-               "exoesqueletos 1, 2 e 3.", " No restante do texto, eles são chamados de exoesqueletos 1, 2 e 3."),
-              (" e o anula quando situado sobre o eixo de rotação", "")]),
-    ("K", 9, 10),
-    ("E", 11, [("da US 9.737.374 B2, comparar o torque", "da US 9.737.374 B2, e comparar o torque"),
+    ("R", 8, 'O procedimento foi aplicado a três mecanismos de arquitetura distinta, '
+               'chamados no restante do texto de exoesqueletos 1, 2 e 3: o gerador de torque '
+               'de mola, cabo e polia da US 9.889.554 B2 (VAN ENGELHOVEN; KAZEROONI, 2018); o '
+               'dispositivo da EP 3 504 033 B1 (MIZERA et al., 2023), em que um elemento '
+               'elástico atua diretamente sobre uma alavanca solidária ao braço e um elemento '
+               'de encosto junto à articulação reduz o torque com o braço baixado; e o '
+               'mecanismo da US 9.737.374 B2 (DOYLE, 2017), em que um cabo de ancoragem se '
+               'enrola numa polia solidária a um came de raio variável, que converte a força '
+               'de uma mola em torque no ombro.'),
+    # títulos 1.1 e 1.1.1 retirados (15/11): os objetivos ficam no fim da introdução
+    ("E", 11, [("Modelar o comportamento", "O objetivo geral deste trabalho é modelar o comportamento"),
+               ("da US 9.737.374 B2, comparar o torque", "da US 9.737.374 B2, e comparar o torque"),
                ("braço–exoesqueleto", "braço-exoesqueleto"),
                (" ao longo da faixa de elevação e preparar a extensão do procedimento à dinâmica multicorpos.",
-                " ao longo da faixa de elevação.")]),
-    ("K", 12, 15),
+                " ao longo da faixa de elevação. Os objetivos específicos são:")]),
+    ("K", 13, 15),                   # título 1.1.2 retirado
     ("E", 16, [("que a patente não informa — posição", "que a patente não informa: posição")]),
     ("E", 17, [("braço–exoesqueleto", "braço-exoesqueleto"),
                ("ao longo da faixa de elevação;", "ao longo da faixa de elevação.")]),
@@ -175,7 +192,29 @@ CAP2 = [
                'et al., 2025). Nos passivos, sem esse aparato, a assistência fica inteiramente determinada '
                'no projeto do mecanismo, o que dá ao modelo preditivo um peso que ele não teria num '
                'sistema controlado.'),
-    ('K', 39, 45),
+    ("R", 39, 'Os efeitos documentados têm direção consistente, mas magnitude variável: a '
+               'meta-análise de Bär et al. (2021) reúne as reduções de esforço físico agudo '
+               'associadas aos exoesqueletos ocupacionais, e Moeller et al. (2022) registram '
+               'menor atividade de deltoide e trapézio na maioria dos 35 estudos revisados, '
+               'com efeitos indesejados quando o ajuste do dispositivo não corresponde à '
+               'tarefa.'),
+    ('K', 40, 41),
+    ("R", 42, 'A US 9.889.554 B2 (VAN ENGELHOVEN; KAZEROONI, 2018) descreve um arranjo desse '
+               'tipo: um elo proximal, solidário a uma base fixada ao tronco, articula-se com '
+               'um elo distal que acompanha o braço, e um gerador de força de tração, formado '
+               'por mola e cabo tensionado sobre uma polia, produz o torque de apoio. Abaixo '
+               'de um ângulo de transição (‹toggle angle›), uma protuberância junto à junta '
+               'restringe o gerador de força, o torque cai a um valor residual e o braço '
+               'recupera a liberdade de movimento.'),
+    ("R", 43, 'A EP 3 504 033 B1 (MIZERA et al., 2023) trata o mesmo problema por outro '
+               'caminho: a força de um atuador passivo é transmitida por um elemento rígido '
+               'apoiado na pelve, e o elemento elástico atua diretamente sobre uma alavanca '
+               'solidária ao braço, sem cabo nem polia. A faixa sem torque com o braço '
+               'baixado vem de um elemento de encosto junto à articulação, em que o elástico '
+               'passa a se apoiar a partir de um ângulo ajustável; com esse elemento sobre o '
+               'eixo de rotação, as forças dos dois trechos do elástico passam pelo eixo e '
+               'não produzem torque, embora o elástico continue tracionado.'),
+    ('K', 44, 45),
     ("E", 46, [('Palazzi et al. (2022) mostram, em um exoesqueleto balanceado por gravidade, '
                 'redução de 89% no torque de pico do ombro quando esse ajuste é bem resolvido.',
                 '')]),
@@ -198,21 +237,58 @@ CAP2 = [
     ("R", 59, 'Três arquiteturas comerciais consolidaram soluções distintas para esse problema. O '
                'shoulderX, desenvolvido na Universidade da Califórnia em Berkeley, usa o gerador de mola, '
                'cabo e polia da US 9.889.554 B2 (VAN ENGELHOVEN; KAZEROONI, 2018).'),
-    ('K', 60),
-    ("E", 62, [("A leitura de projeto que daí decorre é direta: o benefício depende",
-                "Esses resultados sugerem que o benefício depende")]),   # 61 repetia 2.3; cortado em 15/11
-    ('K', 63, 67),
-    ("E", 68, [('O cálculo do torque gravitacional e das equações de movimento pressupõe',
-                'O cálculo do torque gravitacional e a composição inercial do conjunto pressupõem')]),
+    ("R", 60, 'O Airframe, da Levitate Technologies, adota um sistema adaptativo de apoio, '
+               'em que o elemento elástico é engajado progressivamente à medida que o braço '
+               'se eleva, e a carga é transferida ao tronco e à cintura pélvica (DOYLE, '
+               '2017). O Paexo, da Ottobock, emprega um elemento elástico sobre um braço de '
+               'alavanca ajustável, com suporte máximo perto da horizontal e nulo com o braço '
+               'junto ao corpo (MIZERA et al., 2023). As patentes não citam esses nomes '
+               'comerciais, e a associação de cada produto à sua patente não pôde ser '
+               'conferida (seção ⟦S:t_cad⟧). As três soluções buscam o mesmo objetivo '
+               'funcional: sintetizar, com a geometria e um único elemento elástico, um '
+               'perfil de torque que acompanhe o momento gravitacional do membro superior ao '
+               'longo da elevação.'),
+    ("R", 62, 'A avaliação experimental mostra, contudo, que o ganho não é automático. Kim '
+               'et al. (2018a) relatam redução de até 45% no pico de atividade muscular do '
+               'ombro em tarefas simuladas de furar e montar acima da cabeça, com queda no '
+               'tempo de execução e aumento no número de erros, e os mesmos autores '
+               'documentam efeitos não previstos sobre a cinemática do ombro, o equilíbrio '
+               'postural e a carga na coluna (KIM et al., 2018b). Esses resultados sugerem '
+               'que o benefício depende menos da magnitude do torque do que de sua '
+               'distribuição angular: o requisito de projeto passa a ser uma curva τ(θ), e '
+               'não um valor isolado de torque máximo.'),
+    ('K', 63, 64),
+    ("R", 65, 'Wu, Wang e Du (2016) aplicam o princípio a um exoesqueleto de membro superior '
+               'e relatam redução de 34,6% no consumo de potência em relação à configuração '
+               'não balanceada. Em exoesqueletos vestíveis, porém, o balanceamento perfeito '
+               'não é o alvo: as restrições de empacotamento, o curso admissível da mola e a '
+               'exigência de anular o suporte com o braço baixado tornam o problema um '
+               'projeto restrito, que busca a melhor aproximação de um perfil desejado, e não '
+               'a compensação integral do peso. Nele, o torque resulta do produto entre a '
+               'força elástica, função da extensão da mola, e o braço de momento do cabo, '
+               'ambos dependentes da configuração de forma não linear.'),
+    ('K', 66, 67),
+    ("R", 68, 'O cálculo do torque gravitacional e a composição inercial do conjunto '
+               'pressupõem a massa, a posição do centro de massa e os momentos de inércia de '
+               'braço, antebraço e mão. De Leva (1996) ajusta os dados de Zatsiorsky e '
+               'Seluyanov, obtidos por varredura de raios gama, referindo os centros de massa '
+               'e os raios de giração aos centros articulares usualmente adotados em '
+               'biomecânica, e não aos marcos ósseos originais. Os valores, expressos como '
+               'frações da massa corporal e do comprimento do segmento, permitem escalar o '
+               'modelo para o indivíduo de referência adotado.'),
     ("E", 69, [(' Cabe distinguir, nesse ponto, as duas grandezas que o procedimento alimenta: o momento '
                 'estático do peso, dependente apenas da massa e do braço horizontal do centro de gravidade, e o '
                 'momento de inércia, que descreve a resistência à aceleração angular e comparece exclusivamente '
                 'na análise dinâmica.', '')]),
     ('K', 70, 71),
-    ("E", 72, [('quanto à origem — medida, de literatura, identificada, derivada ou assumida — de '
-                'modo que',
-                'quanto à origem (medida, de literatura, identificada, derivada ou assumida), de '
-                'modo que')]),
+    ("R", 72, 'O procedimento usual é o ajuste por mínimos quadrados dos parâmetros '
+               'desconhecidos contra os pontos extraídos da curva, sob restrições geométricas '
+               'e de projeto explicitadas, avaliado pela raiz do erro quadrático médio e pelo '
+               'coeficiente de determinação. Dois cuidados distinguem um ajuste defensável de '
+               'um exercício circular: separar a identificação do uso, congelando os '
+               'parâmetros antes de avaliar o modelo, e classificar cada grandeza quanto à '
+               'origem (medida, de literatura, identificada, derivada ou assumida), para que '
+               'nenhum parâmetro ajustado seja apresentado como medida.'),
     ('K', 74),
     ("E", 75, [('construída a partir da documentação pública de patente e conduzida do equilíbrio '
                 'estático até a dinâmica multicorpos.',
@@ -326,7 +402,10 @@ CAP3 = [
                'fica acima da horizontal.'),
     ("E", 308, [('A origem O fica no eixo do pivô 584',
                 'No exoesqueleto 3, a origem O fica no eixo do pivô 584')]),
-    ('K', 309, 310),
+    ("E", 309, [
+                (" O ângulo da patente não precisa ser convertido em elevação anatômica, mas a comparação",
+                 " A comparação")]),
+    ('K', 310),
     ('K', 311),
     ("E", 312, [(", e as comparações usam seu módulo τg", ""),
                 (" O torque τ é o produto da força da mola pela transmissão τ/Fs.", "")]),
@@ -442,7 +521,10 @@ CAP3 = [
     ('K', 245, 246),
     ("E", 340, [('O braço de momento',
                 'No exoesqueleto 3, o braço de momento')]),
-    ('K', 341, 342),
+    ('K', 341),
+    ("E", 342, [
+                (" O primeiro valor sai do caminho inverso da seção 3.3.4, com θ = γ + 180°, e o segundo, pelo método de Brent (BRENT, 1973).",
+                 "")]),
     H("t_grav"),
     ("P", 'O torque do peso de cada conjunto é calculado de forma independente do mecanismo, em '
           'N·m, unidade física, e as comparações usam o seu módulo, τ_{g}.'),
@@ -508,7 +590,10 @@ CAP3 = [
                 'No exoesqueleto 1, a referência de comparação é a curva'),
                (', registrados em θ* e listados na Tabela 5 na ordem da extração.',
                 ', registrados em θ*.')]),
-    ('K', 166, 168),
+    ("E", 166, [
+                (", que não executa ajuste algum",
+                 "")]),
+    ('K', 167, 168),
     ("P", 'Com h e θ_{off} fixados, X_{pose} foi reidentificado por varredura unidimensional, em '
           'passo de 0,001 mm, com K dado pela Equação (29) em cada valor. A qualidade do ajuste é '
           'avaliada pela raiz do erro quadrático médio (RMSE), pelo erro absoluto médio (MAE), '
@@ -519,7 +604,10 @@ CAP3 = [
     ("E", 259, [('As Figuras 16 e 17 da patente são apresentadas',
                 'No exoesqueleto 2, as Figuras 16 e 17 da EP 3 504 033 B1 são apresentadas'),
                (' (Figura 5)', '')]),
-    ('K', 260, 261),
+    ("E", 260, [
+                (", e a divergência entre o texto e a figura fica registrada",
+                 "")]),
+    ('K', 261),
     ("R", 266, 'Os pontos das três curvas foram extraídos neste trabalho e estão no arquivo '
                'fig16_curvas.csv. A extração dividiu a leitura vertical por 21,1311 para obter a '
                'razão em divisões da grade e teve erro mediano de sobreposição inferior a 0,5 px, '
@@ -531,7 +619,10 @@ CAP3 = [
     ('K', 269, 272),
     # a reprodução da Figura 16 da EP saiu a pedido do autor (14/11), para o 3.9 não mostrar a
     # figura de uma patente só; os pontos extraídos dela aparecem nos resultados
-    ('K', 273, 277),
+    ('K', 273, 276),
+    ("E", 277, [
+                (", sem procedimento iterativo nem ponto de partida",
+                 "")]),
     ("R", 278, 'A robustez da identificação foi avaliada com outras faixas de θ_{el}, de 15° a '
                '170°, de 25° a 160° e de 40° a 150°, com ruído de 0,5 px nas duas coordenadas de '
                'cada ponto, em 500 sorteios, com o sinal de θ_{b,pose} oposto e com a abscissa da '
@@ -553,7 +644,9 @@ CAP3 = [
                  "nas Figuras 14C e 14D (seção 4.3.1).", ""),
                 ("os dois ajustes estão na seção 4.3.4.",
                  "os dois ajustes estão na seção 4.3.4. Todos os ajustes foram feitos na curva grau a grau e "
-                 "repetidos só nos marcadores abaixo do limite de subida.")]),
+                 "repetidos só nos marcadores abaixo do limite de subida."),
+                (" O artigo de Okabe, Brittes e Brito (2026) adotou outra escala, com o máximo da AASM em 30 N·m, comentada na seção 4.3.8.",
+                 "")]),
     H("t_varr"),
     ("P", 'Em cada mecanismo, o parâmetro geométrico menos certo foi varrido, com os demais '
           'congelados. A varredura é um diagnóstico, e não uma otimização: nenhum parâmetro do '
@@ -589,7 +682,9 @@ CAP3 = [
                 "Só valem os giros em que o cabo da mola sai do canal em toda a faixa do ajuste, entre as duas "
                 "pontas do rebaixo onde fica a âncora 573, que a envoltória convexa atravessa por um segmento "
                 "reto."),
-               (" Trata-se de diagnóstico, e nenhum parâmetro é substituído pelo resultado.", "")]),
+               (" Trata-se de diagnóstico, e nenhum parâmetro é substituído pelo resultado.", ""),
+                (", que a envoltória convexa atravessa por um segmento reto",
+                 "")]),
     ("R", 361, 'Além do giro contínuo, foram testadas as montagens que os furos permitem. Nas '
                'Figuras 14C e 14D, há cinco furos pequenos num arco em torno do pino 572, que '
                'acompanham o came de uma figura para a outra. Admitido, por hipótese, que a polia externa tenha furos '
@@ -698,8 +793,7 @@ VERIF = {"cab": ["Verificação", "Resultado"], "larg": [6300, 3060], "alin": ["
 
 CAP4 = [
     ('K', 374),
-    ("P", 'Este capítulo segue a ordem do capítulo 3: cada seção trata de um assunto e apresenta '
-          'os resultados dos exoesqueletos 1, 2 e 3, nessa ordem. Salvo indicação em contrário, os '
+    ("P", 'Salvo indicação em contrário, os '
           'números do exoesqueleto 1 foram obtidos com o modelo vigente e os parâmetros congelados '
           'K = 174,68, H_{CAL} = 22,701 mm e X_{pose} = 37,383 mm; os do exoesqueleto 2, com a '
           'geometria do CAD, e_{c} = 34,785 mm, s_{0} = 300,750 mm, identificado pelo espaçamento '
@@ -760,7 +854,20 @@ CAP4 = [
     ("E", 570, [("Grandezas do circuito do cabo de ancoragem na pose do CAD",
                  "Grandezas geométricas do exoesqueleto 3 na pose do CAD")]),
     ("T", 571, dict(GEO, troca=[("Derivada", "Calculada")])),
-    ('K', 572, 575),
+    ('K', 572),
+    ("E", 573, [
+                (" Com O na origem, A = (−34,000; −62,000) mm, D = (−42,913; 79,778) mm e T = (−16,674; 76,495) mm.",
+                 "")]),
+    ("E", 574, [
+                ("Na imagem da folha 21, a distância de 584 a 572 dá 152,6 px na Figura 14C e 152,3 px na 14D, e, com C2 = 90,587 mm, a escala do desenho é de 1,68 px/mm. ",
+                 ""),
+                ("Nas duas, a reta de 572 a 632, ao longo do chassi, fica 22,1° e 21,8° além de C2, no mesmo sentido da defasagem do CAD, e o ponto A",
+                 "Nas duas, o ponto A")]),
+    ("E", 575, [
+                (" Levado ao referencial da 15B e ajustado ao desenho por escala e giro, ele fica a 0,05 px do traço nas duas figuras, com ",
+                 " Ajustado ao desenho por escala e giro, ele dá "),
+                (", equivale a 7 mm de cabo na primária,",
+                 ",")]),
     ("P", 'A Tabela 22 reúne as propriedades de massa do conjunto que gira com o braço em torno do '
           'pivô 584: os segmentos do membro de referência, segundo de Leva (1996), e as peças do '
           'apoio de braço, medidas no modelo em CAD.'),
@@ -771,7 +878,9 @@ CAP4 = [
     ("E", 581, [(" As peças do CAD concordam com os desenhos: a distância entre os pinos 572 e 632 é de 163,6 mm "
                  "no CAD, contra 165,0 mm na Figura 14D; o R20 do came do CAD vai de 31,65 a 32,01 mm, conforme se "
                  "calcule pela área, pela giração ou pela caixa envolvente; e o referencial da Figura 15B fica a "
-                 "−21,5° da reta de 572 a 632 no CAD e a −23,0° na Figura 14D.", "")]),
+                 "−21,5° da reta de 572 a 632 no CAD e a −23,0° na Figura 14D.", ""),
+                (" O pivô ficou em (−112,07; 3,61) mm no referencial da peça, e o centro de massa do apoio",
+                 " O centro de massa do apoio")]),
 
     # ------------------------------------------------------------------ dados extraídos
     HR("r_dados"),
@@ -779,10 +888,14 @@ CAP4 = [
                 'extração, com os ângulos correspondentes nas convenções da seção 3.1.3, o torque '
                 'calculado pelo modelo com os parâmetros congelados e o resíduo. Os pontos cobrem',
                 'No exoesqueleto 1, os 29 pontos extraídos da curva da patente cobrem'),
-               (" Os valores são expressos em u.p. porque a figura de origem não declara unidade (seção 2.10).", "")]),
+               (" Os valores são expressos em u.p. porque a figura de origem não declara unidade (seção 2.10).", ""),
+                ("; o ponto 29, em θ* = 42,909°, fica 0,008° abaixo do limite inferior da faixa de operação, θ* = 42,917° (seção 3.1.3)",
+                 "")]),
     ("E", 491, [('Foram extraídos 48 pontos da curva tracejada',
                  'No exoesqueleto 2, foram extraídos da Figura 16 da patente 48 pontos da curva tracejada'),
-                (' (Tabela 15)', '')]),
+                (' (Tabela 15)', ''),
+                (", por interpolação linear entre os dois primeiros pontos",
+                 "")]),
     ("E", 583, [('Da Figura 16 da US 9.737.374 B2 foram extraídos 106 pontos de cada curva',
                  'No exoesqueleto 3, foram extraídos 106 pontos de cada curva da Figura 16 da US 9.737.374 B2'),
                 (' A Tabela 23 traz os valores em ângulos de 15 em 15 graus e no máximo da AASM.', '')]),
@@ -813,7 +926,9 @@ CAP4 = [
           'contra 42,435 mm de variação do caminho total (4,4%), e altera a extensão da mola em '
           'até 1,782 mm.'),
     ("E", 590, [("As verificações da seção 3.3.12 resultaram",
-                 "No exoesqueleto 3, as verificações da seção 3.3.12 resultaram")]),
+                 "No exoesqueleto 3, as verificações da seção 3.3.12 resultaram"),
+                (" O caminho inverso devolve q por um dos dois ramos: acima de Θ = −48,8°, os dois têm S positivo, e o correto é escolhido por continuidade.",
+                 "")]),
     ("E", 591, [("Verificações da cadeia de cálculo do modelo da Levitate",
                  "Verificações da cadeia de cálculo do exoesqueleto 3")]),
     ("T", 592, VERIF),
@@ -1017,7 +1132,9 @@ CAP4 = [
           'escala física.'),
     ("E", 523, [("Na faixa de 0° a 180° de anteversão", "No exoesqueleto 2, na faixa de 0° a 180° de anteversão"),
                 ("A Tabela 18 reúne as grandezas do circuito em ângulos representativos.",
-                 "A Tabela 20, na seção 4.2.9, traz s e m em ângulos representativos.")]),
+                 "A Tabela 20, na seção 4.2.9, traz s e m em ângulos representativos."),
+                ("q varia de 62,525° a 242,525°, e o regime II",
+                 "o regime II")]),
     ('K', 528),
     ("E", 611, [("A Figura 17a mostra", "No exoesqueleto 3, a Figura 17a mostra")]),
     ('K', 612, 615),
@@ -1051,7 +1168,9 @@ CAP4 = [
     ("E", 442, [(", em escala logarítmica, com os valores fisicamente viáveis, e ampliação", " e ampliação"),
                 (", com os platôs de RMSE", "")]),
     ('K', 443, 444),
-    ("E", 450, [(" A Tabela 12 reúne os valores notáveis de h.", "")]),
+    ("E", 450, [(" A Tabela 12 reúne os valores notáveis de h.", ""),
+                (" (de 28,942 mm em h = 15 mm para 42,435 mm em h = 22,701 mm e 106,573 mm em h = 60 mm)",
+                 "")]),
     ("E", 454, [(" Nenhum h positivo leva o ponto morto ao outro extremo: para h > 0, θ*pm fica confinado "
                  "entre 184,619° e 274,619° e nunca alcança θ* = 42,917°. Para esse extremo, a Equação (24) "
                  "devolve h = 3,9953 mm, que é ramo espúrio: nesse h, a Equação (23) situa o ponto morto em "
@@ -1281,146 +1400,85 @@ def HC(chave):
     return ("H", "5", chave, _C[chave])
 
 
-ALIAS.update({"5.1": None, "5.2": None, "5.3": None, "5.4": "c_conf"})
+ALIAS.update({"5.1": None, "5.2": None, "5.3": None, "5.4": None})
 
 CAP5 = [
+    # texto corrido e enxuto (pedido de 15/11: a NBR 14724 não exige subdivisões na conclusão)
     ('K', 656),
-    ("P", 'Este trabalho reconstruiu, a partir da documentação de patente, três mecanismos passivos '
-          'de apoio ao braço, o gerador de torque da US 9.889.554 B2, o dispositivo da EP 3 504 033 '
-          'B1 e o mecanismo de came da US 9.737.374 B2, e formulou para cada um um modelo estático '
-          'do torque que ele entrega em função do ângulo, com a cinemática resolvida em forma '
-          'fechada e cada etapa conferida por verificações internas de consistência. As conclusões '
-          'seguem os assuntos dos capítulos 3 e 4, com os três exoesqueletos em cada seção.'),
-
-    HC("c_form"),
-    ("P", 'No exoesqueleto 1, o princípio dos trabalhos virtuais mostrou-se o critério decisivo na '
-          'formulação: revelou que a extensão da mola deve acompanhar o caminho completo do cabo, '
-          'ℓ = s − Rψ, e não apenas o vão livre, que violava a conservação de energia com resíduo '
-          'de 1,71 mm/rad, e distinguiu o braço de momento perpendicular, limitado a 22,919 mm, da '
-          'distância do pivô ao ponto de tangência, próxima de 283 mm, cuja confusão '
-          'superestimaria o torque por um fator superior a 12.'),
-    ("P", 'Nos exoesqueletos 2 e 3, as mesmas verificações fecham. No 2, as relações de circuito '
-          'dos dois regimes e o princípio dos trabalhos virtuais têm resíduos de até 5,7 × '
-          '10^{−14} mm e 5,0 × 10^{−8} mm/rad; no 3, as relações do circuito têm resíduos de até '
-          '5,9 × 10^{−4} mm contra o CAD e entre as duas formas do braço de momento, e o '
-          'princípio dos trabalhos virtuais, diferença relativa de 1,8 × 10^{−5}.'),
-    ("E", 677, [('A pose do CAD é a da Figura 14D, o ponto de ancoragem do CAD fica a menos de 1 '
-                'mm do desenhado, e as peças do apoio de braço concordam com o desenho: as polias '
-                'nos pinos, o came com o giro da figura e a mola sobre a mola 636. O mecanismo '
-                'molda',
-                'No exoesqueleto 3, o mecanismo molda')]),
-
-    HC("c_ident"),
-    ("E", 661, [("Com os parâmetros congelados", "No exoesqueleto 1, com os parâmetros congelados")]),
-    ("P", 'No exoesqueleto 2, o espaçamento entre as três curvas da Figura 16 da patente determina '
-          'os comprimentos de referência do elástico sem depender da escala da ordenada, da '
-          'rigidez, do braço de momento ou do torque do peso: 311,15 mm na curva pontilhada, '
-          '300,75 mm na tracejada e 291,96 mm na contínua. O fim da curva pontilhada, de '
-          'pré-tensão quase nula, confirma o resultado de forma independente, e o início das '
-          'curvas, perto de 14°, fica a 0,9° do contato calculado com o elemento de encosto sobre '
-          'o eixo, em 13,35°, configuração preferida pela patente. A forma do torque prevista com '
-          'a geometria do CAD e o peso do membro humano, contudo, não reproduz as curvas da '
-          'patente: o fator comum às três curvas difere do previsto por um fator que vai de 0,26 '
-          'em 20° a 2,94 em 165°, normalizado em 90°. Como o s implícito na figura concorda com o '
-          'do CAD, a diferença vem, mais provavelmente, do torque do peso usado pela patente para '
-          'formar a razão ou da definição da ordenada, que a patente não permite separar, e a '
-          'rigidez não é identificável pela figura.'),
-    ("P", f'No exoesqueleto 3, com o giro do came desenhado, uma mola linear reproduz a forma da '
-          f'curva AASM com R^{{2}} = 0,901, e o ajuste refeito só nos marcadores que a patente '
-          f'desenha dá R^{{2}} = {M3["d_r2"]}. A rigidez não é identificável pela AASM sozinha, que '
-          f'não tem unidade, mas a AWM da própria patente, igualada ao peso do membro de '
-          f'referência, fixa a escala. Nela, k = 0,492 N/mm, e a mola trabalha de 158 a 114 N. A '
-          f'curva e os marcadores fixam esse nível de força, mas não separam k de x_{{0}}: com o '
-          f'R^{{2}} a menos de {M3["tol_r2"]} do máximo, x_{{0}} vai de {M3["pc_x0a"]} a {M3["pc_x0b"]} '
-          f'mm, e a força na pose, só de {M3["pc_fa"]} a {M3["pc_fb"]} N. O resíduo tem três trechos de '
-          f'sinal alternado, e a mola linear não alcança o patamar da AASM; a RM, que varia três '
-          f'vezes menos, é reproduzida com R^{{2}} de só {M3["rmr_r2"]}.'),
-    ("E", 684, [(" com R2 de 0,99839", ""),
-                (", mas sua forma não é reproduzida pelo modelo do CAD, e o torque", ", mas o torque"),
-                (" molda o torque pelo came, cujo giro em relação à primária é o parâmetro mais sensível, e chega",
-                 " chega"),
-                (", sob a hipótese de que ela seja o peso do membro de referência.", "."),
-                ("Os três dispositivos diferem", "Os três dispositivos diferem, assim,")]),
-
-    HC("c_varr"),
-    ("E", 662, [("A varredura de h com K congelado", "No exoesqueleto 1, a varredura de h com K congelado")]),
-    ("E", 672, [("As relações de circuito dos dois regimes e o princípio dos trabalhos virtuais foram "
-                 "verificados com resíduos de até 5,7 × 10−14 mm e 5,0 × 10−8 mm/rad. ", ""),
-                ("Com ", "No exoesqueleto 2, com ")]),
-    ("P", f'No exoesqueleto 3, a varredura do giro do came mostrou que, girado de −49°, ele '
-          f'reproduz a curva com R^{{2}} = 0,953, e as zonas Z11 e Z12 do modelo ficam dentro das '
-          f'marcas da Figura 16 da US 9.737.374 B2. Os cinco furos em torno do pino 572 permitem '
-          f'nove montagens do came; a de dois furos no sentido horário, a −50,6°, reproduz a curva '
-          f'com R^{{2}} = 0,953, a 1,6° do melhor giro, e mantém R^{{2}} = {M3["df_r2"]} nos '
-          f'marcadores, onde só as montagens horárias admitem uma mola linear. A curva da patente '
-          f'parece corresponder a outra montagem do came, e a ancoragem desenhada limita a subida a '
-          f'Θ = 22,0°, contra 30° na curva.'),
-
-    HC("c_conf"),
-    ("E", 663, [(" O resultado quantifica o compromisso de um mecanismo passivo de torque fixo por ângulo, que "
-                 "favorece o trabalho acima da cabeça.", ""),
-                ("No confronto com o torque gravitacional do conjunto braço-exoesqueleto, cujo pico de",
-                 "No exoesqueleto 1, o torque gravitacional do conjunto braço-exoesqueleto tem pico de"),
-                (" ocorre a 89,4° de elevação, as curvas normalizadas", " a 89,4° de elevação, e as curvas normalizadas")]),
-    ("P", 'No exoesqueleto 2, sob a hipótese de assistência de 40% do torque do peso em 90°, K = '
-          '2,550 N/mm, e o torque atinge 4,379 N·m em 79,1°, dentro da faixa de 70° a 120° em que '
-          'a patente prefere a força máxima. Acima de 83,74°, a forma normalizada do elástico fica '
-          'abaixo da do peso, com diferença de até −0,272 em 139,2°.'),
-    ("P", f'No exoesqueleto 3, o apoio de braço, de 0,796 kg, acrescenta 9% ao torque do peso do '
-          f'membro na horizontal, onde a AASM sustenta 96% do peso do membro e 89% do peso do conjunto. '
-          f'Nos marcadores, ela cobre de {M3["rc_min_pct"]}% a {M3["rc_max_pct"]}% do peso do conjunto e, '
-          f'integrada na faixa da curva, realiza {M3["w_aasm_pct"]}% do trabalho do peso; as formas quase '
-          f'coincidem perto da horizontal, e a sobra cresce nas pontas da faixa. Perto da pose pendente '
-          f'da Figura 14D, o modelo extrapolado passa do peso e o iguala em Θ = {M3["ca_eq"]}°, que '
-          f'seria, no modelo, a posição de repouso. Na escala de 30 N·m do artigo de Okabe, Brittes e '
-          f'Brito (2026), 2,9 vezes maior, a assistência excederia o peso em toda a faixa.'),
-    ("E", 685, [("O pico de assistência fica acima do pico gravitacional no primeiro, 8,1° (97,5° contra "
-                 "89,4°), e abaixo no segundo, 10,7° (79,1° contra 89,8°);",
-                 "Comparados os três, o pico de assistência fica 8,1° acima do pico gravitacional no "
-                 "primeiro e 10,7° abaixo no segundo;")]),
-
-    HC("c_obj"),
-    ("E", 664, [('O objetivo geral foi atingido para este dispositivo na parte estática, e a '
-                'extensão à dinâmica multicorpos ficou preparada, com o procedimento da seção '
-                '3.1.13, mas não foi executada.',
-                'No exoesqueleto 1, o objetivo geral foi atingido.'),
-               (' Os objetivos f e g, referentes à equação de movimento e ao acoplamento com o '
-                'MBDyn, não foram executados.',
-                '')]),
-    ("E", 673, [('Dos objetivos acrescentados para esse dispositivo, o item h foi cumprido na parte '
-                 'estática, com três ressalvas',
-                'No exoesqueleto 2, dos objetivos acrescentados, o item f foi cumprido, com três ressalvas'),
-               ('O item i foi cumprido',
-                'O item g foi cumprido'),
-               (' As etapas dinâmicas não foram executadas, pelas razões da seção 3.2.13.',
-                '')]),
-    ("E", 681, [('Dos objetivos acrescentados para esse dispositivo, o item j foi cumprido',
-                'No exoesqueleto 3, dos objetivos acrescentados, o item h foi cumprido'),
-               ('O item k foi cumprido na parte estática, com a ressalva',
-                'O item i foi cumprido, com a ressalva'),
-               ('o objetivo geral foi atingido na parte estática; as etapas dinâmicas não foram '
-                'executadas, pelas razões da seção 3.3.13.',
-                'o objetivo geral foi atingido.')]),
-    ("E", 686, [("Nem todos os resultados dependem dessas hipóteses.",
-                 "Nem todos os resultados dependem dessas hipóteses de escala."),
-                ("Dependem dela os valores em N·m: no segundo dispositivo, a rigidez K40, fixada pela hipótese "
-                 "de assistência de 40% em 90°, e, no terceiro, a escala que iguala a AWM ao peso do membro de "
-                 "referência; no primeiro, o torque permanece em unidade da patente.",
-                 "Dependem dela os valores em N·m.")]),
-    ("P", 'Por fim, os resultados deste trabalho referem-se a três dispositivos, ao indivíduo de '
-          'referência adotado e ao membro superior estendido sem ferramenta na mão, e limitam-se '
-          'à análise estática. A generalização a outros percentis antropométricos, a outras '
-          'configurações de cotovelo e à presença de carga na mão demanda a reexecução do '
-          'procedimento com os parâmetros correspondentes.'),
-
-    HC("c_fut"),
-    ("P", 'Nos três dispositivos, a lacuna principal é a escala do torque. Para o exoesqueleto 1, '
-          'recomenda-se obter um dado independente que a fixe, como a especificação de uma mola '
-          'comercial compatível, e representar a protuberância responsável pela zona neutra; para '
-          'o exoesqueleto 2, obter a curva de força e extensão do elemento elástico, que fixaria K '
-          'e a escala do torque; e, para o exoesqueleto 3, medir a rigidez e o comprimento livre '
-          'da mola e o giro do came na peça real, que fixariam a escala, a divisão entre rigidez e '
-          'alongamento e a montagem do came.'),
+    ("P", 'Este trabalho reconstruiu, a partir das patentes, três mecanismos passivos de apoio ao '
+          'braço e formulou para cada um um modelo estático do torque em função do ângulo, com a '
+          'cinemática em forma fechada e cada etapa conferida por verificações internas. Nos três, as '
+          'relações de circuito e o princípio dos trabalhos virtuais fecham dentro da precisão '
+          'numérica ou da resolução das medidas. No exoesqueleto 1, esse princípio foi decisivo: '
+          'mostrou que a extensão da mola acompanha o caminho completo do cabo, ℓ = s − Rψ, e não só '
+          'o vão livre, que violava a conservação de energia, e distinguiu o braço de momento, '
+          'limitado a 22,919 mm, da distância do pivô ao ponto de tangência, próxima de 283 mm, cuja '
+          'confusão superestimaria o torque mais de 12 vezes.'),
+    ("P", 'No exoesqueleto 1, com os parâmetros congelados, dois deles de origem não reproduzida, o '
+          'modelo reproduz a forma da curva publicada nos mesmos 29 pontos usados para fixá-los, com '
+          'R^{2} = 0,99839 e RMSE de 1,24% do maior valor extraído, mas com resíduos em zonas de '
+          'sinal alternado. A formulação sem o arco ajusta melhor a curva e foi rejeitada, porque a '
+          'escolha entre modelos se faz pela validade física, e não pelo indicador de erro. A '
+          'varredura de h mostrou que o cabo só permanece tracionado para h ≤ 32,886 mm, o que exclui '
+          'a cota de 34,785 mm do CAD, e que, com K e a extensão na pose livres, a curva não determina '
+          'h. O pico do torque do cabo, a 97,5° de elevação, fica cerca de 8° acima do pico '
+          'gravitacional, de 11,16 N·m a 89,4°, e o ponto morto, a 30,5°, libera o braço nas posturas '
+          'de não trabalho, à custa de subcompensação abaixo de 94°. Sem unidade na ordenada da '
+          'patente, o modelo determina a forma do torque, mas não sua escala física.'),
+    ("P", 'No exoesqueleto 2, o espaçamento entre as três curvas da Figura 16 da patente determina os '
+          'comprimentos de referência do elástico, 311,15, 300,75 e 291,96 mm, sem depender da escala '
+          'da ordenada nem da rigidez; o fim da curva pontilhada confirma o resultado, e o início das '
+          'curvas, perto de 14°, fica a 0,9° do contato calculado com o elemento de encosto sobre o '
+          'eixo, configuração preferida pela patente. A forma do torque prevista com a geometria do '
+          'CAD, porém, não reproduz as curvas, provavelmente por causa do torque do peso usado pela '
+          'patente ou da definição da ordenada, e a rigidez não é identificável pela figura. Sob a '
+          'hipótese de assistência de 40% do torque do peso em 90°, o torque atinge 4,379 N·m em '
+          '79,1°, dentro da faixa de 70° a 120° em que a patente prefere a força máxima, e sua forma '
+          'normalizada fica abaixo da do peso acima de 83,74°. A varredura de e_{c} mostrou que o '
+          'elástico só permanece tracionado em toda a faixa para e_{c} ≤ 42,20 mm.'),
+    ("P", f'No exoesqueleto 3, o came e o cabo de ancoragem moldam juntos o torque: entre Θ = −75° e a '
+          f'horizontal, a transmissão entre a força da mola e o torque no ombro é multiplicada por '
+          f'4,4, e o braço da mola é o raio efetivo do came, e não o raio cotado na patente, que '
+          f'superestimaria o momento em até 49% na Z12. Na escala fixada pela AWM da própria patente, '
+          f'uma mola linear de k = 0,492 N/mm reproduz a curva AASM com R^{{2}} = 0,901, e '
+          f'{M3["d_r2"]} nos marcadores; a curva fixa o nível da força da mola, mas não separa k de '
+          f'x_{{0}}. Girado de −49°, ou montado dois furos no sentido horário, o came reproduz a curva '
+          f'com R^{{2}} = 0,953 e põe as zonas Z11 e Z12 dentro das marcas da patente, que parece '
+          f'corresponder a outra montagem; a ancoragem desenhada limita a subida a Θ = 22,0°. Na '
+          f'horizontal, a AASM sustenta 96% do peso do membro e 89% do peso do conjunto; na faixa da '
+          f'curva, realiza {M3["w_aasm_pct"]}% do trabalho do peso e deixa mais torque para o usuário '
+          f'nas pontas. Perto da pose pendente, o modelo extrapolado iguala o peso em Θ = '
+          f'{M3["ca_eq"]}°.'),
+    ("P", 'Comparados os três, o pico de assistência fica 8,1° acima do pico gravitacional no '
+          'primeiro e 10,7° abaixo no segundo, e, no terceiro, o máximo da curva da patente, a 91° de '
+          'elevação, quase coincide com o do peso, a 89,4°. A faixa sem torque com o braço baixado vem '
+          'de uma protuberância no primeiro e do elemento de encosto no segundo, e o terceiro não a '
+          'tem no curso analisado. Os três diferem também no que as patentes permitem identificar: o '
+          'primeiro reproduz a curva em unidade da patente, o segundo chega a N·m só por hipótese, e o '
+          'terceiro, pela AWM da própria patente. A comparação entre os mecanismos fica respondida '
+          'quanto aos ângulos e à forma dos perfis, mas não quanto à magnitude, que depende de '
+          'hipótese nos três.'),
+    ("P", 'Quanto aos objetivos, o geral foi atingido nos três dispositivos. No exoesqueleto 1, os '
+          'objetivos a, b, c e e foram cumpridos, e o d, em parte: a rigidez e a extensão da mola na '
+          'pose foram reproduzidas, mas não a origem da posição da ancoragem e da calibração angular, '
+          'e o comprimento livre não é identificável. No exoesqueleto 2, o objetivo f foi cumprido '
+          'com três ressalvas, a escala dependente de K = K_{40}, as grandezas do CAD sem conferência '
+          'independente e o torque do peso sem a alavanca, o elemento 78 e a braçadeira, e o g, pelo '
+          'espaçamento entre as curvas. No exoesqueleto 3, os objetivos h e i foram cumpridos, o '
+          'segundo com a ressalva de que a comparação com a curva publicada depende da escala fixada '
+          'pela AWM e do giro do came.'),
+    ("P", 'Não dependem da escala do torque os ângulos dos picos, dos pontos mortos e das transições, '
+          'a forma normalizada dos perfis, os comprimentos de referência do elástico e as verificações '
+          'de fechamento e de trabalho virtual; dependem dela os valores em N·m, e todos dependem da '
+          'geometria reconstruída a partir de desenhos sem cotas. Os resultados referem-se a três '
+          'dispositivos, ao indivíduo de referência e ao membro estendido sem ferramenta na mão, numa '
+          'análise estática; outros percentis, outras configurações de cotovelo ou carga na mão '
+          'exigem refazer o procedimento com os parâmetros correspondentes.'),
+    ("P", 'Como trabalhos futuros, a lacuna principal é a escala do torque: para o exoesqueleto 1, um '
+          'dado independente, como a especificação de uma mola comercial compatível, e a '
+          'representação da protuberância da zona neutra; para o exoesqueleto 2, a curva de força e '
+          'extensão do elástico, que fixaria K; e, para o exoesqueleto 3, a rigidez, o comprimento '
+          'livre da mola e o giro do came medidos na peça real.'),
 ]
 
 REFERENCIAS = [("K", 687, 732)]      # as não citadas saem na montagem
