@@ -336,9 +336,11 @@ def main():
         ruins = [t for t in cd.PROIBIDOS + ("dynamic steps",) if t.lower() in tft.lower()]
         if ruins:
             FALHAS.append(f"termos proibidos no DOCX entregue: {ruins}")
-        n_titulo = tft.count(cd.TITULO)
-        if cd.TITULO_LONGO in tft or n_titulo < 2:
-            FALHAS.append(f"título: {n_titulo} ocorrências do novo; o antigo ainda aparece: {cd.TITULO_LONGO in tft}")
+        n_titulo = tft.count(cd.TITULO_COMPLETO)
+        n_titulo_en = tft.count(cd.TITULO_COMPLETO_EN)
+        if cd.TITULO_LONGO in tft or n_titulo < 2 or n_titulo_en < 1:
+            FALHAS.append(f"título: {n_titulo} ocorrências do título com subtítulo, {n_titulo_en} do título em "
+                          f"inglês; o antigo ainda aparece: {cd.TITULO_LONGO in tft}")
         with tempfile.TemporaryDirectory() as tmp:
             subprocess.run(["soffice", "--headless", "--convert-to", "pdf", "--outdir", tmp, str(gc.DOCX_FT)],
                            check=True, capture_output=True, timeout=600)
@@ -354,8 +356,9 @@ def main():
         diga()
         diga(f"Arquivo: {gc.DOCX_FT.relative_to(RAIZ)}. Páginas, da capa ao fim, na conversão pelo LibreOffice: "
              f"{paginas} (limite pedido: {LIMITE_PAGINAS}); o PDF do LaTeX tem {pag_pdf}. Termos retirados no "
-             f"texto inteiro, incluídos o resumo e o abstract: {ruins or 'nenhum'}. Título \"{cd.TITULO}\" na "
-             f"capa e na folha de rosto: {n_titulo} ocorrências; título antigo: nenhuma. Equações editáveis: "
+             f"texto inteiro, incluídos o resumo e o abstract: {ruins or 'nenhum'}. Título e subtítulo \"{cd.TITULO_COMPLETO}\" na "
+             f"capa e na folha de rosto: {n_titulo} ocorrências; em inglês, \"{cd.TITULO_COMPLETO_EN}\", na "
+             f"folha de rosto: {n_titulo_en}; título antigo: nenhuma. Equações editáveis: "
              f"{xft.count('<m:oMathPara>')}; figuras: {xft.count('<w:drawing>')}.")
         diga()
 

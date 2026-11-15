@@ -177,6 +177,8 @@ def dados_tese():
         "instituicao": um("instituicao", 2), "unidade": um("unidadeEnsino", 2),
         "cidade": um("cidade"), "programa": um("programaPosGraduacao"),
         "autor": um("autor"), "titulo": um("titulo"), "orientador": um("orientador"),
+        # título e subtítulo em língua estrangeira, quando tese.tex os declara (\tituloestrangeiro)
+        "titulo_estrangeiro": um("tituloestrangeiro"),
         "curso": um("tccGraduacao"), "data": um("datadadefesa", 3),
         "final": not re.search(r"^\s*\\finalversionfalse", t, flags=re.M),
         # \folhadeaprovacaoantecipada (preambulo.tex): banca já na versão
@@ -593,14 +595,20 @@ def pre_textuais(doc, d, logo):
                  antes=1484, linha=388, jc="center", recuo=0))
     c.append(par(run(d["autor"], sz=29), antes=2005, linha=346, jc="center", recuo=0))
     c.append(par(run(d["titulo"], sz=29), antes=1430, linha=346, jc="center", recuo=0))
+    # título com subtítulo em duas linhas: a cidade sobe uma linha para ficar na mesma página
     c.append(par(run(d["cidade"], sz=29) + quebra(sz=29) + run(d["data"][2], sz=29),
-                 antes=5850, linha=360, jc="center", recuo=0))
+                 antes=5850 - (346 if len(d["titulo"]) > 70 else 0), linha=360, jc="center", recuo=0))
     # folha de rosto
     c.append(par(run(d["autor"], sz=29), linha=346, jc="center", recuo=0, antes=0, nova_pagina=True))
     c.append(par(run(d["titulo"], sz=29), antes=2200, linha=346, jc="center", recuo=0))
+    if d["titulo_estrangeiro"]:
+        # como no LaTeX: 8 mm abaixo do título, em itálico; o espaço sai do que antecede o texto
+        c.append(par(run(d["titulo_estrangeiro"], sz=29, i=True), antes=454, linha=346, jc="center",
+                     recuo=0))
     texto_rosto = (f"Monografia apresentada à {unid} da {inst} ({sigla}) como parte dos "
                    f"requisitos para a obtenção do título de Bacharel em {d['curso']}.")
-    c.append(par(run(texto_rosto), antes=2420, linha=290, esq=4174, recuo=0, jc="both"))
+    c.append(par(run(texto_rosto), antes=2420 - (1146 if d["titulo_estrangeiro"] else 0), linha=290,
+                 esq=4174, recuo=0, jc="both"))
     c.append(par(run(f"Orientador: {d['orientador']}"), antes=2160, linha=290, recuo=0, jc="left"))
     aviso = ("ESTE TRABALHO CORRESPONDE À VERSÃO FINAL DA MONOGRAFIA DEFENDIDA."
              if d["final"] else

@@ -617,6 +617,19 @@ def _preparar_latex(m):
     dest.mkdir(parents=True, exist_ok=True)
     for nome in ("preambulo.tex", "tese-FT.cls", "agradecimentos.tex"):
         shutil.copyfile(base / nome, dest / nome)
+    # \tituloestrangeiro na cópia da classe: o título e o subtítulo em inglês, em itálico, abaixo
+    # do título na folha de rosto
+    cls = (dest / "tese-FT.cls").read_text(encoding="utf-8")
+    for antes, depois in (
+            ("\\def\\titulo#1{\\gdef\\@titulo{#1}}\n",
+             "\\def\\titulo#1{\\gdef\\@titulo{#1}}\n\\let\\@tituloestrangeiro\\relax\n"
+             "\\def\\tituloestrangeiro#1{\\gdef\\@tituloestrangeiro{#1}}\n"),
+            ("    \\@titulo\n  \\end{center}\n",
+             "    \\@titulo\n    \\ifx\\@tituloestrangeiro\\relax\\else\\par\\vskip 8mm"
+             "{\\itshape\\@tituloestrangeiro\\par}\\fi\n  \\end{center}\n")):
+        assert cls.count(antes) == 1, antes
+        cls = cls.replace(antes, depois)
+    (dest / "tese-FT.cls").write_text(cls, encoding="utf-8")
     shutil.copytree(base / "logotipos", dest / "logotipos", dirs_exist_ok=True)
     # sem apêndice
     tese = (base / "tese.tex").read_text(encoding="utf-8")
@@ -625,7 +638,9 @@ def _preparar_latex(m):
     tese = ap.sub("", tese)
     velho = "\\titulo{" + cd.TITULO_LONGO + "}"
     assert tese.count(velho) == 1, "título não encontrado em tese.tex"
-    tese = tese.replace(velho, "\\titulo{" + cd.TITULO + "}")
+    tese = tese.replace(velho, "\\titulo{" + cd.TITULO_COMPLETO + "}\n\n"
+                        "% Título e subtítulo em língua estrangeira (folha de rosto)\n"
+                        "\\tituloestrangeiro{" + cd.TITULO_COMPLETO_EN + "}")
     data = getattr(cd, "DATA_DEFESA", None)
     if data:
         velho = "\\datadadefesa{XX}{11}{2026}"

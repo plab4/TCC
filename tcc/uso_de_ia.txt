@@ -131,6 +131,8 @@ repositório (tcc/, revisao_defesa/, exo3/, latex/, DERIVATION.md).
   marcados, limitações), tabelas de verificação dos três exoesqueletos no mesmo formato
   e textos novos a partir dos marcadores, com uma tabela de indicadores do ajuste.
 - Resumo e abstract do LaTeX, redigidos a partir das conclusões.
+- Subtítulo e versão em inglês do título e do subtítulo (15/11/2026), propostos a
+  pedido do autor; o título é o escolhido por ele.
 - Correções pontuais nos capítulos 1 e 2:
   - patente repetida no objetivo geral;
   - citação OKABE et al., 2025 corrigida para OKABE; BRITTES; BRITO, 2026.

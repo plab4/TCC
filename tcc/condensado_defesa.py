@@ -100,6 +100,13 @@ FIGURAS_NOVAS = ["exo3_tcc_fig_7_marcadores.png", "exo3_tcc_fig_8_confronto.png"
 # texto ficou só com a parte estática
 TITULO_LONGO = "Modelagem e simulação de mecanismos passivos de apoio ao braço"
 TITULO = "Modelagem de mecanismos passivos de apoio ao braço"
+# subtítulo e título e subtítulo em língua estrangeira (pedido de 15/11): o subtítulo vem depois
+# de dois-pontos, na capa e na folha de rosto; a versão em inglês fica na folha de rosto
+SUBTITULO = "torque estático de três exoesqueletos reconstruídos a partir de patentes"
+TITULO_EN = "Modeling of passive arm-support mechanisms"
+SUBTITULO_EN = "static torque of three exoskeletons reconstructed from patents"
+TITULO_COMPLETO = f"{TITULO}: {SUBTITULO}"
+TITULO_COMPLETO_EN = f"{TITULO_EN}: {SUBTITULO_EN}"
 DATA_DEFESA = ("26", "11", "2026")   # dia, mês e ano, como no DOCX do autor de 14/11/2026
 
 # ====================================================================== capítulo 1
