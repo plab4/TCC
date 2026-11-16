@@ -276,7 +276,7 @@ def main():
     diga(f"Equações (OMML) do condensado: {doc.count('<m:oMathPara>')}, todas idênticas, byte a byte, às do "
          f"documento longo: "
          f"{not eq_fora}. Imagens usadas: {len(usadas)}, todas idênticas às do documento longo ou às "
-         f"{len(cd.FIGURAS_NOVAS)} figuras novas dos complementos (exoesqueleto 3 e melhor aproximação do exoesqueleto 1): {not img_fora}; "
+         f"{len(cd.FIGURAS_NOVAS)} figuras novas do complemento do exoesqueleto 3: {not img_fora}; "
          f"imagens sem uso deixadas no pacote: {len(orfas)}. Linhas de tabela do condensado que não estão no "
          f"documento longo (a menos da numeração): {len(lin_fora)}. Tabelas remontadas no formato padrão: "
          f"{len(remontadas)}, todas com os números da tabela de origem ou do complemento do exoesqueleto 3: "

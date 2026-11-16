@@ -94,8 +94,7 @@ import json as _json
 from pathlib import Path as _Path
 COMPLEMENTO_EXO3 = _Path(__file__).resolve().parent.parent / "results" / "exo3_marcadores.json"
 M3 = _json.loads(COMPLEMENTO_EXO3.read_text(encoding="utf-8"))["texto"]
-FIGURAS_NOVAS = ["exo3_tcc_fig_7_marcadores.png", "exo3_tcc_fig_8_confronto.png", "exo3_tcc_fig_9_razao.png",
-                 "tcc_fig2_ajuste_melhor_h.png"]
+FIGURAS_NOVAS = ["exo3_tcc_fig_7_marcadores.png", "exo3_tcc_fig_8_confronto.png", "exo3_tcc_fig_9_razao.png"]
 
 # título do trabalho na versão para a defesa: só "Modelagem", por decisão do autor, porque o
 # texto ficou só com a parte estática
@@ -1024,20 +1023,7 @@ CAP4 = [
           'ponto morto calculado (θ*_{pm} = 192,532°), o modelo prevê torque de −1,709 u.p., com '
           'sinal invertido, e a curva extraída registra 0,443 u.p., diferença coerente com a '
           'ausência, no modelo, da protuberância do dispositivo real.'),
-    ("P", 'A Figura ⟦F:o2⟧ mostra também a melhor aproximação obtida com a pré-tensão e a rigidez '
-          'reidentificadas em cada h, em h = 24,0 mm: o RMSE cai de 1,830 para 1,682 u.p., mas as duas '
-          'curvas quase se sobrepõem, e o resíduo conserva o mesmo padrão de sinal na maior parte da '
-          'faixa. A diferença entre o modelo e a curva é, portanto, de forma, e não da posição da '
-          'ancoragem.'),
-    # figura do ajuste com a melhor aproximação sobreposta (pedido de 16/11), no lugar da 413 a 415
-    ("F", "o2", "tcc_fig2_ajuste_melhor_h.png", 5.3,
-     "Torque do cabo do modelo congelado e da melhor aproximação contra os pontos extraídos da patente",
-     "Torque do cabo calculado (−τ) e pontos extraídos da patente, com os resíduos no painel inferior: "
-     "modelo congelado (K = 174,68; h = 22,701 mm; X_{pose} = 37,383 mm) e melhor aproximação, com "
-     "h = 24,0 mm e X_{pose} e K reidentificados",
-     "Fonte: elaborada pelo autor.",
-     "Nota: resíduo = modelo − extraído; na melhor aproximação, h é o de menor RMSE com a pré-tensão e "
-     "a rigidez reidentificadas em cada h (seção ⟦S:r_ident⟧)."),
+    ('K', 413, 415),
     ("E", 416, [("Indicadores de qualidade do ajuste à curva da patente",
                  "Indicadores de qualidade do ajuste do exoesqueleto 1 à curva da patente")]),
     ("T", 417, {"cab": ["Indicador", "Valor"], "larg": [4400, 4960], "alin": ["left", "left"]}),
