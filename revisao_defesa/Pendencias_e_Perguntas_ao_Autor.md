@@ -1,6 +1,6 @@
 # Pendências e perguntas ao autor
 
-Versão para a defesa do TCC "Modelagem de mecanismos passivos de apoio ao braço", com 80 páginas.
+Versão para a defesa do TCC "Modelagem de mecanismos passivos de apoio ao braço", com 82 páginas.
 
 Este arquivo reúne o que depende de você: decisões, dados que só você tem e confirmações. Nada do que está aqui foi resolvido em silêncio no documento. As perguntas estão em ordem de prioridade. As da parte A mudam o texto final; as demais servem para você chegar à banca com a resposta pronta.
 
@@ -184,5 +184,6 @@ Ficam fora dessa lista, porque pedem redação sua:
   - capítulo 5: saíram as seções 5.1 a 5.6, e o capítulo virou texto corrido em oito parágrafos (formulação, exoesqueletos 1, 2 e 3, comparação, objetivos, alcance e trabalhos futuros), com cerca de metade do texto anterior e as mesmas conclusões;
   - capítulos 1 e 2, parafraseados para encurtar, sem perder termo técnico nem ressalva: o parágrafo dos três mecanismos, o dos exoesqueletos passivos, o do auxílio em função do ângulo, o das patentes, o das duas patentes em 2.3, o do Airframe e do Paexo, o de Kim et al., o de Wu, Wang e Du, o de de Leva e o do ajuste por mínimos quadrados;
   - capítulos 3 e 4, só cortes do que era inútil, sem reescrever: a escala do desenho em pixels e o ângulo da reta de 572 a 632 nas Figuras 14C e 14D, o ajuste do came "a 0,05 px do traço", os 7 mm de cabo na primária, as coordenadas de A, D e T, a posição do pivô no referencial da peça (está na Tabela 11), o ponto 29 a 0,008° do limite, a interpolação dos zeros das curvas da EP, o caminho inverso por ramos (está em 3.4), o "q varia de 62,525° a 242,525°", os cursos do cabo para três valores de h, o "procedimento iterativo nem ponto de partida", a "divergência fica registrada", o "não executa ajuste algum", o ponteiro para a escala do artigo em 3.9, a origem dos valores de q no ponto morto do exoesqueleto 3 (Brent), o segmento reto da envoltória e a frase de abertura do capítulo 4.
+- **Melhor aproximação do exoesqueleto 1 no gráfico (pedido de 16/11):** a Figura 6 passou a mostrar, além do modelo congelado (h = 22,701 mm, RMSE de 1,830 u.p.), a melhor aproximação com a pré-tensão e a rigidez reidentificadas em cada h (h = 24,0 mm, RMSE de 1,682 u.p.), com os dois resíduos. As curvas quase se sobrepõem, e uma frase em 4.5 diz isso. A figura é gerada por `tcc_resultados_melhor_h.py`, que não muda nenhum parâmetro do modelo.
 - **Elementos opcionais que ficaram:** as listas de figuras e de tabelas e os agradecimentos são opcionais pela NBR 14724, mas o modelo da FT os traz e os agradecimentos são seus; tirar as duas listas pouparia cerca de duas páginas, se quiser.
 - **Sem tabelas de pendências no TCC:** as limitações estão em texto corrido na seção 4.9.

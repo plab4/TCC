@@ -93,6 +93,10 @@ repositório (tcc/, revisao_defesa/, exo3/, latex/, DERIVATION.md).
   do ajuste em x0, a força da mola, a tração no cabo e a energia, as poses das Figuras
   14C e 14D e a fração do peso sustentada em cada configuração, com uma terceira figura.
 
+- tcc_resultados_melhor_h.py (16/11/2026), exoesqueleto 1: figura do ajuste com a melhor
+  aproximação sobreposta ao modelo congelado (h = 24,0 mm, com X_pose e K reidentificados,
+  da análise alternativa de tcc_resultados.py), a pedido do autor.
+
 2.4 Auditorias e verificações
 - Auditoria do modelo e dos números do TCC contra o código (revisao_defesa/auditoria/).
 - Tabela de rastreabilidade dos 29 pontos da patente.
